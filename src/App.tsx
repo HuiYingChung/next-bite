@@ -27,6 +27,7 @@ const localeText = {
     switchLabel: "中文",
     mvp: "Single-page MVP",
     tagline: "A personal meal helper based on your habits, preferences, and balance.",
+    caseStudy: "View case study",
     usage1: "Log what you already had today, then NextBite suggests a practical next meal.",
     usage2: "Tap a choice again to remove it, or use Reset saved data if you want to start fresh.",
     reset: "Reset saved data",
@@ -96,6 +97,7 @@ const localeText = {
     switchLabel: "EN",
     mvp: "單頁 MVP",
     tagline: "根據你的習慣、偏好與整體平衡，幫你決定下一餐。",
+    caseStudy: "查看 Case Study",
     usage1: "先記錄今天已經吃了什麼，NextBite 會幫你整理出下一餐的實用建議。",
     usage2: "再次點選可取消；如果想重新開始，可以使用 Reset saved data。",
     reset: "重設已儲存資料",
@@ -696,6 +698,14 @@ function App() {
               >
                 {t.switchLabel}
               </button>
+              <a
+                href="https://www.huiyingchung.com/next-bite-case-study.html"
+                target="_blank"
+                rel="noreferrer"
+                className="w-full rounded-full border border-slate-300 bg-white/90 px-4 py-2 text-center text-sm font-medium text-slate-700 transition hover:border-moss hover:text-moss"
+              >
+                {t.caseStudy}
+              </a>
               <button type="button" onClick={resetAll} className="w-full rounded-full border border-slate-300 bg-white/90 px-4 py-2 text-sm font-medium text-slate-700 transition hover:border-clay hover:text-clay">
                 {t.reset}
               </button>
