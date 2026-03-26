@@ -1,0 +1,111 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color: #1f2937;
+  background:
+    radial-gradient(circle at top left, rgba(255, 242, 220, 0.82), transparent 30%),
+    radial-gradient(circle at 85% 12%, rgba(214, 238, 219, 0.6), transparent 24%),
+    linear-gradient(180deg, #fbf7f1 0%, #f4eee4 100%);
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  color: #1f2937;
+  background:
+    radial-gradient(circle at top left, rgba(255, 242, 220, 0.82), transparent 30%),
+    radial-gradient(circle at 85% 12%, rgba(214, 238, 219, 0.6), transparent 24%),
+    linear-gradient(180deg, #fbf7f1 0%, #f4eee4 100%);
+}
+
+::-webkit-scrollbar {
+  height: 8px;
+  width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.45);
+  border-radius: 999px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+@media (max-width: 640px) {
+  body {
+    background:
+      radial-gradient(circle at top left, rgba(255, 242, 220, 0.76), transparent 28%),
+      linear-gradient(180deg, #fbf7f1 0%, #f4eee4 100%);
+  }
+}
+
+@layer components {
+  .panel {
+    @apply rounded-[24px] border border-white/75 bg-white/80 p-4 shadow-soft backdrop-blur transition sm:rounded-[28px] sm:p-5 md:p-6;
+    box-shadow:
+      0 18px 40px rgba(15, 23, 42, 0.05),
+      0 4px 12px rgba(15, 23, 42, 0.04);
+  }
+
+  .chip {
+    @apply rounded-full border px-3 py-1.5 text-xs transition duration-200 sm:text-sm;
+  }
+
+  .chip-active {
+    @apply border-moss bg-moss text-white shadow-sm;
+  }
+
+  .chip-inactive {
+    @apply border-slate-200/90 bg-white/95 text-slate-600 hover:border-moss/40 hover:bg-mist/60 hover:text-moss;
+  }
+
+  .field {
+    @apply w-full rounded-2xl border border-slate-200/90 bg-white px-3 py-2.5 text-sm text-slate-700 outline-none transition focus:border-moss focus:ring-2 focus:ring-moss/15;
+  }
+
+  .section-title {
+    @apply text-xl font-semibold tracking-tight text-slate-900;
+  }
+
+  .section-kicker {
+    @apply inline-flex rounded-full border px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em];
+  }
+
+  .subtle-card {
+    @apply rounded-[20px] border border-slate-200/85 bg-slate-50/80;
+  }
+
+  .soft-divider {
+    @apply border-t border-slate-200/80;
+  }
+}
+
+@media (max-width: 640px) {
+  @layer components {
+    .panel {
+      @apply rounded-[22px] p-3.5;
+    }
+
+    .section-title {
+      @apply text-lg;
+    }
+
+    .section-kicker {
+      @apply px-2.5 py-1 text-[10px];
+    }
+
+    .field {
+      @apply py-2.5 text-[15px];
+    }
+  }
+}
