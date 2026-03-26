@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { Analytics } from "@vercel/analytics/react";
 import { InfoPill, LabeledField, TagGroup } from "./components";
 import {
   avoidTags,
@@ -982,6 +983,7 @@ function App() {
           </section>
         </main>
       </div>
+      <Analytics />
     </div>
   );
 }
