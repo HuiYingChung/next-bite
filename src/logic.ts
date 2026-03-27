@@ -738,7 +738,7 @@ const scoreDrinkOption = (
   }
 
   if (profile.feelToday === "Want something warm") {
-    if (["Tea", "Green tea", "Black tea", "Soy milk", "Oat milk", "Milk"].includes(drink.title)) score += 3;
+    if (["Tea", "Caffeine-free tea", "Green tea", "Black tea", "Soy milk", "Oat milk", "Milk"].includes(drink.title)) score += 3;
     if (drink.tags.includes("cold")) score -= 1;
   }
 
@@ -754,22 +754,22 @@ const scoreDrinkOption = (
   }
 
   if (profile.feelToday === "On period") {
-    if (["Tea", "Soy milk", "Oat milk", "Milk"].includes(drink.title)) score += 3;
+    if (["Tea", "Caffeine-free tea", "Soy milk", "Oat milk", "Milk"].includes(drink.title)) score += 3;
     if (drink.category === "alcohol") score -= 2;
   }
 
   if (timeWindow === "breakfast") {
-    if (["Coffee", "Tea", "Orange juice", "Smoothie", "Milk", "Soy milk", "Oat milk"].includes(drink.title)) score += 2;
+    if (["Coffee", "Tea", "Caffeine-free tea", "Orange juice", "Smoothie", "Milk", "Soy milk", "Oat milk"].includes(drink.title)) score += 2;
     if (drink.title === "Yogurt drink") score += 2;
   } else if (timeWindow === "lunch") {
     if (["Iced coffee", "Sparkling water", "Green tea", "Black tea", "Coconut water"].includes(drink.title)) score += 2;
     if (drink.title === "Yogurt drink" || drink.title === "Sweet drink") score += 1;
   } else if (timeWindow === "dinner") {
-    if (["Sparkling water", "Tea", "Wine", "Beer", "Cocktail", "Alcohol"].includes(drink.title)) score += 2;
+    if (["Sparkling water", "Tea", "Caffeine-free tea", "Wine", "Beer", "Cocktail", "Alcohol"].includes(drink.title)) score += 2;
     if (drink.category === "coffee") score -= 1;
     if (drink.title === "Sweet drink" && summary.sweetDrinkCount === 0) score += 1;
   } else if (timeWindow === "late") {
-    if (["Water", "Tea", "Soy milk", "Oat milk", "Milk", "Almond milk"].includes(drink.title)) score += 3;
+    if (["Water", "Tea", "Caffeine-free tea", "Soy milk", "Oat milk", "Milk", "Almond milk"].includes(drink.title)) score += 3;
     if (drink.caffeine) score -= 4;
     if (drink.category === "alcohol") score -= 2;
   }

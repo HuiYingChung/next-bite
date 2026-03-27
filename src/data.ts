@@ -179,6 +179,7 @@ export const mealOptions = {
 export const drinkRecommendationDataset: DrinkOption[] = [
   { id: "water", title: "Water", category: "simple", tags: ["simple", "hydrating", "neutral", "light"], caffeine: false, sweetened: false, alcohol: false, dairy: false, hydration: "high" },
   { id: "sparkling-water", title: "Sparkling water", category: "simple", tags: ["simple", "hydrating", "crisp", "takeout-friendly"], caffeine: false, sweetened: false, alcohol: false, dairy: false, hydration: "high" },
+  { id: "caffeine-free-tea", title: "Caffeine-free tea", category: "tea", tags: ["tea", "simple", "warm", "calm", "caffeine-free"], caffeine: false, sweetened: false, alcohol: false, dairy: false, hydration: "high" },
   { id: "tea", title: "Tea", category: "tea", tags: ["tea", "simple", "warm", "calm"], caffeine: false, sweetened: false, alcohol: false, dairy: false, hydration: "high" },
   { id: "green-tea", title: "Green tea", category: "tea", tags: ["tea", "warm", "light", "caffeinated"], caffeine: true, sweetened: false, alcohol: false, dairy: false, hydration: "medium" },
   { id: "black-tea", title: "Black tea", category: "tea", tags: ["tea", "warm", "caffeinated", "savory"], caffeine: true, sweetened: false, alcohol: false, dairy: false, hydration: "medium" },
