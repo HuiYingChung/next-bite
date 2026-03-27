@@ -909,25 +909,84 @@ export const dedupeRecommendations = (items: ScoredRecommendation[]) => {
   });
 };
 
-const pickRecommendation = (
-  label: RecommendationCardLabel,
-  summary: TodayIntakeSummary,
-  profile: Profile,
-  locale: Locale,
+const FAIRNESS_SCORE_WINDOW = 2;
+const FAIRNESS_MIN_POOL = 4;
+const FAIRNESS_MAX_POOL = 8;
+
+const stableHash = (value: string) => {
+  let hash = 0;
+  for (let index = 0; index < value.length; index += 1) {
+    hash = (hash * 31 + value.charCodeAt(index)) >>> 0;
+  }
+  return hash;
+};
+
+const getAdjustedRank = (
+  item: ScoredRecommendation,
+  pickedFormats: Set<string>,
+  rankBy: (item: ScoredRecommendation) => number,
+) => {
+  const formats = getMealFormats(item);
+  const formatPenalty = formats.some((format) => pickedFormats.has(format)) ? 1.5 : 0;
+  return rankBy(item) - formatPenalty;
+};
+
+const getFairCandidatePool = (
   source: ScoredRecommendation[],
   picked: Set<string>,
   pickedFormats: Set<string>,
   rankBy: (item: ScoredRecommendation) => number,
 ) => {
-  const next = source
+  const ranked = source
     .filter((item) => !picked.has(item.id))
-    .sort((a, b) => {
-      const aFormats = getMealFormats(a);
-      const bFormats = getMealFormats(b);
-      const aPenalty = aFormats.some((format) => pickedFormats.has(format)) ? 1.5 : 0;
-      const bPenalty = bFormats.some((format) => pickedFormats.has(format)) ? 1.5 : 0;
-      return rankBy(b) - bPenalty - (rankBy(a) - aPenalty);
-    })[0];
+    .map((item) => ({
+      item,
+      adjustedRank: getAdjustedRank(item, pickedFormats, rankBy),
+    }))
+    .sort((a, b) => b.adjustedRank - a.adjustedRank);
+
+  if (ranked.length === 0) return [];
+
+  const topRank = ranked[0].adjustedRank;
+  const closeEnough = ranked.filter(({ adjustedRank }) => topRank - adjustedRank <= FAIRNESS_SCORE_WINDOW);
+  const poolSize = Math.min(
+    FAIRNESS_MAX_POOL,
+    Math.max(FAIRNESS_MIN_POOL, closeEnough.length > 0 ? closeEnough.length : 1, ranked.length >= FAIRNESS_MIN_POOL ? FAIRNESS_MIN_POOL : ranked.length),
+  );
+
+  return ranked.slice(0, poolSize);
+};
+
+const pickFromFairPool = (
+  label: RecommendationCardLabel,
+  rotationSeed: string,
+  pool: Array<{ item: ScoredRecommendation; adjustedRank: number }>,
+) => {
+  if (pool.length === 0) return null;
+  if (pool.length === 1) return pool[0].item;
+
+  const topRank = pool[0].adjustedRank;
+  const closePool = pool.filter(({ adjustedRank }) => topRank - adjustedRank <= FAIRNESS_SCORE_WINDOW);
+  const usablePool = closePool.length > 0 ? closePool : pool;
+  const rotationIndex = stableHash(`${label}:${rotationSeed}`) % usablePool.length;
+  return usablePool[rotationIndex].item;
+};
+
+const pickRecommendation = (
+  label: RecommendationCardLabel,
+  summary: TodayIntakeSummary,
+  profile: Profile,
+  locale: Locale,
+  rotationSeed: string,
+  source: ScoredRecommendation[],
+  picked: Set<string>,
+  pickedFormats: Set<string>,
+  rankBy: (item: ScoredRecommendation) => number,
+) => {
+  // Build a small candidate pool of close-scoring meals so the same strong item
+  // does not always monopolize the top slot when several options are similarly good.
+  const fairPool = getFairCandidatePool(source, picked, pickedFormats, rankBy);
+  const next = pickFromFairPool(label, rotationSeed, fairPool);
 
   if (!next) return null;
   picked.add(next.id);
@@ -940,21 +999,21 @@ const pickRecommendation = (
   };
 };
 
-export const getBestMatch = (summary: TodayIntakeSummary, profile: Profile, locale: Locale, items: ScoredRecommendation[], picked: Set<string>, pickedFormats: Set<string>) =>
-  pickRecommendation("Best Match", summary, profile, locale, items, picked, pickedFormats, (item) => {
+export const getBestMatch = (summary: TodayIntakeSummary, profile: Profile, locale: Locale, rotationSeed: string, items: ScoredRecommendation[], picked: Set<string>, pickedFormats: Set<string>) =>
+  pickRecommendation("Best Match", summary, profile, locale, `${rotationSeed}:best-match`, items, picked, pickedFormats, (item) => {
     const mealTypeBonus = item.mealType === "balanced" || item.mealType === "preference" ? 1 : 0;
     return item.score + item.weeklyPatternScore * 0.75 + scoreFeelPriority(profile, item) + mealTypeBonus;
   });
 
-export const getBestBalance = (summary: TodayIntakeSummary, profile: Profile, locale: Locale, items: ScoredRecommendation[], picked: Set<string>, pickedFormats: Set<string>) =>
-  pickRecommendation("Best Balance", summary, profile, locale, items, picked, pickedFormats, (item) => {
+export const getBestBalance = (summary: TodayIntakeSummary, profile: Profile, locale: Locale, rotationSeed: string, items: ScoredRecommendation[], picked: Set<string>, pickedFormats: Set<string>) =>
+  pickRecommendation("Best Balance", summary, profile, locale, `${rotationSeed}:best-balance`, items, picked, pickedFormats, (item) => {
     const mealTypeBonus = item.mealType === "balanced" || item.mealType === "recovery" || item.mealType === "light" ? 2 : 0;
     const steadinessBonus = item.heaviness === "light" ? 1 : item.heaviness === "medium" ? 0.5 : -1;
     return item.balanceScore * 2 + item.weeklyPatternScore + item.preferenceScore * 0.35 + item.avoidScore + item.varietyScore + mealTypeBonus + steadinessBonus;
   });
 
-export const getMostConvenient = (summary: TodayIntakeSummary, profile: Profile, locale: Locale, items: ScoredRecommendation[], picked: Set<string>, pickedFormats: Set<string>) =>
-  pickRecommendation("Most Convenient", summary, profile, locale, items, picked, pickedFormats, (item) => {
+export const getMostConvenient = (summary: TodayIntakeSummary, profile: Profile, locale: Locale, rotationSeed: string, items: ScoredRecommendation[], picked: Set<string>, pickedFormats: Set<string>) =>
+  pickRecommendation("Most Convenient", summary, profile, locale, `${rotationSeed}:most-convenient`, items, picked, pickedFormats, (item) => {
     const convenienceBonus = item.convenience === "high" ? 2 : item.convenience === "medium" ? 1 : -1;
     const reasonableBalanceGuard = item.balanceScore >= 0 ? 1 : -1;
     const portableBonus = item.tags.some((tag) => ["portable", "takeout", "quick", "convenient"].includes(tag.toLowerCase())) ? 1 : 0;
@@ -964,6 +1023,8 @@ export const getMostConvenient = (summary: TodayIntakeSummary, profile: Profile,
 export const scoreRecommendations = (profile: Profile, todayLog: TodayLog, history: DayHistory[], locale: Locale, now = new Date()): ScoredRecommendation[] => {
   const summary = summarizeTodayIntake(todayLog);
   const timeWindow = getMealTimeWindow(now);
+  const todayId = history.find((day) => day.isToday)?.id ?? history[history.length - 1]?.id ?? now.toISOString().slice(0, 10);
+  const rotationSeed = `${todayId}:${profile.feelToday}:${profile.eatingStyle}:${summary.proteinStatus}:${summary.vegetableStatus}:${summary.carbStatus}:${summary.heavinessStatus}`;
   const scored = recommendationDataset
     .map((meal) => scoreMealOption(summary, todayLog, history, profile, meal, timeWindow, locale))
     .sort((a, b) => b.score - a.score);
@@ -972,9 +1033,9 @@ export const scoreRecommendations = (profile: Profile, todayLog: TodayLog, histo
   const picked = new Set<string>();
   const pickedFormats = new Set<string>();
 
-  const bestMatch = getBestMatch(summary, profile, locale, deduped, picked, pickedFormats);
-  const bestBalance = getBestBalance(summary, profile, locale, deduped, picked, pickedFormats);
-  const mostConvenient = getMostConvenient(summary, profile, locale, deduped, picked, pickedFormats);
+  const bestMatch = getBestMatch(summary, profile, locale, rotationSeed, deduped, picked, pickedFormats);
+  const bestBalance = getBestBalance(summary, profile, locale, rotationSeed, deduped, picked, pickedFormats);
+  const mostConvenient = getMostConvenient(summary, profile, locale, rotationSeed, deduped, picked, pickedFormats);
 
   return [bestMatch, bestBalance, mostConvenient].filter(Boolean) as ScoredRecommendation[];
 };
