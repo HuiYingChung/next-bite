@@ -79,6 +79,7 @@ export type ScoredRecommendation = Recommendation & {
   label: RecommendationCardLabel;
   shortReason: string;
   balanceNote: string;
+  suggestedDrink: string;
   convenienceLabel: string;
   scoreBreakdown: ScoreBreakdownItem[];
 };
@@ -114,6 +115,7 @@ export type TodayIntakeSummary = {
   fruitCount: number;
   soupCount: number;
   drinkCount: number;
+  caffeineCount: number;
   sweetDrinkCount: number;
   alcoholCount: number;
   dessertSnackCount: number;

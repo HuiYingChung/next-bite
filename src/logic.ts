@@ -20,6 +20,8 @@ const convenienceToPoints = { low: 1, medium: 2, high: 3 } as const;
 
 const avoidKeywordMap: Record<string, string[]> = {
   "Fried food": ["fried", "fried rice", "crispy"],
+  Caffeine: ["coffee", "iced coffee", "green tea", "black tea", "milk tea", "energy drink"],
+  "Alcohol drinks": ["beer", "wine", "cocktail", "alcohol"],
   Beef: ["beef"],
   Pork: ["pork", "ham", "bacon"],
   Lamb: ["lamb"],
@@ -65,6 +67,9 @@ const preferenceTagMap: Record<string, string[]> = {
   "Vegetable-forward": ["vegetable-forward", "vegetable", "greens", "salad", "bok choy", "broccoli", "cabbage"],
   "Breakfast-for-dinner": ["breakfast-for-dinner", "omelet", "toast", "egg"],
   "Plant-protein": ["plant-protein", "tofu", "beans", "chickpeas", "edamame", "tempeh"],
+  "Coffee / caffeine": ["coffee", "green tea", "black tea", "milk tea", "energy drink", "caffeine"],
+  Tea: ["tea", "green tea", "black tea"],
+  "Simple drinks": ["water", "sparkling water", "tea"],
   Mediterranean: ["mediterranean", "gyro", "hummus"],
   "Mexican-inspired": ["mexican-inspired", "burrito", "fajita", "quesadilla", "chili"],
 };
@@ -154,6 +159,7 @@ const getConvenienceUnits = (meal: MealEntry) => {
 
 const sweetDrinkKeywords = ["milk tea", "boba", "soda", "sweet drink", "sports drink", "energy drink", "orange juice", "apple juice", "smoothie"];
 const alcoholKeywords = ["beer", "wine", "cocktail", "alcohol"];
+const caffeineKeywords = ["coffee", "iced coffee", "green tea", "black tea", "milk tea", "energy drink"];
 const dessertSnackKeywords = [
   "cake",
   "cupcake",
@@ -211,6 +217,10 @@ export const summarizeTodayIntake = (todayLog: TodayLog): TodayIntakeSummary => 
   const fruitCount = meals.reduce((sum, meal) => sum + getCategoryUnits(meal.fruit), 0);
   const soupCount = meals.reduce((sum, meal) => sum + getCategoryUnits(meal.soup), 0);
   const drinkCount = meals.reduce((sum, meal) => sum + getCategoryUnits(meal.drink), 0);
+  const caffeineCount = meals.reduce(
+    (sum, meal) => sum + meal.drink.filter((item) => caffeineKeywords.includes(item.toLowerCase())).length,
+    0,
+  );
   const sweetDrinkCount = meals.reduce(
     (sum, meal) => sum + meal.drink.filter((item) => sweetDrinkKeywords.includes(item.toLowerCase())).length,
     0,
@@ -242,6 +252,7 @@ export const summarizeTodayIntake = (todayLog: TodayLog): TodayIntakeSummary => 
     fruitCount,
     soupCount,
     drinkCount,
+    caffeineCount,
     sweetDrinkCount,
     alcoholCount,
     dessertSnackCount,
@@ -657,7 +668,46 @@ const scoreSnackDrinkFit = (summary: TodayIntakeSummary, meal: Recommendation) =
     }
   }
 
+  if (summary.caffeineCount >= 2) {
+    if (meal.heaviness === "light") {
+      score += 1;
+      notes.push("Lighter meals tend to fit better when caffeinated drinks already showed up a lot today.");
+    }
+    if (meal.tags.some((tag) => ["warm", "soupy", "gentle"].includes(tag.toLowerCase()))) {
+      score += 1;
+      notes.push("Something steadier or gentler can pair better after multiple caffeinated drinks.");
+    }
+  }
+
   return createBreakdownItem("snack-drink", score, notes.join(" ") || "Snack and drink fit is neutral for this meal.");
+};
+
+const buildSuggestedDrink = (summary: TodayIntakeSummary, profile: Profile, locale: Locale) => {
+  const prefersTea = profile.preferenceTags.includes("Tea");
+  const prefersCoffee = profile.preferenceTags.includes("Coffee / caffeine");
+  const prefersSimple = profile.preferenceTags.includes("Simple drinks");
+  const avoidCaffeine = profile.avoidTags.includes("Caffeine");
+  const avoidAlcohol = profile.avoidTags.includes("Alcohol drinks");
+  const avoidSweet = profile.avoidTags.includes("Sweet drinks");
+
+  if (summary.alcoholCount >= 1 || avoidAlcohol) {
+    return locale === "en" ? "Water or unsweetened tea" : "白水或無糖茶";
+  }
+
+  if (summary.sweetDrinkCount >= 2 || avoidSweet) {
+    if (prefersTea) return locale === "en" ? "Unsweetened tea" : "無糖茶";
+    return locale === "en" ? "Water or unsweetened tea" : "白水或無糖茶";
+  }
+
+  if (summary.caffeineCount >= 2 || avoidCaffeine) {
+    return locale === "en" ? "Water or caffeine-free tea" : "白水或無咖啡因茶";
+  }
+
+  if (prefersTea) return locale === "en" ? "Tea" : "茶";
+  if (prefersCoffee && !avoidCaffeine) return locale === "en" ? "Coffee or tea" : "咖啡或茶";
+  if (prefersSimple) return locale === "en" ? "Water or sparkling water" : "白水或氣泡水";
+
+  return locale === "en" ? "Water, tea, or sparkling water" : "白水、茶或氣泡水";
 };
 
 const scoreTimeOfDayFit = (timeWindow: MealTimeWindow, meal: Recommendation) => {
@@ -796,6 +846,9 @@ const trendLabelMap: Record<string, { en: string; zh: string }> = {
   "Plant-protein": { en: "plant-protein options", zh: "植物性蛋白選項" },
   "Vegetable-forward": { en: "vegetable-forward meals", zh: "蔬菜比例較高的餐點" },
   "Portable meals": { en: "portable meals", zh: "方便攜帶的餐點" },
+  "Coffee / caffeine": { en: "coffee or caffeinated drinks", zh: "咖啡或含咖啡因飲品" },
+  Tea: { en: "tea", zh: "茶類" },
+  "Simple drinks": { en: "simple drinks", zh: "簡單飲品" },
 };
 
 const observedTrendLabelMap: Record<string, { en: string; zh: string }> = {
@@ -809,6 +862,9 @@ const observedTrendLabelMap: Record<string, { en: string; zh: string }> = {
   "plant-protein options": { en: "plant-protein options", zh: "植物性蛋白選項" },
   "vegetable-forward meals": { en: "vegetable-forward meals", zh: "蔬菜比例較高的餐點" },
   "portable meals": { en: "portable meals", zh: "方便攜帶的餐點" },
+  "coffee / caffeine": { en: "coffee or caffeinated drinks", zh: "咖啡或含咖啡因飲品" },
+  "sweet drinks": { en: "sweet drinks", zh: "甜飲" },
+  "alcohol drinks": { en: "alcohol drinks", zh: "酒精飲品" },
 };
 
 const joinList = (items: string[], locale: Locale) => {
@@ -931,6 +987,7 @@ export const scoreMealOption = (summary: TodayIntakeSummary, todayLog: TodayLog,
     label: "Best Match",
     shortReason: buildRecommendationReason("Best Match", summary, profile, meal, locale),
     balanceNote: generateBalanceNote("Best Match", meal, locale),
+    suggestedDrink: buildSuggestedDrink(summary, profile, locale),
     convenienceLabel: locale === "en" ? meal.convenience.charAt(0).toUpperCase() + meal.convenience.slice(1) : meal.convenience === "high" ? "高" : meal.convenience === "medium" ? "中" : "低",
     scoreBreakdown: [...balance.items, convenience, profileFit, preferences, avoid, variety, snackDrink, timeOfDay, weeklyPattern],
   };
@@ -1155,6 +1212,9 @@ const buildPreferenceTrendSummary = (history: DayHistory[], profile: Profile, lo
   const convenienceCount = meals.filter((meal) => ["Takeout", "Restaurant", "Ready-made"].includes(meal.mealSource)).length;
   const takeoutCount = meals.filter((meal) => meal.mealSource === "Takeout" || meal.mealSource === "Restaurant").length;
   const homeCount = meals.filter((meal) => meal.mealSource === "Home-cooked").length;
+  const caffeineCount = meals.filter((meal) => meal.drink.some((item) => caffeineKeywords.includes(item.toLowerCase()))).length;
+  const sweetDrinkCount = meals.filter((meal) => meal.drink.some((item) => sweetDrinkKeywords.includes(item.toLowerCase()))).length;
+  const alcoholDrinkCount = meals.filter((meal) => meal.drink.some((item) => alcoholKeywords.includes(item.toLowerCase()))).length;
   const plantProteinCount = meals.filter((meal) => meal.protein.some((item) => ["tofu", "tempeh", "beans", "black beans", "chickpeas", "edamame"].includes(item.toLowerCase()))).length;
   const vegetableForwardCount = meals.filter((meal) => meal.vegetables.length >= 2 || (meal.vegetables.length >= 1 && meal.fruit.length >= 1)).length;
   const portableCount = meals.filter((meal) => meal.carbs.some((item) => ["wrap", "bread", "bagel", "toast", "bao / bun"].includes(item.toLowerCase()))).length;
@@ -1173,6 +1233,9 @@ const buildPreferenceTrendSummary = (history: DayHistory[], profile: Profile, lo
     "Plant-protein": plantProteinCount >= 2,
     "Vegetable-forward": vegetableForwardCount >= 2,
     "Portable meals": portableCount >= 2,
+    "Coffee / caffeine": caffeineCount >= 2,
+    Tea: meals.filter((meal) => meal.drink.some((item) => ["tea", "green tea", "black tea"].includes(item.toLowerCase()))).length >= 2,
+    "Simple drinks": meals.filter((meal) => meal.drink.some((item) => ["water", "sparkling water", "tea", "green tea", "black tea"].includes(item.toLowerCase()))).length >= 2,
   };
 
   profile.preferenceTags.forEach((tag) => {
@@ -1192,6 +1255,9 @@ const buildPreferenceTrendSummary = (history: DayHistory[], profile: Profile, lo
     plantProteinCount >= 2 ? "plant-protein options" : "",
     vegetableForwardCount >= 2 ? "vegetable-forward meals" : "",
     portableCount >= 2 ? "portable meals" : "",
+    caffeineCount >= 2 ? "coffee / caffeine" : "",
+    sweetDrinkCount >= 2 ? "sweet drinks" : "",
+    alcoholDrinkCount >= 1 ? "alcohol drinks" : "",
   ].filter(Boolean);
 
   if (matchedTrends.length > 0) {
@@ -1244,6 +1310,9 @@ export const buildWeeklySnapshot = (history: DayHistory[], profile: Profile, loc
   const warmMeals = flatMeals.filter((meal) => ["Soup / stew", "Boiled", "Stir-fried", "Steamed", "Grilled"].includes(meal.cookingMethod)).length;
   const takeoutMeals = flatMeals.filter((meal) => meal.mealSource === "Takeout" || meal.mealSource === "Restaurant" || meal.mealSource === "Ready-made").length;
   const homeMeals = flatMeals.filter((meal) => meal.mealSource === "Home-cooked").length;
+  const caffeineMeals = flatMeals.filter((meal) => meal.drink.some((item) => caffeineKeywords.includes(item.toLowerCase()))).length;
+  const sweetDrinkMeals = flatMeals.filter((meal) => meal.drink.some((item) => sweetDrinkKeywords.includes(item.toLowerCase()))).length;
+  const alcoholDrinkMeals = flatMeals.filter((meal) => meal.drink.some((item) => alcoholKeywords.includes(item.toLowerCase()))).length;
   const uniqueProteins = new Set(flatMeals.flatMap((meal) => meal.protein)).size;
   const uniqueProduce = new Set(flatMeals.flatMap((meal) => [...meal.vegetables, ...meal.fruit])).size;
   const mealDiversityScore = new Set(
@@ -1332,6 +1401,26 @@ export const buildWeeklySnapshot = (history: DayHistory[], profile: Profile, loc
       locale === "en"
         ? "Recent meals have leaned more home-style."
         : "最近幾餐比較偏向家常型選擇。",
+    );
+  }
+
+  if (caffeineMeals >= 3) {
+    summaryLines.push(
+      locale === "en"
+        ? "Caffeinated drinks have shown up fairly often in the current logs."
+        : "目前的紀錄裡，含咖啡因飲品出現得蠻頻繁。",
+    );
+  } else if (sweetDrinkMeals >= 2) {
+    summaryLines.push(
+      locale === "en"
+        ? "Sweeter drinks have shown up a few times in the current logs."
+        : "目前的紀錄裡，甜飲已經出現了幾次。",
+    );
+  } else if (alcoholDrinkMeals >= 1) {
+    summaryLines.push(
+      locale === "en"
+        ? "Alcohol has shown up in the current logs."
+        : "目前的紀錄裡有出現酒精飲品。",
     );
   }
 

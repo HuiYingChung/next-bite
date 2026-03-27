@@ -25,6 +25,9 @@ export const preferenceTags = [
   "Vegetable-forward",
   "Breakfast-for-dinner",
   "Plant-protein",
+  "Coffee / caffeine",
+  "Tea",
+  "Simple drinks",
   "Mediterranean",
   "Mexican-inspired",
 ];
@@ -48,6 +51,8 @@ export const avoidTags = [
   "Raw food",
   "Cold food",
   "Sweet drinks",
+  "Caffeine",
+  "Alcohol drinks",
   "Processed food",
   "Large portions",
   "Late-night heavy meals",

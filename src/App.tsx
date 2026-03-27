@@ -71,6 +71,7 @@ const localeText = {
     convenience: "Convenience",
     balance: "Balance",
     worksFor: "Works for",
+    suggestedDrink: "Suggested drink",
     snapshot: "7-Day Snapshot",
     snapshotHelp: "A simple look at patterns from your last 7 saved days, using lightweight rules on locally stored meal logs.",
     snapshotEmpty: "No meals logged across the last 7 days yet. Add a few meals and this weekly view will start reflecting your pattern.",
@@ -153,6 +154,7 @@ const localeText = {
     convenience: "便利度",
     balance: "平衡",
     worksFor: "適合",
+    suggestedDrink: "建議飲品",
     snapshot: "7 天摘要",
     snapshotHelp: "根據最近 7 天已儲存的紀錄，用輕量規則整理出簡單摘要。",
     snapshotEmpty: "最近 7 天還沒有任何餐點紀錄。先補上幾餐，這裡才會開始反映你的飲食模式。",
@@ -1076,6 +1078,10 @@ function App() {
                       <div className="mt-2 rounded-2xl border border-slate-200/70 bg-slate-50/90 px-2.5 py-1.5 text-[12px] leading-[1.45] text-slate-600">
                         <span className="font-medium text-slate-700">{t.balance}: </span>
                         <span>{recommendation.balanceNote}</span>
+                      </div>
+                      <div className="mt-1.5 rounded-2xl border border-slate-200/70 bg-slate-50/90 px-2.5 py-1.5 text-[12px] leading-[1.45] text-slate-600">
+                        <span className="font-medium text-slate-700">{t.suggestedDrink}: </span>
+                        <span>{recommendation.suggestedDrink}</span>
                       </div>
                       <div className="mt-1.5 flex flex-wrap gap-1">
                         <InfoPill label={`${t.worksFor}: ${formatWorksFor(recommendation.worksFor, locale)}`} />
