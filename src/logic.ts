@@ -75,6 +75,15 @@ const createBreakdownItem = (category: ScoreBreakdownItem["category"], points: n
   note,
 });
 
+export const todaySignalThresholds = {
+  protein: { lowMax: 1.25, mediumMax: 2.5 },
+  vegetables: { lowMax: 1.25, mediumMax: 2.5 },
+  carbs: { lowMax: 1.25, mediumMax: 2.5 },
+  heaviness: { lowMax: 0.75, mediumMax: 2 },
+  friedOily: { lowMax: 0.75, mediumMax: 1.75 },
+  convenience: { lowMax: 0.75, mediumMax: 1.75 },
+} as const;
+
 export const getMealTimeWindow = (date: Date) => {
   const hour = date.getHours();
   if (hour >= 5 && hour < 11) return "breakfast" as MealTimeWindow;
@@ -221,12 +230,12 @@ export const summarizeTodayIntake = (todayLog: TodayLog): TodayIntakeSummary => 
   const takeoutMeals = meals.filter((meal) => meal.mealSource === "Takeout" || meal.mealSource === "Restaurant").length;
 
   return {
-    proteinStatus: toStatus(proteinCount, 1.25, 2.5),
-    vegetableStatus: toStatus(vegetableCount, 1.25, 2.5),
-    carbStatus: toStatus(carbCount, 1.25, 2.5),
-    heavinessStatus: toStatus(heavyMeals, 0.75, 2),
-    friedOilyStatus: toStatus(friedMeals, 0.75, 1.75),
-    convenienceStatus: toStatus(convenienceMeals, 0.75, 1.75),
+    proteinStatus: toStatus(proteinCount, todaySignalThresholds.protein.lowMax, todaySignalThresholds.protein.mediumMax),
+    vegetableStatus: toStatus(vegetableCount, todaySignalThresholds.vegetables.lowMax, todaySignalThresholds.vegetables.mediumMax),
+    carbStatus: toStatus(carbCount, todaySignalThresholds.carbs.lowMax, todaySignalThresholds.carbs.mediumMax),
+    heavinessStatus: toStatus(heavyMeals, todaySignalThresholds.heaviness.lowMax, todaySignalThresholds.heaviness.mediumMax),
+    friedOilyStatus: toStatus(friedMeals, todaySignalThresholds.friedOily.lowMax, todaySignalThresholds.friedOily.mediumMax),
+    convenienceStatus: toStatus(convenienceMeals, todaySignalThresholds.convenience.lowMax, todaySignalThresholds.convenience.mediumMax),
     proteinCount,
     vegetableCount,
     carbCount,
