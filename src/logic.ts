@@ -1118,10 +1118,10 @@ export const scoreRecommendations = (profile: Profile, todayLog: TodayLog, histo
 const buildPreferenceTrendSummary = (history: DayHistory[], profile: Profile, locale: Locale) => {
   const meals = history.flatMap((day) => flattenMeals(day.todayLog)).filter(isMealLogged);
 
-  if (meals.length === 0) {
+  if (meals.length < 4) {
     return locale === "en"
-      ? "As you log more meals, this will start reflecting your own style more clearly."
-      : "隨著你記錄更多餐點，這裡會更清楚地反映出你的飲食風格。";
+      ? "There is not enough weekly logging yet to say much about your recent food pattern."
+      : "目前這週的紀錄還不夠多，暫時看不出太明確的飲食偏好變化。";
   }
 
   const riceCount = meals.filter((meal) => meal.carbs.some((item) => item.toLowerCase().includes("rice") || item.toLowerCase().includes("congee"))).length;
@@ -1203,6 +1203,7 @@ const buildPreferenceTrendSummary = (history: DayHistory[], profile: Profile, lo
 
 export const buildWeeklySnapshot = (history: DayHistory[], profile: Profile, locale: Locale) => {
   const flatMeals = history.flatMap((day) => flattenMeals(day.todayLog));
+  const loggedMealsCount = flatMeals.length;
   const riceMeals = flatMeals.filter((meal) =>
     meal.carbs.some((item) => {
       const lower = item.toLowerCase();
@@ -1236,37 +1237,89 @@ export const buildWeeklySnapshot = (history: DayHistory[], profile: Profile, loc
     }),
   ).size;
 
+  if (loggedMealsCount < 4) {
+    return {
+      summaryLines: [
+        locale === "en"
+          ? "You only have a small amount of meal data so far, so this weekly view is still very early."
+          : "你目前只記錄了很少的餐點，所以這個每週摘要還在很初期的階段。",
+        locale === "en"
+          ? "Log a few more meals across the week and the pattern summary will become more believable."
+          : "等你這週再多記幾餐，這裡的飲食模式摘要才會更可信。",
+      ],
+      indicators: [
+        { label: locale === "en" ? "Protein" : "蛋白質", value: locale === "en" ? "Too early" : "資料太少" },
+        { label: locale === "en" ? "Vegetables" : "蔬菜", value: locale === "en" ? "Too early" : "資料太少" },
+        { label: locale === "en" ? "Fiber variety" : "纖維多樣性", value: locale === "en" ? "Too early" : "資料太少" },
+        { label: locale === "en" ? "Fried foods" : "炸物", value: locale === "en" ? "Too early" : "資料太少" },
+        { label: locale === "en" ? "Meal diversity" : "餐型變化", value: locale === "en" ? "Too early" : "資料太少" },
+      ],
+      preferenceSummary: locale === "en"
+        ? "There is not enough weekly logging yet to say much about your recent food pattern."
+        : "目前這週的紀錄還不夠多，暫時看不出太明確的飲食偏好變化。",
+    };
+  }
+
+  const summaryLines: string[] = [];
+
+  if (riceMeals >= 2 && riceMeals > noodleMeals) {
+    summaryLines.push(
+      locale === "en"
+        ? "Rice-based meals showed up more often than noodle-based ones."
+        : "這週飯類餐點比麵類更常出現。",
+    );
+  } else if (noodleMeals >= 2 && noodleMeals > riceMeals) {
+    summaryLines.push(
+      locale === "en"
+        ? "Noodle-based meals showed up more often than rice-based ones."
+        : "這週麵類餐點比飯類更常出現。",
+    );
+  }
+
+  if (vegetableMeals <= Math.floor(loggedMealsCount * 0.4)) {
+    summaryLines.push(
+      locale === "en"
+        ? "Vegetables have shown up less often so far."
+        : "目前蔬菜出現的頻率還偏少。",
+    );
+  } else if (vegetableMeals >= Math.ceil(loggedMealsCount * 0.7)) {
+    summaryLines.push(
+      locale === "en"
+        ? "Vegetables have shown up fairly consistently so far."
+        : "目前蔬菜出現得算蠻穩定。",
+    );
+  }
+
+  if (warmMeals >= Math.max(3, Math.ceil(loggedMealsCount * 0.6))) {
+    summaryLines.push(
+      locale === "en"
+        ? "Warm meals have shown up often in the current logs."
+        : "目前的紀錄裡，溫熱餐點出現得蠻頻繁。",
+    );
+  }
+
+  if (takeoutMeals >= 3 && takeoutMeals > homeMeals) {
+    summaryLines.push(
+      locale === "en"
+        ? "Recent meals have leaned more toward takeout and convenience."
+        : "最近幾餐比較偏向外帶和方便型選擇。",
+    );
+  } else if (homeMeals >= 3 && homeMeals > takeoutMeals) {
+    summaryLines.push(
+      locale === "en"
+        ? "Recent meals have leaned more home-style."
+        : "最近幾餐比較偏向家常型選擇。",
+    );
+  }
+
   return {
-    summaryLines: [
-      riceMeals >= noodleMeals
-        ? locale === "en"
-          ? "You leaned toward rice-based meals this week."
-          : "你這週比較偏向飯類餐點。"
-        : locale === "en"
-          ? "Noodle-based meals showed up pretty often this week."
-          : "你這週麵類餐點出現得蠻頻繁。",
-      vegetableMeals < 14
-        ? locale === "en"
-          ? "Your meals were a bit low in vegetables."
-          : "你這週的餐點裡，蔬菜稍微少了一點。"
-        : locale === "en"
-          ? "Vegetables showed up fairly consistently across the week."
-          : "你這週的蔬菜出現得算蠻穩定。",
-      warmMeals >= Math.max(5, Math.ceil(flatMeals.length * 0.45))
-        ? locale === "en"
-          ? "You often chose warm and savory foods."
-          : "你這週常常選擇溫熱、偏鹹香的餐點。"
-        : locale === "en"
-          ? "You mixed in a fair number of lighter or cooler meals."
-          : "你這週也混進了不少比較清爽或偏涼的餐點。",
-      takeoutMeals > homeMeals
-        ? locale === "en"
-          ? "Recent meals leaned more convenient and grab-and-go."
-          : "最近幾天的餐點比較偏方便、隨手可得。"
-        : locale === "en"
-          ? "Home-style meals had a solid presence through the week."
-          : "這週家常型餐點的比例蠻穩定。",
-    ],
+    summaryLines: summaryLines.length > 0
+      ? summaryLines
+      : [
+          locale === "en"
+            ? "There is some weekly data now, but not enough repeated patterns to make a stronger summary yet."
+            : "目前已經有一些每週資料了，但還沒有足夠重複的模式可以下更明確的摘要。",
+        ],
     indicators: [
       { label: locale === "en" ? "Protein" : "蛋白質", value: uniqueProteins >= 5 ? (locale === "en" ? "Good range" : "種類不錯") : (locale === "en" ? "Could vary more" : "還可以更多樣") },
       { label: locale === "en" ? "Vegetables" : "蔬菜", value: vegetableMeals >= 14 ? (locale === "en" ? "Steady" : "算穩定") : (locale === "en" ? "A little light" : "稍微偏少") },
