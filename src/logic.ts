@@ -70,6 +70,7 @@ const preferenceTagMap: Record<string, string[]> = {
   "Coffee / caffeine": ["coffee", "green tea", "black tea", "milk tea", "energy drink", "caffeine"],
   Tea: ["tea", "green tea", "black tea"],
   "Simple drinks": ["water", "sparkling water", "tea"],
+  "Juices / smoothies": ["smoothie", "juice", "green juice", "orange juice", "apple juice", "coconut water"],
   Mediterranean: ["mediterranean", "gyro", "hummus"],
   "Mexican-inspired": ["mexican-inspired", "burrito", "fajita", "quesadilla", "chili"],
 };
@@ -849,6 +850,7 @@ const trendLabelMap: Record<string, { en: string; zh: string }> = {
   "Coffee / caffeine": { en: "coffee or caffeinated drinks", zh: "咖啡或含咖啡因飲品" },
   Tea: { en: "tea", zh: "茶類" },
   "Simple drinks": { en: "simple drinks", zh: "簡單飲品" },
+  "Juices / smoothies": { en: "juices or smoothies", zh: "果汁或 smoothie" },
 };
 
 const observedTrendLabelMap: Record<string, { en: string; zh: string }> = {
@@ -865,6 +867,7 @@ const observedTrendLabelMap: Record<string, { en: string; zh: string }> = {
   "coffee / caffeine": { en: "coffee or caffeinated drinks", zh: "咖啡或含咖啡因飲品" },
   "sweet drinks": { en: "sweet drinks", zh: "甜飲" },
   "alcohol drinks": { en: "alcohol drinks", zh: "酒精飲品" },
+  "juices or smoothies": { en: "juices or smoothies", zh: "果汁或 smoothie" },
 };
 
 const joinList = (items: string[], locale: Locale) => {

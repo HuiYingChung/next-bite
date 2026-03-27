@@ -28,6 +28,7 @@ export const preferenceTags = [
   "Coffee / caffeine",
   "Tea",
   "Simple drinks",
+  "Juices / smoothies",
   "Mediterranean",
   "Mexican-inspired",
 ];
