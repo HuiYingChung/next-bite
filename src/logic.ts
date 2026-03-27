@@ -44,7 +44,7 @@ const avoidKeywordMap: Record<string, string[]> = {
 };
 
 const preferenceTagMap: Record<string, string[]> = {
-  "Chinese-style": ["chinese-style", "comfort", "warm"],
+  "Chinese-style": ["chinese-style", "comfort", "warm", "mapo"],
   "Taiwanese-style": ["taiwanese-style", "bento"],
   Japanese: ["japanese-inspired", "set-meal", "soba", "udon"],
   Korean: ["korean-inspired", "kimchi", "bibimbap"],
@@ -66,7 +66,7 @@ const preferenceTagMap: Record<string, string[]> = {
   "Breakfast-for-dinner": ["breakfast-for-dinner", "omelet", "toast", "egg"],
   "Plant-protein": ["plant-protein", "tofu", "beans", "chickpeas", "edamame", "tempeh"],
   Mediterranean: ["mediterranean", "gyro", "hummus"],
-  "Mexican-inspired": ["mexican-inspired", "burrito", "fajita", "quesadilla"],
+  "Mexican-inspired": ["mexican-inspired", "burrito", "fajita", "quesadilla", "chili"],
 };
 
 const createBreakdownItem = (category: ScoreBreakdownItem["category"], points: number, note: string): ScoreBreakdownItem => ({
@@ -977,7 +977,8 @@ const getFairnessExposureBonus = (meal: Recommendation) => {
   const title = meal.title.toLowerCase();
   if (title.includes("porridge") || title.includes("congee")) bonus += 0.5;
   if (title.includes("sub")) bonus += 0.45;
-  if (title.includes("mapo") || title.includes("beef and tomato") || title.includes("scallion")) bonus += 0.6;
+  if (title.includes("mapo")) bonus += 1.15;
+  else if (title.includes("beef and tomato") || title.includes("scallion")) bonus += 0.6;
   if (meal.tags.some((tag) => ["chinese-style", "taiwanese-style", "home-style", "simple"].includes(tag.toLowerCase()))) {
     bonus += 0.35;
   }
