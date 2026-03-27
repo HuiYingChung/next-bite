@@ -830,8 +830,23 @@ export const buildSuggestedDrink = (
 
   const topScore = scored[0].score;
   const pool = scored.filter((entry) => entry.score >= topScore - DRINK_FAIRNESS_SCORE_WINDOW).slice(0, DRINK_FAIRNESS_MAX_POOL);
-  const index = hashDrinkContext(summary, profile, meal, timeWindow) % pool.length;
-  return pool[index].drink.title;
+  const preferredDrinkTags = profile.preferenceTags.filter((tag) =>
+    ["Tea", "Coffee / caffeine", "Simple drinks", "Juices / smoothies"].includes(tag),
+  );
+
+  let candidatePool = pool;
+
+  // If the user selected multiple drink preferences, rotate within the top-scoring
+  // pool across those preferred drink families so one category does not dominate.
+  if (preferredDrinkTags.length >= 2) {
+    const preferredPool = pool.filter((entry) => preferredDrinkTags.some((tag) => matchesDrinkPreference(entry.drink, tag)));
+    if (preferredPool.length > 0) {
+      candidatePool = preferredPool;
+    }
+  }
+
+  const index = hashDrinkContext(summary, profile, meal, timeWindow) % candidatePool.length;
+  return candidatePool[index].drink.title;
 };
 
 const scoreTimeOfDayFit = (timeWindow: MealTimeWindow, meal: Recommendation) => {
@@ -1134,6 +1149,14 @@ const FAIRNESS_MIN_POOL = 6;
 const FAIRNESS_MAX_POOL = 12;
 const DRINK_FAIRNESS_SCORE_WINDOW = 2;
 const DRINK_FAIRNESS_MAX_POOL = 8;
+
+const matchesDrinkPreference = (drink: DrinkOption, preferenceTag: string) => {
+  if (preferenceTag === "Tea") return drink.category === "tea";
+  if (preferenceTag === "Coffee / caffeine") return drink.category === "coffee" || drink.caffeine;
+  if (preferenceTag === "Simple drinks") return drink.category === "simple";
+  if (preferenceTag === "Juices / smoothies") return drink.category === "juice";
+  return false;
+};
 
 const genericFairnessTags = new Set([
   "balanced",
