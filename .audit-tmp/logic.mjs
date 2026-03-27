@@ -643,7 +643,7 @@ var recommendationDataset = [
   {
     id: "turkey-chili-rice-bowl",
     title: "Turkey Chili Rice Bowl",
-    tags: ["warm", "high-protein", "bowl", "comfort"],
+    tags: ["warm", "high-protein", "bowl", "comfort", "mexican-inspired", "home-style", "meal-prep-friendly"],
     proteinLevel: "high",
     vegetableLevel: "medium",
     carbLevel: "medium",
@@ -713,7 +713,7 @@ var recommendationDataset = [
   {
     id: "mapo-tofu-light-rice",
     title: "Mapo Tofu Light Version with Rice",
-    tags: ["chinese-style", "warm", "rice-based", "comfort", "bowl"],
+    tags: ["chinese-style", "warm", "rice-based", "comfort", "bowl", "plant-protein", "home-style", "simple", "spicy"],
     proteinLevel: "medium",
     vegetableLevel: "low",
     carbLevel: "medium",
@@ -1425,7 +1425,7 @@ var avoidKeywordMap = {
   "Green bell pepper": ["bell pepper"]
 };
 var preferenceTagMap = {
-  "Chinese-style": ["chinese-style", "comfort", "warm"],
+  "Chinese-style": ["chinese-style", "comfort", "warm", "mapo"],
   "Taiwanese-style": ["taiwanese-style", "bento"],
   Japanese: ["japanese-inspired", "set-meal", "soba", "udon"],
   Korean: ["korean-inspired", "kimchi", "bibimbap"],
@@ -1447,7 +1447,7 @@ var preferenceTagMap = {
   "Breakfast-for-dinner": ["breakfast-for-dinner", "omelet", "toast", "egg"],
   "Plant-protein": ["plant-protein", "tofu", "beans", "chickpeas", "edamame", "tempeh"],
   Mediterranean: ["mediterranean", "gyro", "hummus"],
-  "Mexican-inspired": ["mexican-inspired", "burrito", "fajita", "quesadilla"]
+  "Mexican-inspired": ["mexican-inspired", "burrito", "fajita", "quesadilla", "chili"]
 };
 var createBreakdownItem = (category, points, note) => ({
   category,
@@ -2134,7 +2134,6 @@ var genericFairnessTags = /* @__PURE__ */ new Set([
   "light",
   "warm",
   "comfort",
-  "simple",
   "everyday",
   "quick",
   "convenient",
@@ -2144,7 +2143,6 @@ var genericFairnessTags = /* @__PURE__ */ new Set([
   "portable",
   "high-protein",
   "rice-based",
-  "home-style",
   "savory",
   "flavorful"
 ]);
@@ -2175,6 +2173,11 @@ var getFairnessExposureBonus = (meal) => {
   const title = meal.title.toLowerCase();
   if (title.includes("porridge") || title.includes("congee")) bonus += 0.5;
   if (title.includes("sub")) bonus += 0.45;
+  if (title.includes("mapo")) bonus += 1.15;
+  else if (title.includes("beef and tomato") || title.includes("scallion")) bonus += 0.6;
+  if (meal.tags.some((tag) => ["chinese-style", "taiwanese-style", "home-style", "simple"].includes(tag.toLowerCase()))) {
+    bonus += 0.35;
+  }
   return Math.min(1.6, bonus);
 };
 var getAdjustedRank = (item, pickedFormats, rankBy) => {

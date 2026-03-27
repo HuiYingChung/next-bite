@@ -269,6 +269,7 @@ const historyPatterns = [
 
 const preferenceSets = [
   [],
+  ["Chinese-style", "Warm meals", "Comfort meals"],
   ["Japanese", "Soupy meals", "Rice-based meals"],
   ["Korean", "Warm meals", "Comfort meals"],
   ["Taiwanese-style", "Set meals"],
