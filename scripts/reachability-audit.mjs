@@ -1,5 +1,5 @@
-import { scoreRecommendations } from "./logic.mjs";
-import { createEmptyMeal, recommendationDataset, seedHistory, seedProfile } from "./data.mjs";
+import { scoreRecommendations } from "../.audit-tmp/logic.mjs";
+import { createEmptyMeal, recommendationDataset, seedHistory, seedProfile } from "../.audit-tmp/data.mjs";
 
 const mealNames = ["Breakfast", "Lunch", "Dinner", "Snacks / Drinks"];
 
