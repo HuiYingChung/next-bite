@@ -178,6 +178,8 @@ const dessertSnackKeywords = [
   "muffin",
   "pastry",
 ];
+const strictCaffeinatedDrinkTitles = new Set(["Tea", "Green tea", "Black tea", "Coffee", "Iced coffee", "Milk tea", "Energy drink"]);
+const strictAlcoholDrinkTitles = new Set(["Beer", "Wine", "Cocktail", "Alcohol"]);
 
 const serializeMeal = (meal: Recommendation) => [meal.title, meal.description, ...meal.tags, ...meal.avoidTags].join(" ").toLowerCase();
 
@@ -694,8 +696,8 @@ const scoreDrinkOption = (
   let score = 0;
   const mealTags = meal.tags.map((tag) => tag.toLowerCase());
 
-  if (profile.avoidTags.includes("Caffeine") && drink.caffeine) score -= 100;
-  if (profile.avoidTags.includes("Alcohol drinks") && drink.alcohol) score -= 100;
+  if (profile.avoidTags.includes("Caffeine") && (drink.caffeine || strictCaffeinatedDrinkTitles.has(drink.title))) score -= 100;
+  if (profile.avoidTags.includes("Alcohol drinks") && (drink.alcohol || strictAlcoholDrinkTitles.has(drink.title))) score -= 100;
   if (profile.avoidTags.includes("Sweet drinks") && drink.sweetened) score -= 100;
   if (profile.avoidTags.includes("Dairy") && drink.dairy) score -= 100;
 
