@@ -594,8 +594,18 @@ const scoreVariety = (todayLog: TodayLog, meal: Recommendation) => {
   const meals = flattenMeals(todayLog);
   const riceHeavyCount = meals.filter((entry) => detectMealFormatSignals(entry).riceHeavy).length;
   const noodleHeavyCount = meals.filter((entry) => detectMealFormatSignals(entry).noodleHeavy).length;
+  const repeatedProteins = [...meals.reduce<Map<string, number>>((map, entry) => {
+    entry.protein.forEach((item) => {
+      const normalized = item.toLowerCase();
+      map.set(normalized, (map.get(normalized) ?? 0) + 1);
+    });
+    return map;
+  }, new Map())]
+    .filter(([, count]) => count >= 2)
+    .map(([protein]) => protein);
   let score = 0;
   const notes: string[] = [];
+  const mealText = serializeMeal(meal);
 
   if (riceHeavyCount >= 2 && meal.tags.some((tag) => ["rice-based", "bowl"].includes(tag.toLowerCase()))) {
     score -= 1;
@@ -604,6 +614,10 @@ const scoreVariety = (todayLog: TodayLog, meal: Recommendation) => {
   if (noodleHeavyCount >= 2 && meal.tags.some((tag) => tag.toLowerCase().includes("noodle"))) {
     score -= 1;
     notes.push("Slightly reduced because noodles already showed up a lot today.");
+  }
+  if (repeatedProteins.some((protein) => mealText.includes(protein))) {
+    score -= 2;
+    notes.push("Reduced because this repeats a protein that already showed up multiple times today.");
   }
 
   return createBreakdownItem("variety", score, notes.join(" ") || "Variety fit is neutral for this meal.");
