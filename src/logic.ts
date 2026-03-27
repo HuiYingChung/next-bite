@@ -979,6 +979,8 @@ const getFairnessExposureBonus = (meal: Recommendation) => {
   if (title.includes("sub")) bonus += 0.45;
   if (title.includes("mapo")) bonus += 1.15;
   else if (title.includes("beef and tomato") || title.includes("scallion")) bonus += 0.6;
+  if (title.includes("minced pork") || title.includes("protein bowl")) bonus += 0.45;
+  if (title.includes("taiwanese minced pork")) bonus += 0.9;
   if (meal.tags.some((tag) => ["chinese-style", "taiwanese-style", "home-style", "simple"].includes(tag.toLowerCase()))) {
     bonus += 0.35;
   }
