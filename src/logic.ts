@@ -1,7 +1,8 @@
-import { recommendationDataset } from "./data";
+import { drinkRecommendationDataset, recommendationDataset } from "./data";
 import type {
   DailyStatus,
   DayHistory,
+  DrinkOption,
   Locale,
   MealEntry,
   Profile,
@@ -683,32 +684,154 @@ const scoreSnackDrinkFit = (summary: TodayIntakeSummary, meal: Recommendation) =
   return createBreakdownItem("snack-drink", score, notes.join(" ") || "Snack and drink fit is neutral for this meal.");
 };
 
-const buildSuggestedDrink = (summary: TodayIntakeSummary, profile: Profile, locale: Locale) => {
-  const prefersTea = profile.preferenceTags.includes("Tea");
-  const prefersCoffee = profile.preferenceTags.includes("Coffee / caffeine");
-  const prefersSimple = profile.preferenceTags.includes("Simple drinks");
-  const avoidCaffeine = profile.avoidTags.includes("Caffeine");
-  const avoidAlcohol = profile.avoidTags.includes("Alcohol drinks");
-  const avoidSweet = profile.avoidTags.includes("Sweet drinks");
+const scoreDrinkOption = (
+  summary: TodayIntakeSummary,
+  profile: Profile,
+  meal: Recommendation,
+  timeWindow: MealTimeWindow,
+  drink: DrinkOption,
+) => {
+  let score = 0;
+  const mealTags = meal.tags.map((tag) => tag.toLowerCase());
 
-  if (summary.alcoholCount >= 1 || avoidAlcohol) {
-    return locale === "en" ? "Water or unsweetened tea" : "白水或無糖茶";
+  if (profile.avoidTags.includes("Caffeine") && drink.caffeine) score -= 100;
+  if (profile.avoidTags.includes("Alcohol drinks") && drink.alcohol) score -= 100;
+  if (profile.avoidTags.includes("Sweet drinks") && drink.sweetened) score -= 100;
+  if (profile.avoidTags.includes("Dairy") && drink.dairy) score -= 100;
+
+  if (summary.alcoholCount >= 1) {
+    if (drink.category === "simple" || drink.category === "tea") score += 4;
+    if (drink.tags.includes("hydrating")) score += 2;
+    if (drink.alcohol) score -= 5;
   }
 
-  if (summary.sweetDrinkCount >= 2 || avoidSweet) {
-    if (prefersTea) return locale === "en" ? "Unsweetened tea" : "無糖茶";
-    return locale === "en" ? "Water or unsweetened tea" : "白水或無糖茶";
+  if (summary.sweetDrinkCount >= 2) {
+    if (drink.category === "simple" || drink.category === "tea") score += 4;
+    if (drink.category === "juice" && !drink.sweetened) score += 3;
+    if (drink.category === "milk" && !drink.sweetened) score += 1;
+    if (drink.category === "sweet") score -= 4;
   }
 
-  if (summary.caffeineCount >= 2 || avoidCaffeine) {
-    return locale === "en" ? "Water or caffeine-free tea" : "白水或無咖啡因茶";
+  if (summary.caffeineCount >= 2) {
+    if (!drink.caffeine && (drink.category === "simple" || drink.category === "juice" || drink.category === "milk")) score += 3;
+    if (drink.caffeine) score -= 4;
   }
 
-  if (prefersTea) return locale === "en" ? "Tea" : "茶";
-  if (prefersCoffee && !avoidCaffeine) return locale === "en" ? "Coffee or tea" : "咖啡或茶";
-  if (prefersSimple) return locale === "en" ? "Water or sparkling water" : "白水或氣泡水";
+  if (profile.preferenceTags.includes("Tea")) {
+    if (drink.category === "tea") score += 3;
+    if (drink.title === "Milk tea") score += 1;
+  }
 
-  return locale === "en" ? "Water, tea, or sparkling water" : "白水、茶或氣泡水";
+  if (profile.preferenceTags.includes("Coffee / caffeine") && !profile.avoidTags.includes("Caffeine")) {
+    if (drink.category === "coffee") score += 3;
+    if (drink.title === "Energy drink" || drink.title === "Milk tea") score += 1;
+  }
+
+  if (profile.preferenceTags.includes("Simple drinks")) {
+    if (drink.category === "simple") score += 3;
+    if (drink.title === "Tea" || drink.title === "Coconut water") score += 1;
+  }
+
+  if (profile.preferenceTags.includes("Juices / smoothies")) {
+    if (drink.category === "juice") score += 3;
+    if (drink.title === "Smoothie" || drink.title === "Green juice") score += 1;
+  }
+
+  if (profile.feelToday === "Want something warm") {
+    if (["Tea", "Green tea", "Black tea", "Soy milk", "Oat milk", "Milk"].includes(drink.title)) score += 3;
+    if (drink.tags.includes("cold")) score -= 1;
+  }
+
+  if (profile.feelToday === "Need something light") {
+    if (drink.category === "simple" || drink.title === "Green juice" || drink.title === "Coconut water") score += 3;
+    if (drink.title === "Yogurt drink" && summary.sweetDrinkCount === 0) score += 1;
+    if (drink.category === "alcohol" || drink.category === "sweet") score -= 2;
+  }
+
+  if (profile.feelToday === "Low energy") {
+    if ((drink.category === "coffee" || drink.title === "Energy drink") && summary.caffeineCount < 2 && !profile.avoidTags.includes("Caffeine")) score += 3;
+    if (drink.title === "Protein shake" || drink.title === "Sports drink") score += 2;
+  }
+
+  if (profile.feelToday === "On period") {
+    if (["Tea", "Soy milk", "Oat milk", "Milk"].includes(drink.title)) score += 3;
+    if (drink.category === "alcohol") score -= 2;
+  }
+
+  if (timeWindow === "breakfast") {
+    if (["Coffee", "Tea", "Orange juice", "Smoothie", "Milk", "Soy milk", "Oat milk"].includes(drink.title)) score += 2;
+    if (drink.title === "Yogurt drink") score += 2;
+  } else if (timeWindow === "lunch") {
+    if (["Iced coffee", "Sparkling water", "Green tea", "Black tea", "Coconut water"].includes(drink.title)) score += 2;
+    if (drink.title === "Yogurt drink" || drink.title === "Sweet drink") score += 1;
+  } else if (timeWindow === "dinner") {
+    if (["Sparkling water", "Tea", "Wine", "Beer", "Cocktail", "Alcohol"].includes(drink.title)) score += 2;
+    if (drink.category === "coffee") score -= 1;
+    if (drink.title === "Sweet drink" && summary.sweetDrinkCount === 0) score += 1;
+  } else if (timeWindow === "late") {
+    if (["Water", "Tea", "Soy milk", "Oat milk", "Milk", "Almond milk"].includes(drink.title)) score += 3;
+    if (drink.caffeine) score -= 4;
+    if (drink.category === "alcohol") score -= 2;
+  }
+
+  if (mealTags.some((tag) => ["soupy", "warm", "gentle", "comfort"].includes(tag))) {
+    if (drink.category === "tea" || ["Soy milk", "Oat milk", "Milk"].includes(drink.title)) score += 2;
+  }
+
+  if (mealTags.some((tag) => ["portable", "wrap", "sandwich", "takeout", "hearty"].includes(tag))) {
+    if (["Sparkling water", "Soda", "Diet soda", "Beer", "Milk tea", "Boba"].includes(drink.title)) score += 2;
+    if (drink.title === "Sweet drink") score += 2;
+  }
+
+  if (mealTags.some((tag) => ["light", "vegetable-forward", "plant-protein"].includes(tag))) {
+    if (["Water", "Green juice", "Coconut water", "Tea", "Sparkling water"].includes(drink.title)) score += 2;
+    if (drink.title === "Yogurt drink" && !profile.avoidTags.includes("Dairy")) score += 2;
+  }
+
+  if (mealTags.some((tag) => ["breakfast-for-dinner", "quick", "simple"].includes(tag))) {
+    if (drink.title === "Yogurt drink") score += 2;
+  }
+
+  if (meal.proteinLevel === "high" && ["Protein shake", "Milk", "Soy milk"].includes(drink.title)) score -= 1;
+  if (drink.hydration === "high") score += 1;
+
+  return score;
+};
+
+const hashDrinkContext = (summary: TodayIntakeSummary, profile: Profile, meal: Recommendation, timeWindow: MealTimeWindow) => {
+  const seed = [
+    meal.title,
+    timeWindow,
+    profile.feelToday,
+    profile.eatingStyle,
+    [...profile.preferenceTags].sort().join("|"),
+    [...profile.avoidTags].sort().join("|"),
+    summary.sweetDrinkCount,
+    summary.caffeineCount,
+    summary.alcoholCount,
+  ].join("::");
+
+  return [...seed].reduce((acc, char) => ((acc * 31) + char.charCodeAt(0)) >>> 0, 7);
+};
+
+export const buildSuggestedDrink = (
+  summary: TodayIntakeSummary,
+  profile: Profile,
+  meal: Recommendation,
+  timeWindow: MealTimeWindow,
+  _locale: Locale,
+) => {
+  const scored = drinkRecommendationDataset
+    .map((drink) => ({ drink, score: scoreDrinkOption(summary, profile, meal, timeWindow, drink) }))
+    .filter((entry) => entry.score > -100)
+    .sort((a, b) => b.score - a.score || a.drink.title.localeCompare(b.drink.title));
+
+  if (scored.length === 0) return "Water";
+
+  const topScore = scored[0].score;
+  const pool = scored.filter((entry) => entry.score >= topScore - DRINK_FAIRNESS_SCORE_WINDOW).slice(0, DRINK_FAIRNESS_MAX_POOL);
+  const index = hashDrinkContext(summary, profile, meal, timeWindow) % pool.length;
+  return pool[index].drink.title;
 };
 
 const scoreTimeOfDayFit = (timeWindow: MealTimeWindow, meal: Recommendation) => {
@@ -990,7 +1113,7 @@ export const scoreMealOption = (summary: TodayIntakeSummary, todayLog: TodayLog,
     label: "Best Match",
     shortReason: buildRecommendationReason("Best Match", summary, profile, meal, locale),
     balanceNote: generateBalanceNote("Best Match", meal, locale),
-    suggestedDrink: buildSuggestedDrink(summary, profile, locale),
+    suggestedDrink: buildSuggestedDrink(summary, profile, meal, timeWindow, locale),
     convenienceLabel: locale === "en" ? meal.convenience.charAt(0).toUpperCase() + meal.convenience.slice(1) : meal.convenience === "high" ? "高" : meal.convenience === "medium" ? "中" : "低",
     scoreBreakdown: [...balance.items, convenience, profileFit, preferences, avoid, variety, snackDrink, timeOfDay, weeklyPattern],
   };
@@ -1009,6 +1132,8 @@ export const dedupeRecommendations = (items: ScoredRecommendation[]) => {
 const FAIRNESS_SCORE_WINDOW = 3;
 const FAIRNESS_MIN_POOL = 6;
 const FAIRNESS_MAX_POOL = 12;
+const DRINK_FAIRNESS_SCORE_WINDOW = 2;
+const DRINK_FAIRNESS_MAX_POOL = 8;
 
 const genericFairnessTags = new Set([
   "balanced",

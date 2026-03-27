@@ -1,4 +1,4 @@
-import type { AppState, DayHistory, MealEntry, MealName, Profile, Recommendation, TodayLog } from "./types";
+import type { AppState, DayHistory, DrinkOption, MealEntry, MealName, Profile, Recommendation, TodayLog } from "./types";
 
 export const STORAGE_KEY = "next-bite-mvp";
 export const mealNames: MealName[] = ["Breakfast", "Lunch", "Dinner", "Snacks / Drinks"];
@@ -175,6 +175,38 @@ export const mealOptions = {
   mealSource: ["Home-cooked", "Takeout", "Restaurant", "Ready-made"],
   portion: ["Small", "Medium", "Large"],
 } as const;
+
+export const drinkRecommendationDataset: DrinkOption[] = [
+  { id: "water", title: "Water", category: "simple", tags: ["simple", "hydrating", "neutral", "light"], caffeine: false, sweetened: false, alcohol: false, dairy: false, hydration: "high" },
+  { id: "sparkling-water", title: "Sparkling water", category: "simple", tags: ["simple", "hydrating", "crisp", "takeout-friendly"], caffeine: false, sweetened: false, alcohol: false, dairy: false, hydration: "high" },
+  { id: "tea", title: "Tea", category: "tea", tags: ["tea", "simple", "warm", "calm"], caffeine: false, sweetened: false, alcohol: false, dairy: false, hydration: "high" },
+  { id: "green-tea", title: "Green tea", category: "tea", tags: ["tea", "warm", "light", "caffeinated"], caffeine: true, sweetened: false, alcohol: false, dairy: false, hydration: "medium" },
+  { id: "black-tea", title: "Black tea", category: "tea", tags: ["tea", "warm", "caffeinated", "savory"], caffeine: true, sweetened: false, alcohol: false, dairy: false, hydration: "medium" },
+  { id: "coffee", title: "Coffee", category: "coffee", tags: ["coffee", "caffeinated", "breakfast", "energizing"], caffeine: true, sweetened: false, alcohol: false, dairy: false, hydration: "low" },
+  { id: "iced-coffee", title: "Iced coffee", category: "coffee", tags: ["coffee", "caffeinated", "cold", "takeout-friendly"], caffeine: true, sweetened: false, alcohol: false, dairy: false, hydration: "low" },
+  { id: "milk", title: "Milk", category: "milk", tags: ["milk", "dairy", "gentle", "simple"], caffeine: false, sweetened: false, alcohol: false, dairy: true, hydration: "medium" },
+  { id: "soy-milk", title: "Soy milk", category: "milk", tags: ["milk", "plant-based", "gentle", "simple"], caffeine: false, sweetened: false, alcohol: false, dairy: false, hydration: "medium" },
+  { id: "oat-milk", title: "Oat milk", category: "milk", tags: ["milk", "plant-based", "gentle", "comfort"], caffeine: false, sweetened: false, alcohol: false, dairy: false, hydration: "medium" },
+  { id: "almond-milk", title: "Almond milk", category: "milk", tags: ["milk", "plant-based", "light", "simple"], caffeine: false, sweetened: false, alcohol: false, dairy: false, hydration: "medium" },
+  { id: "yogurt-drink", title: "Yogurt drink", category: "milk", tags: ["dairy", "cooling", "snack-like", "sweet"], caffeine: false, sweetened: true, alcohol: false, dairy: true, hydration: "medium" },
+  { id: "protein-shake", title: "Protein shake", category: "milk", tags: ["protein", "recovery", "filling", "quick"], caffeine: false, sweetened: false, alcohol: false, dairy: false, hydration: "medium" },
+  { id: "smoothie", title: "Smoothie", category: "juice", tags: ["smoothie", "fruit-forward", "portable", "breakfast"], caffeine: false, sweetened: true, alcohol: false, dairy: false, hydration: "medium" },
+  { id: "green-juice", title: "Green juice", category: "juice", tags: ["juice", "vegetable-forward", "light", "fresh"], caffeine: false, sweetened: false, alcohol: false, dairy: false, hydration: "high" },
+  { id: "orange-juice", title: "Orange juice", category: "juice", tags: ["juice", "fruit-forward", "breakfast", "bright"], caffeine: false, sweetened: true, alcohol: false, dairy: false, hydration: "medium" },
+  { id: "apple-juice", title: "Apple juice", category: "juice", tags: ["juice", "fruit-forward", "portable", "quick"], caffeine: false, sweetened: true, alcohol: false, dairy: false, hydration: "medium" },
+  { id: "coconut-water", title: "Coconut water", category: "juice", tags: ["light", "hydrating", "fresh", "simple"], caffeine: false, sweetened: false, alcohol: false, dairy: false, hydration: "high" },
+  { id: "soda", title: "Soda", category: "sweet", tags: ["sweet", "takeout-friendly", "cold", "hearty"], caffeine: false, sweetened: true, alcohol: false, dairy: false, hydration: "low" },
+  { id: "diet-soda", title: "Diet soda", category: "sweet", tags: ["sweet", "takeout-friendly", "cold", "zero-sugar"], caffeine: false, sweetened: false, alcohol: false, dairy: false, hydration: "low" },
+  { id: "sweet-drink", title: "Sweet drink", category: "sweet", tags: ["sweet", "fun", "cold", "snack-like"], caffeine: false, sweetened: true, alcohol: false, dairy: false, hydration: "low" },
+  { id: "sports-drink", title: "Sports drink", category: "sweet", tags: ["sweet", "active", "hydrating", "quick"], caffeine: false, sweetened: true, alcohol: false, dairy: false, hydration: "medium" },
+  { id: "energy-drink", title: "Energy drink", category: "sweet", tags: ["sweet", "caffeinated", "energizing", "quick"], caffeine: true, sweetened: true, alcohol: false, dairy: false, hydration: "low" },
+  { id: "milk-tea", title: "Milk tea", category: "sweet", tags: ["sweet", "tea", "caffeinated", "comfort"], caffeine: true, sweetened: true, alcohol: false, dairy: true, hydration: "low" },
+  { id: "boba", title: "Boba", category: "sweet", tags: ["sweet", "tea", "caffeinated", "treat"], caffeine: true, sweetened: true, alcohol: false, dairy: true, hydration: "low" },
+  { id: "beer", title: "Beer", category: "alcohol", tags: ["alcohol", "cold", "takeout-friendly", "hearty"], caffeine: false, sweetened: false, alcohol: true, dairy: false, hydration: "low" },
+  { id: "wine", title: "Wine", category: "alcohol", tags: ["alcohol", "dinner", "balanced", "evening"], caffeine: false, sweetened: false, alcohol: true, dairy: false, hydration: "low" },
+  { id: "cocktail", title: "Cocktail", category: "alcohol", tags: ["alcohol", "sweet", "evening", "treat"], caffeine: false, sweetened: true, alcohol: true, dairy: false, hydration: "low" },
+  { id: "alcohol", title: "Alcohol", category: "alcohol", tags: ["alcohol", "evening", "generic", "social"], caffeine: false, sweetened: false, alcohol: true, dairy: false, hydration: "low" },
+];
 
 const uniqueOptions = (groups: ReadonlyArray<{ label: string; options: readonly string[] }>) => [...new Set(groups.flatMap((group) => group.options))];
 

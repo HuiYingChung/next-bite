@@ -21,6 +21,7 @@ export type RecommendationMealType =
   | "preference"
   | "recovery";
 export type DailyStatus = "low" | "medium" | "high";
+export type DrinkCategory = "simple" | "tea" | "coffee" | "milk" | "juice" | "sweet" | "alcohol";
 
 export type Profile = {
   heightCm: string;
@@ -64,6 +65,18 @@ export interface MealOption {
   mealType: RecommendationMealType;
   avoidTags: string[];
   description: string;
+}
+
+export interface DrinkOption {
+  id: string;
+  title: string;
+  category: DrinkCategory;
+  tags: string[];
+  caffeine: boolean;
+  sweetened: boolean;
+  alcohol: boolean;
+  dairy: boolean;
+  hydration: MealLevel;
 }
 
 export type Recommendation = MealOption;
