@@ -93,6 +93,8 @@ const localeText = {
     carbs: "Carbs",
     heaviness: "Heaviness",
     friedOily: "Fried / oily",
+    footerCopyright: "© 2026 Huiying Chung. All rights reserved.",
+    footerNonCommercial: "Built in collaboration with AI. NextBite is shared for personal, educational, and portfolio use only. Commercial reuse is not permitted without permission.",
   },
   zh: {
     switchLabel: "EN",
@@ -163,6 +165,8 @@ const localeText = {
     carbs: "碳水",
     heaviness: "厚重感",
     friedOily: "油炸 / 油膩",
+    footerCopyright: "© 2026 Huiying Chung。版權所有。",
+    footerNonCommercial: "本專案與 AI 協作完成。NextBite 僅供個人、教學與作品集展示使用；未經授權不得作為商業用途重複使用。",
   },
 } as const;
 
@@ -982,6 +986,10 @@ function App() {
             </div>
           </section>
         </main>
+        <footer className="mt-5 border-t border-white/70 px-1 pb-4 pt-4 text-center text-xs leading-5 text-slate-500 sm:mt-7 sm:pb-6">
+          <div>{t.footerCopyright}</div>
+          <div className="mx-auto mt-1 max-w-3xl">{t.footerNonCommercial}</div>
+        </footer>
       </div>
       <Analytics />
     </div>
