@@ -76,7 +76,7 @@ const createBreakdownItem = (category: ScoreBreakdownItem["category"], points: n
 });
 
 export const todaySignalThresholds = {
-  protein: { lowMax: 1.25, mediumMax: 2.5 },
+  protein: { lowMax: 1.25, mediumMax: 3 },
   vegetables: { lowMax: 1.25, mediumMax: 2.5 },
   carbs: { lowMax: 1.25, mediumMax: 2.5 },
   heaviness: { lowMax: 0.75, mediumMax: 2 },
