@@ -513,6 +513,7 @@ const scoreFeelPriority = (profile: Profile, meal: Recommendation) => {
 const scorePreferenceFit = (profile: Profile, meal: Recommendation) => {
   let score = 0;
   const mealText = serializeMeal(meal);
+  const mealTags = meal.tags.map((tag) => tag.toLowerCase());
   const matches: string[] = [];
 
   profile.preferenceTags.forEach((tag) => {
@@ -520,10 +521,23 @@ const scorePreferenceFit = (profile: Profile, meal: Recommendation) => {
     if (mapped.some((keyword) => mealText.includes(keyword.toLowerCase()))) {
       score += 2;
       matches.push(tag);
+
+      // Give a small extra bump to direct cuisine/style matches so narrower
+      // preference-driven meals are not always crowded out by more generic bowls.
+      if (
+        (tag === "Korean" && mealTags.includes("korean-inspired")) ||
+        (tag === "Taiwanese-style" && mealTags.includes("taiwanese-style")) ||
+        (tag === "Chinese-style" && mealTags.includes("chinese-style")) ||
+        (tag === "Mediterranean" && mealTags.includes("mediterranean")) ||
+        (tag === "Mexican-inspired" && mealTags.includes("mexican-inspired")) ||
+        (tag === "Japanese" && mealTags.includes("japanese-inspired"))
+      ) {
+        score += 1;
+      }
     }
   });
 
-  const capped = Math.min(score, 6);
+  const capped = Math.min(score, 8);
   return createBreakdownItem("preferences", capped, matches.length > 0 ? `Matches your preferences for ${matches.join(", ")}.` : "No strong preference match here.");
 };
 
@@ -909,9 +923,35 @@ export const dedupeRecommendations = (items: ScoredRecommendation[]) => {
   });
 };
 
-const FAIRNESS_SCORE_WINDOW = 2;
-const FAIRNESS_MIN_POOL = 4;
-const FAIRNESS_MAX_POOL = 8;
+const FAIRNESS_SCORE_WINDOW = 3;
+const FAIRNESS_MIN_POOL = 6;
+const FAIRNESS_MAX_POOL = 12;
+
+const genericFairnessTags = new Set([
+  "balanced",
+  "light",
+  "warm",
+  "comfort",
+  "everyday",
+  "quick",
+  "convenient",
+  "takeout",
+  "bowl",
+  "plate",
+  "portable",
+  "high-protein",
+  "rice-based",
+  "savory",
+  "flavorful",
+]);
+
+const datasetTagFrequency = recommendationDataset.reduce<Map<string, number>>((map, meal) => {
+  meal.tags.forEach((tag) => {
+    const normalized = tag.toLowerCase();
+    map.set(normalized, (map.get(normalized) ?? 0) + 1);
+  });
+  return map;
+}, new Map());
 
 const stableHash = (value: string) => {
   let hash = 0;
@@ -921,6 +961,30 @@ const stableHash = (value: string) => {
   return hash;
 };
 
+const getFairnessExposureBonus = (meal: Recommendation) => {
+  let bonus = 0;
+
+  meal.tags.forEach((tag) => {
+    const normalized = tag.toLowerCase();
+    if (genericFairnessTags.has(normalized)) return;
+
+    const frequency = datasetTagFrequency.get(normalized) ?? 0;
+    if (frequency > 0 && frequency <= 3) bonus += 0.9;
+    else if (frequency <= 5) bonus += 0.55;
+    else if (frequency <= 8) bonus += 0.25;
+  });
+
+  const title = meal.title.toLowerCase();
+  if (title.includes("porridge") || title.includes("congee")) bonus += 0.5;
+  if (title.includes("sub")) bonus += 0.45;
+  if (title.includes("mapo") || title.includes("beef and tomato") || title.includes("scallion")) bonus += 0.6;
+  if (meal.tags.some((tag) => ["chinese-style", "taiwanese-style", "home-style", "simple"].includes(tag.toLowerCase()))) {
+    bonus += 0.35;
+  }
+
+  return Math.min(1.6, bonus);
+};
+
 const getAdjustedRank = (
   item: ScoredRecommendation,
   pickedFormats: Set<string>,
@@ -928,7 +992,8 @@ const getAdjustedRank = (
 ) => {
   const formats = getMealFormats(item);
   const formatPenalty = formats.some((format) => pickedFormats.has(format)) ? 1.5 : 0;
-  return rankBy(item) - formatPenalty;
+  const fairnessExposureBonus = getFairnessExposureBonus(item);
+  return rankBy(item) + fairnessExposureBonus - formatPenalty;
 };
 
 const getFairCandidatePool = (
@@ -1001,7 +1066,14 @@ const pickRecommendation = (
 
 export const getBestMatch = (summary: TodayIntakeSummary, profile: Profile, locale: Locale, rotationSeed: string, items: ScoredRecommendation[], picked: Set<string>, pickedFormats: Set<string>) =>
   pickRecommendation("Best Match", summary, profile, locale, `${rotationSeed}:best-match`, items, picked, pickedFormats, (item) => {
-    const mealTypeBonus = item.mealType === "balanced" || item.mealType === "preference" ? 1 : 0;
+    const mealTypeBonus =
+      item.mealType === "balanced"
+        ? 1
+        : item.mealType === "preference" && item.preferenceScore > 0
+          ? 2.5
+          : item.mealType === "preference"
+            ? 0.5
+            : 0;
     return item.score + item.weeklyPatternScore * 0.75 + scoreFeelPriority(profile, item) + mealTypeBonus;
   });
 
