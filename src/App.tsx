@@ -15,7 +15,7 @@ import {
   snackOptionGroups,
   STORAGE_KEY,
 } from "./data";
-import { buildWeeklySnapshot, isMealLogged, mealSummaryChips, scoreRecommendations, summarizeTodayIntake, todaySignalThresholds } from "./logic";
+import { buildWeeklySnapshot, isMealLogged, mealSummaryChips, scoreRecommendations, summarizeTodayIntake } from "./logic";
 import type { ActivityLevel, AppState, DayHistory, FeelToday, HeightUnit, Locale, MealArrayField, MealEntry, MealName, MealSelectField, Profile, WeightUnit } from "./types";
 
 const LOCALE_KEY = "next-bite-locale";
@@ -38,13 +38,6 @@ const localeText = {
     noMealsToday: "No meals logged yet for Today. Start with one meal and NextBite will turn that into something useful.",
     todaySignals: "Today signals",
     todaySignalsHelp: "A quick look at what the recommendation engine is picking up from today's log.",
-    todayScoring: "How Today is scored",
-    todayScoringHelp: "This is a lightweight rule-based read, not a nutrition calculation.",
-    scoringUnitMeals: "Protein, vegetables, and carbs use rough meal points from what you selected.",
-    scoringUnitStyles: "Heaviness, fried/oily, and convenience also pick up cooking method, portion, and meal source.",
-    scoringLow: "Low",
-    scoringMedium: "Medium",
-    scoringHigh: "High",
     past6Days: "Past 6 Days",
     pastDays: "Past Days",
     pastIntro: "These days provide background context for your weekly pattern. Recommendations on the right still focus on Today.",
@@ -121,13 +114,6 @@ const localeText = {
     noMealsToday: "今天還沒有任何紀錄。先從一餐開始，NextBite 就能給你有用的下一餐建議。",
     todaySignals: "今日訊號",
     todaySignalsHelp: "快速看看推薦引擎從今天紀錄中讀到了什麼。",
-    todayScoring: "今天怎麼計分",
-    todayScoringHelp: "這是輕量的規則判讀，不是精準的營養計算。",
-    scoringUnitMeals: "蛋白質、蔬菜和碳水會根據你選的食物，用粗略的餐點分數來計算。",
-    scoringUnitStyles: "厚重感、油炸/油膩、便利度也會吃到烹調方式、份量和來源。",
-    scoringLow: "低",
-    scoringMedium: "中",
-    scoringHigh: "高",
     past6Days: "過去 6 天",
     pastDays: "過去幾天",
     pastIntro: "這些紀錄提供一週飲食模式的背景，右邊推薦仍然以今天為主。",
@@ -617,41 +603,6 @@ function App() {
     </div>
   );
 
-  const formatThreshold = (value: number) => Number.isInteger(value) ? String(value) : value.toFixed(2).replace(/\.00$/, "").replace(/(\.\d)0$/, "$1");
-
-  const todayScoringRows = [
-    { label: signalLabels.protein, value: todaySummary.proteinCount, thresholds: todaySignalThresholds.protein },
-    { label: signalLabels.vegetables, value: todaySummary.vegetableCount, thresholds: todaySignalThresholds.vegetables },
-    { label: signalLabels.carbs, value: todaySummary.carbCount, thresholds: todaySignalThresholds.carbs },
-    { label: signalLabels.heaviness, value: todaySummary.heavyMeals, thresholds: todaySignalThresholds.heaviness },
-    { label: signalLabels.friedOily, value: todaySummary.friedMeals, thresholds: todaySignalThresholds.friedOily },
-    { label: signalLabels.convenience, value: todaySummary.convenienceMeals, thresholds: todaySignalThresholds.convenience },
-  ];
-
-  const renderTodayScoringGuide = () => (
-    <div className="subtle-card mt-4 p-4">
-      <div className={`text-[11px] font-semibold text-slate-500 ${locale === "en" ? "uppercase tracking-[0.16em]" : "tracking-[0.08em]"}`}>{t.todayScoring}</div>
-      <p className="mt-1 text-sm text-slate-600">{t.todayScoringHelp}</p>
-      <div className="mt-3 space-y-2.5">
-        {todayScoringRows.map((row) => (
-          <div key={row.label} className="rounded-2xl border border-white/80 bg-white/75 px-3 py-3 text-sm text-slate-700 shadow-[0_8px_18px_rgba(15,23,42,0.04)]">
-            <div className="flex items-center justify-between gap-3">
-              <div className="font-medium text-slate-900">{row.label}</div>
-              <div className="text-slate-600">{formatThreshold(row.value)} pts</div>
-            </div>
-            <div className="mt-1 text-xs leading-5 text-slate-500">
-              {`${t.scoringLow} <= ${formatThreshold(row.thresholds.lowMax)} · ${t.scoringMedium} <= ${formatThreshold(row.thresholds.mediumMax)} · ${t.scoringHigh} > ${formatThreshold(row.thresholds.mediumMax)}`}
-            </div>
-          </div>
-        ))}
-      </div>
-      <div className="mt-3 space-y-1 text-xs leading-5 text-slate-500">
-        <div>{t.scoringUnitMeals}</div>
-        <div>{t.scoringUnitStyles}</div>
-      </div>
-    </div>
-  );
-
   const renderEmptyState = (title: string, description: string, helper?: string) => (
     <div className="mb-4 overflow-hidden rounded-[24px] border border-dashed border-slate-300 bg-[linear-gradient(135deg,rgba(248,244,238,0.96),rgba(239,246,241,0.88))] p-4 text-sm text-slate-600 shadow-[0_14px_28px_rgba(15,23,42,0.04)] sm:mb-5 sm:rounded-[26px]">
       <div className="flex items-start gap-3">
@@ -846,7 +797,6 @@ function App() {
 
               {renderMealEditor(todayDay, openTodayMeal, setOpenTodayMeal)}
               {renderSignals(todaySignals, t.todaySignals, t.todaySignalsHelp)}
-              {renderTodayScoringGuide()}
             </div>
 
             <div className="panel">
