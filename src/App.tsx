@@ -73,6 +73,7 @@ const localeText = {
     open: "Open",
     clear: "Clear",
     clearAll: "Clear all",
+    clearTags: "Clear tags",
     nothingLogged: "Nothing logged yet",
     noMealsLogged: "No meals logged yet.",
     oneMeal: "1 meal logged",
@@ -147,6 +148,7 @@ const localeText = {
     open: "打開",
     clear: "清除",
     clearAll: "全部清除",
+    clearTags: "清除標籤",
     nothingLogged: "尚未記錄",
     noMealsLogged: "尚未記錄任何餐點。",
     oneMeal: "已記錄 1 餐",
@@ -573,6 +575,17 @@ function App() {
     }));
   };
 
+  const clearProfileTags = () => {
+    setState((current) => ({
+      ...current,
+      profile: {
+        ...current.profile,
+        preferenceTags: [],
+        avoidTags: [],
+      },
+    }));
+  };
+
   const renderSignals = (signals: { label: string; value: string }[], title: string, helper: string) => (
     <div className="subtle-card mt-5 p-4">
       <div className={`text-[11px] font-semibold text-slate-500 ${locale === "en" ? "uppercase tracking-[0.16em]" : "tracking-[0.08em]"}`}>{title}</div>
@@ -901,6 +914,15 @@ function App() {
 
               {profileOpen && (
                 <>
+                  <div className="mt-4 flex justify-end">
+                    <button
+                      type="button"
+                      onClick={clearProfileTags}
+                      className="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-600 transition hover:border-moss/35 hover:text-moss"
+                    >
+                      {t.clearTags}
+                    </button>
+                  </div>
                   <div className="mt-5 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
                     <LabeledField label={t.height}>
                       <div className="space-y-2">
