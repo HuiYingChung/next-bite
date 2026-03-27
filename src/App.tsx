@@ -72,6 +72,7 @@ const localeText = {
     collapse: "Collapse",
     open: "Open",
     clear: "Clear",
+    clearAll: "Clear all",
     nothingLogged: "Nothing logged yet",
     noMealsLogged: "No meals logged yet.",
     oneMeal: "1 meal logged",
@@ -145,6 +146,7 @@ const localeText = {
     collapse: "收起",
     open: "打開",
     clear: "清除",
+    clearAll: "全部清除",
     nothingLogged: "尚未記錄",
     noMealsLogged: "尚未記錄任何餐點。",
     oneMeal: "已記錄 1 餐",
@@ -547,6 +549,21 @@ function App() {
     }));
   };
 
+  const clearAllPastDays = () => {
+    setOpenPastMeal(null);
+    setState((current) => ({
+      ...current,
+      days: current.days.map((day) => day.isToday
+        ? day
+        : {
+            ...day,
+            todayLog: Object.fromEntries(
+              mealNames.map((mealName) => [mealName, createEmptyMeal()]),
+            ) as DayHistory["todayLog"],
+          }),
+    }));
+  };
+
   const renderSignals = (signals: { label: string; value: string }[], title: string, helper: string) => (
     <div className="subtle-card mt-5 p-4">
       <div className={`text-[11px] font-semibold text-slate-500 ${locale === "en" ? "uppercase tracking-[0.16em]" : "tracking-[0.08em]"}`}>{title}</div>
@@ -778,8 +795,17 @@ function App() {
 
               {pastDaysOpen && (
                 <>
-                  <div className="subtle-card mt-4 px-3 py-2 text-sm text-slate-600 sm:mt-5">
-                    {t.pastHelper}
+                  <div className="mt-4 flex flex-col gap-3 sm:mt-5 sm:flex-row sm:items-start sm:justify-between">
+                    <div className="subtle-card px-3 py-2 text-sm text-slate-600 sm:flex-1">
+                      {t.pastHelper}
+                    </div>
+                    <button
+                      type="button"
+                      onClick={clearAllPastDays}
+                      className="shrink-0 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-600 transition hover:border-moss/35 hover:text-moss"
+                    >
+                      {t.clearAll}
+                    </button>
                   </div>
 
                   <div className="mb-4 mt-4 sm:hidden">
