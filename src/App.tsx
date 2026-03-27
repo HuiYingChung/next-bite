@@ -66,6 +66,7 @@ const localeText = {
     worksFor: "Works for",
     snapshot: "7-Day Snapshot",
     snapshotHelp: "A simple look at patterns from your last 7 saved days, using lightweight rules on locally stored meal logs.",
+    snapshotEmpty: "No meals logged across the last 7 days yet. Add a few meals and this weekly view will start reflecting your pattern.",
     preferenceTrend: "Preference trend",
     expand: "Expand",
     collapse: "Collapse",
@@ -138,6 +139,7 @@ const localeText = {
     worksFor: "適合",
     snapshot: "7 天摘要",
     snapshotHelp: "根據最近 7 天已儲存的紀錄，用輕量規則整理出簡單摘要。",
+    snapshotEmpty: "最近 7 天還沒有任何餐點紀錄。先補上幾餐，這裡才會開始反映你的飲食模式。",
     preferenceTrend: "偏好趨勢",
     expand: "展開",
     collapse: "收起",
@@ -401,6 +403,10 @@ function App() {
   const todaySummary = useMemo(() => summarizeTodayIntake(todayDay.todayLog), [todayDay]);
   const selectedPastDaySummary = useMemo(() => summarizeTodayIntake(selectedPastDay.todayLog), [selectedPastDay]);
   const weeklySnapshot = useMemo(() => buildWeeklySnapshot(state.days, state.profile, locale), [state.days, state.profile, locale]);
+  const hasWeeklyData = useMemo(
+    () => state.days.some((day) => mealNames.some((mealName) => isMealLogged(day.todayLog[mealName]))),
+    [state.days],
+  );
   const hasAnyTodayMeal = mealNames.some((mealName) => isMealLogged(todayDay.todayLog[mealName]));
   const hasAnyPastMeal = mealNames.some((mealName) => isMealLogged(selectedPastDay.todayLog[mealName]));
   const todaySignals = [
@@ -969,21 +975,29 @@ function App() {
               <h2 className="section-title">{t.snapshot}</h2>
               <p className="mt-1 text-sm text-slate-600">{t.snapshotHelp}</p>
             </div>
-            <div className="space-y-2.5 text-sm text-slate-700 sm:space-y-3">
-              {weeklySnapshot.summaryLines.map((line) => <div key={line} className="rounded-2xl border border-white/80 bg-oat/85 px-4 py-3 leading-6 shadow-[0_10px_22px_rgba(15,23,42,0.04)]">{line}</div>)}
-            </div>
-            <div className="mt-5 grid gap-3 sm:grid-cols-2 xl:grid-cols-5">
-              {weeklySnapshot.indicators.map((indicator) => (
-                <div key={indicator.label} className="rounded-2xl border border-slate-200/90 bg-white px-4 py-3 shadow-[0_10px_22px_rgba(15,23,42,0.04)]">
-                  <div className={`text-xs text-slate-500 ${locale === "en" ? "uppercase tracking-[0.18em]" : "tracking-[0.06em]"}`}>{indicator.label}</div>
-                  <div className="mt-1 text-sm font-medium text-slate-800">{indicator.value}</div>
+            {hasWeeklyData ? (
+              <>
+                <div className="space-y-2.5 text-sm text-slate-700 sm:space-y-3">
+                  {weeklySnapshot.summaryLines.map((line) => <div key={line} className="rounded-2xl border border-white/80 bg-oat/85 px-4 py-3 leading-6 shadow-[0_10px_22px_rgba(15,23,42,0.04)]">{line}</div>)}
                 </div>
-              ))}
-            </div>
-            <div className="mt-5 rounded-[24px] border border-moss/15 bg-[linear-gradient(135deg,rgba(224,239,229,0.86),rgba(244,248,243,0.86))] p-4 text-sm text-slate-700 shadow-[0_14px_28px_rgba(15,23,42,0.04)]">
-              <div className="font-medium text-slate-900">{t.preferenceTrend}</div>
-              <div className="mt-2 leading-6">{weeklySnapshot.preferenceSummary}</div>
-            </div>
+                <div className="mt-5 grid gap-3 sm:grid-cols-2 xl:grid-cols-5">
+                  {weeklySnapshot.indicators.map((indicator) => (
+                    <div key={indicator.label} className="rounded-2xl border border-slate-200/90 bg-white px-4 py-3 shadow-[0_10px_22px_rgba(15,23,42,0.04)]">
+                      <div className={`text-xs text-slate-500 ${locale === "en" ? "uppercase tracking-[0.18em]" : "tracking-[0.06em]"}`}>{indicator.label}</div>
+                      <div className="mt-1 text-sm font-medium text-slate-800">{indicator.value}</div>
+                    </div>
+                  ))}
+                </div>
+                <div className="mt-5 rounded-[24px] border border-moss/15 bg-[linear-gradient(135deg,rgba(224,239,229,0.86),rgba(244,248,243,0.86))] p-4 text-sm text-slate-700 shadow-[0_14px_28px_rgba(15,23,42,0.04)]">
+                  <div className="font-medium text-slate-900">{t.preferenceTrend}</div>
+                  <div className="mt-2 leading-6">{weeklySnapshot.preferenceSummary}</div>
+                </div>
+              </>
+            ) : (
+              <div className="rounded-[24px] border border-dashed border-slate-200 bg-[rgba(255,255,255,0.7)] px-4 py-5 text-sm leading-6 text-slate-600">
+                {t.snapshotEmpty}
+              </div>
+            )}
           </section>
         </main>
         <footer className="mt-5 border-t border-white/70 px-1 pb-4 pt-4 text-center text-xs leading-5 text-slate-500 sm:mt-7 sm:pb-6">
