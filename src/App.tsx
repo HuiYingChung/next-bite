@@ -549,6 +549,15 @@ function App() {
     }));
   };
 
+  const clearAllToday = () => {
+    setOpenTodayMeal(null);
+    updateDayLog(todayDay.id, () =>
+      Object.fromEntries(
+        mealNames.map((mealName) => [mealName, createEmptyMeal()]),
+      ) as DayHistory["todayLog"],
+    );
+  };
+
   const clearAllPastDays = () => {
     setOpenPastMeal(null);
     setState((current) => ({
@@ -746,11 +755,22 @@ function App() {
             <section className="space-y-6">
             <div className="panel">
               <div className="mb-4 sm:mb-5">
-                <div className={`section-kicker border-moss/20 bg-mist/60 text-moss ${locale === "zh" ? "normal-case tracking-[0.08em]" : ""}`}>{t.todayFocus}</div>
-                <h2 className="section-title">{t.todaysMeals}</h2>
-                <p className="mt-1 text-sm text-slate-600">{t.todayIntro}</p>
-                <div className="mt-3 inline-flex rounded-full border border-moss/15 bg-white/85 px-3 py-1.5 text-xs font-medium text-slate-600 shadow-sm">
-                  {todayHeaderSummary}
+                <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                  <div className="min-w-0">
+                    <div className={`section-kicker border-moss/20 bg-mist/60 text-moss ${locale === "zh" ? "normal-case tracking-[0.08em]" : ""}`}>{t.todayFocus}</div>
+                    <h2 className="section-title">{t.todaysMeals}</h2>
+                    <p className="mt-1 text-sm text-slate-600">{t.todayIntro}</p>
+                    <div className="mt-3 inline-flex rounded-full border border-moss/15 bg-white/85 px-3 py-1.5 text-xs font-medium text-slate-600 shadow-sm">
+                      {todayHeaderSummary}
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={clearAllToday}
+                    className="shrink-0 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-600 transition hover:border-moss/35 hover:text-moss"
+                  >
+                    {t.clearAll}
+                  </button>
                 </div>
               </div>
 
