@@ -19,6 +19,7 @@ import { buildWeeklySnapshot, isMealLogged, mealSummaryChips, scoreRecommendatio
 import type { ActivityLevel, AppState, DayHistory, FeelToday, HeightUnit, Locale, MealArrayField, MealEntry, MealName, MealSelectField, Profile, WeightUnit } from "./types";
 
 const LOCALE_KEY = "next-bite-locale";
+const DEMO_DISMISSED_KEY = "next-bite-demo-dismissed";
 const feelTodayOptions: FeelToday[] = ["Normal", "Want something warm", "Need something light", "Low energy", "On period"];
 const activityOptions: ActivityLevel[] = ["Low", "Moderate", "Active"];
 const eatingStyleOptions: Profile["eatingStyle"][] = ["Mostly home-cooked", "Mostly takeout", "Both"];
@@ -375,7 +376,7 @@ const getDayHeaderSummary = (day: DayHistory, summary: ReturnType<typeof summari
 function App() {
   const [locale, setLocale] = useState<Locale>(() => (localStorage.getItem(LOCALE_KEY) as Locale) || "en");
   const [state, setState] = useState<AppState>(() => loadState());
-  const [isDemo, setIsDemo] = useState(() => !localStorage.getItem(STORAGE_KEY));
+  const [isDemo, setIsDemo] = useState(() => !localStorage.getItem(DEMO_DISMISSED_KEY));
   const [openTodayMeal, setOpenTodayMeal] = useState<MealName | null>(null);
   const [openPastMeal, setOpenPastMeal] = useState<MealName | null>(null);
   const [selectedPastDayId, setSelectedPastDayId] = useState<string>("");
@@ -508,6 +509,7 @@ function App() {
   };
 
   const toggleMealArray = (dayIdOrMealName: string, mealNameOrKey: MealName | MealArrayField, keyOrValue: MealArrayField | string, maybeValue?: string) => {
+    if (isDemo) dismissDemo();
     const dayId = maybeValue ? dayIdOrMealName : selectedPastDay.id;
     const mealName = (maybeValue ? mealNameOrKey : dayIdOrMealName) as MealName;
     const key = (maybeValue ? keyOrValue : mealNameOrKey) as MealArrayField;
@@ -549,10 +551,14 @@ function App() {
     }));
   };
 
-  const dismissDemo = () => setIsDemo(false);
+  const dismissDemo = () => {
+    setIsDemo(false);
+    localStorage.setItem(DEMO_DISMISSED_KEY, "1");
+  };
 
   const resetAll = () => {
     localStorage.removeItem(STORAGE_KEY);
+    localStorage.removeItem(DEMO_DISMISSED_KEY);
     setOpenTodayMeal(null);
     setOpenPastMeal(null);
     setState(createSeededState());
