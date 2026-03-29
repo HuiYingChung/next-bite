@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Analytics } from "@vercel/analytics/react";
 import { Chevron, InfoPill, LabeledField, TagGroup } from "./components";
 import {
@@ -375,11 +375,14 @@ const getDayHeaderSummary = (day: DayHistory, summary: ReturnType<typeof summari
 function App() {
   const [locale, setLocale] = useState<Locale>(() => (localStorage.getItem(LOCALE_KEY) as Locale) || "en");
   const [state, setState] = useState<AppState>(() => loadState());
+  const [isDemo, setIsDemo] = useState(() => !localStorage.getItem(STORAGE_KEY));
   const [openTodayMeal, setOpenTodayMeal] = useState<MealName | null>(null);
   const [openPastMeal, setOpenPastMeal] = useState<MealName | null>(null);
   const [selectedPastDayId, setSelectedPastDayId] = useState<string>("");
   const [pastDaysOpen, setPastDaysOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
+  const [showResetConfirm, setShowResetConfirm] = useState(false);
+  const [recUpdateKey, setRecUpdateKey] = useState(0);
   const [now, setNow] = useState(() => new Date());
   const t = localeText[locale];
   const signalLabels = getSignalLabels(locale);
@@ -407,6 +410,14 @@ function App() {
     [pastDays, selectedPastDayId, todayDay],
   );
   const recommendations = useMemo(() => scoreRecommendations(state.profile, todayDay.todayLog, state.days, locale, now), [state.profile, todayDay, state.days, locale, now]);
+  const recFingerprint = recommendations.map((r) => r.id).join(",");
+  const prevRecRef = useRef(recFingerprint);
+  useEffect(() => {
+    if (prevRecRef.current !== recFingerprint) {
+      prevRecRef.current = recFingerprint;
+      setRecUpdateKey((k) => k + 1);
+    }
+  }, [recFingerprint]);
   const todaySummary = useMemo(() => summarizeTodayIntake(todayDay.todayLog), [todayDay]);
   const selectedPastDaySummary = useMemo(() => summarizeTodayIntake(selectedPastDay.todayLog), [selectedPastDay]);
   const weeklySnapshot = useMemo(() => buildWeeklySnapshot(state.days, state.profile, locale), [state.days, state.profile, locale]);
@@ -538,11 +549,14 @@ function App() {
     }));
   };
 
+  const dismissDemo = () => setIsDemo(false);
+
   const resetAll = () => {
     localStorage.removeItem(STORAGE_KEY);
     setOpenTodayMeal(null);
     setOpenPastMeal(null);
     setState(createSeededState());
+    setIsDemo(true);
   };
 
   const clearMeal = (dayIdOrMealName: string, maybeMealName?: MealName) => {
@@ -746,14 +760,37 @@ function App() {
               >
                 {t.caseStudy}
               </a>
-              <button type="button" onClick={resetAll} className="w-full rounded-full border border-slate-300 bg-white/90 px-4 py-2 text-sm font-medium text-slate-700 transition hover:border-clay hover:text-clay">
-                {t.reset}
-              </button>
             </div>
           </div>
         </header>
 
         <main className="space-y-3.5 md:space-y-6">
+          {isDemo && (
+            <div className="animate-fade-in rounded-[20px] border border-clay/25 bg-[linear-gradient(135deg,rgba(255,248,240,0.95),rgba(255,243,230,0.95))] px-4 py-3 shadow-sm sm:rounded-[24px] sm:px-5">
+              <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                <div className="min-w-0">
+                  <div className="flex items-center gap-2">
+                    <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-clay/15 text-[10px] text-clay">✦</span>
+                    <span className="text-sm font-medium text-slate-800">
+                      {locale === "en" ? "You're viewing sample data" : "你正在查看示範資料"}
+                    </span>
+                  </div>
+                  <p className="mt-1 text-xs leading-5 text-slate-500">
+                    {locale === "en"
+                      ? "This is pre-filled to show how NextBite works. Start logging your own meals to make it yours."
+                      : "這些是預填的範例，讓你了解 NextBite 的運作方式。開始記錄自己的餐點，就會變成你的資料。"}
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={dismissDemo}
+                  className="shrink-0 self-start rounded-full border border-clay/30 bg-white/90 px-3.5 py-1.5 text-xs font-medium text-clay transition hover:bg-clay hover:text-white sm:self-center"
+                >
+                  {locale === "en" ? "Got it" : "了解"}
+                </button>
+              </div>
+            </div>
+          )}
           <div className="grid gap-5 xl:grid-cols-[1.08fr_0.92fr] xl:gap-6">
             <section className="space-y-6">
             <div className="panel">
@@ -971,10 +1008,17 @@ function App() {
             </div>
             </section>
 
-            <aside className="space-y-4 sm:space-y-6">
+            <aside id="recommendations" className="space-y-4 sm:space-y-6">
               <div className="panel bg-[linear-gradient(180deg,rgba(255,255,255,0.88),rgba(250,248,244,0.92))] p-3 sm:p-4 md:p-4 xl:sticky xl:top-3">
                 <div className="mb-3.5 sm:mb-4">
-                  <h2 className="section-title">{t.recommendations}</h2>
+                  <div className="flex items-center gap-2.5">
+                    <h2 className="section-title">{t.recommendations}</h2>
+                    {recUpdateKey > 0 && (
+                      <span key={recUpdateKey} className="animate-fade-in rounded-full bg-moss/15 px-2 py-0.5 text-[10px] font-semibold text-moss">
+                        {locale === "en" ? "Updated" : "已更新"}
+                      </span>
+                    )}
+                  </div>
                 </div>
                 <div className="space-y-2">
                   {recommendations.map((recommendation, index) => {
@@ -992,7 +1036,7 @@ function App() {
                           : "from-slate-300/60 to-transparent";
 
                     return (
-                    <div key={recommendation.id} className={`relative overflow-hidden rounded-[18px] border p-2.5 shadow-[0_14px_30px_rgba(15,23,42,0.05)] transition hover:-translate-y-0.5 hover:shadow-[0_18px_34px_rgba(15,23,42,0.08)] sm:rounded-[20px] sm:p-3.5 ${cardTone}`}>
+                    <div key={`${recommendation.id}-${recUpdateKey}`} className={`relative overflow-hidden rounded-[18px] border p-2.5 shadow-[0_14px_30px_rgba(15,23,42,0.05)] transition hover:-translate-y-0.5 hover:shadow-[0_18px_34px_rgba(15,23,42,0.08)] sm:rounded-[20px] sm:p-3.5 ${cardTone} ${recUpdateKey > 0 ? "animate-rec-pulse" : ""}`}>
                       <div className={`pointer-events-none absolute inset-x-0 top-0 h-12 sm:h-14 bg-[linear-gradient(180deg,var(--tw-gradient-stops))] ${topBar}`} />
                       <div className="mb-1.5 flex items-start justify-between gap-1.5 sm:gap-2">
                         <div className="min-w-0">
@@ -1054,9 +1098,51 @@ function App() {
             )}
           </section>
         </main>
+
+        {/* Mobile-only floating button to jump to recommendations */}
+        {hasAnyTodayMeal && (
+          <a
+            href="#recommendations"
+            className="fixed bottom-5 right-4 z-50 flex items-center gap-2 rounded-full border border-moss/30 bg-moss px-4 py-2.5 text-sm font-medium text-white shadow-[0_8px_24px_rgba(69,107,87,0.35)] transition hover:bg-moss/90 active:scale-95 xl:hidden"
+          >
+            <svg className="h-4 w-4" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 6l4 4 4-4" /></svg>
+            {locale === "en" ? "See suggestions" : "查看建議"}
+          </a>
+        )}
         <footer className="mt-5 border-t border-white/70 px-1 pb-4 pt-4 text-center text-xs leading-5 text-slate-500 sm:mt-7 sm:pb-6">
           <div>{t.footerCopyright}</div>
           <div className="mx-auto mt-1 max-w-3xl">{t.footerNonCommercial}</div>
+          <div className="mt-4">
+            {!showResetConfirm ? (
+              <button
+                type="button"
+                onClick={() => setShowResetConfirm(true)}
+                className="rounded-full border border-slate-200 bg-white/80 px-4 py-1.5 text-xs text-slate-400 transition hover:border-clay/40 hover:text-clay"
+              >
+                {t.reset}
+              </button>
+            ) : (
+              <div className="inline-flex items-center gap-2 rounded-full border border-clay/30 bg-white/90 px-4 py-2 shadow-sm animate-fade-in">
+                <span className="text-xs text-slate-600">
+                  {locale === "en" ? "Clear all saved data?" : "確定要清除所有資料嗎？"}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => { resetAll(); setShowResetConfirm(false); }}
+                  className="rounded-full bg-clay/90 px-3 py-1 text-xs font-medium text-white transition hover:bg-clay"
+                >
+                  {locale === "en" ? "Confirm" : "確認"}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setShowResetConfirm(false)}
+                  className="rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-medium text-slate-500 transition hover:text-slate-700"
+                >
+                  {locale === "en" ? "Cancel" : "取消"}
+                </button>
+              </div>
+            )}
+          </div>
         </footer>
       </div>
       <Analytics />

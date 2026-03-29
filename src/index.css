@@ -108,6 +108,12 @@ select {
   to { opacity: 1; }
 }
 
+@keyframes recPulse {
+  0% { box-shadow: 0 0 0 0 rgba(69, 107, 87, 0.35); }
+  50% { box-shadow: 0 0 0 6px rgba(69, 107, 87, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(69, 107, 87, 0); }
+}
+
 @layer components {
   .animate-slide-down {
     animation: slideDown 0.35s ease-out forwards;
@@ -116,6 +122,10 @@ select {
 
   .animate-fade-in {
     animation: fadeIn 0.25s ease-out forwards;
+  }
+
+  .animate-rec-pulse {
+    animation: recPulse 0.6s ease-out;
   }
 }
 
