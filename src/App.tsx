@@ -198,7 +198,8 @@ const loadState = (): AppState => {
 
       return {
         ...baseDay,
-        ...(parsedDay ?? {}),
+        // Only carry over todayLog from saved data; structural fields (id, date, label, isToday)
+        // must always come from baseDay so they stay correct when the calendar advances.
         todayLog: Object.fromEntries(
           mealNames.map((mealName) => [
             mealName,
