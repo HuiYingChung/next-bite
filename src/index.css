@@ -90,6 +90,35 @@ select {
   }
 }
 
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    max-height: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    max-height: 2000px;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@layer components {
+  .animate-slide-down {
+    animation: slideDown 0.35s ease-out forwards;
+    overflow: hidden;
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 0.25s ease-out forwards;
+  }
+}
+
 @media (max-width: 640px) {
   @layer components {
     .panel {

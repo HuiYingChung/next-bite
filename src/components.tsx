@@ -1,5 +1,21 @@
 import type { ReactNode } from "react";
 
+export function Chevron(props: { open?: boolean; className?: string }) {
+  return (
+    <svg
+      className={`h-4 w-4 transition-transform duration-300 ${props.open ? "rotate-90" : ""} ${props.className ?? ""}`}
+      viewBox="0 0 16 16"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M6 4l4 4-4 4" />
+    </svg>
+  );
+}
+
 export function LabeledField(props: { label: string; children: ReactNode }) {
   return (
     <label className="block">

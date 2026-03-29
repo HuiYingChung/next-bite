@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Analytics } from "@vercel/analytics/react";
-import { InfoPill, LabeledField, TagGroup } from "./components";
+import { Chevron, InfoPill, LabeledField, TagGroup } from "./components";
 import {
   avoidTags,
   categoryLabels,
@@ -588,10 +588,15 @@ function App() {
     }));
   };
 
-  const renderSignals = (signals: { label: string; value: string }[], title: string, helper: string) => (
+  const renderSignals = (signals: { label: string; value: string }[], title: string, helper: string, hasMeals: boolean) => (
     <div className="subtle-card mt-5 p-4">
       <div className={`text-[11px] font-semibold text-slate-500 ${locale === "en" ? "uppercase tracking-[0.16em]" : "tracking-[0.08em]"}`}>{title}</div>
       <p className="mt-1 text-sm text-slate-600">{helper}</p>
+      {!hasMeals ? (
+        <div className="mt-3 rounded-2xl border border-dashed border-slate-200 bg-white/60 px-4 py-3 text-center text-xs text-slate-400">
+          {locale === "en" ? "Log a meal to see signals" : "記錄一餐後即可看到訊號"}
+        </div>
+      ) : (
       <div className="mt-3 grid gap-2 sm:grid-cols-2 xl:grid-cols-3">
         {signals.map((signal) => (
           <div key={signal.label} className="rounded-2xl border border-white/70 bg-white px-3 py-2 shadow-[0_8px_18px_rgba(15,23,42,0.04)]">
@@ -600,6 +605,7 @@ function App() {
           </div>
         ))}
       </div>
+      )}
     </div>
   );
 
@@ -621,7 +627,7 @@ function App() {
   const renderMealEditor = (day: DayHistory, openMeal: MealName | null, setOpenMeal: React.Dispatch<React.SetStateAction<MealName | null>>) => (
     <div className="space-y-4">
       {mealNames.map((mealName) => (
-        <div key={`${day.id}-${mealName}`} className="rounded-[24px] border border-slate-200/80 bg-[linear-gradient(180deg,rgba(248,244,238,0.92),rgba(245,241,234,0.72))] p-4 shadow-[0_10px_24px_rgba(15,23,42,0.04)] md:p-5">
+        <div key={`${day.id}-${mealName}`} className="rounded-[24px] border border-slate-200/80 bg-[linear-gradient(180deg,rgba(248,244,238,0.92),rgba(245,241,234,0.72))] p-4 shadow-[0_10px_24px_rgba(15,23,42,0.04)] transition-all duration-200 hover:border-slate-300/90 hover:shadow-[0_14px_30px_rgba(15,23,42,0.07)] md:p-5">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between md:gap-4">
             <button
               type="button"
@@ -640,11 +646,9 @@ function App() {
                   )}
                 </div>
               </div>
-              <div className="flex shrink-0 items-center gap-2 rounded-full border border-slate-200 bg-white/90 px-3 py-1.5 text-xs font-medium text-slate-600 shadow-sm">
+              <div className="flex shrink-0 items-center gap-1.5 rounded-full border border-slate-200 bg-white/90 px-3 py-1.5 text-xs font-medium text-slate-600 shadow-sm">
                 <span className="hidden sm:inline">{openMeal === mealName ? t.collapse : t.expand}</span>
-                <span className={`inline-block text-sm leading-none transition-transform ${openMeal === mealName ? "rotate-90" : ""}`} aria-hidden="true">
-                  &gt;
-                </span>
+                <Chevron open={openMeal === mealName} />
               </div>
             </button>
             <button
@@ -657,7 +661,7 @@ function App() {
           </div>
 
           {openMeal === mealName && (
-            <div className="soft-divider mt-5 grid gap-4 pt-4">
+            <div className="soft-divider mt-5 grid gap-4 pt-4 animate-slide-down">
               {(Object.keys(categoryLabels) as MealArrayField[]).map((category) => (
                 <div key={`${day.id}-${mealName}-${category}`}>
                   <div className="mb-2 text-sm font-medium text-slate-700">{categoryLabels[category]}</div>
@@ -702,10 +706,6 @@ function App() {
           <div className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-[linear-gradient(90deg,rgba(255,255,255,0),rgba(111,143,117,0.26),rgba(255,255,255,0))]" />
           <div className="flex flex-col gap-3.5 md:flex-row md:items-end md:justify-between">
             <div className="max-w-2xl">
-              <div className={`mb-3 inline-flex items-center gap-2 rounded-full border border-moss/20 bg-white/65 px-3 py-1 text-xs font-medium text-moss shadow-sm ${locale === "en" ? "uppercase tracking-[0.2em]" : "tracking-[0.08em]"}`}>
-                <span className="inline-flex h-2 w-2 rounded-full bg-moss" />
-                <span>{t.mvp}</span>
-              </div>
               <div>
                 <h1 className="text-[2rem] font-semibold tracking-tight sm:text-4xl md:text-5xl">
                   <span className="bg-[linear-gradient(180deg,#F08A18,#D95A0E)] bg-clip-text text-transparent">Next</span>
@@ -727,22 +727,9 @@ function App() {
                   </div>
                 ))}
               </div>
-              <div className="mt-3.5 max-w-2xl rounded-[18px] border border-white/70 bg-white/60 px-4 py-3 text-sm leading-6 text-slate-600 shadow-[0_10px_24px_rgba(15,23,42,0.04)] sm:mt-4 sm:rounded-[24px]">
-                <div>{t.usage1}</div>
-                <div>{t.usage2}</div>
-              </div>
+              <p className="mt-2.5 max-w-xl text-xs leading-5 text-slate-500">{t.usage1}</p>
             </div>
-            <div className="flex w-full flex-col gap-2.5 sm:w-auto sm:min-w-[220px]">
-              <div className="rounded-[20px] border border-white/80 bg-white/70 p-3 text-sm text-slate-600 shadow-[0_12px_26px_rgba(15,23,42,0.05)] sm:rounded-[22px]">
-                <div className={`text-[11px] font-semibold text-slate-500 ${locale === "en" ? "uppercase tracking-[0.18em]" : "tracking-[0.08em]"}`}>
-                  {locale === "en" ? "Product Principle" : "產品原則"}
-                </div>
-                <div className="mt-1 leading-5 text-slate-700">
-                  {locale === "en"
-                    ? "Support everyday decisions with calm, realistic meal suggestions."
-                    : "用平靜、實際的建議，幫助日常飲食決策。"}
-                </div>
-              </div>
+            <div className="flex w-full flex-col gap-2.5 sm:w-auto sm:min-w-[180px]">
               <button
                 type="button"
                 onClick={() => setLocale((current) => (current === "en" ? "zh" : "en"))}
@@ -774,7 +761,6 @@ function App() {
                   <div className="min-w-0">
                     <div className={`section-kicker border-moss/20 bg-mist/60 text-moss ${locale === "zh" ? "normal-case tracking-[0.08em]" : ""}`}>{t.todayFocus}</div>
                     <h2 className="section-title">{t.todaysMeals}</h2>
-                    <p className="mt-1 text-sm text-slate-600">{t.todayIntro}</p>
                     <div className="mt-3 inline-flex rounded-full border border-moss/15 bg-white/85 px-3 py-1.5 text-xs font-medium text-slate-600 shadow-sm">
                       {todayHeaderSummary}
                     </div>
@@ -796,7 +782,7 @@ function App() {
               )}
 
               {renderMealEditor(todayDay, openTodayMeal, setOpenTodayMeal)}
-              {renderSignals(todaySignals, t.todaySignals, t.todaySignalsHelp)}
+              {renderSignals(todaySignals, t.todaySignals, t.todaySignalsHelp, hasAnyTodayMeal)}
             </div>
 
             <div className="panel">
@@ -809,16 +795,13 @@ function App() {
                 <div className="min-w-0">
                   <div className={`section-kicker border-slate-200 bg-slate-50 text-slate-600 ${locale === "zh" ? "normal-case tracking-[0.08em]" : ""}`}>{t.past6Days}</div>
                   <h2 className="section-title">{t.pastDays}</h2>
-                  <p className="mt-1 text-sm text-slate-600">{t.pastIntro}</p>
                   <div className="mt-3 inline-flex rounded-full border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-medium text-slate-600 shadow-sm">
                     {getDisplayDayLabel(selectedPastDay.label, locale)}: {pastDayHeaderSummary}
                   </div>
                 </div>
-                <div className="mt-1 flex shrink-0 items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-600 shadow-sm">
+                <div className="mt-1 flex shrink-0 items-center gap-1.5 rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-600 shadow-sm">
                   <span className="hidden sm:inline">{pastDaysOpen ? t.collapse : t.open}</span>
-                  <span className={`inline-block text-sm leading-none transition-transform ${pastDaysOpen ? "rotate-90" : ""}`} aria-hidden="true">
-                    &gt;
-                  </span>
+                  <Chevron open={pastDaysOpen} />
                 </div>
               </button>
 
@@ -829,7 +812,7 @@ function App() {
               )}
 
               {pastDaysOpen && (
-                <>
+                <div className="animate-slide-down">
                   <div className="mt-4 flex flex-col gap-3 sm:mt-5 sm:flex-row sm:items-start sm:justify-between">
                     <div className="subtle-card px-3 py-2 text-sm text-slate-600 sm:flex-1">
                       {t.pastHelper}
@@ -884,8 +867,8 @@ function App() {
                   )}
 
                   {renderMealEditor(selectedPastDay, openPastMeal, setOpenPastMeal)}
-                  {renderSignals(pastDaySignals, `${getDisplayDayLabel(selectedPastDay.label, locale)} ${t.daySignals}`, t.daySignalsHelp)}
-                </>
+                  {renderSignals(pastDaySignals, `${getDisplayDayLabel(selectedPastDay.label, locale)} ${t.daySignals}`, t.daySignalsHelp, hasAnyPastMeal)}
+                </div>
               )}
             </div>
 
@@ -898,13 +881,10 @@ function App() {
               >
                 <div className="min-w-0">
                   <h2 className="section-title">{t.profile}</h2>
-                  <p className="mt-1 text-sm text-slate-600">{t.profileIntro}</p>
                 </div>
-                <div className="mt-1 flex shrink-0 items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-600 shadow-sm">
+                <div className="mt-1 flex shrink-0 items-center gap-1.5 rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-600 shadow-sm">
                   <span className="hidden sm:inline">{profileOpen ? t.collapse : t.expand}</span>
-                  <span className={`inline-block text-sm leading-none transition-transform ${profileOpen ? "rotate-90" : ""}`} aria-hidden="true">
-                    &gt;
-                  </span>
+                  <Chevron open={profileOpen} />
                 </div>
               </button>
 
@@ -915,7 +895,7 @@ function App() {
               )}
 
               {profileOpen && (
-                <>
+                <div className="animate-slide-down">
                   <div className="mt-4 flex justify-end">
                     <button
                       type="button"
@@ -985,7 +965,7 @@ function App() {
 
                   <TagGroup title={t.preferenceTags} helper={t.preferenceHelp} tags={preferenceTags} activeTags={state.profile.preferenceTags} onToggle={(tag) => toggleTag("preferenceTags", tag)} />
                   <TagGroup title={t.avoidTags} helper={t.avoidHelp} tags={avoidTags} activeTags={state.profile.avoidTags} onToggle={(tag) => toggleTag("avoidTags", tag)} />
-                </>
+                </div>
               )}
             </div>
             </section>
@@ -994,7 +974,6 @@ function App() {
               <div className="panel bg-[linear-gradient(180deg,rgba(255,255,255,0.88),rgba(250,248,244,0.92))] p-3 sm:p-4 md:p-4 xl:sticky xl:top-3">
                 <div className="mb-3.5 sm:mb-4">
                   <h2 className="section-title">{t.recommendations}</h2>
-                  <p className="mt-1 text-sm leading-5 text-slate-600">{t.recommendationsHelp}</p>
                 </div>
                 <div className="space-y-2">
                   {recommendations.map((recommendation, index) => {
