@@ -1114,7 +1114,7 @@ function App() {
             className={`safe-bottom fixed z-50 flex items-center justify-center gap-2 border border-moss/30 bg-moss text-white shadow-[0_8px_24px_rgba(69,107,87,0.35)] transition hover:bg-moss/90 active:scale-95 xl:hidden ${
               useCompactRecommendationCta
                 ? "bottom-3 right-3 rounded-full px-3 py-2 text-xs font-medium"
-                : "inset-x-4 bottom-4 rounded-full px-4 py-3 text-sm font-medium sm:inset-x-auto sm:right-4 sm:px-4 sm:py-2.5"
+                : "bottom-4 right-3 rounded-full px-3.5 py-2 text-xs font-medium sm:right-4 sm:px-4 sm:py-2.5 sm:text-sm"
             }`}
             aria-label={locale === "en" ? "See suggestions" : "查看建議"}
           >
