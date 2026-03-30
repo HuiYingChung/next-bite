@@ -428,6 +428,8 @@ function App() {
   );
   const hasAnyTodayMeal = mealNames.some((mealName) => isMealLogged(todayDay.todayLog[mealName]));
   const hasAnyPastMeal = mealNames.some((mealName) => isMealLogged(selectedPastDay.todayLog[mealName]));
+  const isEditingMeal = openTodayMeal !== null || openPastMeal !== null;
+  const useCompactRecommendationCta = isEditingMeal || showResetConfirm;
   const todaySignals = [
     { label: signalLabels.protein, value: todaySummary.proteinStatus },
     { label: signalLabels.vegetables, value: todaySummary.vegetableStatus },
@@ -1109,13 +1111,20 @@ function App() {
         {hasAnyTodayMeal && (
           <a
             href="#recommendations"
-            className="safe-bottom fixed inset-x-4 bottom-4 z-50 flex items-center justify-center gap-2 rounded-full border border-moss/30 bg-moss px-4 py-3 text-sm font-medium text-white shadow-[0_8px_24px_rgba(69,107,87,0.35)] transition hover:bg-moss/90 active:scale-95 sm:inset-x-auto sm:right-4 sm:px-4 sm:py-2.5 xl:hidden"
+            className={`safe-bottom fixed z-50 flex items-center justify-center gap-2 border border-moss/30 bg-moss text-white shadow-[0_8px_24px_rgba(69,107,87,0.35)] transition hover:bg-moss/90 active:scale-95 xl:hidden ${
+              useCompactRecommendationCta
+                ? "bottom-3 right-3 rounded-full px-3 py-2 text-xs font-medium"
+                : "inset-x-4 bottom-4 rounded-full px-4 py-3 text-sm font-medium sm:inset-x-auto sm:right-4 sm:px-4 sm:py-2.5"
+            }`}
+            aria-label={locale === "en" ? "See suggestions" : "查看建議"}
           >
             <svg className="h-4 w-4" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 6l4 4 4-4" /></svg>
             {locale === "en" ? "See suggestions" : "查看建議"}
           </a>
         )}
-        <footer className={`mt-5 border-t border-white/70 px-1 pt-4 text-center text-xs leading-5 text-slate-500 sm:mt-7 sm:pb-6 ${hasAnyTodayMeal ? "pb-24 sm:pb-6" : "pb-4"}`}>
+        <footer className={`mt-5 border-t border-white/70 px-1 pt-4 text-center text-xs leading-5 text-slate-500 sm:mt-7 sm:pb-6 ${
+          hasAnyTodayMeal ? (useCompactRecommendationCta ? "pb-16 sm:pb-6" : "pb-24 sm:pb-6") : "pb-4"
+        }`}>
           <div>{t.footerCopyright}</div>
           <div className="mx-auto mt-1 max-w-3xl">{t.footerNonCommercial}</div>
           <div className="mt-4">
