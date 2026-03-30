@@ -124,9 +124,13 @@ select {
     animation: fadeIn 0.25s ease-out forwards;
   }
 
-  .animate-rec-pulse {
-    animation: recPulse 0.6s ease-out;
-  }
+.animate-rec-pulse {
+  animation: recPulse 0.6s ease-out;
+}
+}
+
+.safe-bottom {
+  bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
 }
 
 @media (max-width: 640px) {

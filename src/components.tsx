@@ -47,5 +47,5 @@ export function TagGroup(props: { title: string; helper: string; tags: string[];
 }
 
 export function InfoPill(props: { label: string }) {
-  return <div className="max-w-full break-keep rounded-full border border-slate-200/90 bg-white/90 px-2.5 py-1 text-[11px] leading-4 text-slate-600 shadow-[inset_0_1px_0_rgba(255,255,255,0.55)]">{props.label}</div>;
+  return <div className="max-w-full whitespace-normal break-words rounded-[999px] border border-slate-200/90 bg-white/90 px-2.5 py-1 text-[11px] leading-4 text-slate-600 shadow-[inset_0_1px_0_rgba(255,255,255,0.55)]">{props.label}</div>;
 }

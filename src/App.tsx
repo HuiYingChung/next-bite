@@ -805,7 +805,7 @@ function App() {
                   <div className="min-w-0">
                     <div className={`section-kicker border-moss/20 bg-mist/60 text-moss ${locale === "zh" ? "normal-case tracking-[0.08em]" : ""}`}>{t.todayFocus}</div>
                     <h2 className="section-title">{t.todaysMeals}</h2>
-                    <div className="mt-3 inline-flex rounded-full border border-moss/15 bg-white/85 px-3 py-1.5 text-xs font-medium text-slate-600 shadow-sm">
+                    <div className="mt-3 inline-flex max-w-full whitespace-normal rounded-[999px] border border-moss/15 bg-white/85 px-3 py-1.5 text-xs font-medium text-slate-600 shadow-sm">
                       {todayHeaderSummary}
                     </div>
                   </div>
@@ -839,7 +839,7 @@ function App() {
                 <div className="min-w-0">
                   <div className={`section-kicker border-slate-200 bg-slate-50 text-slate-600 ${locale === "zh" ? "normal-case tracking-[0.08em]" : ""}`}>{t.past6Days}</div>
                   <h2 className="section-title">{t.pastDays}</h2>
-                  <div className="mt-3 inline-flex rounded-full border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-medium text-slate-600 shadow-sm">
+                  <div className="mt-3 inline-flex max-w-full whitespace-normal rounded-[999px] border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-medium text-slate-600 shadow-sm">
                     {getDisplayDayLabel(selectedPastDay.label, locale)}: {pastDayHeaderSummary}
                   </div>
                 </div>
@@ -1044,12 +1044,12 @@ function App() {
                     return (
                     <div key={`${recommendation.id}-${recUpdateKey}`} className={`relative overflow-hidden rounded-[18px] border p-2.5 shadow-[0_14px_30px_rgba(15,23,42,0.05)] transition hover:-translate-y-0.5 hover:shadow-[0_18px_34px_rgba(15,23,42,0.08)] sm:rounded-[20px] sm:p-3.5 ${cardTone} ${recUpdateKey > 0 ? "animate-rec-pulse" : ""}`}>
                       <div className={`pointer-events-none absolute inset-x-0 top-0 h-12 sm:h-14 bg-[linear-gradient(180deg,var(--tw-gradient-stops))] ${topBar}`} />
-                      <div className="mb-1.5 flex items-start justify-between gap-1.5 sm:gap-2">
+                      <div className="mb-1.5 flex flex-col items-start gap-2 sm:flex-row sm:justify-between sm:gap-2">
                         <div className="min-w-0">
                           <div className={`mb-1 inline-flex rounded-full border border-moss/20 bg-white/85 px-2.5 py-1 text-[10px] font-semibold text-moss shadow-sm ${locale === "en" ? "uppercase tracking-[0.14em]" : "tracking-[0.06em]"}`}>{translateRecommendationLabel(recommendation.label, locale)}</div>
                           <h3 className={`text-[15px] font-semibold leading-5 tracking-tight text-slate-900 ${index === 0 ? "sm:text-base" : ""}`}>{recommendation.title}</h3>
                         </div>
-                        <div className="shrink-0 rounded-2xl border border-slate-200/80 bg-white/90 px-2 py-1.5 text-right text-[10px] leading-4 text-slate-500 shadow-sm">
+                        <div className="rounded-2xl border border-slate-200/80 bg-white/90 px-2 py-1.5 text-left text-[10px] leading-4 text-slate-500 shadow-sm sm:shrink-0 sm:text-right">
                           <div className={locale === "en" ? "uppercase tracking-[0.12em]" : "tracking-[0.06em]"}>{t.convenience}</div>
                           <div className="font-semibold text-slate-700">{translateRecommendationLabel(recommendation.convenienceLabel, locale)}</div>
                         </div>
@@ -1109,13 +1109,13 @@ function App() {
         {hasAnyTodayMeal && (
           <a
             href="#recommendations"
-            className="fixed bottom-5 right-4 z-50 flex items-center gap-2 rounded-full border border-moss/30 bg-moss px-4 py-2.5 text-sm font-medium text-white shadow-[0_8px_24px_rgba(69,107,87,0.35)] transition hover:bg-moss/90 active:scale-95 xl:hidden"
+            className="safe-bottom fixed inset-x-4 bottom-4 z-50 flex items-center justify-center gap-2 rounded-full border border-moss/30 bg-moss px-4 py-3 text-sm font-medium text-white shadow-[0_8px_24px_rgba(69,107,87,0.35)] transition hover:bg-moss/90 active:scale-95 sm:inset-x-auto sm:right-4 sm:px-4 sm:py-2.5 xl:hidden"
           >
             <svg className="h-4 w-4" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 6l4 4 4-4" /></svg>
             {locale === "en" ? "See suggestions" : "查看建議"}
           </a>
         )}
-        <footer className="mt-5 border-t border-white/70 px-1 pb-4 pt-4 text-center text-xs leading-5 text-slate-500 sm:mt-7 sm:pb-6">
+        <footer className={`mt-5 border-t border-white/70 px-1 pt-4 text-center text-xs leading-5 text-slate-500 sm:mt-7 sm:pb-6 ${hasAnyTodayMeal ? "pb-24 sm:pb-6" : "pb-4"}`}>
           <div>{t.footerCopyright}</div>
           <div className="mx-auto mt-1 max-w-3xl">{t.footerNonCommercial}</div>
           <div className="mt-4">
@@ -1128,8 +1128,8 @@ function App() {
                 {t.reset}
               </button>
             ) : (
-              <div className="inline-flex items-center gap-2 rounded-full border border-clay/30 bg-white/90 px-4 py-2 shadow-sm animate-fade-in">
-                <span className="text-xs text-slate-600">
+              <div className="animate-fade-in inline-flex max-w-full flex-wrap items-center justify-center gap-2 rounded-[22px] border border-clay/30 bg-white/90 px-4 py-2 text-center shadow-sm sm:rounded-full">
+                <span className="w-full text-xs text-slate-600 sm:w-auto">
                   {locale === "en" ? "Clear all saved data?" : "確定要清除所有資料嗎？"}
                 </span>
                 <button
