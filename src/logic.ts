@@ -219,7 +219,7 @@ const summarizeWeeklyPatterns = (history: DayHistory[]) => {
 };
 
 export const summarizeTodayIntake = (todayLog: TodayLog): TodayIntakeSummary => {
-  const meals = flattenMeals(todayLog);
+  const meals = flattenMeals(todayLog).filter(isMealLogged);
   const proteinCount = meals.reduce((sum, meal) => sum + getCategoryUnits(meal.protein), 0);
   const vegetableCount = meals.reduce((sum, meal) => sum + getCategoryUnits(meal.vegetables), 0);
   const carbCount = meals.reduce((sum, meal) => sum + getCategoryUnits(meal.carbs), 0);
@@ -1449,7 +1449,7 @@ const buildPreferenceTrendSummary = (history: DayHistory[], profile: Profile, lo
 };
 
 export const buildWeeklySnapshot = (history: DayHistory[], profile: Profile, locale: Locale) => {
-  const flatMeals = history.flatMap((day) => flattenMeals(day.todayLog));
+  const flatMeals = history.flatMap((day) => flattenMeals(day.todayLog)).filter(isMealLogged);
   const loggedMealsCount = flatMeals.length;
   const riceMeals = flatMeals.filter((meal) =>
     meal.carbs.some((item) => {
