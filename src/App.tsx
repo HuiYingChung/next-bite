@@ -20,10 +20,27 @@ import type { ActivityLevel, AppState, DayHistory, FeelToday, HeightUnit, Locale
 
 const LOCALE_KEY = "next-bite-locale";
 const DEMO_DISMISSED_KEY = "next-bite-demo-dismissed";
+const SETTINGS_STORAGE_KEY = "next-bite-settings";
 const feelTodayOptions: FeelToday[] = ["Normal", "Want something warm", "Need something light", "Low energy", "On period"];
 const activityOptions: ActivityLevel[] = ["Low", "Moderate", "Active"];
 const eatingStyleOptions: Profile["eatingStyle"][] = ["Mostly home-cooked", "Mostly takeout", "Both"];
 const dateLabelFormatter = new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric" });
+
+type SettingsState = {
+  density: "comfortable" | "compact";
+  showPastDays: boolean;
+  showWeeklySnapshot: boolean;
+  recommendationCount: "all" | "focus";
+  showHints: boolean;
+};
+
+const defaultSettings: SettingsState = {
+  density: "comfortable",
+  showPastDays: true,
+  showWeeklySnapshot: true,
+  recommendationCount: "all",
+  showHints: true,
+};
 const localeText = {
   en: {
     switchLabel: "中文",
@@ -230,6 +247,21 @@ const loadState = (): AppState => {
   }
 };
 
+const loadSettings = (): SettingsState => {
+  const saved = localStorage.getItem(SETTINGS_STORAGE_KEY);
+  if (!saved) return defaultSettings;
+
+  try {
+    const parsed = JSON.parse(saved) as Partial<SettingsState>;
+    return {
+      ...defaultSettings,
+      ...parsed,
+    };
+  } catch {
+    return defaultSettings;
+  }
+};
+
 const roundToWhole = (value: number) => Math.round(value).toString();
 const roundToSingle = (value: number) => (Math.round(value * 10) / 10).toString();
 
@@ -376,12 +408,14 @@ const getDayHeaderSummary = (day: DayHistory, summary: ReturnType<typeof summari
 function App() {
   const [locale, setLocale] = useState<Locale>(() => (localStorage.getItem(LOCALE_KEY) as Locale) || "en");
   const [state, setState] = useState<AppState>(() => loadState());
+  const [settings, setSettings] = useState<SettingsState>(() => loadSettings());
   const [isDemo, setIsDemo] = useState(() => !localStorage.getItem(DEMO_DISMISSED_KEY));
   const [openTodayMeal, setOpenTodayMeal] = useState<MealName | null>(null);
   const [openPastMeal, setOpenPastMeal] = useState<MealName | null>(null);
   const [selectedPastDayId, setSelectedPastDayId] = useState<string>("");
   const [pastDaysOpen, setPastDaysOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
+  const [settingsOpen, setSettingsOpen] = useState(false);
   const [showResetConfirm, setShowResetConfirm] = useState(false);
   const [recUpdateKey, setRecUpdateKey] = useState(0);
   const [now, setNow] = useState(() => new Date());
@@ -397,12 +431,31 @@ function App() {
   }, [locale]);
 
   useEffect(() => {
+    localStorage.setItem(SETTINGS_STORAGE_KEY, JSON.stringify(settings));
+  }, [settings]);
+
+  useEffect(() => {
     const intervalId = window.setInterval(() => {
       setNow(new Date());
     }, 60_000);
 
     return () => window.clearInterval(intervalId);
   }, []);
+
+  useEffect(() => {
+    if (!settingsOpen) return;
+
+    const { body } = document;
+    const previousOverflow = body.style.overflow;
+    const previousTouchAction = body.style.touchAction;
+    body.style.overflow = "hidden";
+    body.style.touchAction = "none";
+
+    return () => {
+      body.style.overflow = previousOverflow;
+      body.style.touchAction = previousTouchAction;
+    };
+  }, [settingsOpen]);
 
   const todayDay = useMemo(() => state.days.find((day) => day.isToday) ?? state.days[state.days.length - 1], [state.days]);
   const pastDays = useMemo(() => state.days.filter((day) => !day.isToday), [state.days]);
@@ -430,6 +483,7 @@ function App() {
   const hasAnyPastMeal = mealNames.some((mealName) => isMealLogged(selectedPastDay.todayLog[mealName]));
   const isEditingMeal = openTodayMeal !== null || openPastMeal !== null;
   const useCompactRecommendationCta = isEditingMeal || showResetConfirm;
+  const displayedRecommendations = settings.recommendationCount === "focus" ? recommendations.slice(0, 1) : recommendations;
   const todaySignals = [
     { label: signalLabels.protein, value: todaySummary.proteinStatus },
     { label: signalLabels.vegetables, value: todaySummary.vegetableStatus },
@@ -448,6 +502,13 @@ function App() {
   ];
   const todayHeaderSummary = getDayHeaderSummary(todayDay, todaySummary, locale);
   const pastDayHeaderSummary = getDayHeaderSummary(selectedPastDay, selectedPastDaySummary, locale);
+  const layoutGapClass = settings.density === "compact" ? "space-y-4" : "space-y-6";
+  const cardSpacingClass = settings.density === "compact" ? "space-y-4" : "space-y-6";
+  const pageSpacingClass = settings.density === "compact" ? "space-y-3 md:space-y-5" : "space-y-3.5 md:space-y-6";
+
+  const updateSettings = <K extends keyof SettingsState>(field: K, value: SettingsState[K]) => {
+    setSettings((current) => ({ ...current, [field]: value }));
+  };
 
   const updateProfile = <K extends keyof Profile>(field: K, value: Profile[K]) => {
     setState((current) => ({ ...current, profile: { ...current.profile, [field]: value } }));
@@ -561,9 +622,12 @@ function App() {
   const resetAll = () => {
     localStorage.removeItem(STORAGE_KEY);
     localStorage.removeItem(DEMO_DISMISSED_KEY);
+    localStorage.removeItem(SETTINGS_STORAGE_KEY);
     setOpenTodayMeal(null);
     setOpenPastMeal(null);
     setState(createSeededState());
+    setSettings(defaultSettings);
+    setSettingsOpen(false);
     setIsDemo(true);
   };
 
@@ -614,7 +678,7 @@ function App() {
   const renderSignals = (signals: { label: string; value: string }[], title: string, helper: string, hasMeals: boolean) => (
     <div className="subtle-card mt-5 p-4">
       <div className={`text-[11px] font-semibold text-slate-500 ${locale === "en" ? "uppercase tracking-[0.16em]" : "tracking-[0.08em]"}`}>{title}</div>
-      <p className="mt-1 text-sm text-slate-600">{helper}</p>
+      {settings.showHints ? <p className="mt-1 text-sm text-slate-600">{helper}</p> : null}
       {!hasMeals ? (
         <div className="mt-3 rounded-2xl border border-dashed border-slate-200 bg-white/60 px-4 py-3 text-center text-xs text-slate-400">
           {locale === "en" ? "Log a meal to see signals" : "記錄一餐後即可看到訊號"}
@@ -641,8 +705,75 @@ function App() {
         <div>
           <div className="font-medium tracking-tight text-slate-900">{title}</div>
           <div className="mt-1 leading-6">{description}</div>
-          {helper ? <div className="mt-2 text-xs leading-5 text-slate-500">{helper}</div> : null}
+          {helper && settings.showHints ? <div className="mt-2 text-xs leading-5 text-slate-500">{helper}</div> : null}
         </div>
+      </div>
+    </div>
+  );
+
+  const renderSettingsContent = () => (
+    <div className={`mt-5 ${cardSpacingClass}`}>
+      <LabeledField label={locale === "en" ? "Layout density" : "版面密度"}>
+        <div className="grid grid-cols-2 gap-2">
+          {([
+            ["comfortable", locale === "en" ? "Comfortable" : "舒適"],
+            ["compact", locale === "en" ? "Compact" : "精簡"],
+          ] as const).map(([value, label]) => (
+            <button
+              key={value}
+              type="button"
+              onClick={() => updateSettings("density", value)}
+              className={`rounded-2xl border px-4 py-3 text-sm transition ${settings.density === value ? "border-moss bg-mist text-moss" : "border-slate-200 bg-white text-slate-600 hover:border-moss/40"}`}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+      </LabeledField>
+
+      <LabeledField label={locale === "en" ? "Recommendation mode" : "推薦模式"}>
+        <div className="grid gap-2 md:grid-cols-2">
+          {([
+            ["all", locale === "en" ? "Show 3 cards" : "顯示 3 張卡片", locale === "en" ? "Keep all recommendation angles visible." : "同時保留完整的三種推薦角度。"],
+            ["focus", locale === "en" ? "Focus mode" : "聚焦模式", locale === "en" ? "Only show the strongest recommendation to reduce decision fatigue." : "只顯示最主要的一張推薦，降低決策疲勞。"],
+          ] as const).map(([value, label, helper]) => (
+            <button
+              key={value}
+              type="button"
+              onClick={() => updateSettings("recommendationCount", value)}
+              className={`rounded-[20px] border px-4 py-3 text-left transition ${settings.recommendationCount === value ? "border-moss bg-mist text-moss" : "border-slate-200 bg-white text-slate-600 hover:border-moss/40"}`}
+            >
+              <div className="font-medium">{label}</div>
+              <div className="mt-1 text-xs leading-5 text-slate-500">{helper}</div>
+            </button>
+          ))}
+        </div>
+      </LabeledField>
+
+      <div className="grid gap-3 md:grid-cols-3">
+        {([
+          ["showPastDays", locale === "en" ? "Past Days" : "顯示 Past Days", locale === "en" ? "Keep earlier days visible for backfilling." : "保留前幾天的補記區塊。"],
+          ["showWeeklySnapshot", locale === "en" ? "7-Day Snapshot" : "顯示 7-Day Snapshot", locale === "en" ? "Keep the weekly summary visible." : "保留每週摘要區塊。"],
+          ["showHints", locale === "en" ? "Helper text" : "顯示輔助文字", locale === "en" ? "Show extra onboarding and contextual copy." : "顯示引導與補充說明文字。"],
+        ] as const).map(([field, label, helper]) => {
+          const active = settings[field];
+          return (
+            <button
+              key={field}
+              type="button"
+              onClick={() => updateSettings(field, !active)}
+              className={`rounded-[20px] border px-4 py-3 text-left transition ${active ? "border-moss/35 bg-[linear-gradient(180deg,rgba(244,250,246,0.98),rgba(255,255,255,0.98))]" : "border-slate-200 bg-white hover:border-moss/30"}`}
+            >
+              <div className="flex items-center justify-between gap-3">
+                <div className="text-sm font-medium text-slate-800">{label}</div>
+                <span className={`rounded-full px-2.5 py-1 text-[10px] font-semibold ${active ? "bg-moss text-white" : "bg-slate-100 text-slate-500"}`}>
+                  {active ? (locale === "en" ? "On" : "開") : (locale === "en" ? "Off" : "關")}
+                </span>
+              </div>
+              <div className="mt-1 text-xs leading-5 text-slate-500">{helper}</div>
+            </button>
+          );
+        })}
       </div>
     </div>
   );
@@ -722,7 +853,7 @@ function App() {
 
   return (
     <div className="min-h-screen text-ink">
-      <div className="mx-auto max-w-7xl px-3 py-3 sm:px-4 sm:py-6 md:px-6 md:py-8">
+      <div className={`mx-auto max-w-7xl px-3 ${settings.density === "compact" ? "py-3 sm:px-4 sm:py-5 md:px-6 md:py-6" : "py-3 sm:px-4 sm:py-6 md:px-6 md:py-8"}`}>
         <header className="relative mb-4 overflow-hidden rounded-[24px] border border-white/70 bg-[linear-gradient(135deg,rgba(247,240,230,0.98),rgba(228,239,232,0.98))] p-4 shadow-soft sm:mb-6 sm:rounded-[32px] sm:p-6 md:p-8">
           <div className="pointer-events-none absolute -right-16 -top-20 h-40 w-40 rounded-full bg-[radial-gradient(circle,rgba(116,145,123,0.22),rgba(116,145,123,0))]" />
           <div className="pointer-events-none absolute -bottom-16 left-10 h-32 w-32 rounded-full bg-[radial-gradient(circle,rgba(196,123,92,0.14),rgba(196,123,92,0))]" />
@@ -750,9 +881,16 @@ function App() {
                   </div>
                 ))}
               </div>
-              <p className="mt-2.5 max-w-xl text-xs leading-5 text-slate-500">{t.usage1}</p>
+              {settings.showHints ? <p className="mt-2.5 max-w-xl text-xs leading-5 text-slate-500">{t.usage1}</p> : null}
             </div>
             <div className="flex w-full flex-col gap-2.5 sm:w-auto sm:min-w-[180px]">
+              <button
+                type="button"
+                onClick={() => setSettingsOpen(true)}
+                className="w-full rounded-full border border-slate-300 bg-white/90 px-4 py-2 text-sm font-medium text-slate-700 transition hover:border-moss hover:text-moss"
+              >
+                {locale === "en" ? "Settings" : "設定"}
+              </button>
               <button
                 type="button"
                 onClick={() => setLocale((current) => (current === "en" ? "zh" : "en"))}
@@ -772,7 +910,7 @@ function App() {
           </div>
         </header>
 
-        <main className="space-y-3.5 md:space-y-6">
+        <main className={pageSpacingClass}>
           {isDemo && (
             <div className="animate-fade-in rounded-[20px] border border-clay/25 bg-[linear-gradient(135deg,rgba(255,248,240,0.95),rgba(255,243,230,0.95))] px-4 py-3 shadow-sm sm:rounded-[24px] sm:px-5">
               <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
@@ -800,7 +938,7 @@ function App() {
             </div>
           )}
           <div className="grid gap-5 xl:grid-cols-[1.08fr_0.92fr] xl:gap-6">
-            <section className="space-y-6">
+            <section className={layoutGapClass}>
             <div className="panel">
               <div className="mb-4 sm:mb-5">
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
@@ -831,6 +969,7 @@ function App() {
               {renderSignals(todaySignals, t.todaySignals, t.todaySignalsHelp, hasAnyTodayMeal)}
             </div>
 
+            {settings.showPastDays && (
             <div className="panel">
               <button
                 type="button"
@@ -917,6 +1056,7 @@ function App() {
                 </div>
               )}
             </div>
+            )}
 
             <div className="panel">
               <button
@@ -1014,6 +1154,7 @@ function App() {
                 </div>
               )}
             </div>
+
             </section>
 
             <aside id="recommendations" className="space-y-4 sm:space-y-6">
@@ -1021,6 +1162,11 @@ function App() {
                 <div className="mb-3.5 sm:mb-4">
                   <div className="flex items-center gap-2.5">
                     <h2 className="section-title">{t.recommendations}</h2>
+                    {settings.recommendationCount === "focus" && (
+                      <span className="rounded-full border border-moss/20 bg-mist/70 px-2 py-0.5 text-[10px] font-semibold text-moss">
+                        {locale === "en" ? "Focus" : "聚焦"}
+                      </span>
+                    )}
                     {recUpdateKey > 0 && (
                       <span key={recUpdateKey} className="animate-fade-in rounded-full bg-moss/15 px-2 py-0.5 text-[10px] font-semibold text-moss">
                         {locale === "en" ? "Updated" : "已更新"}
@@ -1028,8 +1174,9 @@ function App() {
                     )}
                   </div>
                 </div>
-                <div className="space-y-2">
-                  {recommendations.map((recommendation, index) => {
+                {settings.showHints ? <p className="mb-3 text-sm text-slate-600">{t.recommendationsHelp}</p> : null}
+                <div className={settings.density === "compact" ? "space-y-2" : "space-y-3"}>
+                  {displayedRecommendations.map((recommendation, index) => {
                     const cardTone =
                       recommendation.label === "Best Match"
                         ? "border-moss/25 bg-[linear-gradient(180deg,rgba(244,250,246,0.98),rgba(255,255,255,0.98))]"
@@ -1076,10 +1223,11 @@ function App() {
             </aside>
           </div>
 
+          {settings.showWeeklySnapshot && (
           <section className="panel">
             <div className="mb-4 sm:mb-5">
               <h2 className="section-title">{t.snapshot}</h2>
-              <p className="mt-1 text-sm text-slate-600">{t.snapshotHelp}</p>
+              {settings.showHints ? <p className="mt-1 text-sm text-slate-600">{t.snapshotHelp}</p> : null}
             </div>
             {hasWeeklyData ? (
               <>
@@ -1105,7 +1253,49 @@ function App() {
               </div>
             )}
           </section>
+          )}
         </main>
+
+        {settingsOpen && (
+          <div className="fixed inset-0 z-[70]">
+            <button
+              type="button"
+              aria-label={locale === "en" ? "Close settings" : "關閉設定"}
+              onClick={() => setSettingsOpen(false)}
+              className="absolute inset-0 bg-slate-900/35 backdrop-blur-[1px]"
+            />
+            <div className="absolute inset-x-0 bottom-0 top-auto h-[88vh] overflow-hidden rounded-t-[28px] border border-white/60 bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(247,245,240,0.98))] shadow-[0_-18px_60px_rgba(15,23,42,0.18)] sm:inset-y-0 sm:right-0 sm:left-auto sm:h-auto sm:w-[440px] sm:rounded-none sm:rounded-l-[28px]">
+              <div className="flex h-full min-h-0 flex-col">
+                <div className="flex items-start justify-between gap-4 border-b border-slate-200/80 px-4 py-4 sm:px-5">
+                  <div className="min-w-0">
+                    <div className={`text-[11px] font-semibold text-slate-500 ${locale === "en" ? "uppercase tracking-[0.16em]" : "tracking-[0.08em]"}`}>
+                      {locale === "en" ? "Global preferences" : "全域設定"}
+                    </div>
+                    <h2 className="mt-1 text-xl font-semibold tracking-tight text-slate-900">
+                      {locale === "en" ? "Settings" : "設定"}
+                    </h2>
+                    <p className="mt-1 text-sm leading-6 text-slate-600">
+                      {locale === "en"
+                        ? "Personalize layout and recommendation presentation without changing the underlying meal logic."
+                        : "自訂版面與推薦呈現方式，但不改動底層的餐點推薦邏輯。"}
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setSettingsOpen(false)}
+                    className="shrink-0 rounded-full border border-slate-200 bg-white px-3 py-1.5 text-sm font-medium text-slate-600 transition hover:border-moss/35 hover:text-moss"
+                  >
+                    {locale === "en" ? "Close" : "關閉"}
+                  </button>
+                </div>
+
+                <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 pb-5 pt-1 touch-pan-y [-webkit-overflow-scrolling:touch] sm:px-5 sm:pb-6">
+                  {renderSettingsContent()}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Mobile-only floating button to jump to recommendations */}
         {hasAnyTodayMeal && (
