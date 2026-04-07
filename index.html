@@ -4,52 +4,77 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <title>NextBite | Personal Next-Meal Helper</title>
+    <title>NextBite | Bilingual Next-Meal Helper for Chinese Users in the U.S.</title>
     <meta
       name="description"
-      content="NextBite is a bilingual next-meal helper for U.S.-based Chinese users. Get practical meal suggestions based on what you ate today, your recent patterns, your preferences, and everyday balance."
+      content="NextBite is a bilingual next-meal helper for Chinese users in the U.S. Get practical meal suggestions from what you ate today, your recent patterns, your preferences, and everyday balance."
     />
     <meta
       name="keywords"
-      content="NextBite, meal helper, next meal, Chinese users in the US, bilingual meal app, meal recommendation, food decision helper, Chinese American food app"
+      content="NextBite, bilingual meal helper, next meal app, Chinese users in the U.S., Chinese American food app, meal recommendation app, food decision helper, meal planning helper"
     />
+    <meta name="author" content="Huiying Chung" />
     <meta name="robots" content="index, follow" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <meta name="format-detection" content="telephone=no" />
     <meta name="theme-color" content="#f4eee4" />
     <meta name="application-name" content="NextBite" />
     <meta name="apple-mobile-web-app-title" content="NextBite" />
     <link rel="canonical" href="https://next-bite-eight.vercel.app/" />
+    <link rel="alternate" hreflang="en" href="https://next-bite-eight.vercel.app/" />
+    <link rel="alternate" hreflang="zh-Hant" href="https://next-bite-eight.vercel.app/" />
+    <link rel="alternate" hreflang="x-default" href="https://next-bite-eight.vercel.app/" />
 
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="NextBite | Personal Next-Meal Helper" />
+    <meta property="og:title" content="NextBite | Bilingual Next-Meal Helper for Chinese Users in the U.S." />
     <meta
       property="og:description"
-      content="A practical bilingual meal helper for U.S.-based Chinese users. Decide what to eat next using today’s meals, recent patterns, preferences, and balance."
+      content="A practical bilingual meal helper for Chinese users in the U.S. Decide what to eat next using today's meals, recent patterns, preferences, and balance."
     />
     <meta property="og:site_name" content="NextBite" />
     <meta property="og:url" content="https://next-bite-eight.vercel.app/" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:locale:alternate" content="zh_TW" />
 
     <meta name="twitter:card" content="summary" />
-    <meta name="twitter:title" content="NextBite | Personal Next-Meal Helper" />
+    <meta name="twitter:title" content="NextBite | Bilingual Next-Meal Helper for Chinese Users in the U.S." />
     <meta
       name="twitter:description"
-      content="Practical next-meal suggestions based on your habits, preferences, and everyday balance."
+      content="Practical next-meal suggestions based on your habits, preferences, recent meals, and everyday balance."
     />
 
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
-        "@type": "WebApplication",
-        "name": "NextBite",
-        "url": "https://next-bite-eight.vercel.app/",
-        "applicationCategory": "HealthApplication",
-        "operatingSystem": "Web",
-        "description": "A bilingual next-meal helper for U.S.-based Chinese users that suggests practical meals based on today’s intake, recent eating patterns, preferences, and everyday balance.",
-        "inLanguage": ["en", "zh-Hant"],
-        "offers": {
-          "@type": "Offer",
-          "price": "0",
-          "priceCurrency": "USD"
-        }
+        "@graph": [
+          {
+            "@type": "WebSite",
+            "@id": "https://next-bite-eight.vercel.app/#website",
+            "url": "https://next-bite-eight.vercel.app/",
+            "name": "NextBite",
+            "description": "A bilingual next-meal helper for Chinese users in the U.S.",
+            "inLanguage": ["en", "zh-Hant"]
+          },
+          {
+            "@type": "SoftwareApplication",
+            "@id": "https://next-bite-eight.vercel.app/#app",
+            "name": "NextBite",
+            "url": "https://next-bite-eight.vercel.app/",
+            "applicationCategory": "HealthApplication",
+            "operatingSystem": "Web",
+            "description": "A bilingual next-meal helper for Chinese users in the U.S. that suggests practical meals based on today's intake, recent eating patterns, preferences, and everyday balance.",
+            "inLanguage": ["en", "zh-Hant"],
+            "creator": {
+              "@type": "Person",
+              "name": "Huiying Chung"
+            },
+            "offers": {
+              "@type": "Offer",
+              "price": "0",
+              "priceCurrency": "USD"
+            }
+          }
+        ]
       }
     </script>
   </head>
@@ -57,4 +82,4 @@
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
-  </html>
+</html>
