@@ -1,1358 +1,1472 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
-import { Analytics } from "@vercel/analytics/react";
-import { Chevron, InfoPill, LabeledField, TagGroup } from "./components";
+import { useEffect, useMemo, useState } from "react";
+import { parseMealWithAi } from "./ai";
 import {
+  STORAGE_KEY,
   avoidTags,
-  categoryLabels,
   createBlankState,
-  createEmptyMeal,
-  createSeededState,
   mealNames,
   mealOptions,
-  mealOptionGroups,
   preferenceTags,
-  sectionDescriptions,
-  snackOptionGroups,
-  STORAGE_KEY,
+  recommendationDataset,
 } from "./data";
-import { buildWeeklySnapshot, isMealLogged, mealSummaryChips, scoreRecommendations, summarizeTodayIntake } from "./logic";
-import type { ActivityLevel, AppState, DayHistory, FeelToday, HeightUnit, Locale, MealArrayField, MealEntry, MealName, MealSelectField, Profile, WeightUnit } from "./types";
+import { catalogMethod, evidenceSources } from "./evidence";
+import {
+  countHardAvoidedRecommendations,
+  isMealLogged,
+  scoreRecommendations,
+  summarizeTodayIntake,
+} from "./logic";
+import type {
+  AppState,
+  EatingStyle,
+  FeelToday,
+  Locale,
+  MealEntry,
+  MealName,
+  ParsedMeal,
+  ParsedMealComponent,
+  Profile,
+  ScoredRecommendation,
+} from "./types";
 
-const LOCALE_KEY = "next-bite-locale";
-const DEMO_DISMISSED_KEY = "next-bite-demo-dismissed";
-const SETTINGS_STORAGE_KEY = "next-bite-settings";
-const feelTodayOptions: FeelToday[] = ["Normal", "Want something warm", "Need something light", "Low energy", "On period"];
-const activityOptions: ActivityLevel[] = ["Low", "Moderate", "Active"];
-const eatingStyleOptions: Profile["eatingStyle"][] = ["Mostly home-cooked", "Mostly takeout", "Both"];
-const dateLabelFormatter = new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric" });
+const APP_STORAGE_KEY = `${STORAGE_KEY}-explainable-v2`;
+const KEY_MAX_LENGTH = 512;
 
-type SettingsState = {
-  density: "comfortable" | "compact";
-  showPastDays: boolean;
-  showWeeklySnapshot: boolean;
-  recommendationCount: "all" | "focus";
-  showHints: boolean;
+const cx = (...classes: Array<string | false | null | undefined>) =>
+  classes.filter(Boolean).join(" ");
+
+const text = (locale: Locale, en: string, zh: string) =>
+  locale === "en" ? en : zh;
+
+const splitItems = (value: string) =>
+  value
+    .split(/[,，、]/)
+    .map((item) => item.trim())
+    .filter(Boolean)
+    .slice(0, 8);
+
+const getDefaultMealSlot = (now = new Date()): MealName => {
+  const hour = now.getHours();
+  if (hour < 10) return "Breakfast";
+  if (hour < 15) return "Lunch";
+  if (hour < 21) return "Dinner";
+  return "Snacks / Drinks";
 };
 
-const defaultSettings: SettingsState = {
-  density: "comfortable",
-  showPastDays: true,
-  showWeeklySnapshot: true,
-  recommendationCount: "all",
-  showHints: true,
-};
-const localeText = {
-  en: {
-    switchLabel: "中文",
-    mvp: "Single-page MVP",
-    tagline: "A personal meal helper based on your habits, preferences, and balance.",
-    caseStudy: "View case study",
-    usage1: "Log what you already had today, then NextBite suggests a practical next meal.",
-    usage2: "Tap a choice again to remove it, or use Reset saved data if you want to start fresh.",
-    reset: "Reset saved data",
-    todayFocus: "Today Focus",
-    todaysMeals: "Today's Meals",
-    todayIntro: "This is the main flow. Log today first, then use the recommendation panel to decide what to eat next.",
-    noMealsToday: "No meals logged yet for Today. Start with one meal and NextBite will turn that into something useful.",
-    todaySignals: "Today signals",
-    todaySignalsHelp: "A quick look at what the recommendation engine is picking up from today's log.",
-    past6Days: "Past 6 Days",
-    pastDays: "Past Days",
-    pastIntro: "These days provide background context for your weekly pattern. Recommendations on the right still focus on Today.",
-    optionalBackfill: "Optional backfill. Open this section if you want to add or adjust meals from earlier in the week.",
-    pastHelper: "You can still update past days if you are filling things in later, but Today is the main decision flow.",
-    pastDay: "Past day",
-    noMealsForDaySuffix: ". Add a few meals here if you want the weekly view to reflect your recent pattern more clearly.",
-    daySignals: "signals",
-    daySignalsHelp: "A quick look at what the meal summary is picking up from the currently selected day.",
-    profile: "Profile / Preferences",
-    profileIntro: "These shape the recommendations, but they are supporting context rather than the main task.",
-    profileClosed: "Open this section when you want to fine-tune preferences, avoids, or your usual eating style.",
-    height: "Height",
-    weight: "Weight",
-    feelToday: "How you feel today",
-    activity: "Activity level",
-    eatingStyle: "Eating style",
-    preferenceTags: "Preference tags",
-    preferenceHelp: "Choose what feels most like your real-life rotation.",
-    avoidTags: "Avoid / dislike tags",
-    avoidHelp: "These shape the suggestions quietly in the background.",
-    recommendations: "Next Meal Recommendations",
-    recommendationsHelp: "These are based on the Today tab and meant to reduce decision fatigue, not judge your day.",
-    convenience: "Convenience",
-    balance: "Balance",
-    worksFor: "Works for",
-    suggestedDrink: "Suggested drink",
-    snapshot: "7-Day Snapshot",
-    snapshotHelp: "A simple look at patterns from your last 7 saved days, using lightweight rules on locally stored meal logs.",
-    snapshotEmpty: "No meals logged across the last 7 days yet. Add a few meals and this weekly view will start reflecting your pattern.",
-    preferenceTrend: "Preference trend",
-    expand: "Expand",
-    collapse: "Collapse",
-    open: "Open",
-    clear: "Clear",
-    clearAll: "Clear all",
-    clearTags: "Clear tags",
-    nothingLogged: "Nothing logged yet",
-    noMealsLogged: "No meals logged yet.",
-    oneMeal: "1 meal logged",
-    mealsLoggedSuffix: "meals logged",
-    lightVeg: "light on vegetables",
-    lightProtein: "protein still light",
-    heavier: "heavier than usual",
-    convenienceBased: "mostly convenience-based",
-    balancedSoFar: "fairly balanced so far",
-    both: "Both",
-    homeCooked: "Home-cooked",
-    takeout: "Takeout",
-    empty: "Empty",
-    meal: "meal",
-    meals: "meals",
-    today: "Today",
-    yesterday: "Yesterday",
-    protein: "Protein",
-    vegetables: "Vegetables",
-    carbs: "Carbs",
-    heaviness: "Heaviness",
-    friedOily: "Fried / oily",
-    footerCopyright: "© 2026 Huiying Chung. All rights reserved.",
-    footerNonCommercial: "Built in collaboration with AI. NextBite is shared for personal, educational, and portfolio use only. Commercial reuse is not permitted without permission.",
-  },
-  zh: {
-    switchLabel: "EN",
-    mvp: "單頁 MVP",
-    tagline: "根據你的習慣、偏好與整體平衡，幫你決定下一餐。",
-    caseStudy: "查看 Case Study",
-    usage1: "先記錄今天已經吃了什麼，NextBite 會幫你整理出下一餐的實用建議。",
-    usage2: "再次點選可取消；如果想重新開始，可以使用 Reset saved data。",
-    reset: "重設已儲存資料",
-    todayFocus: "今日重點",
-    todaysMeals: "今天吃了什麼",
-    todayIntro: "這是主要流程。先記錄今天的飲食，再用右邊的建議區決定下一餐。",
-    noMealsToday: "今天還沒有任何紀錄。先從一餐開始，NextBite 就能給你有用的下一餐建議。",
-    todaySignals: "今日訊號",
-    todaySignalsHelp: "快速看看推薦引擎從今天紀錄中讀到了什麼。",
-    past6Days: "過去 6 天",
-    pastDays: "過去幾天",
-    pastIntro: "這些紀錄提供一週飲食模式的背景，右邊推薦仍然以今天為主。",
-    optionalBackfill: "補記用區塊。若想補上或修正前幾天的餐點，可以展開這裡。",
-    pastHelper: "如果你是之後才回來補記，還是可以修改過去幾天；但 Today 仍然是主要決策流程。",
-    pastDay: "選擇日期",
-    noMealsForDaySuffix: " 還沒有任何紀錄。若想讓每週摘要更貼近你的近期模式，可以補上幾餐。",
-    daySignals: "訊號",
-    daySignalsHelp: "快速看看目前選定這一天的飲食摘要。",
-    profile: "個人資料 / 偏好",
-    profileIntro: "這些會影響推薦，但它們是輔助資訊，不是主要任務。",
-    profileClosed: "當你想細調偏好、避免食物或平常飲食方式時，再展開這一區即可。",
-    height: "身高",
-    weight: "體重",
-    feelToday: "今天的狀態",
-    activity: "活動量",
-    eatingStyle: "飲食型態",
-    preferenceTags: "偏好標籤",
-    preferenceHelp: "選出最像你平常真實飲食輪廓的項目。",
-    avoidTags: "避免 / 不喜歡",
-    avoidHelp: "這些會安靜地在背景中影響推薦。",
-    recommendations: "下一餐建議",
-    recommendationsHelp: "這些建議以 Today 為主，目的是減少決策疲勞，不是評價你今天吃得怎麼樣。",
-    convenience: "便利度",
-    balance: "平衡",
-    worksFor: "適合",
-    suggestedDrink: "建議飲品",
-    snapshot: "7 天摘要",
-    snapshotHelp: "根據最近 7 天已儲存的紀錄，用輕量規則整理出簡單摘要。",
-    snapshotEmpty: "最近 7 天還沒有任何餐點紀錄。先補上幾餐，這裡才會開始反映你的飲食模式。",
-    preferenceTrend: "偏好趨勢",
-    expand: "展開",
-    collapse: "收起",
-    open: "打開",
-    clear: "清除",
-    clearAll: "全部清除",
-    clearTags: "清除標籤",
-    nothingLogged: "尚未記錄",
-    noMealsLogged: "尚未記錄任何餐點。",
-    oneMeal: "已記錄 1 餐",
-    mealsLoggedSuffix: "餐已記錄",
-    lightVeg: "蔬菜偏少",
-    lightProtein: "蛋白質偏少",
-    heavier: "整體偏重一些",
-    convenienceBased: "比較偏方便型",
-    balancedSoFar: "目前看起來還算平衡",
-    both: "都可以",
-    homeCooked: "家裡做",
-    takeout: "外帶 / 外食",
-    empty: "空白",
-    meal: "餐",
-    meals: "餐",
-    today: "今天",
-    yesterday: "昨天",
-    protein: "蛋白質",
-    vegetables: "蔬菜",
-    carbs: "碳水",
-    heaviness: "厚重感",
-    friedOily: "油炸 / 油膩",
-    footerCopyright: "© 2026 Huiying Chung。版權所有。",
-    footerNonCommercial: "本專案與 AI 協作完成。NextBite 僅供個人、教學與作品集展示使用；未經授權不得作為商業用途重複使用。",
-  },
-} as const;
-
-const loadState = (): AppState => {
-  const saved = localStorage.getItem(STORAGE_KEY);
-  if (!saved) return createSeededState();
-
-  try {
-    // When saved data exists, build a fresh blank 7-day window for the current date
-    // and then map any saved logs back onto their matching calendar day.
-    // This lets yesterday's data move into Past Days while new Today starts clean.
-    const baseState = createBlankState();
-    const parsed = JSON.parse(saved) as Partial<AppState>;
-    const legacyHistory = (parsed as { history?: Array<Partial<DayHistory> & { day?: string }>; todayLog?: DayHistory["todayLog"] }).history;
-
-    const mergedDays = baseState.days.map((baseDay, index) => {
-      const parsedDay = parsed.days?.find((day) => day.id === baseDay.id);
-      const legacyDay = legacyHistory?.[index];
-      const legacyTodayLog = baseDay.isToday ? (parsed as { todayLog?: DayHistory["todayLog"] }).todayLog : undefined;
-      const sourceLog = parsedDay?.todayLog ?? legacyTodayLog ?? legacyDay?.todayLog;
-
-      return {
-        ...baseDay,
-        // Only carry over todayLog from saved data; structural fields (id, date, label, isToday)
-        // must always come from baseDay so they stay correct when the calendar advances.
-        todayLog: Object.fromEntries(
-          mealNames.map((mealName) => [
-            mealName,
-            {
-              ...baseDay.todayLog[mealName],
-              ...sourceLog?.[mealName],
-            },
-          ]),
-        ) as DayHistory["todayLog"],
-      };
-    });
-
-    return {
-      ...baseState,
-      ...parsed,
-      profile: {
-        ...baseState.profile,
-        ...parsed.profile,
-      },
-      days: mergedDays,
-      selectedDayId: mergedDays.some((day) => day.id === parsed.selectedDayId)
-        ? (parsed.selectedDayId as string)
-        : mergedDays.find((day) => day.isToday)?.id ?? mergedDays[mergedDays.length - 1]?.id ?? "",
-    };
-  } catch {
-    return createSeededState();
-  }
-};
-
-const loadSettings = (): SettingsState => {
-  const saved = localStorage.getItem(SETTINGS_STORAGE_KEY);
-  if (!saved) return defaultSettings;
-
-  try {
-    const parsed = JSON.parse(saved) as Partial<SettingsState>;
-    return {
-      ...defaultSettings,
-      ...parsed,
-    };
-  } catch {
-    return defaultSettings;
-  }
-};
-
-const roundToWhole = (value: number) => Math.round(value).toString();
-const roundToSingle = (value: number) => (Math.round(value * 10) / 10).toString();
-
-const convertCmToFeetInches = (cmText: string) => {
-  const cm = Number(cmText);
-  if (!Number.isFinite(cm) || cm <= 0) return { feet: "", inches: "" };
-  const totalInches = cm / 2.54;
-  const feet = Math.floor(totalInches / 12);
-  const inches = Math.round(totalInches - feet * 12);
-  if (inches === 12) return { feet: String(feet + 1), inches: "0" };
-  return { feet: String(feet), inches: String(inches) };
-};
-
-const convertFeetInchesToCm = (feetText: string, inchesText: string) => {
-  const feet = Number(feetText || "0");
-  const inches = Number(inchesText || "0");
-  if ((!Number.isFinite(feet) && !Number.isFinite(inches)) || feet < 0 || inches < 0) return "";
-  const totalInches = feet * 12 + inches;
-  if (totalInches <= 0) return "";
-  return roundToWhole(totalInches * 2.54);
-};
-
-const convertKgToLb = (kgText: string) => {
-  const kg = Number(kgText);
-  if (!Number.isFinite(kg) || kg <= 0) return "";
-  return roundToWhole(kg * 2.20462);
-};
-
-const convertLbToKg = (lbText: string) => {
-  const lb = Number(lbText);
-  if (!Number.isFinite(lb) || lb <= 0) return "";
-  return roundToSingle(lb / 2.20462);
-};
-
-const getMealOptionGroups = (mealName: MealName) => (mealName === "Snacks / Drinks" ? snackOptionGroups : mealOptionGroups);
-const formatWorksFor = (worksFor: string[], locale: Locale) => {
-  const text = localeText[locale];
-  if (worksFor.includes("home-cooked") && worksFor.includes("takeout")) return text.both;
-  if (worksFor.includes("home-cooked")) return text.homeCooked;
-  if (worksFor.includes("takeout")) return text.takeout;
-  return text.both;
-};
-const formatShortDate = (isoDate: string) => {
-  const date = new Date(`${isoDate}T12:00:00`);
-  if (Number.isNaN(date.getTime())) return isoDate;
-  return dateLabelFormatter.format(date);
-};
-
-const getDisplayDayLabel = (label: string, locale: Locale) => {
-  const text = localeText[locale];
-  if (label === "Today") return text.today;
-  if (label === "Yesterday") return text.yesterday;
-  return label;
-};
-
-const getFeelTodayLabel = (option: FeelToday, locale: Locale) => {
-  if (locale === "en") return option;
-  return {
-    Normal: "一般",
-    "Want something warm": "想吃熱一點",
-    "Need something light": "想吃清爽一點",
-    "Low energy": "沒什麼力氣",
-    "On period": "生理期中",
-  }[option];
-};
-
-const getActivityLabel = (option: ActivityLevel, locale: Locale) => {
-  if (locale === "en") return option;
-  return { Low: "低", Moderate: "中等", Active: "高" }[option];
-};
-
-const getEatingStyleLabel = (option: Profile["eatingStyle"], locale: Locale) => {
-  if (locale === "en") return option;
-  return {
-    "Mostly home-cooked": "大多自己煮",
-    "Mostly takeout": "大多外帶 / 外食",
-    Both: "兩者都有",
-  }[option];
-};
-
-const getDayStatusText = (day: DayHistory, locale: Locale) => {
-  const text = localeText[locale];
-  const loggedCount = mealNames.filter((mealName) => isMealLogged(day.todayLog[mealName])).length;
-  if (loggedCount === 0) return text.empty;
-  if (loggedCount === 1) return `1 ${text.meal}`;
-  return `${loggedCount} ${text.meals}`;
-};
-
-const getSignalLabels = (locale: Locale) => {
-  const text = localeText[locale];
-  return {
-    protein: locale === "en" ? "Protein" : text.protein,
-    vegetables: locale === "en" ? "Vegetables" : text.vegetables,
-    carbs: locale === "en" ? "Carbs" : text.carbs,
-    heaviness: locale === "en" ? "Heaviness" : text.heaviness,
-    friedOily: locale === "en" ? "Fried / oily" : text.friedOily,
-    convenience: locale === "en" ? "Convenience" : text.convenience,
-  };
-};
-
-const translateLevel = (value: string, locale: Locale) => {
-  if (locale === "en") return value;
-  return (
+const sampleMeal = (locale: Locale): ParsedMeal => ({
+  displayName:
+    locale === "en"
+      ? "Beef noodle soup and half a milk tea"
+      : "牛肉麵與半杯奶茶",
+  mealSlot: "Lunch",
+  components: [
     {
-      low: "低",
-      medium: "中",
-      high: "高",
-      light: "輕",
-      heavy: "重",
-    }[value] ?? value
-  );
-};
-
-const translateRecommendationLabel = (value: string, locale: Locale) => {
-  if (locale === "en") return value;
-  return (
+      name: locale === "en" ? "beef" : "牛肉",
+      group: "protein",
+      amount: locale === "en" ? "unspecified" : "未說明",
+      confidence: "high",
+    },
     {
-      "Best Match": "最適合",
-      "Best Balance": "最平衡",
-      "Most Convenient": "最方便",
-      Low: "低",
-      Medium: "中",
-      High: "高",
-    }[value] ?? value
-  );
+      name: locale === "en" ? "wheat noodles" : "麵條",
+      group: "carb",
+      amount: locale === "en" ? "one bowl" : "一碗",
+      confidence: "high",
+    },
+    {
+      name: locale === "en" ? "soup broth" : "湯",
+      group: "soup",
+      amount: locale === "en" ? "unspecified" : "未說明",
+      confidence: "medium",
+    },
+    {
+      name: locale === "en" ? "milk tea" : "奶茶",
+      group: "drink",
+      amount: locale === "en" ? "half cup" : "半杯",
+      confidence: "high",
+    },
+  ],
+  cookingMethod: "Soup / stew",
+  mealSource: "Restaurant",
+  portion: "Medium",
+  assumptions: [
+    locale === "en"
+      ? "No vegetable side was mentioned, so none was added."
+      : "沒有提到配菜，因此沒有自行補上蔬菜。",
+    locale === "en"
+      ? "The soup recipe and milk-tea sweetness are unknown."
+      : "湯頭配方與奶茶甜度未知。",
+  ],
+  clarification: null,
+});
+
+const parsedMealToEntry = (meal: ParsedMeal): MealEntry => {
+  const byGroup = (group: ParsedMealComponent["group"]) =>
+    meal.components
+      .filter((component) => component.group === group)
+      .map((component) => component.name);
+
+  return {
+    protein: byGroup("protein"),
+    vegetables: byGroup("vegetable"),
+    carbs: byGroup("carb"),
+    fruit: byGroup("fruit"),
+    soup: byGroup("soup"),
+    drink: byGroup("drink"),
+    cookingMethod: meal.cookingMethod,
+    mealSource: meal.mealSource,
+    portion: meal.portion,
+  };
 };
 
-const getDayHeaderSummary = (day: DayHistory, summary: ReturnType<typeof summarizeTodayIntake>, locale: Locale) => {
-  const text = localeText[locale];
-  const loggedCount = mealNames.filter((mealName) => isMealLogged(day.todayLog[mealName])).length;
-  if (loggedCount === 0) return text.noMealsLogged;
-
-  const notes: string[] = [loggedCount === 1 ? text.oneMeal : `${loggedCount} ${text.mealsLoggedSuffix}`];
-
-  if (summary.vegetableStatus === "low") notes.push(text.lightVeg);
-  else if (summary.proteinStatus === "low") notes.push(text.lightProtein);
-  else if (summary.heavinessStatus === "heavy" || summary.friedOilyStatus === "high") notes.push(text.heavier);
-  else if (summary.convenienceStatus === "high") notes.push(text.convenienceBased);
-  else notes.push(text.balancedSoFar);
-
-  return notes.join(" · ");
+const loadInitialState = (): AppState => {
+  try {
+    const saved = localStorage.getItem(APP_STORAGE_KEY);
+    if (saved) return JSON.parse(saved) as AppState;
+  } catch {
+    // A malformed local snapshot should never block the first decision.
+  }
+  return createBlankState();
 };
 
-function App() {
-  const [locale, setLocale] = useState<Locale>(() => (localStorage.getItem(LOCALE_KEY) as Locale) || "en");
-  const [state, setState] = useState<AppState>(() => loadState());
-  const [settings, setSettings] = useState<SettingsState>(() => loadSettings());
-  const [isDemo, setIsDemo] = useState(() => !localStorage.getItem(DEMO_DISMISSED_KEY));
-  const [openTodayMeal, setOpenTodayMeal] = useState<MealName | null>(null);
-  const [openPastMeal, setOpenPastMeal] = useState<MealName | null>(null);
-  const [selectedPastDayId, setSelectedPastDayId] = useState<string>("");
-  const [pastDaysOpen, setPastDaysOpen] = useState(false);
-  const [profileOpen, setProfileOpen] = useState(false);
-  const [settingsOpen, setSettingsOpen] = useState(false);
-  const [showResetConfirm, setShowResetConfirm] = useState(false);
-  const [recUpdateKey, setRecUpdateKey] = useState(0);
-  const [now, setNow] = useState(() => new Date());
-  const t = localeText[locale];
-  const signalLabels = getSignalLabels(locale);
+const cuisineName = (recommendation: ScoredRecommendation | (typeof recommendationDataset)[number]) => {
+  const tags = recommendation.tags.map((tag) => tag.toLowerCase());
+  if (tags.includes("taiwanese-style")) return "Taiwanese";
+  if (tags.includes("chinese-style")) return "Chinese";
+  if (tags.includes("japanese-inspired")) return "Japanese";
+  if (tags.includes("korean-inspired")) return "Korean";
+  if (tags.includes("mediterranean")) return "Mediterranean";
+  if (tags.includes("mexican-inspired")) return "Mexican / Latin";
+  if (tags.includes("american-light")) return "American everyday";
+  return "Mixed everyday";
+};
 
-  useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-  }, [state]);
+const confidenceLabel = (locale: Locale, value: "high" | "medium" | "limited") => {
+  if (value === "high") return text(locale, "Higher confidence", "信心較高");
+  if (value === "medium") return text(locale, "Medium confidence", "中等信心");
+  return text(locale, "Limited confidence", "信心有限");
+};
 
-  useEffect(() => {
-    localStorage.setItem(LOCALE_KEY, locale);
-  }, [locale]);
-
-  useEffect(() => {
-    localStorage.setItem(SETTINGS_STORAGE_KEY, JSON.stringify(settings));
-  }, [settings]);
-
-  useEffect(() => {
-    const intervalId = window.setInterval(() => {
-      setNow(new Date());
-    }, 60_000);
-
-    return () => window.clearInterval(intervalId);
-  }, []);
-
-  useEffect(() => {
-    if (!settingsOpen) return;
-
-    const { body } = document;
-    const previousOverflow = body.style.overflow;
-    const previousTouchAction = body.style.touchAction;
-    body.style.overflow = "hidden";
-    body.style.touchAction = "none";
-
-    return () => {
-      body.style.overflow = previousOverflow;
-      body.style.touchAction = previousTouchAction;
-    };
-  }, [settingsOpen]);
-
-  const todayDay = useMemo(() => state.days.find((day) => day.isToday) ?? state.days[state.days.length - 1], [state.days]);
-  const pastDays = useMemo(() => state.days.filter((day) => !day.isToday), [state.days]);
-  const selectedPastDay = useMemo(
-    () => pastDays.find((day) => day.id === selectedPastDayId) ?? pastDays[pastDays.length - 1] ?? todayDay,
-    [pastDays, selectedPastDayId, todayDay],
-  );
-  const recommendations = useMemo(() => scoreRecommendations(state.profile, todayDay.todayLog, state.days, locale, now), [state.profile, todayDay, state.days, locale, now]);
-  const recFingerprint = recommendations.map((r) => r.id).join(",");
-  const prevRecRef = useRef(recFingerprint);
-  useEffect(() => {
-    if (prevRecRef.current !== recFingerprint) {
-      prevRecRef.current = recFingerprint;
-      setRecUpdateKey((k) => k + 1);
-    }
-  }, [recFingerprint]);
-  const todaySummary = useMemo(() => summarizeTodayIntake(todayDay.todayLog), [todayDay]);
-  const selectedPastDaySummary = useMemo(() => summarizeTodayIntake(selectedPastDay.todayLog), [selectedPastDay]);
-  const weeklySnapshot = useMemo(() => buildWeeklySnapshot(state.days, state.profile, locale), [state.days, state.profile, locale]);
-  const hasWeeklyData = useMemo(
-    () => state.days.some((day) => mealNames.some((mealName) => isMealLogged(day.todayLog[mealName]))),
-    [state.days],
-  );
-  const hasAnyTodayMeal = mealNames.some((mealName) => isMealLogged(todayDay.todayLog[mealName]));
-  const hasAnyPastMeal = mealNames.some((mealName) => isMealLogged(selectedPastDay.todayLog[mealName]));
-  const isEditingMeal = openTodayMeal !== null || openPastMeal !== null;
-  const useCompactRecommendationCta = isEditingMeal || showResetConfirm;
-  const displayedRecommendations = settings.recommendationCount === "focus" ? recommendations.slice(0, 1) : recommendations;
-  const todaySignals = [
-    { label: signalLabels.protein, value: todaySummary.proteinStatus },
-    { label: signalLabels.vegetables, value: todaySummary.vegetableStatus },
-    { label: signalLabels.carbs, value: todaySummary.carbStatus },
-    { label: signalLabels.heaviness, value: todaySummary.heavinessStatus },
-    { label: signalLabels.friedOily, value: todaySummary.friedOilyStatus },
-    { label: signalLabels.convenience, value: todaySummary.convenienceStatus },
-  ];
-  const pastDaySignals = [
-    { label: signalLabels.protein, value: selectedPastDaySummary.proteinStatus },
-    { label: signalLabels.vegetables, value: selectedPastDaySummary.vegetableStatus },
-    { label: signalLabels.carbs, value: selectedPastDaySummary.carbStatus },
-    { label: signalLabels.heaviness, value: selectedPastDaySummary.heavinessStatus },
-    { label: signalLabels.friedOily, value: selectedPastDaySummary.friedOilyStatus },
-    { label: signalLabels.convenience, value: selectedPastDaySummary.convenienceStatus },
-  ];
-  const todayHeaderSummary = getDayHeaderSummary(todayDay, todaySummary, locale);
-  const pastDayHeaderSummary = getDayHeaderSummary(selectedPastDay, selectedPastDaySummary, locale);
-  const layoutGapClass = settings.density === "compact" ? "space-y-4" : "space-y-6";
-  const cardSpacingClass = settings.density === "compact" ? "space-y-4" : "space-y-6";
-  const pageSpacingClass = settings.density === "compact" ? "space-y-3 md:space-y-5" : "space-y-3.5 md:space-y-6";
-
-  const updateSettings = <K extends keyof SettingsState>(field: K, value: SettingsState[K]) => {
-    setSettings((current) => ({ ...current, [field]: value }));
+const categoryLabel = (locale: Locale, category: ScoredRecommendation["scoreBreakdown"][number]["category"]) => {
+  const labels: Record<typeof category, [string, string]> = {
+    protein: ["Protein balance", "蛋白質平衡"],
+    vegetables: ["Vegetable balance", "蔬菜平衡"],
+    carbs: ["Carb balance", "碳水平衡"],
+    heaviness: ["Meal weight", "餐點負擔"],
+    convenience: ["Convenience fit", "便利性"],
+    profile: ["Current context", "當下情境"],
+    preferences: ["Preferences", "偏好"],
+    avoid: ["Must-avoid check", "必須避開"],
+    variety: ["Variety", "變化性"],
+    "snack-drink": ["Snack & drink context", "點心與飲料"],
+    "time-of-day": ["Time of day", "用餐時間"],
+    "weekly-pattern": ["Recent pattern", "近期模式"],
   };
+  return text(locale, ...labels[category]);
+};
 
-  const updateProfile = <K extends keyof Profile>(field: K, value: Profile[K]) => {
-    setState((current) => ({ ...current, profile: { ...current.profile, [field]: value } }));
-  };
-
-  const toggleTag = (group: "preferenceTags" | "avoidTags", tag: string) => {
-    setState((current) => {
-      const active = current.profile[group];
-      const next = active.includes(tag) ? active.filter((item) => item !== tag) : [...active, tag];
-      return { ...current, profile: { ...current.profile, [group]: next } };
-    });
-  };
-
-  const updateHeightUnit = (unit: HeightUnit) => {
-    setState((current) => {
-      const nextProfile = { ...current.profile, heightUnit: unit };
-      if (unit === "ft/in" && current.profile.heightCm) {
-        const converted = convertCmToFeetInches(current.profile.heightCm);
-        nextProfile.heightFt = converted.feet;
-        nextProfile.heightIn = converted.inches;
-      }
-      if (unit === "cm") {
-        nextProfile.heightCm = convertFeetInchesToCm(current.profile.heightFt, current.profile.heightIn);
-      }
-      return { ...current, profile: nextProfile };
-    });
-  };
-
-  const updateWeightUnit = (unit: WeightUnit) => {
-    setState((current) => {
-      const nextProfile = { ...current.profile, weightUnit: unit };
-      if (unit === "lb" && current.profile.weightKg) {
-        nextProfile.weightLb = convertKgToLb(current.profile.weightKg);
-      }
-      if (unit === "kg") {
-        nextProfile.weightKg = convertLbToKg(current.profile.weightLb);
-      }
-      return { ...current, profile: nextProfile };
-    });
-  };
-
-  useEffect(() => {
-    if (!pastDays.length) return;
-    if (!selectedPastDayId || !pastDays.some((day) => day.id === selectedPastDayId)) {
-      setSelectedPastDayId(pastDays[pastDays.length - 1].id);
-    }
-  }, [pastDays, selectedPastDayId]);
-
-  const updateDayLog = (dayId: string, updater: (log: DayHistory["todayLog"]) => DayHistory["todayLog"]) => {
-    setState((current) => ({
-      ...current,
-      days: current.days.map((day) =>
-        day.id === dayId
-          ? {
-              ...day,
-              todayLog: updater(day.todayLog),
-            }
-          : day,
-      ),
-    }));
-  };
-
-  const toggleMealArray = (dayIdOrMealName: string, mealNameOrKey: MealName | MealArrayField, keyOrValue: MealArrayField | string, maybeValue?: string) => {
-    if (isDemo) dismissDemo();
-    const dayId = maybeValue ? dayIdOrMealName : selectedPastDay.id;
-    const mealName = (maybeValue ? mealNameOrKey : dayIdOrMealName) as MealName;
-    const key = (maybeValue ? keyOrValue : mealNameOrKey) as MealArrayField;
-    const value = (maybeValue ?? keyOrValue) as string;
-    setState((current) => {
-      const currentDay = current.days.find((day) => day.id === dayId) ?? current.days[current.days.length - 1];
-      const existing = currentDay.todayLog[mealName][key];
-      const nextValues = existing.includes(value) ? existing.filter((item) => item !== value) : [...existing, value];
-      return {
-        ...current,
-        days: current.days.map((day) =>
-          day.id === dayId
-            ? {
-                ...day,
-                todayLog: {
-                  ...day.todayLog,
-                  [mealName]: { ...day.todayLog[mealName], [key]: nextValues },
-                },
-              }
-            : day,
-        ),
-      };
-    });
-  };
-
-  const updateMealField = (
-    dayIdOrMealName: string,
-    mealNameOrField: MealName | MealSelectField,
-    fieldOrValue: MealSelectField | MealEntry[MealSelectField],
-    maybeValue?: MealEntry[MealSelectField],
-  ) => {
-    const dayId = maybeValue ? dayIdOrMealName : selectedPastDay.id;
-    const mealName = (maybeValue ? mealNameOrField : dayIdOrMealName) as MealName;
-    const field = (maybeValue ? fieldOrValue : mealNameOrField) as MealSelectField;
-    const value = (maybeValue ?? fieldOrValue) as MealEntry[MealSelectField];
-    updateDayLog(dayId, (log) => ({
-      ...log,
-      [mealName]: { ...log[mealName], [field]: value },
-    }));
-  };
-
-  const dismissDemo = () => {
-    setIsDemo(false);
-    localStorage.setItem(DEMO_DISMISSED_KEY, "1");
-  };
-
-  const resetAll = () => {
-    localStorage.removeItem(STORAGE_KEY);
-    localStorage.removeItem(DEMO_DISMISSED_KEY);
-    localStorage.removeItem(SETTINGS_STORAGE_KEY);
-    setOpenTodayMeal(null);
-    setOpenPastMeal(null);
-    setState(createSeededState());
-    setSettings(defaultSettings);
-    setSettingsOpen(false);
-    setIsDemo(true);
-  };
-
-  const clearMeal = (dayIdOrMealName: string, maybeMealName?: MealName) => {
-    const dayId = maybeMealName ? dayIdOrMealName : selectedPastDay.id;
-    const mealName = (maybeMealName ?? dayIdOrMealName) as MealName;
-    updateDayLog(dayId, (log) => ({
-      ...log,
-      [mealName]: createEmptyMeal(),
-    }));
-  };
-
-  const clearAllToday = () => {
-    setOpenTodayMeal(null);
-    updateDayLog(todayDay.id, () =>
-      Object.fromEntries(
-        mealNames.map((mealName) => [mealName, createEmptyMeal()]),
-      ) as DayHistory["todayLog"],
-    );
-  };
-
-  const clearAllPastDays = () => {
-    setOpenPastMeal(null);
-    setState((current) => ({
-      ...current,
-      days: current.days.map((day) => day.isToday
-        ? day
-        : {
-            ...day,
-            todayLog: Object.fromEntries(
-              mealNames.map((mealName) => [mealName, createEmptyMeal()]),
-            ) as DayHistory["todayLog"],
-          }),
-    }));
-  };
-
-  const clearProfileTags = () => {
-    setState((current) => ({
-      ...current,
-      profile: {
-        ...current.profile,
-        preferenceTags: [],
-        avoidTags: [],
-      },
-    }));
-  };
-
-  const renderSignals = (signals: { label: string; value: string }[], title: string, helper: string, hasMeals: boolean) => (
-    <div className="subtle-card mt-5 p-4">
-      <div className={`text-[11px] font-semibold text-slate-500 ${locale === "en" ? "uppercase tracking-[0.16em]" : "tracking-[0.08em]"}`}>{title}</div>
-      {settings.showHints ? <p className="mt-1 text-sm text-slate-600">{helper}</p> : null}
-      {!hasMeals ? (
-        <div className="mt-3 rounded-2xl border border-dashed border-slate-200 bg-white/60 px-4 py-3 text-center text-xs text-slate-400">
-          {locale === "en" ? "Log a meal to see signals" : "記錄一餐後即可看到訊號"}
-        </div>
-      ) : (
-      <div className="mt-3 grid gap-2 sm:grid-cols-2 xl:grid-cols-3">
-        {signals.map((signal) => (
-          <div key={signal.label} className="rounded-2xl border border-white/70 bg-white px-3 py-2 shadow-[0_8px_18px_rgba(15,23,42,0.04)]">
-            <div className={`text-[10px] text-slate-500 ${locale === "en" ? "uppercase tracking-[0.14em]" : "tracking-[0.08em]"}`}>{signal.label}</div>
-            <div className="mt-1 text-sm font-medium capitalize text-slate-800">{translateLevel(signal.value, locale)}</div>
-          </div>
-        ))}
-      </div>
-      )}
-    </div>
-  );
-
-  const renderEmptyState = (title: string, description: string, helper?: string) => (
-    <div className="mb-4 overflow-hidden rounded-[24px] border border-dashed border-slate-300 bg-[linear-gradient(135deg,rgba(248,244,238,0.96),rgba(239,246,241,0.88))] p-4 text-sm text-slate-600 shadow-[0_14px_28px_rgba(15,23,42,0.04)] sm:mb-5 sm:rounded-[26px]">
-      <div className="flex items-start gap-3">
-        <div className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-2xl bg-white/85 text-xs font-semibold text-moss shadow-sm sm:h-9 sm:w-9 sm:text-sm">
-          01
-        </div>
-        <div>
-          <div className="font-medium tracking-tight text-slate-900">{title}</div>
-          <div className="mt-1 leading-6">{description}</div>
-          {helper && settings.showHints ? <div className="mt-2 text-xs leading-5 text-slate-500">{helper}</div> : null}
-        </div>
-      </div>
-    </div>
-  );
-
-  const renderSettingsContent = () => (
-    <div className={`mt-5 ${cardSpacingClass}`}>
-      <LabeledField label={locale === "en" ? "Layout density" : "版面密度"}>
-        <div className="grid grid-cols-2 gap-2">
-          {([
-            ["comfortable", locale === "en" ? "Comfortable" : "舒適"],
-            ["compact", locale === "en" ? "Compact" : "精簡"],
-          ] as const).map(([value, label]) => (
-            <button
-              key={value}
-              type="button"
-              onClick={() => updateSettings("density", value)}
-              className={`rounded-2xl border px-4 py-3 text-sm transition ${settings.density === value ? "border-moss bg-mist text-moss" : "border-slate-200 bg-white text-slate-600 hover:border-moss/40"}`}
-            >
-              {label}
-            </button>
-          ))}
-        </div>
-      </LabeledField>
-
-      <LabeledField label={locale === "en" ? "Recommendation mode" : "推薦模式"}>
-        <div className="grid gap-2 md:grid-cols-2">
-          {([
-            ["all", locale === "en" ? "Show 3 cards" : "顯示 3 張卡片", locale === "en" ? "Keep all recommendation angles visible." : "同時保留完整的三種推薦角度。"],
-            ["focus", locale === "en" ? "Focus mode" : "聚焦模式", locale === "en" ? "Only show the strongest recommendation to reduce decision fatigue." : "只顯示最主要的一張推薦，降低決策疲勞。"],
-          ] as const).map(([value, label, helper]) => (
-            <button
-              key={value}
-              type="button"
-              onClick={() => updateSettings("recommendationCount", value)}
-              className={`rounded-[20px] border px-4 py-3 text-left transition ${settings.recommendationCount === value ? "border-moss bg-mist text-moss" : "border-slate-200 bg-white text-slate-600 hover:border-moss/40"}`}
-            >
-              <div className="font-medium">{label}</div>
-              <div className="mt-1 text-xs leading-5 text-slate-500">{helper}</div>
-            </button>
-          ))}
-        </div>
-      </LabeledField>
-
-      <div className="grid gap-3 md:grid-cols-3">
-        {([
-          ["showPastDays", locale === "en" ? "Past Days" : "顯示 Past Days", locale === "en" ? "Keep earlier days visible for backfilling." : "保留前幾天的補記區塊。"],
-          ["showWeeklySnapshot", locale === "en" ? "7-Day Snapshot" : "顯示 7-Day Snapshot", locale === "en" ? "Keep the weekly summary visible." : "保留每週摘要區塊。"],
-          ["showHints", locale === "en" ? "Helper text" : "顯示輔助文字", locale === "en" ? "Show extra onboarding and contextual copy." : "顯示引導與補充說明文字。"],
-        ] as const).map(([field, label, helper]) => {
-          const active = settings[field];
-          return (
-            <button
-              key={field}
-              type="button"
-              onClick={() => updateSettings(field, !active)}
-              className={`rounded-[20px] border px-4 py-3 text-left transition ${active ? "border-moss/35 bg-[linear-gradient(180deg,rgba(244,250,246,0.98),rgba(255,255,255,0.98))]" : "border-slate-200 bg-white hover:border-moss/30"}`}
-            >
-              <div className="flex items-center justify-between gap-3">
-                <div className="text-sm font-medium text-slate-800">{label}</div>
-                <span className={`rounded-full px-2.5 py-1 text-[10px] font-semibold ${active ? "bg-moss text-white" : "bg-slate-100 text-slate-500"}`}>
-                  {active ? (locale === "en" ? "On" : "開") : (locale === "en" ? "Off" : "關")}
-                </span>
-              </div>
-              <div className="mt-1 text-xs leading-5 text-slate-500">{helper}</div>
-            </button>
-          );
-        })}
-      </div>
-    </div>
-  );
-
-  const renderMealEditor = (day: DayHistory, openMeal: MealName | null, setOpenMeal: React.Dispatch<React.SetStateAction<MealName | null>>) => (
-    <div className="space-y-4">
-      {mealNames.map((mealName) => (
-        <div key={`${day.id}-${mealName}`} className="rounded-[24px] border border-slate-200/80 bg-[linear-gradient(180deg,rgba(248,244,238,0.92),rgba(245,241,234,0.72))] p-4 shadow-[0_10px_24px_rgba(15,23,42,0.04)] transition-all duration-200 hover:border-slate-300/90 hover:shadow-[0_14px_30px_rgba(15,23,42,0.07)] md:p-5">
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between md:gap-4">
-            <button
-              type="button"
-              onClick={() => setOpenMeal((current) => (current === mealName ? null : mealName))}
-              className="flex min-w-0 flex-1 items-start justify-between gap-3 text-left md:gap-4"
-              aria-expanded={openMeal === mealName}
-            >
-              <div className="min-w-0">
-                <h3 className="text-lg font-semibold text-slate-900">{mealName}</h3>
-                <p className="mt-1 text-sm text-slate-600">{sectionDescriptions[mealName]}</p>
-                <div className="mt-3 flex flex-wrap gap-1.5">
-                  {mealSummaryChips(day.todayLog[mealName]).length > 0 ? (
-                    mealSummaryChips(day.todayLog[mealName]).map((item) => <InfoPill key={`${day.id}-${mealName}-${item}`} label={item} />)
-                  ) : (
-                    <div className="text-xs text-slate-400">{t.nothingLogged}</div>
-                  )}
-                </div>
-              </div>
-              <div className="flex shrink-0 items-center gap-1.5 rounded-full border border-slate-200 bg-white/90 px-3 py-1.5 text-xs font-medium text-slate-600 shadow-sm">
-                <span className="hidden sm:inline">{openMeal === mealName ? t.collapse : t.expand}</span>
-                <Chevron open={openMeal === mealName} />
-              </div>
-            </button>
-            <button
-              type="button"
-              onClick={() => clearMeal(day.id, mealName)}
-              className="w-full shrink-0 rounded-full border border-slate-300 bg-white/95 px-3 py-1.5 text-xs font-medium text-slate-600 transition hover:border-clay hover:text-clay sm:w-auto"
-            >
-              {t.clear}
-            </button>
-          </div>
-
-          {openMeal === mealName && (
-            <div className="soft-divider mt-5 grid gap-4 pt-4 animate-slide-down">
-              {(Object.keys(categoryLabels) as MealArrayField[]).map((category) => (
-                <div key={`${day.id}-${mealName}-${category}`}>
-                  <div className="mb-2 text-sm font-medium text-slate-700">{categoryLabels[category]}</div>
-                  <div className="space-y-3">
-                    {getMealOptionGroups(mealName)[category].map((group) => (
-                      <div key={`${day.id}-${mealName}-${group.label}`}>
-                        <div className="mb-1.5 text-xs font-semibold uppercase tracking-[0.14em] text-slate-400">{group.label}</div>
-                        <div className="flex flex-wrap gap-2">
-                          {group.options.map((option) => {
-                            const active = day.todayLog[mealName][category].includes(option);
-                            return (
-                              <button key={`${day.id}-${mealName}-${category}-${option}`} type="button" onClick={() => toggleMealArray(day.id, mealName, category, option)} className={`chip ${active ? "chip-active" : "chip-inactive"}`}>
-                                {option}
-                              </button>
-                            );
-                          })}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              ))}
-
-              <div className="grid gap-3 md:grid-cols-3 md:gap-4">
-                <LabeledField label={locale === "en" ? "Cooking method" : "烹調方式"}><select className="field" value={day.todayLog[mealName].cookingMethod} onChange={(e) => updateMealField(day.id, mealName, "cookingMethod", e.target.value)}>{mealOptions.cookingMethod.map((option) => <option key={option}>{option}</option>)}</select></LabeledField>
-                <LabeledField label={locale === "en" ? "Meal source" : "餐點來源"}><select className="field" value={day.todayLog[mealName].mealSource} onChange={(e) => updateMealField(day.id, mealName, "mealSource", e.target.value)}>{mealOptions.mealSource.map((option) => <option key={option}>{option}</option>)}</select></LabeledField>
-                <LabeledField label={locale === "en" ? "Portion estimate" : "份量估計"}><select className="field" value={day.todayLog[mealName].portion} onChange={(e) => updateMealField(day.id, mealName, "portion", e.target.value)}>{mealOptions.portion.map((option) => <option key={option}>{option}</option>)}</select></LabeledField>
-              </div>
-            </div>
-          )}
-        </div>
-      ))}
-    </div>
-  );
-
+function BrandMark() {
   return (
-    <div className="min-h-screen text-ink">
-      <div className={`mx-auto max-w-7xl px-3 ${settings.density === "compact" ? "py-3 sm:px-4 sm:py-5 md:px-6 md:py-6" : "py-3 sm:px-4 sm:py-6 md:px-6 md:py-8"}`}>
-        <header className="relative mb-4 overflow-hidden rounded-[24px] border border-white/70 bg-[linear-gradient(135deg,rgba(247,240,230,0.98),rgba(228,239,232,0.98))] p-4 shadow-soft sm:mb-6 sm:rounded-[32px] sm:p-6 md:p-8">
-          <div className="pointer-events-none absolute -right-16 -top-20 h-40 w-40 rounded-full bg-[radial-gradient(circle,rgba(116,145,123,0.22),rgba(116,145,123,0))]" />
-          <div className="pointer-events-none absolute -bottom-16 left-10 h-32 w-32 rounded-full bg-[radial-gradient(circle,rgba(196,123,92,0.14),rgba(196,123,92,0))]" />
-          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-[linear-gradient(90deg,rgba(255,255,255,0),rgba(111,143,117,0.26),rgba(255,255,255,0))]" />
-          <div className="flex flex-col gap-3.5 md:flex-row md:items-end md:justify-between">
-            <div className="max-w-2xl">
-              <div>
-                <h1 className="text-[2rem] font-semibold tracking-tight sm:text-4xl md:text-5xl">
-                  <span className="bg-[linear-gradient(180deg,#F08A18,#D95A0E)] bg-clip-text text-transparent">Next</span>
-                  <span className="bg-[linear-gradient(180deg,#4DAF28,#0E6A2A)] bg-clip-text text-transparent">Bite</span>
-                </h1>
-                <div className={`mt-1 text-[11px] font-medium text-slate-500 sm:text-xs ${locale === "en" ? "uppercase tracking-[0.18em] sm:tracking-[0.22em]" : "tracking-[0.08em]"}`}>
-                  {locale === "en" ? "Practical Next-Meal Help" : "實用的下一餐助手"}
-                </div>
-              </div>
-              <p className="mt-2.5 max-w-xl text-sm leading-6 text-slate-600 md:text-base">{t.tagline}</p>
-              <div className="mt-3 flex flex-wrap gap-1.5 sm:mt-4 sm:gap-2">
-                {[
-                  locale === "en" ? "No calorie counting" : "不做熱量執著",
-                  locale === "en" ? "Built for real mixed habits" : "貼近真實混合飲食",
-                  locale === "en" ? "Made for U.S.-based Chinese users" : "為在美華人設計",
-                ].map((pill) => (
-                  <div key={pill} className={`rounded-full border border-white/80 bg-white/70 px-2.5 py-1.5 text-[11px] font-medium text-slate-600 shadow-sm sm:px-3 sm:text-xs ${locale === "en" ? "" : "break-keep tracking-[0.02em]"}`}>
-                    {pill}
-                  </div>
-                ))}
-              </div>
-              {settings.showHints ? <p className="mt-2.5 max-w-xl text-xs leading-5 text-slate-500">{t.usage1}</p> : null}
-            </div>
-            <div className="flex w-full flex-col gap-2.5 sm:w-auto sm:min-w-[180px]">
-              <button
-                type="button"
-                onClick={() => setSettingsOpen(true)}
-                className="w-full rounded-full border border-slate-300 bg-white/90 px-4 py-2 text-sm font-medium text-slate-700 transition hover:border-moss hover:text-moss"
-              >
-                {locale === "en" ? "Settings" : "設定"}
-              </button>
-              <button
-                type="button"
-                onClick={() => setLocale((current) => (current === "en" ? "zh" : "en"))}
-                className="w-full rounded-full border border-slate-300 bg-white/90 px-4 py-2 text-sm font-medium text-slate-700 transition hover:border-moss hover:text-moss"
-              >
-                {t.switchLabel}
-              </button>
-              <a
-                href="https://www.huiyingchung.com/next-bite-case-study.html"
-                target="_blank"
-                rel="noreferrer"
-                className="w-full rounded-full border border-slate-300 bg-white/90 px-4 py-2 text-center text-sm font-medium text-slate-700 transition hover:border-moss hover:text-moss"
-              >
-                {t.caseStudy}
-              </a>
-            </div>
-          </div>
-        </header>
-
-        <main className={pageSpacingClass}>
-          {isDemo && (
-            <div className="animate-fade-in rounded-[20px] border border-clay/25 bg-[linear-gradient(135deg,rgba(255,248,240,0.95),rgba(255,243,230,0.95))] px-4 py-3 shadow-sm sm:rounded-[24px] sm:px-5">
-              <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-                <div className="min-w-0">
-                  <div className="flex items-center gap-2">
-                    <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-clay/15 text-[10px] text-clay">✦</span>
-                    <span className="text-sm font-medium text-slate-800">
-                      {locale === "en" ? "You're viewing sample data" : "你正在查看示範資料"}
-                    </span>
-                  </div>
-                  <p className="mt-1 text-xs leading-5 text-slate-500">
-                    {locale === "en"
-                      ? "This is pre-filled to show how NextBite works. Start logging your own meals to make it yours."
-                      : "這些是預填的範例，讓你了解 NextBite 的運作方式。開始記錄自己的餐點，就會變成你的資料。"}
-                  </p>
-                </div>
-                <button
-                  type="button"
-                  onClick={dismissDemo}
-                  className="shrink-0 self-start rounded-full border border-clay/30 bg-white/90 px-3.5 py-1.5 text-xs font-medium text-clay transition hover:bg-clay hover:text-white sm:self-center"
-                >
-                  {locale === "en" ? "Got it" : "了解"}
-                </button>
-              </div>
-            </div>
-          )}
-          <div className="grid gap-5 xl:grid-cols-[1.08fr_0.92fr] xl:gap-6">
-            <section className={layoutGapClass}>
-            <div className="panel">
-              <div className="mb-4 sm:mb-5">
-                <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-                  <div className="min-w-0">
-                    <div className={`section-kicker border-moss/20 bg-mist/60 text-moss ${locale === "zh" ? "normal-case tracking-[0.08em]" : ""}`}>{t.todayFocus}</div>
-                    <h2 className="section-title">{t.todaysMeals}</h2>
-                    <div className="mt-3 inline-flex max-w-full whitespace-normal rounded-[999px] border border-moss/15 bg-white/85 px-3 py-1.5 text-xs font-medium text-slate-600 shadow-sm">
-                      {todayHeaderSummary}
-                    </div>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={clearAllToday}
-                    className="shrink-0 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-600 transition hover:border-moss/35 hover:text-moss"
-                  >
-                    {t.clearAll}
-                  </button>
-                </div>
-              </div>
-
-              {!hasAnyTodayMeal && renderEmptyState(
-                locale === "en" ? "Start with one meal" : "先從一餐開始",
-                t.noMealsToday,
-                locale === "en" ? "Breakfast, lunch, dinner, or snacks all work. The recommendations will respond as soon as you log one." : "早餐、午餐、晚餐或點心都可以，先記一餐，右邊建議就會開始變化。"
-              )}
-
-              {renderMealEditor(todayDay, openTodayMeal, setOpenTodayMeal)}
-              {renderSignals(todaySignals, t.todaySignals, t.todaySignalsHelp, hasAnyTodayMeal)}
-            </div>
-
-            {settings.showPastDays && (
-            <div className="panel">
-              <button
-                type="button"
-                onClick={() => setPastDaysOpen((current) => !current)}
-                className="flex w-full items-start justify-between gap-3 text-left"
-                aria-expanded={pastDaysOpen}
-              >
-                <div className="min-w-0">
-                  <div className={`section-kicker border-slate-200 bg-slate-50 text-slate-600 ${locale === "zh" ? "normal-case tracking-[0.08em]" : ""}`}>{t.past6Days}</div>
-                  <h2 className="section-title">{t.pastDays}</h2>
-                  <div className="mt-3 inline-flex max-w-full whitespace-normal rounded-[999px] border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-medium text-slate-600 shadow-sm">
-                    {getDisplayDayLabel(selectedPastDay.label, locale)}: {pastDayHeaderSummary}
-                  </div>
-                </div>
-                <div className="mt-1 flex shrink-0 items-center gap-1.5 rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-600 shadow-sm">
-                  <span className="hidden sm:inline">{pastDaysOpen ? t.collapse : t.open}</span>
-                  <Chevron open={pastDaysOpen} />
-                </div>
-              </button>
-
-              {!pastDaysOpen && (
-                <div className="subtle-card mt-4 px-4 py-3 text-sm leading-6 text-slate-600">
-                  {t.optionalBackfill}
-                </div>
-              )}
-
-              {pastDaysOpen && (
-                <div className="animate-slide-down">
-                  <div className="mt-4 flex flex-col gap-3 sm:mt-5 sm:flex-row sm:items-start sm:justify-between">
-                    <div className="subtle-card px-3 py-2 text-sm text-slate-600 sm:flex-1">
-                      {t.pastHelper}
-                    </div>
-                    <button
-                      type="button"
-                      onClick={clearAllPastDays}
-                      className="shrink-0 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-600 transition hover:border-moss/35 hover:text-moss"
-                    >
-                      {t.clearAll}
-                    </button>
-                  </div>
-
-                  <div className="mb-4 mt-4 sm:hidden">
-                    <LabeledField label={t.pastDay}>
-                      <select
-                        className="field"
-                        value={selectedPastDay.id}
-                        onChange={(e) => setSelectedPastDayId(e.target.value)}
-                      >
-                        {pastDays.map((day) => (
-                          <option key={day.id} value={day.id}>
-                            {`${getDisplayDayLabel(day.label, locale)} - ${formatShortDate(day.date)} - ${getDayStatusText(day, locale)}`}
-                          </option>
-                        ))}
-                      </select>
-                    </LabeledField>
-                  </div>
-
-                  <div className="-mx-1 mb-5 mt-4 hidden gap-2 overflow-x-auto px-1 pb-1 sm:flex">
-                    {pastDays.map((day) => {
-                      const active = day.id === selectedPastDay.id;
-                      return (
-                        <button
-                          key={day.id}
-                          type="button"
-                          onClick={() => setSelectedPastDayId(day.id)}
-                          className={`min-w-[96px] shrink-0 rounded-[20px] border px-3 py-3 text-left transition ${active ? "border-moss bg-mist text-moss shadow-sm" : "border-slate-200 bg-white/95 text-slate-700 hover:border-moss/35 hover:bg-white"}`}
-                        >
-                          <div className={`truncate text-[11px] font-semibold ${locale === "en" ? "uppercase tracking-[0.12em]" : "tracking-[0.06em]"}`}>{getDisplayDayLabel(day.label, locale)}</div>
-                          <div className="mt-1 whitespace-nowrap text-xs text-slate-500">{formatShortDate(day.date)}</div>
-                          <div className={`mt-2 text-sm font-medium ${active ? "text-moss" : "text-slate-700"}`}>{getDayStatusText(day, locale)}</div>
-                        </button>
-                      );
-                    })}
-                  </div>
-
-                  {!hasAnyPastMeal && renderEmptyState(
-                    locale === "en" ? `Nothing logged for ${getDisplayDayLabel(selectedPastDay.label, locale)}` : `${getDisplayDayLabel(selectedPastDay.label, locale)}還沒有紀錄`,
-                    `${getDisplayDayLabel(selectedPastDay.label, locale)}${t.noMealsForDaySuffix}`,
-                    locale === "en" ? "Backfilling even one or two meals helps the weekly snapshot feel more like you." : "就算只補一兩餐，也能讓 weekly snapshot 更貼近你。"
-                  )}
-
-                  {renderMealEditor(selectedPastDay, openPastMeal, setOpenPastMeal)}
-                  {renderSignals(pastDaySignals, `${getDisplayDayLabel(selectedPastDay.label, locale)} ${t.daySignals}`, t.daySignalsHelp, hasAnyPastMeal)}
-                </div>
-              )}
-            </div>
-            )}
-
-            <div className="panel">
-              <button
-                type="button"
-                onClick={() => setProfileOpen((current) => !current)}
-                className="flex w-full items-start justify-between gap-3 text-left"
-                aria-expanded={profileOpen}
-              >
-                <div className="min-w-0">
-                  <h2 className="section-title">{t.profile}</h2>
-                </div>
-                <div className="mt-1 flex shrink-0 items-center gap-1.5 rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-600 shadow-sm">
-                  <span className="hidden sm:inline">{profileOpen ? t.collapse : t.expand}</span>
-                  <Chevron open={profileOpen} />
-                </div>
-              </button>
-
-              {!profileOpen && (
-                <div className="subtle-card mt-4 px-4 py-3 text-sm text-slate-600">
-                  {t.profileClosed}
-                </div>
-              )}
-
-              {profileOpen && (
-                <div className="animate-slide-down">
-                  <div className="mt-4 flex justify-end">
-                    <button
-                      type="button"
-                      onClick={clearProfileTags}
-                      className="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-600 transition hover:border-moss/35 hover:text-moss"
-                    >
-                      {t.clearTags}
-                    </button>
-                  </div>
-                  <div className="mt-5 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-                    <LabeledField label={t.height}>
-                      <div className="space-y-2">
-                        <div className="grid grid-cols-2 gap-2">
-                          {(["cm", "ft/in"] as HeightUnit[]).map((unit) => (
-                            <button
-                              key={unit}
-                              type="button"
-                              onClick={() => updateHeightUnit(unit)}
-                              className={`rounded-2xl border px-3 py-2 text-sm transition ${state.profile.heightUnit === unit ? "border-moss bg-mist text-moss" : "border-slate-200 bg-white text-slate-600 hover:border-moss/40"}`}
-                            >
-                              {unit}
-                            </button>
-                          ))}
-                        </div>
-                        {state.profile.heightUnit === "cm" ? (
-                          <input className="field" value={state.profile.heightCm} onChange={(e) => updateProfile("heightCm", e.target.value)} placeholder="cm" />
-                        ) : (
-                          <div className="grid grid-cols-2 gap-2">
-                            <input className="field" value={state.profile.heightFt} onChange={(e) => updateProfile("heightFt", e.target.value)} placeholder="ft" />
-                            <input className="field" value={state.profile.heightIn} onChange={(e) => updateProfile("heightIn", e.target.value)} placeholder="in" />
-                          </div>
-                        )}
-                      </div>
-                    </LabeledField>
-                    <LabeledField label={t.weight}>
-                      <div className="space-y-2">
-                        <div className="grid grid-cols-2 gap-2">
-                          {(["kg", "lb"] as WeightUnit[]).map((unit) => (
-                            <button
-                              key={unit}
-                              type="button"
-                              onClick={() => updateWeightUnit(unit)}
-                              className={`rounded-2xl border px-3 py-2 text-sm transition ${state.profile.weightUnit === unit ? "border-moss bg-mist text-moss" : "border-slate-200 bg-white text-slate-600 hover:border-moss/40"}`}
-                            >
-                              {unit}
-                            </button>
-                          ))}
-                        </div>
-                        <input className="field" value={state.profile.weightUnit === "kg" ? state.profile.weightKg : state.profile.weightLb} onChange={(e) => updateProfile(state.profile.weightUnit === "kg" ? "weightKg" : "weightLb", e.target.value)} placeholder={state.profile.weightUnit} />
-                      </div>
-                    </LabeledField>
-                    <LabeledField label={t.feelToday}><select className="field" value={state.profile.feelToday} onChange={(e) => updateProfile("feelToday", e.target.value as FeelToday)}>{feelTodayOptions.map((option) => <option key={option} value={option}>{getFeelTodayLabel(option, locale)}</option>)}</select></LabeledField>
-                    <LabeledField label={t.activity}><select className="field" value={state.profile.activityLevel} onChange={(e) => updateProfile("activityLevel", e.target.value as ActivityLevel)}>{activityOptions.map((option) => <option key={option} value={option}>{getActivityLabel(option, locale)}</option>)}</select></LabeledField>
-                  </div>
-
-                  <div className="mt-4">
-                    <LabeledField label={t.eatingStyle}>
-                      <div className="grid grid-cols-1 gap-2 md:grid-cols-3">
-                        {eatingStyleOptions.map((style) => (
-                          <button key={style} type="button" onClick={() => updateProfile("eatingStyle", style)} className={`rounded-2xl border px-4 py-3 text-sm transition ${state.profile.eatingStyle === style ? "border-moss bg-mist text-moss" : "border-slate-200 bg-white text-slate-600 hover:border-moss/40"}`}>
-                            {getEatingStyleLabel(style, locale)}
-                          </button>
-                        ))}
-                      </div>
-                    </LabeledField>
-                  </div>
-
-                  <TagGroup title={t.preferenceTags} helper={t.preferenceHelp} tags={preferenceTags} activeTags={state.profile.preferenceTags} onToggle={(tag) => toggleTag("preferenceTags", tag)} />
-                  <TagGroup title={t.avoidTags} helper={t.avoidHelp} tags={avoidTags} activeTags={state.profile.avoidTags} onToggle={(tag) => toggleTag("avoidTags", tag)} />
-                </div>
-              )}
-            </div>
-
-            </section>
-
-            <aside id="recommendations" className="space-y-4 sm:space-y-6">
-              <div className="panel bg-[linear-gradient(180deg,rgba(255,255,255,0.88),rgba(250,248,244,0.92))] p-3 sm:p-4 md:p-4 xl:sticky xl:top-3">
-                <div className="mb-3.5 sm:mb-4">
-                  <div className="flex items-center gap-2.5">
-                    <h2 className="section-title">{t.recommendations}</h2>
-                    {settings.recommendationCount === "focus" && (
-                      <span className="rounded-full border border-moss/20 bg-mist/70 px-2 py-0.5 text-[10px] font-semibold text-moss">
-                        {locale === "en" ? "Focus" : "聚焦"}
-                      </span>
-                    )}
-                    {recUpdateKey > 0 && (
-                      <span key={recUpdateKey} className="animate-fade-in rounded-full bg-moss/15 px-2 py-0.5 text-[10px] font-semibold text-moss">
-                        {locale === "en" ? "Updated" : "已更新"}
-                      </span>
-                    )}
-                  </div>
-                </div>
-                {settings.showHints ? <p className="mb-3 text-sm text-slate-600">{t.recommendationsHelp}</p> : null}
-                <div className={settings.density === "compact" ? "space-y-2" : "space-y-3"}>
-                  {displayedRecommendations.map((recommendation, index) => {
-                    const cardTone =
-                      recommendation.label === "Best Match"
-                        ? "border-moss/25 bg-[linear-gradient(180deg,rgba(244,250,246,0.98),rgba(255,255,255,0.98))]"
-                        : recommendation.label === "Best Balance"
-                          ? "border-clay/18 bg-[linear-gradient(180deg,rgba(255,249,245,0.98),rgba(255,255,255,0.98))]"
-                          : "border-slate-200/90 bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(248,249,246,0.98))]";
-                    const topBar =
-                      recommendation.label === "Best Match"
-                        ? "from-moss/55 to-moss/5"
-                        : recommendation.label === "Best Balance"
-                          ? "from-clay/45 to-clay/5"
-                          : "from-slate-300/60 to-transparent";
-
-                    return (
-                    <div key={`${recommendation.id}-${recUpdateKey}`} className={`relative overflow-hidden rounded-[18px] border p-2.5 shadow-[0_14px_30px_rgba(15,23,42,0.05)] transition hover:-translate-y-0.5 hover:shadow-[0_18px_34px_rgba(15,23,42,0.08)] sm:rounded-[20px] sm:p-3.5 ${cardTone} ${recUpdateKey > 0 ? "animate-rec-pulse" : ""}`}>
-                      <div className={`pointer-events-none absolute inset-x-0 top-0 h-12 sm:h-14 bg-[linear-gradient(180deg,var(--tw-gradient-stops))] ${topBar}`} />
-                      <div className="mb-1.5 flex flex-col items-start gap-2 sm:flex-row sm:justify-between sm:gap-2">
-                        <div className="min-w-0">
-                          <div className={`mb-1 inline-flex rounded-full border border-moss/20 bg-white/85 px-2.5 py-1 text-[10px] font-semibold text-moss shadow-sm ${locale === "en" ? "uppercase tracking-[0.14em]" : "tracking-[0.06em]"}`}>{translateRecommendationLabel(recommendation.label, locale)}</div>
-                          <h3 className={`text-[15px] font-semibold leading-5 tracking-tight text-slate-900 ${index === 0 ? "sm:text-base" : ""}`}>{recommendation.title}</h3>
-                        </div>
-                        <div className="rounded-2xl border border-slate-200/80 bg-white/90 px-2 py-1.5 text-left text-[10px] leading-4 text-slate-500 shadow-sm sm:shrink-0 sm:text-right">
-                          <div className={locale === "en" ? "uppercase tracking-[0.12em]" : "tracking-[0.06em]"}>{t.convenience}</div>
-                          <div className="font-semibold text-slate-700">{translateRecommendationLabel(recommendation.convenienceLabel, locale)}</div>
-                        </div>
-                      </div>
-                      <p className="text-[13px] leading-[1.45] text-slate-600">{recommendation.shortReason}</p>
-                      <div className="mt-2 rounded-2xl border border-slate-200/70 bg-slate-50/90 px-2.5 py-1.5 text-[12px] leading-[1.45] text-slate-600">
-                        <span className="font-medium text-slate-700">{t.balance}: </span>
-                        <span>{recommendation.balanceNote}</span>
-                      </div>
-                      <div className="mt-1.5 rounded-2xl border border-slate-200/70 bg-slate-50/90 px-2.5 py-1.5 text-[12px] leading-[1.45] text-slate-600">
-                        <span className="font-medium text-slate-700">{t.suggestedDrink}: </span>
-                        <span>{recommendation.suggestedDrink}</span>
-                      </div>
-                      <div className="mt-1.5 flex flex-wrap gap-1">
-                        <InfoPill label={`${t.worksFor}: ${formatWorksFor(recommendation.worksFor, locale)}`} />
-                        {recommendation.tags.slice(0, 2).map((tag) => <InfoPill key={`${recommendation.id}-${tag}`} label={tag} />)}
-                      </div>
-                    </div>
-                  )})}
-                </div>
-              </div>
-            </aside>
-          </div>
-
-          {settings.showWeeklySnapshot && (
-          <section className="panel">
-            <div className="mb-4 sm:mb-5">
-              <h2 className="section-title">{t.snapshot}</h2>
-              {settings.showHints ? <p className="mt-1 text-sm text-slate-600">{t.snapshotHelp}</p> : null}
-            </div>
-            {hasWeeklyData ? (
-              <>
-                <div className="space-y-2.5 text-sm text-slate-700 sm:space-y-3">
-                  {weeklySnapshot.summaryLines.map((line) => <div key={line} className="rounded-2xl border border-white/80 bg-oat/85 px-4 py-3 leading-6 shadow-[0_10px_22px_rgba(15,23,42,0.04)]">{line}</div>)}
-                </div>
-                <div className="mt-5 grid gap-3 sm:grid-cols-2 xl:grid-cols-5">
-                  {weeklySnapshot.indicators.map((indicator) => (
-                    <div key={indicator.label} className="rounded-2xl border border-slate-200/90 bg-white px-4 py-3 shadow-[0_10px_22px_rgba(15,23,42,0.04)]">
-                      <div className={`text-xs text-slate-500 ${locale === "en" ? "uppercase tracking-[0.18em]" : "tracking-[0.06em]"}`}>{indicator.label}</div>
-                      <div className="mt-1 text-sm font-medium text-slate-800">{indicator.value}</div>
-                    </div>
-                  ))}
-                </div>
-                <div className="mt-5 rounded-[24px] border border-moss/15 bg-[linear-gradient(135deg,rgba(224,239,229,0.86),rgba(244,248,243,0.86))] p-4 text-sm text-slate-700 shadow-[0_14px_28px_rgba(15,23,42,0.04)]">
-                  <div className="font-medium text-slate-900">{t.preferenceTrend}</div>
-                  <div className="mt-2 leading-6">{weeklySnapshot.preferenceSummary}</div>
-                </div>
-              </>
-            ) : (
-              <div className="rounded-[24px] border border-dashed border-slate-200 bg-[rgba(255,255,255,0.7)] px-4 py-5 text-sm leading-6 text-slate-600">
-                {t.snapshotEmpty}
-              </div>
-            )}
-          </section>
-          )}
-        </main>
-
-        {settingsOpen && (
-          <div className="fixed inset-0 z-[70]">
-            <button
-              type="button"
-              aria-label={locale === "en" ? "Close settings" : "關閉設定"}
-              onClick={() => setSettingsOpen(false)}
-              className="absolute inset-0 bg-slate-900/35 backdrop-blur-[1px]"
-            />
-            <div className="absolute inset-x-0 bottom-0 top-auto h-[88vh] overflow-hidden rounded-t-[28px] border border-white/60 bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(247,245,240,0.98))] shadow-[0_-18px_60px_rgba(15,23,42,0.18)] sm:inset-y-0 sm:right-0 sm:left-auto sm:h-auto sm:w-[440px] sm:rounded-none sm:rounded-l-[28px]">
-              <div className="flex h-full min-h-0 flex-col">
-                <div className="flex items-start justify-between gap-4 border-b border-slate-200/80 px-4 py-4 sm:px-5">
-                  <div className="min-w-0">
-                    <div className={`text-[11px] font-semibold text-slate-500 ${locale === "en" ? "uppercase tracking-[0.16em]" : "tracking-[0.08em]"}`}>
-                      {locale === "en" ? "Global preferences" : "全域設定"}
-                    </div>
-                    <h2 className="mt-1 text-xl font-semibold tracking-tight text-slate-900">
-                      {locale === "en" ? "Settings" : "設定"}
-                    </h2>
-                    <p className="mt-1 text-sm leading-6 text-slate-600">
-                      {locale === "en"
-                        ? "Personalize layout and recommendation presentation without changing the underlying meal logic."
-                        : "自訂版面與推薦呈現方式，但不改動底層的餐點推薦邏輯。"}
-                    </p>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={() => setSettingsOpen(false)}
-                    className="shrink-0 rounded-full border border-slate-200 bg-white px-3 py-1.5 text-sm font-medium text-slate-600 transition hover:border-moss/35 hover:text-moss"
-                  >
-                    {locale === "en" ? "Close" : "關閉"}
-                  </button>
-                </div>
-
-                <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 pb-5 pt-1 touch-pan-y [-webkit-overflow-scrolling:touch] sm:px-5 sm:pb-6">
-                  {renderSettingsContent()}
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Mobile-only floating button to jump to recommendations */}
-        {hasAnyTodayMeal && (
-          <a
-            href="#recommendations"
-            className={`safe-bottom fixed z-50 flex items-center justify-center gap-2 border border-moss/30 bg-moss text-white shadow-[0_8px_24px_rgba(69,107,87,0.35)] transition hover:bg-moss/90 active:scale-95 xl:hidden ${
-              useCompactRecommendationCta
-                ? "bottom-3 right-3 rounded-full px-3 py-2 text-xs font-medium"
-                : "bottom-4 right-3 rounded-full px-3.5 py-2 text-xs font-medium sm:right-4 sm:px-4 sm:py-2.5 sm:text-sm"
-            }`}
-            aria-label={locale === "en" ? "See suggestions" : "查看建議"}
-          >
-            <svg className="h-4 w-4" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 6l4 4 4-4" /></svg>
-            {locale === "en" ? "See suggestions" : "查看建議"}
-          </a>
-        )}
-        <footer className={`mt-5 border-t border-white/70 px-1 pt-4 text-center text-xs leading-5 text-slate-500 sm:mt-7 sm:pb-6 ${
-          hasAnyTodayMeal ? (useCompactRecommendationCta ? "pb-16 sm:pb-6" : "pb-24 sm:pb-6") : "pb-4"
-        }`}>
-          <div>{t.footerCopyright}</div>
-          <div className="mx-auto mt-1 max-w-3xl">{t.footerNonCommercial}</div>
-          <div className="mt-4">
-            {!showResetConfirm ? (
-              <button
-                type="button"
-                onClick={() => setShowResetConfirm(true)}
-                className="rounded-full border border-slate-200 bg-white/80 px-4 py-1.5 text-xs text-slate-400 transition hover:border-clay/40 hover:text-clay"
-              >
-                {t.reset}
-              </button>
-            ) : (
-              <div className="animate-fade-in inline-flex max-w-full flex-wrap items-center justify-center gap-2 rounded-[22px] border border-clay/30 bg-white/90 px-4 py-2 text-center shadow-sm sm:rounded-full">
-                <span className="w-full text-xs text-slate-600 sm:w-auto">
-                  {locale === "en" ? "Clear all saved data?" : "確定要清除所有資料嗎？"}
-                </span>
-                <button
-                  type="button"
-                  onClick={() => { resetAll(); setShowResetConfirm(false); }}
-                  className="rounded-full bg-clay/90 px-3 py-1 text-xs font-medium text-white transition hover:bg-clay"
-                >
-                  {locale === "en" ? "Confirm" : "確認"}
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setShowResetConfirm(false)}
-                  className="rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-medium text-slate-500 transition hover:text-slate-700"
-                >
-                  {locale === "en" ? "Cancel" : "取消"}
-                </button>
-              </div>
-            )}
-          </div>
-        </footer>
+    <div className="flex items-center gap-2.5">
+      <div className="grid h-10 w-10 place-items-center rounded-2xl bg-[linear-gradient(145deg,#f58a1f,#ef5b17)] text-lg font-black text-white shadow-[0_10px_24px_rgba(239,91,23,0.24)]">
+        N
       </div>
-      <Analytics />
+      <div>
+        <div className="text-xl font-bold tracking-[-0.04em] text-slate-950">
+          Next<span className="text-[#27833b]">Bite</span>
+        </div>
+        <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-400">
+          Explainable meal decisions
+        </div>
+      </div>
     </div>
   );
 }
 
-export default App;
+function ScoreBadge({ score, locale }: { score: number; locale: Locale }) {
+  return (
+    <div className="min-w-[92px] rounded-[22px] border border-emerald-200 bg-emerald-50 px-4 py-3 text-center">
+      <div className="text-2xl font-bold tracking-tight text-emerald-800">
+        {score >= 0 ? "+" : ""}
+        {score}
+      </div>
+      <div className="text-[10px] font-semibold uppercase tracking-[0.12em] text-emerald-700/70">
+        {text(locale, "decision points", "決策分數")}
+      </div>
+    </div>
+  );
+}
+
+function ComponentChip({
+  component,
+  locale,
+  onRemove,
+}: {
+  component: ParsedMealComponent;
+  locale: Locale;
+  onRemove: () => void;
+}) {
+  return (
+    <div className="group flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-2 text-sm shadow-sm">
+      <span className="font-medium text-slate-800">{component.name}</span>
+      <span className="text-xs text-slate-400">{component.amount}</span>
+      <span
+        className={cx(
+          "h-1.5 w-1.5 rounded-full",
+          component.confidence === "high"
+            ? "bg-emerald-500"
+            : component.confidence === "medium"
+              ? "bg-amber-400"
+              : "bg-slate-300",
+        )}
+        title={confidenceLabel(locale, component.confidence)}
+      />
+      <button
+        type="button"
+        onClick={onRemove}
+        className="ml-0.5 grid h-5 w-5 place-items-center rounded-full text-slate-300 transition hover:bg-slate-100 hover:text-slate-700"
+        aria-label={text(locale, `Remove ${component.name}`, `移除 ${component.name}`)}
+      >
+        ×
+      </button>
+    </div>
+  );
+}
+
+export default function App() {
+  const [locale, setLocale] = useState<Locale>(() =>
+    localStorage.getItem("next-bite-locale") === "zh" ? "zh" : "en",
+  );
+  const [state, setState] = useState<AppState>(loadInitialState);
+  const [mealText, setMealText] = useState("");
+  const [apiKey, setApiKey] = useState("");
+  const [keyOpen, setKeyOpen] = useState(false);
+  const [isParsing, setIsParsing] = useState(false);
+  const [parseError, setParseError] = useState("");
+  const [parsedMeal, setParsedMeal] = useState<ParsedMeal | null>(null);
+  const [manualOpen, setManualOpen] = useState(false);
+  const [manual, setManual] = useState({
+    protein: "",
+    vegetables: "",
+    carbs: "",
+    drink: "",
+  });
+  const [selectedRecommendation, setSelectedRecommendation] = useState(0);
+  const [receiptOpen, setReceiptOpen] = useState(true);
+  const [catalogOpen, setCatalogOpen] = useState(false);
+  const [catalogQuery, setCatalogQuery] = useState("");
+  const [profileOpen, setProfileOpen] = useState(false);
+  const [choice, setChoice] = useState("");
+  const [showReset, setShowReset] = useState(false);
+
+  useEffect(() => {
+    localStorage.setItem("next-bite-locale", locale);
+  }, [locale]);
+
+  useEffect(() => {
+    localStorage.setItem(APP_STORAGE_KEY, JSON.stringify(state));
+  }, [state]);
+
+  const todayDay = useMemo(
+    () => state.days.find((day) => day.isToday) ?? state.days[state.days.length - 1],
+    [state.days],
+  );
+  const hasMeal = mealNames.some((mealName) =>
+    isMealLogged(todayDay.todayLog[mealName]),
+  );
+  const summary = useMemo(
+    () => summarizeTodayIntake(todayDay.todayLog),
+    [todayDay.todayLog],
+  );
+  const recommendations = useMemo(
+    () =>
+      scoreRecommendations(
+        state.profile,
+        todayDay.todayLog,
+        state.days,
+        locale,
+        new Date(),
+      ),
+    [locale, state.days, state.profile, todayDay.todayLog],
+  );
+  const activeRecommendation =
+    recommendations[selectedRecommendation % Math.max(recommendations.length, 1)] ??
+    null;
+  const hardFilteredCount = useMemo(
+    () => countHardAvoidedRecommendations(state.profile),
+    [state.profile],
+  );
+
+  useEffect(() => {
+    setSelectedRecommendation(0);
+    setChoice("");
+  }, [state.profile, todayDay.todayLog]);
+
+  const filteredCatalog = useMemo(() => {
+    const query = catalogQuery.trim().toLowerCase();
+    if (!query) return recommendationDataset;
+    return recommendationDataset.filter((meal) =>
+      [meal.title, meal.description, ...meal.tags]
+        .join(" ")
+        .toLowerCase()
+        .includes(query),
+    );
+  }, [catalogQuery]);
+
+  const updateProfile = <K extends keyof Profile>(key: K, value: Profile[K]) => {
+    setState((current) => ({
+      ...current,
+      profile: { ...current.profile, [key]: value },
+    }));
+  };
+
+  const toggleProfileTag = (
+    group: "preferenceTags" | "avoidTags",
+    value: string,
+  ) => {
+    setState((current) => {
+      const currentTags = current.profile[group];
+      return {
+        ...current,
+        profile: {
+          ...current.profile,
+          [group]: currentTags.includes(value)
+            ? currentTags.filter((tag) => tag !== value)
+            : [...currentTags, value],
+        },
+      };
+    });
+  };
+
+  const logParsedMeal = (meal: ParsedMeal) => {
+    const entry = parsedMealToEntry(meal);
+    setState((current) => ({
+      ...current,
+      days: current.days.map((day) =>
+        day.id === todayDay.id
+          ? {
+              ...day,
+              todayLog: {
+                ...day.todayLog,
+                [meal.mealSlot]: entry,
+              },
+            }
+          : day,
+      ),
+    }));
+    setParsedMeal(null);
+    setParseError("");
+    window.setTimeout(
+      () =>
+        document
+          .getElementById("decision")
+          ?.scrollIntoView({ behavior: "smooth", block: "start" }),
+      80,
+    );
+  };
+
+  const analyzeMeal = async () => {
+    const trimmed = mealText.trim();
+    setParseError("");
+    if (!trimmed) {
+      setParseError(
+        text(locale, "Describe one meal first.", "請先描述一餐。"),
+      );
+      return;
+    }
+    if (!apiKey) {
+      setKeyOpen(true);
+      setParseError(
+        text(
+          locale,
+          "Add your OpenAI API key for this session, or try the example with no key.",
+          "請加入本次工作階段使用的 OpenAI API key，或直接試用免 key 範例。",
+        ),
+      );
+      return;
+    }
+
+    setIsParsing(true);
+    try {
+      const meal = await parseMealWithAi({
+        text: trimmed,
+        locale,
+        mealSlotHint: getDefaultMealSlot(),
+        apiKey,
+      });
+      setParsedMeal(meal);
+    } catch (error) {
+      setParseError(
+        error instanceof Error
+          ? error.message
+          : text(locale, "The meal could not be analyzed.", "無法分析這一餐。"),
+      );
+    } finally {
+      setIsParsing(false);
+    }
+  };
+
+  const createManualMeal = () => {
+    const components: ParsedMealComponent[] = [
+      ...splitItems(manual.protein).map((name) => ({
+        name,
+        group: "protein" as const,
+        amount: text(locale, "unspecified", "未說明"),
+        confidence: "high" as const,
+      })),
+      ...splitItems(manual.vegetables).map((name) => ({
+        name,
+        group: "vegetable" as const,
+        amount: text(locale, "unspecified", "未說明"),
+        confidence: "high" as const,
+      })),
+      ...splitItems(manual.carbs).map((name) => ({
+        name,
+        group: "carb" as const,
+        amount: text(locale, "unspecified", "未說明"),
+        confidence: "high" as const,
+      })),
+      ...splitItems(manual.drink).map((name) => ({
+        name,
+        group: "drink" as const,
+        amount: text(locale, "unspecified", "未說明"),
+        confidence: "high" as const,
+      })),
+    ];
+
+    if (!components.length) {
+      setParseError(
+        text(locale, "Add at least one meal detail.", "至少加入一項餐點內容。"),
+      );
+      return;
+    }
+
+    setParsedMeal({
+      displayName: components.map((component) => component.name).join(", "),
+      mealSlot: getDefaultMealSlot(),
+      components,
+      cookingMethod: "Other",
+      mealSource: "Home-cooked",
+      portion: "Medium",
+      assumptions: [
+        text(
+          locale,
+          "Only the details you entered are used. No ingredients were inferred.",
+          "只使用你輸入的內容，沒有推測其他食材。",
+        ),
+      ],
+      clarification: null,
+    });
+    setManualOpen(false);
+    setParseError("");
+  };
+
+  const resetToday = () => {
+    const blank = createBlankState();
+    setState((current) => ({
+      ...current,
+      days: current.days.map((day) =>
+        day.id === todayDay.id
+          ? {
+              ...day,
+              todayLog:
+                blank.days.find((blankDay) => blankDay.isToday)?.todayLog ??
+                blank.days[blank.days.length - 1].todayLog,
+            }
+          : day,
+      ),
+    }));
+    setParsedMeal(null);
+    setMealText("");
+    setChoice("");
+    setShowReset(false);
+  };
+
+  const receiptTotal =
+    activeRecommendation?.scoreBreakdown.reduce(
+      (total, item) => total + item.points,
+      0,
+    ) ?? 0;
+
+  return (
+    <div className="min-h-screen text-slate-900">
+      <header className="border-b border-white/80 bg-white/70 backdrop-blur-xl">
+        <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4 sm:px-6">
+          <BrandMark />
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => setProfileOpen((open) => !open)}
+              className="whitespace-nowrap rounded-full border border-slate-200 bg-white px-3.5 py-2 text-xs font-semibold text-slate-600 shadow-sm transition hover:border-emerald-300 hover:text-emerald-800"
+            >
+              {text(locale, "Preferences", "偏好")}
+              {(state.profile.preferenceTags.length > 0 ||
+                state.profile.avoidTags.length > 0) &&
+                ` · ${state.profile.preferenceTags.length + state.profile.avoidTags.length}`}
+            </button>
+            <button
+              type="button"
+              onClick={() => setLocale((current) => (current === "en" ? "zh" : "en"))}
+              className="whitespace-nowrap rounded-full border border-slate-200 bg-white px-3.5 py-2 text-xs font-semibold text-slate-600 shadow-sm transition hover:border-emerald-300 hover:text-emerald-800"
+            >
+              {locale === "en" ? "繁中" : "EN"}
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <main className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-10">
+        <section className="relative overflow-hidden rounded-[30px] border border-white/80 bg-[linear-gradient(135deg,rgba(255,247,234,0.98),rgba(237,248,238,0.96))] px-5 py-8 shadow-[0_24px_60px_rgba(42,63,47,0.08)] sm:px-9 sm:py-11">
+          <div className="pointer-events-none absolute -right-20 -top-28 h-64 w-64 rounded-full bg-[radial-gradient(circle,rgba(67,145,78,0.18),transparent_68%)]" />
+          <div className="relative max-w-3xl">
+            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-emerald-200/80 bg-white/80 px-3 py-1.5 text-[11px] font-bold uppercase tracking-[0.15em] text-emerald-800">
+              <span className="h-2 w-2 rounded-full bg-emerald-500" />
+              {text(locale, "AI understands. Rules decide.", "AI 負責理解，規則負責決定。")}
+            </div>
+            <h1 className="max-w-2xl text-[2.35rem] font-bold leading-[1.04] tracking-[-0.055em] text-slate-950 sm:text-6xl">
+              {text(
+                locale,
+                "One next meal. With the math.",
+                "下一餐只給一個答案，並把計算攤開。",
+              )}
+            </h1>
+            <p className="mt-5 max-w-2xl text-base leading-7 text-slate-600 sm:text-lg">
+              {text(
+                locale,
+                "Tell NextBite what you ate. It turns the meal into checkable inputs, scores 100 source-backed options, and shows exactly why one moved to the top.",
+                "告訴 NextBite 你吃了什麼。它會把餐點轉成可檢查的輸入，評估 100 道有來源依據的選項，並清楚顯示為什麼這一道排在最前面。",
+              )}
+            </p>
+            <div className="mt-6 flex flex-wrap gap-2 text-xs font-semibold text-slate-600">
+              {[
+                text(locale, "No calorie guesses", "不亂猜熱量"),
+                text(locale, "Visible score receipt", "分數收據可見"),
+                text(locale, "Mixed Asian + Western meals", "涵蓋亞洲與西式日常餐"),
+                text(locale, "BYOK, only when you need AI", "需要 AI 時才使用 BYOK"),
+              ].map((item) => (
+                <span
+                  key={item}
+                  className="rounded-full border border-white bg-white/75 px-3 py-2 shadow-sm"
+                >
+                  {item}
+                </span>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {profileOpen && (
+          <section className="mt-5 rounded-[26px] border border-slate-200 bg-white p-5 shadow-sm">
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <h2 className="text-lg font-bold tracking-tight">
+                  {text(locale, "Keep only high-impact preferences", "只保留真正會影響結果的偏好")}
+                </h2>
+                <p className="mt-1 text-sm text-slate-500">
+                  {text(
+                    locale,
+                    "Nothing here is required before your first result.",
+                    "第一次取得結果前，這裡沒有任何必填項目。",
+                  )}
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setProfileOpen(false)}
+                className="rounded-full border border-slate-200 px-3 py-1.5 text-xs font-semibold text-slate-500"
+              >
+                {text(locale, "Close", "關閉")}
+              </button>
+            </div>
+            <div className="mt-5 grid gap-6 lg:grid-cols-2">
+              <div>
+                <div className="mb-2 text-xs font-bold uppercase tracking-[0.14em] text-slate-400">
+                  {text(locale, "Prefer", "偏好")}
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {preferenceTags
+                    .filter((tag) =>
+                      [
+                        "Chinese-style",
+                        "Taiwanese-style",
+                        "Japanese",
+                        "Korean",
+                        "Mediterranean",
+                        "Mexican-inspired",
+                        "Vegetable-forward",
+                        "High-protein",
+                        "Soupy meals",
+                        "Quick grocery meals",
+                      ].includes(tag),
+                    )
+                    .map((tag) => (
+                      <button
+                        type="button"
+                        key={tag}
+                        onClick={() => toggleProfileTag("preferenceTags", tag)}
+                        className={cx(
+                          "rounded-full border px-3 py-2 text-xs font-semibold transition",
+                          state.profile.preferenceTags.includes(tag)
+                            ? "border-emerald-600 bg-emerald-700 text-white"
+                            : "border-slate-200 bg-white text-slate-600 hover:border-emerald-300",
+                        )}
+                      >
+                        {tag}
+                      </button>
+                    ))}
+                </div>
+              </div>
+              <div>
+                <div className="mb-2 text-xs font-bold uppercase tracking-[0.14em] text-slate-400">
+                  {text(locale, "Must avoid", "必須避開")}
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {avoidTags
+                    .filter((tag) =>
+                      [
+                        "Dairy",
+                        "Egg",
+                        "Soy",
+                        "Wheat / gluten",
+                        "Peanuts",
+                        "Tree nuts",
+                        "Beef",
+                        "Pork",
+                        "Shellfish",
+                        "Fishy seafood",
+                        "Spicy food",
+                        "Fried food",
+                      ].includes(tag),
+                    )
+                    .map((tag) => (
+                      <button
+                        type="button"
+                        key={tag}
+                        onClick={() => toggleProfileTag("avoidTags", tag)}
+                        className={cx(
+                          "rounded-full border px-3 py-2 text-xs font-semibold transition",
+                          state.profile.avoidTags.includes(tag)
+                            ? "border-rose-600 bg-rose-600 text-white"
+                            : "border-slate-200 bg-white text-slate-600 hover:border-rose-300",
+                        )}
+                      >
+                        {tag}
+                      </button>
+                    ))}
+                </div>
+                <p className="mt-3 text-xs leading-5 text-slate-400">
+                  {text(
+                    locale,
+                    "These remove matching templates before scoring. NextBite is not a medical allergy checker; confirm ingredients with the cook or restaurant.",
+                    "這些條件會在計分前移除相符餐點。NextBite 不是醫療級過敏檢查工具，仍需向餐廳或料理者確認實際食材。",
+                  )}
+                </p>
+              </div>
+            </div>
+          </section>
+        )}
+
+        <div className="mt-6 grid items-start gap-6 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)]">
+          <section className="rounded-[28px] border border-slate-200/80 bg-white p-5 shadow-[0_18px_50px_rgba(30,45,35,0.06)] sm:p-7">
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <div className="text-[11px] font-bold uppercase tracking-[0.16em] text-orange-600">
+                  01 · {text(locale, "Describe", "描述")}
+                </div>
+                <h2 className="mt-2 text-2xl font-bold tracking-[-0.035em]">
+                  {text(locale, "What did you just eat?", "你剛剛吃了什麼？")}
+                </h2>
+              </div>
+              {hasMeal && (
+                <button
+                  type="button"
+                  onClick={() => setShowReset(true)}
+                  className="text-xs font-semibold text-slate-400 underline decoration-slate-200 underline-offset-4 hover:text-slate-700"
+                >
+                  {text(locale, "Clear today", "清除今天")}
+                </button>
+              )}
+            </div>
+
+            <textarea
+              value={mealText}
+              onChange={(event) => setMealText(event.target.value.slice(0, 600))}
+              placeholder={text(
+                locale,
+                "Example: I had chicken rice, a few vegetables, and half a milk tea for lunch.",
+                "例如：午餐吃了雞肉飯、一些青菜，還喝了半杯奶茶。",
+              )}
+              className="mt-5 min-h-32 w-full resize-y rounded-[22px] border border-slate-200 bg-slate-50/70 p-4 text-base leading-7 text-slate-800 outline-none transition placeholder:text-slate-400 focus:border-emerald-400 focus:bg-white focus:ring-4 focus:ring-emerald-100"
+            />
+            <div className="mt-2 flex items-center justify-between text-[11px] text-slate-400">
+              <span>
+                {text(
+                  locale,
+                  "Natural language in English or Chinese",
+                  "可使用中文或英文自然描述",
+                )}
+              </span>
+              <span>{mealText.length}/600</span>
+            </div>
+
+            <div className="mt-4 grid gap-2.5 sm:grid-cols-2">
+              <button
+                type="button"
+                onClick={analyzeMeal}
+                disabled={isParsing}
+                className="rounded-2xl bg-slate-950 px-4 py-3.5 text-sm font-bold text-white shadow-[0_12px_24px_rgba(15,23,42,0.18)] transition hover:-translate-y-0.5 hover:bg-emerald-900 disabled:cursor-wait disabled:opacity-60"
+              >
+                {isParsing
+                  ? text(locale, "Understanding…", "正在理解…")
+                  : text(locale, "Understand my meal with AI", "用 AI 理解這一餐")}
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setParsedMeal(sampleMeal(locale));
+                  setParseError("");
+                }}
+                className="rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3.5 text-sm font-bold text-emerald-800 transition hover:-translate-y-0.5 hover:border-emerald-300"
+              >
+                {text(locale, "Try a no-key example", "試用免 key 範例")}
+              </button>
+            </div>
+
+            <div className="mt-3 flex items-center justify-between gap-3">
+              <button
+                type="button"
+                onClick={() => setManualOpen((open) => !open)}
+                className="text-xs font-semibold text-slate-500 underline decoration-slate-200 underline-offset-4 hover:text-slate-800"
+              >
+                {manualOpen
+                  ? text(locale, "Hide manual mode", "收起手動模式")
+                  : text(locale, "No key? Enter 4 quick details", "沒有 key？手動輸入 4 個重點")}
+              </button>
+              <button
+                type="button"
+                onClick={() => setKeyOpen((open) => !open)}
+                className="text-xs font-semibold text-emerald-700 underline decoration-emerald-200 underline-offset-4 hover:text-emerald-900"
+              >
+                {apiKey
+                  ? text(locale, "Key ready for this session", "本次 key 已就緒")
+                  : text(locale, "Add my OpenAI key", "加入我的 OpenAI key")}
+              </button>
+            </div>
+
+            {parseError && (
+              <div className="mt-4 rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm leading-6 text-rose-700">
+                {parseError}
+              </div>
+            )}
+
+            {keyOpen && (
+              <div className="mt-4 rounded-[22px] border border-emerald-200 bg-emerald-50/70 p-4">
+                <div className="flex items-start justify-between gap-4">
+                  <div>
+                    <div className="text-sm font-bold text-emerald-950">
+                      {text(locale, "Bring your own OpenAI key", "使用你自己的 OpenAI key")}
+                    </div>
+                    <p className="mt-1 text-xs leading-5 text-emerald-900/70">
+                      {text(
+                        locale,
+                        "Held only in this page's memory. It is sent through NextBite's same-origin, no-store relay for this request and is never written to local storage.",
+                        "只保留在目前頁面的記憶體中。分析時會經由 NextBite 同網域、禁止儲存的轉送端點送出，不會寫入 local storage。",
+                      )}
+                    </p>
+                  </div>
+                  {apiKey && (
+                    <button
+                      type="button"
+                      onClick={() => setApiKey("")}
+                      className="shrink-0 text-xs font-semibold text-emerald-800 underline"
+                    >
+                      {text(locale, "Forget", "清除")}
+                    </button>
+                  )}
+                </div>
+                <input
+                  type="password"
+                  autoComplete="off"
+                  spellCheck={false}
+                  value={apiKey}
+                  onChange={(event) =>
+                    setApiKey(event.target.value.slice(0, KEY_MAX_LENGTH))
+                  }
+                  placeholder="sk-…"
+                  className="mt-3 w-full rounded-2xl border border-emerald-200 bg-white px-4 py-3 text-sm outline-none focus:border-emerald-500 focus:ring-4 focus:ring-emerald-100"
+                />
+                <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2 text-[11px] text-emerald-900/65">
+                  <a
+                    href="https://platform.openai.com/api-keys"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="font-semibold underline underline-offset-4"
+                  >
+                    {text(locale, "OpenAI API keys", "OpenAI API keys")}
+                  </a>
+                  <span>
+                    {text(
+                      locale,
+                      "Use a dedicated project key that you can revoke.",
+                      "建議使用可隨時撤銷的獨立 project key。",
+                    )}
+                  </span>
+                </div>
+              </div>
+            )}
+
+            {manualOpen && (
+              <div className="mt-4 rounded-[22px] border border-slate-200 bg-slate-50 p-4">
+                <div className="grid gap-3 sm:grid-cols-2">
+                  {(
+                    [
+                      ["protein", "Protein", "蛋白質"],
+                      ["vegetables", "Vegetables", "蔬菜"],
+                      ["carbs", "Carbs", "主食／碳水"],
+                      ["drink", "Drink", "飲料"],
+                    ] as const
+                  ).map(([key, en, zh]) => (
+                    <label key={key} className="text-xs font-bold text-slate-600">
+                      {text(locale, en, zh)}
+                      <input
+                        value={manual[key]}
+                        onChange={(event) =>
+                          setManual((current) => ({
+                            ...current,
+                            [key]: event.target.value,
+                          }))
+                        }
+                        placeholder={text(
+                          locale,
+                          "Comma-separated",
+                          "可用逗號分隔",
+                        )}
+                        className="mt-1.5 w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm font-normal outline-none focus:border-emerald-400"
+                      />
+                    </label>
+                  ))}
+                </div>
+                <button
+                  type="button"
+                  onClick={createManualMeal}
+                  className="mt-3 w-full rounded-xl bg-slate-800 px-4 py-3 text-sm font-bold text-white"
+                >
+                  {text(locale, "Review these details", "檢查這些內容")}
+                </button>
+              </div>
+            )}
+
+            {parsedMeal && (
+              <div className="mt-5 rounded-[24px] border-2 border-amber-200 bg-amber-50/65 p-4 sm:p-5">
+                <div className="flex items-start justify-between gap-4">
+                  <div>
+                    <div className="text-[10px] font-bold uppercase tracking-[0.14em] text-amber-700">
+                      02 · {text(locale, "Confirm", "確認")}
+                    </div>
+                    <h3 className="mt-1.5 text-lg font-bold tracking-tight text-slate-900">
+                      {parsedMeal.displayName}
+                    </h3>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setParsedMeal(null)}
+                    className="rounded-full border border-amber-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-500"
+                  >
+                    {text(locale, "Cancel", "取消")}
+                  </button>
+                </div>
+
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {parsedMeal.components.map((component, index) => (
+                    <ComponentChip
+                      key={`${component.group}-${component.name}-${index}`}
+                      component={component}
+                      locale={locale}
+                      onRemove={() =>
+                        setParsedMeal((current) =>
+                          current
+                            ? {
+                                ...current,
+                                components: current.components.filter(
+                                  (_, currentIndex) => currentIndex !== index,
+                                ),
+                              }
+                            : current,
+                        )
+                      }
+                    />
+                  ))}
+                </div>
+
+                <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                  <label className="text-xs font-bold text-slate-600">
+                    {text(locale, "Meal", "餐別")}
+                    <select
+                      value={parsedMeal.mealSlot}
+                      onChange={(event) =>
+                        setParsedMeal({
+                          ...parsedMeal,
+                          mealSlot: event.target.value as MealName,
+                        })
+                      }
+                      className="mt-1.5 w-full rounded-xl border border-amber-200 bg-white px-3 py-2.5 text-sm font-normal"
+                    >
+                      {mealNames.map((name) => (
+                        <option key={name}>{name}</option>
+                      ))}
+                    </select>
+                  </label>
+                  <label className="text-xs font-bold text-slate-600">
+                    {text(locale, "Source", "來源")}
+                    <select
+                      value={parsedMeal.mealSource}
+                      onChange={(event) =>
+                        setParsedMeal({
+                          ...parsedMeal,
+                          mealSource: event.target.value as ParsedMeal["mealSource"],
+                        })
+                      }
+                      className="mt-1.5 w-full rounded-xl border border-amber-200 bg-white px-3 py-2.5 text-sm font-normal"
+                    >
+                      {mealOptions.mealSource.map((name) => (
+                        <option key={name}>{name}</option>
+                      ))}
+                    </select>
+                  </label>
+                  <label className="text-xs font-bold text-slate-600">
+                    {text(locale, "Preparation", "烹調方式")}
+                    <select
+                      value={parsedMeal.cookingMethod}
+                      onChange={(event) =>
+                        setParsedMeal({
+                          ...parsedMeal,
+                          cookingMethod: event.target.value,
+                        })
+                      }
+                      className="mt-1.5 w-full rounded-xl border border-amber-200 bg-white px-3 py-2.5 text-sm font-normal"
+                    >
+                      {mealOptions.cookingMethod.map((name) => (
+                        <option key={name}>{name}</option>
+                      ))}
+                    </select>
+                  </label>
+                  <label className="text-xs font-bold text-slate-600">
+                    {text(locale, "Portion", "份量")}
+                    <select
+                      value={parsedMeal.portion}
+                      onChange={(event) =>
+                        setParsedMeal({
+                          ...parsedMeal,
+                          portion: event.target.value as ParsedMeal["portion"],
+                        })
+                      }
+                      className="mt-1.5 w-full rounded-xl border border-amber-200 bg-white px-3 py-2.5 text-sm font-normal"
+                    >
+                      {mealOptions.portion.map((name) => (
+                        <option key={name}>{name}</option>
+                      ))}
+                    </select>
+                  </label>
+                </div>
+
+                {(parsedMeal.assumptions.length > 0 || parsedMeal.clarification) && (
+                  <div className="mt-4 rounded-2xl border border-amber-200 bg-white/80 p-3">
+                    <div className="text-[10px] font-bold uppercase tracking-[0.13em] text-amber-700">
+                      {text(locale, "Assumptions to verify", "需要確認的假設")}
+                    </div>
+                    <ul className="mt-2 space-y-1.5 text-xs leading-5 text-slate-600">
+                      {parsedMeal.assumptions.map((assumption) => (
+                        <li key={assumption}>• {assumption}</li>
+                      ))}
+                      {parsedMeal.clarification && (
+                        <li className="font-semibold text-slate-800">
+                          • {parsedMeal.clarification}
+                        </li>
+                      )}
+                    </ul>
+                  </div>
+                )}
+
+                <button
+                  type="button"
+                  disabled={parsedMeal.components.length === 0}
+                  onClick={() => logParsedMeal(parsedMeal)}
+                  className="mt-4 w-full rounded-2xl bg-amber-500 px-4 py-3.5 text-sm font-bold text-slate-950 shadow-sm transition hover:bg-amber-400 disabled:opacity-40"
+                >
+                  {text(locale, "Confirm and calculate", "確認並開始計算")}
+                </button>
+              </div>
+            )}
+
+            {showReset && (
+              <div className="mt-4 rounded-2xl border border-rose-200 bg-rose-50 p-4">
+                <div className="text-sm font-semibold text-rose-800">
+                  {text(locale, "Clear all of today's meal inputs?", "要清除今天所有餐點輸入嗎？")}
+                </div>
+                <div className="mt-3 flex gap-2">
+                  <button
+                    type="button"
+                    onClick={resetToday}
+                    className="rounded-xl bg-rose-600 px-4 py-2 text-xs font-bold text-white"
+                  >
+                    {text(locale, "Clear", "清除")}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setShowReset(false)}
+                    className="rounded-xl border border-rose-200 bg-white px-4 py-2 text-xs font-bold text-rose-700"
+                  >
+                    {text(locale, "Keep it", "保留")}
+                  </button>
+                </div>
+              </div>
+            )}
+          </section>
+
+          <section
+            id="decision"
+            className="scroll-mt-5 rounded-[28px] border border-slate-200/80 bg-white p-5 shadow-[0_18px_50px_rgba(30,45,35,0.06)] sm:p-7"
+          >
+            <div className="text-[11px] font-bold uppercase tracking-[0.16em] text-emerald-700">
+              03 · {text(locale, "Decide", "決定")}
+            </div>
+            {!hasMeal || !activeRecommendation ? (
+              <div className="grid min-h-[440px] place-items-center py-12 text-center">
+                <div className="max-w-sm">
+                  <div className="mx-auto grid h-16 w-16 place-items-center rounded-[24px] bg-emerald-50 text-3xl text-emerald-700">
+                    ↗
+                  </div>
+                  <h2 className="mt-5 text-2xl font-bold tracking-tight">
+                    {text(locale, "Your next meal will appear here", "你的下一餐會出現在這裡")}
+                  </h2>
+                  <p className="mt-3 text-sm leading-6 text-slate-500">
+                    {text(
+                      locale,
+                      "Use the no-key example to see the full decision receipt in under 15 seconds.",
+                      "使用免 key 範例，15 秒內就能看到完整決策收據。",
+                    )}
+                  </p>
+                </div>
+              </div>
+            ) : (
+              <>
+                <div className="mt-3 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+                  <div className="min-w-0">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="rounded-full bg-slate-950 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.13em] text-white">
+                        {selectedRecommendation === 0
+                          ? text(locale, "Top decision", "首選")
+                          : text(locale, "Alternative", "替代選項")}
+                      </span>
+                      <span className="rounded-full border border-slate-200 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.12em] text-slate-500">
+                        {cuisineName(activeRecommendation)}
+                      </span>
+                      <span className="rounded-full border border-slate-200 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.12em] text-slate-500">
+                        {confidenceLabel(locale, activeRecommendation.evidence.confidence)}
+                      </span>
+                    </div>
+                    <h2 className="mt-3 text-3xl font-bold leading-tight tracking-[-0.045em] text-slate-950">
+                      {activeRecommendation.title}
+                    </h2>
+                    <p className="mt-3 max-w-xl text-sm leading-6 text-slate-600">
+                      {activeRecommendation.shortReason}
+                    </p>
+                  </div>
+                  <ScoreBadge score={activeRecommendation.score} locale={locale} />
+                </div>
+
+                <div className="mt-5 grid gap-3 sm:grid-cols-3">
+                  <div className="rounded-2xl border border-slate-200 bg-slate-50 p-3.5">
+                    <div className="text-[10px] font-bold uppercase tracking-[0.12em] text-slate-400">
+                      {text(locale, "Balance", "平衡")}
+                    </div>
+                    <div className="mt-1.5 text-sm font-semibold text-slate-700">
+                      {activeRecommendation.balanceNote}
+                    </div>
+                  </div>
+                  <div className="rounded-2xl border border-slate-200 bg-slate-50 p-3.5">
+                    <div className="text-[10px] font-bold uppercase tracking-[0.12em] text-slate-400">
+                      {text(locale, "Practicality", "可執行性")}
+                    </div>
+                    <div className="mt-1.5 text-sm font-semibold text-slate-700">
+                      {activeRecommendation.worksFor.join(" + ")} ·{" "}
+                      {activeRecommendation.convenience}
+                    </div>
+                  </div>
+                  <div className="rounded-2xl border border-slate-200 bg-slate-50 p-3.5">
+                    <div className="text-[10px] font-bold uppercase tracking-[0.12em] text-slate-400">
+                      {text(locale, "With it", "搭配")}
+                    </div>
+                    <div className="mt-1.5 text-sm font-semibold text-slate-700">
+                      {activeRecommendation.suggestedDrink}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="mt-5 rounded-[22px] border border-indigo-100 bg-indigo-50/60 p-4">
+                  <div className="text-[10px] font-bold uppercase tracking-[0.13em] text-indigo-600">
+                    {text(locale, "Change one assumption → recalculate", "改一個條件 → 立即重算")}
+                  </div>
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    {(
+                      [
+                        ["Normal", "Normal", "一般"],
+                        ["Need something light", "Need lighter", "想清淡一點"],
+                        ["Want something warm", "Want warm", "想吃熱的"],
+                        ["Low energy", "Low energy", "沒力氣準備"],
+                      ] as Array<[FeelToday, string, string]>
+                    ).map(([value, en, zh]) => (
+                      <button
+                        type="button"
+                        key={value}
+                        onClick={() => updateProfile("feelToday", value)}
+                        className={cx(
+                          "rounded-full border px-3 py-2 text-xs font-bold transition",
+                          state.profile.feelToday === value
+                            ? "border-indigo-600 bg-indigo-600 text-white"
+                            : "border-indigo-200 bg-white text-indigo-700 hover:border-indigo-400",
+                        )}
+                      >
+                        {text(locale, en, zh)}
+                      </button>
+                    ))}
+                  </div>
+                  <div className="mt-2 flex flex-wrap gap-2">
+                    {(
+                      [
+                        ["Both", "Home or takeout", "自煮或外食"],
+                        ["Mostly home-cooked", "Home-cooked", "偏好自煮"],
+                        ["Mostly takeout", "Takeout", "偏好外食"],
+                      ] as Array<[EatingStyle, string, string]>
+                    ).map(([value, en, zh]) => (
+                      <button
+                        type="button"
+                        key={value}
+                        onClick={() => updateProfile("eatingStyle", value)}
+                        className={cx(
+                          "rounded-full border px-3 py-2 text-xs font-bold transition",
+                          state.profile.eatingStyle === value
+                            ? "border-slate-700 bg-slate-800 text-white"
+                            : "border-slate-200 bg-white text-slate-600 hover:border-slate-400",
+                        )}
+                      >
+                        {text(locale, en, zh)}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="mt-5 grid gap-2 sm:grid-cols-2">
+                  <button
+                    type="button"
+                    onClick={() => setChoice(activeRecommendation.id)}
+                    className={cx(
+                      "rounded-2xl px-4 py-3.5 text-sm font-bold transition",
+                      choice === activeRecommendation.id
+                        ? "bg-emerald-700 text-white"
+                        : "bg-slate-950 text-white hover:bg-emerald-900",
+                    )}
+                  >
+                    {choice === activeRecommendation.id
+                      ? text(locale, "Chosen ✓", "已選擇 ✓")
+                      : text(locale, "Choose this meal", "就選這一道")}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setSelectedRecommendation((current) =>
+                        recommendations.length > 1
+                          ? (current + 1) % recommendations.length
+                          : current,
+                      )
+                    }
+                    className="rounded-2xl border border-slate-200 bg-white px-4 py-3.5 text-sm font-bold text-slate-700 transition hover:border-emerald-300 hover:text-emerald-800"
+                  >
+                    {text(locale, "Compare another option", "比較另一個選項")}
+                  </button>
+                </div>
+
+                <div className="mt-6 border-t border-slate-200 pt-5">
+                  <button
+                    type="button"
+                    onClick={() => setReceiptOpen((open) => !open)}
+                    className="flex w-full items-center justify-between gap-4 text-left"
+                  >
+                    <div>
+                      <div className="text-[10px] font-bold uppercase tracking-[0.14em] text-emerald-700">
+                        {text(locale, "Decision receipt", "決策收據")}
+                      </div>
+                      <div className="mt-1 text-lg font-bold tracking-tight">
+                        {text(locale, "Every point is visible and additive", "每一分都可見，而且可以逐項相加")}
+                      </div>
+                    </div>
+                    <span className="grid h-9 w-9 place-items-center rounded-full border border-slate-200 text-lg text-slate-500">
+                      {receiptOpen ? "−" : "+"}
+                    </span>
+                  </button>
+
+                  {receiptOpen && (
+                    <div className="mt-4 space-y-4">
+                      <div className="overflow-hidden rounded-[20px] border border-slate-200">
+                        <div className="grid grid-cols-[minmax(0,1fr)_auto] gap-3 border-b border-slate-200 bg-slate-50 px-4 py-3 text-[10px] font-bold uppercase tracking-[0.12em] text-slate-400">
+                          <span>{text(locale, "Visible rule", "可見規則")}</span>
+                          <span>{text(locale, "Points", "分數")}</span>
+                        </div>
+                        {activeRecommendation.scoreBreakdown.map((item) => (
+                          <div
+                            key={item.category}
+                            className="grid grid-cols-[minmax(0,1fr)_auto] gap-3 border-b border-slate-100 px-4 py-3 last:border-b-0"
+                          >
+                            <div>
+                              <div className="text-xs font-bold text-slate-700">
+                                {categoryLabel(locale, item.category)}
+                              </div>
+                              <div className="mt-1 text-xs leading-5 text-slate-500">
+                                {item.note}
+                              </div>
+                            </div>
+                            <div
+                              className={cx(
+                                "pt-0.5 text-sm font-bold tabular-nums",
+                                item.points > 0
+                                  ? "text-emerald-700"
+                                  : item.points < 0
+                                    ? "text-rose-600"
+                                    : "text-slate-400",
+                              )}
+                            >
+                              {item.points > 0 ? "+" : ""}
+                              {item.points}
+                            </div>
+                          </div>
+                        ))}
+                        <div className="grid grid-cols-[minmax(0,1fr)_auto] gap-3 bg-slate-950 px-4 py-3 text-sm font-bold text-white">
+                          <span>
+                            {text(locale, "Visible total", "可見總分")}
+                            {receiptTotal !== activeRecommendation.score && (
+                              <span className="ml-2 text-amber-300">
+                                {text(locale, "Check needed", "需要檢查")}
+                              </span>
+                            )}
+                          </span>
+                          <span className="tabular-nums">
+                            {receiptTotal > 0 ? "+" : ""}
+                            {receiptTotal}
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className="grid gap-3 sm:grid-cols-2">
+                        <div className="rounded-[20px] border border-slate-200 p-4">
+                          <div className="text-[10px] font-bold uppercase tracking-[0.13em] text-slate-400">
+                            {text(locale, "Candidate comparison", "候選比較")}
+                          </div>
+                          <div className="mt-3 space-y-2.5">
+                            {recommendations.map((recommendation, index) => (
+                              <button
+                                type="button"
+                                key={recommendation.id}
+                                onClick={() => setSelectedRecommendation(index)}
+                                className="grid w-full grid-cols-[minmax(0,1fr)_auto] gap-3 text-left"
+                              >
+                                <span className="truncate text-xs font-semibold text-slate-600">
+                                  {recommendation.title}
+                                </span>
+                                <span className="text-xs font-bold tabular-nums text-slate-900">
+                                  {recommendation.score > 0 ? "+" : ""}
+                                  {recommendation.score}
+                                </span>
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                        <div className="rounded-[20px] border border-slate-200 p-4">
+                          <div className="text-[10px] font-bold uppercase tracking-[0.13em] text-slate-400">
+                            {text(locale, "Inputs used", "使用的輸入")}
+                          </div>
+                          <div className="mt-3 grid grid-cols-2 gap-2 text-xs text-slate-600">
+                            <span>{text(locale, "Protein units", "蛋白質單位")}</span>
+                            <strong className="text-right">{summary.proteinCount}</strong>
+                            <span>{text(locale, "Vegetable units", "蔬菜單位")}</span>
+                            <strong className="text-right">{summary.vegetableCount}</strong>
+                            <span>{text(locale, "Carb units", "碳水單位")}</span>
+                            <strong className="text-right">{summary.carbCount}</strong>
+                            <span>{text(locale, "Hard-filtered", "計分前排除")}</span>
+                            <strong className="text-right">{hardFilteredCount}</strong>
+                          </div>
+                          <p className="mt-3 text-[11px] leading-5 text-slate-400">
+                            {text(
+                              locale,
+                              "Meal units are qualitative category signals, not grams or calories.",
+                              "餐點單位是質化分類訊號，不代表克數或熱量。",
+                            )}
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="rounded-[20px] border border-emerald-200 bg-emerald-50/60 p-4">
+                        <div className="flex flex-wrap items-start justify-between gap-3">
+                          <div>
+                            <div className="text-[10px] font-bold uppercase tracking-[0.13em] text-emerald-700">
+                              {text(locale, "Evidence & limits", "證據與限制")}
+                            </div>
+                            <p className="mt-2 max-w-xl text-xs leading-5 text-emerald-950/75">
+                              {activeRecommendation.evidence.method}
+                            </p>
+                          </div>
+                          <span className="rounded-full border border-emerald-200 bg-white px-3 py-1.5 text-[10px] font-bold text-emerald-800">
+                            {text(locale, "Reviewed", "檢視日期")}{" "}
+                            {activeRecommendation.evidence.reviewedOn}
+                          </span>
+                        </div>
+                        <p className="mt-2 text-xs leading-5 text-emerald-950/75">
+                          {activeRecommendation.evidence.assumption}
+                        </p>
+                        <div className="mt-3 flex flex-wrap gap-2">
+                          {activeRecommendation.evidence.sourceIds.map((sourceId) => {
+                            const source = evidenceSources[sourceId];
+                            return (
+                              <a
+                                key={sourceId}
+                                href={source.url}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="rounded-full border border-emerald-200 bg-white px-3 py-2 text-[11px] font-bold text-emerald-800 underline decoration-emerald-200 underline-offset-4"
+                              >
+                                {source.shortName}
+                              </a>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </>
+            )}
+          </section>
+        </div>
+
+        <section
+          id="method"
+          className="mt-6 scroll-mt-6 overflow-hidden rounded-[28px] border border-slate-200/80 bg-white shadow-[0_18px_50px_rgba(30,45,35,0.05)]"
+        >
+          <button
+            type="button"
+            onClick={() => setCatalogOpen((open) => !open)}
+            className="flex w-full flex-col gap-4 p-5 text-left sm:flex-row sm:items-center sm:justify-between sm:p-7"
+          >
+            <div>
+              <div className="text-[11px] font-bold uppercase tracking-[0.16em] text-violet-600">
+                {text(locale, "Source-backed catalog", "有來源依據的餐點庫")}
+              </div>
+              <h2 className="mt-2 text-2xl font-bold tracking-[-0.035em]">
+                {catalogMethod.name}
+              </h2>
+              <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-500">
+                {catalogMethod.statement} {catalogMethod.limitation}
+              </p>
+            </div>
+            <div className="flex shrink-0 items-center gap-3">
+              <div className="text-right">
+                <div className="text-3xl font-bold tracking-tight text-violet-700">
+                  {recommendationDataset.length}
+                </div>
+                <div className="text-[10px] font-bold uppercase tracking-[0.13em] text-slate-400">
+                  {text(locale, "curated meals", "道整理餐點")}
+                </div>
+              </div>
+              <span className="grid h-10 w-10 place-items-center rounded-full border border-slate-200 text-xl text-slate-500">
+                {catalogOpen ? "−" : "+"}
+              </span>
+            </div>
+          </button>
+
+          {catalogOpen && (
+            <div className="border-t border-slate-200 p-5 sm:p-7">
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <input
+                  value={catalogQuery}
+                  onChange={(event) => setCatalogQuery(event.target.value)}
+                  placeholder={text(
+                    locale,
+                    "Search cuisine, ingredient, or format",
+                    "搜尋料理、食材或餐點形式",
+                  )}
+                  className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none focus:border-violet-400 sm:max-w-md"
+                />
+                <div className="text-xs font-semibold text-slate-400">
+                  {filteredCatalog.length} / {recommendationDataset.length}
+                </div>
+              </div>
+              <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                {filteredCatalog.map((meal, index) => (
+                  <article
+                    key={meal.id}
+                    className="rounded-[20px] border border-slate-200 bg-slate-50/60 p-4"
+                  >
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="min-w-0">
+                        <div className="text-[10px] font-bold uppercase tracking-[0.12em] text-slate-400">
+                          #{String(index + 1).padStart(3, "0")} · {cuisineName(meal)}
+                        </div>
+                        <h3 className="mt-1.5 text-sm font-bold leading-5 text-slate-800">
+                          {meal.title}
+                        </h3>
+                      </div>
+                      <span
+                        className={cx(
+                          "h-2.5 w-2.5 shrink-0 rounded-full",
+                          meal.evidence.confidence === "high"
+                            ? "bg-emerald-500"
+                            : meal.evidence.confidence === "medium"
+                              ? "bg-amber-400"
+                              : "bg-slate-300",
+                        )}
+                        title={confidenceLabel(locale, meal.evidence.confidence)}
+                      />
+                    </div>
+                    <div className="mt-3 flex flex-wrap gap-1.5 text-[10px] font-semibold text-slate-500">
+                      <span className="rounded-full border border-slate-200 bg-white px-2 py-1">
+                        P {meal.proteinLevel}
+                      </span>
+                      <span className="rounded-full border border-slate-200 bg-white px-2 py-1">
+                        V {meal.vegetableLevel}
+                      </span>
+                      <span className="rounded-full border border-slate-200 bg-white px-2 py-1">
+                        C {meal.carbLevel}
+                      </span>
+                      <span className="rounded-full border border-slate-200 bg-white px-2 py-1">
+                        {meal.worksFor.join(" / ")}
+                      </span>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </div>
+          )}
+        </section>
+
+        <footer className="mt-8 rounded-[24px] border border-slate-200/80 bg-white/65 px-5 py-5 text-xs leading-6 text-slate-500 sm:px-7">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+            <p className="max-w-3xl">
+              <strong className="text-slate-700">
+                {text(locale, "Trust boundary:", "可信邊界：")}
+              </strong>{" "}
+              {text(
+                locale,
+                "AI may structure your words. It never supplies the final score. The visible rules calculate the recommendation, and food-source links describe the evidence basis. NextBite is for everyday decisions, not medical nutrition advice.",
+                "AI 可以整理你的描述，但不負責產生最終分數。建議由畫面可見的規則計算，餐點來源連結則說明證據基礎。NextBite 用於日常決策，不提供醫療營養建議。",
+              )}
+            </p>
+            <a
+              href="#method"
+              className="shrink-0 font-semibold text-slate-700 underline decoration-slate-300 underline-offset-4"
+            >
+              {text(locale, "Method notes", "方法說明")}
+            </a>
+          </div>
+        </footer>
+      </main>
+    </div>
+  );
+}

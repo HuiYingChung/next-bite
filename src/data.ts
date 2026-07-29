@@ -1,4 +1,5 @@
-import type { AppState, DayHistory, DrinkOption, MealEntry, MealName, Profile, Recommendation, TodayLog } from "./types";
+import { enrichRecommendation } from "./evidence";
+import type { AppState, BaseMealOption, DayHistory, DrinkOption, MealEntry, MealName, Profile, Recommendation, TodayLog } from "./types";
 
 export const STORAGE_KEY = "next-bite-mvp";
 export const mealNames: MealName[] = ["Breakfast", "Lunch", "Dinner", "Snacks / Drinks"];
@@ -485,7 +486,7 @@ export const createBlankState = (): AppState => ({
   selectedDayId: seedHistory[seedHistory.length - 1]?.id ?? "",
 });
 
-export const recommendationDataset: Recommendation[] = [
+const recommendationCatalog: BaseMealOption[] = [
   {
     id: "salmon-rice-bowl-veg",
     title: "Salmon Rice Bowl with Vegetables",
@@ -698,7 +699,7 @@ export const recommendationDataset: Recommendation[] = [
   },
   {
     id: "rotisserie-chicken-microwave-veg",
-    title: "Rotisserie Chicken with Microwave Vegetables",
+    title: "Rotisserie Chicken with Corn and Green Beans",
     tags: ["convenient", "high-protein", "quick", "everyday", "grocery", "plate"],
     proteinLevel: "high",
     vegetableLevel: "medium",
@@ -768,7 +769,7 @@ export const recommendationDataset: Recommendation[] = [
   },
   {
     id: "taiwanese-bento-light",
-    title: "Taiwanese Bento Light Version",
+    title: "Taiwanese Chicken Bento with Two Vegetable Sides",
     tags: ["taiwanese-style", "set-meal", "warm", "comfort"],
     proteinLevel: "medium",
     vegetableLevel: "medium",
@@ -810,7 +811,7 @@ export const recommendationDataset: Recommendation[] = [
   },
   {
     id: "chicken-caesar-wrap-light",
-    title: "Chicken Caesar Wrap Light Version",
+    title: "Chicken Caesar Wrap with Side Fruit",
     tags: ["american-light", "wrap", "convenient", "savory"],
     proteinLevel: "high",
     vegetableLevel: "low",
@@ -992,7 +993,7 @@ export const recommendationDataset: Recommendation[] = [
   },
   {
     id: "falafel-salad-rice",
-    title: "Falafel Salad with Rice",
+    title: "Falafel Salad Pita Plate",
     tags: ["plant-protein", "balanced", "takeout", "bowl", "mediterranean", "vegetable-forward", "light", "convenient"],
     proteinLevel: "medium",
     vegetableLevel: "high",
@@ -1020,7 +1021,7 @@ export const recommendationDataset: Recommendation[] = [
   },
     {
       id: "mapo-tofu-light-rice",
-      title: "Mapo Tofu Light Version with Rice",
+      title: "Mapo Tofu with Rice and Cucumber Salad",
       tags: ["chinese-style", "warm", "rice-based", "comfort", "bowl", "plant-protein", "home-style", "simple", "spicy"],
       proteinLevel: "medium",
       vegetableLevel: "low",
@@ -1048,7 +1049,7 @@ export const recommendationDataset: Recommendation[] = [
   },
   {
     id: "taiwanese-minced-pork-rice-light",
-    title: "Taiwanese Minced Pork Rice Light Version",
+    title: "Taiwanese Minced Pork Rice with Braised Greens",
     tags: ["taiwanese-style", "rice-based", "comfort", "warm", "bowl", "home-style", "everyday", "takeout", "convenient"],
     proteinLevel: "medium",
     vegetableLevel: "medium",
@@ -1062,7 +1063,7 @@ export const recommendationDataset: Recommendation[] = [
   },
   {
     id: "japanese-curry-light-set",
-    title: "Japanese Curry Light Set",
+    title: "Japanese Chicken Curry with Cabbage Salad",
     tags: ["japanese-inspired", "set-meal", "warm", "comfort"],
     proteinLevel: "medium",
     vegetableLevel: "medium",
@@ -1426,7 +1427,7 @@ export const recommendationDataset: Recommendation[] = [
   },
   {
     id: "steamed-fish-vegetable-plate",
-    title: "Steamed Fish and Vegetable Plate",
+    title: "Steamed Cod with Mushrooms and Napa Cabbage",
     tags: ["light", "warm", "steamed", "balanced", "chinese-style", "vegetable-forward"],
     proteinLevel: "high",
     vegetableLevel: "high",
@@ -1454,7 +1455,7 @@ export const recommendationDataset: Recommendation[] = [
   },
   {
     id: "chicken-salad-grain-bowl-light",
-    title: "Chicken Salad Grain Bowl Light Version",
+    title: "Chicken Salad Grain Bowl with Lemon Dressing",
     tags: ["light", "balanced", "bowl", "american-light", "vegetable-forward"],
     proteinLevel: "high",
     vegetableLevel: "high",
@@ -1481,20 +1482,6 @@ export const recommendationDataset: Recommendation[] = [
     description: "A warm light bowl that gives you tofu, greens, and a calmer overall feel.",
   },
   {
-    id: "rotisserie-chicken-microwave-veg-rice",
-    title: "Rotisserie Chicken with Microwave Vegetables and Rice",
-    tags: ["quick", "grocery", "high-protein", "warm", "convenient", "plate"],
-    proteinLevel: "high",
-    vegetableLevel: "medium",
-    carbLevel: "medium",
-    heaviness: "medium",
-    convenience: "high",
-    worksFor: ["home-cooked"],
-    mealType: "convenient",
-    avoidTags: [],
-    description: "A realistic grocery shortcut meal that still covers protein, vegetables, and a familiar starch.",
-  },
-  {
     id: "frozen-dumplings-bok-choy",
     title: "Frozen Dumplings with Bok Choy",
     tags: ["quick", "warm", "comfort", "grocery", "chinese-style", "set-meal"],
@@ -1510,7 +1497,7 @@ export const recommendationDataset: Recommendation[] = [
   },
   {
     id: "greek-yogurt-fruit-granola-bowl",
-    title: "Greek Yogurt Fruit Granola Bowl",
+    title: "Overnight Oats with Greek Yogurt and Berries",
     tags: ["quick", "breakfast-for-dinner", "light", "grocery", "portable"],
     proteinLevel: "medium",
     vegetableLevel: "low",
@@ -1594,7 +1581,7 @@ export const recommendationDataset: Recommendation[] = [
   },
   {
     id: "taiwanese-three-cup-chicken-light-set",
-    title: "Taiwanese Three Cup Chicken Light Set",
+    title: "Three Cup Chicken with Rice and Greens",
     tags: ["taiwanese-style", "set-meal", "warm", "comfort", "takeout"],
     proteinLevel: "high",
     vegetableLevel: "medium",
@@ -1636,7 +1623,7 @@ export const recommendationDataset: Recommendation[] = [
   },
   {
     id: "dak-galbi-light-bowl",
-    title: "Dak-galbi Light Bowl",
+    title: "Dak-galbi Chicken Bowl with Cabbage",
     tags: ["korean-inspired", "rice-based", "warm", "bowl", "takeout"],
     proteinLevel: "high",
     vegetableLevel: "medium",
@@ -1691,20 +1678,6 @@ export const recommendationDataset: Recommendation[] = [
     description: "A Mediterranean-style plate with salmon, vegetables, and a lighter overall profile.",
   },
   {
-    id: "falafel-rice-salad-bowl",
-    title: "Falafel Rice and Salad Bowl",
-    tags: ["mediterranean", "bowl", "plant-protein", "vegetable-forward"],
-    proteinLevel: "medium",
-    vegetableLevel: "high",
-    carbLevel: "medium",
-    heaviness: "medium",
-    convenience: "high",
-    worksFor: ["takeout"],
-    mealType: "preference",
-    avoidTags: [],
-    description: "A Mediterranean bowl that adds vegetables and plant protein while staying easy to pick up.",
-  },
-  {
     id: "chicken-shawarma-rice-bowl",
     title: "Chicken Shawarma Rice Bowl",
     tags: ["mediterranean", "bowl", "warm", "takeout", "vegetable-forward"],
@@ -1748,7 +1721,7 @@ export const recommendationDataset: Recommendation[] = [
   },
   {
     id: "chicken-zucchini-pasta-light",
-    title: "Chicken and Zucchini Pasta Light Version",
+    title: "Chicken Zucchini Pasta with Tomato Sauce",
     tags: ["american-light", "warm", "plate", "everyday", "balanced"],
     proteinLevel: "high",
     vegetableLevel: "medium",
@@ -1790,7 +1763,7 @@ export const recommendationDataset: Recommendation[] = [
   },
   {
     id: "bean-cheese-veg-quesadilla-light",
-    title: "Bean and Veggie Quesadilla Light Version",
+    title: "Bean and Vegetable Quesadilla with Salsa",
     tags: ["mexican-inspired", "warm", "portable", "quick", "comfort"],
     proteinLevel: "medium",
     vegetableLevel: "medium",
@@ -1860,7 +1833,7 @@ export const recommendationDataset: Recommendation[] = [
   },
   {
     id: "pork-chive-dumpling-soup-light",
-    title: "Pork and Chive Dumpling Soup Light Version",
+    title: "Pork and Chive Dumpling Soup with Bok Choy",
     tags: ["chinese-style", "soupy", "warm", "comfort", "home-style"],
     proteinLevel: "medium",
     vegetableLevel: "medium",
@@ -1914,6 +1887,8 @@ export const recommendationDataset: Recommendation[] = [
     avoidTags: ["bitter melon"],
     description: "A savory bitter melon dish with chicken that gives this avoid tag a real home-style Chinese meal to filter against.",
   },
-  ];
+];
+
+export const recommendationDataset: Recommendation[] = recommendationCatalog.map(enrichRecommendation);
 
 export const seededState: AppState = createSeededState();

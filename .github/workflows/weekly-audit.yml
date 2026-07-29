@@ -1,0 +1,45 @@
+name: Weekly audit
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 9 * * 1"
+      timezone: "America/Chicago"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: weekly-audit
+  cancel-in-progress: true
+
+jobs:
+  deep-audit:
+    name: weekly-audit
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install locked dependencies
+        run: npm ci
+
+      - name: Audit drink recommendation reachability
+        run: npm run audit:drinks
+
+      - name: Report production dependency vulnerabilities
+        id: dependency-audit
+        continue-on-error: true
+        run: npm audit --omit=dev --audit-level=high
+
+      - name: Record dependency warning
+        if: steps.dependency-audit.outcome == 'failure'
+        run: echo "High-severity production dependency findings need review; this audit is temporarily non-blocking." >> "$GITHUB_STEP_SUMMARY"

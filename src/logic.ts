@@ -389,36 +389,9 @@ const scoreConvenienceFit = (summary: TodayIntakeSummary, profile: Profile, meal
   return createBreakdownItem("convenience", score, notes.join(" ") || "Convenience fit is neutral for this meal.");
 };
 
-const estimateFrameNeeds = (profile: Profile) => {
-  const heightCm =
-    profile.heightUnit === "cm"
-      ? Number(profile.heightCm)
-      : Number(profile.heightFt || 0) * 30.48 + Number(profile.heightIn || 0) * 2.54;
-
-  const weightKg =
-    profile.weightUnit === "kg"
-      ? Number(profile.weightKg)
-      : Number(profile.weightLb || 0) / 2.20462;
-
-  const taller = Number.isFinite(heightCm) && heightCm >= 175;
-  const heavier = Number.isFinite(weightKg) && weightKg >= 75;
-
-  return {
-    biggerFrame: taller || heavier,
-    smallerFrame:
-      Number.isFinite(heightCm) &&
-      Number.isFinite(weightKg) &&
-      heightCm > 0 &&
-      weightKg > 0 &&
-      heightCm <= 160 &&
-      weightKg <= 55,
-  };
-};
-
 const scoreProfileFit = (profile: Profile, meal: Recommendation) => {
   let score = 0;
   const notes: string[] = [];
-  const { biggerFrame, smallerFrame } = estimateFrameNeeds(profile);
 
   if (profile.activityLevel === "Active") {
     if (meal.proteinLevel === "high") {
@@ -440,16 +413,6 @@ const scoreProfileFit = (profile: Profile, meal: Recommendation) => {
       score -= 1;
       notes.push("Very heavy meals get a small pullback for a lower-key routine.");
     }
-  }
-
-  if (biggerFrame && meal.proteinLevel === "high" && meal.heaviness !== "heavy") {
-    score += 1;
-    notes.push("A steadier protein-forward meal may fit your usual needs a little better.");
-  }
-
-  if (smallerFrame && meal.heaviness === "heavy") {
-    score -= 1;
-    notes.push("Extra-heavy options get a light pullback here.");
   }
 
   if (profile.feelToday === "Want something warm") {
@@ -1338,7 +1301,10 @@ export const scoreRecommendations = (profile: Profile, todayLog: TodayLog, histo
   const timeWindow = getMealTimeWindow(now);
   const todayId = history.find((day) => day.isToday)?.id ?? history[history.length - 1]?.id ?? now.toISOString().slice(0, 10);
   const rotationSeed = `${todayId}:${profile.feelToday}:${profile.eatingStyle}:${summary.proteinStatus}:${summary.vegetableStatus}:${summary.carbStatus}:${summary.heavinessStatus}`;
-  const scored = recommendationDataset
+  const eligibleMeals = recommendationDataset.filter(
+    (meal) => scoreAvoidConflicts(profile, meal).points === 0,
+  );
+  const scored = eligibleMeals
     .map((meal) => scoreMealOption(summary, todayLog, history, profile, meal, timeWindow, locale))
     .sort((a, b) => b.score - a.score);
 
@@ -1352,6 +1318,9 @@ export const scoreRecommendations = (profile: Profile, todayLog: TodayLog, histo
 
   return [bestMatch, bestBalance, mostConvenient].filter(Boolean) as ScoredRecommendation[];
 };
+
+export const countHardAvoidedRecommendations = (profile: Profile) =>
+  recommendationDataset.filter((meal) => scoreAvoidConflicts(profile, meal).points < 0).length;
 
 const buildPreferenceTrendSummary = (history: DayHistory[], profile: Profile, locale: Locale) => {
   const meals = history.flatMap((day) => flattenMeals(day.todayLog)).filter(isMealLogged);
