@@ -5,10 +5,12 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc --noEmit && vite build",
+    "build": "tsc -p tsconfig.app.json --noEmit && vite build",
     "preview": "vite preview",
     "verify:api": "node scripts/verify-api.mjs",
     "verify:product": "esbuild src/data.ts --bundle --platform=node --format=esm --log-level=error --outfile=.audit-tmp/data.mjs && esbuild src/evidence.ts --bundle --platform=node --format=esm --log-level=error --outfile=.audit-tmp/evidence.mjs && esbuild src/logic.ts --bundle --platform=node --format=esm --log-level=error --outfile=.audit-tmp/logic.mjs && node scripts/verify-product.mjs",
+    "verify:engine": "esbuild src/data.ts --bundle --platform=node --format=esm --log-level=error --outfile=.audit-tmp/data.mjs && esbuild src/logic.ts --bundle --platform=node --format=esm --log-level=error --outfile=.audit-tmp/logic.mjs && esbuild src/catalog-metadata.ts --bundle --platform=node --format=esm --log-level=error --outfile=.audit-tmp/catalog-metadata.mjs && node scripts/verify-engine.mjs",
+    "verify": "npm run build && npm run verify:product && npm run verify:engine && npm run verify:api",
     "audit:reachability": "esbuild src/data.ts --bundle --platform=node --format=esm --log-level=error --outfile=.audit-tmp/data.mjs && esbuild src/logic.ts --bundle --platform=node --format=esm --log-level=error --outfile=.audit-tmp/logic.mjs && node scripts/reachability-audit.mjs",
     "audit:drinks": "esbuild src/data.ts --bundle --platform=node --format=esm --log-level=error --outfile=.audit-tmp/data.mjs && esbuild src/logic.ts --bundle --platform=node --format=esm --log-level=error --outfile=.audit-tmp/logic.mjs && node scripts/drink-reachability-audit.mjs"
   },

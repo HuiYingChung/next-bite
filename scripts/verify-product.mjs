@@ -60,7 +60,7 @@ for (const meal of recommendationDataset) {
     `${meal.id} has no review date.`,
   );
   expect(
-    meal.evidence.method.includes("not calorie or medical-nutrition estimates"),
+    meal.evidence.method.includes("not serving-adequacy, calorie, or medical-nutrition estimates"),
     `${meal.id} does not state its evidence limitation.`,
   );
   expect(
@@ -95,6 +95,31 @@ for (const recommendation of recommendations) {
     recalculated === recommendation.score,
     `${recommendation.id} score receipt sums to ${recalculated}, not ${recommendation.score}.`,
   );
+  expect(
+    recommendation.selectionTrace,
+    `${recommendation.id} has no actual selection trace.`,
+  );
+  const trace = recommendation.selectionTrace;
+  const perspectiveTotal = trace.perspectiveAdjustments.reduce(
+    (total, item) => total + item.points,
+    0,
+  );
+  expect(
+    perspectiveTotal === trace.perspectiveScore,
+    `${recommendation.id} perspective receipt does not recalculate.`,
+  );
+  const selectionTotal =
+    Math.round(
+      (perspectiveTotal +
+        trace.fairnessAdjustment +
+        trace.formatDiversityAdjustment +
+        Number.EPSILON) *
+        100,
+    ) / 100;
+  expect(
+    selectionTotal === trace.selectionScore,
+    `${recommendation.id} selection receipt sums to ${selectionTotal}, not ${trace.selectionScore}.`,
+  );
 }
 
 const hardAvoidProfile = {
@@ -127,6 +152,7 @@ console.log(
       uniqueTitles: true,
       evidenceComplete: true,
       scoreReceiptsRecalculate: true,
+      selectionReceiptsRecalculate: true,
       hardAvoidedMeals: avoidedCount,
       hardAvoidFilterPassed: true,
     },
