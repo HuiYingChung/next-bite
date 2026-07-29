@@ -1,3 +1,4 @@
+import { readFileSync } from "node:fs";
 import {
   createBlankState,
   recommendationDataset,
@@ -120,7 +121,36 @@ for (const recommendation of recommendations) {
     selectionTotal === trace.selectionScore,
     `${recommendation.id} selection receipt sums to ${selectionTotal}, not ${trace.selectionScore}.`,
   );
+  expect(
+    recommendation.weeklyHistoryBasis.availableDayCount === 6 &&
+      recommendation.weeklyHistoryBasis.loggedDayCount === 0 &&
+      recommendation.weeklyHistoryBasis.loggedMealCount === 0 &&
+      !recommendation.weeklyHistoryBasis.sufficientForAdjustment,
+    `${recommendation.id} does not disclose its exact blank prior-history basis.`,
+  );
 }
+
+const appSource = readFileSync(
+  new URL("../src/App.tsx", import.meta.url),
+  "utf8",
+);
+for (const requiredHistoryMarker of [
+  "rollSevenDayHistory",
+  "recent-history",
+  "Prior meals used",
+  "Weekly adjustment",
+  "4 meals are logged across at least 2 distinct days",
+  "not serving adequacy",
+]) {
+  expect(
+    appSource.includes(requiredHistoryMarker),
+    `The restored seven-day product surface is missing: ${requiredHistoryMarker}.`,
+  );
+}
+expect(
+  appSource.includes("seven-day-v4"),
+  "The rolling seven-day storage migration key is missing.",
+);
 
 const hardAvoidProfile = {
   ...state.profile,
@@ -153,6 +183,8 @@ console.log(
       evidenceComplete: true,
       scoreReceiptsRecalculate: true,
       selectionReceiptsRecalculate: true,
+      sevenDayHistorySurface: true,
+      historyBasisDisclosed: true,
       hardAvoidedMeals: avoidedCount,
       hardAvoidFilterPassed: true,
     },

@@ -168,6 +168,7 @@ export type ScoredRecommendation = Recommendation & {
   avoidScore: number;
   varietyScore: number;
   weeklyPatternScore: number;
+  weeklyHistoryBasis: WeeklyHistoryBasis;
   label: RecommendationCardLabel;
   shortReason: string;
   balanceNote: string;
@@ -268,6 +269,15 @@ export type TodayIntakeSummary = {
   convenienceMeals: number;
   homeCookedMeals: number;
   takeoutMeals: number;
+};
+
+export type WeeklyHistoryBasis = {
+  windowStart: string;
+  windowEnd: string;
+  availableDayCount: number;
+  loggedDayCount: number;
+  loggedMealCount: number;
+  sufficientForAdjustment: boolean;
 };
 
 export type DayHistory = {

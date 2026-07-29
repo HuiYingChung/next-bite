@@ -9,21 +9,28 @@ import {
   mealOptions,
   preferenceTags,
   recommendationDataset,
+  rollSevenDayHistory,
+  toLocalDateId,
 } from "./data";
 import { catalogMethod, evidenceSources } from "./evidence";
 import {
+  buildWeeklySnapshot,
   countHardAvoidedRecommendations,
   isMealLogged,
   scoreRecommendations,
+  summarizeHistoryBasis,
   summarizeTodayIntake,
 } from "./logic";
 import type {
   AppState,
+  DayHistory,
   EatingStyle,
   FeelToday,
   Locale,
+  MealArrayField,
   MealEntry,
   MealName,
+  MealSelectField,
   MustAvoidTag,
   ParsedAmountUnit,
   ParsedMeal,
@@ -33,8 +40,12 @@ import type {
   SensitiveDrinkOptIn,
 } from "./types";
 
-const APP_STORAGE_KEY = `${STORAGE_KEY}-deterministic-v3`;
-const LEGACY_STORAGE_KEY = `${STORAGE_KEY}-explainable-v2`;
+const APP_STORAGE_KEY = `${STORAGE_KEY}-seven-day-v4`;
+const LEGACY_STORAGE_KEYS = [
+  `${STORAGE_KEY}-deterministic-v3`,
+  `${STORAGE_KEY}-explainable-v2`,
+  STORAGE_KEY,
+];
 const KEY_MAX_LENGTH = 512;
 
 const cx = (...classes: Array<string | false | null | undefined>) =>
@@ -160,15 +171,41 @@ const parsedMealToEntry = (meal: ParsedMeal): MealEntry => {
   };
 };
 
-const loadInitialState = (): AppState => {
-  const blank = createBlankState();
+const loadInitialState = (now = new Date()): AppState => {
+  const blank = createBlankState(now);
   try {
     const saved =
       localStorage.getItem(APP_STORAGE_KEY) ??
-      localStorage.getItem(LEGACY_STORAGE_KEY);
+      LEGACY_STORAGE_KEYS.map((key) => localStorage.getItem(key)).find(Boolean);
     if (saved) {
       const parsed = JSON.parse(saved) as Partial<AppState>;
       if (!Array.isArray(parsed.days) || !parsed.profile) return blank;
+
+      const normalizedDays = parsed.days.map((day) => ({
+        ...day,
+        todayLog: Object.fromEntries(
+          mealNames.map((mealName) => {
+            const savedMeal = day.todayLog?.[mealName];
+            return [
+              mealName,
+              {
+                ...createEmptyMeal(),
+                ...(savedMeal ?? {}),
+                componentDetails: Array.isArray(savedMeal?.componentDetails)
+                  ? savedMeal.componentDetails
+                  : [],
+              },
+            ];
+          }),
+        ) as AppState["days"][number]["todayLog"],
+      }));
+      const days = rollSevenDayHistory(normalizedDays, now);
+      const todayId = days.find((day) => day.isToday)?.id ?? "";
+      const selectedDayId = days.some(
+        (day) => day.id === parsed.selectedDayId,
+      )
+        ? (parsed.selectedDayId as string)
+        : todayId;
 
       return {
         profile: {
@@ -191,28 +228,8 @@ const loadInitialState = (): AppState => {
               )
             : [],
         },
-        days: parsed.days.map((day) => ({
-          ...day,
-          todayLog: Object.fromEntries(
-            mealNames.map((mealName) => {
-              const savedMeal = day.todayLog?.[mealName];
-              return [
-                mealName,
-                {
-                  ...createEmptyMeal(),
-                  ...(savedMeal ?? {}),
-                  componentDetails: Array.isArray(savedMeal?.componentDetails)
-                    ? savedMeal.componentDetails
-                    : [],
-                },
-              ];
-            }),
-          ) as AppState["days"][number]["todayLog"],
-        })),
-        selectedDayId:
-          typeof parsed.selectedDayId === "string"
-            ? parsed.selectedDayId
-            : parsed.days[parsed.days.length - 1]?.id ?? "",
+        days,
+        selectedDayId,
       };
     }
   } catch {
@@ -255,6 +272,93 @@ const categoryLabel = (locale: Locale, category: ScoredRecommendation["scoreBrea
     "weekly-pattern": ["Recent pattern", "近期模式"],
   };
   return text(locale, ...labels[category]);
+};
+
+const historyArrayFields: Array<{
+  key: MealArrayField;
+  en: string;
+  zh: string;
+  placeholderEn: string;
+  placeholderZh: string;
+}> = [
+  {
+    key: "protein",
+    en: "Protein",
+    zh: "蛋白質",
+    placeholderEn: "Chicken, tofu",
+    placeholderZh: "雞肉、豆腐",
+  },
+  {
+    key: "vegetables",
+    en: "Vegetables",
+    zh: "蔬菜",
+    placeholderEn: "Broccoli, leafy greens",
+    placeholderZh: "花椰菜、葉菜",
+  },
+  {
+    key: "carbs",
+    en: "Carbs",
+    zh: "碳水",
+    placeholderEn: "Rice, noodles",
+    placeholderZh: "飯、麵",
+  },
+  {
+    key: "fruit",
+    en: "Fruit",
+    zh: "水果",
+    placeholderEn: "Apple, banana",
+    placeholderZh: "蘋果、香蕉",
+  },
+  {
+    key: "soup",
+    en: "Soup",
+    zh: "湯品",
+    placeholderEn: "Miso soup",
+    placeholderZh: "味噌湯",
+  },
+  {
+    key: "drink",
+    en: "Drink",
+    zh: "飲品",
+    placeholderEn: "Water, tea",
+    placeholderZh: "水、茶",
+  },
+];
+
+const historyGroupByField: Record<
+  MealArrayField,
+  ParsedMealComponent["group"]
+> = {
+  protein: "protein",
+  vegetables: "vegetable",
+  carbs: "carb",
+  fruit: "fruit",
+  soup: "soup",
+  drink: "drink",
+};
+
+const formatHistoryDate = (dateId: string, locale: Locale) =>
+  new Intl.DateTimeFormat(locale === "zh" ? "zh-TW" : "en-US", {
+    month: "short",
+    day: "numeric",
+  }).format(new Date(`${dateId}T12:00:00`));
+
+const getLoggedMealCount = (day: DayHistory) =>
+  mealNames.filter((mealName) => isMealLogged(day.todayLog[mealName])).length;
+
+const getHistoryMealSummary = (meal: MealEntry, locale: Locale) => {
+  const items = [
+    ...meal.protein,
+    ...meal.vegetables,
+    ...meal.carbs,
+    ...meal.fruit,
+    ...meal.soup,
+    ...meal.drink,
+  ];
+  if (items.length === 0) {
+    return text(locale, "Nothing logged", "尚未記錄");
+  }
+  return items.slice(0, 3).join(" · ");
 };
 
 function BrandMark() {
@@ -352,6 +456,9 @@ export default function App() {
   const [profileOpen, setProfileOpen] = useState(false);
   const [choice, setChoice] = useState("");
   const [showReset, setShowReset] = useState(false);
+  const [historyOpen, setHistoryOpen] = useState(false);
+  const [historyEditorSlot, setHistoryEditorSlot] =
+    useState<MealName | null>(null);
 
   useEffect(() => {
     localStorage.setItem("next-bite-locale", locale);
@@ -361,8 +468,63 @@ export default function App() {
     localStorage.setItem(APP_STORAGE_KEY, JSON.stringify(state));
   }, [state]);
 
+  useEffect(() => {
+    const ensureCurrentWindow = () => {
+      const now = new Date();
+      const todayId = toLocalDateId(now);
+      setState((current) => {
+        if (
+          current.days.some(
+            (day) => day.isToday && day.id === todayId,
+          )
+        ) {
+          return current;
+        }
+
+        return {
+          ...current,
+          days: rollSevenDayHistory(current.days, now),
+          selectedDayId: todayId,
+        };
+      });
+    };
+    const handleVisibility = () => {
+      if (document.visibilityState === "visible") {
+        ensureCurrentWindow();
+      }
+    };
+    const interval = window.setInterval(ensureCurrentWindow, 60_000);
+
+    window.addEventListener("focus", ensureCurrentWindow);
+    document.addEventListener("visibilitychange", handleVisibility);
+    return () => {
+      window.clearInterval(interval);
+      window.removeEventListener("focus", ensureCurrentWindow);
+      document.removeEventListener("visibilitychange", handleVisibility);
+    };
+  }, []);
+
   const todayDay = useMemo(
     () => state.days.find((day) => day.isToday) ?? state.days[state.days.length - 1],
+    [state.days],
+  );
+  const priorDays = useMemo(
+    () => state.days.filter((day) => !day.isToday),
+    [state.days],
+  );
+  const selectedHistoryDay = useMemo(
+    () =>
+      priorDays.find((day) => day.id === state.selectedDayId) ??
+      priorDays[priorDays.length - 1] ??
+      todayDay,
+    [priorDays, state.selectedDayId, todayDay],
+  );
+  const weeklySnapshot = useMemo(
+    () => buildWeeklySnapshot(state.days, state.profile, locale),
+    [locale, state.days, state.profile],
+  );
+  const fullWindowBasis = useMemo(
+    () => summarizeHistoryBasis(state.days),
     [state.days],
   );
   const hasMeal = mealNames.some((mealName) =>
@@ -457,6 +619,74 @@ export default function App() {
         },
       };
     });
+  };
+
+  const selectHistoryDay = (dayId: string) => {
+    setState((current) => ({ ...current, selectedDayId: dayId }));
+    setHistoryEditorSlot(null);
+  };
+
+  const updateHistoryMeal = (
+    dayId: string,
+    mealName: MealName,
+    update: (entry: MealEntry) => MealEntry,
+  ) => {
+    setState((current) => ({
+      ...current,
+      days: current.days.map((day) =>
+        day.id === dayId
+          ? {
+              ...day,
+              todayLog: {
+                ...day.todayLog,
+                [mealName]: update(day.todayLog[mealName]),
+              },
+            }
+          : day,
+      ),
+    }));
+  };
+
+  const updateHistoryArray = (
+    dayId: string,
+    mealName: MealName,
+    field: MealArrayField,
+    rawValue: string,
+  ) => {
+    const items = splitItems(rawValue);
+    const group = historyGroupByField[field];
+    updateHistoryMeal(dayId, mealName, (entry) => ({
+      ...entry,
+      [field]: items,
+      componentDetails: [
+        ...entry.componentDetails.filter(
+          (component) => component.group !== group,
+        ),
+        ...items.map((name) => ({
+          name,
+          group,
+          amount: normalizedAmount(),
+          confidence: "high" as const,
+        })),
+      ],
+    }));
+  };
+
+  const updateHistorySelect = (
+    dayId: string,
+    mealName: MealName,
+    field: MealSelectField,
+    value: string,
+  ) => {
+    updateHistoryMeal(dayId, mealName, (entry) => ({
+      ...entry,
+      [field]: value,
+    }) as MealEntry);
+  };
+
+  const clearHistoryMeal = (dayId: string, mealName: MealName) => {
+    updateHistoryMeal(dayId, mealName, () => createEmptyMeal());
+    setHistoryEditorSlot(null);
   };
 
   const logParsedMeal = (meal: ParsedMeal) => {
@@ -1594,16 +1824,45 @@ export default function App() {
                             <strong className="text-right">{summary.vegetableStatus}</strong>
                             <span>{text(locale, "Carb signal", "碳水訊號")}</span>
                             <strong className="text-right">{summary.carbStatus}</strong>
-                            <span>{text(locale, "Hard-filtered", "計分前排除")}</span>
-                            <strong className="text-right">{hardFilteredCount}</strong>
-                          </div>
-                          <p className="mt-3 text-[11px] leading-5 text-slate-400">
-                            {text(
-                              locale,
-                              "Signals use normalized amount, portion, and confidence when available. They describe logged food-group presence—not serving adequacy, grams, calories, or medical nutrition.",
-                              "有資料時，訊號會使用正規化的 amount、portion 與 confidence；它只描述已記錄的食物類別，不代表份量充足度、克數、熱量或醫療營養判斷。",
-                            )}
-                          </p>
+                             <span>{text(locale, "Hard-filtered", "計分前排除")}</span>
+                             <strong className="text-right">{hardFilteredCount}</strong>
+                             <span>
+                               {text(locale, "Prior days logged", "有紀錄的過去天數")}
+                             </span>
+                             <strong className="text-right">
+                               {activeRecommendation.weeklyHistoryBasis.loggedDayCount} /{" "}
+                               {activeRecommendation.weeklyHistoryBasis.availableDayCount}
+                             </strong>
+                             <span>
+                               {text(locale, "Prior meals used", "使用的過去餐數")}
+                             </span>
+                             <strong className="text-right">
+                               {activeRecommendation.weeklyHistoryBasis.loggedMealCount}
+                             </strong>
+                             <span>
+                               {text(locale, "Weekly adjustment", "近期模式調整")}
+                             </span>
+                             <strong className="text-right">
+                               {activeRecommendation.weeklyPatternScore > 0 ? "+" : ""}
+                               {activeRecommendation.weeklyPatternScore}
+                             </strong>
+                             <span>
+                               {text(locale, "History sufficient", "歷史資料達門檻")}
+                             </span>
+                             <strong className="text-right">
+                               {activeRecommendation.weeklyHistoryBasis
+                                 .sufficientForAdjustment
+                                 ? text(locale, "Yes", "是")
+                                 : text(locale, "No", "否")}
+                             </strong>
+                           </div>
+                           <p className="mt-3 text-[11px] leading-5 text-slate-400">
+                             {text(
+                               locale,
+                               `The weekly adjustment uses only the ${activeRecommendation.weeklyHistoryBasis.availableDayCount} prior calendar days shown here; today is excluded. Signals use normalized amount, portion, and confidence when available. They describe logged food-group presence—not serving adequacy, grams, calories, or medical nutrition.`,
+                               `近期模式調整只使用這裡揭露的 ${activeRecommendation.weeklyHistoryBasis.availableDayCount} 個過去日曆日，不含今天。有資料時，訊號會使用正規化的 amount、portion 與 confidence；它只描述已記錄的食物類別，不代表份量充足度、克數、熱量或醫療營養判斷。`,
+                             )}
+                           </p>
                         </div>
                       </div>
 
@@ -1648,7 +1907,345 @@ export default function App() {
               </>
             )}
           </section>
-        </div>
+         </div>
+
+        <section
+          id="recent-history"
+          className="mt-6 scroll-mt-6 overflow-hidden rounded-[28px] border border-slate-200/80 bg-white shadow-[0_18px_50px_rgba(30,45,35,0.05)]"
+        >
+          <button
+            type="button"
+            onClick={() => {
+              setHistoryOpen((open) => !open);
+              setHistoryEditorSlot(null);
+            }}
+            className="flex w-full flex-col gap-4 p-5 text-left sm:flex-row sm:items-center sm:justify-between sm:p-7"
+            aria-expanded={historyOpen}
+            aria-controls="recent-history-content"
+          >
+            <div>
+              <div className="text-[11px] font-bold uppercase tracking-[0.16em] text-emerald-700">
+                {text(locale, "History on demand", "需要時再看歷史")}
+              </div>
+              <h2 className="mt-2 text-2xl font-bold tracking-[-0.035em]">
+                {text(locale, "Recent 7 days", "最近七天")}
+              </h2>
+              <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-500">
+                {text(
+                  locale,
+                  "Today stays primary. Open this only when you want to backfill one of the prior six calendar days or inspect the rolling snapshot.",
+                  "今天仍是主要操作區。只有想補登前六個日曆日，或查看滾動摘要時，才需要展開這裡。",
+                )}
+              </p>
+            </div>
+            <div className="flex shrink-0 items-center gap-3">
+              <div className="text-right">
+                <div className="text-base font-bold tabular-nums text-emerald-800">
+                  {fullWindowBasis.loggedMealCount}{" "}
+                  {text(
+                    locale,
+                    fullWindowBasis.loggedMealCount === 1 ? "meal" : "meals",
+                    "餐",
+                  )}
+                </div>
+                <div className="mt-0.5 text-[10px] font-bold uppercase tracking-[0.13em] text-slate-400">
+                  {fullWindowBasis.loggedDayCount}{" "}
+                  {text(
+                    locale,
+                    fullWindowBasis.loggedDayCount === 1
+                      ? "logged day"
+                      : "logged days",
+                    "個有紀錄日",
+                  )}
+                </div>
+              </div>
+              <span className="grid h-10 w-10 place-items-center rounded-full border border-slate-200 text-xl text-slate-500">
+                {historyOpen ? "−" : "+"}
+              </span>
+            </div>
+          </button>
+
+          {historyOpen && (
+            <div
+              id="recent-history-content"
+              className="border-t border-slate-200 p-5 sm:p-7"
+            >
+              <div className="flex flex-col gap-2 rounded-[20px] border border-emerald-200 bg-emerald-50/60 px-4 py-3 text-xs leading-5 text-emerald-950/75 sm:flex-row sm:items-center sm:justify-between">
+                <span>
+                  {text(
+                    locale,
+                    "Saved only in this browser. Empty dates remain empty; NextBite never invents past meals.",
+                    "資料只儲存在這個瀏覽器。沒有紀錄的日期會保持空白，NextBite 不會虛構過去餐點。",
+                  )}
+                </span>
+                <strong className="shrink-0 tabular-nums text-emerald-800">
+                  {formatHistoryDate(fullWindowBasis.windowStart, locale)} –{" "}
+                  {formatHistoryDate(fullWindowBasis.windowEnd, locale)}
+                </strong>
+              </div>
+
+              <div className="mt-5">
+                <div className="text-[10px] font-bold uppercase tracking-[0.13em] text-slate-400">
+                  {text(locale, "Choose a prior day to backfill", "選擇要補登的過去日期")}
+                </div>
+                <div className="mt-2 grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-6">
+                  {priorDays.map((day) => {
+                    const loggedCount = getLoggedMealCount(day);
+                    const selected = selectedHistoryDay.id === day.id;
+                    return (
+                      <button
+                        type="button"
+                        key={day.id}
+                        onClick={() => selectHistoryDay(day.id)}
+                        className={cx(
+                          "rounded-2xl border px-3 py-3 text-left transition",
+                          selected
+                            ? "border-emerald-500 bg-emerald-50 text-emerald-950"
+                            : "border-slate-200 bg-slate-50/70 text-slate-600 hover:border-emerald-300",
+                        )}
+                        aria-pressed={selected}
+                      >
+                        <div className="text-sm font-bold">
+                          {formatHistoryDate(day.id, locale)}
+                        </div>
+                        <div className="mt-1 text-[10px] font-semibold">
+                          {loggedCount > 0
+                            ? text(
+                                locale,
+                                `${loggedCount} logged`,
+                                `已記 ${loggedCount} 餐`,
+                              )
+                            : text(locale, "No meals", "尚無餐點")}
+                        </div>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              <div className="mt-5 grid gap-5 lg:grid-cols-[minmax(0,1.35fr)_minmax(300px,0.65fr)]">
+                <div className="rounded-[24px] border border-slate-200 p-4 sm:p-5">
+                  <div className="flex flex-wrap items-start justify-between gap-3">
+                    <div>
+                      <div className="text-[10px] font-bold uppercase tracking-[0.13em] text-slate-400">
+                        {text(locale, "Backfill day", "補登日期")}
+                      </div>
+                      <h3 className="mt-1 text-lg font-bold">
+                        {formatHistoryDate(selectedHistoryDay.id, locale)}
+                      </h3>
+                    </div>
+                    <span className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1.5 text-[10px] font-bold text-slate-500">
+                      {getLoggedMealCount(selectedHistoryDay)} / {mealNames.length}{" "}
+                      {text(locale, "slots logged", "餐別已記")}
+                    </span>
+                  </div>
+
+                  <div className="mt-4 space-y-3">
+                    {mealNames.map((mealName) => {
+                      const entry = selectedHistoryDay.todayLog[mealName];
+                      const editing = historyEditorSlot === mealName;
+                      return (
+                        <article
+                          key={mealName}
+                          className="overflow-hidden rounded-[20px] border border-slate-200 bg-slate-50/50"
+                        >
+                          <button
+                            type="button"
+                            onClick={() =>
+                              setHistoryEditorSlot(editing ? null : mealName)
+                            }
+                            className="flex w-full items-center justify-between gap-4 px-4 py-3 text-left"
+                            aria-expanded={editing}
+                          >
+                            <span className="min-w-0">
+                              <span className="block text-xs font-bold text-slate-800">
+                                {mealName}
+                              </span>
+                              <span className="mt-1 block truncate text-xs text-slate-500">
+                                {getHistoryMealSummary(entry, locale)}
+                              </span>
+                            </span>
+                            <span className="shrink-0 text-xs font-bold text-emerald-700">
+                              {editing
+                                ? text(locale, "Close", "收合")
+                                : text(locale, "Edit", "編輯")}
+                            </span>
+                          </button>
+
+                          {editing && (
+                            <div className="border-t border-slate-200 bg-white p-4">
+                              <div className="grid gap-3 sm:grid-cols-2">
+                                {historyArrayFields.map((field) => (
+                                  <label
+                                    key={field.key}
+                                    className="text-xs font-bold text-slate-600"
+                                  >
+                                    {text(locale, field.en, field.zh)}
+                                    <input
+                                      key={`${selectedHistoryDay.id}-${mealName}-${field.key}-${entry[field.key].join("|")}`}
+                                      defaultValue={entry[field.key].join(", ")}
+                                      onBlur={(event) =>
+                                        updateHistoryArray(
+                                          selectedHistoryDay.id,
+                                          mealName,
+                                          field.key,
+                                          event.target.value,
+                                        )
+                                      }
+                                      placeholder={text(
+                                        locale,
+                                        field.placeholderEn,
+                                        field.placeholderZh,
+                                      )}
+                                      className="mt-1.5 w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm font-normal outline-none focus:border-emerald-400"
+                                    />
+                                  </label>
+                                ))}
+                                {(
+                                  [
+                                    {
+                                      key: "cookingMethod",
+                                      en: "Preparation",
+                                      zh: "烹調方式",
+                                    },
+                                    {
+                                      key: "mealSource",
+                                      en: "Source",
+                                      zh: "來源",
+                                    },
+                                    {
+                                      key: "portion",
+                                      en: "Portion",
+                                      zh: "份量",
+                                    },
+                                  ] as const
+                                ).map((field) => (
+                                  <label
+                                    key={field.key}
+                                    className="text-xs font-bold text-slate-600"
+                                  >
+                                    {text(locale, field.en, field.zh)}
+                                    <select
+                                      value={entry[field.key]}
+                                      onChange={(event) =>
+                                        updateHistorySelect(
+                                          selectedHistoryDay.id,
+                                          mealName,
+                                          field.key,
+                                          event.target.value,
+                                        )
+                                      }
+                                      className="mt-1.5 w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm font-normal outline-none focus:border-emerald-400"
+                                    >
+                                      {mealOptions[field.key].map((option) => (
+                                        <option key={option}>{option}</option>
+                                      ))}
+                                    </select>
+                                  </label>
+                                ))}
+                              </div>
+                              <div className="mt-4 flex flex-col gap-3 border-t border-slate-100 pt-4 sm:flex-row sm:items-center sm:justify-between">
+                                <p className="max-w-xl text-[11px] leading-5 text-slate-400">
+                                  {text(
+                                    locale,
+                                    "Manual entries record food-group presence. They do not claim serving adequacy, grams, calories, or exact nutrition.",
+                                    "手動補登只記錄食物類別是否出現，不代表份量充足度、克數、熱量或精確營養。",
+                                  )}
+                                </p>
+                                <button
+                                  type="button"
+                                  onClick={() =>
+                                    clearHistoryMeal(
+                                      selectedHistoryDay.id,
+                                      mealName,
+                                    )
+                                  }
+                                  className="shrink-0 rounded-xl border border-rose-200 px-3 py-2 text-xs font-bold text-rose-600 transition hover:bg-rose-50"
+                                >
+                                  {text(locale, "Clear meal", "清除這餐")}
+                                </button>
+                              </div>
+                            </div>
+                          )}
+                        </article>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                <aside className="rounded-[24px] border border-violet-200 bg-violet-50/50 p-4 sm:p-5">
+                  <div className="text-[10px] font-bold uppercase tracking-[0.13em] text-violet-700">
+                    {text(locale, "Rolling 7-day snapshot", "滾動七天摘要")}
+                  </div>
+                  <h3 className="mt-1 text-lg font-bold text-violet-950">
+                    {text(locale, "Pattern, only when earned", "資料足夠才顯示模式")}
+                  </h3>
+                  <p className="mt-2 text-xs leading-5 text-violet-950/70">
+                    {text(
+                      locale,
+                      `This snapshot includes today: ${weeklySnapshot.dataBasis.loggedMealCount} logged ${weeklySnapshot.dataBasis.loggedMealCount === 1 ? "meal" : "meals"} across ${weeklySnapshot.dataBasis.loggedDayCount} of ${weeklySnapshot.dataBasis.availableDayCount} days.`,
+                      `這份摘要包含今天：${weeklySnapshot.dataBasis.loggedMealCount} 餐紀錄，分布在 ${weeklySnapshot.dataBasis.availableDayCount} 天中的 ${weeklySnapshot.dataBasis.loggedDayCount} 天。`,
+                    )}
+                  </p>
+
+                  {weeklySnapshot.dataBasis.sufficientForAdjustment ? (
+                    <>
+                      <div className="mt-4 space-y-2">
+                        {weeklySnapshot.summaryLines.map((line) => (
+                          <p
+                            key={line}
+                            className="rounded-2xl border border-violet-100 bg-white px-3 py-2.5 text-xs leading-5 text-slate-600"
+                          >
+                            {line}
+                          </p>
+                        ))}
+                      </div>
+                      <dl className="mt-4 grid grid-cols-2 gap-2">
+                        {weeklySnapshot.indicators.map((indicator) => (
+                          <div
+                            key={indicator.label}
+                            className="rounded-2xl border border-violet-100 bg-white p-3"
+                          >
+                            <dt className="text-[10px] font-bold uppercase tracking-[0.1em] text-slate-400">
+                              {indicator.label}
+                            </dt>
+                            <dd className="mt-1 text-xs font-bold text-slate-700">
+                              {indicator.value}
+                            </dd>
+                          </div>
+                        ))}
+                      </dl>
+                      <p className="mt-4 text-xs leading-5 text-violet-950/75">
+                        {weeklySnapshot.preferenceSummary}
+                      </p>
+                    </>
+                  ) : (
+                    <div className="mt-4 rounded-[20px] border border-dashed border-violet-300 bg-white/75 p-4">
+                      <div className="text-sm font-bold text-violet-950">
+                        {text(locale, "Not enough history yet", "歷史資料還不夠")}
+                      </div>
+                      <p className="mt-2 text-xs leading-5 text-violet-950/70">
+                        {text(
+                          locale,
+                          "A pattern appears only after at least 4 meals are logged across at least 2 distinct days.",
+                          "至少要在 2 個不同日期記錄共 4 餐，才會顯示飲食模式。",
+                        )}
+                      </p>
+                    </div>
+                  )}
+
+                  <p className="mt-4 border-t border-violet-200 pt-4 text-[11px] leading-5 text-violet-950/60">
+                    {text(
+                      locale,
+                      "The recommendation receipt uses prior days only and discloses that separate basis. This snapshot is descriptive, not medical nutrition analysis.",
+                      "推薦收據只使用過去日期，並會另外揭露其資料依據。這份摘要只做描述，不是醫療營養分析。",
+                    )}
+                  </p>
+                </aside>
+              </div>
+            </div>
+          )}
+        </section>
 
         <section
           id="method"

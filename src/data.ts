@@ -451,32 +451,69 @@ export const cloneMealEntry = (meal: MealEntry): MealEntry => ({
 export const cloneTodayLog = (todayLog: TodayLog): TodayLog =>
   Object.fromEntries(mealNames.map((mealName) => [mealName, cloneMealEntry(todayLog[mealName])])) as TodayLog;
 
-const toIsoDate = (date: Date) => date.toISOString().slice(0, 10);
+export const createEmptyTodayLog = (): TodayLog =>
+  Object.fromEntries(
+    mealNames.map((mealName) => [mealName, createEmptyMeal()]),
+  ) as TodayLog;
 
-const buildSevenDaySeeds = (): DayHistory[] => {
+export const toLocalDateId = (date: Date) => {
+  const year = date.getFullYear();
+  const month = `${date.getMonth() + 1}`.padStart(2, "0");
+  const day = `${date.getDate()}`.padStart(2, "0");
+  return `${year}-${month}-${day}`;
+};
+
+const buildSevenDayWindow = (
+  now: Date,
+  sourceDays: DayHistory[] = [],
+  fallbackLogs: TodayLog[] = [],
+): DayHistory[] => {
   const formatter = new Intl.DateTimeFormat("en-US", { weekday: "short" });
-  const today = new Date();
+  const today = new Date(now);
   today.setHours(12, 0, 0, 0);
-  const logs = buildSeedLogs();
+  const sourcesByDate = new Map<string, DayHistory>();
 
-  return logs.map((todayLog, index) => {
-    const offset = logs.length - 1 - index;
+  sourceDays.forEach((day) => {
+    const dateId = day.date || day.id;
+    if (/^\d{4}-\d{2}-\d{2}$/.test(dateId)) {
+      sourcesByDate.set(dateId, day);
+    }
+  });
+
+  return Array.from({ length: 7 }, (_, index) => {
+    const offset = 6 - index;
     const date = new Date(today);
     date.setDate(today.getDate() - offset);
+    const dateId = toLocalDateId(date);
     const isToday = offset === 0;
     const label = isToday ? "Today" : offset === 1 ? "Yesterday" : formatter.format(date);
+    const sourceDay = sourcesByDate.get(dateId);
+    const fallbackLog = fallbackLogs[index];
 
     return {
-      id: toIsoDate(date),
-      date: toIsoDate(date),
+      id: dateId,
+      date: dateId,
       label,
       isToday,
-      todayLog: cloneTodayLog(todayLog),
+      todayLog: sourceDay
+        ? cloneTodayLog(sourceDay.todayLog)
+        : fallbackLog
+          ? cloneTodayLog(fallbackLog)
+          : createEmptyTodayLog(),
     };
   });
 };
 
-export const seedHistory: DayHistory[] = buildSevenDaySeeds();
+export const rollSevenDayHistory = (
+  history: DayHistory[],
+  now = new Date(),
+): DayHistory[] => buildSevenDayWindow(now, history);
+
+export const seedHistory: DayHistory[] = buildSevenDayWindow(
+  new Date(),
+  [],
+  buildSeedLogs(),
+);
 
 export const cloneProfile = (profile: Profile): Profile => ({
   ...profile,
@@ -490,24 +527,27 @@ export const cloneDay = (day: DayHistory): DayHistory => ({
   todayLog: cloneTodayLog(day.todayLog),
 });
 
-export const createSeededState = (): AppState => ({
-  profile: cloneProfile(seedProfile),
-  days: seedHistory.map(cloneDay),
-  selectedDayId: seedHistory[seedHistory.length - 1]?.id ?? "",
-});
+export const createSeededState = (now = new Date()): AppState => {
+  const days = buildSevenDayWindow(now, [], buildSeedLogs());
+  return {
+    profile: cloneProfile(seedProfile),
+    days,
+    selectedDayId: days[days.length - 1]?.id ?? "",
+  };
+};
 
-export const createBlankState = (): AppState => ({
-  profile: {
-    ...cloneProfile(seedProfile),
-    preferenceTags: [],
-    avoidTags: [],
-  },
-  days: seedHistory.map((day) => ({
-    ...day,
-    todayLog: Object.fromEntries(mealNames.map((mealName) => [mealName, createEmptyMeal()])) as AppState["days"][number]["todayLog"],
-  })),
-  selectedDayId: seedHistory[seedHistory.length - 1]?.id ?? "",
-});
+export const createBlankState = (now = new Date()): AppState => {
+  const days = buildSevenDayWindow(now);
+  return {
+    profile: {
+      ...cloneProfile(seedProfile),
+      preferenceTags: [],
+      avoidTags: [],
+    },
+    days,
+    selectedDayId: days[days.length - 1]?.id ?? "",
+  };
+};
 
 const recommendationCatalog: RawMealOption[] = [
   {
