@@ -7,6 +7,8 @@
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
+    "verify:api": "node scripts/verify-api.mjs",
+    "verify:product": "node node_modules/esbuild/bin/esbuild src/data.ts --bundle --platform=node --format=esm --log-level=error --outfile=.audit-tmp/data.mjs && node node_modules/esbuild/bin/esbuild src/evidence.ts --bundle --platform=node --format=esm --log-level=error --outfile=.audit-tmp/evidence.mjs && node node_modules/esbuild/bin/esbuild src/logic.ts --bundle --platform=node --format=esm --log-level=error --outfile=.audit-tmp/logic.mjs && node scripts/verify-product.mjs",
     "audit:reachability": "node node_modules/esbuild/bin/esbuild src/data.ts --bundle --platform=node --format=esm --log-level=error --outfile=.audit-tmp/data.mjs && node node_modules/esbuild/bin/esbuild src/logic.ts --bundle --platform=node --format=esm --log-level=error --outfile=.audit-tmp/logic.mjs && node scripts/reachability-audit.mjs",
     "audit:drinks": "node node_modules/esbuild/bin/esbuild src/data.ts --bundle --platform=node --format=esm --log-level=error --outfile=.audit-tmp/data.mjs && node node_modules/esbuild/bin/esbuild src/logic.ts --bundle --platform=node --format=esm --log-level=error --outfile=.audit-tmp/logic.mjs && node scripts/drink-reachability-audit.mjs"
   },

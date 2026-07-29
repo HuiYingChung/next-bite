@@ -22,6 +22,8 @@ export type RecommendationMealType =
   | "recovery";
 export type DailyStatus = "low" | "medium" | "high";
 export type DrinkCategory = "simple" | "tea" | "coffee" | "milk" | "juice" | "sweet" | "alcohol";
+export type EvidenceConfidence = "high" | "medium" | "limited";
+export type EvidenceSourceId = "usda-myplate" | "usda-fdc" | "taiwan-fda" | "nextbite-editorial";
 
 export type Profile = {
   heightCm: string;
@@ -65,7 +67,16 @@ export interface MealOption {
   mealType: RecommendationMealType;
   avoidTags: string[];
   description: string;
+  evidence: {
+    confidence: EvidenceConfidence;
+    sourceIds: EvidenceSourceId[];
+    reviewedOn: string;
+    method: string;
+    assumption: string;
+  };
 }
+
+export type BaseMealOption = Omit<MealOption, "evidence">;
 
 export interface DrinkOption {
   id: string;
@@ -113,6 +124,24 @@ export type ScoreBreakdownItem = {
     | "weekly-pattern";
   points: number;
   note: string;
+};
+
+export type ParsedMealComponent = {
+  name: string;
+  group: "protein" | "vegetable" | "carb" | "fruit" | "soup" | "drink" | "other";
+  amount: string;
+  confidence: EvidenceConfidence;
+};
+
+export type ParsedMeal = {
+  displayName: string;
+  mealSlot: MealName;
+  components: ParsedMealComponent[];
+  cookingMethod: string;
+  mealSource: Source;
+  portion: PortionSize;
+  assumptions: string[];
+  clarification: string | null;
 };
 
 export type TodayIntakeSummary = {
