@@ -1,55 +1,28 @@
 import { drinkRecommendationDataset, recommendationDataset } from "./data";
 import type {
+  AvoidanceCertainty,
   DailyStatus,
   DayHistory,
   DrinkOption,
   Locale,
   MealEntry,
+  MustAvoidTag,
   Profile,
   Recommendation,
   RecommendationCardLabel,
   ScoredRecommendation,
+  SelectionAdjustment,
   ScoreBreakdownItem,
   TodayIntakeSummary,
   TodayLog,
 } from "./types";
 
-type MealTimeWindow = "breakfast" | "lunch" | "dinner" | "late";
-
-const levelToPoints = { low: 1, medium: 2, high: 3 } as const;
-const convenienceToPoints = { low: 1, medium: 2, high: 3 } as const;
-
-const avoidKeywordMap: Record<string, string[]> = {
-  "Fried food": ["fried", "fried rice", "crispy"],
-  Caffeine: ["coffee", "iced coffee", "green tea", "black tea", "milk tea", "energy drink"],
-  "Alcohol drinks": ["beer", "wine", "cocktail", "alcohol"],
-  Beef: ["beef"],
-  Peanuts: ["peanut", "satay"],
-  "Tree nuts": ["almond", "walnut", "cashew", "pecan", "pesto"],
-  Sesame: ["sesame", "tahini"],
-  Soy: ["soy", "tofu", "tempeh", "edamame", "miso"],
-  "Wheat / gluten": ["bread", "noodle", "pasta", "wrap", "tortilla", "bagel", "toast", "crackers", "bao", "bun", "dumpling", "quesadilla", "sub"],
-  Pork: ["pork", "ham", "bacon"],
-  Lamb: ["lamb"],
-  "Organ meats": ["organ", "liver", "tripe"],
-  Egg: ["egg"],
-  Dairy: ["dairy", "milk", "yogurt", "greek yogurt", "cottage cheese", "cheese", "caesar", "mayo"],
-  Shellfish: ["shrimp", "crab", "shellfish"],
-  "Fishy seafood": ["fish", "salmon", "tuna", "cod", "shrimp", "crab", "shellfish", "poke", "seafood"],
-  "Spicy food": ["spicy", "kimchi"],
-  "Raw food": ["salad", "poke", "cold"],
-  "Cold food": ["salad", "poke", "cold"],
-  "Sweet drinks": ["milk tea", "boba", "sweet drink", "juice", "soda"],
-  "Processed food": ["sausage", "bacon", "ham", "ready-made", "sub", "combo"],
-  "Large portions": ["hearty", "filling", "bento", "burrito", "combo", "gyro"],
-  "Late-night heavy meals": ["hearty", "comfort", "dumplings", "burrito", "combo", "curry"],
-  Cilantro: ["cilantro"],
-  Celery: ["celery"],
-  "Bitter melon": ["bitter melon"],
-  Eggplant: ["eggplant"],
-  Okra: ["okra"],
-  "Green bell pepper": ["bell pepper"],
-};
+export type MealTimeWindow =
+  | "breakfast"
+  | "lunch"
+  | "afternoon"
+  | "dinner"
+  | "late";
 
 const preferenceTagMap: Record<string, string[]> = {
   "Chinese-style": ["chinese-style", "comfort", "warm", "mapo"],
@@ -100,6 +73,7 @@ export const getMealTimeWindow = (date: Date) => {
   const hour = date.getHours();
   if (hour >= 5 && hour < 11) return "breakfast" as MealTimeWindow;
   if (hour >= 11 && hour < 15) return "lunch" as MealTimeWindow;
+  if (hour >= 15 && hour < 17) return "afternoon" as MealTimeWindow;
   if (hour >= 17 && hour < 21) return "dinner" as MealTimeWindow;
   return "late" as MealTimeWindow;
 };
@@ -123,7 +97,19 @@ const getMealFormats = (meal: Recommendation) => {
 
 export const flattenMeals = (todayLog: TodayLog) => Object.values(todayLog);
 
-const flattenHistoryMeals = (history: DayHistory[]) => history.flatMap((day) => flattenMeals(day.todayLog)).filter(isMealLogged);
+const dedupeHistoryDays = (history: DayHistory[]) => {
+  const unique = new Map<string, DayHistory>();
+  history.forEach((day) => unique.set(day.id || day.date, day));
+  return [...unique.values()];
+};
+
+const flattenHistoryMeals = (history: DayHistory[]) =>
+  dedupeHistoryDays(history)
+    .flatMap((day) => flattenMeals(day.todayLog))
+    .filter(isMealLogged);
+
+export const getPriorHistory = (history: DayHistory[]) =>
+  dedupeHistoryDays(history).filter((day) => !day.isToday);
 
 const toStatus = (value: number, lowMax: number, mediumMax: number): DailyStatus => {
   if (value <= lowMax) return "low";
@@ -131,12 +117,63 @@ const toStatus = (value: number, lowMax: number, mediumMax: number): DailyStatus
   return "high";
 };
 
-// Meal logging is intentionally lightweight, so we use rough "meal units"
-// instead of raw item counts. This makes each logged meal matter more and
-// keeps small edits visible in the recommendations.
+// Manual logging is intentionally lightweight, so these are qualitative
+// presence signals rather than serving or nutrient-adequacy estimates.
 const getCategoryUnits = (items: string[]) => {
   if (items.length === 0) return 0;
   return 1 + Math.min(items.length - 1, 2) * 0.5;
+};
+
+const confidenceWeight = { high: 1, medium: 0.85, limited: 0.65 } as const;
+
+const getAmountWeight = (
+  amount: MealEntry["componentDetails"][number]["amount"],
+) => {
+  if (
+    amount.qualifier === "unspecified" ||
+    amount.quantity === null ||
+    amount.unit === "unspecified"
+  ) {
+    return 1;
+  }
+
+  const unitScale =
+    amount.unit === "tablespoon" || amount.unit === "teaspoon"
+      ? 0.35
+      : amount.unit === "slice" ||
+          amount.unit === "piece" ||
+          amount.unit === "handful"
+        ? 0.55
+        : 1;
+  const quantitySignal = Math.max(
+    0.5,
+    Math.min(1.5, amount.quantity * unitScale),
+  );
+  return amount.qualifier === "approximate"
+    ? quantitySignal * 0.9
+    : quantitySignal;
+};
+
+const getCategorySignal = (
+  meal: MealEntry,
+  group: MealEntry["componentDetails"][number]["group"],
+  fallbackItems: string[],
+) => {
+  const details = (meal.componentDetails ?? []).filter(
+    (component) => component.group === group,
+  );
+  if (details.length === 0) return getCategoryUnits(fallbackItems);
+
+  const componentSignal = details.reduce(
+    (sum, component) =>
+      sum +
+      getAmountWeight(component.amount) *
+        confidenceWeight[component.confidence],
+    0,
+  );
+  const portionWeight =
+    meal.portion === "Small" ? 0.85 : meal.portion === "Large" ? 1.15 : 1;
+  return Math.round(Math.min(2, componentSignal * portionWeight) * 100) / 100;
 };
 
 const getHeavinessUnits = (meal: MealEntry) => {
@@ -183,10 +220,8 @@ const dessertSnackKeywords = [
   "muffin",
   "pastry",
 ];
-const strictCaffeinatedDrinkTitles = new Set(["Tea", "Green tea", "Black tea", "Coffee", "Iced coffee", "Milk tea", "Energy drink"]);
-const strictAlcoholDrinkTitles = new Set(["Beer", "Wine", "Cocktail", "Alcohol"]);
-
-const serializeMeal = (meal: Recommendation) => [meal.title, meal.description, ...meal.tags, ...meal.avoidTags].join(" ").toLowerCase();
+const serializeMeal = (meal: Recommendation) =>
+  [meal.title, meal.description, ...meal.tags].join(" ").toLowerCase();
 
 const detectMealFormatSignals = (meal: MealEntry) => {
   const riceHeavy = meal.carbs.some((item) => item.toLowerCase().includes("rice") || item.toLowerCase().includes("congee"));
@@ -220,12 +255,32 @@ const summarizeWeeklyPatterns = (history: DayHistory[]) => {
 
 export const summarizeTodayIntake = (todayLog: TodayLog): TodayIntakeSummary => {
   const meals = flattenMeals(todayLog).filter(isMealLogged);
-  const proteinCount = meals.reduce((sum, meal) => sum + getCategoryUnits(meal.protein), 0);
-  const vegetableCount = meals.reduce((sum, meal) => sum + getCategoryUnits(meal.vegetables), 0);
-  const carbCount = meals.reduce((sum, meal) => sum + getCategoryUnits(meal.carbs), 0);
-  const fruitCount = meals.reduce((sum, meal) => sum + getCategoryUnits(meal.fruit), 0);
-  const soupCount = meals.reduce((sum, meal) => sum + getCategoryUnits(meal.soup), 0);
-  const drinkCount = meals.reduce((sum, meal) => sum + getCategoryUnits(meal.drink), 0);
+  const proteinCount = meals.reduce(
+    (sum, meal) =>
+      sum + getCategorySignal(meal, "protein", meal.protein),
+    0,
+  );
+  const vegetableCount = meals.reduce(
+    (sum, meal) =>
+      sum + getCategorySignal(meal, "vegetable", meal.vegetables),
+    0,
+  );
+  const carbCount = meals.reduce(
+    (sum, meal) => sum + getCategorySignal(meal, "carb", meal.carbs),
+    0,
+  );
+  const fruitCount = meals.reduce(
+    (sum, meal) => sum + getCategorySignal(meal, "fruit", meal.fruit),
+    0,
+  );
+  const soupCount = meals.reduce(
+    (sum, meal) => sum + getCategorySignal(meal, "soup", meal.soup),
+    0,
+  );
+  const drinkCount = meals.reduce(
+    (sum, meal) => sum + getCategorySignal(meal, "drink", meal.drink),
+    0,
+  );
   const caffeineCount = meals.reduce(
     (sum, meal) => sum + meal.drink.filter((item) => caffeineKeywords.includes(item.toLowerCase())).length,
     0,
@@ -533,53 +588,59 @@ const scorePreferenceFit = (profile: Profile, meal: Recommendation) => {
   return createBreakdownItem("preferences", capped, matches.length > 0 ? `Matches your preferences for ${matches.join(", ")}.` : "No strong preference match here.");
 };
 
-const scoreAvoidConflicts = (profile: Profile, meal: Recommendation) => {
-  let score = 0;
-  const mealText = serializeMeal(meal);
-  const conflicts: string[] = [];
-  const mealTags = meal.tags.map((tag) => tag.toLowerCase());
+export type HardAvoidConflict = {
+  tag: MustAvoidTag;
+  certainty: AvoidanceCertainty;
+};
 
-  profile.avoidTags.forEach((avoid) => {
-    const normalized = avoid.toLowerCase();
-    if (meal.avoidTags.map((tag) => tag.toLowerCase()).includes(normalized)) {
-      score -= 3;
-      conflicts.push(avoid);
-      return;
+export const getHardAvoidConflicts = (
+  profile: Profile,
+  meal: Recommendation,
+  timeWindow: MealTimeWindow,
+): HardAvoidConflict[] => {
+  const conflicts: HardAvoidConflict[] = [];
+
+  for (const tag of profile.avoidTags) {
+    for (const certainty of [
+      "contains",
+      "mayContain",
+      "unknown",
+    ] as const) {
+      if (meal.safety[certainty].includes(tag)) {
+        conflicts.push({ tag, certainty });
+        break;
+      }
     }
 
-    const matchedKeywords = avoidKeywordMap[avoid];
-    if (matchedKeywords?.some((keyword) => mealText.includes(keyword))) {
-      score -= 3;
-      conflicts.push(avoid);
-      return;
+    if (
+      tag === "Late-night heavy meals" &&
+      timeWindow === "late" &&
+      meal.heaviness !== "light" &&
+      !conflicts.some((conflict) => conflict.tag === tag)
+    ) {
+      conflicts.push({
+        tag,
+        certainty: meal.heaviness === "heavy" ? "contains" : "mayContain",
+      });
     }
+  }
 
-    // A few avoid tags map more naturally to the structured meal metadata than raw text.
-    if (avoid === "Fried food" && mealText.includes("fried")) {
-      score -= 3;
-      conflicts.push(avoid);
-      return;
-    }
+  return conflicts;
+};
 
-    if (avoid === "Large portions" && meal.heaviness === "heavy") {
-      score -= 2;
-      conflicts.push(avoid);
-      return;
-    }
-
-    if (avoid === "Late-night heavy meals" && meal.heaviness !== "light") {
-      score -= meal.heaviness === "heavy" ? 3 : 1;
-      conflicts.push(avoid);
-      return;
-    }
-
-    if ((avoid === "Cold food" || avoid === "Raw food") && mealTags.includes("cold-meal")) {
-      score -= 3;
-      conflicts.push(avoid);
-    }
-  });
-
-  return createBreakdownItem("avoid", score, conflicts.length > 0 ? `Conflicts with avoid tags: ${conflicts.join(", ")}.` : "No avoid-tag conflicts detected.");
+const scoreAvoidConflicts = (
+  profile: Profile,
+  meal: Recommendation,
+  timeWindow: MealTimeWindow,
+) => {
+  const conflicts = getHardAvoidConflicts(profile, meal, timeWindow);
+  const note =
+    conflicts.length > 0
+      ? `Hard conflict: ${conflicts
+          .map(({ tag, certainty }) => `${tag} (${certainty})`)
+          .join(", ")}.`
+      : "No declared contains, may-contain, or unknown conflict.";
+  return createBreakdownItem("avoid", conflicts.length * -100, note);
 };
 
 const scoreVariety = (todayLog: TodayLog, meal: Recommendation) => {
@@ -664,8 +725,18 @@ const scoreDrinkOption = (
   let score = 0;
   const mealTags = meal.tags.map((tag) => tag.toLowerCase());
 
-  if (profile.avoidTags.includes("Caffeine") && (drink.caffeine || strictCaffeinatedDrinkTitles.has(drink.title))) score -= 100;
-  if (profile.avoidTags.includes("Alcohol drinks") && (drink.alcohol || strictAlcoholDrinkTitles.has(drink.title))) score -= 100;
+  if (
+    drink.alcohol &&
+    !(profile.sensitiveDrinkOptIns ?? []).includes("alcohol")
+  )
+    return -1000;
+  if (
+    drink.id === "energy-drink" &&
+    !(profile.sensitiveDrinkOptIns ?? []).includes("energy-drink")
+  )
+    return -1000;
+  if (profile.avoidTags.includes("Caffeine") && drink.caffeine) score -= 100;
+  if (profile.avoidTags.includes("Alcohol drinks") && drink.alcohol) score -= 100;
   if (profile.avoidTags.includes("Sweet drinks") && drink.sweetened) score -= 100;
   if (profile.avoidTags.includes("Dairy") && drink.dairy) score -= 100;
 
@@ -734,6 +805,14 @@ const scoreDrinkOption = (
   } else if (timeWindow === "lunch") {
     if (["Iced coffee", "Sparkling water", "Green tea", "Black tea", "Coconut water"].includes(drink.title)) score += 2;
     if (drink.title === "Yogurt drink" || drink.title === "Sweet drink") score += 1;
+  } else if (timeWindow === "afternoon") {
+    if (
+      ["Water", "Sparkling water", "Caffeine-free tea", "Coconut water"].includes(
+        drink.title,
+      )
+    )
+      score += 2;
+    if (drink.caffeine && summary.caffeineCount >= 1) score -= 1;
   } else if (timeWindow === "dinner") {
     if (["Sparkling water", "Tea", "Caffeine-free tea", "Wine", "Beer", "Cocktail", "Alcohol"].includes(drink.title)) score += 2;
     if (drink.category === "coffee") score -= 1;
@@ -841,6 +920,24 @@ const scoreTimeOfDayFit = (timeWindow: MealTimeWindow, meal: Recommendation) => 
     }
   }
 
+  if (timeWindow === "afternoon") {
+    if (
+      meal.mealType === "balanced" ||
+      meal.mealType === "light" ||
+      tags.includes("bowl") ||
+      tags.includes("plate")
+    ) {
+      score += 1;
+      notes.push(
+        "This fits the afternoon transition without treating it as late-night.",
+      );
+    }
+    if (meal.heaviness === "heavy") {
+      score -= 1;
+      notes.push("Heavy options get a small afternoon pullback.");
+    }
+  }
+
   if (timeWindow === "dinner") {
     if (tags.includes("breakfast-for-dinner")) {
       score -= 1;
@@ -934,15 +1031,6 @@ const scoreBalanceBias = (summary: TodayIntakeSummary, meal: Recommendation) => 
     total: protein.points + vegetables.points + carbs.points + heaviness.points,
   };
 };
-
-const scoreOverallFit = (summary: TodayIntakeSummary, todayLog: TodayLog, profile: Profile, meal: Recommendation) =>
-  scoreBalanceBias(summary, meal).total +
-  scoreConvenienceFit(summary, profile, meal).points +
-  scoreProfileFit(profile, meal).points +
-  scorePreferenceFit(profile, meal).points +
-  scoreAvoidConflicts(profile, meal).points +
-  scoreVariety(todayLog, meal).points +
-  scoreSnackDrinkFit(summary, meal).points;
 
 const trendLabelMap: Record<string, { en: string; zh: string }> = {
   "Rice-based meals": { en: "rice-based meals", zh: "飯類餐點" },
@@ -1073,7 +1161,7 @@ export const scoreMealOption = (summary: TodayIntakeSummary, todayLog: TodayLog,
   const convenience = scoreConvenienceFit(summary, profile, meal);
   const profileFit = scoreProfileFit(profile, meal);
   const preferences = scorePreferenceFit(profile, meal);
-  const avoid = scoreAvoidConflicts(profile, meal);
+  const avoid = scoreAvoidConflicts(profile, meal, timeWindow);
   const variety = scoreVariety(todayLog, meal);
   const snackDrink = scoreSnackDrinkFit(summary, meal);
   const timeOfDay = scoreTimeOfDayFit(timeWindow, meal);
@@ -1101,6 +1189,7 @@ export const scoreMealOption = (summary: TodayIntakeSummary, todayLog: TodayLog,
     suggestedDrink: buildSuggestedDrink(summary, profile, meal, timeWindow, locale),
     convenienceLabel: locale === "en" ? meal.convenience.charAt(0).toUpperCase() + meal.convenience.slice(1) : meal.convenience === "high" ? "高" : meal.convenience === "medium" ? "中" : "低",
     scoreBreakdown: [...balance.items, convenience, profileFit, preferences, avoid, variety, snackDrink, timeOfDay, weeklyPattern],
+    selectionTrace: null,
   };
 };
 
@@ -1115,7 +1204,6 @@ export const dedupeRecommendations = (items: ScoredRecommendation[]) => {
 };
 
 const FAIRNESS_SCORE_WINDOW = 3;
-const FAIRNESS_MIN_POOL = 6;
 const FAIRNESS_MAX_POOL = 12;
 const DRINK_FAIRNESS_SCORE_WINDOW = 2;
 const DRINK_FAIRNESS_MAX_POOL = 8;
@@ -1163,7 +1251,7 @@ const stableHash = (value: string) => {
 };
 
 const getFairnessExposureBonus = (meal: Recommendation) => {
-  let bonus = 0;
+  let bonus = meal.fairnessExposureAdjustment;
 
   meal.tags.forEach((tag) => {
     const normalized = tag.toLowerCase();
@@ -1175,71 +1263,81 @@ const getFairnessExposureBonus = (meal: Recommendation) => {
     else if (frequency <= 8) bonus += 0.25;
   });
 
-  const title = meal.title.toLowerCase();
-  if (title.includes("porridge") || title.includes("congee")) bonus += 0.5;
-  if (title.includes("sub")) bonus += 0.45;
-  if (title.includes("mapo")) bonus += 1.15;
-  else if (title.includes("beef and tomato") || title.includes("scallion")) bonus += 0.6;
-  if (title.includes("minced pork") || title.includes("protein bowl")) bonus += 0.45;
-  if (title.includes("taiwanese minced pork")) bonus += 0.9;
-  if (meal.tags.some((tag) => ["chinese-style", "taiwanese-style", "home-style", "simple"].includes(tag.toLowerCase()))) {
-    bonus += 0.35;
-  }
-
-  return Math.min(1.6, bonus);
+  return Math.round(Math.min(3, bonus) * 100) / 100;
 };
 
-const getAdjustedRank = (
+const roundSelectionScore = (value: number) =>
+  Math.round((value + Number.EPSILON) * 100) / 100;
+
+const selectionAdjustment = (
+  key: string,
+  points: number,
+  note: string,
+): SelectionAdjustment => ({
+  key,
+  points: roundSelectionScore(points),
+  note,
+});
+
+type RankedCandidate = {
+  item: ScoredRecommendation;
+  perspectiveAdjustments: SelectionAdjustment[];
+  perspectiveScore: number;
+  fairnessAdjustment: number;
+  formatDiversityAdjustment: number;
+  selectionScore: number;
+};
+
+const rankCandidate = (
   item: ScoredRecommendation,
   pickedFormats: Set<string>,
-  rankBy: (item: ScoredRecommendation) => number,
-) => {
+  buildPerspectiveAdjustments: (
+    item: ScoredRecommendation,
+  ) => SelectionAdjustment[],
+): RankedCandidate => {
   const formats = getMealFormats(item);
-  const formatPenalty = formats.some((format) => pickedFormats.has(format)) ? 1.5 : 0;
-  const fairnessExposureBonus = getFairnessExposureBonus(item);
-  return rankBy(item) + fairnessExposureBonus - formatPenalty;
+  const formatDiversityAdjustment = formats.some((format) =>
+    pickedFormats.has(format),
+  )
+    ? -1.5
+    : 0;
+  const fairnessAdjustment = getFairnessExposureBonus(item);
+  const perspectiveAdjustments = buildPerspectiveAdjustments(item);
+  const perspectiveScore = roundSelectionScore(
+    perspectiveAdjustments.reduce((sum, adjustment) => sum + adjustment.points, 0),
+  );
+  const selectionScore = roundSelectionScore(
+    perspectiveScore + fairnessAdjustment + formatDiversityAdjustment,
+  );
+
+  return {
+    item,
+    perspectiveAdjustments,
+    perspectiveScore,
+    fairnessAdjustment,
+    formatDiversityAdjustment,
+    selectionScore,
+  };
 };
 
-const getFairCandidatePool = (
+const rankCandidates = (
   source: ScoredRecommendation[],
   picked: Set<string>,
   pickedFormats: Set<string>,
-  rankBy: (item: ScoredRecommendation) => number,
-) => {
-  const ranked = source
+  buildPerspectiveAdjustments: (
+    item: ScoredRecommendation,
+  ) => SelectionAdjustment[],
+) =>
+  source
     .filter((item) => !picked.has(item.id))
-    .map((item) => ({
-      item,
-      adjustedRank: getAdjustedRank(item, pickedFormats, rankBy),
-    }))
-    .sort((a, b) => b.adjustedRank - a.adjustedRank);
-
-  if (ranked.length === 0) return [];
-
-  const topRank = ranked[0].adjustedRank;
-  const closeEnough = ranked.filter(({ adjustedRank }) => topRank - adjustedRank <= FAIRNESS_SCORE_WINDOW);
-  const poolSize = Math.min(
-    FAIRNESS_MAX_POOL,
-    Math.max(FAIRNESS_MIN_POOL, closeEnough.length > 0 ? closeEnough.length : 1, ranked.length >= FAIRNESS_MIN_POOL ? FAIRNESS_MIN_POOL : ranked.length),
-  );
-
-  return ranked.slice(0, poolSize);
-};
-
-const pickFromFairPool = (
-  label: RecommendationCardLabel,
-  rotationSeed: string,
-  pool: Array<{ item: ScoredRecommendation; adjustedRank: number }>,
-) => {
-  if (pool.length === 0) return null;
-  if (pool.length === 1) return pool[0].item;
-
-  const topRank = pool[0].adjustedRank;
-  const closePool = pool.filter(({ adjustedRank }) => topRank - adjustedRank <= FAIRNESS_SCORE_WINDOW);
-  const usablePool = closePool.length > 0 ? closePool : pool;
-  const rotationIndex = stableHash(`${label}:${rotationSeed}`) % usablePool.length;
-  return usablePool[rotationIndex].item;
-};
+    .map((item) =>
+      rankCandidate(item, pickedFormats, buildPerspectiveAdjustments),
+    )
+    .sort(
+      (a, b) =>
+        b.selectionScore - a.selectionScore ||
+        a.item.id.localeCompare(b.item.id),
+    );
 
 const pickRecommendation = (
   label: RecommendationCardLabel,
@@ -1250,21 +1348,62 @@ const pickRecommendation = (
   source: ScoredRecommendation[],
   picked: Set<string>,
   pickedFormats: Set<string>,
-  rankBy: (item: ScoredRecommendation) => number,
+  buildPerspectiveAdjustments: (
+    item: ScoredRecommendation,
+  ) => SelectionAdjustment[],
 ) => {
-  // Build a small candidate pool of close-scoring meals so the same strong item
-  // does not always monopolize the top slot when several options are similarly good.
-  const fairPool = getFairCandidatePool(source, picked, pickedFormats, rankBy);
-  const next = pickFromFairPool(label, rotationSeed, fairPool);
+  const ranked = rankCandidates(
+    source,
+    picked,
+    pickedFormats,
+    buildPerspectiveAdjustments,
+  );
+  if (ranked.length === 0) return null;
 
-  if (!next) return null;
+  const topScore = ranked[0].selectionScore;
+  const nearTiePool = ranked
+    .filter(
+      ({ selectionScore }) =>
+        topScore - selectionScore <= FAIRNESS_SCORE_WINDOW,
+    )
+    .slice(0, FAIRNESS_MAX_POOL);
+  const traceSeed = `${label}:${rotationSeed}`;
+  const rotationIndex =
+    nearTiePool.length > 1 ? stableHash(traceSeed) % nearTiePool.length : 0;
+  const selected = nearTiePool[rotationIndex];
+  const next = selected.item;
   picked.add(next.id);
   getMealFormats(next).forEach((format) => pickedFormats.add(format));
+
   return {
     ...next,
     label,
     shortReason: buildRecommendationReason(label, summary, profile, next, locale),
     balanceNote: generateBalanceNote(label, next, locale),
+    selectionTrace: {
+      perspective: label,
+      ruleScore: next.score,
+      perspectiveAdjustments: selected.perspectiveAdjustments,
+      perspectiveScore: selected.perspectiveScore,
+      fairnessAdjustment: selected.fairnessAdjustment,
+      fairnessNote:
+        selected.fairnessAdjustment > 0
+          ? "Catalog-declared exposure plus uncommon structured tags receive a capped, visible fairness adjustment."
+          : "No catalog exposure or uncommon structured-tag fairness adjustment applied.",
+      formatDiversityAdjustment: selected.formatDiversityAdjustment,
+      formatDiversityNote:
+        selected.formatDiversityAdjustment < 0
+          ? "A format already used by an earlier perspective receives a diversity penalty."
+          : "This format did not duplicate an earlier perspective.",
+      selectionScore: selected.selectionScore,
+      candidateCount: ranked.length,
+      nearTieCount: nearTiePool.length,
+      nearTieWindow: FAIRNESS_SCORE_WINDOW,
+      rotationApplied: nearTiePool.length > 1,
+      rotationIndex,
+      rotationSeed: traceSeed,
+      selectedPoolRank: rotationIndex + 1,
+    },
   };
 };
 
@@ -1278,14 +1417,43 @@ export const getBestMatch = (summary: TodayIntakeSummary, profile: Profile, loca
           : item.mealType === "preference"
             ? 0.5
             : 0;
-    return item.score + item.weeklyPatternScore * 0.75 + scoreFeelPriority(profile, item) + mealTypeBonus;
+    return [
+      selectionAdjustment(
+        "rule-score",
+        item.score,
+        "Sum of the visible deterministic rule receipt.",
+      ),
+      selectionAdjustment(
+        "weekly-perspective",
+        item.weeklyPatternScore * 0.75,
+        "Best Match gives recent-pattern fit an additional 0.75× perspective weight.",
+      ),
+      selectionAdjustment(
+        "feel-priority",
+        scoreFeelPriority(profile, item),
+        "Best Match adds the declared current-feeling priority.",
+      ),
+      selectionAdjustment(
+        "meal-type",
+        mealTypeBonus,
+        "Best Match applies its declared meal-type fit.",
+      ),
+    ];
   });
 
 export const getBestBalance = (summary: TodayIntakeSummary, profile: Profile, locale: Locale, rotationSeed: string, items: ScoredRecommendation[], picked: Set<string>, pickedFormats: Set<string>) =>
   pickRecommendation("Best Balance", summary, profile, locale, `${rotationSeed}:best-balance`, items, picked, pickedFormats, (item) => {
     const mealTypeBonus = item.mealType === "balanced" || item.mealType === "recovery" || item.mealType === "light" ? 2 : 0;
     const steadinessBonus = item.heaviness === "light" ? 1 : item.heaviness === "medium" ? 0.5 : -1;
-    return item.balanceScore * 2 + item.weeklyPatternScore + item.preferenceScore * 0.35 + item.avoidScore + item.varietyScore + mealTypeBonus + steadinessBonus;
+    return [
+      selectionAdjustment("balance-focus", item.balanceScore * 2, "Best Balance weights the food-group and heaviness subtotal 2×."),
+      selectionAdjustment("weekly-pattern", item.weeklyPatternScore, "Recent-pattern points remain fully visible."),
+      selectionAdjustment("preference-temper", item.preferenceScore * 0.35, "Preferences retain a 0.35× influence in the balance perspective."),
+      selectionAdjustment("hard-avoid", item.avoidScore, "The structured hard-avoid result is carried through."),
+      selectionAdjustment("variety", item.varietyScore, "Same-day variety remains part of this perspective."),
+      selectionAdjustment("meal-type", mealTypeBonus, "Balanced, recovery, and light templates receive the declared fit."),
+      selectionAdjustment("steadiness", steadinessBonus, "Lighter templates receive the declared steadiness adjustment."),
+    ];
   });
 
 export const getMostConvenient = (summary: TodayIntakeSummary, profile: Profile, locale: Locale, rotationSeed: string, items: ScoredRecommendation[], picked: Set<string>, pickedFormats: Set<string>) =>
@@ -1293,19 +1461,40 @@ export const getMostConvenient = (summary: TodayIntakeSummary, profile: Profile,
     const convenienceBonus = item.convenience === "high" ? 2 : item.convenience === "medium" ? 1 : -1;
     const reasonableBalanceGuard = item.balanceScore >= 0 ? 1 : -1;
     const portableBonus = item.tags.some((tag) => ["portable", "takeout", "quick", "convenient"].includes(tag.toLowerCase())) ? 1 : 0;
-    return item.convenienceScore * 2 + convenienceBonus + portableBonus + item.balanceScore * 0.5 + item.weeklyPatternScore * 0.5 + item.avoidScore + item.varietyScore + reasonableBalanceGuard;
+    return [
+      selectionAdjustment("convenience-focus", item.convenienceScore * 2, "Most Convenient weights the visible convenience subtotal 2×."),
+      selectionAdjustment("declared-convenience", convenienceBonus, "The catalog convenience level supplies the declared perspective fit."),
+      selectionAdjustment("portable-format", portableBonus, "Structured portable, takeout, quick, or convenient tags add one point."),
+      selectionAdjustment("balance-guard", item.balanceScore * 0.5, "Balance keeps a 0.5× guardrail in this perspective."),
+      selectionAdjustment("weekly-pattern", item.weeklyPatternScore * 0.5, "Recent-pattern fit keeps a 0.5× influence."),
+      selectionAdjustment("hard-avoid", item.avoidScore, "The structured hard-avoid result is carried through."),
+      selectionAdjustment("variety", item.varietyScore, "Same-day variety remains part of this perspective."),
+      selectionAdjustment("reasonable-balance", reasonableBalanceGuard, "A non-negative balance subtotal receives the declared guard."),
+    ];
   });
 
 export const scoreRecommendations = (profile: Profile, todayLog: TodayLog, history: DayHistory[], locale: Locale, now = new Date()): ScoredRecommendation[] => {
   const summary = summarizeTodayIntake(todayLog);
   const timeWindow = getMealTimeWindow(now);
+  const priorHistory = getPriorHistory(history);
   const todayId = history.find((day) => day.isToday)?.id ?? history[history.length - 1]?.id ?? now.toISOString().slice(0, 10);
-  const rotationSeed = `${todayId}:${profile.feelToday}:${profile.eatingStyle}:${summary.proteinStatus}:${summary.vegetableStatus}:${summary.carbStatus}:${summary.heavinessStatus}`;
+  const rotationSeed = [
+    todayId,
+    timeWindow,
+    profile.feelToday,
+    profile.eatingStyle,
+    [...profile.preferenceTags].sort().join("|"),
+    [...profile.avoidTags].sort().join("|"),
+    summary.proteinStatus,
+    summary.vegetableStatus,
+    summary.carbStatus,
+    summary.heavinessStatus,
+  ].join(":");
   const eligibleMeals = recommendationDataset.filter(
-    (meal) => scoreAvoidConflicts(profile, meal).points === 0,
+    (meal) => getHardAvoidConflicts(profile, meal, timeWindow).length === 0,
   );
   const scored = eligibleMeals
-    .map((meal) => scoreMealOption(summary, todayLog, history, profile, meal, timeWindow, locale))
+    .map((meal) => scoreMealOption(summary, todayLog, priorHistory, profile, meal, timeWindow, locale))
     .sort((a, b) => b.score - a.score);
 
   const deduped = dedupeRecommendations(scored);
@@ -1319,11 +1508,18 @@ export const scoreRecommendations = (profile: Profile, todayLog: TodayLog, histo
   return [bestMatch, bestBalance, mostConvenient].filter(Boolean) as ScoredRecommendation[];
 };
 
-export const countHardAvoidedRecommendations = (profile: Profile) =>
-  recommendationDataset.filter((meal) => scoreAvoidConflicts(profile, meal).points < 0).length;
+export const countHardAvoidedRecommendations = (
+  profile: Profile,
+  now = new Date(),
+) => {
+  const timeWindow = getMealTimeWindow(now);
+  return recommendationDataset.filter(
+    (meal) => getHardAvoidConflicts(profile, meal, timeWindow).length > 0,
+  ).length;
+};
 
 const buildPreferenceTrendSummary = (history: DayHistory[], profile: Profile, locale: Locale) => {
-  const meals = history.flatMap((day) => flattenMeals(day.todayLog)).filter(isMealLogged);
+  const meals = flattenHistoryMeals(history);
 
   if (meals.length < 4) {
     return locale === "en"
@@ -1418,7 +1614,7 @@ const buildPreferenceTrendSummary = (history: DayHistory[], profile: Profile, lo
 };
 
 export const buildWeeklySnapshot = (history: DayHistory[], profile: Profile, locale: Locale) => {
-  const flatMeals = history.flatMap((day) => flattenMeals(day.todayLog)).filter(isMealLogged);
+  const flatMeals = flattenHistoryMeals(history);
   const loggedMealsCount = flatMeals.length;
   const riceMeals = flatMeals.filter((meal) =>
     meal.carbs.some((item) => {

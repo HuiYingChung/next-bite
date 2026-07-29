@@ -98,7 +98,7 @@ export const enrichRecommendation = (meal: BaseMealOption): MealOption => {
       sourceIds: inferSources(meal),
       reviewedOn: EVIDENCE_REVIEW_DATE,
       method:
-        "Qualitative food-group template. Recommendation points use declared meal composition; they are not calorie or medical-nutrition estimates.",
+        "Qualitative food-group template. Recommendation points use declared meal composition; they are not serving-adequacy, calorie, or medical-nutrition estimates.",
       assumption:
         confidence === "limited"
           ? "Restaurant and mixed-dish recipes vary substantially; the template assumes a typical single serving and should be adjusted when details are known."
@@ -112,5 +112,5 @@ export const catalogMethod = {
   statement:
     "100 curated everyday meal templates scored from visible food-group, fit, and context signals.",
   limitation:
-    "The catalog does not claim exact calories or diagnose nutrition needs. Mixed dishes and restaurant portions vary.",
+    "The catalog does not claim serving adequacy, exact calories, or diagnose nutrition needs. Mixed dishes and restaurant portions vary.",
 };

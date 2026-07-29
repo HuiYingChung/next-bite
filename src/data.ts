@@ -1,5 +1,20 @@
 import { enrichRecommendation } from "./evidence";
-import type { AppState, BaseMealOption, DayHistory, DrinkOption, MealEntry, MealName, Profile, Recommendation, TodayLog } from "./types";
+import {
+  buildMealSafetyMetadata,
+  catalogCalibration,
+} from "./catalog-metadata";
+import type {
+  AppState,
+  DayHistory,
+  DrinkOption,
+  MealEntry,
+  MealName,
+  MustAvoidTag,
+  Profile,
+  RawMealOption,
+  Recommendation,
+  TodayLog,
+} from "./types";
 
 export const STORAGE_KEY = "next-bite-mvp";
 export const mealNames: MealName[] = ["Breakfast", "Lunch", "Dinner", "Snacks / Drinks"];
@@ -64,7 +79,7 @@ export const avoidTags = [
   "Large portions",
   "Late-night heavy meals",
   "Egg",
-];
+] satisfies MustAvoidTag[];
 
 export const mealOptions = {
   protein: [
@@ -341,6 +356,7 @@ export const createEmptyMeal = (): MealEntry => ({
   cookingMethod: "Boiled",
   mealSource: "Home-cooked",
   portion: "Medium",
+  componentDetails: [],
 });
 
 export const seedProfile: Profile = {
@@ -356,16 +372,17 @@ export const seedProfile: Profile = {
   eatingStyle: "Both",
   preferenceTags: ["Chinese-style", "Japanese", "Soupy meals", "Light meals"],
   avoidTags: ["Dairy"],
+  sensitiveDrinkOptIns: [],
 };
 
-export const seedTodayLog = {
+export const seedTodayLog: TodayLog = {
   Breakfast: { ...createEmptyMeal(), protein: ["Egg"], carbs: ["Oatmeal"], fruit: ["Banana"], drink: ["Coffee"], portion: "Small" },
   Lunch: { ...createEmptyMeal(), protein: ["Chicken"], vegetables: ["Broccoli", "Mixed vegetables"], carbs: ["Rice"], drink: ["Tea"], cookingMethod: "Stir-fried", mealSource: "Takeout" },
   Dinner: createEmptyMeal(),
   "Snacks / Drinks": { ...createEmptyMeal(), fruit: ["Apple"], drink: ["Water"], cookingMethod: "Raw / cold", mealSource: "Ready-made", portion: "Small" },
 };
 
-const historyMeals = [
+const historyMeals: Array<Array<Partial<MealEntry>>> = [
   [
     { protein: ["Egg"], carbs: ["Bread"], drink: ["Coffee"], portion: "Small" },
     { protein: ["Pork"], vegetables: ["Leafy greens"], carbs: ["Rice"], cookingMethod: "Stir-fried", mealSource: "Takeout" },
@@ -405,14 +422,15 @@ const historyMeals = [
 ];
 
 const buildSeedLogs = (): AppState["days"][number]["todayLog"][] =>
-  historyMeals
-    .map((dayMeals) => ({
+  [
+    ...historyMeals.map((dayMeals) => ({
       Breakfast: { ...createEmptyMeal(), ...dayMeals[0] },
       Lunch: { ...createEmptyMeal(), ...dayMeals[1] },
       Dinner: { ...createEmptyMeal(), ...dayMeals[2] },
       "Snacks / Drinks": { ...createEmptyMeal(), ...dayMeals[3] },
-    }))
-    .concat([seedTodayLog]);
+    })),
+    seedTodayLog,
+  ];
 
 export const cloneMealEntry = (meal: MealEntry): MealEntry => ({
   protein: [...meal.protein],
@@ -424,6 +442,10 @@ export const cloneMealEntry = (meal: MealEntry): MealEntry => ({
   cookingMethod: meal.cookingMethod,
   mealSource: meal.mealSource,
   portion: meal.portion,
+  componentDetails: (meal.componentDetails ?? []).map((component) => ({
+    ...component,
+    amount: { ...component.amount },
+  })),
 });
 
 export const cloneTodayLog = (todayLog: TodayLog): TodayLog =>
@@ -460,6 +482,7 @@ export const cloneProfile = (profile: Profile): Profile => ({
   ...profile,
   preferenceTags: [...profile.preferenceTags],
   avoidTags: [...profile.avoidTags],
+  sensitiveDrinkOptIns: [...(profile.sensitiveDrinkOptIns ?? [])],
 });
 
 export const cloneDay = (day: DayHistory): DayHistory => ({
@@ -486,7 +509,7 @@ export const createBlankState = (): AppState => ({
   selectedDayId: seedHistory[seedHistory.length - 1]?.id ?? "",
 });
 
-const recommendationCatalog: BaseMealOption[] = [
+const recommendationCatalog: RawMealOption[] = [
   {
     id: "salmon-rice-bowl-veg",
     title: "Salmon Rice Bowl with Vegetables",
@@ -1889,6 +1912,17 @@ const recommendationCatalog: BaseMealOption[] = [
   },
 ];
 
-export const recommendationDataset: Recommendation[] = recommendationCatalog.map(enrichRecommendation);
+export const recommendationDataset: Recommendation[] = recommendationCatalog.map(
+  ({ avoidTags: _legacyAvoidTags, ...meal }) => {
+    const calibration = catalogCalibration[meal.id] ?? {};
+    return enrichRecommendation({
+      ...meal,
+      ...calibration,
+      fairnessExposureAdjustment:
+        calibration.fairnessExposureAdjustment ?? 0,
+      safety: buildMealSafetyMetadata(meal.id),
+    });
+  },
+);
 
 export const seededState: AppState = createSeededState();

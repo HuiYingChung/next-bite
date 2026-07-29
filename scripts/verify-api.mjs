@@ -64,25 +64,40 @@ const parsedMeal = {
     {
       name: "chicken",
       group: "protein",
-      amount: "one serving",
+      amount: {
+        quantity: 1,
+        unit: "serving",
+        qualifier: "exact",
+        originalText: "one serving",
+      },
       confidence: "high",
     },
     {
       name: "rice",
       group: "carb",
-      amount: "one bowl",
+      amount: {
+        quantity: 1,
+        unit: "bowl",
+        qualifier: "exact",
+        originalText: "one bowl",
+      },
       confidence: "high",
     },
     {
       name: "broccoli",
       group: "vegetable",
-      amount: "one side",
+      amount: {
+        quantity: 1,
+        unit: "portion",
+        qualifier: "approximate",
+        originalText: "one side",
+      },
       confidence: "high",
     },
   ],
   cookingMethod: "Other",
   mealSource: "Home-cooked",
-  portion: "Medium",
+  portion: { size: "Medium", confidence: "high" },
   assumptions: [],
   clarification: null,
 };
@@ -129,6 +144,17 @@ try {
     forwardedRequest.body.text?.format?.strict === true,
     "Structured Outputs must use strict mode.",
   );
+  const forwardedSchema =
+    forwardedRequest.body.text?.format?.schema;
+  expect(
+    forwardedSchema?.properties?.components?.items?.properties?.amount
+      ?.properties?.quantity,
+    "Component amounts must use the normalized structured schema.",
+  );
+  expect(
+    forwardedSchema?.properties?.portion?.properties?.confidence,
+    "Portion confidence must remain in the structured output.",
+  );
   expect(
     forwardedRequest.body.model === "gpt-5.6-luna",
     "The extraction model changed unexpectedly.",
@@ -153,6 +179,7 @@ console.log(
       inputLimit: true,
       responsesApi: true,
       structuredOutputs: true,
+      normalizedAmountPortionConfidence: true,
       openAiStorageDisabled: true,
       responseCachingDisabled: true,
     },

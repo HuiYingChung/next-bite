@@ -32,6 +32,9 @@ jobs:
       - name: Install locked dependencies
         run: npm ci
 
+      - name: Audit meal recommendation reachability
+        run: npm run audit:reachability
+
       - name: Audit drink recommendation reachability
         run: npm run audit:drinks
 

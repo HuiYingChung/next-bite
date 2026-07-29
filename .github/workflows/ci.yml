@@ -36,5 +36,8 @@ jobs:
       - name: Verify product rules and data
         run: npm run verify:product
 
+      - name: Verify deterministic engine regressions
+        run: npm run verify:engine
+
       - name: Verify BYOK API boundary
         run: npm run verify:api

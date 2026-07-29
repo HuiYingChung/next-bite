@@ -351,3 +351,10 @@ const summary = {
 };
 
 console.log(JSON.stringify(summary, null, 2));
+
+if (unreachable.length > 0) {
+  console.error(
+    `Reachability gate failed: ${unreachable.length} catalog meals were never selected.`,
+  );
+  process.exitCode = 1;
+}

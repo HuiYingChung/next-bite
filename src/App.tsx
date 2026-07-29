@@ -4,6 +4,7 @@ import {
   STORAGE_KEY,
   avoidTags,
   createBlankState,
+  createEmptyMeal,
   mealNames,
   mealOptions,
   preferenceTags,
@@ -23,13 +24,17 @@ import type {
   Locale,
   MealEntry,
   MealName,
+  MustAvoidTag,
+  ParsedAmountUnit,
   ParsedMeal,
   ParsedMealComponent,
   Profile,
   ScoredRecommendation,
+  SensitiveDrinkOptIn,
 } from "./types";
 
-const APP_STORAGE_KEY = `${STORAGE_KEY}-explainable-v2`;
+const APP_STORAGE_KEY = `${STORAGE_KEY}-deterministic-v3`;
+const LEGACY_STORAGE_KEY = `${STORAGE_KEY}-explainable-v2`;
 const KEY_MAX_LENGTH = 512;
 
 const cx = (...classes: Array<string | false | null | undefined>) =>
@@ -53,6 +58,29 @@ const getDefaultMealSlot = (now = new Date()): MealName => {
   return "Snacks / Drinks";
 };
 
+const normalizedAmount = (
+  quantity: number | null = null,
+  unit: ParsedAmountUnit = "unspecified",
+  qualifier: ParsedMealComponent["amount"]["qualifier"] = "unspecified",
+  originalText: string | null = null,
+): ParsedMealComponent["amount"] => ({
+  quantity,
+  unit,
+  qualifier,
+  originalText,
+});
+
+const formatParsedAmount = (
+  amount: ParsedMealComponent["amount"],
+  locale: Locale,
+) => {
+  if (amount.originalText) return amount.originalText;
+  if (amount.quantity !== null && amount.unit !== "unspecified") {
+    return `${amount.qualifier === "approximate" ? "~" : ""}${amount.quantity} ${amount.unit}`;
+  }
+  return text(locale, "amount unspecified", "份量未說明");
+};
+
 const sampleMeal = (locale: Locale): ParsedMeal => ({
   displayName:
     locale === "en"
@@ -63,31 +91,41 @@ const sampleMeal = (locale: Locale): ParsedMeal => ({
     {
       name: locale === "en" ? "beef" : "牛肉",
       group: "protein",
-      amount: locale === "en" ? "unspecified" : "未說明",
+      amount: normalizedAmount(),
       confidence: "high",
     },
     {
       name: locale === "en" ? "wheat noodles" : "麵條",
       group: "carb",
-      amount: locale === "en" ? "one bowl" : "一碗",
+      amount: normalizedAmount(
+        1,
+        "bowl",
+        "exact",
+        locale === "en" ? "one bowl" : "一碗",
+      ),
       confidence: "high",
     },
     {
       name: locale === "en" ? "soup broth" : "湯",
       group: "soup",
-      amount: locale === "en" ? "unspecified" : "未說明",
+      amount: normalizedAmount(),
       confidence: "medium",
     },
     {
       name: locale === "en" ? "milk tea" : "奶茶",
       group: "drink",
-      amount: locale === "en" ? "half cup" : "半杯",
+      amount: normalizedAmount(
+        0.5,
+        "cup",
+        "exact",
+        locale === "en" ? "half cup" : "半杯",
+      ),
       confidence: "high",
     },
   ],
   cookingMethod: "Soup / stew",
   mealSource: "Restaurant",
-  portion: "Medium",
+  portion: { size: "Medium", confidence: "medium" },
   assumptions: [
     locale === "en"
       ? "No vegetable side was mentioned, so none was added."
@@ -114,18 +152,73 @@ const parsedMealToEntry = (meal: ParsedMeal): MealEntry => {
     drink: byGroup("drink"),
     cookingMethod: meal.cookingMethod,
     mealSource: meal.mealSource,
-    portion: meal.portion,
+    portion: meal.portion.size,
+    componentDetails: meal.components.map((component) => ({
+      ...component,
+      amount: { ...component.amount },
+    })),
   };
 };
 
 const loadInitialState = (): AppState => {
+  const blank = createBlankState();
   try {
-    const saved = localStorage.getItem(APP_STORAGE_KEY);
-    if (saved) return JSON.parse(saved) as AppState;
+    const saved =
+      localStorage.getItem(APP_STORAGE_KEY) ??
+      localStorage.getItem(LEGACY_STORAGE_KEY);
+    if (saved) {
+      const parsed = JSON.parse(saved) as Partial<AppState>;
+      if (!Array.isArray(parsed.days) || !parsed.profile) return blank;
+
+      return {
+        profile: {
+          ...blank.profile,
+          ...parsed.profile,
+          preferenceTags: Array.isArray(parsed.profile.preferenceTags)
+            ? parsed.profile.preferenceTags
+            : [],
+          avoidTags: Array.isArray(parsed.profile.avoidTags)
+            ? parsed.profile.avoidTags.filter((tag): tag is MustAvoidTag =>
+                avoidTags.includes(tag as MustAvoidTag),
+              )
+            : [],
+          sensitiveDrinkOptIns: Array.isArray(
+            parsed.profile.sensitiveDrinkOptIns,
+          )
+            ? parsed.profile.sensitiveDrinkOptIns.filter(
+                (value): value is SensitiveDrinkOptIn =>
+                  value === "alcohol" || value === "energy-drink",
+              )
+            : [],
+        },
+        days: parsed.days.map((day) => ({
+          ...day,
+          todayLog: Object.fromEntries(
+            mealNames.map((mealName) => {
+              const savedMeal = day.todayLog?.[mealName];
+              return [
+                mealName,
+                {
+                  ...createEmptyMeal(),
+                  ...(savedMeal ?? {}),
+                  componentDetails: Array.isArray(savedMeal?.componentDetails)
+                    ? savedMeal.componentDetails
+                    : [],
+                },
+              ];
+            }),
+          ) as AppState["days"][number]["todayLog"],
+        })),
+        selectedDayId:
+          typeof parsed.selectedDayId === "string"
+            ? parsed.selectedDayId
+            : parsed.days[parsed.days.length - 1]?.id ?? "",
+      };
+    }
   } catch {
     // A malformed local snapshot should never block the first decision.
   }
-  return createBlankState();
+  return blank;
 };
 
 const cuisineName = (recommendation: ScoredRecommendation | (typeof recommendationDataset)[number]) => {
@@ -190,7 +283,7 @@ function ScoreBadge({ score, locale }: { score: number; locale: Locale }) {
         {score}
       </div>
       <div className="text-[10px] font-semibold uppercase tracking-[0.12em] text-emerald-700/70">
-        {text(locale, "decision points", "決策分數")}
+        {text(locale, "selection score", "選擇分數")}
       </div>
     </div>
   );
@@ -208,7 +301,9 @@ function ComponentChip({
   return (
     <div className="group flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-2 text-sm shadow-sm">
       <span className="font-medium text-slate-800">{component.name}</span>
-      <span className="text-xs text-slate-400">{component.amount}</span>
+      <span className="text-xs text-slate-400">
+        {formatParsedAmount(component.amount, locale)}
+      </span>
       <span
         className={cx(
           "h-1.5 w-1.5 rounded-full",
@@ -319,19 +414,46 @@ export default function App() {
     }));
   };
 
-  const toggleProfileTag = (
-    group: "preferenceTags" | "avoidTags",
-    value: string,
-  ) => {
+  const togglePreferenceTag = (value: string) => {
     setState((current) => {
-      const currentTags = current.profile[group];
+      const currentTags = current.profile.preferenceTags;
       return {
         ...current,
         profile: {
           ...current.profile,
-          [group]: currentTags.includes(value)
+          preferenceTags: currentTags.includes(value)
             ? currentTags.filter((tag) => tag !== value)
             : [...currentTags, value],
+        },
+      };
+    });
+  };
+
+  const toggleAvoidTag = (value: MustAvoidTag) => {
+    setState((current) => {
+      const currentTags = current.profile.avoidTags;
+      return {
+        ...current,
+        profile: {
+          ...current.profile,
+          avoidTags: currentTags.includes(value)
+            ? currentTags.filter((tag) => tag !== value)
+            : [...currentTags, value],
+        },
+      };
+    });
+  };
+
+  const toggleSensitiveDrinkOptIn = (value: SensitiveDrinkOptIn) => {
+    setState((current) => {
+      const currentOptIns = current.profile.sensitiveDrinkOptIns;
+      return {
+        ...current,
+        profile: {
+          ...current.profile,
+          sensitiveDrinkOptIns: currentOptIns.includes(value)
+            ? currentOptIns.filter((optIn) => optIn !== value)
+            : [...currentOptIns, value],
         },
       };
     });
@@ -410,25 +532,25 @@ export default function App() {
       ...splitItems(manual.protein).map((name) => ({
         name,
         group: "protein" as const,
-        amount: text(locale, "unspecified", "未說明"),
+        amount: normalizedAmount(),
         confidence: "high" as const,
       })),
       ...splitItems(manual.vegetables).map((name) => ({
         name,
         group: "vegetable" as const,
-        amount: text(locale, "unspecified", "未說明"),
+        amount: normalizedAmount(),
         confidence: "high" as const,
       })),
       ...splitItems(manual.carbs).map((name) => ({
         name,
         group: "carb" as const,
-        amount: text(locale, "unspecified", "未說明"),
+        amount: normalizedAmount(),
         confidence: "high" as const,
       })),
       ...splitItems(manual.drink).map((name) => ({
         name,
         group: "drink" as const,
-        amount: text(locale, "unspecified", "未說明"),
+        amount: normalizedAmount(),
         confidence: "high" as const,
       })),
     ];
@@ -446,7 +568,7 @@ export default function App() {
       components,
       cookingMethod: "Other",
       mealSource: "Home-cooked",
-      portion: "Medium",
+      portion: { size: "Medium", confidence: "high" },
       assumptions: [
         text(
           locale,
@@ -486,6 +608,18 @@ export default function App() {
       (total, item) => total + item.points,
       0,
     ) ?? 0;
+  const selectionReceiptTotal = activeRecommendation?.selectionTrace
+    ? Math.round(
+        (activeRecommendation.selectionTrace.perspectiveAdjustments.reduce(
+          (total, item) => total + item.points,
+          0,
+        ) +
+          activeRecommendation.selectionTrace.fairnessAdjustment +
+          activeRecommendation.selectionTrace.formatDiversityAdjustment +
+          Number.EPSILON) *
+          100,
+      ) / 100
+    : 0;
 
   return (
     <div className="min-h-screen text-slate-900">
@@ -602,7 +736,8 @@ export default function App() {
                       <button
                         type="button"
                         key={tag}
-                        onClick={() => toggleProfileTag("preferenceTags", tag)}
+                        aria-pressed={state.profile.preferenceTags.includes(tag)}
+                        onClick={() => togglePreferenceTag(tag)}
                         className={cx(
                           "rounded-full border px-3 py-2 text-xs font-semibold transition",
                           state.profile.preferenceTags.includes(tag)
@@ -620,28 +755,12 @@ export default function App() {
                   {text(locale, "Must avoid", "必須避開")}
                 </div>
                 <div className="flex flex-wrap gap-2">
-                  {avoidTags
-                    .filter((tag) =>
-                      [
-                        "Dairy",
-                        "Egg",
-                        "Soy",
-                        "Wheat / gluten",
-                        "Peanuts",
-                        "Tree nuts",
-                        "Beef",
-                        "Pork",
-                        "Shellfish",
-                        "Fishy seafood",
-                        "Spicy food",
-                        "Fried food",
-                      ].includes(tag),
-                    )
-                    .map((tag) => (
+                  {avoidTags.map((tag) => (
                       <button
                         type="button"
                         key={tag}
-                        onClick={() => toggleProfileTag("avoidTags", tag)}
+                        aria-pressed={state.profile.avoidTags.includes(tag)}
+                        onClick={() => toggleAvoidTag(tag)}
                         className={cx(
                           "rounded-full border px-3 py-2 text-xs font-semibold transition",
                           state.profile.avoidTags.includes(tag)
@@ -656,10 +775,59 @@ export default function App() {
                 <p className="mt-3 text-xs leading-5 text-slate-400">
                   {text(
                     locale,
-                    "These remove matching templates before scoring. NextBite is not a medical allergy checker; confirm ingredients with the cook or restaurant.",
-                    "這些條件會在計分前移除相符餐點。NextBite 不是醫療級過敏檢查工具，仍需向餐廳或料理者確認實際食材。",
+                    "A declared contains, may-contain, or unknown match removes the template before scoring. NextBite is not a medical allergy checker; confirm ingredients with the cook or restaurant.",
+                    "只要結構化資料標為 contains、may-contain 或 unknown，餐點就會在計分前移除。NextBite 不是醫療級過敏檢查工具，仍需向餐廳或料理者確認實際食材。",
                   )}
                 </p>
+              </div>
+            </div>
+            <div className="mt-6 border-t border-slate-200 pt-5">
+              <div className="text-xs font-bold uppercase tracking-[0.14em] text-slate-400">
+                {text(
+                  locale,
+                  "Explicit drink recommendation opt-in",
+                  "敏感飲品推薦明確同意",
+                )}
+              </div>
+              <p className="mt-2 max-w-3xl text-xs leading-5 text-slate-500">
+                {text(
+                  locale,
+                  "Alcohol and energy drinks are never suggested unless you turn on the matching option here. A caffeine preference does not opt you into energy drinks.",
+                  "除非你在這裡明確開啟對應選項，系統永遠不會建議酒精或能量飲品。偏好咖啡因不等於同意能量飲品。",
+                )}
+              </p>
+              <div className="mt-3 flex flex-wrap gap-2">
+                {(
+                  [
+                    ["alcohol", "Allow alcohol suggestions", "允許酒精建議"],
+                    [
+                      "energy-drink",
+                      "Allow energy drink suggestions",
+                      "允許能量飲品建議",
+                    ],
+                  ] as const
+                ).map(([value, en, zh]) => {
+                  const enabled =
+                    state.profile.sensitiveDrinkOptIns.includes(value);
+                  return (
+                    <button
+                      type="button"
+                      key={value}
+                      aria-pressed={enabled}
+                      onClick={() => toggleSensitiveDrinkOptIn(value)}
+                      className={cx(
+                        "rounded-full border px-3 py-2 text-xs font-semibold transition",
+                        enabled
+                          ? "border-amber-600 bg-amber-500 text-slate-950"
+                          : "border-slate-200 bg-white text-slate-600 hover:border-amber-300",
+                      )}
+                    >
+                      {enabled
+                        ? text(locale, `${en}: on`, `${zh}：已開啟`)
+                        : text(locale, `${en}: off`, `${zh}：未開啟`)}
+                    </button>
+                  );
+                })}
               </div>
             </div>
           </section>
@@ -952,11 +1120,15 @@ export default function App() {
                   <label className="text-xs font-bold text-slate-600">
                     {text(locale, "Portion", "份量")}
                     <select
-                      value={parsedMeal.portion}
+                      value={parsedMeal.portion.size}
                       onChange={(event) =>
                         setParsedMeal({
                           ...parsedMeal,
-                          portion: event.target.value as ParsedMeal["portion"],
+                          portion: {
+                            size: event.target
+                              .value as ParsedMeal["portion"]["size"],
+                            confidence: "high",
+                          },
                         })
                       }
                       className="mt-1.5 w-full rounded-xl border border-amber-200 bg-white px-3 py-2.5 text-sm font-normal"
@@ -965,6 +1137,10 @@ export default function App() {
                         <option key={name}>{name}</option>
                       ))}
                     </select>
+                    <span className="mt-1 block font-normal text-slate-400">
+                      {text(locale, "Confidence", "信心")}：{" "}
+                      {confidenceLabel(locale, parsedMeal.portion.confidence)}
+                    </span>
                   </label>
                 </div>
 
@@ -1071,7 +1247,13 @@ export default function App() {
                       {activeRecommendation.shortReason}
                     </p>
                   </div>
-                  <ScoreBadge score={activeRecommendation.score} locale={locale} />
+                  <ScoreBadge
+                    score={
+                      activeRecommendation.selectionTrace?.selectionScore ??
+                      activeRecommendation.score
+                    }
+                    locale={locale}
+                  />
                 </div>
 
                 <div className="mt-5 grid gap-3 sm:grid-cols-3">
@@ -1196,7 +1378,11 @@ export default function App() {
                         {text(locale, "Decision receipt", "決策收據")}
                       </div>
                       <div className="mt-1 text-lg font-bold tracking-tight">
-                        {text(locale, "Every point is visible and additive", "每一分都可見，而且可以逐項相加")}
+                        {text(
+                          locale,
+                          "The receipt matches the actual deterministic selection",
+                          "收據完整對應實際 deterministic 選擇",
+                        )}
                       </div>
                     </div>
                     <span className="grid h-9 w-9 place-items-center rounded-full border border-slate-200 text-lg text-slate-500">
@@ -1241,7 +1427,11 @@ export default function App() {
                         ))}
                         <div className="grid grid-cols-[minmax(0,1fr)_auto] gap-3 bg-slate-950 px-4 py-3 text-sm font-bold text-white">
                           <span>
-                            {text(locale, "Visible total", "可見總分")}
+                            {text(
+                              locale,
+                              "Rule score (perspective input)",
+                              "規則分數（perspective 輸入）",
+                            )}
                             {receiptTotal !== activeRecommendation.score && (
                               <span className="ml-2 text-amber-300">
                                 {text(locale, "Check needed", "需要檢查")}
@@ -1254,6 +1444,115 @@ export default function App() {
                           </span>
                         </div>
                       </div>
+
+                      {activeRecommendation.selectionTrace && (
+                        <div className="overflow-hidden rounded-[20px] border border-violet-200">
+                          <div className="grid grid-cols-[minmax(0,1fr)_auto] gap-3 border-b border-violet-200 bg-violet-50 px-4 py-3 text-[10px] font-bold uppercase tracking-[0.12em] text-violet-700">
+                            <span>
+                              {text(
+                                locale,
+                                `${activeRecommendation.label} selection calculation`,
+                                `${activeRecommendation.label} 實際選擇計算`,
+                              )}
+                            </span>
+                            <span>{text(locale, "Rank", "排序分")}</span>
+                          </div>
+                          {activeRecommendation.selectionTrace.perspectiveAdjustments.map(
+                            (adjustment) => (
+                              <div
+                                key={adjustment.key}
+                                className="grid grid-cols-[minmax(0,1fr)_auto] gap-3 border-b border-violet-100 px-4 py-3"
+                              >
+                                <div>
+                                  <div className="text-xs font-bold text-slate-700">
+                                    {adjustment.key}
+                                  </div>
+                                  <div className="mt-1 text-xs leading-5 text-slate-500">
+                                    {adjustment.note}
+                                  </div>
+                                </div>
+                                <strong className="text-sm tabular-nums text-violet-800">
+                                  {adjustment.points > 0 ? "+" : ""}
+                                  {adjustment.points}
+                                </strong>
+                              </div>
+                            ),
+                          )}
+                          {[
+                            {
+                              key: "fairness-exposure",
+                              points:
+                                activeRecommendation.selectionTrace
+                                  .fairnessAdjustment,
+                              note: activeRecommendation.selectionTrace
+                                .fairnessNote,
+                            },
+                            {
+                              key: "format-diversity",
+                              points:
+                                activeRecommendation.selectionTrace
+                                  .formatDiversityAdjustment,
+                              note: activeRecommendation.selectionTrace
+                                .formatDiversityNote,
+                            },
+                          ].map((adjustment) => (
+                            <div
+                              key={adjustment.key}
+                              className="grid grid-cols-[minmax(0,1fr)_auto] gap-3 border-b border-violet-100 px-4 py-3"
+                            >
+                              <div>
+                                <div className="text-xs font-bold text-slate-700">
+                                  {adjustment.key}
+                                </div>
+                                <div className="mt-1 text-xs leading-5 text-slate-500">
+                                  {adjustment.note}
+                                </div>
+                              </div>
+                              <strong className="text-sm tabular-nums text-violet-800">
+                                {adjustment.points > 0 ? "+" : ""}
+                                {adjustment.points}
+                              </strong>
+                            </div>
+                          ))}
+                          <div className="grid grid-cols-[minmax(0,1fr)_auto] gap-3 bg-violet-950 px-4 py-3 text-sm font-bold text-white">
+                            <span>
+                              {text(
+                                locale,
+                                "Actual selection score",
+                                "實際選擇分數",
+                              )}
+                              {selectionReceiptTotal !==
+                                activeRecommendation.selectionTrace
+                                  .selectionScore && (
+                                <span className="ml-2 text-amber-300">
+                                  {text(
+                                    locale,
+                                    "Check needed",
+                                    "需要檢查",
+                                  )}
+                                </span>
+                              )}
+                            </span>
+                            <span className="tabular-nums">
+                              {selectionReceiptTotal > 0 ? "+" : ""}
+                              {selectionReceiptTotal}
+                            </span>
+                          </div>
+                          <div className="bg-violet-50 px-4 py-3 text-[11px] leading-5 text-violet-900/75">
+                            {activeRecommendation.selectionTrace.rotationApplied
+                              ? text(
+                                  locale,
+                                  `Near-tie rotation chose position ${activeRecommendation.selectionTrace.selectedPoolRank} of ${activeRecommendation.selectionTrace.nearTieCount} candidates within ${activeRecommendation.selectionTrace.nearTieWindow} points. The stable seed makes this repeatable.`,
+                                  `近同分輪替在相差 ${activeRecommendation.selectionTrace.nearTieWindow} 分內的 ${activeRecommendation.selectionTrace.nearTieCount} 個候選中，選到第 ${activeRecommendation.selectionTrace.selectedPoolRank} 位；固定 seed 讓結果可重現。`,
+                                )
+                              : text(
+                                  locale,
+                                  `No near-tie rotation was needed among ${activeRecommendation.selectionTrace.candidateCount} eligible candidates.`,
+                                  `${activeRecommendation.selectionTrace.candidateCount} 個合格候選中不需要近同分輪替。`,
+                                )}
+                          </div>
+                        </div>
+                      )}
 
                       <div className="grid gap-3 sm:grid-cols-2">
                         <div className="rounded-[20px] border border-slate-200 p-4">
@@ -1269,11 +1568,16 @@ export default function App() {
                                 className="grid w-full grid-cols-[minmax(0,1fr)_auto] gap-3 text-left"
                               >
                                 <span className="truncate text-xs font-semibold text-slate-600">
-                                  {recommendation.title}
+                                  {recommendation.label} · {recommendation.title}
                                 </span>
                                 <span className="text-xs font-bold tabular-nums text-slate-900">
-                                  {recommendation.score > 0 ? "+" : ""}
-                                  {recommendation.score}
+                                  {recommendation.selectionTrace &&
+                                  recommendation.selectionTrace.selectionScore >
+                                    0
+                                    ? "+"
+                                    : ""}
+                                  {recommendation.selectionTrace
+                                    ?.selectionScore ?? recommendation.score}
                                 </span>
                               </button>
                             ))}
@@ -1284,20 +1588,20 @@ export default function App() {
                             {text(locale, "Inputs used", "使用的輸入")}
                           </div>
                           <div className="mt-3 grid grid-cols-2 gap-2 text-xs text-slate-600">
-                            <span>{text(locale, "Protein units", "蛋白質單位")}</span>
-                            <strong className="text-right">{summary.proteinCount}</strong>
-                            <span>{text(locale, "Vegetable units", "蔬菜單位")}</span>
-                            <strong className="text-right">{summary.vegetableCount}</strong>
-                            <span>{text(locale, "Carb units", "碳水單位")}</span>
-                            <strong className="text-right">{summary.carbCount}</strong>
+                            <span>{text(locale, "Protein signal", "蛋白質訊號")}</span>
+                            <strong className="text-right">{summary.proteinStatus}</strong>
+                            <span>{text(locale, "Vegetable signal", "蔬菜訊號")}</span>
+                            <strong className="text-right">{summary.vegetableStatus}</strong>
+                            <span>{text(locale, "Carb signal", "碳水訊號")}</span>
+                            <strong className="text-right">{summary.carbStatus}</strong>
                             <span>{text(locale, "Hard-filtered", "計分前排除")}</span>
                             <strong className="text-right">{hardFilteredCount}</strong>
                           </div>
                           <p className="mt-3 text-[11px] leading-5 text-slate-400">
                             {text(
                               locale,
-                              "Meal units are qualitative category signals, not grams or calories.",
-                              "餐點單位是質化分類訊號，不代表克數或熱量。",
+                              "Signals use normalized amount, portion, and confidence when available. They describe logged food-group presence—not serving adequacy, grams, calories, or medical nutrition.",
+                              "有資料時，訊號會使用正規化的 amount、portion 與 confidence；它只描述已記錄的食物類別，不代表份量充足度、克數、熱量或醫療營養判斷。",
                             )}
                           </p>
                         </div>

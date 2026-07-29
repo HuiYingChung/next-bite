@@ -32,7 +32,48 @@ const mealSchema = {
             type: "string",
             enum: ["protein", "vegetable", "carb", "fruit", "soup", "drink", "other"],
           },
-          amount: { type: "string", minLength: 1, maxLength: 40 },
+          amount: {
+            type: "object",
+            additionalProperties: false,
+            required: ["quantity", "unit", "qualifier", "originalText"],
+            properties: {
+              quantity: {
+                anyOf: [
+                  { type: "number", minimum: 0.01, maximum: 50 },
+                  { type: "null" },
+                ],
+              },
+              unit: {
+                type: "string",
+                enum: [
+                  "serving",
+                  "portion",
+                  "cup",
+                  "bowl",
+                  "plate",
+                  "piece",
+                  "slice",
+                  "tablespoon",
+                  "teaspoon",
+                  "handful",
+                  "glass",
+                  "can",
+                  "bottle",
+                  "unspecified",
+                ],
+              },
+              qualifier: {
+                type: "string",
+                enum: ["exact", "approximate", "unspecified"],
+              },
+              originalText: {
+                anyOf: [
+                  { type: "string", minLength: 1, maxLength: 40 },
+                  { type: "null" },
+                ],
+              },
+            },
+          },
           confidence: {
             type: "string",
             enum: ["high", "medium", "limited"],
@@ -57,7 +98,18 @@ const mealSchema = {
       type: "string",
       enum: ["Home-cooked", "Takeout", "Restaurant", "Ready-made"],
     },
-    portion: { type: "string", enum: ["Small", "Medium", "Large"] },
+    portion: {
+      type: "object",
+      additionalProperties: false,
+      required: ["size", "confidence"],
+      properties: {
+        size: { type: "string", enum: ["Small", "Medium", "Large"] },
+        confidence: {
+          type: "string",
+          enum: ["high", "medium", "limited"],
+        },
+      },
+    },
     assumptions: {
       type: "array",
       maxItems: 6,
@@ -142,7 +194,8 @@ export default async function handler(req, res) {
     "Extract only a structured description of what the user ate. Do not recommend a meal, score health, calculate calories, or provide medical advice.",
     "Do not invent invisible ingredients, cooking oils, sauces, or portion sizes. If a detail is not stated, use the most neutral allowed value and record the uncertainty in assumptions.",
     "Classify each visible or explicitly named component by its ordinary food-group role.",
-    "Use 'unspecified' for an unstated component amount.",
+    "Normalize each stated component amount into quantity, unit, and qualifier while preserving the user's phrase in originalText. For an unstated amount, use quantity null, unit 'unspecified', qualifier 'unspecified', and originalText null.",
+    "Normalize the overall portion to Small, Medium, or Large and attach confidence. If portion is not stated, use the most neutral Medium value with limited confidence and disclose that assumption.",
     "Ask at most one clarification, and only when it would materially change the food-group interpretation.",
     `Use ${locale === "zh" ? "Traditional Chinese" : "English"} for displayName, component names, assumptions, and clarification.`,
     `If the user does not state the meal slot, use ${mealSlotHint}.`,

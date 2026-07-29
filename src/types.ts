@@ -24,6 +24,54 @@ export type DailyStatus = "low" | "medium" | "high";
 export type DrinkCategory = "simple" | "tea" | "coffee" | "milk" | "juice" | "sweet" | "alcohol";
 export type EvidenceConfidence = "high" | "medium" | "limited";
 export type EvidenceSourceId = "usda-myplate" | "usda-fdc" | "taiwan-fda" | "nextbite-editorial";
+export type SensitiveDrinkOptIn = "alcohol" | "energy-drink";
+export type MustAvoidTag =
+  | "Fried food"
+  | "Dairy"
+  | "Peanuts"
+  | "Tree nuts"
+  | "Sesame"
+  | "Soy"
+  | "Wheat / gluten"
+  | "Beef"
+  | "Pork"
+  | "Lamb"
+  | "Organ meats"
+  | "Cilantro"
+  | "Celery"
+  | "Bitter melon"
+  | "Eggplant"
+  | "Okra"
+  | "Green bell pepper"
+  | "Spicy food"
+  | "Shellfish"
+  | "Fishy seafood"
+  | "Raw food"
+  | "Cold food"
+  | "Sweet drinks"
+  | "Caffeine"
+  | "Alcohol drinks"
+  | "Processed food"
+  | "Large portions"
+  | "Late-night heavy meals"
+  | "Egg";
+export type AvoidanceCertainty = "contains" | "mayContain" | "unknown";
+export type ParsedAmountUnit =
+  | "serving"
+  | "portion"
+  | "cup"
+  | "bowl"
+  | "plate"
+  | "piece"
+  | "slice"
+  | "tablespoon"
+  | "teaspoon"
+  | "handful"
+  | "glass"
+  | "can"
+  | "bottle"
+  | "unspecified";
+export type ParsedAmountQualifier = "exact" | "approximate" | "unspecified";
 
 export type Profile = {
   heightCm: string;
@@ -37,7 +85,8 @@ export type Profile = {
   activityLevel: ActivityLevel;
   eatingStyle: EatingStyle;
   preferenceTags: string[];
-  avoidTags: string[];
+  avoidTags: MustAvoidTag[];
+  sensitiveDrinkOptIns: SensitiveDrinkOptIn[];
 };
 
 export type MealEntry = {
@@ -50,6 +99,7 @@ export type MealEntry = {
   cookingMethod: string;
   mealSource: Source;
   portion: PortionSize;
+  componentDetails: ParsedMealComponent[];
 };
 
 export type TodayLog = Record<MealName, MealEntry>;
@@ -65,7 +115,8 @@ export interface MealOption {
   convenience: Convenience;
   worksFor: WorksFor[];
   mealType: RecommendationMealType;
-  avoidTags: string[];
+  safety: MealSafetyMetadata;
+  fairnessExposureAdjustment: number;
   description: string;
   evidence: {
     confidence: EvidenceConfidence;
@@ -77,6 +128,23 @@ export interface MealOption {
 }
 
 export type BaseMealOption = Omit<MealOption, "evidence">;
+
+export type RawMealOption = Omit<
+  BaseMealOption,
+  "safety" | "fairnessExposureAdjustment"
+> & {
+  /**
+   * Kept only while the catalog source is migrated. Recommendation safety
+   * never reads this field; exact structured metadata is joined by meal id.
+   */
+  avoidTags: string[];
+};
+
+export type MealSafetyMetadata = {
+  contains: MustAvoidTag[];
+  mayContain: MustAvoidTag[];
+  unknown: MustAvoidTag[];
+};
 
 export interface DrinkOption {
   id: string;
@@ -106,6 +174,32 @@ export type ScoredRecommendation = Recommendation & {
   suggestedDrink: string;
   convenienceLabel: string;
   scoreBreakdown: ScoreBreakdownItem[];
+  selectionTrace: SelectionTrace | null;
+};
+
+export type SelectionAdjustment = {
+  key: string;
+  points: number;
+  note: string;
+};
+
+export type SelectionTrace = {
+  perspective: RecommendationCardLabel;
+  ruleScore: number;
+  perspectiveAdjustments: SelectionAdjustment[];
+  perspectiveScore: number;
+  fairnessAdjustment: number;
+  fairnessNote: string;
+  formatDiversityAdjustment: number;
+  formatDiversityNote: string;
+  selectionScore: number;
+  candidateCount: number;
+  nearTieCount: number;
+  nearTieWindow: number;
+  rotationApplied: boolean;
+  rotationIndex: number;
+  rotationSeed: string;
+  selectedPoolRank: number;
 };
 
 export type ScoreBreakdownItem = {
@@ -129,7 +223,12 @@ export type ScoreBreakdownItem = {
 export type ParsedMealComponent = {
   name: string;
   group: "protein" | "vegetable" | "carb" | "fruit" | "soup" | "drink" | "other";
-  amount: string;
+  amount: {
+    quantity: number | null;
+    unit: ParsedAmountUnit;
+    qualifier: ParsedAmountQualifier;
+    originalText: string | null;
+  };
   confidence: EvidenceConfidence;
 };
 
@@ -139,7 +238,10 @@ export type ParsedMeal = {
   components: ParsedMealComponent[];
   cookingMethod: string;
   mealSource: Source;
-  portion: PortionSize;
+  portion: {
+    size: PortionSize;
+    confidence: EvidenceConfidence;
+  };
   assumptions: string[];
   clarification: string | null;
 };
