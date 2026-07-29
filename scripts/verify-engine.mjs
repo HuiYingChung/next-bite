@@ -6,8 +6,10 @@ import {
   createEmptyMeal,
   drinkRecommendationDataset,
   recommendationDataset,
+  rollSevenDayHistory,
   seedHistory,
   seedProfile,
+  toLocalDateId,
 } from "../.audit-tmp/data.mjs";
 import {
   buildSuggestedDrink,
@@ -17,6 +19,7 @@ import {
   getPriorHistory,
   scoreMealOption,
   scoreRecommendations,
+  summarizeHistoryBasis,
   summarizeTodayIntake,
 } from "../.audit-tmp/logic.mjs";
 
@@ -293,6 +296,107 @@ expect(
       historyWithToday.filter((day) => !day.isToday).map((day) => day.id),
     ).size,
   "Prior history must exclude today and deduplicate day ids.",
+);
+
+// The persisted history is a rolling local-calendar window: a new date creates
+// a blank today, retains still-in-range logs, and evicts dates older than six
+// prior calendar days.
+const rolloverStart = new Date(2026, 6, 29, 12, 0, 0);
+const rolloverState = createBlankState(rolloverStart);
+const originalOldestId = rolloverState.days[0].id;
+const loggedTodayId = toLocalDateId(rolloverStart);
+rolloverState.days.find((day) => day.id === loggedTodayId).todayLog.Lunch = {
+  ...createEmptyMeal(),
+  protein: ["Tofu"],
+  vegetables: ["Bok choy"],
+  carbs: ["Rice"],
+};
+
+const nextDay = new Date(2026, 6, 30, 12, 0, 0);
+const rolledOnce = rollSevenDayHistory(rolloverState.days, nextDay);
+expect(rolledOnce.length === 7, "Rollover must keep exactly seven calendar days.");
+expect(
+  new Set(rolledOnce.map((day) => day.id)).size === 7,
+  "Rollover must not duplicate calendar dates.",
+);
+expect(
+  rolledOnce.at(-1).id === toLocalDateId(nextDay) &&
+    rolledOnce.at(-1).isToday,
+  "Rollover must append the new local-calendar today.",
+);
+expect(
+  rolledOnce.find((day) => day.id === loggedTodayId)?.todayLog.Lunch.protein[0] ===
+    "Tofu",
+  "A still-in-range logged day must survive rollover.",
+);
+expect(
+  mealNames.every(
+    (mealName) =>
+      !Object.values(rolledOnce.at(-1).todayLog[mealName])
+        .flat()
+        .includes("Tofu"),
+  ),
+  "A newly created today must be blank instead of copying yesterday.",
+);
+expect(
+  !rolledOnce.some((day) => day.id === originalOldestId),
+  "Rollover must evict the date that left the seven-day window.",
+);
+
+const rolledBeyondWindow = rollSevenDayHistory(
+  rolledOnce,
+  new Date(2026, 7, 6, 12, 0, 0),
+);
+expect(
+  !rolledBeyondWindow.some((day) => day.id === loggedTodayId),
+  "Logs older than the rolling seven-day window must be evicted.",
+);
+
+const thresholdHistory = createBlankState(
+  new Date(2026, 6, 29, 12, 0, 0),
+).days;
+thresholdHistory[4].todayLog = makeLog({
+  Breakfast: { protein: ["Egg"] },
+  Lunch: { vegetables: ["Broccoli"] },
+  Dinner: { carbs: ["Rice"] },
+});
+expect(
+  !summarizeHistoryBasis(thresholdHistory).sufficientForAdjustment,
+  "Three meals on one day must not unlock a weekly pattern.",
+);
+thresholdHistory[5].todayLog = makeLog({
+  Lunch: { protein: ["Tofu"], vegetables: ["Bok choy"] },
+});
+const sufficientBasis = summarizeHistoryBasis(thresholdHistory);
+expect(
+  sufficientBasis.sufficientForAdjustment &&
+    sufficientBasis.loggedMealCount === 4 &&
+    sufficientBasis.loggedDayCount === 2,
+  "Four meals across two distinct days must unlock the weekly pattern.",
+);
+
+const priorThresholdHistory = thresholdHistory.map((day) => ({
+  ...day,
+  isToday: false,
+}));
+priorThresholdHistory.at(-1).isToday = true;
+const expectedPriorBasis = summarizeHistoryBasis(
+  getPriorHistory(priorThresholdHistory),
+);
+const historyBasisResults = scoreRecommendations(
+  makeProfile(),
+  makeLog(),
+  priorThresholdHistory,
+  "en",
+  comparisonNow,
+);
+expect(
+  historyBasisResults.every(
+    (recommendation) =>
+      JSON.stringify(recommendation.weeklyHistoryBasis) ===
+      JSON.stringify(expectedPriorBasis),
+  ),
+  "Every decision receipt must expose the exact prior-history basis used by scoring.",
 );
 
 // Monotonic qualitative signals and level scoring.
@@ -597,6 +701,14 @@ console.log(
       },
       timeBoundaries: Object.fromEntries(windowCases),
       todayExcludedFromWeeklyScoring: true,
+      rollingSevenDayHistory: {
+        calendarWindow: true,
+        retainsInRangeLogs: true,
+        createsBlankToday: true,
+        evictsExpiredDates: true,
+        patternThreshold: "4 meals across 2 days",
+        receiptBasisMatchesScoring: true,
+      },
       monotonicity: {
         structuredSignal: true,
         protein: true,

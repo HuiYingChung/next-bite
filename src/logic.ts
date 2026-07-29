@@ -15,6 +15,7 @@ import type {
   ScoreBreakdownItem,
   TodayIntakeSummary,
   TodayLog,
+  WeeklyHistoryBasis,
 } from "./types";
 
 export type MealTimeWindow =
@@ -110,6 +111,34 @@ const flattenHistoryMeals = (history: DayHistory[]) =>
 
 export const getPriorHistory = (history: DayHistory[]) =>
   dedupeHistoryDays(history).filter((day) => !day.isToday);
+
+export const summarizeHistoryBasis = (
+  history: DayHistory[],
+): WeeklyHistoryBasis => {
+  const uniqueDays = dedupeHistoryDays(history);
+  const loggedDays = uniqueDays.filter((day) =>
+    flattenMeals(day.todayLog).some(isMealLogged),
+  );
+  const loggedMealCount = loggedDays.reduce(
+    (count, day) =>
+      count + flattenMeals(day.todayLog).filter(isMealLogged).length,
+    0,
+  );
+  const dateIds = uniqueDays
+    .map((day) => day.date || day.id)
+    .filter(Boolean)
+    .sort();
+
+  return {
+    windowStart: dateIds[0] ?? "",
+    windowEnd: dateIds[dateIds.length - 1] ?? "",
+    availableDayCount: uniqueDays.length,
+    loggedDayCount: loggedDays.length,
+    loggedMealCount,
+    sufficientForAdjustment:
+      loggedDays.length >= 2 && loggedMealCount >= 4,
+  };
+};
 
 const toStatus = (value: number, lowMax: number, mediumMax: number): DailyStatus => {
   if (value <= lowMax) return "low";
@@ -967,10 +996,20 @@ const scoreTimeOfDayFit = (timeWindow: MealTimeWindow, meal: Recommendation) => 
   return createBreakdownItem("time-of-day", score, notes.join(" ") || "Time-of-day fit is neutral for this meal.");
 };
 
-const scoreWeeklyPatternFit = (history: DayHistory[], meal: Recommendation) => {
+const scoreWeeklyPatternFit = (
+  history: DayHistory[],
+  basis: WeeklyHistoryBasis,
+  meal: Recommendation,
+) => {
   const weekly = summarizeWeeklyPatterns(history);
-  if (weekly.mealsCount === 0) {
-    return createBreakdownItem("weekly-pattern", 0, "Not enough weekly data yet to shape this recommendation.");
+  if (!basis.sufficientForAdjustment) {
+    return createBreakdownItem(
+      "weekly-pattern",
+      0,
+      basis.loggedMealCount === 0
+        ? `No logged meals across the ${basis.availableDayCount} prior days, so recent history does not adjust this recommendation.`
+        : `Only ${basis.loggedMealCount} logged meal${basis.loggedMealCount === 1 ? "" : "s"} across ${basis.loggedDayCount} prior day${basis.loggedDayCount === 1 ? "" : "s"}; recent history needs at least 4 meals across 2 days before it adjusts a score.`,
+    );
   }
 
   let score = 0;
@@ -1017,7 +1056,12 @@ const scoreWeeklyPatternFit = (history: DayHistory[], meal: Recommendation) => {
     notes.push("This fits the more home-style rhythm from recent days.");
   }
 
-  return createBreakdownItem("weekly-pattern", score, notes.join(" ") || "Weekly pattern fit is neutral for this meal.");
+  const basisNote = `Based on ${basis.loggedMealCount} logged meals across ${basis.loggedDayCount} prior days.`;
+  return createBreakdownItem(
+    "weekly-pattern",
+    score,
+    `${notes.join(" ") || "Recent-pattern fit is neutral for this meal."} ${basisNote}`,
+  );
 };
 
 const scoreBalanceBias = (summary: TodayIntakeSummary, meal: Recommendation) => {
@@ -1156,7 +1200,16 @@ export const generateBalanceNote = (label: RecommendationCardLabel, meal: Recomm
   return base;
 };
 
-export const scoreMealOption = (summary: TodayIntakeSummary, todayLog: TodayLog, history: DayHistory[], profile: Profile, meal: Recommendation, timeWindow: MealTimeWindow, locale: Locale): ScoredRecommendation => {
+export const scoreMealOption = (
+  summary: TodayIntakeSummary,
+  todayLog: TodayLog,
+  history: DayHistory[],
+  profile: Profile,
+  meal: Recommendation,
+  timeWindow: MealTimeWindow,
+  locale: Locale,
+  weeklyHistoryBasis = summarizeHistoryBasis(history),
+): ScoredRecommendation => {
   const balance = scoreBalanceBias(summary, meal);
   const convenience = scoreConvenienceFit(summary, profile, meal);
   const profileFit = scoreProfileFit(profile, meal);
@@ -1165,7 +1218,11 @@ export const scoreMealOption = (summary: TodayIntakeSummary, todayLog: TodayLog,
   const variety = scoreVariety(todayLog, meal);
   const snackDrink = scoreSnackDrinkFit(summary, meal);
   const timeOfDay = scoreTimeOfDayFit(timeWindow, meal);
-  const weeklyPattern = scoreWeeklyPatternFit(history, meal);
+  const weeklyPattern = scoreWeeklyPatternFit(
+    history,
+    weeklyHistoryBasis,
+    meal,
+  );
   const balanceScore = balance.total;
   const convenienceScore = convenience.points;
   const preferenceScore = preferences.points;
@@ -1183,6 +1240,7 @@ export const scoreMealOption = (summary: TodayIntakeSummary, todayLog: TodayLog,
     avoidScore,
     varietyScore,
     weeklyPatternScore,
+    weeklyHistoryBasis,
     label: "Best Match",
     shortReason: buildRecommendationReason("Best Match", summary, profile, meal, locale),
     balanceNote: generateBalanceNote("Best Match", meal, locale),
@@ -1477,6 +1535,7 @@ export const scoreRecommendations = (profile: Profile, todayLog: TodayLog, histo
   const summary = summarizeTodayIntake(todayLog);
   const timeWindow = getMealTimeWindow(now);
   const priorHistory = getPriorHistory(history);
+  const weeklyHistoryBasis = summarizeHistoryBasis(priorHistory);
   const todayId = history.find((day) => day.isToday)?.id ?? history[history.length - 1]?.id ?? now.toISOString().slice(0, 10);
   const rotationSeed = [
     todayId,
@@ -1494,7 +1553,18 @@ export const scoreRecommendations = (profile: Profile, todayLog: TodayLog, histo
     (meal) => getHardAvoidConflicts(profile, meal, timeWindow).length === 0,
   );
   const scored = eligibleMeals
-    .map((meal) => scoreMealOption(summary, todayLog, priorHistory, profile, meal, timeWindow, locale))
+    .map((meal) =>
+      scoreMealOption(
+        summary,
+        todayLog,
+        priorHistory,
+        profile,
+        meal,
+        timeWindow,
+        locale,
+        weeklyHistoryBasis,
+      ),
+    )
     .sort((a, b) => b.score - a.score);
 
   const deduped = dedupeRecommendations(scored);
@@ -1616,6 +1686,7 @@ const buildPreferenceTrendSummary = (history: DayHistory[], profile: Profile, lo
 export const buildWeeklySnapshot = (history: DayHistory[], profile: Profile, locale: Locale) => {
   const flatMeals = flattenHistoryMeals(history);
   const loggedMealsCount = flatMeals.length;
+  const dataBasis = summarizeHistoryBasis(history);
   const riceMeals = flatMeals.filter((meal) =>
     meal.carbs.some((item) => {
       const lower = item.toLowerCase();
@@ -1652,8 +1723,12 @@ export const buildWeeklySnapshot = (history: DayHistory[], profile: Profile, loc
     }),
   ).size;
 
-  if (loggedMealsCount < 4) {
+  if (
+    loggedMealsCount < 4 ||
+    dataBasis.loggedDayCount < 2
+  ) {
     return {
+      dataBasis,
       summaryLines: [
         locale === "en"
           ? "You only have a small amount of meal data so far, so this weekly view is still very early."
@@ -1748,6 +1823,7 @@ export const buildWeeklySnapshot = (history: DayHistory[], profile: Profile, loc
   }
 
   return {
+    dataBasis,
     summaryLines: summaryLines.length > 0
       ? summaryLines
       : [
