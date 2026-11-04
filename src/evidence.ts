@@ -1,11 +1,11 @@
 import type {
   BaseMealOption,
-  EvidenceConfidence,
   EvidenceSourceId,
+  Locale,
   MealOption,
 } from "./types";
 
-export const EVIDENCE_REVIEW_DATE = "2026-07-29";
+export const EVIDENCE_REVIEW_DATE = "2026-11-03";
 
 export const evidenceSources: Record<
   EvidenceSourceId,
@@ -15,102 +15,65 @@ export const evidenceSources: Record<
     name: "USDA MyPlate",
     shortName: "USDA MyPlate",
     url: "https://www.myplate.gov/eat-healthy/what-is-myplate",
-    role: "Food-group balance framework",
+    role: "General food-group background; not meal-level evidence",
   },
   "usda-fdc": {
     name: "USDA FoodData Central",
     shortName: "USDA FDC",
     url: "https://fdc.nal.usda.gov/data-documentation/",
-    role: "Ingredient and food-composition reference",
+    role: "General food-composition reference; no catalog record mapping yet",
   },
   "taiwan-fda": {
     name: "Taiwan FDA Food Nutrition Database",
     shortName: "Taiwan FDA",
     url: "https://www.fda.gov.tw/tc/siteList.aspx?sid=284",
-    role: "Cross-check for Taiwanese and Chinese everyday foods",
+    role: "General food-composition reference; no catalog record mapping yet",
   },
   "nextbite-editorial": {
     name: "NextBite editorial method",
     shortName: "NextBite",
     url: "/#method",
-    role: "Meal-template composition, convenience, and preparation context",
+    role: "Editorial template composition and practical-fit rules",
   },
 };
 
-const hasAny = (meal: BaseMealOption, terms: string[]) => {
-  const text = [meal.title, meal.description, ...meal.tags].join(" ").toLowerCase();
-  return terms.some((term) => text.includes(term));
-};
-
-const inferConfidence = (meal: BaseMealOption): EvidenceConfidence => {
-  if (
-    hasAny(meal, [
-      "burrito",
-      "bento",
-      "bibimbap",
-      "curry",
-      "dumpling",
-      "gyro",
-      "mapo",
-      "poke",
-      "shawarma",
-    ])
-  ) {
-    return "limited";
-  }
-
-  if (
-    meal.worksFor.length === 1 &&
-    meal.worksFor[0] === "home-cooked" &&
-    hasAny(meal, ["plate", "toast", "oatmeal", "omelet", "soup"])
-  ) {
-    return "high";
-  }
-
-  return "medium";
-};
-
-const inferSources = (meal: BaseMealOption): EvidenceSourceId[] => {
-  const sources: EvidenceSourceId[] = [
-    "usda-myplate",
-    "usda-fdc",
-    "nextbite-editorial",
-  ];
-
-  if (
-    meal.tags.some((tag) =>
-      ["chinese-style", "taiwanese-style"].includes(tag.toLowerCase()),
-    )
-  ) {
-    sources.splice(2, 0, "taiwan-fda");
-  }
-
-  return sources;
-};
-
 export const enrichRecommendation = (meal: BaseMealOption): MealOption => {
-  const confidence = inferConfidence(meal);
-
   return {
     ...meal,
     evidence: {
-      confidence,
-      sourceIds: inferSources(meal),
+      // Retained for the existing schema, not presented as verified confidence.
+      confidence: "limited",
+      sourceIds: ["nextbite-editorial"],
       reviewedOn: EVIDENCE_REVIEW_DATE,
       method:
-        "Qualitative food-group template. Recommendation points use declared meal composition; they are not serving-adequacy, calorie, or medical-nutrition estimates.",
+        "Editorial meal template and qualitative fit rules, not verified meal-level nutrition evidence. Points describe logged food-group presence and practical fit; they are not serving-adequacy, calorie, or medical-nutrition estimates.",
       assumption:
-        confidence === "limited"
-          ? "Restaurant and mixed-dish recipes vary substantially; the template assumes a typical single serving and should be adjusted when details are known."
-          : "Assumes a typical single serving with the components named in the meal title.",
+        "Uses the named meal components as an editorial template. Ingredients, recipes, and portions vary; missing details remain unverified.",
     },
   };
 };
 
 export const catalogMethod = {
-  name: "NextBite Source-Backed 100",
+  name: "NextBite Curated 100",
   statement:
-    "100 curated everyday meal templates scored from visible food-group, fit, and context signals.",
+    "100 curated everyday meal templates compared with visible qualitative food-group and practical-fit rules.",
   limitation:
-    "The catalog does not claim serving adequacy, exact calories, or diagnose nutrition needs. Mixed dishes and restaurant portions vary.",
+    "Templates are editorial, without verified food-record mapping. Logs may be incomplete; points do not establish nutrient adequacy, exact calories, or medical needs.",
 };
+
+export const getCatalogMethod = (locale: Locale) =>
+  locale === "en"
+    ? catalogMethod
+    : {
+        name: "NextBite 精選 100 餐型",
+        statement: "以可查看的食物類別與實用性規則，比較 100 種人工整理的日常餐型。",
+        limitation: "餐型屬於編輯整理，目前未對應經查證的個別食品資料。紀錄可能不完整；點數不代表營養充足度、精確熱量或醫療需求。",
+      };
+
+export const getMealEvidenceNotes = (meal: MealOption, locale: Locale) =>
+  locale === "en"
+    ? { method: meal.evidence.method, assumption: meal.evidence.assumption }
+    : {
+        method: "使用人工整理的餐型與定性配對規則，目前沒有經查證的餐點級營養證據。點數描述已記錄的食物類別與實用性，不代表份量充足度、熱量或醫療營養評估。",
+        assumption: "以餐名列出的組成作為編輯餐型。實際食材、作法與份量會變動；缺少的細節仍未經確認。",
+      };

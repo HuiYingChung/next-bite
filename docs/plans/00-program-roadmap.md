@@ -1,6 +1,28 @@
-# NextBite nutrition reliability program
+# NextBite product roadmap
 
-Status: active
+## Active release — low-maintenance launch beta
+
+Status: review
+Authorized: 2026-11-03, user requested a new branch and implementation of steps 1–12 from the agreed launch iteration list.
+Branch: `codex/launch-beta`
+Verified base: `1e5306a95501ed767d32c878b115caae1fdc8f0b` (local and remote `main`).
+
+The current release is an everyday bilingual meal-choice tool with curated
+templates and transparent product rules. It does not implement the nutrition
+evidence program below. The user's accepted release scope supersedes that
+program's execution gates for this branch. Read
+[`06-launch-beta.md`](./06-launch-beta.md) before continuing release work.
+
+The nutrition program is deferred research. Its phase statuses below record
+the previous plan, not authorization to start or claim completion of that work.
+Do not import nutrition datasets, add accounts, hosted AI allowances, payments,
+restaurant integrations, analytics, or deploy as part of this release.
+
+---
+
+# Deferred nutrition reliability program
+
+Status: deferred
 Program written: 2026-07-29
 Original planning baseline: `main` at `bbff438`
 

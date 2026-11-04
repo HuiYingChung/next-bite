@@ -1,4 +1,4 @@
-import { buildSuggestedDrink, summarizeTodayIntake } from "../.audit-tmp/logic.mjs";
+import { buildSuggestedDrink, isDrinkEligible, summarizeTodayIntake } from "../.audit-tmp/logic.mjs";
 import { createEmptyMeal, drinkRecommendationDataset, recommendationDataset, seedProfile } from "../.audit-tmp/data.mjs";
 
 const mealNames = ["Breakfast", "Lunch", "Dinner", "Snacks / Drinks"];
@@ -20,6 +20,9 @@ const avoidSets = [
   ["Sweet drinks"],
   ["Alcohol drinks"],
   ["Dairy"],
+  ["Soy"],
+  ["Tree nuts"],
+  ["Wheat / gluten"],
 ];
 
 const clone = (value) => JSON.parse(JSON.stringify(value));
@@ -89,6 +92,9 @@ for (const todayLog of todayLogs) {
                 (reachedDefault.get(suggestedDrink) ?? 0) + 1,
               );
               const defaultDrink = drinkByTitle.get(suggestedDrink);
+              if (!defaultDrink || !isDrinkEligible(profile, defaultDrink)) {
+                throw new Error(`Ineligible default drink: ${JSON.stringify({ suggestedDrink, avoidTags, mealId: meal.id })}`);
+              }
               if (defaultDrink?.alcohol || defaultDrink?.id === "energy-drink") {
                 sensitiveDrinkViolations.push({
                   suggestedDrink,
@@ -100,16 +106,21 @@ for (const todayLog of todayLogs) {
                 });
               }
 
+              const optedInProfile = {
+                ...profile,
+                sensitiveDrinkOptIns: ["alcohol", "energy-drink"],
+              };
               const optedInDrink = buildSuggestedDrink(
                 summary,
-                {
-                  ...profile,
-                  sensitiveDrinkOptIns: ["alcohol", "energy-drink"],
-                },
+                optedInProfile,
                 meal,
                 timeWindow,
                 "en",
               );
+              const optedInOption = drinkByTitle.get(optedInDrink);
+              if (!optedInOption || !isDrinkEligible(optedInProfile, optedInOption)) {
+                throw new Error(`Opt-in bypassed a hard avoid: ${JSON.stringify({ optedInDrink, avoidTags, mealId: meal.id })}`);
+              }
               reachedWithOptIn.set(
                 optedInDrink,
                 (reachedWithOptIn.get(optedInDrink) ?? 0) + 1,
@@ -140,6 +151,7 @@ console.log(
     {
       totalDrinks,
       defaultDeniedSensitiveDrinks: true,
+      hardAvoidEligibilityChecked: true,
       reachedWithoutSensitiveOptIn: reachedDefaultDrinks.length,
       reachedWithSensitiveOptIn: reachedOptedInDrinks.length,
       unreachableWithOptIn,

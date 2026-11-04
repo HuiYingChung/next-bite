@@ -1,9 +1,8 @@
-import { readFileSync } from "node:fs";
 import {
   createBlankState,
   recommendationDataset,
 } from "../.audit-tmp/data.mjs";
-import { evidenceSources } from "../.audit-tmp/evidence.mjs";
+import { catalogMethod, evidenceSources, getCatalogMethod, getMealEvidenceNotes } from "../.audit-tmp/evidence.mjs";
 import {
   countHardAvoidedRecommendations,
   scoreRecommendations,
@@ -49,8 +48,8 @@ for (const meal of recommendationDataset) {
     `${meal.id} has an invalid confidence label.`,
   );
   expect(
-    meal.evidence.sourceIds.length >= 3,
-    `${meal.id} needs at least three declared evidence sources.`,
+    JSON.stringify(meal.evidence.sourceIds) === JSON.stringify(["nextbite-editorial"]),
+    `${meal.id} must identify editorial rules without claiming generic official links as meal-level evidence.`,
   );
   expect(
     meal.evidence.sourceIds.every((sourceId) => evidenceSources[sourceId]),
@@ -68,9 +67,19 @@ for (const meal of recommendationDataset) {
     meal.evidence.assumption.trim().length > 0,
     `${meal.id} has no visible assumption.`,
   );
+  expect(
+    meal.evidence.confidence === "limited" &&
+      meal.evidence.method.includes("not verified meal-level nutrition evidence"),
+    `${meal.id} must retain its unverified editorial boundary.`,
+  );
+  const zhNotes = getMealEvidenceNotes(meal, "zh");
+  expect(/目前沒有經查證/.test(zhNotes.method), "Chinese method notes must disclose the same evidence boundary.");
 }
 
-const state = createBlankState();
+expect(!/source-backed/i.test(catalogMethod.name), "The editorial catalog must not claim to be source-backed.");
+expect(getCatalogMethod("zh").limitation.includes("紀錄可能不完整"), "Chinese catalog copy must disclose incomplete logs.");
+const fixtureNow = new Date(2026, 6, 29, 18, 30);
+const state = createBlankState(fixtureNow);
 const today = state.days.find((day) => day.id === state.selectedDayId);
 expect(today, "Blank state has no selected day.");
 
@@ -130,28 +139,6 @@ for (const recommendation of recommendations) {
   );
 }
 
-const appSource = readFileSync(
-  new URL("../src/App.tsx", import.meta.url),
-  "utf8",
-);
-for (const requiredHistoryMarker of [
-  "rollSevenDayHistory",
-  "recent-history",
-  "Prior meals used",
-  "Weekly adjustment",
-  "4 meals are logged across at least 2 distinct days",
-  "not serving adequacy",
-]) {
-  expect(
-    appSource.includes(requiredHistoryMarker),
-    `The restored seven-day product surface is missing: ${requiredHistoryMarker}.`,
-  );
-}
-expect(
-  appSource.includes("seven-day-v4"),
-  "The rolling seven-day storage migration key is missing.",
-);
-
 const hardAvoidProfile = {
   ...state.profile,
   avoidTags: ["Fishy seafood", "Shellfish", "Dairy", "Beef", "Egg", "Pork"],
@@ -180,10 +167,9 @@ console.log(
       catalogMeals: recommendationDataset.length,
       uniqueIds: true,
       uniqueTitles: true,
-      evidenceComplete: true,
+      editorialBasisDeclared: true,
       scoreReceiptsRecalculate: true,
       selectionReceiptsRecalculate: true,
-      sevenDayHistorySurface: true,
       historyBasisDisclosed: true,
       hardAvoidedMeals: avoidedCount,
       hardAvoidFilterPassed: true,

@@ -41,3 +41,9 @@ jobs:
 
       - name: Verify BYOK API boundary
         run: npm run verify:api
+
+      - name: Verify local records and plans
+        run: npm run verify:launch
+
+      - name: Verify bilingual catalog presentation
+        run: npm run verify:presentation

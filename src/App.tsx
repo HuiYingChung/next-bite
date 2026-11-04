@@ -1,7 +1,7 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import type { Dispatch, ReactNode, SetStateAction } from "react";
 import { parseMealWithAi } from "./ai";
 import {
-  STORAGE_KEY,
   avoidTags,
   createBlankState,
   createEmptyMeal,
@@ -12,2362 +12,2551 @@ import {
   rollSevenDayHistory,
   toLocalDateId,
 } from "./data";
-import { catalogMethod, evidenceSources } from "./evidence";
 import {
   buildWeeklySnapshot,
   countHardAvoidedRecommendations,
+  getMealTimeWindow,
+  getHardAvoidConflicts,
   isMealLogged,
   scoreRecommendations,
-  summarizeHistoryBasis,
-  summarizeTodayIntake,
 } from "./logic";
+import {
+  clearLaunchStorage,
+  downloadLocalData,
+  loadLaunchState,
+  loadLocale,
+  isMergeContextComponent,
+  mergeMealEntries,
+  parsedMealToEntry,
+  removePlan,
+  saveLaunchState,
+  saveLocale,
+  savePlan,
+} from "./launch-state";
+import type { LaunchState } from "./launch-state";
+import {
+  getMealPresentation,
+  getNamedMealComponents,
+  label,
+  mealTitle,
+  translateFood,
+} from "./presentation";
+import { downloadMealCard } from "./share-card";
 import type {
-  AppState,
   DayHistory,
   EatingStyle,
   FeelToday,
   Locale,
-  MealArrayField,
   MealEntry,
   MealName,
-  MealSelectField,
-  MustAvoidTag,
   ParsedAmountUnit,
   ParsedMeal,
   ParsedMealComponent,
   Profile,
+  Recommendation,
   ScoredRecommendation,
-  SensitiveDrinkOptIn,
 } from "./types";
 
-const APP_STORAGE_KEY = `${STORAGE_KEY}-seven-day-v4`;
-const LEGACY_STORAGE_KEYS = [
-  `${STORAGE_KEY}-deterministic-v3`,
-  `${STORAGE_KEY}-explainable-v2`,
-  STORAGE_KEY,
-];
-const KEY_MAX_LENGTH = 512;
-
-const cx = (...classes: Array<string | false | null | undefined>) =>
-  classes.filter(Boolean).join(" ");
-
-const text = (locale: Locale, en: string, zh: string) =>
+const t = (locale: Locale, en: string, zh: string) =>
   locale === "en" ? en : zh;
-
-const splitItems = (value: string) =>
-  value
-    .split(/[,，、]/)
-    .map((item) => item.trim())
-    .filter(Boolean)
-    .slice(0, 8);
-
-const getDefaultMealSlot = (now = new Date()): MealName => {
-  const hour = now.getHours();
-  if (hour < 10) return "Breakfast";
-  if (hour < 15) return "Lunch";
-  if (hour < 21) return "Dinner";
-  return "Snacks / Drinks";
-};
-
-const normalizedAmount = (
-  quantity: number | null = null,
-  unit: ParsedAmountUnit = "unspecified",
-  qualifier: ParsedMealComponent["amount"]["qualifier"] = "unspecified",
-  originalText: string | null = null,
-): ParsedMealComponent["amount"] => ({
-  quantity,
-  unit,
-  qualifier,
-  originalText,
-});
-
-const formatParsedAmount = (
-  amount: ParsedMealComponent["amount"],
-  locale: Locale,
-) => {
-  if (amount.originalText) return amount.originalText;
-  if (amount.quantity !== null && amount.unit !== "unspecified") {
-    return `${amount.qualifier === "approximate" ? "~" : ""}${amount.quantity} ${amount.unit}`;
-  }
-  return text(locale, "amount unspecified", "份量未說明");
-};
-
-const sampleMeal = (locale: Locale): ParsedMeal => ({
-  displayName:
-    locale === "en"
-      ? "Beef noodle soup and half a milk tea"
-      : "牛肉麵與半杯奶茶",
-  mealSlot: "Lunch",
-  components: [
-    {
-      name: locale === "en" ? "beef" : "牛肉",
-      group: "protein",
-      amount: normalizedAmount(),
-      confidence: "high",
-    },
-    {
-      name: locale === "en" ? "wheat noodles" : "麵條",
-      group: "carb",
-      amount: normalizedAmount(
-        1,
-        "bowl",
-        "exact",
-        locale === "en" ? "one bowl" : "一碗",
-      ),
-      confidence: "high",
-    },
-    {
-      name: locale === "en" ? "soup broth" : "湯",
-      group: "soup",
-      amount: normalizedAmount(),
-      confidence: "medium",
-    },
-    {
-      name: locale === "en" ? "milk tea" : "奶茶",
-      group: "drink",
-      amount: normalizedAmount(
-        0.5,
-        "cup",
-        "exact",
-        locale === "en" ? "half cup" : "半杯",
-      ),
-      confidence: "high",
-    },
-  ],
-  cookingMethod: "Soup / stew",
-  mealSource: "Restaurant",
-  portion: { size: "Medium", confidence: "medium" },
-  assumptions: [
-    locale === "en"
-      ? "No vegetable side was mentioned, so none was added."
-      : "沒有提到配菜，因此沒有自行補上蔬菜。",
-    locale === "en"
-      ? "The soup recipe and milk-tea sweetness are unknown."
-      : "湯頭配方與奶茶甜度未知。",
-  ],
-  clarification: null,
-});
-
-const parsedMealToEntry = (meal: ParsedMeal): MealEntry => {
-  const byGroup = (group: ParsedMealComponent["group"]) =>
-    meal.components
-      .filter((component) => component.group === group)
-      .map((component) => component.name);
-
-  return {
-    protein: byGroup("protein"),
-    vegetables: byGroup("vegetable"),
-    carbs: byGroup("carb"),
-    fruit: byGroup("fruit"),
-    soup: byGroup("soup"),
-    drink: byGroup("drink"),
-    cookingMethod: meal.cookingMethod,
-    mealSource: meal.mealSource,
-    portion: meal.portion.size,
-    componentDetails: meal.components.map((component) => ({
-      ...component,
-      amount: { ...component.amount },
-    })),
-  };
-};
-
-const loadInitialState = (now = new Date()): AppState => {
-  const blank = createBlankState(now);
-  try {
-    const saved =
-      localStorage.getItem(APP_STORAGE_KEY) ??
-      LEGACY_STORAGE_KEYS.map((key) => localStorage.getItem(key)).find(Boolean);
-    if (saved) {
-      const parsed = JSON.parse(saved) as Partial<AppState>;
-      if (!Array.isArray(parsed.days) || !parsed.profile) return blank;
-
-      const normalizedDays = parsed.days.map((day) => ({
-        ...day,
-        todayLog: Object.fromEntries(
-          mealNames.map((mealName) => {
-            const savedMeal = day.todayLog?.[mealName];
-            return [
-              mealName,
-              {
-                ...createEmptyMeal(),
-                ...(savedMeal ?? {}),
-                componentDetails: Array.isArray(savedMeal?.componentDetails)
-                  ? savedMeal.componentDetails
-                  : [],
-              },
-            ];
-          }),
-        ) as AppState["days"][number]["todayLog"],
-      }));
-      const days = rollSevenDayHistory(normalizedDays, now);
-      const todayId = days.find((day) => day.isToday)?.id ?? "";
-      const selectedDayId = days.some(
-        (day) => day.id === parsed.selectedDayId,
-      )
-        ? (parsed.selectedDayId as string)
-        : todayId;
-
-      return {
-        profile: {
-          ...blank.profile,
-          ...parsed.profile,
-          preferenceTags: Array.isArray(parsed.profile.preferenceTags)
-            ? parsed.profile.preferenceTags
-            : [],
-          avoidTags: Array.isArray(parsed.profile.avoidTags)
-            ? parsed.profile.avoidTags.filter((tag): tag is MustAvoidTag =>
-                avoidTags.includes(tag as MustAvoidTag),
-              )
-            : [],
-          sensitiveDrinkOptIns: Array.isArray(
-            parsed.profile.sensitiveDrinkOptIns,
-          )
-            ? parsed.profile.sensitiveDrinkOptIns.filter(
-                (value): value is SensitiveDrinkOptIn =>
-                  value === "alcohol" || value === "energy-drink",
-              )
-            : [],
-        },
-        days,
-        selectedDayId,
-      };
-    }
-  } catch {
-    // A malformed local snapshot should never block the first decision.
-  }
-  return blank;
-};
-
-const cuisineName = (recommendation: ScoredRecommendation | (typeof recommendationDataset)[number]) => {
-  const tags = recommendation.tags.map((tag) => tag.toLowerCase());
-  if (tags.includes("taiwanese-style")) return "Taiwanese";
-  if (tags.includes("chinese-style")) return "Chinese";
-  if (tags.includes("japanese-inspired")) return "Japanese";
-  if (tags.includes("korean-inspired")) return "Korean";
-  if (tags.includes("mediterranean")) return "Mediterranean";
-  if (tags.includes("mexican-inspired")) return "Mexican / Latin";
-  if (tags.includes("american-light")) return "American everyday";
-  return "Mixed everyday";
-};
-
-const confidenceLabel = (locale: Locale, value: "high" | "medium" | "limited") => {
-  if (value === "high") return text(locale, "Higher confidence", "信心較高");
-  if (value === "medium") return text(locale, "Medium confidence", "中等信心");
-  return text(locale, "Limited confidence", "信心有限");
-};
-
-const categoryLabel = (locale: Locale, category: ScoredRecommendation["scoreBreakdown"][number]["category"]) => {
-  const labels: Record<typeof category, [string, string]> = {
-    protein: ["Protein balance", "蛋白質平衡"],
-    vegetables: ["Vegetable balance", "蔬菜平衡"],
-    carbs: ["Carb balance", "碳水平衡"],
-    heaviness: ["Meal weight", "餐點負擔"],
-    convenience: ["Convenience fit", "便利性"],
-    profile: ["Current context", "當下情境"],
-    preferences: ["Preferences", "偏好"],
-    avoid: ["Must-avoid check", "必須避開"],
-    variety: ["Variety", "變化性"],
-    "snack-drink": ["Snack & drink context", "點心與飲料"],
-    "time-of-day": ["Time of day", "用餐時間"],
-    "weekly-pattern": ["Recent pattern", "近期模式"],
-  };
-  return text(locale, ...labels[category]);
-};
-
-const historyArrayFields: Array<{
-  key: MealArrayField;
-  en: string;
-  zh: string;
-  placeholderEn: string;
-  placeholderZh: string;
-}> = [
+const cx = (...values: Array<string | false | undefined>) =>
+  values.filter(Boolean).join(" ");
+const groups = [
   {
-    key: "protein",
+    field: "protein",
+    group: "protein",
     en: "Protein",
     zh: "蛋白質",
-    placeholderEn: "Chicken, tofu",
-    placeholderZh: "雞肉、豆腐",
+    examples: ["Chicken", "Tofu", "Egg"],
   },
   {
-    key: "vegetables",
+    field: "vegetables",
+    group: "vegetable",
     en: "Vegetables",
     zh: "蔬菜",
-    placeholderEn: "Broccoli, leafy greens",
-    placeholderZh: "花椰菜、葉菜",
+    examples: ["Bok choy", "Broccoli", "Mushrooms"],
   },
   {
-    key: "carbs",
-    en: "Carbs",
-    zh: "碳水",
-    placeholderEn: "Rice, noodles",
-    placeholderZh: "飯、麵",
+    field: "carbs",
+    group: "carb",
+    en: "Rice, noodles & more",
+    zh: "飯、麵與主食",
+    examples: ["Rice", "Noodles", "Bread"],
   },
   {
-    key: "fruit",
+    field: "drink",
+    group: "drink",
+    en: "Drinks",
+    zh: "飲料",
+    examples: ["Water", "Tea", "Milk tea"],
+  },
+  {
+    field: "fruit",
+    group: "fruit",
     en: "Fruit",
     zh: "水果",
-    placeholderEn: "Apple, banana",
-    placeholderZh: "蘋果、香蕉",
+    examples: ["Apple", "Banana"],
   },
   {
-    key: "soup",
+    field: "soup",
+    group: "soup",
     en: "Soup",
     zh: "湯品",
-    placeholderEn: "Miso soup",
-    placeholderZh: "味噌湯",
+    examples: ["Miso soup"],
   },
   {
-    key: "drink",
-    en: "Drink",
-    zh: "飲品",
-    placeholderEn: "Water, tea",
-    placeholderZh: "水、茶",
+    field: "other",
+    group: "other",
+    en: "Other named foods",
+    zh: "其他食物",
+    examples: [],
   },
-];
-
-const historyGroupByField: Record<
-  MealArrayField,
-  ParsedMealComponent["group"]
-> = {
-  protein: "protein",
-  vegetables: "vegetable",
-  carbs: "carb",
-  fruit: "fruit",
-  soup: "soup",
-  drink: "drink",
+] as const;
+type FoodFields = Record<(typeof groups)[number]["field"], string>;
+const emptyFields = (): FoodFields => ({
+  protein: "",
+  vegetables: "",
+  carbs: "",
+  drink: "",
+  fruit: "",
+  soup: "",
+  other: "",
+});
+const splitFoods = (raw: string) =>
+  raw
+    .split(/[,，、\n]/)
+    .map((value) => value.trim())
+    .filter(Boolean);
+const amount = (): ParsedMealComponent["amount"] => ({
+  quantity: null,
+  unit: "unspecified",
+  qualifier: "unspecified",
+  originalText: null,
+});
+const defaultSlot = (now = new Date()): MealName =>
+  now.getHours() < 10
+    ? "Breakfast"
+    : now.getHours() < 15
+      ? "Lunch"
+      : now.getHours() < 21
+        ? "Dinner"
+        : "Snacks / Drinks";
+const blankDraft = (slot = defaultSlot()): ParsedMeal => ({
+  displayName: "",
+  mealSlot: slot,
+  components: [],
+  cookingMethod: "Other",
+  mealSource: "Unspecified",
+  portion: { size: "Unspecified", confidence: "limited" },
+  assumptions: [],
+  clarification: null,
+});
+const fieldsFrom = (draft: ParsedMeal): FoodFields =>
+  Object.fromEntries(
+    groups.map((item) => [
+      item.field,
+      draft.components
+        .filter((component) => component.group === item.group)
+        .map((component) => component.name)
+        .join(", "),
+    ]),
+  ) as FoodFields;
+const entryDraft = (
+  entry: MealEntry,
+  slot: MealName,
+  locale: Locale,
+): ParsedMeal => {
+  const components = entry.componentDetails.filter(
+    (component) => !isMergeContextComponent(component),
+  );
+  for (const item of groups) {
+    if (item.field === "other") continue;
+    for (const name of entry[item.field]) {
+      if (
+        !components.some(
+          (component) =>
+            component.group === item.group && component.name === name,
+        )
+      )
+        components.push({
+          name,
+          group: item.group,
+          amount: amount(),
+          confidence: "high",
+        });
+    }
+  }
+  return {
+    ...blankDraft(slot),
+    components,
+    mealSource: entry.mealSource,
+    cookingMethod: entry.cookingMethod,
+    portion: { size: entry.portion, confidence: "limited" },
+    assumptions: entry.componentDetails.some(isMergeContextComponent)
+      ? [
+          t(
+            locale,
+            "This record combines entries with different context. Check the overall source, preparation and portion; individual food amounts remain separate where needed.",
+            "這餐合併過不同情境的紀錄。請確認整體來源、烹調方式與份量；無法合併的個別食物數量會分開保留。",
+          ),
+        ]
+      : [],
+  };
 };
-
-const formatHistoryDate = (dateId: string, locale: Locale) =>
+const formatDate = (date: string, locale: Locale) =>
   new Intl.DateTimeFormat(locale === "zh" ? "zh-TW" : "en-US", {
     month: "short",
     day: "numeric",
-  }).format(new Date(`${dateId}T12:00:00`));
+    weekday: "short",
+  }).format(new Date(`${date}T12:00:00`));
+const entryNames = (entry: MealEntry, locale: Locale) =>
+  [
+    ...new Set([
+      ...entry.protein,
+      ...entry.vegetables,
+      ...entry.carbs,
+      ...entry.fruit,
+      ...entry.soup,
+      ...entry.drink,
+      ...entry.componentDetails
+        .filter(
+          (component) =>
+            component.group === "other" && !isMergeContextComponent(component),
+        )
+        .map((component) => component.name),
+    ]),
+  ]
+    .map((name) => translateFood(name, locale))
+    .join(" · ");
 
-const getLoggedMealCount = (day: DayHistory) =>
-  mealNames.filter((mealName) => isMealLogged(day.todayLog[mealName])).length;
-
-const getHistoryMealSummary = (meal: MealEntry, locale: Locale) => {
-  const items = [
-    ...meal.protein,
-    ...meal.vegetables,
-    ...meal.carbs,
-    ...meal.fruit,
-    ...meal.soup,
-    ...meal.drink,
-  ];
-  if (items.length === 0) {
-    return text(locale, "Nothing logged", "尚未記錄");
-  }
-  return items.slice(0, 3).join(" · ");
-};
-
-function BrandMark() {
-  return (
-    <div className="flex items-center gap-2.5">
-      <div className="grid h-10 w-10 place-items-center rounded-2xl bg-[linear-gradient(145deg,#f58a1f,#ef5b17)] text-lg font-black text-white shadow-[0_10px_24px_rgba(239,91,23,0.24)]">
-        N
-      </div>
-      <div>
-        <div className="text-xl font-bold tracking-[-0.04em] text-slate-950">
-          Next<span className="text-[#27833b]">Bite</span>
-        </div>
-        <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-400">
-          Explainable meal decisions
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function ScoreBadge({ score, locale }: { score: number; locale: Locale }) {
-  return (
-    <div className="min-w-[92px] rounded-[22px] border border-emerald-200 bg-emerald-50 px-4 py-3 text-center">
-      <div className="text-2xl font-bold tracking-tight text-emerald-800">
-        {score >= 0 ? "+" : ""}
-        {score}
-      </div>
-      <div className="text-[10px] font-semibold uppercase tracking-[0.12em] text-emerald-700/70">
-        {text(locale, "selection score", "選擇分數")}
-      </div>
-    </div>
-  );
-}
-
-function ComponentChip({
-  component,
-  locale,
-  onRemove,
+function ConfirmationDialog({
+  title,
+  children,
+  confirm,
+  cancel,
+  onConfirm,
+  onCancel,
 }: {
-  component: ParsedMealComponent;
+  title: string;
+  children: ReactNode;
+  confirm: string;
+  cancel: string;
+  onConfirm: () => void;
+  onCancel: () => void;
+}) {
+  const dialog = useRef<HTMLDialogElement>(null);
+  const cancelButton = useRef<HTMLButtonElement>(null);
+  useEffect(() => {
+    const element = dialog.current;
+    if (!element) return;
+    const returnFocus =
+      document.activeElement instanceof HTMLElement
+        ? document.activeElement
+        : null;
+    element.showModal();
+    cancelButton.current?.focus();
+    return () => {
+      element.close();
+      window.requestAnimationFrame(() => {
+        if (returnFocus?.isConnected)
+          returnFocus.focus({ preventScroll: true });
+      });
+    };
+  }, []);
+  return (
+    <dialog
+      className="confirmation-panel"
+      ref={dialog}
+      aria-labelledby="confirmation-title"
+      onCancel={(event) => {
+        event.preventDefault();
+        onCancel();
+      }}
+    >
+      <h2 id="confirmation-title">{title}</h2>
+      {children}
+      <div className="button-row">
+        <button
+          type="button"
+          className="button quiet"
+          ref={cancelButton}
+          onClick={onCancel}
+        >
+          {cancel}
+        </button>
+        <button type="button" className="button danger" onClick={onConfirm}>
+          {confirm}
+        </button>
+      </div>
+    </dialog>
+  );
+}
+
+function BowlArt({ compact = false }: { compact?: boolean }) {
+  return (
+    <svg
+      className={compact ? "bowl-art compact" : "bowl-art"}
+      viewBox="0 0 240 190"
+      aria-hidden="true"
+    >
+      <ellipse cx="120" cy="167" rx="88" ry="12" fill="#194d3c" opacity=".08" />
+      <path
+        d="M30 85h180c-4 50-34 78-90 78S34 135 30 85"
+        fill="#faf5e9"
+        stroke="#234e40"
+        strokeWidth="3"
+      />
+      <ellipse
+        cx="120"
+        cy="86"
+        rx="89"
+        ry="36"
+        fill="#e8ddbf"
+        stroke="#234e40"
+        strokeWidth="3"
+      />
+      <ellipse cx="121" cy="83" rx="76" ry="27" fill="#fffaf0" />
+      <path d="M48 80c8-23 25-34 46-27l16 32-36 15z" fill="#6c9d5e" />
+      <path
+        d="M57 79l29 13m-11-34 8 32m-20-17 24 10"
+        stroke="#315b41"
+        strokeWidth="2"
+        fill="none"
+      />
+      <ellipse
+        cx="145"
+        cy="76"
+        rx="29"
+        ry="21"
+        fill="#efa84b"
+        transform="rotate(15 145 76)"
+      />
+      <ellipse cx="146" cy="76" rx="12" ry="11" fill="#f8cf6d" />
+      <path d="m100 92 14-22 15 24-15 14z" fill="#c68155" />
+      <path d="m166 90 9-15 17 15-15 12z" fill="#c68155" />
+      <path
+        d="m149 43 67-29m-57 36 65-25"
+        stroke="#234e40"
+        strokeWidth="5"
+        strokeLinecap="round"
+      />
+      <path
+        d="M90 35c-8-11 9-12 1-25m27 31c-8-11 9-12 1-25"
+        stroke="#839e8c"
+        strokeWidth="2.5"
+        fill="none"
+        strokeLinecap="round"
+      />
+      <path
+        d="M85 131c13 8 57 8 70-1"
+        stroke="#c9ba97"
+        strokeWidth="2"
+        fill="none"
+      />
+    </svg>
+  );
+}
+
+function ContextFields({
+  draft,
+  setDraft,
+  locale,
+  lockSlot = false,
+}: {
+  draft: ParsedMeal;
+  setDraft: Dispatch<SetStateAction<ParsedMeal>>;
   locale: Locale;
-  onRemove: () => void;
+  lockSlot?: boolean;
 }) {
   return (
-    <div className="group flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-2 text-sm shadow-sm">
-      <span className="font-medium text-slate-800">{component.name}</span>
-      <span className="text-xs text-slate-400">
-        {formatParsedAmount(component.amount, locale)}
-      </span>
-      <span
-        className={cx(
-          "h-1.5 w-1.5 rounded-full",
-          component.confidence === "high"
-            ? "bg-emerald-500"
-            : component.confidence === "medium"
-              ? "bg-amber-400"
-              : "bg-slate-300",
-        )}
-        title={confidenceLabel(locale, component.confidence)}
-      />
-      <button
-        type="button"
-        onClick={onRemove}
-        className="ml-0.5 grid h-5 w-5 place-items-center rounded-full text-slate-300 transition hover:bg-slate-100 hover:text-slate-700"
-        aria-label={text(locale, `Remove ${component.name}`, `移除 ${component.name}`)}
-      >
-        ×
-      </button>
+    <div className="context-grid">
+      <label>
+        {t(locale, "Meal", "餐別")}
+        <select
+          value={draft.mealSlot}
+          disabled={lockSlot}
+          onChange={(event) =>
+            setDraft((current) => ({
+              ...current,
+              mealSlot: event.target.value as MealName,
+            }))
+          }
+        >
+          {mealNames.map((value) => (
+            <option key={value} value={value}>
+              {label(value, locale)}
+            </option>
+          ))}
+        </select>
+      </label>
+      <label>
+        {t(locale, "Where it came from", "餐點來源")}
+        <select
+          value={draft.mealSource}
+          onChange={(event) =>
+            setDraft((current) => ({
+              ...current,
+              mealSource: event.target.value as ParsedMeal["mealSource"],
+            }))
+          }
+        >
+          {mealOptions.mealSource.map((value) => (
+            <option key={value} value={value}>
+              {label(value, locale)}
+            </option>
+          ))}
+        </select>
+      </label>
+      <label>
+        {t(locale, "Preparation", "烹調方式")}
+        <select
+          value={draft.cookingMethod}
+          onChange={(event) =>
+            setDraft((current) => ({
+              ...current,
+              cookingMethod: event.target.value,
+            }))
+          }
+        >
+          {mealOptions.cookingMethod.map((value) => (
+            <option key={value} value={value}>
+              {value === "Other"
+                ? t(locale, "Unspecified / other", "未說明／其他")
+                : label(value, locale)}
+            </option>
+          ))}
+        </select>
+      </label>
+      <label>
+        {t(locale, "Overall portion", "整體份量")}
+        <select
+          value={draft.portion.size}
+          onChange={(event) =>
+            setDraft((current) => ({
+              ...current,
+              portion: {
+                size: event.target.value as ParsedMeal["portion"]["size"],
+                confidence: "high",
+              },
+            }))
+          }
+        >
+          {mealOptions.portion.map((value) => (
+            <option key={value} value={value}>
+              {label(value, locale)}
+            </option>
+          ))}
+        </select>
+      </label>
     </div>
+  );
+}
+
+function LogList({
+  day,
+  locale,
+  onEdit,
+  onDelete,
+}: {
+  day: DayHistory;
+  locale: Locale;
+  onEdit: (slot: MealName) => void;
+  onDelete: (slot: MealName) => void;
+}) {
+  const logged = mealNames.filter((slot) => isMealLogged(day.todayLog[slot]));
+  return logged.length ? (
+    <ul className="log-list">
+      {logged.map((slot) => (
+        <li key={slot}>
+          <div className="log-copy">
+            <strong>{label(slot, locale)}</strong>
+            <p>{entryNames(day.todayLog[slot], locale)}</p>
+            <span>
+              {label(day.todayLog[slot].mealSource, locale)} ·{" "}
+              {label(day.todayLog[slot].portion, locale)}
+            </span>
+          </div>
+          <div className="log-actions">
+            <button
+              type="button"
+              className="text-button"
+              onClick={() => onEdit(slot)}
+              aria-label={t(
+                locale,
+                `Edit ${slot}`,
+                `編輯${label(slot, locale)}`,
+              )}
+            >
+              {t(locale, "Edit", "編輯")}
+            </button>
+            <button
+              type="button"
+              className="text-button danger-text"
+              onClick={() => onDelete(slot)}
+              aria-label={t(
+                locale,
+                `Delete ${slot}`,
+                `刪除${label(slot, locale)}`,
+              )}
+            >
+              {t(locale, "Delete", "刪除")}
+            </button>
+          </div>
+        </li>
+      ))}
+    </ul>
+  ) : (
+    <p className="muted empty-note">
+      {t(
+        locale,
+        "Nothing recorded for this day. Add just what you remember.",
+        "這天還沒有紀錄，記下你記得的內容就好。",
+      )}
+    </p>
+  );
+}
+
+function PreferenceControls({
+  profile,
+  update,
+  locale,
+}: {
+  profile: Profile;
+  update: (next: Profile) => void;
+  locale: Locale;
+}) {
+  const toggle = (field: "preferenceTags" | "avoidTags", value: string) =>
+    update({
+      ...profile,
+      [field]: profile[field].includes(value as never)
+        ? profile[field].filter((tag) => tag !== value)
+        : [...profile[field], value],
+    });
+  return (
+    <>
+      <p className="muted">
+        {t(
+          locale,
+          "Optional. Your choices stay in this browser. Avoided ingredients also apply to suggested drinks.",
+          "可自由設定，選擇只存在此瀏覽器。避開食材也會套用到搭配飲料。",
+        )}
+      </p>
+      <fieldset>
+        <legend>
+          {t(locale, "Foods & styles you enjoy", "喜歡的餐點與風格")}
+        </legend>
+        <div className="chip-list">
+          {preferenceTags.map((tag) => (
+            <button
+              type="button"
+              key={tag}
+              className={cx(
+                "chip",
+                profile.preferenceTags.includes(tag) && "selected",
+              )}
+              aria-pressed={profile.preferenceTags.includes(tag)}
+              onClick={() => toggle("preferenceTags", tag)}
+            >
+              {label(tag, locale)}
+            </button>
+          ))}
+        </div>
+      </fieldset>
+      <fieldset>
+        <legend>
+          {t(locale, "Keep these out of suggestions", "從建議中避開這些項目")}
+        </legend>
+        <p className="small muted">
+          {t(
+            locale,
+            "Recipes vary. Check actual ingredients and preparation when ordering or cooking; this catalog cannot certify allergy safety.",
+            "實際配方可能不同，點餐或料理時仍需確認食材與製作方式；餐點庫無法認證過敏安全。",
+          )}
+        </p>
+        <div className="chip-list">
+          {avoidTags.map((tag) => (
+            <button
+              type="button"
+              key={tag}
+              className={cx(
+                "chip avoid-chip",
+                profile.avoidTags.includes(tag) && "selected",
+              )}
+              aria-pressed={profile.avoidTags.includes(tag)}
+              onClick={() => toggle("avoidTags", tag)}
+            >
+              {label(tag, locale)}
+            </button>
+          ))}
+        </div>
+      </fieldset>
+    </>
+  );
+}
+
+function Receipt({
+  meal,
+  locale,
+}: {
+  meal: ScoredRecommendation;
+  locale: Locale;
+}) {
+  const trace = meal.selectionTrace;
+  const categories: Record<string, [string, string]> = {
+    protein: ["Recorded protein foods", "已記錄的蛋白質食物"],
+    vegetables: ["Recorded vegetables", "已記錄的蔬菜"],
+    carbs: ["Recorded staples", "已記錄的主食"],
+    heaviness: ["Meal style", "餐點風格"],
+    convenience: ["Practical fit", "便利程度"],
+    profile: ["Current mood", "當下想法"],
+    preferences: ["Preferences", "偏好"],
+    avoid: ["Avoided items", "避開項目"],
+    variety: ["Variety", "餐點變化"],
+    "snack-drink": ["Snacks & drinks", "點心與飲料"],
+    "time-of-day": ["Time window", "時段"],
+    "weekly-pattern": ["Recent records", "近期紀錄"],
+  };
+  return (
+    <details className="receipt">
+      <summary>
+        {t(
+          locale,
+          "How this suggestion was selected",
+          "查看這道推薦的選擇方式",
+        )}
+      </summary>
+      <p className="small muted">
+        {t(
+          locale,
+          "These are product-rule points for matching and variety, not a nutrition or health score. Missing food records do not establish what you ate.",
+          "這些是用來配對與增加變化的產品規則分數。紀錄未提到某種食物，不代表你沒有吃，也不代表營養不足。",
+        )}
+      </p>
+      <table>
+        <caption className="sr-only">
+          {t(locale, "Matching rule calculation", "配對規則計算")}
+        </caption>
+        <thead>
+          <tr>
+            <th>{t(locale, "Rule", "規則")}</th>
+            <th>{t(locale, "Points", "分數")}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {meal.scoreBreakdown.map((item) => (
+            <tr key={item.category}>
+              <td>
+                <strong>
+                  {t(
+                    locale,
+                    ...(categories[item.category] ?? [
+                      item.category,
+                      item.category,
+                    ]),
+                  )}
+                </strong>
+                <span>{item.note}</span>
+              </td>
+              <td>
+                {item.points > 0 ? "+" : ""}
+                {item.points}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <p className="small">
+        {t(locale, "Rule total", "規則合計")}: {meal.score} ·{" "}
+        {t(locale, "Selection total", "選擇合計")}:{" "}
+        {trace?.selectionScore ?? meal.score}
+      </p>
+      {trace && (
+        <>
+          <p className="small muted">
+            {t(
+              locale,
+              `Practical perspective ${trace.perspectiveScore}, catalog rotation ${trace.fairnessAdjustment}, format variety ${trace.formatDiversityAdjustment}. The repeatable near-tie selection uses ${trace.nearTieCount} candidates within ${trace.nearTieWindow} points.`,
+              `情境配對 ${trace.perspectiveScore}、餐點輪替 ${trace.fairnessAdjustment}、餐型變化 ${trace.formatDiversityAdjustment}。近同分選擇使用相差 ${trace.nearTieWindow} 分內的 ${trace.nearTieCount} 道候選，結果可重現。`,
+            )}
+          </p>
+          <details>
+            <summary>{t(locale, "Full calculation", "完整計算")}</summary>
+            {trace.perspectiveAdjustments.map((item, index) => (
+              <p className="small" key={`${item.key}-${index}`}>
+                {label(item.key, locale)}: {item.points} · {item.note}
+              </p>
+            ))}
+          </details>
+        </>
+      )}
+      <p className="small muted">
+        {t(
+          locale,
+          `Prior days logged: ${meal.weeklyHistoryBasis.loggedDayCount} / ${meal.weeklyHistoryBasis.availableDayCount}. Prior meals used: ${meal.weeklyHistoryBasis.loggedMealCount}. Weekly adjustment: ${meal.weeklyPatternScore}.`,
+          `已記錄的過去天數：${meal.weeklyHistoryBasis.loggedDayCount}／${meal.weeklyHistoryBasis.availableDayCount}。使用的過去餐數：${meal.weeklyHistoryBasis.loggedMealCount}。近期紀錄調整：${meal.weeklyPatternScore}。`,
+        )}
+      </p>
+      <p className="small muted">
+        {t(
+          locale,
+          "Recent-pattern adjustments start when 4 meals are logged across at least 2 distinct prior days. Today is excluded. This is recorded food-group presence, not serving adequacy, calories, or a dietary assessment.",
+          "前六天中至少兩天、合計四餐有紀錄，才會加入近期模式調整；不包含今天。這只描述紀錄中的食物類別，不代表份量充足度、熱量或飲食評估。",
+        )}
+      </p>
+    </details>
   );
 }
 
 export default function App() {
-  const [locale, setLocale] = useState<Locale>(() =>
-    localStorage.getItem("next-bite-locale") === "zh" ? "zh" : "en",
-  );
-  const [state, setState] = useState<AppState>(loadInitialState);
-  const [mealText, setMealText] = useState("");
+  const [locale, setLocale] = useState<Locale>(loadLocale);
+  const [realState, setRealState] = useState<LaunchState>(loadLaunchState);
+  const [demoState, setDemoState] = useState<LaunchState | null>(null);
+  const state = demoState ?? realState;
+  const isDemo = demoState !== null;
+  const [clock, setClock] = useState(() => new Date());
+  const [storageFailed, setStorageFailed] = useState(false);
+  const [preferencesOpen, setPreferencesOpen] = useState(false);
+  const [draft, setDraft] = useState<ParsedMeal>(blankDraft);
+  const [fields, setFields] = useState<FoodFields>(emptyFields);
+  const [review, setReview] = useState(false);
+  const [editTarget, setEditTarget] = useState<{
+    dayId: string;
+    slot: MealName;
+  } | null>(null);
+  const [pendingPlanId, setPendingPlanId] = useState<string | null>(null);
+  const [message, setMessage] = useState("");
+  const [formError, setFormError] = useState("");
+  const [selected, setSelected] = useState(0);
+  const [changeNote, setChangeNote] = useState("");
   const [apiKey, setApiKey] = useState("");
-  const [keyOpen, setKeyOpen] = useState(false);
+  const [aiText, setAiText] = useState("");
   const [isParsing, setIsParsing] = useState(false);
-  const [parseError, setParseError] = useState("");
-  const [parsedMeal, setParsedMeal] = useState<ParsedMeal | null>(null);
-  const [manualOpen, setManualOpen] = useState(false);
-  const [manual, setManual] = useState({
-    protein: "",
-    vegetables: "",
-    carbs: "",
-    drink: "",
-  });
-  const [selectedRecommendation, setSelectedRecommendation] = useState(0);
-  const [receiptOpen, setReceiptOpen] = useState(true);
-  const [catalogOpen, setCatalogOpen] = useState(false);
+  const [sharing, setSharing] = useState(false);
+  const [historyDay, setHistoryDay] = useState("");
+  const [deleteTarget, setDeleteTarget] = useState<{
+    dayId: string;
+    slot: MealName;
+  } | null>(null);
+  const [clearOpen, setClearOpen] = useState(false);
   const [catalogQuery, setCatalogQuery] = useState("");
-  const [profileOpen, setProfileOpen] = useState(false);
-  const [choice, setChoice] = useState("");
-  const [showReset, setShowReset] = useState(false);
-  const [historyOpen, setHistoryOpen] = useState(false);
-  const [historyEditorSlot, setHistoryEditorSlot] =
-    useState<MealName | null>(null);
+  const composerRef = useRef<HTMLElement>(null);
+  const decisionRef = useRef<HTMLElement>(null);
+  const reviewRef = useRef<HTMLDivElement>(null);
+  const aiRequestGeneration = useRef(0);
+  const realStateRef = useRef(realState);
+  realStateRef.current = realState;
+  const updateState = (update: (current: LaunchState) => LaunchState) =>
+    isDemo
+      ? setDemoState((current) => (current ? update(current) : current))
+      : setRealState(update);
+  const invalidateAiRequest = () => {
+    aiRequestGeneration.current += 1;
+    setIsParsing(false);
+  };
+  const scrollTo = (element: HTMLElement | null) =>
+    element?.scrollIntoView({
+      block: "start",
+      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
+        ? "instant"
+        : "smooth",
+    });
 
   useEffect(() => {
-    localStorage.setItem("next-bite-locale", locale);
-  }, [locale]);
-
-  useEffect(() => {
-    localStorage.setItem(APP_STORAGE_KEY, JSON.stringify(state));
-  }, [state]);
-
-  useEffect(() => {
-    const ensureCurrentWindow = () => {
-      const now = new Date();
-      const todayId = toLocalDateId(now);
-      setState((current) => {
-        if (
-          current.days.some(
-            (day) => day.isToday && day.id === todayId,
-          )
-        ) {
-          return current;
-        }
-
-        return {
-          ...current,
-          days: rollSevenDayHistory(current.days, now),
-          selectedDayId: todayId,
-        };
-      });
-    };
-    const handleVisibility = () => {
-      if (document.visibilityState === "visible") {
-        ensureCurrentWindow();
-      }
-    };
-    const interval = window.setInterval(ensureCurrentWindow, 60_000);
-
-    window.addEventListener("focus", ensureCurrentWindow);
-    document.addEventListener("visibilitychange", handleVisibility);
     return () => {
-      window.clearInterval(interval);
-      window.removeEventListener("focus", ensureCurrentWindow);
-      document.removeEventListener("visibilitychange", handleVisibility);
+      aiRequestGeneration.current += 1;
     };
   }, []);
-
-  const todayDay = useMemo(
-    () => state.days.find((day) => day.isToday) ?? state.days[state.days.length - 1],
-    [state.days],
-  );
-  const priorDays = useMemo(
-    () => state.days.filter((day) => !day.isToday),
-    [state.days],
-  );
-  const selectedHistoryDay = useMemo(
-    () =>
-      priorDays.find((day) => day.id === state.selectedDayId) ??
-      priorDays[priorDays.length - 1] ??
-      todayDay,
-    [priorDays, state.selectedDayId, todayDay],
-  );
-  const weeklySnapshot = useMemo(
-    () => buildWeeklySnapshot(state.days, state.profile, locale),
-    [locale, state.days, state.profile],
-  );
-  const fullWindowBasis = useMemo(
-    () => summarizeHistoryBasis(state.days),
-    [state.days],
-  );
-  const hasMeal = mealNames.some((mealName) =>
-    isMealLogged(todayDay.todayLog[mealName]),
-  );
-  const summary = useMemo(
-    () => summarizeTodayIntake(todayDay.todayLog),
-    [todayDay.todayLog],
-  );
+  useEffect(() => {
+    if (!saveLocale(locale)) setStorageFailed(true);
+    document.documentElement.lang = locale === "zh" ? "zh-Hant" : "en";
+    document.title = t(
+      locale,
+      "NextBite — Find your next meal",
+      "NextBite — 輕鬆選下一餐",
+    );
+  }, [locale]);
+  useEffect(() => {
+    setStorageFailed(!saveLaunchState(realState));
+  }, [realState]);
+  useEffect(() => {
+    const refresh = () => {
+      const now = new Date();
+      setClock(now);
+      const todayId = toLocalDateId(now);
+      const roll = (current: LaunchState) =>
+        current.days.some((day) => day.isToday && day.id === todayId)
+          ? current
+          : {
+              ...current,
+              days: rollSevenDayHistory(current.days, now),
+              selectedDayId: todayId,
+            };
+      setRealState(roll);
+      setDemoState((current) => (current ? roll(current) : null));
+    };
+    const onVisibility = () => {
+      if (document.visibilityState === "visible") refresh();
+    };
+    const timer = window.setInterval(refresh, 60_000);
+    window.addEventListener("focus", refresh);
+    document.addEventListener("visibilitychange", onVisibility);
+    return () => {
+      window.clearInterval(timer);
+      window.removeEventListener("focus", refresh);
+      document.removeEventListener("visibilitychange", onVisibility);
+    };
+  }, []);
+  const timeWindow = getMealTimeWindow(clock);
+  const dateId = toLocalDateId(clock);
+  const today =
+    state.days.find((day) => day.isToday) ?? state.days[state.days.length - 1];
+  const hasMeal = mealNames.some((slot) => isMealLogged(today.todayLog[slot]));
   const recommendations = useMemo(
     () =>
       scoreRecommendations(
         state.profile,
-        todayDay.todayLog,
+        today.todayLog,
         state.days,
         locale,
-        new Date(),
-      ),
-    [locale, state.days, state.profile, todayDay.todayLog],
-  );
-  const activeRecommendation =
-    recommendations[selectedRecommendation % Math.max(recommendations.length, 1)] ??
-    null;
-  const hardFilteredCount = useMemo(
-    () => countHardAvoidedRecommendations(state.profile),
-    [state.profile],
-  );
-
-  useEffect(() => {
-    setSelectedRecommendation(0);
-    setChoice("");
-  }, [state.profile, todayDay.todayLog]);
-
-  const filteredCatalog = useMemo(() => {
-    const query = catalogQuery.trim().toLowerCase();
-    if (!query) return recommendationDataset;
-    return recommendationDataset.filter((meal) =>
-      [meal.title, meal.description, ...meal.tags]
-        .join(" ")
-        .toLowerCase()
-        .includes(query),
-    );
-  }, [catalogQuery]);
-
-  const updateProfile = <K extends keyof Profile>(key: K, value: Profile[K]) => {
-    setState((current) => ({
-      ...current,
-      profile: { ...current.profile, [key]: value },
-    }));
-  };
-
-  const togglePreferenceTag = (value: string) => {
-    setState((current) => {
-      const currentTags = current.profile.preferenceTags;
-      return {
-        ...current,
-        profile: {
-          ...current.profile,
-          preferenceTags: currentTags.includes(value)
-            ? currentTags.filter((tag) => tag !== value)
-            : [...currentTags, value],
-        },
-      };
-    });
-  };
-
-  const toggleAvoidTag = (value: MustAvoidTag) => {
-    setState((current) => {
-      const currentTags = current.profile.avoidTags;
-      return {
-        ...current,
-        profile: {
-          ...current.profile,
-          avoidTags: currentTags.includes(value)
-            ? currentTags.filter((tag) => tag !== value)
-            : [...currentTags, value],
-        },
-      };
-    });
-  };
-
-  const toggleSensitiveDrinkOptIn = (value: SensitiveDrinkOptIn) => {
-    setState((current) => {
-      const currentOptIns = current.profile.sensitiveDrinkOptIns;
-      return {
-        ...current,
-        profile: {
-          ...current.profile,
-          sensitiveDrinkOptIns: currentOptIns.includes(value)
-            ? currentOptIns.filter((optIn) => optIn !== value)
-            : [...currentOptIns, value],
-        },
-      };
-    });
-  };
-
-  const selectHistoryDay = (dayId: string) => {
-    setState((current) => ({ ...current, selectedDayId: dayId }));
-    setHistoryEditorSlot(null);
-  };
-
-  const updateHistoryMeal = (
-    dayId: string,
-    mealName: MealName,
-    update: (entry: MealEntry) => MealEntry,
-  ) => {
-    setState((current) => ({
-      ...current,
-      days: current.days.map((day) =>
-        day.id === dayId
-          ? {
-              ...day,
-              todayLog: {
-                ...day.todayLog,
-                [mealName]: update(day.todayLog[mealName]),
-              },
-            }
-          : day,
-      ),
-    }));
-  };
-
-  const updateHistoryArray = (
-    dayId: string,
-    mealName: MealName,
-    field: MealArrayField,
-    rawValue: string,
-  ) => {
-    const items = splitItems(rawValue);
-    const group = historyGroupByField[field];
-    updateHistoryMeal(dayId, mealName, (entry) => ({
-      ...entry,
-      [field]: items,
-      componentDetails: [
-        ...entry.componentDetails.filter(
-          (component) => component.group !== group,
+        new Date(
+          `${dateId}T${({ breakfast: "09", lunch: "12", afternoon: "16", dinner: "18", late: "22" } as const)[timeWindow]}:30:00`,
         ),
-        ...items.map((name) => ({
-          name,
-          group,
-          amount: normalizedAmount(),
-          confidence: "high" as const,
-        })),
+      ),
+    [state.profile, state.days, today.todayLog, locale, timeWindow, dateId],
+  );
+  const active =
+    recommendations[selected % Math.max(recommendations.length, 1)] ?? null;
+  const filteredCount = countHardAvoidedRecommendations(state.profile, clock);
+  const weekly = useMemo(
+    () => buildWeeklySnapshot(state.days, state.profile, locale),
+    [state.days, state.profile, locale],
+  );
+  const past = state.days.filter((day) => !day.isToday);
+  const selectedPast =
+    past.find((day) => day.id === historyDay) ?? past[past.length - 1];
+  const targetDay = editTarget
+    ? (state.days.find((day) => day.id === editTarget.dayId) ?? today)
+    : today;
+  const existing = targetDay.todayLog[draft.mealSlot];
+  const conflict = !editTarget && isMealLogged(existing);
+  const activePresentation = active
+    ? getMealPresentation(active, locale)
+    : null;
+  const filteredCatalog = recommendationDataset.filter((meal) =>
+    `${meal.title} ${mealTitle(meal, "zh")} ${meal.tags.join(" ")}`
+      .toLowerCase()
+      .includes(catalogQuery.toLowerCase().trim()),
+  );
+
+  const resetComposer = () => {
+    invalidateAiRequest();
+    setDraft(blankDraft());
+    setFields(emptyFields());
+    setReview(false);
+    setEditTarget(null);
+    setPendingPlanId(null);
+    setFormError("");
+  };
+  const startDraft = (
+    next: ParsedMeal,
+    target: { dayId: string; slot: MealName } | null = null,
+  ) => {
+    invalidateAiRequest();
+    setDraft(next);
+    setFields(fieldsFrom(next));
+    setEditTarget(target);
+    setPendingPlanId(null);
+    setReview(false);
+    setFormError("");
+    scrollTo(composerRef.current);
+  };
+  const startDemo = () => {
+    const demo: LaunchState = {
+      ...createBlankState(new Date()),
+      plannedMeals: [],
+    };
+    const sample: ParsedMeal = {
+      ...blankDraft("Lunch"),
+      mealSource: "Restaurant",
+      cookingMethod: "Soup / stew",
+      displayName: "Beef noodle soup",
+      components: [
+        {
+          name: "Beef",
+          group: "protein",
+          amount: amount(),
+          confidence: "high",
+        },
+        {
+          name: "Noodles",
+          group: "carb",
+          amount: amount(),
+          confidence: "high",
+        },
+        {
+          name: "Milk tea",
+          group: "drink",
+          amount: amount(),
+          confidence: "high",
+        },
       ],
-    }));
-  };
-
-  const updateHistorySelect = (
-    dayId: string,
-    mealName: MealName,
-    field: MealSelectField,
-    value: string,
-  ) => {
-    updateHistoryMeal(dayId, mealName, (entry) => ({
-      ...entry,
-      [field]: value,
-    }) as MealEntry);
-  };
-
-  const clearHistoryMeal = (dayId: string, mealName: MealName) => {
-    updateHistoryMeal(dayId, mealName, () => createEmptyMeal());
-    setHistoryEditorSlot(null);
-  };
-
-  const logParsedMeal = (meal: ParsedMeal) => {
-    const entry = parsedMealToEntry(meal);
-    setState((current) => ({
-      ...current,
-      days: current.days.map((day) =>
-        day.id === todayDay.id
-          ? {
-              ...day,
-              todayLog: {
-                ...day.todayLog,
-                [meal.mealSlot]: entry,
-              },
-            }
-          : day,
+    };
+    const demoToday = demo.days.find((day) => day.isToday)!;
+    demoToday.todayLog.Lunch = parsedMealToEntry(sample);
+    setDemoState(demo);
+    setSelected(0);
+    resetComposer();
+    setMessage(
+      t(
+        locale,
+        "Example mode started. Your own data stays separate.",
+        "已進入範例模式，你自己的資料會分開保留。",
       ),
-    }));
-    setParsedMeal(null);
-    setParseError("");
-    window.setTimeout(
-      () =>
-        document
-          .getElementById("decision")
-          ?.scrollIntoView({ behavior: "smooth", block: "start" }),
-      80,
+    );
+    window.requestAnimationFrame(() => scrollTo(decisionRef.current));
+  };
+  const exitDemo = () => {
+    setDemoState(null);
+    setSelected(0);
+    resetComposer();
+    setMessage(
+      t(
+        locale,
+        "Back to your own meals and preferences.",
+        "已回到你自己的餐點與偏好。",
+      ),
     );
   };
-
-  const analyzeMeal = async () => {
-    const trimmed = mealText.trim();
-    setParseError("");
-    if (!trimmed) {
-      setParseError(
-        text(locale, "Describe one meal first.", "請先描述一餐。"),
+  const reviewMeal = () => {
+    const components = groups.flatMap((item) => {
+      const previous = draft.components.filter(
+        (component) => component.group === item.group,
       );
-      return;
-    }
-    if (!apiKey) {
-      setKeyOpen(true);
-      setParseError(
-        text(
+      return splitFoods(fields[item.field]).map((name) => {
+        const index = previous.findIndex(
+          (component) => component.name === name,
+        );
+        return index >= 0
+          ? previous.splice(index, 1)[0]
+          : {
+              name,
+              group: item.group,
+              amount: amount(),
+              confidence: "high" as const,
+            };
+      });
+    });
+    if (!components.length) {
+      setFormError(
+        t(
           locale,
-          "Add your OpenAI API key for this session, or try the example with no key.",
-          "請加入本次工作階段使用的 OpenAI API key，或直接試用免 key 範例。",
+          "Add at least one food or drink first.",
+          "請先加入至少一項食物或飲料。",
         ),
       );
       return;
     }
-
-    setIsParsing(true);
-    try {
-      const meal = await parseMealWithAi({
-        text: trimmed,
+    if (
+      components.length > 40 ||
+      components.some((component) => component.name.length > 120)
+    ) {
+      setFormError(
+        t(
+          locale,
+          "Use up to 40 items, with each item under 120 characters.",
+          "最多可輸入 40 個項目，每個項目請少於 120 個字元。",
+        ),
+      );
+      return;
+    }
+    setDraft((current) => ({ ...current, components }));
+    setReview(true);
+    setFormError("");
+    window.requestAnimationFrame(() => {
+      reviewRef.current?.focus();
+    });
+  };
+  const commitMeal = (mode: "append" | "replace") => {
+    if (editTarget && !state.days.some((day) => day.id === editTarget.dayId)) {
+      setFormError(
+        t(
+          locale,
+          "That day is outside the rolling seven-day window. Cancel this edit and choose a current day.",
+          "這天已超出滾動七天範圍，請取消編輯並重新選擇日期。",
+        ),
+      );
+      return;
+    }
+    if (!draft.components.some((component) => component.name.trim())) {
+      setFormError(
+        t(locale, "Keep at least one named food.", "請保留至少一項食物。"),
+      );
+      return;
+    }
+    if (
+      draft.components.some(
+        (component) =>
+          component.amount.quantity !== null &&
+          (!Number.isFinite(component.amount.quantity) ||
+            component.amount.quantity <= 0 ||
+            component.amount.unit === "unspecified"),
+      )
+    ) {
+      setFormError(
+        t(
+          locale,
+          "Choose a unit for each stated amount, or leave the amount blank.",
+          "有填數量時，請一起選擇單位；也可以將數量留白。",
+        ),
+      );
+      return;
+    }
+    const entry = parsedMealToEntry({
+      ...draft,
+      components: draft.components
+        .filter((component) => component.name.trim())
+        .map((component) => ({ ...component, name: component.name.trim() })),
+    });
+    if (editTarget)
+      entry.componentDetails.push(
+        ...targetDay.todayLog[editTarget.slot].componentDetails.filter(
+          isMergeContextComponent,
+        ),
+      );
+    updateState((current) => {
+      const next = {
+        ...current,
+        days: current.days.map((day) =>
+          day.id === targetDay.id
+            ? {
+                ...day,
+                todayLog: {
+                  ...day.todayLog,
+                  [draft.mealSlot]:
+                    mode === "append"
+                      ? mergeMealEntries(day.todayLog[draft.mealSlot], entry)
+                      : entry,
+                },
+              }
+            : day,
+        ),
+      };
+      return pendingPlanId ? removePlan(next, pendingPlanId) : next;
+    });
+    setSelected(0);
+    resetComposer();
+    setMessage(
+      t(
         locale,
-        mealSlotHint: getDefaultMealSlot(),
+        "Meal recorded. Your next options are ready.",
+        "已儲存餐點，下一餐建議已更新。",
+      ),
+    );
+    window.requestAnimationFrame(() => scrollTo(decisionRef.current));
+  };
+  const editMeal = (day: DayHistory, slot: MealName) =>
+    startDraft(entryDraft(day.todayLog[slot], slot, locale), {
+      dayId: day.id,
+      slot,
+    });
+  const deleteMeal = () => {
+    if (!deleteTarget) return;
+    const target = deleteTarget;
+    updateState((current) => ({
+      ...current,
+      days: current.days.map((day) =>
+        day.id === target.dayId
+          ? {
+              ...day,
+              todayLog: { ...day.todayLog, [target.slot]: createEmptyMeal() },
+            }
+          : day,
+      ),
+    }));
+    setDeleteTarget(null);
+    resetComposer();
+    setMessage(
+      t(locale, "Meal removed from your records.", "已從紀錄中移除這餐。"),
+    );
+  };
+  const changeProfile = (profile: Profile, note?: string) => {
+    updateState((current) => ({ ...current, profile }));
+    setSelected(0);
+    setChangeNote(
+      note ??
+        t(
+          locale,
+          "Preferences updated. Suggestions recalculated.",
+          "偏好已更新，建議已重新配對。",
+        ),
+    );
+  };
+  const beginConsumed = (meal: Recommendation, planId: string) => {
+    const next: ParsedMeal = {
+      ...blankDraft(),
+      displayName: mealTitle(meal, locale),
+      components: getNamedMealComponents(meal).map((component) => ({
+        ...component,
+        name: translateFood(component.name, locale),
+        amount: amount(),
+        confidence: "limited",
+      })),
+      assumptions: [
+        t(
+          locale,
+          "These are named components from a meal idea. Edit them to match what you actually ate; recipe details and amounts are unspecified.",
+          "這些是餐名中的主要內容。請修改成你實際吃的食物，配方細節與份量尚未指定。",
+        ),
+      ],
+    };
+    startDraft(next);
+    setPendingPlanId(planId);
+  };
+  const runAi = async () => {
+    if (!apiKey || !aiText.trim()) {
+      setFormError(
+        t(
+          locale,
+          "Add your session key and describe a meal, or use the quick form above.",
+          "請加入本次使用的金鑰並描述餐點，或直接使用上方快速輸入。",
+        ),
+      );
+      return;
+    }
+    const requestGeneration = ++aiRequestGeneration.current;
+    setIsParsing(true);
+    setFormError("");
+    try {
+      const result = await parseMealWithAi({
+        text: aiText.trim(),
+        locale,
         apiKey,
+        mealSlotHint: draft.mealSlot,
       });
-      setParsedMeal(meal);
-    } catch (error) {
-      setParseError(
-        error instanceof Error
-          ? error.message
-          : text(locale, "The meal could not be analyzed.", "無法分析這一餐。"),
+      if (requestGeneration !== aiRequestGeneration.current) return;
+      const next = {
+        ...result,
+        portion:
+          result.portion.confidence === "limited"
+            ? { size: "Unspecified" as const, confidence: "limited" as const }
+            : result.portion,
+      };
+      setDraft(next);
+      setFields(fieldsFrom(next));
+      setEditTarget(null);
+      setPendingPlanId(null);
+      setReview(true);
+      window.requestAnimationFrame(() => {
+        if (requestGeneration === aiRequestGeneration.current)
+          reviewRef.current?.focus();
+      });
+    } catch {
+      if (requestGeneration !== aiRequestGeneration.current) return;
+      setFormError(
+        t(
+          locale,
+          "AI could not prepare this meal. Your text is still here; try the quick form or check your key and connection.",
+          "AI 暫時無法整理這餐。你的文字仍保留著，可以使用快速輸入，或檢查金鑰與連線。",
+        ),
       );
     } finally {
-      setIsParsing(false);
+      if (requestGeneration === aiRequestGeneration.current)
+        setIsParsing(false);
     }
   };
-
-  const createManualMeal = () => {
-    const components: ParsedMealComponent[] = [
-      ...splitItems(manual.protein).map((name) => ({
-        name,
-        group: "protein" as const,
-        amount: normalizedAmount(),
-        confidence: "high" as const,
-      })),
-      ...splitItems(manual.vegetables).map((name) => ({
-        name,
-        group: "vegetable" as const,
-        amount: normalizedAmount(),
-        confidence: "high" as const,
-      })),
-      ...splitItems(manual.carbs).map((name) => ({
-        name,
-        group: "carb" as const,
-        amount: normalizedAmount(),
-        confidence: "high" as const,
-      })),
-      ...splitItems(manual.drink).map((name) => ({
-        name,
-        group: "drink" as const,
-        amount: normalizedAmount(),
-        confidence: "high" as const,
-      })),
-    ];
-
-    if (!components.length) {
-      setParseError(
-        text(locale, "Add at least one meal detail.", "至少加入一項餐點內容。"),
-      );
-      return;
-    }
-
-    setParsedMeal({
-      displayName: components.map((component) => component.name).join(", "),
-      mealSlot: getDefaultMealSlot(),
-      components,
-      cookingMethod: "Other",
-      mealSource: "Home-cooked",
-      portion: { size: "Medium", confidence: "high" },
-      assumptions: [
-        text(
+  const share = async () => {
+    if (!activePresentation || sharing) return;
+    setSharing(true);
+    try {
+      await downloadMealCard({
+        title: activePresentation.title,
+        cuisine: activePresentation.cuisine,
+        tip: activePresentation.tip,
+        locale,
+      });
+      setMessage(
+        t(
           locale,
-          "Only the details you entered are used. No ingredients were inferred.",
-          "只使用你輸入的內容，沒有推測其他食材。",
+          "Meal card downloaded. It contains no personal records or preferences.",
+          "已下載選餐小卡，不包含個人紀錄或偏好。",
         ),
-      ],
-      clarification: null,
-    });
-    setManualOpen(false);
-    setParseError("");
+      );
+    } catch {
+      setMessage(
+        t(
+          locale,
+          "The card could not be downloaded. Please try again.",
+          "小卡暫時無法下載，請再試一次。",
+        ),
+      );
+    } finally {
+      setSharing(false);
+    }
   };
-
-  const resetToday = () => {
-    const blank = createBlankState();
-    setState((current) => ({
-      ...current,
-      days: current.days.map((day) =>
-        day.id === todayDay.id
-          ? {
-              ...day,
-              todayLog:
-                blank.days.find((blankDay) => blankDay.isToday)?.todayLog ??
-                blank.days[blank.days.length - 1].todayLog,
-            }
-          : day,
-      ),
-    }));
-    setParsedMeal(null);
-    setMealText("");
-    setChoice("");
-    setShowReset(false);
+  const clearAll = () => {
+    const cleared = clearLaunchStorage();
+    const blank: LaunchState = {
+      ...createBlankState(new Date()),
+      plannedMeals: [],
+    };
+    setRealState(blank);
+    setDemoState(null);
+    setApiKey("");
+    setAiText("");
+    setLocale("en");
+    setClearOpen(false);
+    resetComposer();
+    setPreferencesOpen(false);
+    setSelected(0);
+    setMessage(
+      cleared
+        ? "Your NextBite records, plans, preferences and session key have been cleared."
+        : "This session was cleared, but browser storage could not be accessed. Check your browser's site-data settings.",
+    );
+    setStorageFailed(!cleared);
   };
-
-  const receiptTotal =
-    activeRecommendation?.scoreBreakdown.reduce(
-      (total, item) => total + item.points,
-      0,
-    ) ?? 0;
-  const selectionReceiptTotal = activeRecommendation?.selectionTrace
-    ? Math.round(
-        (activeRecommendation.selectionTrace.perspectiveAdjustments.reduce(
-          (total, item) => total + item.points,
-          0,
-        ) +
-          activeRecommendation.selectionTrace.fairnessAdjustment +
-          activeRecommendation.selectionTrace.formatDiversityAdjustment +
-          Number.EPSILON) *
-          100,
-      ) / 100
-    : 0;
 
   return (
-    <div className="min-h-screen text-slate-900">
-      <header className="border-b border-white/80 bg-white/70 backdrop-blur-xl">
-        <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4 sm:px-6">
-          <BrandMark />
-          <div className="flex items-center gap-2">
-            <button
-              type="button"
-              onClick={() => setProfileOpen((open) => !open)}
-              className="whitespace-nowrap rounded-full border border-slate-200 bg-white px-3.5 py-2 text-xs font-semibold text-slate-600 shadow-sm transition hover:border-emerald-300 hover:text-emerald-800"
-            >
-              {text(locale, "Preferences", "偏好")}
-              {(state.profile.preferenceTags.length > 0 ||
-                state.profile.avoidTags.length > 0) &&
-                ` · ${state.profile.preferenceTags.length + state.profile.avoidTags.length}`}
-            </button>
-            <button
-              type="button"
-              onClick={() => setLocale((current) => (current === "en" ? "zh" : "en"))}
-              className="whitespace-nowrap rounded-full border border-slate-200 bg-white px-3.5 py-2 text-xs font-semibold text-slate-600 shadow-sm transition hover:border-emerald-300 hover:text-emerald-800"
-            >
-              {locale === "en" ? "繁中" : "EN"}
-            </button>
-          </div>
-        </div>
+    <>
+      <a className="skip-link" href="#meal-input">
+        {t(locale, "Skip to meal input", "跳到餐點輸入")}
+      </a>
+      <header className="site-header">
+        <a
+          href="#"
+          className="brand"
+          aria-label={t(locale, "NextBite home", "NextBite 首頁")}
+        >
+          <span className="brand-icon">N</span>
+          <span>
+            Next<span className="brand-green">Bite</span>
+            <small>
+              {t(locale, "A little less deciding.", "讓選餐輕鬆一點。")}
+            </small>
+          </span>
+        </a>
+        <nav aria-label={t(locale, "Settings", "設定")}>
+          <button
+            className="nav-button"
+            type="button"
+            aria-expanded={preferencesOpen}
+            aria-controls="preferences"
+            onClick={() => setPreferencesOpen((value) => !value)}
+          >
+            {t(locale, "Preferences", "偏好")}
+            {state.profile.avoidTags.length > 0 && (
+              <span className="count-dot">
+                {state.profile.avoidTags.length}
+              </span>
+            )}
+          </button>
+          <button
+            className="nav-button language"
+            type="button"
+            onClick={() => {
+              setLocale((value) => (value === "en" ? "zh" : "en"));
+              setMessage("");
+              setChangeNote("");
+              setFormError("");
+            }}
+            aria-label={t(locale, "切換繁體中文", "Switch to English")}
+          >
+            {locale === "en" ? "繁中" : "EN"}
+          </button>
+        </nav>
       </header>
-
-      <main className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-10">
-        <section className="relative overflow-hidden rounded-[30px] border border-white/80 bg-[linear-gradient(135deg,rgba(255,247,234,0.98),rgba(237,248,238,0.96))] px-5 py-8 shadow-[0_24px_60px_rgba(42,63,47,0.08)] sm:px-9 sm:py-11">
-          <div className="pointer-events-none absolute -right-20 -top-28 h-64 w-64 rounded-full bg-[radial-gradient(circle,rgba(67,145,78,0.18),transparent_68%)]" />
-          <div className="relative max-w-3xl">
-            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-emerald-200/80 bg-white/80 px-3 py-1.5 text-[11px] font-bold uppercase tracking-[0.15em] text-emerald-800">
-              <span className="h-2 w-2 rounded-full bg-emerald-500" />
-              {text(locale, "AI understands. Rules decide.", "AI 負責理解，規則負責決定。")}
+      <main className="page-shell">
+        {isDemo && (
+          <aside className="demo-banner">
+            <div>
+              <strong>
+                {t(locale, "You're trying an example", "你正在體驗範例")}
+              </strong>
+              <span>
+                {t(
+                  locale,
+                  "Nothing here changes your own meals, plans or preferences.",
+                  "這裡的操作不會改變你自己的餐點、計畫或偏好。",
+                )}
+              </span>
             </div>
-            <h1 className="max-w-2xl text-[2.35rem] font-bold leading-[1.04] tracking-[-0.055em] text-slate-950 sm:text-6xl">
-              {text(
-                locale,
-                "One next meal. With the math.",
-                "下一餐只給一個答案，並把計算攤開。",
-              )}
+            <button
+              className="button small-button"
+              type="button"
+              onClick={exitDemo}
+            >
+              {t(locale, "Back to my meals", "回到我的餐點")}
+            </button>
+          </aside>
+        )}
+        {storageFailed && (
+          <p className="notice warning" role="status">
+            {t(
+              locale,
+              "Browser storage is unavailable or full. You can still use this page, but changes may not survive a reload. Export your records below.",
+              "瀏覽器儲存空間無法使用或已滿。仍可在本頁操作，但重新整理可能無法保留變更，請從下方匯出紀錄。",
+            )}
+          </p>
+        )}
+        <section className="hero" aria-labelledby="hero-title">
+          <div className="hero-copy">
+            <p className="eyebrow">
+              {t(locale, "FOR YOUR EVERYDAY APPETITE", "照顧每天的選餐小煩惱")}
+            </p>
+            <h1 id="hero-title">
+              {t(locale, "One less thing", "下一餐，")}
+              <br className="en-break" />
+              {t(locale, " to decide.", "輕鬆決定。")}
             </h1>
-            <p className="mt-5 max-w-2xl text-base leading-7 text-slate-600 sm:text-lg">
-              {text(
+            <p className="hero-description">
+              {t(
                 locale,
-                "Tell NextBite what you ate. It turns the meal into checkable inputs, scores 100 source-backed options, and shows exactly why one moved to the top.",
-                "告訴 NextBite 你吃了什麼。它會把餐點轉成可檢查的輸入，評估 100 道有來源依據的選項，並清楚顯示為什麼這一道排在最前面。",
+                "From rice bowls to sandwiches. Find a next meal that fits what you've eaten, how you feel, and your day.",
+                "從家常飯菜到三明治，根據你記錄的餐點、當下想法與生活安排，找到下一餐。",
               )}
             </p>
-            <div className="mt-6 flex flex-wrap gap-2 text-xs font-semibold text-slate-600">
-              {[
-                text(locale, "No calorie guesses", "不亂猜熱量"),
-                text(locale, "Visible score receipt", "分數收據可見"),
-                text(locale, "Mixed Asian + Western meals", "涵蓋亞洲與西式日常餐"),
-                text(locale, "BYOK, only when you need AI", "需要 AI 時才使用 BYOK"),
-              ].map((item) => (
-                <span
-                  key={item}
-                  className="rounded-full border border-white bg-white/75 px-3 py-2 shadow-sm"
-                >
-                  {item}
-                </span>
-              ))}
+            <div className="hero-actions">
+              <button
+                type="button"
+                className="button primary"
+                onClick={() => {
+                  scrollTo(composerRef.current);
+                  composerRef.current
+                    ?.querySelector<HTMLInputElement>("input")
+                    ?.focus({ preventScroll: true });
+                }}
+              >
+                {t(locale, "Find my next meal", "開始選下一餐")}{" "}
+                <span aria-hidden="true">↗</span>
+              </button>
+              <button
+                type="button"
+                className="button quiet"
+                onClick={startDemo}
+              >
+                {t(locale, "Try an example", "看範例")}
+              </button>
             </div>
+            <p className="hero-footnote">
+              {t(
+                locale,
+                "No account. No API key needed. English / 繁中.",
+                "免登入、免 API key，支援英文與繁中。",
+              )}
+            </p>
+          </div>
+          <div className="hero-art">
+            <BowlArt />
+            <span>
+              {t(
+                locale,
+                "Familiar food. A fresh idea.",
+                "熟悉的食物，換個新想法。",
+              )}
+            </span>
           </div>
         </section>
-
-        {profileOpen && (
-          <section className="mt-5 rounded-[26px] border border-slate-200 bg-white p-5 shadow-sm">
-            <div className="flex items-start justify-between gap-4">
+        <div className="live-message" role="status" aria-live="polite">
+          {message}
+        </div>
+        {preferencesOpen && (
+          <section id="preferences" className="panel preference-panel">
+            <div className="section-heading">
               <div>
-                <h2 className="text-lg font-bold tracking-tight">
-                  {text(locale, "Keep only high-impact preferences", "只保留真正會影響結果的偏好")}
-                </h2>
-                <p className="mt-1 text-sm text-slate-500">
-                  {text(
-                    locale,
-                    "Nothing here is required before your first result.",
-                    "第一次取得結果前，這裡沒有任何必填項目。",
-                  )}
+                <p className="eyebrow">
+                  {t(locale, "MAKE IT YOURS", "更貼近你的喜好")}
                 </p>
+                <h2>{t(locale, "Your preferences", "你的偏好")}</h2>
               </div>
               <button
                 type="button"
-                onClick={() => setProfileOpen(false)}
-                className="rounded-full border border-slate-200 px-3 py-1.5 text-xs font-semibold text-slate-500"
+                className="button quiet small-button"
+                onClick={() => setPreferencesOpen(false)}
               >
-                {text(locale, "Close", "關閉")}
+                {t(locale, "Done", "完成")}
               </button>
             </div>
-            <div className="mt-5 grid gap-6 lg:grid-cols-2">
-              <div>
-                <div className="mb-2 text-xs font-bold uppercase tracking-[0.14em] text-slate-400">
-                  {text(locale, "Prefer", "偏好")}
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  {preferenceTags
-                    .filter((tag) =>
-                      [
-                        "Chinese-style",
-                        "Taiwanese-style",
-                        "Japanese",
-                        "Korean",
-                        "Mediterranean",
-                        "Mexican-inspired",
-                        "Vegetable-forward",
-                        "High-protein",
-                        "Soupy meals",
-                        "Quick grocery meals",
-                      ].includes(tag),
-                    )
-                    .map((tag) => (
-                      <button
-                        type="button"
-                        key={tag}
-                        aria-pressed={state.profile.preferenceTags.includes(tag)}
-                        onClick={() => togglePreferenceTag(tag)}
-                        className={cx(
-                          "rounded-full border px-3 py-2 text-xs font-semibold transition",
-                          state.profile.preferenceTags.includes(tag)
-                            ? "border-emerald-600 bg-emerald-700 text-white"
-                            : "border-slate-200 bg-white text-slate-600 hover:border-emerald-300",
-                        )}
-                      >
-                        {tag}
-                      </button>
-                    ))}
-                </div>
+            <PreferenceControls
+              profile={state.profile}
+              update={(profile) => changeProfile(profile)}
+              locale={locale}
+            />
+          </section>
+        )}
+        <div className="main-grid">
+          <div className="input-column">
+            <section
+              className="panel composer"
+              id="meal-input"
+              ref={composerRef}
+              aria-labelledby="input-title"
+              onChangeCapture={() => {
+                if (isParsing) invalidateAiRequest();
+              }}
+              onClickCapture={(event) => {
+                if (
+                  isParsing &&
+                  event.target instanceof Element &&
+                  event.target.closest(
+                    "button, input, select, textarea, summary",
+                  )
+                )
+                  invalidateAiRequest();
+              }}
+            >
+              <p className="eyebrow">
+                {t(locale, "01 / A LITTLE CONTEXT", "01／先了解一點")}
+              </p>
+              <div className="section-heading">
+                <h2 id="input-title">
+                  {editTarget
+                    ? t(locale, "Edit your meal", "編輯這餐")
+                    : pendingPlanId
+                      ? t(
+                          locale,
+                          "What did you actually eat?",
+                          "你實際吃了什麼？",
+                        )
+                      : t(locale, "What have you eaten?", "剛剛吃了什麼？")}
+                </h2>
+                {(editTarget || pendingPlanId) && (
+                  <button
+                    type="button"
+                    className="text-button"
+                    onClick={resetComposer}
+                  >
+                    {t(locale, "Cancel", "取消")}
+                  </button>
+                )}
               </div>
-              <div>
-                <div className="mb-2 text-xs font-bold uppercase tracking-[0.14em] text-slate-400">
-                  {text(locale, "Must avoid", "必須避開")}
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  {avoidTags.map((tag) => (
+              {editTarget && (
+                <p className="small muted">
+                  {formatDate(targetDay.date, locale)} ·{" "}
+                  {label(editTarget.slot, locale)}
+                </p>
+              )}
+              {!review ? (
+                <form
+                  onSubmit={(event) => {
+                    event.preventDefault();
+                    reviewMeal();
+                  }}
+                >
+                  <p className="muted">
+                    {t(
+                      locale,
+                      "Pick familiar foods or type your own. Add only what you know; amounts can stay unspecified.",
+                      "選常見食物或自行輸入，只記得什麼就填什麼，份量可以保留未知。",
+                    )}
+                  </p>
+                  {groups.slice(0, 4).map((item) => (
+                    <div className="food-field" key={item.field}>
+                      <label htmlFor={`food-${item.field}`}>
+                        {t(locale, item.en, item.zh)}
+                      </label>
+                      <input
+                        id={`food-${item.field}`}
+                        value={fields[item.field]}
+                        maxLength={1200}
+                        onChange={(event) =>
+                          setFields((current) => ({
+                            ...current,
+                            [item.field]: event.target.value,
+                          }))
+                        }
+                        placeholder={t(
+                          locale,
+                          "Separate items with commas",
+                          "多個項目可用頓號或逗號分隔",
+                        )}
+                      />
+                      <div className="quick-foods">
+                        {item.examples.map((food) => (
+                          <button
+                            type="button"
+                            key={food}
+                            onClick={() =>
+                              setFields((current) => ({
+                                ...current,
+                                [item.field]: [
+                                  ...new Set([
+                                    ...splitFoods(current[item.field]),
+                                    translateFood(food, locale),
+                                  ]),
+                                ].join(", "),
+                              }))
+                            }
+                          >
+                            + {translateFood(food, locale)}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                  <details
+                    className="optional-fields"
+                    open={Boolean(fields.fruit || fields.soup || fields.other)}
+                  >
+                    <summary>
+                      {t(
+                        locale,
+                        "Fruit, soup & other foods",
+                        "水果、湯品與其他食物",
+                      )}
+                    </summary>
+                    {groups.slice(4).map((item) => (
+                      <label key={item.field}>
+                        {t(locale, item.en, item.zh)}
+                        <input
+                          value={fields[item.field]}
+                          maxLength={1200}
+                          onChange={(event) =>
+                            setFields((current) => ({
+                              ...current,
+                              [item.field]: event.target.value,
+                            }))
+                          }
+                        />
+                      </label>
+                    ))}
+                  </details>
+                  <ContextFields
+                    draft={draft}
+                    setDraft={setDraft}
+                    locale={locale}
+                    lockSlot={Boolean(editTarget)}
+                  />
+                  <button type="submit" className="button primary full-width">
+                    {t(locale, "Review this meal", "檢查這餐內容")}{" "}
+                    <span aria-hidden="true">→</span>
+                  </button>
+                </form>
+              ) : (
+                <div className="review-area" ref={reviewRef} tabIndex={-1}>
+                  <div className="review-heading">
+                    <span className="eyebrow">
+                      {t(locale, "CHECK BEFORE SAVING", "儲存前確認一下")}
+                    </span>
+                    <button
+                      type="button"
+                      className="text-button"
+                      onClick={() => {
+                        setFields(fieldsFrom(draft));
+                        setReview(false);
+                      }}
+                    >
+                      {t(locale, "Back to input", "返回輸入")}
+                    </button>
+                  </div>
+                  {draft.clarification && (
+                    <p className="notice">{draft.clarification}</p>
+                  )}
+                  {draft.assumptions.map((note, index) => (
+                    <p className="small muted" key={index}>
+                      {note}
+                    </p>
+                  ))}
+                  {draft.components.map((component, index) => (
+                    <div className="component-editor" key={index}>
+                      <label>
+                        {t(locale, "Food", "食物")}
+                        <input
+                          value={component.name}
+                          maxLength={120}
+                          onChange={(event) =>
+                            setDraft((current) => ({
+                              ...current,
+                              components: current.components.map((item, i) =>
+                                i === index
+                                  ? { ...item, name: event.target.value }
+                                  : item,
+                              ),
+                            }))
+                          }
+                        />
+                      </label>
+                      <label>
+                        {t(locale, "Group", "類別")}
+                        <select
+                          value={component.group}
+                          onChange={(event) =>
+                            setDraft((current) => ({
+                              ...current,
+                              components: current.components.map((item, i) =>
+                                i === index
+                                  ? {
+                                      ...item,
+                                      group: event.target
+                                        .value as ParsedMealComponent["group"],
+                                    }
+                                  : item,
+                              ),
+                            }))
+                          }
+                        >
+                          {groups.map((item) => (
+                            <option key={item.group} value={item.group}>
+                              {t(locale, item.en, item.zh)}
+                            </option>
+                          ))}
+                        </select>
+                      </label>
+                      <label>
+                        {t(locale, "Amount (optional)", "數量（選填）")}
+                        <input
+                          type="number"
+                          min="0.01"
+                          max="100"
+                          step="any"
+                          value={component.amount.quantity ?? ""}
+                          placeholder={t(locale, "Unspecified", "未說明")}
+                          onChange={(event) =>
+                            setDraft((current) => ({
+                              ...current,
+                              components: current.components.map((item, i) =>
+                                i === index
+                                  ? {
+                                      ...item,
+                                      amount: {
+                                        quantity: event.target.value
+                                          ? Math.max(
+                                              0.01,
+                                              Math.min(
+                                                100,
+                                                Number(event.target.value),
+                                              ),
+                                            )
+                                          : null,
+                                        unit: item.amount.unit,
+                                        qualifier: event.target.value
+                                          ? "exact"
+                                          : "unspecified",
+                                        originalText: null,
+                                      },
+                                    }
+                                  : item,
+                              ),
+                            }))
+                          }
+                        />
+                      </label>
+                      <label>
+                        {t(locale, "Unit", "單位")}
+                        <select
+                          value={component.amount.unit}
+                          onChange={(event) =>
+                            setDraft((current) => ({
+                              ...current,
+                              components: current.components.map((item, i) =>
+                                i === index
+                                  ? {
+                                      ...item,
+                                      amount: {
+                                        ...item.amount,
+                                        unit: event.target
+                                          .value as ParsedAmountUnit,
+                                        originalText: null,
+                                      },
+                                    }
+                                  : item,
+                              ),
+                            }))
+                          }
+                        >
+                          {[
+                            "unspecified",
+                            "bowl",
+                            "cup",
+                            "plate",
+                            "piece",
+                            "slice",
+                            "serving",
+                            "portion",
+                            "tablespoon",
+                            "teaspoon",
+                            "handful",
+                            "glass",
+                            "can",
+                            "bottle",
+                          ].map((unit) => (
+                            <option key={unit} value={unit}>
+                              {label(unit, locale)}
+                            </option>
+                          ))}
+                        </select>
+                      </label>
                       <button
                         type="button"
-                        key={tag}
-                        aria-pressed={state.profile.avoidTags.includes(tag)}
-                        onClick={() => toggleAvoidTag(tag)}
-                        className={cx(
-                          "rounded-full border px-3 py-2 text-xs font-semibold transition",
-                          state.profile.avoidTags.includes(tag)
-                            ? "border-rose-600 bg-rose-600 text-white"
-                            : "border-slate-200 bg-white text-slate-600 hover:border-rose-300",
+                        className="text-button danger-text remove-component"
+                        aria-label={t(
+                          locale,
+                          `Remove ${component.name}`,
+                          `移除${component.name}`,
                         )}
+                        onClick={() =>
+                          setDraft((current) => ({
+                            ...current,
+                            components: current.components.filter(
+                              (_, i) => i !== index,
+                            ),
+                          }))
+                        }
                       >
-                        {tag}
+                        {t(locale, "Remove", "移除")}
                       </button>
-                    ))}
+                    </div>
+                  ))}
+                  <button
+                    className="text-button"
+                    type="button"
+                    onClick={() =>
+                      setDraft((current) => ({
+                        ...current,
+                        components: [
+                          ...current.components,
+                          {
+                            name: "",
+                            group: "other",
+                            amount: amount(),
+                            confidence: "high",
+                          },
+                        ],
+                      }))
+                    }
+                  >
+                    + {t(locale, "Add a food", "加入食物")}
+                  </button>
+                  <ContextFields
+                    draft={draft}
+                    setDraft={setDraft}
+                    locale={locale}
+                    lockSlot={Boolean(editTarget)}
+                  />
+                  {conflict ? (
+                    <div className="notice">
+                      <strong>
+                        {t(
+                          locale,
+                          `You already recorded ${label(draft.mealSlot, locale)}.`,
+                          `你已經記錄過${label(draft.mealSlot, locale)}。`,
+                        )}
+                      </strong>
+                      <p className="small">
+                        {t(
+                          locale,
+                          "Add these foods to that meal, or replace it with this entry.",
+                          "可以把這些食物補充到原本那餐，或用這筆內容取代。",
+                        )}
+                      </p>
+                      <div className="button-row">
+                        <button
+                          type="button"
+                          className="button primary"
+                          onClick={() => commitMeal("append")}
+                        >
+                          {t(locale, "Add to this meal", "補充這餐")}
+                        </button>
+                        <button
+                          type="button"
+                          className="button quiet"
+                          onClick={() => commitMeal("replace")}
+                        >
+                          {t(locale, "Replace this meal", "取代這餐")}
+                        </button>
+                      </div>
+                    </div>
+                  ) : (
+                    <button
+                      type="button"
+                      className="button primary full-width"
+                      onClick={() => commitMeal("replace")}
+                    >
+                      {editTarget
+                        ? t(locale, "Save changes", "儲存修改")
+                        : t(
+                            locale,
+                            "Confirm & find my next meal",
+                            "確認並找下一餐",
+                          )}
+                    </button>
+                  )}
                 </div>
-                <p className="mt-3 text-xs leading-5 text-slate-400">
-                  {text(
+              )}
+              {formError && (
+                <p className="notice error" role="alert">
+                  {formError}
+                </p>
+              )}
+              <details className="ai-details">
+                <summary>
+                  {t(
                     locale,
-                    "A declared contains, may-contain, or unknown match removes the template before scoring. NextBite is not a medical allergy checker; confirm ingredients with the cook or restaurant.",
-                    "只要結構化資料標為 contains、may-contain 或 unknown，餐點就會在計分前移除。NextBite 不是醫療級過敏檢查工具，仍需向餐廳或料理者確認實際食材。",
+                    "Optional: let AI organize your words",
+                    "進階選用：讓 AI 整理文字",
+                  )}
+                </summary>
+                <p className="small muted">
+                  {t(
+                    locale,
+                    "Bring your own OpenAI key. Your meal description and key pass through NextBite's relay to OpenAI. The key stays only in this page's memory; provider charges and data policies apply. The quick form works without AI.",
+                    "使用自己的 OpenAI key。餐點描述與金鑰會經 NextBite 轉送至 OpenAI；金鑰只留在本頁記憶體。費用與資料處理依供應商政策，快速輸入不需要 AI。",
                   )}
                 </p>
-              </div>
-            </div>
-            <div className="mt-6 border-t border-slate-200 pt-5">
-              <div className="text-xs font-bold uppercase tracking-[0.14em] text-slate-400">
-                {text(
-                  locale,
-                  "Explicit drink recommendation opt-in",
-                  "敏感飲品推薦明確同意",
+                <label>
+                  {t(locale, "Session API key", "本次使用的 API key")}
+                  <input
+                    type="password"
+                    autoComplete="off"
+                    spellCheck={false}
+                    value={apiKey}
+                    maxLength={512}
+                    onChange={(event) => setApiKey(event.target.value)}
+                    placeholder="sk-…"
+                  />
+                </label>
+                {apiKey && (
+                  <button
+                    type="button"
+                    className="text-button"
+                    onClick={() => setApiKey("")}
+                  >
+                    {t(locale, "Forget this key", "清除金鑰")}
+                  </button>
                 )}
+                <label>
+                  {t(locale, "Describe one meal", "描述一餐")}
+                  <textarea
+                    maxLength={600}
+                    value={aiText}
+                    onChange={(event) => setAiText(event.target.value)}
+                    placeholder={t(
+                      locale,
+                      "I had chicken rice and half a milk tea for lunch.",
+                      "午餐吃了雞肉飯，喝了半杯奶茶。",
+                    )}
+                  />
+                </label>
+                <span className="small muted">{aiText.length}/600</span>
+                <button
+                  type="button"
+                  className="button quiet full-width"
+                  disabled={isParsing}
+                  onClick={runAi}
+                >
+                  {isParsing
+                    ? t(locale, "Organizing…", "整理中…")
+                    : t(locale, "Organize & review", "整理並檢查")}
+                </button>
+              </details>
+            </section>
+            <section
+              className="panel today-panel"
+              aria-labelledby="today-title"
+            >
+              <div className="section-heading">
+                <h2 id="today-title">
+                  {t(locale, "Today, so far", "今天的紀錄")}
+                </h2>
+                <span className="small muted">
+                  {formatDate(today.date, locale)}
+                </span>
               </div>
-              <p className="mt-2 max-w-3xl text-xs leading-5 text-slate-500">
-                {text(
+              <LogList
+                day={today}
+                locale={locale}
+                onEdit={(slot) => editMeal(today, slot)}
+                onDelete={(slot) => setDeleteTarget({ dayId: today.id, slot })}
+              />
+              <p className="small muted">
+                {t(
                   locale,
-                  "Alcohol and energy drinks are never suggested unless you turn on the matching option here. A caffeine preference does not opt you into energy drinks.",
-                  "除非你在這裡明確開啟對應選項，系統永遠不會建議酒精或能量飲品。偏好咖啡因不等於同意能量飲品。",
+                  "Only what you record is shown. An empty slot does not mean you skipped a meal.",
+                  "這裡只顯示你記下的內容，空白不代表你沒有吃。",
                 )}
               </p>
-              <div className="mt-3 flex flex-wrap gap-2">
-                {(
-                  [
-                    ["alcohol", "Allow alcohol suggestions", "允許酒精建議"],
+            </section>
+          </div>
+          <section
+            className="panel decision-panel"
+            id="decision"
+            ref={decisionRef}
+            aria-labelledby="decision-title"
+          >
+            <p className="eyebrow">
+              {t(locale, "02 / YOUR NEXT BITE", "02／你的下一餐")}
+            </p>
+            <h2 id="decision-title">
+              {t(locale, "What sounds good now?", "現在想吃什麼？")}
+            </h2>
+            <div className="mood-controls">
+              <fieldset>
+                <legend>{t(locale, "I'm feeling…", "現在比較想…")}</legend>
+                <div className="chip-list">
+                  {(
                     [
-                      "energy-drink",
-                      "Allow energy drink suggestions",
-                      "允許能量飲品建議",
-                    ],
-                  ] as const
-                ).map(([value, en, zh]) => {
-                  const enabled =
-                    state.profile.sensitiveDrinkOptIns.includes(value);
-                  return (
+                      ["Normal", "Open to ideas", "都可以"],
+                      ["Need something light", "Something light", "清淡一點"],
+                      ["Want something warm", "Something warm", "吃熱的"],
+                      ["Low energy", "Keep it easy", "省點力氣"],
+                    ] as Array<[FeelToday, string, string]>
+                  ).map(([value, en, zh]) => (
+                    <button
+                      type="button"
+                      className={cx(
+                        "chip",
+                        state.profile.feelToday === value && "selected",
+                      )}
+                      key={value}
+                      aria-pressed={state.profile.feelToday === value}
+                      onClick={() =>
+                        changeProfile(
+                          { ...state.profile, feelToday: value },
+                          t(
+                            locale,
+                            `${en}. Suggestions recalculated for your choice.`,
+                            `已改為「${zh}」，建議已重新配對。`,
+                          ),
+                        )
+                      }
+                    >
+                      {t(locale, en, zh)}
+                    </button>
+                  ))}
+                </div>
+              </fieldset>
+              <fieldset>
+                <legend>
+                  {t(locale, "For this next meal", "下一餐的安排")}
+                </legend>
+                <div className="chip-list">
+                  {(
+                    [
+                      ["Both", "Either works", "都方便"],
+                      ["Mostly home-cooked", "At home", "在家準備"],
+                      ["Mostly takeout", "Eating out", "外食"],
+                    ] as Array<[EatingStyle, string, string]>
+                  ).map(([value, en, zh]) => (
                     <button
                       type="button"
                       key={value}
-                      aria-pressed={enabled}
-                      onClick={() => toggleSensitiveDrinkOptIn(value)}
                       className={cx(
-                        "rounded-full border px-3 py-2 text-xs font-semibold transition",
-                        enabled
-                          ? "border-amber-600 bg-amber-500 text-slate-950"
-                          : "border-slate-200 bg-white text-slate-600 hover:border-amber-300",
+                        "chip",
+                        state.profile.eatingStyle === value && "selected",
                       )}
-                    >
-                      {enabled
-                        ? text(locale, `${en}: on`, `${zh}：已開啟`)
-                        : text(locale, `${en}: off`, `${zh}：未開啟`)}
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-          </section>
-        )}
-
-        <div className="mt-6 grid items-start gap-6 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)]">
-          <section className="rounded-[28px] border border-slate-200/80 bg-white p-5 shadow-[0_18px_50px_rgba(30,45,35,0.06)] sm:p-7">
-            <div className="flex items-start justify-between gap-4">
-              <div>
-                <div className="text-[11px] font-bold uppercase tracking-[0.16em] text-orange-600">
-                  01 · {text(locale, "Describe", "描述")}
-                </div>
-                <h2 className="mt-2 text-2xl font-bold tracking-[-0.035em]">
-                  {text(locale, "What did you just eat?", "你剛剛吃了什麼？")}
-                </h2>
-              </div>
-              {hasMeal && (
-                <button
-                  type="button"
-                  onClick={() => setShowReset(true)}
-                  className="text-xs font-semibold text-slate-400 underline decoration-slate-200 underline-offset-4 hover:text-slate-700"
-                >
-                  {text(locale, "Clear today", "清除今天")}
-                </button>
-              )}
-            </div>
-
-            <textarea
-              value={mealText}
-              onChange={(event) => setMealText(event.target.value.slice(0, 600))}
-              placeholder={text(
-                locale,
-                "Example: I had chicken rice, a few vegetables, and half a milk tea for lunch.",
-                "例如：午餐吃了雞肉飯、一些青菜，還喝了半杯奶茶。",
-              )}
-              className="mt-5 min-h-32 w-full resize-y rounded-[22px] border border-slate-200 bg-slate-50/70 p-4 text-base leading-7 text-slate-800 outline-none transition placeholder:text-slate-400 focus:border-emerald-400 focus:bg-white focus:ring-4 focus:ring-emerald-100"
-            />
-            <div className="mt-2 flex items-center justify-between text-[11px] text-slate-400">
-              <span>
-                {text(
-                  locale,
-                  "Natural language in English or Chinese",
-                  "可使用中文或英文自然描述",
-                )}
-              </span>
-              <span>{mealText.length}/600</span>
-            </div>
-
-            <div className="mt-4 grid gap-2.5 sm:grid-cols-2">
-              <button
-                type="button"
-                onClick={analyzeMeal}
-                disabled={isParsing}
-                className="rounded-2xl bg-slate-950 px-4 py-3.5 text-sm font-bold text-white shadow-[0_12px_24px_rgba(15,23,42,0.18)] transition hover:-translate-y-0.5 hover:bg-emerald-900 disabled:cursor-wait disabled:opacity-60"
-              >
-                {isParsing
-                  ? text(locale, "Understanding…", "正在理解…")
-                  : text(locale, "Understand my meal with AI", "用 AI 理解這一餐")}
-              </button>
-              <button
-                type="button"
-                onClick={() => {
-                  setParsedMeal(sampleMeal(locale));
-                  setParseError("");
-                }}
-                className="rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3.5 text-sm font-bold text-emerald-800 transition hover:-translate-y-0.5 hover:border-emerald-300"
-              >
-                {text(locale, "Try a no-key example", "試用免 key 範例")}
-              </button>
-            </div>
-
-            <div className="mt-3 flex items-center justify-between gap-3">
-              <button
-                type="button"
-                onClick={() => setManualOpen((open) => !open)}
-                className="text-xs font-semibold text-slate-500 underline decoration-slate-200 underline-offset-4 hover:text-slate-800"
-              >
-                {manualOpen
-                  ? text(locale, "Hide manual mode", "收起手動模式")
-                  : text(locale, "No key? Enter 4 quick details", "沒有 key？手動輸入 4 個重點")}
-              </button>
-              <button
-                type="button"
-                onClick={() => setKeyOpen((open) => !open)}
-                className="text-xs font-semibold text-emerald-700 underline decoration-emerald-200 underline-offset-4 hover:text-emerald-900"
-              >
-                {apiKey
-                  ? text(locale, "Key ready for this session", "本次 key 已就緒")
-                  : text(locale, "Add my OpenAI key", "加入我的 OpenAI key")}
-              </button>
-            </div>
-
-            {parseError && (
-              <div className="mt-4 rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm leading-6 text-rose-700">
-                {parseError}
-              </div>
-            )}
-
-            {keyOpen && (
-              <div className="mt-4 rounded-[22px] border border-emerald-200 bg-emerald-50/70 p-4">
-                <div className="flex items-start justify-between gap-4">
-                  <div>
-                    <div className="text-sm font-bold text-emerald-950">
-                      {text(locale, "Bring your own OpenAI key", "使用你自己的 OpenAI key")}
-                    </div>
-                    <p className="mt-1 text-xs leading-5 text-emerald-900/70">
-                      {text(
-                        locale,
-                        "Held only in this page's memory. It is sent through NextBite's same-origin, no-store relay for this request and is never written to local storage.",
-                        "只保留在目前頁面的記憶體中。分析時會經由 NextBite 同網域、禁止儲存的轉送端點送出，不會寫入 local storage。",
-                      )}
-                    </p>
-                  </div>
-                  {apiKey && (
-                    <button
-                      type="button"
-                      onClick={() => setApiKey("")}
-                      className="shrink-0 text-xs font-semibold text-emerald-800 underline"
-                    >
-                      {text(locale, "Forget", "清除")}
-                    </button>
-                  )}
-                </div>
-                <input
-                  type="password"
-                  autoComplete="off"
-                  spellCheck={false}
-                  value={apiKey}
-                  onChange={(event) =>
-                    setApiKey(event.target.value.slice(0, KEY_MAX_LENGTH))
-                  }
-                  placeholder="sk-…"
-                  className="mt-3 w-full rounded-2xl border border-emerald-200 bg-white px-4 py-3 text-sm outline-none focus:border-emerald-500 focus:ring-4 focus:ring-emerald-100"
-                />
-                <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2 text-[11px] text-emerald-900/65">
-                  <a
-                    href="https://platform.openai.com/api-keys"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="font-semibold underline underline-offset-4"
-                  >
-                    {text(locale, "OpenAI API keys", "OpenAI API keys")}
-                  </a>
-                  <span>
-                    {text(
-                      locale,
-                      "Use a dedicated project key that you can revoke.",
-                      "建議使用可隨時撤銷的獨立 project key。",
-                    )}
-                  </span>
-                </div>
-              </div>
-            )}
-
-            {manualOpen && (
-              <div className="mt-4 rounded-[22px] border border-slate-200 bg-slate-50 p-4">
-                <div className="grid gap-3 sm:grid-cols-2">
-                  {(
-                    [
-                      ["protein", "Protein", "蛋白質"],
-                      ["vegetables", "Vegetables", "蔬菜"],
-                      ["carbs", "Carbs", "主食／碳水"],
-                      ["drink", "Drink", "飲料"],
-                    ] as const
-                  ).map(([key, en, zh]) => (
-                    <label key={key} className="text-xs font-bold text-slate-600">
-                      {text(locale, en, zh)}
-                      <input
-                        value={manual[key]}
-                        onChange={(event) =>
-                          setManual((current) => ({
-                            ...current,
-                            [key]: event.target.value,
-                          }))
-                        }
-                        placeholder={text(
-                          locale,
-                          "Comma-separated",
-                          "可用逗號分隔",
-                        )}
-                        className="mt-1.5 w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm font-normal outline-none focus:border-emerald-400"
-                      />
-                    </label>
-                  ))}
-                </div>
-                <button
-                  type="button"
-                  onClick={createManualMeal}
-                  className="mt-3 w-full rounded-xl bg-slate-800 px-4 py-3 text-sm font-bold text-white"
-                >
-                  {text(locale, "Review these details", "檢查這些內容")}
-                </button>
-              </div>
-            )}
-
-            {parsedMeal && (
-              <div className="mt-5 rounded-[24px] border-2 border-amber-200 bg-amber-50/65 p-4 sm:p-5">
-                <div className="flex items-start justify-between gap-4">
-                  <div>
-                    <div className="text-[10px] font-bold uppercase tracking-[0.14em] text-amber-700">
-                      02 · {text(locale, "Confirm", "確認")}
-                    </div>
-                    <h3 className="mt-1.5 text-lg font-bold tracking-tight text-slate-900">
-                      {parsedMeal.displayName}
-                    </h3>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={() => setParsedMeal(null)}
-                    className="rounded-full border border-amber-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-500"
-                  >
-                    {text(locale, "Cancel", "取消")}
-                  </button>
-                </div>
-
-                <div className="mt-4 flex flex-wrap gap-2">
-                  {parsedMeal.components.map((component, index) => (
-                    <ComponentChip
-                      key={`${component.group}-${component.name}-${index}`}
-                      component={component}
-                      locale={locale}
-                      onRemove={() =>
-                        setParsedMeal((current) =>
-                          current
-                            ? {
-                                ...current,
-                                components: current.components.filter(
-                                  (_, currentIndex) => currentIndex !== index,
-                                ),
-                              }
-                            : current,
+                      aria-pressed={state.profile.eatingStyle === value}
+                      onClick={() =>
+                        changeProfile(
+                          { ...state.profile, eatingStyle: value },
+                          t(
+                            locale,
+                            `${en}. Suggestions recalculated.`,
+                            `已改為「${zh}」，建議已重新配對。`,
+                          ),
                         )
                       }
-                    />
+                    >
+                      {t(locale, en, zh)}
+                    </button>
                   ))}
                 </div>
-
-                <div className="mt-4 grid gap-3 sm:grid-cols-2">
-                  <label className="text-xs font-bold text-slate-600">
-                    {text(locale, "Meal", "餐別")}
-                    <select
-                      value={parsedMeal.mealSlot}
-                      onChange={(event) =>
-                        setParsedMeal({
-                          ...parsedMeal,
-                          mealSlot: event.target.value as MealName,
-                        })
-                      }
-                      className="mt-1.5 w-full rounded-xl border border-amber-200 bg-white px-3 py-2.5 text-sm font-normal"
-                    >
-                      {mealNames.map((name) => (
-                        <option key={name}>{name}</option>
-                      ))}
-                    </select>
-                  </label>
-                  <label className="text-xs font-bold text-slate-600">
-                    {text(locale, "Source", "來源")}
-                    <select
-                      value={parsedMeal.mealSource}
-                      onChange={(event) =>
-                        setParsedMeal({
-                          ...parsedMeal,
-                          mealSource: event.target.value as ParsedMeal["mealSource"],
-                        })
-                      }
-                      className="mt-1.5 w-full rounded-xl border border-amber-200 bg-white px-3 py-2.5 text-sm font-normal"
-                    >
-                      {mealOptions.mealSource.map((name) => (
-                        <option key={name}>{name}</option>
-                      ))}
-                    </select>
-                  </label>
-                  <label className="text-xs font-bold text-slate-600">
-                    {text(locale, "Preparation", "烹調方式")}
-                    <select
-                      value={parsedMeal.cookingMethod}
-                      onChange={(event) =>
-                        setParsedMeal({
-                          ...parsedMeal,
-                          cookingMethod: event.target.value,
-                        })
-                      }
-                      className="mt-1.5 w-full rounded-xl border border-amber-200 bg-white px-3 py-2.5 text-sm font-normal"
-                    >
-                      {mealOptions.cookingMethod.map((name) => (
-                        <option key={name}>{name}</option>
-                      ))}
-                    </select>
-                  </label>
-                  <label className="text-xs font-bold text-slate-600">
-                    {text(locale, "Portion", "份量")}
-                    <select
-                      value={parsedMeal.portion.size}
-                      onChange={(event) =>
-                        setParsedMeal({
-                          ...parsedMeal,
-                          portion: {
-                            size: event.target
-                              .value as ParsedMeal["portion"]["size"],
-                            confidence: "high",
-                          },
-                        })
-                      }
-                      className="mt-1.5 w-full rounded-xl border border-amber-200 bg-white px-3 py-2.5 text-sm font-normal"
-                    >
-                      {mealOptions.portion.map((name) => (
-                        <option key={name}>{name}</option>
-                      ))}
-                    </select>
-                    <span className="mt-1 block font-normal text-slate-400">
-                      {text(locale, "Confidence", "信心")}：{" "}
-                      {confidenceLabel(locale, parsedMeal.portion.confidence)}
-                    </span>
-                  </label>
-                </div>
-
-                {(parsedMeal.assumptions.length > 0 || parsedMeal.clarification) && (
-                  <div className="mt-4 rounded-2xl border border-amber-200 bg-white/80 p-3">
-                    <div className="text-[10px] font-bold uppercase tracking-[0.13em] text-amber-700">
-                      {text(locale, "Assumptions to verify", "需要確認的假設")}
-                    </div>
-                    <ul className="mt-2 space-y-1.5 text-xs leading-5 text-slate-600">
-                      {parsedMeal.assumptions.map((assumption) => (
-                        <li key={assumption}>• {assumption}</li>
-                      ))}
-                      {parsedMeal.clarification && (
-                        <li className="font-semibold text-slate-800">
-                          • {parsedMeal.clarification}
-                        </li>
-                      )}
-                    </ul>
-                  </div>
-                )}
-
+              </fieldset>
+            </div>
+            <p
+              className="change-announcement small"
+              role="status"
+              aria-live="polite"
+            >
+              {changeNote}
+            </p>
+            {!hasMeal ? (
+              <div className="decision-empty">
+                <BowlArt compact />
+                <h3>
+                  {t(
+                    locale,
+                    "A little context goes a long way.",
+                    "從一餐開始就好。",
+                  )}
+                </h3>
+                <p className="muted">
+                  {t(
+                    locale,
+                    "Add something you've eaten to see three next-meal ideas, or explore an example.",
+                    "記下一點吃過的內容，就能比較三個下一餐想法，也可以先體驗範例。",
+                  )}
+                </p>
                 <button
                   type="button"
-                  disabled={parsedMeal.components.length === 0}
-                  onClick={() => logParsedMeal(parsedMeal)}
-                  className="mt-4 w-full rounded-2xl bg-amber-500 px-4 py-3.5 text-sm font-bold text-slate-950 shadow-sm transition hover:bg-amber-400 disabled:opacity-40"
+                  className="button quiet"
+                  onClick={startDemo}
                 >
-                  {text(locale, "Confirm and calculate", "確認並開始計算")}
+                  {t(locale, "Explore an example", "體驗範例")}
                 </button>
               </div>
-            )}
-
-            {showReset && (
-              <div className="mt-4 rounded-2xl border border-rose-200 bg-rose-50 p-4">
-                <div className="text-sm font-semibold text-rose-800">
-                  {text(locale, "Clear all of today's meal inputs?", "要清除今天所有餐點輸入嗎？")}
-                </div>
-                <div className="mt-3 flex gap-2">
-                  <button
-                    type="button"
-                    onClick={resetToday}
-                    className="rounded-xl bg-rose-600 px-4 py-2 text-xs font-bold text-white"
-                  >
-                    {text(locale, "Clear", "清除")}
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setShowReset(false)}
-                    className="rounded-xl border border-rose-200 bg-white px-4 py-2 text-xs font-bold text-rose-700"
-                  >
-                    {text(locale, "Keep it", "保留")}
-                  </button>
-                </div>
-              </div>
-            )}
-          </section>
-
-          <section
-            id="decision"
-            className="scroll-mt-5 rounded-[28px] border border-slate-200/80 bg-white p-5 shadow-[0_18px_50px_rgba(30,45,35,0.06)] sm:p-7"
-          >
-            <div className="text-[11px] font-bold uppercase tracking-[0.16em] text-emerald-700">
-              03 · {text(locale, "Decide", "決定")}
-            </div>
-            {!hasMeal || !activeRecommendation ? (
-              <div className="grid min-h-[440px] place-items-center py-12 text-center">
-                <div className="max-w-sm">
-                  <div className="mx-auto grid h-16 w-16 place-items-center rounded-[24px] bg-emerald-50 text-3xl text-emerald-700">
-                    ↗
-                  </div>
-                  <h2 className="mt-5 text-2xl font-bold tracking-tight">
-                    {text(locale, "Your next meal will appear here", "你的下一餐會出現在這裡")}
-                  </h2>
-                  <p className="mt-3 text-sm leading-6 text-slate-500">
-                    {text(
-                      locale,
-                      "Use the no-key example to see the full decision receipt in under 15 seconds.",
-                      "使用免 key 範例，15 秒內就能看到完整決策收據。",
-                    )}
-                  </p>
-                </div>
+            ) : !active || !activePresentation ? (
+              <div className="notice no-options">
+                <h3>
+                  {t(
+                    locale,
+                    "No compatible meals in this catalog",
+                    "目前餐點庫沒有符合條件的選項",
+                  )}
+                </h3>
+                <p>
+                  {t(
+                    locale,
+                    "Your avoided items remain excluded. Review your preferences if they have changed, or choose a meal outside this small catalog.",
+                    "你設定的避開項目仍會維持排除。如果偏好有變，可以檢查設定；也可以選擇餐點庫以外的餐點。",
+                  )}
+                </p>
+                <button
+                  type="button"
+                  className="button quiet"
+                  onClick={() => {
+                    setPreferencesOpen(true);
+                    window.requestAnimationFrame(() =>
+                      document
+                        .getElementById("preferences")
+                        ?.scrollIntoView({ block: "start" }),
+                    );
+                  }}
+                >
+                  {t(locale, "Review preferences", "檢查偏好")}
+                </button>
               </div>
             ) : (
               <>
-                <div className="mt-3 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-                  <div className="min-w-0">
-                    <div className="flex flex-wrap items-center gap-2">
-                      <span className="rounded-full bg-slate-950 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.13em] text-white">
-                        {selectedRecommendation === 0
-                          ? text(locale, "Top decision", "首選")
-                          : text(locale, "Alternative", "替代選項")}
-                      </span>
-                      <span className="rounded-full border border-slate-200 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.12em] text-slate-500">
-                        {cuisineName(activeRecommendation)}
-                      </span>
-                      <span className="rounded-full border border-slate-200 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.12em] text-slate-500">
-                        {confidenceLabel(locale, activeRecommendation.evidence.confidence)}
-                      </span>
-                    </div>
-                    <h2 className="mt-3 text-3xl font-bold leading-tight tracking-[-0.045em] text-slate-950">
-                      {activeRecommendation.title}
-                    </h2>
-                    <p className="mt-3 max-w-xl text-sm leading-6 text-slate-600">
-                      {activeRecommendation.shortReason}
-                    </p>
+                <div className="meal-feature" key={active.id}>
+                  <div className="meal-meta">
+                    <span>{activePresentation.cuisine}</span>
+                    <span>{activePresentation.effort}</span>
                   </div>
-                  <ScoreBadge
-                    score={
-                      activeRecommendation.selectionTrace?.selectionScore ??
-                      activeRecommendation.score
-                    }
-                    locale={locale}
-                  />
-                </div>
-
-                <div className="mt-5 grid gap-3 sm:grid-cols-3">
-                  <div className="rounded-2xl border border-slate-200 bg-slate-50 p-3.5">
-                    <div className="text-[10px] font-bold uppercase tracking-[0.12em] text-slate-400">
-                      {text(locale, "Balance", "平衡")}
-                    </div>
-                    <div className="mt-1.5 text-sm font-semibold text-slate-700">
-                      {activeRecommendation.balanceNote}
-                    </div>
-                  </div>
-                  <div className="rounded-2xl border border-slate-200 bg-slate-50 p-3.5">
-                    <div className="text-[10px] font-bold uppercase tracking-[0.12em] text-slate-400">
-                      {text(locale, "Practicality", "可執行性")}
-                    </div>
-                    <div className="mt-1.5 text-sm font-semibold text-slate-700">
-                      {activeRecommendation.worksFor.join(" + ")} ·{" "}
-                      {activeRecommendation.convenience}
-                    </div>
-                  </div>
-                  <div className="rounded-2xl border border-slate-200 bg-slate-50 p-3.5">
-                    <div className="text-[10px] font-bold uppercase tracking-[0.12em] text-slate-400">
-                      {text(locale, "With it", "搭配")}
-                    </div>
-                    <div className="mt-1.5 text-sm font-semibold text-slate-700">
-                      {activeRecommendation.suggestedDrink}
-                    </div>
-                  </div>
-                </div>
-
-                <div className="mt-5 rounded-[22px] border border-indigo-100 bg-indigo-50/60 p-4">
-                  <div className="text-[10px] font-bold uppercase tracking-[0.13em] text-indigo-600">
-                    {text(locale, "Change one assumption → recalculate", "改一個條件 → 立即重算")}
-                  </div>
-                  <div className="mt-3 flex flex-wrap gap-2">
-                    {(
-                      [
-                        ["Normal", "Normal", "一般"],
-                        ["Need something light", "Need lighter", "想清淡一點"],
-                        ["Want something warm", "Want warm", "想吃熱的"],
-                        ["Low energy", "Low energy", "沒力氣準備"],
-                      ] as Array<[FeelToday, string, string]>
-                    ).map(([value, en, zh]) => (
-                      <button
-                        type="button"
-                        key={value}
-                        onClick={() => updateProfile("feelToday", value)}
-                        className={cx(
-                          "rounded-full border px-3 py-2 text-xs font-bold transition",
-                          state.profile.feelToday === value
-                            ? "border-indigo-600 bg-indigo-600 text-white"
-                            : "border-indigo-200 bg-white text-indigo-700 hover:border-indigo-400",
-                        )}
-                      >
-                        {text(locale, en, zh)}
-                      </button>
-                    ))}
-                  </div>
-                  <div className="mt-2 flex flex-wrap gap-2">
-                    {(
-                      [
-                        ["Both", "Home or takeout", "自煮或外食"],
-                        ["Mostly home-cooked", "Home-cooked", "偏好自煮"],
-                        ["Mostly takeout", "Takeout", "偏好外食"],
-                      ] as Array<[EatingStyle, string, string]>
-                    ).map(([value, en, zh]) => (
-                      <button
-                        type="button"
-                        key={value}
-                        onClick={() => updateProfile("eatingStyle", value)}
-                        className={cx(
-                          "rounded-full border px-3 py-2 text-xs font-bold transition",
-                          state.profile.eatingStyle === value
-                            ? "border-slate-700 bg-slate-800 text-white"
-                            : "border-slate-200 bg-white text-slate-600 hover:border-slate-400",
-                        )}
-                      >
-                        {text(locale, en, zh)}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="mt-5 grid gap-2 sm:grid-cols-2">
-                  <button
-                    type="button"
-                    onClick={() => setChoice(activeRecommendation.id)}
-                    className={cx(
-                      "rounded-2xl px-4 py-3.5 text-sm font-bold transition",
-                      choice === activeRecommendation.id
-                        ? "bg-emerald-700 text-white"
-                        : "bg-slate-950 text-white hover:bg-emerald-900",
-                    )}
-                  >
-                    {choice === activeRecommendation.id
-                      ? text(locale, "Chosen ✓", "已選擇 ✓")
-                      : text(locale, "Choose this meal", "就選這一道")}
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() =>
-                      setSelectedRecommendation((current) =>
-                        recommendations.length > 1
-                          ? (current + 1) % recommendations.length
-                          : current,
-                      )
-                    }
-                    className="rounded-2xl border border-slate-200 bg-white px-4 py-3.5 text-sm font-bold text-slate-700 transition hover:border-emerald-300 hover:text-emerald-800"
-                  >
-                    {text(locale, "Compare another option", "比較另一個選項")}
-                  </button>
-                </div>
-
-                <div className="mt-6 border-t border-slate-200 pt-5">
-                  <button
-                    type="button"
-                    onClick={() => setReceiptOpen((open) => !open)}
-                    className="flex w-full items-center justify-between gap-4 text-left"
-                  >
-                    <div>
-                      <div className="text-[10px] font-bold uppercase tracking-[0.14em] text-emerald-700">
-                        {text(locale, "Decision receipt", "決策收據")}
-                      </div>
-                      <div className="mt-1 text-lg font-bold tracking-tight">
-                        {text(
-                          locale,
-                          "The receipt matches the actual deterministic selection",
-                          "收據完整對應實際 deterministic 選擇",
-                        )}
-                      </div>
-                    </div>
-                    <span className="grid h-9 w-9 place-items-center rounded-full border border-slate-200 text-lg text-slate-500">
-                      {receiptOpen ? "−" : "+"}
-                    </span>
-                  </button>
-
-                  {receiptOpen && (
-                    <div className="mt-4 space-y-4">
-                      <div className="overflow-hidden rounded-[20px] border border-slate-200">
-                        <div className="grid grid-cols-[minmax(0,1fr)_auto] gap-3 border-b border-slate-200 bg-slate-50 px-4 py-3 text-[10px] font-bold uppercase tracking-[0.12em] text-slate-400">
-                          <span>{text(locale, "Visible rule", "可見規則")}</span>
-                          <span>{text(locale, "Points", "分數")}</span>
-                        </div>
-                        {activeRecommendation.scoreBreakdown.map((item) => (
-                          <div
-                            key={item.category}
-                            className="grid grid-cols-[minmax(0,1fr)_auto] gap-3 border-b border-slate-100 px-4 py-3 last:border-b-0"
-                          >
-                            <div>
-                              <div className="text-xs font-bold text-slate-700">
-                                {categoryLabel(locale, item.category)}
-                              </div>
-                              <div className="mt-1 text-xs leading-5 text-slate-500">
-                                {item.note}
-                              </div>
-                            </div>
-                            <div
-                              className={cx(
-                                "pt-0.5 text-sm font-bold tabular-nums",
-                                item.points > 0
-                                  ? "text-emerald-700"
-                                  : item.points < 0
-                                    ? "text-rose-600"
-                                    : "text-slate-400",
-                              )}
-                            >
-                              {item.points > 0 ? "+" : ""}
-                              {item.points}
-                            </div>
-                          </div>
-                        ))}
-                        <div className="grid grid-cols-[minmax(0,1fr)_auto] gap-3 bg-slate-950 px-4 py-3 text-sm font-bold text-white">
-                          <span>
-                            {text(
-                              locale,
-                              "Rule score (perspective input)",
-                              "規則分數（perspective 輸入）",
-                            )}
-                            {receiptTotal !== activeRecommendation.score && (
-                              <span className="ml-2 text-amber-300">
-                                {text(locale, "Check needed", "需要檢查")}
-                              </span>
-                            )}
-                          </span>
-                          <span className="tabular-nums">
-                            {receiptTotal > 0 ? "+" : ""}
-                            {receiptTotal}
-                          </span>
-                        </div>
-                      </div>
-
-                      {activeRecommendation.selectionTrace && (
-                        <div className="overflow-hidden rounded-[20px] border border-violet-200">
-                          <div className="grid grid-cols-[minmax(0,1fr)_auto] gap-3 border-b border-violet-200 bg-violet-50 px-4 py-3 text-[10px] font-bold uppercase tracking-[0.12em] text-violet-700">
-                            <span>
-                              {text(
-                                locale,
-                                `${activeRecommendation.label} selection calculation`,
-                                `${activeRecommendation.label} 實際選擇計算`,
-                              )}
-                            </span>
-                            <span>{text(locale, "Rank", "排序分")}</span>
-                          </div>
-                          {activeRecommendation.selectionTrace.perspectiveAdjustments.map(
-                            (adjustment) => (
-                              <div
-                                key={adjustment.key}
-                                className="grid grid-cols-[minmax(0,1fr)_auto] gap-3 border-b border-violet-100 px-4 py-3"
-                              >
-                                <div>
-                                  <div className="text-xs font-bold text-slate-700">
-                                    {adjustment.key}
-                                  </div>
-                                  <div className="mt-1 text-xs leading-5 text-slate-500">
-                                    {adjustment.note}
-                                  </div>
-                                </div>
-                                <strong className="text-sm tabular-nums text-violet-800">
-                                  {adjustment.points > 0 ? "+" : ""}
-                                  {adjustment.points}
-                                </strong>
-                              </div>
-                            ),
-                          )}
-                          {[
-                            {
-                              key: "fairness-exposure",
-                              points:
-                                activeRecommendation.selectionTrace
-                                  .fairnessAdjustment,
-                              note: activeRecommendation.selectionTrace
-                                .fairnessNote,
-                            },
-                            {
-                              key: "format-diversity",
-                              points:
-                                activeRecommendation.selectionTrace
-                                  .formatDiversityAdjustment,
-                              note: activeRecommendation.selectionTrace
-                                .formatDiversityNote,
-                            },
-                          ].map((adjustment) => (
-                            <div
-                              key={adjustment.key}
-                              className="grid grid-cols-[minmax(0,1fr)_auto] gap-3 border-b border-violet-100 px-4 py-3"
-                            >
-                              <div>
-                                <div className="text-xs font-bold text-slate-700">
-                                  {adjustment.key}
-                                </div>
-                                <div className="mt-1 text-xs leading-5 text-slate-500">
-                                  {adjustment.note}
-                                </div>
-                              </div>
-                              <strong className="text-sm tabular-nums text-violet-800">
-                                {adjustment.points > 0 ? "+" : ""}
-                                {adjustment.points}
-                              </strong>
-                            </div>
-                          ))}
-                          <div className="grid grid-cols-[minmax(0,1fr)_auto] gap-3 bg-violet-950 px-4 py-3 text-sm font-bold text-white">
-                            <span>
-                              {text(
-                                locale,
-                                "Actual selection score",
-                                "實際選擇分數",
-                              )}
-                              {selectionReceiptTotal !==
-                                activeRecommendation.selectionTrace
-                                  .selectionScore && (
-                                <span className="ml-2 text-amber-300">
-                                  {text(
-                                    locale,
-                                    "Check needed",
-                                    "需要檢查",
-                                  )}
-                                </span>
-                              )}
-                            </span>
-                            <span className="tabular-nums">
-                              {selectionReceiptTotal > 0 ? "+" : ""}
-                              {selectionReceiptTotal}
-                            </span>
-                          </div>
-                          <div className="bg-violet-50 px-4 py-3 text-[11px] leading-5 text-violet-900/75">
-                            {activeRecommendation.selectionTrace.rotationApplied
-                              ? text(
-                                  locale,
-                                  `Near-tie rotation chose position ${activeRecommendation.selectionTrace.selectedPoolRank} of ${activeRecommendation.selectionTrace.nearTieCount} candidates within ${activeRecommendation.selectionTrace.nearTieWindow} points. The stable seed makes this repeatable.`,
-                                  `近同分輪替在相差 ${activeRecommendation.selectionTrace.nearTieWindow} 分內的 ${activeRecommendation.selectionTrace.nearTieCount} 個候選中，選到第 ${activeRecommendation.selectionTrace.selectedPoolRank} 位；固定 seed 讓結果可重現。`,
-                                )
-                              : text(
-                                  locale,
-                                  `No near-tie rotation was needed among ${activeRecommendation.selectionTrace.candidateCount} eligible candidates.`,
-                                  `${activeRecommendation.selectionTrace.candidateCount} 個合格候選中不需要近同分輪替。`,
-                                )}
-                          </div>
-                        </div>
+                  <h3>{activePresentation.title}</h3>
+                  <p className="feature-reason">{active.shortReason}</p>
+                  <ul className="reason-list">
+                    <li>
+                      {t(locale, "Named foods", "餐名中的食物")}:{" "}
+                      {activePresentation.ingredients.join(
+                        t(locale, ", ", "、"),
                       )}
-
-                      <div className="grid gap-3 sm:grid-cols-2">
-                        <div className="rounded-[20px] border border-slate-200 p-4">
-                          <div className="text-[10px] font-bold uppercase tracking-[0.13em] text-slate-400">
-                            {text(locale, "Candidate comparison", "候選比較")}
-                          </div>
-                          <div className="mt-3 space-y-2.5">
-                            {recommendations.map((recommendation, index) => (
-                              <button
-                                type="button"
-                                key={recommendation.id}
-                                onClick={() => setSelectedRecommendation(index)}
-                                className="grid w-full grid-cols-[minmax(0,1fr)_auto] gap-3 text-left"
-                              >
-                                <span className="truncate text-xs font-semibold text-slate-600">
-                                  {recommendation.label} · {recommendation.title}
-                                </span>
-                                <span className="text-xs font-bold tabular-nums text-slate-900">
-                                  {recommendation.selectionTrace &&
-                                  recommendation.selectionTrace.selectionScore >
-                                    0
-                                    ? "+"
-                                    : ""}
-                                  {recommendation.selectionTrace
-                                    ?.selectionScore ?? recommendation.score}
-                                </span>
-                              </button>
-                            ))}
-                          </div>
-                        </div>
-                        <div className="rounded-[20px] border border-slate-200 p-4">
-                          <div className="text-[10px] font-bold uppercase tracking-[0.13em] text-slate-400">
-                            {text(locale, "Inputs used", "使用的輸入")}
-                          </div>
-                          <div className="mt-3 grid grid-cols-2 gap-2 text-xs text-slate-600">
-                            <span>{text(locale, "Protein signal", "蛋白質訊號")}</span>
-                            <strong className="text-right">{summary.proteinStatus}</strong>
-                            <span>{text(locale, "Vegetable signal", "蔬菜訊號")}</span>
-                            <strong className="text-right">{summary.vegetableStatus}</strong>
-                            <span>{text(locale, "Carb signal", "碳水訊號")}</span>
-                            <strong className="text-right">{summary.carbStatus}</strong>
-                             <span>{text(locale, "Hard-filtered", "計分前排除")}</span>
-                             <strong className="text-right">{hardFilteredCount}</strong>
-                             <span>
-                               {text(locale, "Prior days logged", "有紀錄的過去天數")}
-                             </span>
-                             <strong className="text-right">
-                               {activeRecommendation.weeklyHistoryBasis.loggedDayCount} /{" "}
-                               {activeRecommendation.weeklyHistoryBasis.availableDayCount}
-                             </strong>
-                             <span>
-                               {text(locale, "Prior meals used", "使用的過去餐數")}
-                             </span>
-                             <strong className="text-right">
-                               {activeRecommendation.weeklyHistoryBasis.loggedMealCount}
-                             </strong>
-                             <span>
-                               {text(locale, "Weekly adjustment", "近期模式調整")}
-                             </span>
-                             <strong className="text-right">
-                               {activeRecommendation.weeklyPatternScore > 0 ? "+" : ""}
-                               {activeRecommendation.weeklyPatternScore}
-                             </strong>
-                             <span>
-                               {text(locale, "History sufficient", "歷史資料達門檻")}
-                             </span>
-                             <strong className="text-right">
-                               {activeRecommendation.weeklyHistoryBasis
-                                 .sufficientForAdjustment
-                                 ? text(locale, "Yes", "是")
-                                 : text(locale, "No", "否")}
-                             </strong>
-                           </div>
-                           <p className="mt-3 text-[11px] leading-5 text-slate-400">
-                             {text(
-                               locale,
-                               `The weekly adjustment uses only the ${activeRecommendation.weeklyHistoryBasis.availableDayCount} prior calendar days shown here; today is excluded. Signals use normalized amount, portion, and confidence when available. They describe logged food-group presence—not serving adequacy, grams, calories, or medical nutrition.`,
-                               `近期模式調整只使用這裡揭露的 ${activeRecommendation.weeklyHistoryBasis.availableDayCount} 個過去日曆日，不含今天。有資料時，訊號會使用正規化的 amount、portion 與 confidence；它只描述已記錄的食物類別，不代表份量充足度、克數、熱量或醫療營養判斷。`,
-                             )}
-                           </p>
-                        </div>
-                      </div>
-
-                      <div className="rounded-[20px] border border-emerald-200 bg-emerald-50/60 p-4">
-                        <div className="flex flex-wrap items-start justify-between gap-3">
-                          <div>
-                            <div className="text-[10px] font-bold uppercase tracking-[0.13em] text-emerald-700">
-                              {text(locale, "Evidence & limits", "證據與限制")}
-                            </div>
-                            <p className="mt-2 max-w-xl text-xs leading-5 text-emerald-950/75">
-                              {activeRecommendation.evidence.method}
-                            </p>
-                          </div>
-                          <span className="rounded-full border border-emerald-200 bg-white px-3 py-1.5 text-[10px] font-bold text-emerald-800">
-                            {text(locale, "Reviewed", "檢視日期")}{" "}
-                            {activeRecommendation.evidence.reviewedOn}
-                          </span>
-                        </div>
-                        <p className="mt-2 text-xs leading-5 text-emerald-950/75">
-                          {activeRecommendation.evidence.assumption}
-                        </p>
-                        <div className="mt-3 flex flex-wrap gap-2">
-                          {activeRecommendation.evidence.sourceIds.map((sourceId) => {
-                            const source = evidenceSources[sourceId];
-                            return (
-                              <a
-                                key={sourceId}
-                                href={source.url}
-                                target="_blank"
-                                rel="noreferrer"
-                                className="rounded-full border border-emerald-200 bg-white px-3 py-2 text-[11px] font-bold text-emerald-800 underline decoration-emerald-200 underline-offset-4"
-                              >
-                                {source.shortName}
-                              </a>
-                            );
-                          })}
-                        </div>
-                      </div>
-                    </div>
-                  )}
+                    </li>
+                    <li>
+                      {t(locale, "Works for", "適合")}{" "}
+                      {active.worksFor
+                        .map((value) => label(value, locale))
+                        .join(t(locale, " or ", "或"))}{" "}
+                      · {t(locale, "Pair with", "搭配")}{" "}
+                      {label(active.suggestedDrink, locale)}
+                    </li>
+                  </ul>
+                  <div className="feature-actions">
+                    <button
+                      type="button"
+                      className="button primary full-width"
+                      onClick={() => {
+                        updateState((current) => savePlan(current, active.id));
+                        setMessage(
+                          t(
+                            locale,
+                            "Saved to your next-meal plans. It isn't recorded as eaten.",
+                            "已儲存到下一餐計畫，尚未加入已吃紀錄。",
+                          ),
+                        );
+                      }}
+                    >
+                      {state.plannedMeals.some(
+                        (plan) => plan.mealId === active.id,
+                      )
+                        ? t(locale, "Saved to my plans ✓", "已儲存到計畫 ✓")
+                        : t(locale, "Choose this meal", "就選這道")}{" "}
+                      <span aria-hidden="true">↗</span>
+                    </button>
+                    <button
+                      type="button"
+                      className="button quiet full-width"
+                      onClick={share}
+                      disabled={sharing}
+                    >
+                      {sharing
+                        ? t(locale, "Preparing card…", "製作小卡中…")
+                        : t(locale, "Download meal card", "下載選餐小卡")}
+                    </button>
+                  </div>
+                  <details className="action-tip">
+                    <summary>
+                      {t(locale, "Make it happen", "接下來怎麼準備")}
+                    </summary>
+                    <p>{activePresentation.tip}</p>
+                    <p className="small muted">
+                      {t(locale, "Named components", "餐名中的主要內容")}:{" "}
+                      {activePresentation.ingredients.join(
+                        t(locale, ", ", "、"),
+                      )}
+                    </p>
+                    <p className="small muted">
+                      {t(
+                        locale,
+                        "This is a meal idea, not a complete recipe. Check sauces, actual ingredients and preparation against your needs.",
+                        "這是選餐想法，並非完整食譜；請依自己的需求確認醬料、實際食材與製作方式。",
+                      )}
+                    </p>
+                  </details>
                 </div>
+                <div className="comparison">
+                  <h3>{t(locale, "A few ways to go", "也可以這樣選")}</h3>
+                  <div className="option-grid">
+                    {recommendations.map((meal, index) => (
+                      <button
+                        type="button"
+                        key={meal.id}
+                        className={cx(
+                          "option-card",
+                          selected % recommendations.length === index &&
+                            "active",
+                        )}
+                        aria-pressed={
+                          selected % recommendations.length === index
+                        }
+                        onClick={() => {
+                          setSelected(index);
+                          setMessage(
+                            t(
+                              locale,
+                              "Showing another option. Your meal records stay the same.",
+                              "已切換比較選項，你的餐點紀錄不變。",
+                            ),
+                          );
+                        }}
+                      >
+                        <span>{label(meal.label, locale)}</span>
+                        <strong>{mealTitle(meal, locale)}</strong>
+                        <small>
+                          {getMealPresentation(meal, locale).effort} ·{" "}
+                          {getMealPresentation(meal, locale).cuisine}
+                        </small>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                <Receipt meal={active} locale={locale} />
+                <p className="small muted filtered-note">
+                  {t(
+                    locale,
+                    `${filteredCount} of 100 curated meals excluded by your current avoids.`,
+                    `目前避開設定已從 100 道精選餐點中排除 ${filteredCount} 道。`,
+                  )}
+                </p>
               </>
             )}
           </section>
-         </div>
-
-        <section
-          id="recent-history"
-          className="mt-6 scroll-mt-6 overflow-hidden rounded-[28px] border border-slate-200/80 bg-white shadow-[0_18px_50px_rgba(30,45,35,0.05)]"
-        >
-          <button
-            type="button"
-            onClick={() => {
-              setHistoryOpen((open) => !open);
-              setHistoryEditorSlot(null);
-            }}
-            className="flex w-full flex-col gap-4 p-5 text-left sm:flex-row sm:items-center sm:justify-between sm:p-7"
-            aria-expanded={historyOpen}
-            aria-controls="recent-history-content"
-          >
+        </div>
+        <section className="panel plans-panel" aria-labelledby="plans-title">
+          <div className="section-heading">
             <div>
-              <div className="text-[11px] font-bold uppercase tracking-[0.16em] text-emerald-700">
-                {text(locale, "History on demand", "需要時再看歷史")}
-              </div>
-              <h2 className="mt-2 text-2xl font-bold tracking-[-0.035em]">
-                {text(locale, "Recent 7 days", "最近七天")}
+              <p className="eyebrow">
+                {t(locale, "A SMALL PLAN FOR LATER", "留給下一餐的想法")}
+              </p>
+              <h2 id="plans-title">
+                {t(locale, "My next-meal plans", "我的下一餐計畫")}
               </h2>
-              <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-500">
-                {text(
+            </div>
+            <span className="small muted">{state.plannedMeals.length}/12</span>
+          </div>
+          <p className="muted">
+            {t(
+              locale,
+              "Saved ideas stay here until you remove them or record what you ate. Up to 12 recent ideas are kept in this browser.",
+              "儲存的想法會留在這裡，直到你移除或記錄吃過的內容；此瀏覽器最多保留最近 12 道。",
+            )}
+          </p>
+          {state.plannedMeals.length ? (
+            <div className="plan-grid">
+              {state.plannedMeals.map((plan) => {
+                const meal = recommendationDataset.find(
+                  (item) => item.id === plan.mealId,
+                );
+                if (!meal) return null;
+                const detail = getMealPresentation(meal, locale);
+                const conflicts = getHardAvoidConflicts(
+                  state.profile,
+                  meal,
+                  timeWindow,
+                );
+                return (
+                  <article className="plan-card" key={plan.id}>
+                    <span className="small muted">{detail.cuisine}</span>
+                    <h3>{detail.title}</h3>
+                    {conflicts.length ? (
+                      <p className="notice small">
+                        {t(
+                          locale,
+                          "This saved idea conflicts with your current avoids. Review or remove it. Recording something you actually ate is still available.",
+                          "這道先前儲存的想法不符合目前的避開設定，可檢查或移除。你仍可記錄實際吃過的內容。",
+                        )}
+                      </p>
+                    ) : (
+                      <p className="small">{detail.tip}</p>
+                    )}
+                    <div className="button-row">
+                      <button
+                        type="button"
+                        className="button quiet small-button"
+                        onClick={() => beginConsumed(meal, plan.id)}
+                      >
+                        {t(
+                          locale,
+                          "I ate this — review",
+                          "我吃了這道，確認內容",
+                        )}
+                      </button>
+                      <button
+                        type="button"
+                        className="text-button"
+                        aria-label={t(
+                          locale,
+                          `Remove plan: ${detail.title}`,
+                          `移除計畫：${detail.title}`,
+                        )}
+                        onClick={() => {
+                          updateState((current) =>
+                            removePlan(current, plan.id),
+                          );
+                          setMessage(
+                            t(
+                              locale,
+                              "Plan removed. Your meal records are unchanged.",
+                              "已移除計畫，已吃紀錄不變。",
+                            ),
+                          );
+                        }}
+                      >
+                        {t(locale, "Remove", "移除")}
+                      </button>
+                    </div>
+                  </article>
+                );
+              })}
+            </div>
+          ) : (
+            <p className="empty-note muted">
+              {t(
+                locale,
+                "Found something you like? Choose a meal above to keep it here.",
+                "看到喜歡的餐點時，按「就選這道」就能留在這裡。",
+              )}
+            </p>
+          )}
+        </section>
+        <section className="panel" id="recent-history">
+          <details className="history-details">
+            <summary>
+              <span>
+                <span className="eyebrow">
+                  {t(
+                    locale,
+                    "WHEN YOU WANT THE BIGGER PICTURE",
+                    "想回顧時再看看",
+                  )}
+                </span>
+                <span className="summary-title">
+                  {t(locale, "Recent 7 days", "最近七天")}
+                </span>
+              </span>
+            </summary>
+            <p className="muted">
+              {t(
+                locale,
+                "Records stay in this browser and roll over after seven calendar days. Export them below if you want to keep a copy. Unrecorded meals remain unknown.",
+                "紀錄只存在此瀏覽器，並保留滾動的七個日曆日。想保留副本可從下方匯出；未記錄的餐點仍是未知。",
+              )}
+            </p>
+            <div
+              className="date-tabs"
+              role="group"
+              aria-label={t(locale, "Previous days", "過去日期")}
+            >
+              {past.map((day) => (
+                <button
+                  className={cx(
+                    "chip",
+                    selectedPast?.id === day.id && "selected",
+                  )}
+                  type="button"
+                  key={day.id}
+                  aria-pressed={selectedPast?.id === day.id}
+                  onClick={() => setHistoryDay(day.id)}
+                >
+                  {formatDate(day.date, locale)}
+                </button>
+              ))}
+            </div>
+            {selectedPast && (
+              <>
+                <LogList
+                  day={selectedPast}
+                  locale={locale}
+                  onEdit={(slot) => editMeal(selectedPast, slot)}
+                  onDelete={(slot) =>
+                    setDeleteTarget({ dayId: selectedPast.id, slot })
+                  }
+                />
+                <div className="button-row">
+                  {mealNames
+                    .filter(
+                      (slot) => !isMealLogged(selectedPast.todayLog[slot]),
+                    )
+                    .map((slot) => (
+                      <button
+                        key={slot}
+                        type="button"
+                        className="button quiet small-button"
+                        onClick={() =>
+                          startDraft(blankDraft(slot), {
+                            dayId: selectedPast.id,
+                            slot,
+                          })
+                        }
+                      >
+                        +{" "}
+                        {t(
+                          locale,
+                          `Record ${label(slot, locale)}`,
+                          `補登${label(slot, locale)}`,
+                        )}
+                      </button>
+                    ))}
+                </div>
+              </>
+            )}
+            <div className="weekly-summary">
+              <h3>
+                {t(locale, "What appears in your records", "紀錄中出現的模式")}
+              </h3>
+              {weekly.summaryLines.map((line) => (
+                <p key={line}>{line}</p>
+              ))}
+              <p className="small muted">
+                {t(
                   locale,
-                  "Today stays primary. Open this only when you want to backfill one of the prior six calendar days or inspect the rolling snapshot.",
-                  "今天仍是主要操作區。只有想補登前六個日曆日，或查看滾動摘要時，才需要展開這裡。",
+                  `${weekly.dataBasis.loggedMealCount} recorded meal slots across ${weekly.dataBasis.loggedDayCount} days. This is a description of these records, not an assessment of your usual diet.`,
+                  `${weekly.dataBasis.loggedDayCount} 天中共有 ${weekly.dataBasis.loggedMealCount} 個餐別有紀錄。這只描述這些紀錄，並非評估你平常的整體飲食。`,
                 )}
               </p>
             </div>
-            <div className="flex shrink-0 items-center gap-3">
-              <div className="text-right">
-                <div className="text-base font-bold tabular-nums text-emerald-800">
-                  {fullWindowBasis.loggedMealCount}{" "}
-                  {text(
-                    locale,
-                    fullWindowBasis.loggedMealCount === 1 ? "meal" : "meals",
-                    "餐",
-                  )}
-                </div>
-                <div className="mt-0.5 text-[10px] font-bold uppercase tracking-[0.13em] text-slate-400">
-                  {fullWindowBasis.loggedDayCount}{" "}
-                  {text(
-                    locale,
-                    fullWindowBasis.loggedDayCount === 1
-                      ? "logged day"
-                      : "logged days",
-                    "個有紀錄日",
-                  )}
-                </div>
-              </div>
-              <span className="grid h-10 w-10 place-items-center rounded-full border border-slate-200 text-xl text-slate-500">
-                {historyOpen ? "−" : "+"}
-              </span>
-            </div>
-          </button>
-
-          {historyOpen && (
-            <div
-              id="recent-history-content"
-              className="border-t border-slate-200 p-5 sm:p-7"
-            >
-              <div className="flex flex-col gap-2 rounded-[20px] border border-emerald-200 bg-emerald-50/60 px-4 py-3 text-xs leading-5 text-emerald-950/75 sm:flex-row sm:items-center sm:justify-between">
-                <span>
-                  {text(
-                    locale,
-                    "Saved only in this browser. Empty dates remain empty; NextBite never invents past meals.",
-                    "資料只儲存在這個瀏覽器。沒有紀錄的日期會保持空白，NextBite 不會虛構過去餐點。",
-                  )}
+          </details>
+        </section>
+        <section className="panel catalog-panel">
+          <details>
+            <summary>
+              <span>
+                <span className="eyebrow">
+                  {t(locale, "A CURATED STARTING POINT", "精選的日常靈感")}
                 </span>
-                <strong className="shrink-0 tabular-nums text-emerald-800">
-                  {formatHistoryDate(fullWindowBasis.windowStart, locale)} –{" "}
-                  {formatHistoryDate(fullWindowBasis.windowEnd, locale)}
-                </strong>
-              </div>
-
-              <div className="mt-5">
-                <div className="text-[10px] font-bold uppercase tracking-[0.13em] text-slate-400">
-                  {text(locale, "Choose a prior day to backfill", "選擇要補登的過去日期")}
-                </div>
-                <div className="mt-2 grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-6">
-                  {priorDays.map((day) => {
-                    const loggedCount = getLoggedMealCount(day);
-                    const selected = selectedHistoryDay.id === day.id;
-                    return (
-                      <button
-                        type="button"
-                        key={day.id}
-                        onClick={() => selectHistoryDay(day.id)}
-                        className={cx(
-                          "rounded-2xl border px-3 py-3 text-left transition",
-                          selected
-                            ? "border-emerald-500 bg-emerald-50 text-emerald-950"
-                            : "border-slate-200 bg-slate-50/70 text-slate-600 hover:border-emerald-300",
-                        )}
-                        aria-pressed={selected}
-                      >
-                        <div className="text-sm font-bold">
-                          {formatHistoryDate(day.id, locale)}
-                        </div>
-                        <div className="mt-1 text-[10px] font-semibold">
-                          {loggedCount > 0
-                            ? text(
-                                locale,
-                                `${loggedCount} logged`,
-                                `已記 ${loggedCount} 餐`,
-                              )
-                            : text(locale, "No meals", "尚無餐點")}
-                        </div>
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-
-              <div className="mt-5 grid gap-5 lg:grid-cols-[minmax(0,1.35fr)_minmax(300px,0.65fr)]">
-                <div className="rounded-[24px] border border-slate-200 p-4 sm:p-5">
-                  <div className="flex flex-wrap items-start justify-between gap-3">
-                    <div>
-                      <div className="text-[10px] font-bold uppercase tracking-[0.13em] text-slate-400">
-                        {text(locale, "Backfill day", "補登日期")}
-                      </div>
-                      <h3 className="mt-1 text-lg font-bold">
-                        {formatHistoryDate(selectedHistoryDay.id, locale)}
-                      </h3>
-                    </div>
-                    <span className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1.5 text-[10px] font-bold text-slate-500">
-                      {getLoggedMealCount(selectedHistoryDay)} / {mealNames.length}{" "}
-                      {text(locale, "slots logged", "餐別已記")}
-                    </span>
-                  </div>
-
-                  <div className="mt-4 space-y-3">
-                    {mealNames.map((mealName) => {
-                      const entry = selectedHistoryDay.todayLog[mealName];
-                      const editing = historyEditorSlot === mealName;
-                      return (
-                        <article
-                          key={mealName}
-                          className="overflow-hidden rounded-[20px] border border-slate-200 bg-slate-50/50"
-                        >
-                          <button
-                            type="button"
-                            onClick={() =>
-                              setHistoryEditorSlot(editing ? null : mealName)
-                            }
-                            className="flex w-full items-center justify-between gap-4 px-4 py-3 text-left"
-                            aria-expanded={editing}
-                          >
-                            <span className="min-w-0">
-                              <span className="block text-xs font-bold text-slate-800">
-                                {mealName}
-                              </span>
-                              <span className="mt-1 block truncate text-xs text-slate-500">
-                                {getHistoryMealSummary(entry, locale)}
-                              </span>
-                            </span>
-                            <span className="shrink-0 text-xs font-bold text-emerald-700">
-                              {editing
-                                ? text(locale, "Close", "收合")
-                                : text(locale, "Edit", "編輯")}
-                            </span>
-                          </button>
-
-                          {editing && (
-                            <div className="border-t border-slate-200 bg-white p-4">
-                              <div className="grid gap-3 sm:grid-cols-2">
-                                {historyArrayFields.map((field) => (
-                                  <label
-                                    key={field.key}
-                                    className="text-xs font-bold text-slate-600"
-                                  >
-                                    {text(locale, field.en, field.zh)}
-                                    <input
-                                      key={`${selectedHistoryDay.id}-${mealName}-${field.key}-${entry[field.key].join("|")}`}
-                                      defaultValue={entry[field.key].join(", ")}
-                                      onBlur={(event) =>
-                                        updateHistoryArray(
-                                          selectedHistoryDay.id,
-                                          mealName,
-                                          field.key,
-                                          event.target.value,
-                                        )
-                                      }
-                                      placeholder={text(
-                                        locale,
-                                        field.placeholderEn,
-                                        field.placeholderZh,
-                                      )}
-                                      className="mt-1.5 w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm font-normal outline-none focus:border-emerald-400"
-                                    />
-                                  </label>
-                                ))}
-                                {(
-                                  [
-                                    {
-                                      key: "cookingMethod",
-                                      en: "Preparation",
-                                      zh: "烹調方式",
-                                    },
-                                    {
-                                      key: "mealSource",
-                                      en: "Source",
-                                      zh: "來源",
-                                    },
-                                    {
-                                      key: "portion",
-                                      en: "Portion",
-                                      zh: "份量",
-                                    },
-                                  ] as const
-                                ).map((field) => (
-                                  <label
-                                    key={field.key}
-                                    className="text-xs font-bold text-slate-600"
-                                  >
-                                    {text(locale, field.en, field.zh)}
-                                    <select
-                                      value={entry[field.key]}
-                                      onChange={(event) =>
-                                        updateHistorySelect(
-                                          selectedHistoryDay.id,
-                                          mealName,
-                                          field.key,
-                                          event.target.value,
-                                        )
-                                      }
-                                      className="mt-1.5 w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm font-normal outline-none focus:border-emerald-400"
-                                    >
-                                      {mealOptions[field.key].map((option) => (
-                                        <option key={option}>{option}</option>
-                                      ))}
-                                    </select>
-                                  </label>
-                                ))}
-                              </div>
-                              <div className="mt-4 flex flex-col gap-3 border-t border-slate-100 pt-4 sm:flex-row sm:items-center sm:justify-between">
-                                <p className="max-w-xl text-[11px] leading-5 text-slate-400">
-                                  {text(
-                                    locale,
-                                    "Manual entries record food-group presence. They do not claim serving adequacy, grams, calories, or exact nutrition.",
-                                    "手動補登只記錄食物類別是否出現，不代表份量充足度、克數、熱量或精確營養。",
-                                  )}
-                                </p>
-                                <button
-                                  type="button"
-                                  onClick={() =>
-                                    clearHistoryMeal(
-                                      selectedHistoryDay.id,
-                                      mealName,
-                                    )
-                                  }
-                                  className="shrink-0 rounded-xl border border-rose-200 px-3 py-2 text-xs font-bold text-rose-600 transition hover:bg-rose-50"
-                                >
-                                  {text(locale, "Clear meal", "清除這餐")}
-                                </button>
-                              </div>
-                            </div>
-                          )}
-                        </article>
-                      );
-                    })}
-                  </div>
-                </div>
-
-                <aside className="rounded-[24px] border border-violet-200 bg-violet-50/50 p-4 sm:p-5">
-                  <div className="text-[10px] font-bold uppercase tracking-[0.13em] text-violet-700">
-                    {text(locale, "Rolling 7-day snapshot", "滾動七天摘要")}
-                  </div>
-                  <h3 className="mt-1 text-lg font-bold text-violet-950">
-                    {text(locale, "Pattern, only when earned", "資料足夠才顯示模式")}
-                  </h3>
-                  <p className="mt-2 text-xs leading-5 text-violet-950/70">
-                    {text(
-                      locale,
-                      `This snapshot includes today: ${weeklySnapshot.dataBasis.loggedMealCount} logged ${weeklySnapshot.dataBasis.loggedMealCount === 1 ? "meal" : "meals"} across ${weeklySnapshot.dataBasis.loggedDayCount} of ${weeklySnapshot.dataBasis.availableDayCount} days.`,
-                      `這份摘要包含今天：${weeklySnapshot.dataBasis.loggedMealCount} 餐紀錄，分布在 ${weeklySnapshot.dataBasis.availableDayCount} 天中的 ${weeklySnapshot.dataBasis.loggedDayCount} 天。`,
-                    )}
-                  </p>
-
-                  {weeklySnapshot.dataBasis.sufficientForAdjustment ? (
-                    <>
-                      <div className="mt-4 space-y-2">
-                        {weeklySnapshot.summaryLines.map((line) => (
-                          <p
-                            key={line}
-                            className="rounded-2xl border border-violet-100 bg-white px-3 py-2.5 text-xs leading-5 text-slate-600"
-                          >
-                            {line}
-                          </p>
-                        ))}
-                      </div>
-                      <dl className="mt-4 grid grid-cols-2 gap-2">
-                        {weeklySnapshot.indicators.map((indicator) => (
-                          <div
-                            key={indicator.label}
-                            className="rounded-2xl border border-violet-100 bg-white p-3"
-                          >
-                            <dt className="text-[10px] font-bold uppercase tracking-[0.1em] text-slate-400">
-                              {indicator.label}
-                            </dt>
-                            <dd className="mt-1 text-xs font-bold text-slate-700">
-                              {indicator.value}
-                            </dd>
-                          </div>
-                        ))}
-                      </dl>
-                      <p className="mt-4 text-xs leading-5 text-violet-950/75">
-                        {weeklySnapshot.preferenceSummary}
-                      </p>
-                    </>
-                  ) : (
-                    <div className="mt-4 rounded-[20px] border border-dashed border-violet-300 bg-white/75 p-4">
-                      <div className="text-sm font-bold text-violet-950">
-                        {text(locale, "Not enough history yet", "歷史資料還不夠")}
-                      </div>
-                      <p className="mt-2 text-xs leading-5 text-violet-950/70">
-                        {text(
-                          locale,
-                          "A pattern appears only after at least 4 meals are logged across at least 2 distinct days.",
-                          "至少要在 2 個不同日期記錄共 4 餐，才會顯示飲食模式。",
-                        )}
-                      </p>
-                    </div>
-                  )}
-
-                  <p className="mt-4 border-t border-violet-200 pt-4 text-[11px] leading-5 text-violet-950/60">
-                    {text(
-                      locale,
-                      "The recommendation receipt uses prior days only and discloses that separate basis. This snapshot is descriptive, not medical nutrition analysis.",
-                      "推薦收據只使用過去日期，並會另外揭露其資料依據。這份摘要只做描述，不是醫療營養分析。",
-                    )}
-                  </p>
-                </aside>
-              </div>
-            </div>
-          )}
-        </section>
-
-        <section
-          id="method"
-          className="mt-6 scroll-mt-6 overflow-hidden rounded-[28px] border border-slate-200/80 bg-white shadow-[0_18px_50px_rgba(30,45,35,0.05)]"
-        >
-          <button
-            type="button"
-            onClick={() => setCatalogOpen((open) => !open)}
-            className="flex w-full flex-col gap-4 p-5 text-left sm:flex-row sm:items-center sm:justify-between sm:p-7"
-          >
-            <div>
-              <div className="text-[11px] font-bold uppercase tracking-[0.16em] text-violet-600">
-                {text(locale, "Source-backed catalog", "有來源依據的餐點庫")}
-              </div>
-              <h2 className="mt-2 text-2xl font-bold tracking-[-0.035em]">
-                {catalogMethod.name}
-              </h2>
-              <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-500">
-                {catalogMethod.statement} {catalogMethod.limitation}
-              </p>
-            </div>
-            <div className="flex shrink-0 items-center gap-3">
-              <div className="text-right">
-                <div className="text-3xl font-bold tracking-tight text-violet-700">
-                  {recommendationDataset.length}
-                </div>
-                <div className="text-[10px] font-bold uppercase tracking-[0.13em] text-slate-400">
-                  {text(locale, "curated meals", "道整理餐點")}
-                </div>
-              </div>
-              <span className="grid h-10 w-10 place-items-center rounded-full border border-slate-200 text-xl text-slate-500">
-                {catalogOpen ? "−" : "+"}
+                <span className="summary-title">
+                  {t(locale, "100 everyday meal ideas", "100 道日常餐點想法")}
+                </span>
               </span>
-            </div>
-          </button>
-
-          {catalogOpen && (
-            <div className="border-t border-slate-200 p-5 sm:p-7">
-              <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                <input
-                  value={catalogQuery}
-                  onChange={(event) => setCatalogQuery(event.target.value)}
-                  placeholder={text(
-                    locale,
-                    "Search cuisine, ingredient, or format",
-                    "搜尋料理、食材或餐點形式",
-                  )}
-                  className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none focus:border-violet-400 sm:max-w-md"
-                />
-                <div className="text-xs font-semibold text-slate-400">
-                  {filteredCatalog.length} / {recommendationDataset.length}
-                </div>
-              </div>
-              <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                {filteredCatalog.map((meal, index) => (
-                  <article
-                    key={meal.id}
-                    className="rounded-[20px] border border-slate-200 bg-slate-50/60 p-4"
-                  >
-                    <div className="flex items-start justify-between gap-3">
-                      <div className="min-w-0">
-                        <div className="text-[10px] font-bold uppercase tracking-[0.12em] text-slate-400">
-                          #{String(index + 1).padStart(3, "0")} · {cuisineName(meal)}
-                        </div>
-                        <h3 className="mt-1.5 text-sm font-bold leading-5 text-slate-800">
-                          {meal.title}
-                        </h3>
-                      </div>
-                      <span
-                        className={cx(
-                          "h-2.5 w-2.5 shrink-0 rounded-full",
-                          meal.evidence.confidence === "high"
-                            ? "bg-emerald-500"
-                            : meal.evidence.confidence === "medium"
-                              ? "bg-amber-400"
-                              : "bg-slate-300",
-                        )}
-                        title={confidenceLabel(locale, meal.evidence.confidence)}
-                      />
-                    </div>
-                    <div className="mt-3 flex flex-wrap gap-1.5 text-[10px] font-semibold text-slate-500">
-                      <span className="rounded-full border border-slate-200 bg-white px-2 py-1">
-                        P {meal.proteinLevel}
-                      </span>
-                      <span className="rounded-full border border-slate-200 bg-white px-2 py-1">
-                        V {meal.vegetableLevel}
-                      </span>
-                      <span className="rounded-full border border-slate-200 bg-white px-2 py-1">
-                        C {meal.carbLevel}
-                      </span>
-                      <span className="rounded-full border border-slate-200 bg-white px-2 py-1">
-                        {meal.worksFor.join(" / ")}
-                      </span>
-                    </div>
-                  </article>
-                ))}
-              </div>
-            </div>
-          )}
-        </section>
-
-        <footer className="mt-8 rounded-[24px] border border-slate-200/80 bg-white/65 px-5 py-5 text-xs leading-6 text-slate-500 sm:px-7">
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-            <p className="max-w-3xl">
-              <strong className="text-slate-700">
-                {text(locale, "Trust boundary:", "可信邊界：")}
-              </strong>{" "}
-              {text(
+            </summary>
+            <p className="muted">
+              {t(
                 locale,
-                "AI may structure your words. It never supplies the final score. The visible rules calculate the recommendation, and food-source links describe the evidence basis. NextBite is for everyday decisions, not medical nutrition advice.",
-                "AI 可以整理你的描述，但不負責產生最終分數。建議由畫面可見的規則計算，餐點來源連結則說明證據基礎。NextBite 用於日常決策，不提供醫療營養建議。",
+                "A fixed collection of Asian and Western meal templates. Recipes and portions vary; these are ideas to adapt, not verified nutrient records.",
+                "整理亞洲與西式日常餐點的固定選集。實際配方與份量各有不同，這些是可調整的選餐想法。",
               )}
             </p>
-            <a
-              href="#method"
-              className="shrink-0 font-semibold text-slate-700 underline decoration-slate-300 underline-offset-4"
+            <label>
+              {t(locale, "Find a meal idea", "搜尋餐點想法")}
+              <input
+                type="search"
+                value={catalogQuery}
+                onChange={(event) => setCatalogQuery(event.target.value)}
+                placeholder={t(
+                  locale,
+                  "Try rice, soup, or tofu",
+                  "試試飯、湯或豆腐",
+                )}
+              />
+            </label>
+            <p className="small muted">{filteredCatalog.length}/100</p>
+            <div className="catalog-grid">
+              {filteredCatalog.map((meal) => (
+                <article key={meal.id}>
+                  <span className="small muted">
+                    {getMealPresentation(meal, locale).cuisine}
+                  </span>
+                  <h3>{mealTitle(meal, locale)}</h3>
+                  <p className="small">
+                    {getMealPresentation(meal, locale).effort}
+                  </p>
+                </article>
+              ))}
+            </div>
+          </details>
+        </section>
+        <section className="panel data-panel" id="your-data">
+          <div className="section-heading">
+            <div>
+              <p className="eyebrow">
+                {t(locale, "YOUR BROWSER, YOUR DATA", "你的瀏覽器，你的資料")}
+              </p>
+              <h2>{t(locale, "Simple by design", "簡單，也清楚")}</h2>
+            </div>
+          </div>
+          <p>
+            {t(
+              locale,
+              "Meal records, preferences and plans are saved only in this browser. They do not sync across devices. No account or paid AI is needed for the main experience. Example data stays separate.",
+              "餐點紀錄、偏好與計畫只儲存在此瀏覽器，不會跨裝置同步。主要流程免帳號，也不需要付費 AI；範例資料分開處理。",
+            )}
+          </p>
+          <div className="button-row">
+            <button
+              type="button"
+              className="button quiet"
+              onClick={() => {
+                try {
+                  downloadLocalData(realStateRef.current, locale);
+                  setMessage(
+                    t(
+                      locale,
+                      "Your own records were exported. Example data and API keys are excluded.",
+                      "已匯出你自己的紀錄，不含範例資料與 API key。",
+                    ),
+                  );
+                } catch {
+                  setMessage(
+                    t(
+                      locale,
+                      "Export failed. Please try again.",
+                      "匯出失敗，請再試一次。",
+                    ),
+                  );
+                }
+              }}
             >
-              {text(locale, "Method notes", "方法說明")}
+              {t(locale, "Export my data (JSON)", "匯出我的資料（JSON）")}
+            </button>
+            <button
+              type="button"
+              className="button quiet danger-text"
+              onClick={() => setClearOpen(true)}
+            >
+              {t(
+                locale,
+                "Clear all my NextBite data",
+                "清除所有 NextBite 資料",
+              )}
+            </button>
+            <a
+              className="button quiet"
+              href="https://github.com/HuiYingChung/next-bite/issues/new"
+              target="_blank"
+              rel="noreferrer"
+            >
+              {t(locale, "Feedback & issues", "回饋與問題")}{" "}
+              <span aria-hidden="true">↗</span>
             </a>
           </div>
+          <p className="small muted">
+            {t(
+              locale,
+              "Feedback opens GitHub and may be public. Share the issue, not your private meal history or API key.",
+              "回饋會開啟 GitHub，內容可能公開；描述問題即可，請保留私人飲食紀錄與金鑰。",
+            )}
+          </p>
+          <details id="method">
+            <summary>
+              {t(
+                locale,
+                "About the method & optional AI",
+                "關於選餐方式與選用 AI",
+              )}
+            </summary>
+            <p>
+              {t(
+                locale,
+                "NextBite matches curated meal templates using declared food groups, your preferences, practical context and recent recorded patterns. The weights and rotation are product heuristics. Generic source links are background reading, not meal-level verification. It does not calculate individual nutrient adequacy, exact calories or medical recommendations.",
+                "NextBite 依整理餐點的食物類別、你的偏好、實際情境與近期紀錄配對。權重與輪替屬於產品規則，一般來源連結只供背景閱讀，不代表逐餐驗證。產品不計算個人營養充足度、精確熱量或醫療建議。",
+              )}
+            </p>
+            <p>
+              {t(
+                locale,
+                "If you choose AI, your description and session key are sent through NextBite to OpenAI. The request uses store:false and no-store caching, which does not override provider retention policies. The key is never written into local records, exports or meal cards. Reload or use Forget this key to remove it from the page.",
+                "若選用 AI，描述與本次金鑰會經 NextBite 送至 OpenAI。請求設定 store:false 與禁止快取，仍適用供應商的資料保留政策。金鑰不會寫入本機紀錄、匯出資料或小卡；重新整理或按清除金鑰即可從頁面記憶體移除。",
+              )}
+            </p>
+            <p>
+              <a
+                href="https://openai.com/policies/privacy-policy/"
+                target="_blank"
+                rel="noreferrer"
+              >
+                {t(locale, "OpenAI privacy policy", "OpenAI 隱私政策")}
+              </a>
+            </p>
+          </details>
+        </section>
+        <footer className="site-footer">
+          <span>
+            NextBite ·{" "}
+            {t(
+              locale,
+              "Made for the everyday in-between.",
+              "讓日常選餐，輕鬆一點。",
+            )}
+          </span>
+          <span>
+            {t(locale, "A curated meal-choice beta", "精選餐點決策 Beta")}
+          </span>
         </footer>
       </main>
-    </div>
+      {deleteTarget && (
+        <ConfirmationDialog
+          title={t(
+            locale,
+            "Remove this meal record?",
+            "要移除這筆餐點紀錄嗎？",
+          )}
+          confirm={t(locale, "Remove record", "移除紀錄")}
+          cancel={t(locale, "Keep it", "保留")}
+          onConfirm={deleteMeal}
+          onCancel={() => setDeleteTarget(null)}
+        >
+          <p>
+            {formatDate(deleteTarget.dayId, locale)} ·{" "}
+            {label(deleteTarget.slot, locale)}
+          </p>
+          <p>
+            {t(
+              locale,
+              "This clears this meal slot from your local records.",
+              "這會清除本機紀錄中這個餐別的內容。",
+            )}
+          </p>
+        </ConfirmationDialog>
+      )}
+      {clearOpen && (
+        <ConfirmationDialog
+          title={t(
+            locale,
+            "Clear all NextBite data?",
+            "要清除所有 NextBite 資料嗎？",
+          )}
+          confirm={t(locale, "Clear all data", "清除全部資料")}
+          cancel={t(locale, "Cancel", "取消")}
+          onConfirm={clearAll}
+          onCancel={() => setClearOpen(false)}
+        >
+          <p>
+            {t(
+              locale,
+              "This removes your local meal records, saved plans, preferences, language choice and session key. Export a copy first if needed. Other websites' data is not affected.",
+              "這會移除本機餐點紀錄、計畫、偏好、語言設定與本次金鑰。需要保留時，請先匯出副本；其他網站的資料不受影響。",
+            )}
+          </p>
+        </ConfirmationDialog>
+      )}
+    </>
   );
 }
