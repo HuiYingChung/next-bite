@@ -1,6 +1,34 @@
 # NextBite product roadmap
 
-## Active iteration — sourced recipe and meal-context pilot
+## Active iteration — seven-day reliability
+
+Status: review
+Authorized: 2026-11-04. User accepted the seven-day audit correction proposal.
+Read [`11-seven-day-reliability.md`](./11-seven-day-reliability.md).
+Continue the current branch and preserve prior approved food-library changes.
+No push or deployment is authorized.
+
+## Previous iteration — food and drink library
+
+Status: review
+Authorized: 2026-11-04. User explicitly chose direct implementation of broad
+food recognition and composition scores. Read [`10-food-library.md`](./10-food-library.md).
+This expands the 12-recipe data scope with a sourced ingredient/drink catalog;
+meal recommendations remain based on their existing documented paths.
+No push or deployment is authorized.
+
+## Previous iteration — published-model scoring
+
+Status: review
+Authorized: 2026-11-04. The user chose complete source data and a published
+nutrition model for three components and a total-ranked top three.
+Branch: `codex/nutrition-pilot`, based on `edf903c` plus approved working changes.
+
+Read [`09-published-model-scoring.md`](./09-published-model-scoring.md) first.
+The authorization supersedes the previous pilot's no-score selection policy.
+The scope remains twelve defined recipes; no deployment or push is authorized.
+
+## Previous iteration — sourced recipe and meal-context pilot
 
 Status: review
 Authorized: 2026-11-04, user accepted the research-based implementation and

@@ -239,7 +239,7 @@ const catalogPresentation: Record<string, CatalogPresentation> = {
     components: ["Hummus", "Chicken wrap", "Fruit"],
   },
   "veggie-black-bean-quesadilla-salad": {
-    title: "蔬菜黑豆墨西哥起司餅配沙拉",
+    title: "蔬菜黑菜豆墨西哥起司餅配沙拉",
     components: ["Vegetable black bean quesadilla", "Salad"],
   },
   "scallion-egg-tofu-rice-bowl": {
@@ -594,7 +594,7 @@ const zhFoods: Record<string, string> = {
   "Greek yogurt": "希臘優格",
   "Cottage cheese": "茅屋起司",
   Beans: "豆類",
-  "Black beans": "黑豆",
+  "Black beans": "黑菜豆（非黑大豆）",
   Chickpeas: "鷹嘴豆",
   Edamame: "毛豆",
   "Leafy greens": "葉菜",
@@ -757,7 +757,7 @@ const zhFoods: Record<string, string> = {
   "Canned soup": "罐頭湯",
   "Bagged salad": "袋裝沙拉",
   Hummus: "鷹嘴豆泥",
-  "Vegetable black bean quesadilla": "蔬菜黑豆墨西哥起司餅",
+  "Vegetable black bean quesadilla": "蔬菜黑菜豆墨西哥起司餅",
   Scallion: "青蔥",
   "Chicken and cabbage dumplings": "雞肉高麗菜餃子",
   Ginger: "薑",

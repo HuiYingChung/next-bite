@@ -53,3 +53,15 @@ jobs:
 
       - name: Verify sourced nutrition and meal context
         run: npm run verify:nutrition
+
+      - name: Verify food library sources and recognition
+        run: npm run verify:food-library
+
+      - name: Verify transactional record storage
+        run: npm run verify:records
+
+      - name: Verify seven-day recommendation ranking
+        run: npm run verify:history-ranking
+
+      - name: Verify bilingual weekly summaries
+        run: npm run verify:weekly-summary

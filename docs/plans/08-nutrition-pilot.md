@@ -6,6 +6,33 @@ then requested numeric matching receipts instead of contribution charts.
 Branch: `codex/nutrition-pilot`
 Base: `e0946afd679053ed5833bdf460aedf3752ab0290`
 
+The later user-authorized [published-model scoring iteration](./09-published-model-scoring.md)
+supersedes the no-score selection policy below. This file retains the prior
+iteration's scope and historical verification evidence.
+
+## Credibility correction — authorized 2026-11-04
+
+The user approved the full rule-review findings with “改吧”. This supersedes
+previous acceptance of visible matching totals and the identical-nutrient-only
+variety rule. The correction keeps source arithmetic and hard exclusions while:
+
+- Correcting ambiguous bean identity and false text/temperature inferences.
+- Retaining confirmed source-food identity through local records; confidence
+  must not shrink confirmed food presence and translation must not change it.
+- Interpreting effort preference as preparation effort, not stimulant demand.
+- Ordering recipes by explicit, disclosed preferences, with record/option
+  variety among equally preferred candidates. No invented nutritional total.
+- Exposing the 100-idea path as inspiration without nutrient-balance ranking.
+- Replacing duplicated score/reason sections with one collapsed decision basis,
+  and comparing actual recipe kcal/protein/estimated assembly time numerically.
+- Preserving the chosen recipe identity in plans and public meal-card copy.
+- Adding regressions for the audited counterexamples and verifying bilingual
+  desktop/mobile, recording, persistence and hard-condition empty states.
+
+No population program, clinical claim, source refresh service, push or deployment
+is added. The original scope and historical verification below describe the
+preceding implementation; final correction evidence is recorded below.
+
 ## Authorized outcome
 
 Correct the confirmed cold/warm and lexical preference mismatches. Introduce
@@ -19,7 +46,7 @@ does not authorize the full 100-meal nutrition migration, a clinical kernel,
 personal calorie prescriptions, weight-loss or sports programs, pregnancy,
 children or disease-specific recommendations. Those remain future work.
 
-## Acceptance
+## Original acceptance (superseded where noted above)
 
 - Correct confirmed warm/cold explanations and tag-based preference mistakes.
 - Explicitly separate the 12-recipe numeric path from the 100 editorial meal
@@ -139,3 +166,39 @@ JSON/PNG download transport helpers are unchanged; storage/export content has
 automated coverage. No new real download, physical-device test, Firefox/WebKit
 test, dietitian review, clinical validation, launch result, push or deployment
 is claimed. Goal-specific adult modes and special populations remain deferred.
+
+
+## Credibility correction verification — 2026-11-04
+
+- Implemented the approved rule correction on `codex/nutrition-pilot` without
+  changing source nutrient values, ingredient weights or portion multipliers.
+  Source-backed estimates and editorial preference ordering remain distinct.
+- Full `npm run verify` passed after integration: build, live inspiration and
+  compatibility engine checks, API validation, state/export, bilingual catalog,
+  dashboard, frozen-source reproducibility and recipe arithmetic. Regression
+  checks cover 348 recipe avoid contexts, 68 localized source-identity cases,
+  82 recipe comparison cases and 80 nutrient-panel cases. These counts describe
+  checks, not clinical validation or user-research outcomes.
+- New blank profiles no longer invent height/weight measurements. Existing
+  explicitly stored measurements and the separate sample profile are retained;
+  body measurements do not rank live meal choices.
+- Browser validation used `localhost:5173`, separate from the user's
+  `127.0.0.1:5173` storage. Confirmed: less-added-oil changes the selected recipe;
+  a large portion recalculates primary and comparison values; save plan →
+  confirm eaten → edit an ingredient → export retains the four untouched IDs,
+  removes the edited ingredient ID and preserves the large-portion gram values.
+- Warm plus 10-minute constraints left only the documented eligible recipe.
+  Switching to ideas produced an honest empty result because preparation times
+  are unknown; removing the time limit restored ideas and explained that added
+  oil cannot be compared there. No relaxed exclusions filled empty slots.
+- Reviewed English and Traditional Chinese at desktop and 320/390px mobile
+  widths. Comparison values share a baseline; mobile cards stack and have no
+  horizontal document overflow. No browser warnings/errors were captured.
+  Screenshots: `.audit-tmp/credibility-desktop-zh.png` and
+  `.audit-tmp/credibility-mobile-zh.png` (ignored local verification artifacts).
+- Final CSS refinement was browser-checked and the production build rerun.
+  Historical exhaustive catalog reachability was not rerun: the live picker
+  has dedicated directional/identity/constraint regressions, while legacy
+  scorers remain compatibility code outside the app's selection path.
+- No commit, push, deployment, clinical review, restaurant measurement or
+  individualized energy/fullness claim was performed or asserted.

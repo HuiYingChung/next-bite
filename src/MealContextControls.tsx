@@ -102,7 +102,7 @@ export function MealContextControls({
               {t(locale, "Open to ideas", "都可以")}
             </option>
             <option value="Need something light">
-              {t(locale, "Less rich or oily", "清淡一點")}
+              {t(locale, "Less added oil", "較少添加油")}
             </option>
             <option value="Low energy">
               {t(locale, "Less effort to prepare", "省點準備力氣")}
@@ -154,7 +154,7 @@ export function MealContextControls({
                 ["bread", "Bread or wraps", "麵包／捲餅"],
                 ["potato", "Potato or sweet potato", "馬鈴薯／地瓜"],
                 ["other", "Other grains", "其他穀物"],
-                ["none", "No staple preference", "偏好無主食餐型"],
+                ["none", "Prefer no staple", "偏好無主食餐型"],
               ] as const
             ).map(([key, en, zh]) => (
               <option key={key} value={key}>
@@ -186,8 +186,8 @@ export function MealContextControls({
         <label>
           {t(
             locale,
-            "Assembly time limit (ingredients ready)",
-            "組合時間上限（食材已備妥）",
+            "Estimated assembly time limit (ingredients ready)",
+            "預估組合時間上限（食材已備妥）",
           )}
           <select
             value={value.maxPrepMinutes ?? "any"}
@@ -236,8 +236,12 @@ export function MealContextControls({
         <p className="small muted">
           {t(
             locale,
-            "Staple and style are preferences, so another option may appear with an explanation. Warm-only and preparation limits filter every option.",
-            "主食與風格用來排序，未符合時會說明；只要熱食與時間上限會篩選每個選項。",
+            showRecipePortions
+              ? "Preferences add to the recipe ranking total; an unmatched preference gives no bonus. Warm-only and estimated time limits filter every option."
+              : "Staple comes first, then style and preparation preferences. Unmatched preferences are explained. Warm-only and estimated time limits filter every option.",
+            showRecipePortions
+              ? "偏好會加入配方排序總分，未符合時不加分。只要熱食與預估時間上限會篩選每個選項。"
+              : "先依主食，再依風格與準備偏好排序；未符合時會說明。只要熱食與預估時間上限會篩選每個選項。",
           )}
         </p>
       </details>

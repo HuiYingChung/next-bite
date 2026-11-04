@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { build } from "esbuild";
 
 await build({
-  entryPoints: ["src/launch-state.ts", "src/data.ts"],
+  entryPoints: ["src/launch-state.ts", "src/data.ts", "src/nutrition-data.ts"],
   bundle: true,
   platform: "node",
   format: "esm",
@@ -10,9 +10,10 @@ await build({
   outdir: ".audit-tmp/launch",
 });
 const helpers = await import("../.audit-tmp/launch/launch-state.js");
-const { recommendationDataset, createEmptyMeal, toLocalDateId } = await import(
+const { recommendationDataset, createEmptyMeal, createBlankState, seedProfile, toLocalDateId } = await import(
   "../.audit-tmp/launch/data.js"
 );
+const { sourceFoods, standardizedRecipes } = await import("../.audit-tmp/launch/nutrition-data.js");
 const {
   LAUNCH_STORAGE_KEY,
   LEGACY_STORAGE_KEYS,
@@ -42,6 +43,30 @@ const storage = (initial = {}) => {
 };
 const now = new Date(2026, 10, 3, 12);
 const date = toLocalDateId(now);
+const bodyFields = ["heightCm", "heightFt", "heightIn", "weightKg", "weightLb"];
+const seedBeforeBlank = JSON.stringify(seedProfile);
+const blank = createBlankState(now);
+const blankLaunch = loadLaunchState(storage(), now);
+const blankExport = createLocalDataExport(blankLaunch, "en", now);
+for (const field of bodyFields) {
+  assert.equal(blank.profile[field], "", "A new blank profile cannot claim body measurements the user never supplied.");
+  assert.equal(blankLaunch.profile[field], "");
+  assert.equal(blankExport.data.profile[field], "", "Exporting new local data must not fabricate measurements.");
+  assert.notEqual(seedProfile[field], "", "The example profile must retain its original measurements.");
+}
+assert.equal(JSON.stringify(seedProfile), seedBeforeBlank, "Creating blank state must not mutate the example profile.");
+const blankStorage = storage();
+assert.equal(saveLaunchState(blankLaunch, blankStorage), true);
+for (const field of bodyFields) assert.equal(loadLaunchState(blankStorage, now).profile[field], "");
+const existingMeasurements = { heightCm: "172", heightFt: "5", heightIn: "8", weightKg: "68", weightLb: "150" };
+for (const key of [LAUNCH_STORAGE_KEY, LEGACY_STORAGE_KEYS[0]]) {
+  const existingProfile = loadLaunchState(storage({ [key]: JSON.stringify({ ...blankLaunch, profile: { ...blankLaunch.profile, ...existingMeasurements } }) }), now);
+  const existingExport = createLocalDataExport(existingProfile, "en", now);
+  for (const field of bodyFields) {
+    assert.equal(existingProfile.profile[field], existingMeasurements[field], "The new blank defaults must not erase valid existing profile values.");
+    assert.equal(existingExport.data.profile[field], existingMeasurements[field]);
+  }
+}
 const legacy = storage({
   [LEGACY_STORAGE_KEYS[0]]: JSON.stringify({
     profile: {
@@ -246,6 +271,75 @@ const entry = parsedMealToEntry(parsed);
 assert.deepEqual(entry.carbs, ["Rice"]);
 assert.deepEqual(entry.protein, ["Tofu"]);
 assert.notEqual(entry.componentDetails[0], parsed.components[0]);
+assert.equal(Object.hasOwn(entry.componentDetails[0], "sourceFoodId"), false, "Legacy/free-text records must not acquire an invented source identity.");
+assert.equal(Object.hasOwn(entry.componentDetails[0], "foodLibraryId"), false, "Free text must not acquire an invented library identity.");
+const libraryComponent = { ...rice(100, "g"), name: `Rice, cooked, source description ${"with additional preparation information ".repeat(5)}`.trim(), foodLibraryId: "usda-fndds-123456" };
+assert(libraryComponent.name.length > 200 && libraryComponent.name.length < 300);
+const libraryEntry = parsedMealToEntry({ ...parsed, components: [libraryComponent] });
+assert.equal(libraryEntry.componentDetails[0].name, libraryComponent.name, "A selected source name must survive storage without truncation.");
+assert.equal(libraryEntry.carbs[0], libraryComponent.name, "The grouped food name and component name must remain identical.");
+assert.equal(libraryEntry.componentDetails[0].foodLibraryId, libraryComponent.foodLibraryId, "Keep a syntactically valid library reference for lazy validation.");
+for (const invalidId of ["usda-123456", "tfda-../../secret", "usda-fndds-1/2", "unknown-123", `tfda-${"a".repeat(81)}`, {}, null]) {
+  const normalized = normalizeMealEntry({ ...createEmptyMeal(), componentDetails: [{ ...libraryComponent, foodLibraryId: invalidId }] });
+  assert.equal(Object.hasOwn(normalized.componentDetails[0], "foodLibraryId"), false, "Malformed library references must not survive normalization.");
+}
+for (const validId of ["usda-sr-171971", "usda-fndds-123456", "tfda-A001"]) {
+  const normalized = normalizeMealEntry({ ...createEmptyMeal(), componentDetails: [{ ...libraryComponent, foodLibraryId: validId }] });
+  assert.equal(normalized.componentDetails[0].foodLibraryId, validId);
+}
+const libraryMerged = mergeMealEntries(libraryEntry, libraryEntry);
+assert.equal(libraryMerged.componentDetails.length, 1);
+assert.equal(libraryMerged.componentDetails[0].amount.quantity, 200);
+const otherLibraryEntry = parsedMealToEntry({ ...parsed, components: [{ ...libraryComponent, foodLibraryId: "usda-fndds-654321" }] });
+assert.equal(mergeMealEntries(libraryEntry, otherLibraryEntry).componentDetails.length, 2, "Amounts linked to different source records cannot be silently combined.");
+const unlinkedLibraryEntry = parsedMealToEntry({ ...parsed, components: [{ ...libraryComponent, foodLibraryId: undefined }] });
+assert.equal(mergeMealEntries(libraryEntry, unlinkedLibraryEntry).componentDetails.length, 2, "An unlinked amount cannot inherit a confirmed source when merged.");
+let sourceIdentitiesChecked = 0;
+const identifiedComponents = sourceFoods.map((food) => {
+  const ingredient = standardizedRecipes.flatMap((recipe) => recipe.ingredients).find((item) => item.foodId === food.id);
+  // Retired recipe ingredients remain valid in a user's previously saved records.
+  const group = ingredient?.group ?? ({ "usda-174291": "protein", "usda-175180": "protein" })[food.id];
+  assert.ok(group, "Every active or retired source identity must have an explicit group.");
+  for (const name of [food.label.en, food.label.zh, food.label.en.replace(/[,，]/g, " ·"), food.label.zh.replace(/[,，]/g, " ·")]) {
+    const component = { ...rice(150, "g"), name, group, sourceFoodId: food.id };
+    const confirmed = parsedMealToEntry({ ...parsed, components: [component] }).componentDetails[0];
+    assert.equal(confirmed.sourceFoodId, food.id, "A confirmed source ID must survive both localized labels and the display comma transformation.");
+    assert.equal(confirmed.name, name);
+    assert.equal(confirmed.group, group);
+    assert.equal(confirmed.amount.quantity, 150);
+    assert.deepEqual(normalizeMealEntry({ ...createEmptyMeal(), componentDetails: [confirmed] }).componentDetails[0], confirmed);
+    sourceIdentitiesChecked += 1;
+  }
+  return { ...rice(150, "g"), name: food.label.zh.replace(/[,，]/g, " ·"), group, sourceFoodId: food.id };
+});
+const identified = identifiedComponents.find((item) => item.group === "carb");
+assert.ok(identified);
+for (const changed of [
+  { ...identified, name: "A different food I actually ate" },
+  { ...identified, group: "protein" },
+  { ...identified, sourceFoodId: "usda-not-a-known-record" },
+  { ...identified, sourceFoodId: null },
+  { ...identified, sourceFoodId: { nested: "invalid" } },
+]) {
+  const normalized = normalizeMealEntry({ ...createEmptyMeal(), componentDetails: [changed] }).componentDetails[0];
+  assert.equal(Object.hasOwn(normalized, "sourceFoodId"), false, "Edited or mismatched foods cannot retain a stale source identity.");
+  assert.equal(normalized.name, changed.name);
+  assert.equal(normalized.amount.quantity, 150);
+}
+const sameIdentityMerged = mergeMealEntries(
+  parsedMealToEntry({ ...parsed, components: [identified] }),
+  parsedMealToEntry({ ...parsed, components: [{ ...identified, amount: { ...identified.amount, quantity: 50 } }] }),
+);
+assert.equal(sameIdentityMerged.componentDetails.length, 1);
+assert.equal(sameIdentityMerged.componentDetails[0].amount.quantity, 200);
+assert.equal(sameIdentityMerged.componentDetails[0].sourceFoodId, identified.sourceFoodId);
+const { sourceFoodId: unusedIdentity, ...unidentified } = identified;
+const mixedIdentityMerged = mergeMealEntries(
+  parsedMealToEntry({ ...parsed, components: [identified] }),
+  parsedMealToEntry({ ...parsed, components: [unidentified] }),
+);
+assert.equal(mixedIdentityMerged.componentDetails.length, 2, "An unidentified amount cannot silently inherit a source identity when merged.");
+assert.equal(mixedIdentityMerged.componentDetails.filter((item) => item.sourceFoodId === identified.sourceFoodId).length, 1);
 for (const unit of ["g", "ml"]) {
   for (const quantity of [0.01, 150, 10_000]) {
     const metric = parsedMealToEntry({ ...parsed, components: [rice(quantity, unit)] });
@@ -381,6 +475,12 @@ assert.equal(gramExport.data.days.find((day) => day.isToday).todayLog.Lunch.comp
 const metricStorage = storage();
 assert.equal(saveLaunchState(gramExportState, metricStorage), true);
 assert.deepEqual(loadLaunchState(metricStorage, now).days.find((day) => day.isToday).todayLog.Lunch.componentDetails[0].amount, gramsMerged.componentDetails[0].amount, "Saved grams must survive the actual storage/reload path.");
+const identityEntry = parsedMealToEntry({ ...parsed, components: identifiedComponents });
+const identityState = { ...state, days: state.days.map((day) => day.isToday ? { ...day, todayLog: { ...day.todayLog, Lunch: identityEntry } } : day) };
+const identityStorage = storage();
+assert.equal(saveLaunchState(identityState, identityStorage), true);
+assert.deepEqual(loadLaunchState(identityStorage, now).days.find((day) => day.isToday).todayLog.Lunch.componentDetails, identityEntry.componentDetails, "Confirmed source identities must survive actual local storage/reload.");
+assert.deepEqual(createLocalDataExport(identityState, "zh", now).data.days.find((day) => day.isToday).todayLog.Lunch.componentDetails, identityEntry.componentDetails, "Exports must retain confirmed identity, localized names and gram amounts without adding nutrient consumption totals.");
 assert(
   !JSON.stringify(exported).includes("must-not-export"),
   "Export must whitelist local data, excluding arbitrary fields and credentials.",
@@ -389,6 +489,9 @@ console.log(
   JSON.stringify(
     {
       legacyMigration: true,
+      blankBodyMeasurementsAndExport: true,
+      existingBodyMeasurementsPreserved: true,
+      exampleProfileUnchanged: true,
       malformedState: true,
       storageUnavailable: true,
       boundedUniquePlans: true,
@@ -396,6 +499,10 @@ console.log(
       backwardCompatiblePlanChoices: true,
       planMetadataWhitelisted: true,
       metricAmountBoundsAndExport: true,
+      localizedSourceIdentityChecks: sourceIdentitiesChecked,
+      sourceIdentityRoundtripAndExport: true,
+      staleIdentityRemoved: true,
+      unknownIdentityNotPromotedOnMerge: true,
       clearOnlyOwnKeys: true,
       amountPreservingMerge: true,
       mixedContextUnknown: true,

@@ -77,3 +77,35 @@ export const getPortionPreference = (context: MealContext) => {
   if (context.hunger === "hungry") return { portion: "large" as const, basis: "hunger-preference" as const };
   return { portion: "regular" as const, basis: "standard" as const };
 };
+
+export type PreferenceCandidate<T> = { id: string; value: T; tier: number[]; proteins: string[]; staple: string | null };
+export type VarietyDecision<T> = PreferenceCandidate<T> & { recordMatches: string[]; selectedMatches: string[]; recordContextPresent: boolean; earlierChoices: number };
+export const comparePreferenceTiers = (a: number[], b: number[]) => {
+  for (let index = 0; index < Math.max(a.length, b.length); index++) {
+    const difference = (a[index] ?? 0) - (b[index] ?? 0);
+    if (difference) return difference;
+  }
+  return 0;
+};
+
+// Preference tiers are lexicographic, never added across unlike concepts.
+// Variety only acts after every declared preference is equal. A recorded
+// ingredient is a reason to offer variation, not evidence of excess intake.
+export const pickVariedChoices = <T>(candidates: PreferenceCandidate<T>[], records: { proteins: Set<string>; staples: Set<string> }, limit = 3): VarietyDecision<T>[] => {
+  const remaining = [...candidates], selected: VarietyDecision<T>[] = [];
+  const selectedProteins = new Set<string>(), selectedStaples = new Set<string>();
+  const overlap = (item: PreferenceCandidate<T>, proteins: Set<string>, staples: Set<string>) => [item.proteins.filter(protein => proteins.has(protein)).length, item.staple && staples.has(item.staple) ? 1 : 0];
+  while (remaining.length && selected.length < limit) {
+    remaining.sort((a, b) => comparePreferenceTiers(a.tier, b.tier) ||
+      comparePreferenceTiers([...overlap(a, records.proteins, records.staples), ...overlap(a, selectedProteins, selectedStaples)], [...overlap(b, records.proteins, records.staples), ...overlap(b, selectedProteins, selectedStaples)]) || a.id.localeCompare(b.id, "en"));
+    const next = remaining.shift()!;
+    const matches = (proteins: Set<string>, staples: Set<string>) => [
+      ...next.proteins.filter(protein => proteins.has(protein)).map(protein => `protein:${protein}`),
+      ...(next.staple && staples.has(next.staple) ? [`staple:${next.staple}`] : []),
+    ];
+    selected.push({ ...next, recordMatches: matches(records.proteins, records.staples), selectedMatches: matches(selectedProteins, selectedStaples), recordContextPresent: records.proteins.size + records.staples.size > 0, earlierChoices: selected.length });
+    next.proteins.forEach(protein => selectedProteins.add(protein));
+    if (next.staple) selectedStaples.add(next.staple);
+  }
+  return selected;
+};

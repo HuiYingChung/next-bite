@@ -541,6 +541,11 @@ export const createBlankState = (now = new Date()): AppState => {
   return {
     profile: {
       ...cloneProfile(seedProfile),
+      heightCm: "",
+      heightFt: "",
+      heightIn: "",
+      weightKg: "",
+      weightLb: "",
       preferenceTags: [],
       avoidTags: [],
     },

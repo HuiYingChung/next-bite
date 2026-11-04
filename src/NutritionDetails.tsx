@@ -14,6 +14,7 @@ const text = (locale: Locale, en: string, zh: string) =>
 
 const nutrientLabels: Record<NutrientKey, [string, string]> = {
   kcal: ["Energy", "熱量"],
+  energyKj: ["Energy (kJ)", "能量（kJ）"],
   protein: ["Protein", "蛋白質"],
   carbs: ["Carbohydrate", "碳水化合物"],
   fat: ["Total fat", "總脂肪"],
@@ -106,8 +107,8 @@ export function NutritionDetails({
       <p className="nutrition-basis">
         {text(
           locale,
-          "Estimated for this recipe and portion",
-          "此食譜與份量的估算值",
+          "Estimates for this selected whole portion",
+          "此選定整份配方的估算值",
         )}
       </p>
       <dl className="nutrition-metrics">
@@ -134,7 +135,7 @@ export function NutritionDetails({
       </dl>
 
       <details className="nutrition-full">
-        <summary>{text(locale, "Full nutrition", "完整營養數值")}</summary>
+        <summary>{text(locale, "More nutrient estimates", "更多營養估算")}</summary>
         <dl className="nutrition-values">
           {remainingNutrients.map(renderNutrient)}
         </dl>

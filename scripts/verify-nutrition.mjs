@@ -15,7 +15,7 @@ function loadSource(relativePath) {
   const module = { exports: {} };
   modules.set(absolutePath, module);
   const { outputText } = ts.transpileModule(fs.readFileSync(absolutePath, "utf8"), {
-    compilerOptions: { target: ts.ScriptTarget.ES2020, module: ts.ModuleKind.CommonJS },
+    fileName: absolutePath, compilerOptions: { target: ts.ScriptTarget.ES2020, module: ts.ModuleKind.CommonJS },
   });
   const localRequire = specifier => {
     assert(specifier.startsWith("."), `Unexpected runtime dependency: ${specifier}`);
@@ -42,8 +42,8 @@ const recipe = id => {
 
 assert.equal(standardizedRecipes.length, 12);
 assert.equal(new Set(standardizedRecipes.map(item => item.mealId)).size, 12);
-assert.equal(sourceFoods.length, 17);
-const sourceNutrients = { kcal: 1008, protein: 1003, carbs: 1005, fat: 1004, saturatedFat: 1258, fiber: 1079, sodium: 1093, addedSugar: 1235 };
+assert.equal(sourceFoods.length, 18);
+const sourceNutrients = { kcal: 1008, energyKj: 1062, protein: 1003, carbs: 1005, fat: 1004, saturatedFat: 1258, fiber: 1079, sodium: 1093, addedSugar: 1235 };
 let sourceValues = 0;
 for (const source of nutritionSources) {
   const snapshot = fs.readFileSync(path.resolve(root, source.snapshotPath));
@@ -91,8 +91,12 @@ for (const [key, expected] of Object.entries({ kcal: 489.7, protein: 44.829, car
 assert.equal(chicken.nutrition.addedSugar, null);
 assert.equal(calculateRecipe(recipe("congee-egg-side-veg"), "regular").portionGrams, 560.5, "Congee retains the explicitly weighed water; no raw-rice yield assumption");
 const shrimp = calculateRecipe(recipe("shrimp-quinoa-bowl"), "regular", "zh");
-assert.equal(shrimp.nutrition.fiber, null, "Missing shrimp fiber propagates to recipe fiber");
-assert(shrimp.unknowns.some(item => item.nutrient === "fiber" && item.missingFoodIds.includes("usda-175180") && item.reason.includes("未知，並非零")));
+assert(Number.isFinite(shrimp.nutrition.fiber), "The active shrimp record supplies fiber");
+assert(recipe("shrimp-quinoa-bowl").ingredients.some(item => item.foodId === "usda-171971"));
+const retiredShrimpRecipe = { ...recipe("shrimp-quinoa-bowl"), ingredients: recipe("shrimp-quinoa-bowl").ingredients.map(item => item.foodId === "usda-171971" ? { ...item, foodId: "usda-175180" } : item) };
+const retiredShrimp = calculateRecipe(retiredShrimpRecipe, "regular", "zh");
+assert.equal(retiredShrimp.nutrition.fiber, null, "An archived missing value remains missing; supplementation must not backfill an old record");
+assert(retiredShrimp.unknowns.some(item => item.nutrient === "fiber" && item.missingFoodIds.includes("usda-175180") && item.reason.includes("未知，並非零")));
 const missingFood = calculateRecipe(recipe("chicken-broccoli-rice-bowl"), "regular", "en", sourceFoods.filter(food => food.id !== "usda-171477"));
 assert(nutrientKeys.every(key => missingFood.nutrition[key] === null));
 assert(missingFood.ingredientAmounts.some(item => item.foodId === "usda-171477" && item.food === null));
@@ -109,38 +113,23 @@ const normal = recommendPilotMeals(profile(), context(), "en", now);
 assert.equal(normal.candidateCount + normal.excludedCount, 12);
 assert.equal(normal.recommendations.length, 3);
 assert.deepEqual(normal, recommendPilotMeals(profile(), context(), "en", now), "Same inputs produce identical output");
-const receiptCases = [
-  [profile(), context(), "en"],
-  [profile(), context({ preferredStaple: "rice", cuisine: "asian" }), "en"],
-  [profile({ preferenceTags: ["Chinese-style", "Bowl meals", "Rice-based meals"] }), context({ cuisine: "western" }), "en"],
-  [profile({ feelToday: "Need something light" }), context({ appetite: "large" }), "en"],
-  [profile({ feelToday: "Low energy" }), context(), "en"],
-  [profile({ feelToday: "Low energy", preferenceTags: ["Light meals"] }), context(), "en"],
-  [profile({ preferenceTags: ["High-protein", "Vegetable-forward"] }), context(), "en"],
-  [profile(), context({ preferredStaple: "rice", cuisine: "asian" }), "zh"],
-];
-for (const [selectedProfile, selectedContext, locale] of receiptCases) {
-  for (const item of recommendPilotMeals(selectedProfile, selectedContext, locale, now).recommendations) {
-    const rows = item.trace.pointBreakdown;
-    assert.deepEqual(rows.map(row => row.key), ["staple", "cuisine", "saved-styles", "light-preparation", "short-assembly"]);
-    assert.equal(rows.reduce((sum, row) => sum + row.points, 0), item.trace.practicalFit, "Visible additive receipt must equal the actual practical total");
-    const row = key => rows.find(value => value.key === key);
-    assert.equal(row("staple").points, selectedContext.preferredStaple !== "any" && selectedContext.preferredStaple === item.recipe.staple ? 2 : 0);
-    assert.equal(row("cuisine").points, selectedContext.cuisine !== "any" && selectedContext.cuisine === item.recipe.cuisine ? 1 : 0);
-    assert(row("saved-styles").points >= 0 && row("saved-styles").points <= 2);
-    assert.equal(row("light-preparation").points, (selectedProfile.feelToday === "Need something light" || selectedProfile.preferenceTags.includes("Light meals")) && item.recipe.seasoning.oilGrams * item.recipe.portions[item.portion] <= 5 && item.recipe.prepMinutes <= 15 ? 1 : 0);
-    assert.equal(row("short-assembly").points, selectedProfile.feelToday === "Low energy" && item.recipe.prepMinutes <= 10 ? 1 : 0);
-    assert(rows.every(value => value.label && value.note && Number.isFinite(value.points)));
-    if (locale === "zh") {
-      assert.equal(row("staple").label, "偏好主食");
-      assert(row("staple").note.includes("加 2 分"));
-    }
-  }
+// Scoring now uses the exact profile decomposition plus bounded preferences.
+assert.equal(new Set(normal.recommendations.map(item => item.recipe.mealId)).size, 3);
+assert.equal(normal.trace.candidateScores.length,12);
+for (const item of normal.trace.candidateScores) {
+  assert.equal(item.score.total,item.score.nutrient+item.score.energy+item.score.preference);
+  assert.equal(item.score.total,10-item.score.model.rawScore+item.score.preference);
+  assert.equal(item.score.preferenceRows.reduce((sum,row)=>sum+row.points,0),item.score.preference);
 }
-assert(normal.recommendations.every(item => item.trace.pointBreakdown.length === 5 && item.trace.pointBreakdown.every(row => row.points === 0)), "All-zero practical receipts retain every row");
+for (const portion of ["small", "regular", "large"]) {
+  const chosen = recommendPilotMeals(profile(), context({ appetite: portion }), "en", now);
+  assert.deepEqual(chosen.trace.candidateScores.map(item=>[item.mealId,item.score.total]),normal.trace.candidateScores.map(item=>[item.mealId,item.score.total]),"Per100g model and preference basis are independent of selected portion");
+}
 const lightWithLessEffort = recommendPilotMeals(profile({ feelToday: "Low energy", preferenceTags: ["Light meals"] }), context(), "en", now);
-assert(lightWithLessEffort.recommendations.length === 3 && lightWithLessEffort.recommendations.every(item => item.recipe.prepMinutes <= 10), "Saved light-meal preference must not suppress the current less-effort preference");
-assert(lightWithLessEffort.recommendations.every(item => item.trace.pointBreakdown.find(row => row.key === "light-preparation").points === 1 && item.trace.pointBreakdown.find(row => row.key === "short-assembly").points === 1 && item.trace.practicalFit === 2), "Independent light and short-assembly contributions must coexist and sum correctly");
+for(const item of lightWithLessEffort.trace.candidateScores) {
+  const preparation=item.score.preferenceRows.find(row=>row.key==="preparation");
+  assert.equal(preparation.points,recipe(item.mealId).prepMinutes<=10?2:0,"Current effort determines the single preparation group, without adding saved oil twice");
+}
 for (const hunger of ["not-hungry", "moderate", "hungry", "unspecified"]) {
   const expected = hunger === "not-hungry" ? "small" : hunger === "hungry" ? "large" : "regular";
   assert(recommendPilotMeals(profile(), context({ hunger }), "en", now).recommendations.every(item => item.portion === expected));
@@ -149,18 +138,18 @@ assert(recommendPilotMeals(profile(), context({ hunger: "hungry", appetite: "sma
 for (const warmProfile of [profile(), profile({ feelToday: "Want something warm" })]) {
   const warm = recommendPilotMeals(warmProfile, context({ temperature: "warm" }), "en", now);
   assert(warm.recommendations.length && warm.recommendations.every(item => item.recipe.temperature === "warm"));
-  assert(warm.trace.exclusions.some(item => item.mealId === "tofu-egg-protein-bowl" && item.stage === "context"));
+  assert(warm.trace.exclusions.some(item => item.mealId === "egg-tomato-rice" && item.stage === "context"));
 }
 const quick = recommendPilotMeals(profile(), context({ maxPrepMinutes: 10 }), "en", now);
 assert(quick.recommendations.length && quick.recommendations.every(item => item.recipe.prepMinutes <= 10));
 assert.equal(recommendPilotMeals(profile(), context({ maxPrepMinutes: 0 }), "en", now).recommendations.length, 0, "No fallback may relax a strict preparation limit");
 const unsupportedPreference = recommendPilotMeals(profile(), context({ preferredStaple: "noodles", cuisine: "asian" }), "en", now);
 assert.equal(unsupportedPreference.candidateCount, 12, "Soft staple/cuisine preferences do not exclude unmatched recipes");
-assert(unsupportedPreference.recommendations.every(item => item.trace.unmatchedPreferences.includes("staple") && item.reasons.some(reason => reason.includes("preference is flexible"))));
+assert(unsupportedPreference.recommendations.every(item => item.trace.unmatchedPreferences.includes("staple") && item.reasons.some(reason => reason.includes("flexible preference"))));
 
 // Actual reported source-state counterexamples plus all ingredient avoids.
 const coldAvoid = recommendPilotMeals(profile({ avoidTags: ["Cold food"] }), context({ preferredStaple: "none", cuisine: "asian" }), "en", now);
-assert(!coldAvoid.trace.eligibleRecipeIds.includes("tofu-egg-protein-bowl"));
+assert(!coldAvoid.trace.eligibleRecipeIds.includes("egg-tomato-rice"));
 assert(coldAvoid.recommendations.every(item => item.recipe.temperature === "warm"));
 const rawAvoid = recommendPilotMeals(profile({ avoidTags: ["Raw food"] }), context({ preferredStaple: "rice", cuisine: "asian" }), "en", now);
 assert(!rawAvoid.trace.eligibleRecipeIds.includes("egg-tomato-rice"));
@@ -181,21 +170,33 @@ for (const tag of avoidTags) {
 for (const [tag, id] of [["Soy", "tofu-egg-protein-bowl"], ["Soy", "salmon-edamame-bowl"], ["Egg", "congee-egg-side-veg"], ["Fishy seafood", "salmon-rice-bowl-veg"], ["Shellfish", "shrimp-quinoa-bowl"]]) assert(!recommendPilotMeals(profile({ avoidTags: [tag] }), context(), "en", now).trace.eligibleRecipeIds.includes(id), `${tag} must exclude the actual named recipe ingredient`);
 assert.equal(recommendPilotMeals(profile({ avoidTags: ["Large portions"] }), context({ appetite: "large" }), "en", now).candidateCount, 0);
 
-const byRecipeId = [...standardizedRecipes].map(item => item.mealId).sort();
-assert.deepEqual(normal.trace.eligibleRecipeIds, byRecipeId, "No unrequested lower-calorie preference or random nutrition rotation");
 const proteinDirection = recommendPilotMeals(profile({ preferenceTags: ["High-protein"] }), context(), "en", now);
-assert(proteinDirection.recommendations[0].nutrition.protein >= proteinDirection.recommendations[1].nutrition.protein, "Explicit protein preference uses actual source-calculated grams");
+assert(proteinDirection.trace.candidateScores.every(item=>item.score.preferenceRows.find(row=>row.key==="nutrition-direction").points===(item.score.model.inputs.protein>8.5?2:0)),"Explicit protein direction adds only its disclosed bounded bonus");
 const blank = createBlankState(now).days.find(day => day.isToday).todayLog;
 const recorded = clone(blank);
 recorded.Lunch.carbs = ["白飯"];
 const recordResult = recommendPilotMeals(profile(), context(), "en", now, recorded);
-assert.deepEqual(recordResult.trace.eligibleRecipeIds, normal.trace.eligibleRecipeIds, "Logged staple variety cannot rotate materially different nutrient vectors");
-assert(recordResult.recommendations.filter(item => item.recipe.staple === "rice").every(item => item.trace.recentRecordsUsed.includes("staple:rice")));
+assert.deepEqual(recordResult.recommendations.map(item=>item.score.total),normal.recommendations.map(item=>item.score.total),"Record variety cannot replace a higher total");
+assert(recordResult.recommendations.every(item=>item.reasons.some(reason=>reason.includes("Only exact-total ties"))),"Record variety is explicitly limited to exact total ties");
+const { resolveFoodIdentity, isSourceFoodIdentityValid } = loadSource("src/food-identity.ts");
+for (const food of sourceFoods) for (const locale of ["en", "zh"]) {
+  const ingredient = standardizedRecipes.flatMap(item => item.ingredients).find(item => item.foodId === food.id);
+  const display = food.label[locale].replace(/[,，]/g, " ·");
+  assert(isSourceFoodIdentityValid(food.id, display, ingredient?.group ?? "protein"), `${food.id}/${locale} display form preserves exact source identity`);
+  assert.equal(resolveFoodIdentity(display, food.id).sourceFoodId, food.id);
+  assert(!isSourceFoodIdentityValid(food.id, "Unknown edited food", ingredient?.group ?? "protein"));
+}
+for (const locale of ["en", "zh"]) {
+  const sourceLog = clone(blank), riceFood = sourceFoods.find(food => food.id === "usda-168878");
+  sourceLog.Lunch.carbs = [riceFood.label[locale]];
+  sourceLog.Lunch.componentDetails = [{ name: riceFood.label[locale], sourceFoodId: riceFood.id, group: "carb", confidence: "limited", amount: { quantity:150, unit:"g", qualifier:"exact", originalText:null } }];
+  assert.deepEqual(recommendPilotMeals(profile(), context(), "en", now, sourceLog).recommendations.map(item => item.recipe.mealId), recordResult.recommendations.map(item => item.recipe.mealId));
+}
 const unknownOnly = clone(blank);
 unknownOnly.Lunch.componentDetails = [{ name: "Unknown sandwich", group: "other", confidence: "limited", amount: { quantity: null, unit: "unspecified", qualifier: "unspecified", originalText: null } }];
 const unknownResults = recommendPilotMeals(profile(), context(), "en", now, unknownOnly);
-assert(unknownResults.recommendations.every(item => item.trace.recentRecordsUsed.length === 0 && item.reasons.some(reason => reason.includes("without inferring missing nutrients"))));
-assert.deepEqual(unknownResults.recommendations.map(item => item.nutrition), normal.recommendations.map(item => item.nutrition), "Incomplete logs cannot change recipe nutrient totals");
+assert(unknownResults.recommendations.every(item => item.trace.recentRecordsUsed.length === 0 && item.reasons.some(reason => reason.includes("Records do not change calculated nutrition"))));
+assert.deepEqual(unknownResults.recommendations.map(item => item.nutrition), normal.recommendations.map(item => item.nutrition));
 const metric = clone(blank);
 metric.Lunch.protein = ["Chicken"];
 metric.Lunch.componentDetails = [{ name: "Chicken", group: "protein", confidence: "high", amount: { quantity: 1, unit: "g", qualifier: "exact", originalText: null } }];
@@ -203,8 +204,8 @@ const oneGram = summarizeTodayIntake(metric).proteinCount;
 metric.Lunch.componentDetails[0].amount.quantity = 1000;
 assert.equal(summarizeTodayIntake(metric).proteinCount, oneGram, "Unmapped grams must not impersonate legacy serving quantities");
 const takeout = recommendPilotMeals(profile({ eatingStyle: "Mostly takeout" }), context(), "en", now);
-assert(takeout.recommendations.every(item => item.trace.unmatchedPreferences.includes("takeout-portions-unconfirmed") && item.reasons.some(reason => reason.includes("Restaurant ingredients and portion weights are unconfirmed"))));
+assert(takeout.recommendations.every(item => item.reasons.some(reason => reason.includes("Restaurant ingredients and weights are unconfirmed"))));
 const zh = recommendPilotMeals(profile(), context({ hunger: "hungry", preferredStaple: "noodles" }), "zh", now, unknownOnly);
 assert(zh.recommendations.every(item => item.reasons.some(reason => reason.includes("並非估算熱量需求")) && item.reasons.some(reason => reason.includes("此偏好保留彈性")) && item.unknowns.every(unknown => unknown.reason.includes("未知，並非零"))));
 
-console.log(JSON.stringify({ standardizedRecipes: 12, sourceFoods: 17, pinnedSourceValues: sourceValues, independentChickenGolden: true, allPortionFactors: true, missingValuesPropagate: true, sourceStateAndIngredientSafety: true, hardAvoidContexts: avoidTags.length * 12, sharedContextConstraints: true, hungerAndAppetitePortions: true, practicalPointReceipts: true, noDefaultCalorieOrHealthScore: true, explicitNutrientDirection: true, recordVarietyCannotOverrideNutrients: true, metricPresenceOnlyInLegacy: true, bilingualReasons: true }, null, 2));
+console.log(JSON.stringify({ standardizedRecipes: 12, sourceFoods: sourceFoods.length, pinnedSourceValues: sourceValues, independentChickenGolden: true, allPortionFactors: true, missingValuesPropagate: true, sourceStateAndIngredientSafety: true, hardAvoidContexts: avoidTags.length * 12, sharedContextConstraints: true, hungerAndAppetitePortions: true, summedActualTotal: true, officialProfileAndProductScoreSeparated: true, explicitNutrientDirection: true, recordVarietyOnlyExactTotalTies: true, metricPresenceOnlyInLegacy: true, bilingualReasons: true }, null, 2));

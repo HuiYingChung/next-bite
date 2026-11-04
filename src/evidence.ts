@@ -5,8 +5,6 @@ import type {
   MealOption,
 } from "./types";
 
-export const EVIDENCE_REVIEW_DATE = "2026-11-03";
-
 export const evidenceSources: Record<
   EvidenceSourceId,
   { name: string; shortName: string; url: string; role: string }
@@ -21,19 +19,19 @@ export const evidenceSources: Record<
     name: "USDA FoodData Central",
     shortName: "USDA FDC",
     url: "https://fdc.nal.usda.gov/data-documentation/",
-    role: "General food-composition reference; no catalog record mapping yet",
+    role: "Ingredient-composition source for the separate standardized-recipe pilot, not evidence for these generic meal ideas",
   },
   "taiwan-fda": {
     name: "Taiwan FDA Food Nutrition Database",
     shortName: "Taiwan FDA",
     url: "https://www.fda.gov.tw/tc/siteList.aspx?sid=284",
-    role: "General food-composition reference; no catalog record mapping yet",
+    role: "Background food-composition reference; no source records imported into this pilot",
   },
   "nextbite-editorial": {
     name: "NextBite editorial method",
     shortName: "NextBite",
     url: "/#method",
-    role: "Editorial template composition and practical-fit rules",
+    role: "Editorial named-food, style, practical-preference and variety policy",
   },
 };
 
@@ -44,9 +42,11 @@ export const enrichRecommendation = (meal: BaseMealOption): MealOption => {
       // Retained for the existing schema, not presented as verified confidence.
       confidence: "limited",
       sourceIds: ["nextbite-editorial"],
-      reviewedOn: EVIDENCE_REVIEW_DATE,
+      // This shared statement does not establish an individual template review.
+      // Real source publication/retrieval dates belong to the separate recipes.
+      reviewedOn: "",
       method:
-        "Editorial meal template and qualitative fit rules, not verified meal-level nutrition evidence. Points describe logged food-group presence and practical fit; they are not serving-adequacy, calorie, or medical-nutrition estimates.",
+        "Meal inspiration using supported constraints, named foods, saved styles, practical preferences and variety; not verified meal-level nutrition evidence. Suggestions are not serving-adequacy, calorie, or medical-nutrition estimates. Recorded food names do not establish nutrient deficits, and qualitative catalog nutrient labels do not determine this selection.",
       assumption:
         "Uses the named meal components as an editorial template. Ingredients, recipes, and portions vary; missing details remain unverified.",
     },
@@ -54,26 +54,26 @@ export const enrichRecommendation = (meal: BaseMealOption): MealOption => {
 };
 
 export const catalogMethod = {
-  name: "NextBite Curated 100",
+  name: "NextBite 100 meal ideas",
   statement:
-    "100 curated everyday meal templates compared with visible qualitative food-group and practical-fit rules.",
+    "100 editorial everyday meal ideas selected through supported constraints, style and practical preferences, and named-food variety.",
   limitation:
-    "Templates are editorial, without verified food-record mapping. Logs may be incomplete; points do not establish nutrient adequacy, exact calories, or medical needs.",
+    "These generic ideas have no verified recipe-to-food-record mapping for nutrient totals. Logs may be incomplete; food names do not establish nutrient adequacy, exact calories, medical needs or nutritional compensation.",
 };
 
 export const getCatalogMethod = (locale: Locale) =>
   locale === "en"
     ? catalogMethod
     : {
-        name: "NextBite 精選 100 餐型",
-        statement: "以可查看的食物類別與實用性規則，比較 100 種人工整理的日常餐型。",
-        limitation: "餐型屬於編輯整理，目前未對應經查證的個別食品資料。紀錄可能不完整；點數不代表營養充足度、精確熱量或醫療需求。",
+        name: "NextBite 100 道餐點靈感",
+        statement: "依有依據的必要條件、餐食風格與實用偏好，以及具名食物的變化，挑選 100 道人工整理的日常餐點想法。",
+        limitation: "這些一般餐點想法未建立可計算營養總量的配方與食品來源對應。紀錄可能不完整；食物名稱無法判斷營養充足度、精確熱量、醫療需求或營養補償。",
       };
 
 export const getMealEvidenceNotes = (meal: MealOption, locale: Locale) =>
   locale === "en"
     ? { method: meal.evidence.method, assumption: meal.evidence.assumption }
     : {
-        method: "使用人工整理的餐型與定性配對規則，目前沒有經查證的餐點級營養證據。點數描述已記錄的食物類別與實用性，不代表份量充足度、熱量或醫療營養評估。",
+        method: "依有依據的必要條件、具名食物、已存餐食風格、實用偏好與變化提供靈感，目前沒有經查證的餐點級營養證據。這些想法不是份量充足度、熱量或醫療營養評估；食物名稱不能推定營養缺口，餐點庫的定性營養標籤也不決定此次選擇。",
         assumption: "以餐名列出的組成作為編輯餐型。實際食材、作法與份量會變動；缺少的細節仍未經確認。",
       };

@@ -1,5 +1,5 @@
 export type LocalizedNutritionText = { en: string; zh: string };
-export type NutrientKey = "kcal" | "protein" | "carbs" | "fat" | "saturatedFat" | "fiber" | "sodium" | "addedSugar";
+export type NutrientKey = "kcal" | "energyKj" | "protein" | "carbs" | "fat" | "saturatedFat" | "fiber" | "sodium" | "addedSugar";
 export type NutrientValues = Record<NutrientKey, number | null>;
 export type NutritionPortion = "small" | "regular" | "large";
 export type FoodState = "cooked" | "raw" | "ready-to-eat";
@@ -29,6 +29,13 @@ export type SourceFood = {
   publicationDate: string;
   nutrientsPer100g: NutrientValues;
   nutrientNotes: Partial<Record<NutrientKey, LocalizedNutritionText>>;
+  modelBasis: {
+    freeSugarsPer100g: number | null;
+    fvnsEligible: boolean | null;
+    fiberMethod: "AOAC-compatible" | "unknown";
+    note: LocalizedNutritionText;
+    sourceUrls: string[];
+  };
 };
 
 export type RecipeIngredient = {

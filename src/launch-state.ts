@@ -8,6 +8,7 @@ import {
   recommendationDataset,
   rollSevenDayHistory,
 } from "./data";
+import { isSourceFoodIdentityValid } from "./food-identity";
 import type {
   AppState,
   DayHistory,
@@ -118,7 +119,7 @@ const textList = (value: unknown): string[] => {
   const seen = new Set<string>();
   return value
     .flatMap((item) => {
-      const name = cleanText(item);
+      const name = cleanText(item, 300);
       const key = name.toLocaleLowerCase();
       if (!name || seen.has(key)) return [];
       seen.add(key);
@@ -137,8 +138,18 @@ export const getBrowserStorage = (): LocalStorageAccess | null => {
 
 const normalizeComponent = (value: unknown): ParsedMealComponent | null => {
   const component = record(value);
-  const name = cleanText(component.name);
+  const name = cleanText(component.name, 300);
   if (!name) return null;
+  const group = enumValue(component.group, [...foodGroups, "other"], "other");
+  const sourceFoodId = typeof component.sourceFoodId === "string" &&
+    isSourceFoodIdentityValid(component.sourceFoodId, name, group)
+    ? component.sourceFoodId : undefined;
+  // Loading saved records must not fetch the whole catalog. This is an opaque
+  // reference until the library validates its exact name and group on demand.
+  const foodLibraryId = typeof component.foodLibraryId === "string" &&
+    component.foodLibraryId.length <= 80 &&
+    /^(?:usda-sr-\d+|usda-fndds-\d+|tfda-[A-Za-z0-9]+)$/.test(component.foodLibraryId)
+    ? component.foodLibraryId : undefined;
   const amount = record(component.amount);
   const unit = enumValue(amount.unit, units, "unspecified");
   const quantity =
@@ -151,7 +162,9 @@ const normalizeComponent = (value: unknown): ParsedMealComponent | null => {
   const knownAmount = quantity !== null && unit !== "unspecified";
   return {
     name,
-    group: enumValue(component.group, [...foodGroups, "other"], "other"),
+    group,
+    ...(sourceFoodId ? { sourceFoodId } : {}),
+    ...(foodLibraryId ? { foodLibraryId } : {}),
     amount: {
       quantity: knownAmount ? quantity : null,
       unit: knownAmount ? unit : "unspecified",
@@ -281,7 +294,7 @@ const normalizePlans = (value: unknown): PlannedMeal[] => {
     .slice(0, MAX_PLANNED_MEALS);
 };
 
-const normalizeState = (value: unknown, now: Date): LaunchState => {
+export const normalizeState = (value: unknown, now: Date): LaunchState => {
   const blank = createBlankState(now);
   const saved = record(value);
   const days: DayHistory[] = Array.isArray(saved.days)
@@ -476,6 +489,8 @@ export const mergeMealEntries = (
         previous.group === component.group &&
         previous.name.toLocaleLowerCase() ===
           component.name.toLocaleLowerCase() &&
+        previous.sourceFoodId === component.sourceFoodId &&
+        previous.foodLibraryId === component.foodLibraryId &&
         previous.amount.quantity !== null &&
         component.amount.quantity !== null &&
         previous.amount.unit === component.amount.unit &&

@@ -25,6 +25,7 @@ import {
   getPriorHistory,
   scoreMealOption,
   scoreRecommendations,
+  recommendMealIdeas,
   summarizeHistoryBasis,
   summarizeTodayIntake,
 } from "../.audit-tmp/logic.mjs";
@@ -349,8 +350,8 @@ expect(
   "Alcohol should become reachable only after explicit opt-in.",
 );
 expect(
-  energyReachedWithOptIn,
-  "Energy drinks should become reachable only after explicit opt-in.",
+  isDrinkEligible(makeProfile({ sensitiveDrinkOptIns: ["energy-drink"] }), drinkByTitle.get("Energy drink")),
+  "Energy-drink opt-in allows eligibility; it does not promise a fatigue-based recommendation.",
 );
 
 for (const [optIn, avoidTag, forbidden] of [
@@ -576,7 +577,7 @@ const higherSignalLog = makeLog({
 expect(
   summarizeTodayIntake(higherSignalLog).proteinCount >
     summarizeTodayIntake(lowerSignalLog).proteinCount,
-  "Normalized amount, portion, and confidence must affect the signal monotonically.",
+  "Normalized amount and portion must affect the compatibility signal monotonically.",
 );
 
 const emptySummary = summarizeTodayIntake(makeLog());
@@ -704,16 +705,7 @@ expect(
     ),
   "Selection and rotation must be deterministic for the same inputs.",
 );
-expect(
-  scoreRecommendations(
-    makeProfile({ eatingStyle: "Mostly home-cooked" }),
-    makeLog(),
-    seedHistory,
-    "en",
-    new Date("2026-07-29T12:30:00"),
-  ).some((recommendation) => recommendation.id === "egg-tomato-rice"),
-  "The calibrated fairness path must keep Egg and Tomato over Rice reachable.",
-);
+expect(getMatchedPreferenceTags(makeProfile({ preferenceTags: ["Rice-based meals"] }), requireMeal("egg-tomato-rice")).includes("Rice-based meals"), "Egg and Tomato retains its declared rice identity; a historical near-tie winner is not a product contract.");
 // Exact winner snapshots depended on title substrings ("bowl", "beans",
 // "veggie"). Test the intended preference contract instead of forcing a
 // particular near-tie winner after correcting those accidental matches.
@@ -737,6 +729,30 @@ for (const profile of [makeProfile({ feelToday: "Want something warm" }), makePr
   expect(cards.length > 0 && cards.every(card => ![...card.safety.contains, ...card.safety.mayContain, ...card.safety.unknown].includes("Cold food") && card.tags.some(tag => ["warm", "soupy"].includes(tag))), "Only-warm must exclude cold and unconfirmed options across every perspective.");
 }
 expect(scoreRecommendations(makeProfile(), makeLog(), seedHistory, "en", fixtureNow, { ...context, maxPrepMinutes: 10 }).length === 0, "Unknown legacy preparation minutes must not satisfy a strict minute budget.");
+
+const twoEggRecords = makeLog({ Breakfast: { protein: ["Egg"] }, Lunch: { protein: ["Egg"] } });
+const twoRiceRecords = makeLog({ Breakfast: { carbs: ["Rice"] }, Lunch: { carbs: ["Rice"] } });
+for (const [log, id] of [[twoEggRecords, "veggie-black-bean-quesadilla-salad"], [twoRiceRecords, "shrimp-quinoa-bowl"], [twoRiceRecords, "tofu-broccoli-udon-bowl"]]) {
+  expect(scoreMealOption(summarizeTodayIntake(log), log, [], makeProfile(), requireMeal(id), "lunch", "en").varietyScore === 0, `${id} must not receive an invented repeated protein/rice penalty.`);
+}
+const confirmedHigh = makeLog({ Lunch: { protein: ["Chicken"], componentDetails: [highOneServing] } });
+const confirmedLimited = clone(confirmedHigh);
+confirmedLimited.Lunch.componentDetails[0].confidence = "limited";
+expect(summarizeTodayIntake(confirmedHigh).proteinCount === summarizeTodayIntake(confirmedLimited).proteinCount, "Entry-path confidence must not shrink confirmed food presence.");
+const boiledColdHistory = createBlankState(fixtureNow).days;
+for (const day of boiledColdHistory.slice(0, 2)) for (const slot of ["Breakfast", "Lunch"]) day.todayLog[slot] = { ...createEmptyMeal(), protein: ["Cold hard-boiled egg"], cookingMethod: "Boiled" };
+const coldSnapshot = buildWeeklySnapshot(boiledColdHistory, makeProfile(), "en");
+expect(!coldSnapshot.summaryLines.some(note => note.includes("Warm meals")) && !coldSnapshot.preferenceSummary.includes("warm meals"), "Boiling must not become observed serving-temperature evidence.");
+for (const meal of recommendationDataset) {
+  expect(buildSuggestedDrink(drinkTestSummary, makeProfile({ feelToday: "Normal" }), meal, "breakfast", "en") === buildSuggestedDrink(drinkTestSummary, makeProfile({ feelToday: "Low energy" }), meal, "breakfast", "en"), "Fatigue must not become an implicit stimulant preference or a different drink rotation.");
+}
+const liveIdeas = recommendMealIdeas(makeProfile(), makeLog(), seedHistory, "en", fixtureNow);
+expect(liveIdeas.length === 3 && liveIdeas.every(item => item.score === 0 && item.scoreBreakdown.length === 0 && item.selectionTrace === null && item.suggestedDrink === "" && item.matchReasons.length > 0), "The live inspiration API must not expose historical nutrient scores or heuristic drink choices.");
+const ideaIds = profile => recommendMealIdeas(profile, makeLog(), seedHistory, "en", fixtureNow).map(item => item.id).join(",");
+expect(ideaIds(makeProfile({ activityLevel: "Active" })) === ideaIds(makeProfile({ activityLevel: "Low" })), "Stored activity must not rank unmeasured meal ideas.");
+expect(ideaIds(makeProfile({ preferenceTags: ["High-protein", "Vegetable-forward"] })) === ideaIds(makeProfile()), "Unsupported nutrient quantities must not rank unmeasured meal ideas.");
+expect(recommendMealIdeas(makeProfile(), makeLog(), seedHistory, "en", fixtureNow, { ...context, maxPrepMinutes: 10 }).length === 0, "Live inspiration must retain strict unknown-time exclusion.");
+for (const tag of avoidTags) for (const idea of recommendMealIdeas(makeProfile({ avoidTags: [tag] }), makeLog(), seedHistory, "en", fixtureNow)) expect(getHardAvoidConflicts(makeProfile({ avoidTags: [tag] }), idea, getMealTimeWindow(fixtureNow)).length === 0, "Live inspiration must preserve every declared hard avoid.");
 
 // Catalog completeness and calibrated distribution gates.
 const catalogIds = new Set(recommendationDataset.map((meal) => meal.id));

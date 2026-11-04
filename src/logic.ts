@@ -1,7 +1,12 @@
 import { drinkRecommendationDataset, recommendationDataset } from "./data";
 import { buildDrinkSafetyMetadata } from "./catalog-metadata";
 import { getContextExclusions, getContextPreferenceFit, getLegacyMealContext, normalizeMealContext } from "./meal-context";
+import type { PreferenceCandidate } from "./meal-context";
 import type { MealContext } from "./meal-context";
+import { getRecordedFoodIdentities, normalizeFoodName, resolveFoodIdentity } from "./food-identity";
+import { getNamedMealComponents, mealTitle } from "./presentation";
+import { buildHistoryVarietyContext, describeHistoryVariety, pickHistoryVariedChoices } from "./history-variety";
+import type { HistoryVarietyTrace } from "./history-variety";
 import type {
   AvoidanceCertainty,
   DailyStatus,
@@ -67,6 +72,7 @@ const createBreakdownItem = (category: ScoreBreakdownItem["category"], points: n
 
 
 const ruleNoteTranslations: Record<string, string> = {
+  "Earlier snacks and drinks do not establish a need for a compensating meal.": "先前的零食或飲品紀錄不代表需要用下一餐補償。",
   "Protein is less prominent in the current logs, so protein-forward templates get a boost.": "目前紀錄中的蛋白質較少，因此蛋白質較多的餐型獲得加分。",
   "Protein is less prominent in the current logs, so templates with some protein get a boost.": "目前紀錄中的蛋白質較少，因此含有蛋白質的餐型獲得加分。",
   "Logs may be incomplete.": "紀錄可能不完整，不代表實際攝取量。",
@@ -276,8 +282,6 @@ const getCategoryUnits = (items: string[]) => {
   return 1 + Math.min(items.length - 1, 2) * 0.5;
 };
 
-const confidenceWeight = { high: 1, medium: 0.85, limited: 0.65 } as const;
-
 const getAmountWeight = (
   amount: MealEntry["componentDetails"][number]["amount"],
 ) => {
@@ -323,8 +327,7 @@ const getCategorySignal = (
   const componentSignal = details.reduce(
     (sum, component) =>
       sum +
-      getAmountWeight(component.amount) *
-        confidenceWeight[component.confidence],
+      getAmountWeight(component.amount),
     0,
   );
   const portionWeight =
@@ -359,40 +362,7 @@ const getConvenienceUnits = (meal: MealEntry) => {
 
 // Exact aliases normalize user-declared food names for descriptive patterns.
 // They do not decompose mixed dishes, infer food groups, or filter safety.
-const loggedFoodAliases: Record<string, string> = {
-  "飯": "rice", "白飯": "rice", "白米飯": "rice", "米飯": "rice", "米饭": "rice",
-  "糙米": "brown rice", "糙米飯": "brown rice", "糙米饭": "brown rice",
-  "炒飯": "fried rice", "炒饭": "fried rice", "雞肉飯": "chicken rice", "鸡肉饭": "chicken rice",
-  "粥": "congee", "稀飯": "congee", "稀饭": "congee", "白粥": "congee",
-  "麵": "noodles", "面": "noodles", "麵條": "noodles", "面条": "noodles", "湯麵": "noodle soup", "汤面": "noodle soup",
-  "烏龍麵": "udon noodles", "乌龙面": "udon noodles", "蕎麥麵": "soba noodles", "荞麦面": "soba noodles",
-  "米粉": "rice noodles", "米線": "rice noodles", "米线": "rice noodles", "拉麵": "ramen noodles", "拉面": "ramen noodles",
-  "河粉": "rice noodles", "米粉/河粉": "rice noodles", "小麥麵條": "wheat noodles", "小麦面条": "wheat noodles",
-  "義大利麵": "pasta", "意大利面": "pasta", "麵包": "bread", "面包": "bread", "吐司": "toast", "燕麥": "oatmeal", "燕麦": "oatmeal",
-  "燕麥粥": "oatmeal", "燕麦粥": "oatmeal", "貝果": "bagel", "贝果": "bagel", "捲餅": "wrap", "卷饼": "wrap", "包子/饅頭": "bao / bun", "包子/馒头": "bao / bun",
-  "水": "water", "白開水": "water", "白开水": "water", "氣泡水": "sparkling water", "气泡水": "sparkling water",
-  "茶": "tea", "無糖茶": "tea", "无糖茶": "tea", "綠茶": "green tea", "绿茶": "green tea", "無糖綠茶": "green tea", "无糖绿茶": "green tea",
-  "紅茶": "black tea", "红茶": "black tea", "無糖紅茶": "black tea", "无糖红茶": "black tea",
-  "無咖啡因茶": "caffeine-free tea", "无咖啡因茶": "caffeine-free tea",
-  "咖啡": "coffee", "黑咖啡": "coffee", "美式咖啡": "coffee", "冰咖啡": "iced coffee",
-  "奶茶": "milk tea", "珍珠奶茶": "boba", "波霸奶茶": "boba", "手搖奶茶": "milk tea", "手摇奶茶": "milk tea",
-  "汽水": "soda", "可樂": "soda", "可乐": "soda", "無糖汽水": "diet soda", "无糖汽水": "diet soda", "零卡可樂": "diet soda", "零卡可乐": "diet soda",
-  "甜飲": "sweet drink", "甜饮": "sweet drink", "運動飲料": "sports drink", "运动饮料": "sports drink", "能量飲料": "energy drink", "能量饮料": "energy drink",
-  "含糖飲料": "sweet drink", "含糖饮料": "sweet drink",
-  "柳橙汁": "orange juice", "橙汁": "orange juice", "蘋果汁": "apple juice", "苹果汁": "apple juice", "果昔": "smoothie",
-  "蔬果汁": "green juice", "椰子水": "coconut water", "優格飲": "yogurt drink", "优格饮": "yogurt drink", "蛋白飲": "protein shake", "蛋白饮": "protein shake",
-  "啤酒": "beer", "葡萄酒": "wine", "紅酒": "wine", "红酒": "wine", "白葡萄酒": "wine", "調酒": "cocktail", "调酒": "cocktail", "酒": "alcohol", "白酒": "alcohol", "酒精飲品": "alcohol",
-  "牛奶": "milk", "鮮奶": "milk", "鲜奶": "milk", "豆漿": "soy milk", "豆浆": "soy milk", "燕麥奶": "oat milk", "燕麦奶": "oat milk", "杏仁奶": "almond milk",
-  "蛋糕": "cake", "杯子蛋糕": "cupcake", "布朗尼": "brownie", "甜甜圈": "donut", "起司蛋糕": "cheesecake", "乳酪蛋糕": "cheesecake",
-  "冰淇淋": "ice cream", "雪糕": "ice cream bar", "布丁": "pudding", "餅乾": "cookies", "饼干": "cookies", "巧克力": "chocolate", "馬芬": "muffin", "玛芬": "muffin", "酥皮點心": "pastry",
-  "雞肉": "chicken", "鸡肉": "chicken", "雞蛋": "egg", "鸡蛋": "egg", "蛋": "egg", "豆腐": "tofu", "天貝": "tempeh", "天贝": "tempeh",
-  "豆類": "beans", "豆类": "beans", "黑豆": "black beans", "鷹嘴豆": "chickpeas", "鹰嘴豆": "chickpeas", "毛豆": "edamame",
-};
-
-export const normalizeLoggedFoodName = (value: string) => {
-  const normalized = value.normalize("NFKC").trim().toLowerCase().replace(/\s+/g, " ");
-  return loggedFoodAliases[normalized] ?? normalized;
-};
+export const normalizeLoggedFoodName = normalizeFoodName;
 
 const matchesLoggedFood = (value: string, keywords: string[]) =>
   keywords.includes(normalizeLoggedFoodName(value));
@@ -416,13 +386,10 @@ const dessertSnackKeywords = [
   "muffin",
   "pastry",
 ];
-const serializeMeal = (meal: Recommendation) =>
-  [meal.title, meal.description, ...meal.tags].join(" ").toLowerCase();
-
 const detectMealFormatSignals = (meal: MealEntry) => {
-  const names = meal.carbs.map(normalizeLoggedFoodName);
-  const noodleHeavy = names.some((item) => ["noodle", "pasta", "udon", "soba", "ramen"].some((term) => item.includes(term)));
-  const riceHeavy = names.some((item) => !["noodle", "pasta"].some((term) => item.includes(term)) && (item.includes("rice") || item.includes("congee")));
+  const identities = getRecordedFoodIdentities([meal]);
+  const noodleHeavy = identities.staples.has("noodles");
+  const riceHeavy = identities.staples.has("rice");
   return {
     riceHeavy,
     noodleHeavy,
@@ -888,9 +855,9 @@ const scoreVariety = (todayLog: TodayLog, meal: Recommendation) => {
     .map(([protein]) => protein);
   let score = 0;
   const notes: string[] = [];
-  const mealText = serializeMeal(meal);
+  const ingredients = getNamedMealComponents(meal).map(component => resolveFoodIdentity(component.name));
 
-  if (riceHeavyCount >= 2 && meal.tags.some((tag) => ["rice-based", "bowl"].includes(tag.toLowerCase()))) {
+  if (riceHeavyCount >= 2 && ingredients.some(identity => identity.staple === "rice")) {
     score -= 1;
     notes.push("Slightly reduced because today already had multiple rice-style meals.");
   }
@@ -898,7 +865,10 @@ const scoreVariety = (todayLog: TodayLog, meal: Recommendation) => {
     score -= 1;
     notes.push("Slightly reduced because noodles already showed up a lot today.");
   }
-  if (repeatedProteins.some((protein) => mealText.includes(protein))) {
+  if (repeatedProteins.some(protein => {
+    const family = resolveFoodIdentity(protein).protein;
+    return family && ingredients.some(identity => identity.protein === family);
+  })) {
     score -= 2;
     notes.push("Reduced because this repeats a protein that already showed up multiple times today.");
   }
@@ -906,44 +876,8 @@ const scoreVariety = (todayLog: TodayLog, meal: Recommendation) => {
   return createBreakdownItem("variety", score, notes.join(" ") || "Variety fit is neutral for this meal.");
 };
 
-const scoreSnackDrinkFit = (summary: TodayIntakeSummary, meal: Recommendation) => {
-  let score = 0;
-  const notes: string[] = [];
-
-  if (summary.sweetDrinkCount + summary.dessertSnackCount >= 2) {
-    if (meal.vegetableLevel === "high") {
-      score += 2;
-      notes.push("Sweeter snacks or drinks already showed up today, so meals with more vegetables move up.");
-    } else if (meal.heaviness === "light") {
-      score += 1;
-      notes.push("A lighter meal can feel like a steadier next step after sweeter snacks or drinks.");
-    }
-  }
-
-  if (summary.alcoholCount >= 1) {
-    if (meal.heaviness === "light") {
-      score += 2;
-      notes.push("A lighter meal often fits better after alcohol earlier in the day.");
-    }
-    if (meal.vegetableLevel !== "low" || meal.proteinLevel !== "low") {
-      score += 1;
-      notes.push("Meals with some protein or vegetables tend to feel steadier here.");
-    }
-  }
-
-  if (summary.caffeineCount >= 2) {
-    if (meal.heaviness === "light") {
-      score += 1;
-      notes.push("Lighter meals tend to fit better when caffeinated drinks already showed up a lot today.");
-    }
-    if (meal.tags.some((tag) => ["warm", "soupy", "gentle"].includes(tag.toLowerCase()))) {
-      score += 1;
-      notes.push("Something steadier or gentler can pair better after multiple caffeinated drinks.");
-    }
-  }
-
-  return createBreakdownItem("snack-drink", score, notes.join(" ") || "Snack and drink fit is neutral for this meal.");
-};
+const scoreSnackDrinkFit = (_summary: TodayIntakeSummary, _meal: Recommendation) =>
+  createBreakdownItem("snack-drink", 0, "Earlier snacks and drinks do not establish a need for a compensating meal.");
 
 const scoreDrinkOption = (
   summary: TodayIntakeSummary,
@@ -966,23 +900,11 @@ const scoreDrinkOption = (
   )
     return -1000;
 
-  if (summary.alcoholCount >= 1) {
-    if (drink.category === "simple" || drink.category === "tea") score += 4;
-    if (drink.tags.includes("hydrating")) score += 2;
-    if (drink.alcohol) score -= 5;
-  }
-
-  if (summary.sweetDrinkCount >= 2) {
-    if (drink.category === "simple" || drink.category === "tea") score += 4;
-    if (drink.category === "juice" && !drink.sweetened) score += 3;
-    if (drink.category === "milk" && !drink.sweetened) score += 1;
-    if (drink.category === "sweet") score -= 4;
-  }
-
-  if (summary.caffeineCount >= 2) {
-    if (!drink.caffeine && (drink.category === "simple" || drink.category === "juice" || drink.category === "milk")) score += 3;
-    if (drink.caffeine) score -= 4;
-  }
+  // Named records support offering a different drink type, not a caffeine
+  // dose limit, hydration diagnosis or compensation for previous intake.
+  if (summary.alcoholCount > 0 && drink.alcohol) score -= 2;
+  if (summary.sweetDrinkCount > 0 && drink.sweetened) score -= 2;
+  if (summary.caffeineCount > 0 && drink.caffeine) score -= 2;
 
   if (profile.preferenceTags.includes("Tea")) {
     if (drink.category === "tea") score += 3;
@@ -1009,21 +931,6 @@ const scoreDrinkOption = (
     if (drink.tags.includes("cold")) score -= 1;
   }
 
-  if (profile.feelToday === "Need something light") {
-    if (drink.category === "simple" || drink.title === "Green juice" || drink.title === "Coconut water") score += 3;
-    if (drink.title === "Yogurt drink" && summary.sweetDrinkCount === 0) score += 1;
-    if (drink.category === "alcohol" || drink.category === "sweet") score -= 2;
-  }
-
-  if (profile.feelToday === "Low energy") {
-    if ((drink.category === "coffee" || drink.title === "Energy drink") && summary.caffeineCount < 2 && !profile.avoidTags.includes("Caffeine")) score += 3;
-    if (drink.title === "Protein shake" || drink.title === "Sports drink") score += 2;
-  }
-
-  if (profile.feelToday === "On period") {
-    if (["Tea", "Caffeine-free tea", "Soy milk", "Oat milk", "Milk"].includes(drink.title)) score += 3;
-    if (drink.category === "alcohol") score -= 2;
-  }
 
   if (timeWindow === "breakfast") {
     if (["Coffee", "Tea", "Caffeine-free tea", "Orange juice", "Smoothie", "Milk", "Soy milk", "Oat milk"].includes(drink.title)) score += 2;
@@ -1067,7 +974,6 @@ const scoreDrinkOption = (
     if (drink.title === "Yogurt drink") score += 2;
   }
 
-  if (meal.proteinLevel === "high" && ["Protein shake", "Milk", "Soy milk"].includes(drink.title)) score -= 1;
   if (drink.hydration === "high") score += 1;
 
   return score;
@@ -1077,7 +983,7 @@ const hashDrinkContext = (summary: TodayIntakeSummary, profile: Profile, meal: R
   const seed = [
     meal.title,
     timeWindow,
-    profile.feelToday,
+    profile.feelToday === "Want something warm" ? profile.feelToday : "Normal",
     profile.eatingStyle,
     [...profile.preferenceTags].sort().join("|"),
     [...profile.avoidTags].sort().join("|"),
@@ -1213,7 +1119,7 @@ const scoreWeeklyPatternFit = (
   const notes: string[] = [];
   const lowerTags = meal.tags.map((tag) => tag.toLowerCase());
 
-  if (weekly.riceHeavyCount >= 4 && lowerTags.some((tag) => tag.includes("rice-based") || tag.includes("bowl"))) {
+  if (weekly.riceHeavyCount >= 4 && getNamedMealComponents(meal).some(component => resolveFoodIdentity(component.name).staple === "rice")) {
     score -= 1;
     notes.push("Rice appears often in the recent logs, so this gets a small variety reduction.");
   }
@@ -1303,47 +1209,9 @@ const trendLabelMap: Record<string, { en: string; zh: string }> = {
   "Juices / smoothies": { en: "juices or smoothies", zh: "果汁或果昔" },
 };
 
-const observedTrendLabelMap: Record<string, { en: string; zh: string }> = {
-  "rice-based meals": { en: "rice-based meals", zh: "飯類餐點" },
-  "noodle-based meals": { en: "noodle-based meals", zh: "麵類餐點" },
-  "soupy meals": { en: "soupy meals", zh: "湯類餐點" },
-  "warm meals": { en: "warm meals", zh: "溫熱餐點" },
-  "lighter meal formats": { en: "lighter meal formats", zh: "比較清爽的餐型" },
-  "takeout-friendly choices": { en: "takeout-friendly choices", zh: "外帶友善的選擇" },
-  "home-style meals": { en: "home-style meals", zh: "家常型餐點" },
-  "plant-protein options": { en: "plant-protein options", zh: "植物性蛋白選項" },
-  "vegetable-forward meals": { en: "vegetable-forward meals", zh: "蔬菜比例較高的餐點" },
-  "portable meals": { en: "portable meals", zh: "方便攜帶的餐點" },
-  "coffee / caffeine": { en: "coffee or caffeinated drinks", zh: "咖啡或含咖啡因飲品" },
-  "sweet drinks": { en: "sweet drinks", zh: "甜飲" },
-  "alcohol drinks": { en: "alcohol drinks", zh: "酒精飲品" },
-  "juices or smoothies": { en: "juices or smoothies", zh: "果汁或果昔" },
-};
-
-const joinList = (items: string[], locale: Locale) => {
-  if (items.length <= 1) return items[0] ?? "";
-  if (items.length === 2) return locale === "en" ? `${items[0]} and ${items[1]}` : `${items[0]}和${items[1]}`;
-  return locale === "en"
-    ? `${items.slice(0, -1).join(", ")}, and ${items[items.length - 1]}`
-    : `${items.slice(0, -1).join("、")}和${items[items.length - 1]}`;
-};
-
 const describeTrend = (key: string, locale: Locale) => trendLabelMap[key]?.[locale] ?? key;
-const describeObservedTrend = (key: string, locale: Locale) => observedTrendLabelMap[key]?.[locale] ?? key;
 
 const getPrimaryReason = (summary: TodayIntakeSummary, profile: Profile, meal: Recommendation, locale: Locale) => {
-  if ((summary.sweetDrinkCount + summary.dessertSnackCount >= 2) && meal.vegetableLevel === "high") {
-    return locale === "en"
-      ? "A steadier next meal if snacks or sweeter drinks already showed up earlier."
-      : "如果前面已經有點心或偏甜飲料，這會是更穩一點的下一餐。";
-  }
-
-  if (summary.alcoholCount >= 1 && meal.heaviness === "light") {
-    return locale === "en"
-      ? "A lighter option that can feel more comfortable after drinks earlier in the day."
-      : "如果今天前面有喝酒，這會是比較舒服、也比較輕一點的選擇。";
-  }
-
   if (summary.vegetableStatus === "low" && meal.vegetableLevel === "high" && meal.proteinLevel !== "low") {
     return locale === "en"
       ? "Vegetables are less prominent in your logs. This template includes vegetables and protein; incomplete logs cannot show actual intake."
@@ -1807,6 +1675,63 @@ export const scoreRecommendations = (profile: Profile, todayLog: TodayLog, histo
   return [bestMatch, bestBalance, mostConvenient].filter(Boolean) as ScoredRecommendation[];
 };
 
+export type MealIdeaRecommendation = ScoredRecommendation & {
+  matchReasons: string[];
+  decisionTrace: { preferenceOrder: string[]; varietyReason: string; selectionMethod: string; variety: HistoryVarietyTrace };
+};
+
+// The live inspiration path deliberately does not call the historical nutrient
+// level scorer. Food ideas have no measured amounts or supported adequacy rank.
+export const recommendMealIdeas = (profile: Profile, todayLog: TodayLog, history: DayHistory[], locale: Locale, now = new Date(), suppliedContext?: MealContext): MealIdeaRecommendation[] => {
+  const context = normalizeMealContext(suppliedContext);
+  const timeWindow = getMealTimeWindow(now);
+  const records = buildHistoryVarietyContext(history, now, todayLog);
+  const basis: WeeklyHistoryBasis = { ...records.scope, availableDayCount: 7, sufficientForAdjustment: records.scope.recognizedMealCount > 0 };
+  const text = (en: string, zh: string) => locale === "en" ? en : zh;
+  const method = text("Meal ideas are filtered by declared avoids and strict conditions, then compared by this meal's staple/cuisine preferences, the catalog effort descriptor when requested, saved meal styles and home/takeout suitability. Only equally preferred ideas use today's and the preceding six calendar days' recognized records: fewer protein-source repeat meals, then fewer staple repeat meals, then less recent matches. Earlier-option variety and stable IDs resolve remaining ties. These are product variety rules, not nutrient or intake assessments.", "餐點靈感先套用避開與必要條件，再比較本餐主食、料理偏好、明確需要時的目錄省力描述、已儲存風格及在家／外食適用性。只有同樣符合偏好時，才參考今天與前六個日曆日的可辨識紀錄：先選蛋白質來源重複餐數較少者，再比較主食重複餐數，再比較最近紀錄較早者，最後依前面選項的變化與固定代碼決定。這是產品變化規則，不是營養或攝取量評估。");
+  const candidates: PreferenceCandidate<MealIdeaRecommendation>[] = [];
+  for (const meal of recommendationDataset) {
+    if (getHardAvoidConflicts(profile, meal, timeWindow).length) continue;
+    const identities = getNamedMealComponents(meal).map(item => resolveFoodIdentity(item.name));
+    const staples = [...new Set(identities.flatMap(identity => identity.staple ? [identity.staple] : []))];
+    const metadata = { ...getLegacyMealContext(meal), ...(staples.length === 1 ? { staple: staples[0] } : {}) };
+    if (getContextExclusions(profile, context, metadata).length) continue;
+    const stapleMatch = context.preferredStaple !== "any" && metadata.staple === context.preferredStaple;
+    const cuisineMatch = context.cuisine !== "any" && metadata.cuisine === context.cuisine;
+    const styles = getMatchedPreferenceTags(profile, meal).filter(tag => !["High-protein", "Vegetable-forward", "Light meals", "Rice-based meals", "Noodle-based meals"].includes(tag));
+    if (profile.preferenceTags.includes("Rice-based meals") && metadata.staple === "rice") styles.push("Rice-based meals");
+    if (profile.preferenceTags.includes("Noodle-based meals") && metadata.staple === "noodles") styles.push("Noodle-based meals");
+    const sourceMatch = profile.eatingStyle === "Both" || meal.worksFor.includes(profile.eatingStyle === "Mostly home-cooked" ? "home-cooked" : "takeout");
+    const tier = [context.preferredStaple === "any" || stapleMatch ? 0 : 1, context.cuisine === "any" || cuisineMatch ? 0 : 1,
+      profile.feelToday === "Low energy" ? meal.convenience === "high" ? 0 : meal.convenience === "medium" ? 1 : 2 : 0, -new Set(styles).size, sourceMatch ? 0 : 1];
+    const notes: string[] = [];
+    if (context.preferredStaple !== "any") notes.push(text(stapleMatch ? "Matches this meal's selected staple." : "The selected staple is not confirmed for this idea; the preference is flexible.", stapleMatch ? "符合本餐選擇的主食。" : "此靈感未確認符合本餐主食；此偏好保留彈性。"));
+    if (context.cuisine !== "any") notes.push(text(cuisineMatch ? "Matches this meal's cuisine preference." : "Does not match this meal's cuisine preference; it remains flexible.", cuisineMatch ? "符合本餐料理類型偏好。" : "未符合本餐料理類型；此偏好保留彈性。"));
+    if (profile.feelToday === "Low energy") notes.push(text("Uses the catalog's qualitative effort descriptor for a less-effort preference; preparation minutes are unconfirmed.", "依目錄的定性省力描述比較較省事的選項；實際準備分鐘數尚未確認。"));
+    if (profile.feelToday === "Need something light" || profile.preferenceTags.includes("Light meals")) notes.push(text("Added oil is not quantified for meal ideas, so a less-added-oil preference cannot be compared here.", "餐點靈感沒有添加油的定量資料，因此無法在此比較較少添加油的偏好。"));
+    if (styles.length) notes.push(text("Matches saved meal-style preferences using declared catalog tags.", "依目錄明示標籤，符合已儲存餐食風格偏好。"));
+    if (profile.preferenceTags.some(tag => ["High-protein", "Vegetable-forward"].includes(tag))) notes.push(text("Ingredient quantities are unspecified, so protein or vegetable amounts do not rank these ideas.", "食材份量尚未指定，因此不以蛋白質或蔬菜量排序這些靈感。"));
+    notes.push(text("This is a meal idea with unspecified portions and nutrition; check the actual recipe and ingredients before preparing or ordering.", "這是份量與營養尚未指定的餐點靈感；準備或點餐前，請確認實際配方與食材。"));
+    const value: MealIdeaRecommendation = { ...meal, score: 0, balanceScore: 0, convenienceScore: 0, preferenceScore: 0, avoidScore: 0, varietyScore: 0, weeklyPatternScore: 0, weeklyHistoryBasis: basis,
+      label: "Best Match", shortReason: notes[0], balanceNote: notes[notes.length - 1], suggestedDrink: "",
+      convenienceLabel: text("Unmeasured preparation time", "準備時間未定量"), scoreBreakdown: [], selectionTrace: null, matchReasons: notes,
+      decisionTrace: { preferenceOrder: ["selected-staple", "selected-cuisine", "requested-effort", "saved-styles", "meal-source", "ingredient-variety"], varietyReason: "", selectionMethod: method,
+        variety: { recordMatches: [], selectedMatches: [], reason: "", scope: records.scope, applied: false, evidence: [], comparison: null } } };
+    candidates.push({ id: meal.id, value, tier, proteins: [...new Set(identities.flatMap(identity => identity.protein ? [identity.protein] : []))], staple: metadata.staple === "unknown" || metadata.staple === "none" ? null : metadata.staple });
+  }
+  return pickHistoryVariedChoices(candidates, records).map(choice => {
+    const variety = describeHistoryVariety(choice, records.scope, locale, "idea", value => mealTitle(value, locale));
+    const reason = variety.reason;
+    choice.value.decisionTrace.varietyReason = reason;
+    choice.value.decisionTrace.variety = variety;
+    choice.value.matchReasons.push(reason);
+    if (context.preferredStaple === "any" && context.cuisine === "any" && profile.feelToday !== "Low energy" && choice.tier[3] === 0) choice.value.shortReason = variety.applied
+      ? text("Among equally preferred ideas, recent records favor this option for variety.", "同樣符合偏好時，近期紀錄讓此選項優先提供餐食變化。")
+      : text("An eligible meal idea, with ingredient variety used to separate equal preferences.", "符合條件的餐點靈感；同樣符合偏好時，依食材變化提供選項。");
+    return choice.value;
+  });
+};
+
 export const countHardAvoidedRecommendations = (
   profile: Profile,
   now = new Date(),
@@ -1817,246 +1742,4 @@ export const countHardAvoidedRecommendations = (
   ).length;
 };
 
-const buildPreferenceTrendSummary = (history: DayHistory[], profile: Profile, locale: Locale) => {
-  const meals = flattenHistoryMeals(history);
-
-  if (meals.length < 4) {
-    return locale === "en"
-      ? "There is not enough weekly logging yet to say much about your recent food pattern."
-      : "目前這週的紀錄還不夠多，暫時看不出太明確的飲食偏好變化。";
-  }
-
-  const riceCount = meals.filter((meal) => detectMealFormatSignals(meal).riceHeavy).length;
-  const noodleCount = meals.filter((meal) => detectMealFormatSignals(meal).noodleHeavy).length;
-  const soupyCount = meals.filter((meal) => meal.soup.length > 0 || meal.cookingMethod === "Soup / stew").length;
-  const warmCount = meals.filter((meal) => ["Soup / stew", "Boiled", "Stir-fried", "Steamed", "Grilled"].includes(meal.cookingMethod)).length;
-  const lightCount = meals.filter((meal) => ["Steamed", "Boiled", "Soup / stew", "Raw / cold", "Other"].includes(meal.cookingMethod)).length;
-  const convenienceCount = meals.filter((meal) => ["Takeout", "Restaurant", "Ready-made"].includes(meal.mealSource)).length;
-  const takeoutCount = meals.filter((meal) => meal.mealSource === "Takeout" || meal.mealSource === "Restaurant").length;
-  const homeCount = meals.filter((meal) => meal.mealSource === "Home-cooked").length;
-  const caffeineCount = meals.filter((meal) => meal.drink.some((item) => matchesLoggedFood(item, caffeineKeywords))).length;
-  const sweetDrinkCount = meals.filter((meal) => meal.drink.some((item) => matchesLoggedFood(item, sweetDrinkKeywords))).length;
-  const alcoholDrinkCount = meals.filter((meal) => meal.drink.some((item) => matchesLoggedFood(item, alcoholKeywords))).length;
-  const plantProteinCount = meals.filter((meal) => meal.protein.some((item) => matchesLoggedFood(item, ["tofu", "tempeh", "beans", "black beans", "chickpeas", "edamame"]))).length;
-  const vegetableForwardCount = meals.filter((meal) => meal.vegetables.length >= 2 || (meal.vegetables.length >= 1 && meal.fruit.length >= 1)).length;
-  const portableCount = meals.filter((meal) => meal.carbs.some((item) => matchesLoggedFood(item, ["wrap", "bread", "bagel", "toast", "bao / bun"]))).length;
-
-  const matchedTrends: string[] = [];
-  const unmatchedPreferences: string[] = [];
-
-  const preferenceChecks: Record<string, boolean> = {
-    "Rice-based meals": riceCount >= 2,
-    "Noodle-based meals": noodleCount >= 2,
-    "Soupy meals": soupyCount >= 2,
-    "Warm meals": warmCount >= Math.max(3, Math.ceil(meals.length * 0.45)),
-    "Light meals": lightCount >= Math.max(3, Math.ceil(meals.length * 0.45)),
-    "Takeout-friendly": takeoutCount >= Math.max(2, homeCount),
-    "Quick grocery meals": convenienceCount >= Math.max(2, Math.ceil(meals.length * 0.4)),
-    "Plant-protein": plantProteinCount >= 2,
-    "Vegetable-forward": vegetableForwardCount >= 2,
-    "Portable meals": portableCount >= 2,
-    "Coffee / caffeine": caffeineCount >= 2,
-    Tea: meals.filter((meal) => meal.drink.some((item) => matchesLoggedFood(item, ["tea", "green tea", "black tea"]))).length >= 2,
-    "Simple drinks": meals.filter((meal) => meal.drink.some((item) => matchesLoggedFood(item, ["water", "sparkling water", "tea", "green tea", "black tea"]))).length >= 2,
-  };
-
-  profile.preferenceTags.forEach((tag) => {
-    if (!(tag in preferenceChecks)) return;
-    if (preferenceChecks[tag]) matchedTrends.push(tag);
-    else unmatchedPreferences.push(tag);
-  });
-
-  const observedTrendPool = [
-    riceCount >= 2 ? "rice-based meals" : "",
-    noodleCount >= 2 ? "noodle-based meals" : "",
-    soupyCount >= 2 ? "soupy meals" : "",
-    warmCount >= Math.max(3, Math.ceil(meals.length * 0.45)) ? "warm meals" : "",
-    lightCount >= Math.max(3, Math.ceil(meals.length * 0.45)) ? "lighter meal formats" : "",
-    takeoutCount >= Math.max(2, homeCount) ? "takeout-friendly choices" : "",
-    homeCount > takeoutCount ? "home-style meals" : "",
-    plantProteinCount >= 2 ? "plant-protein options" : "",
-    vegetableForwardCount >= 2 ? "vegetable-forward meals" : "",
-    portableCount >= 2 ? "portable meals" : "",
-    caffeineCount >= 2 ? "coffee / caffeine" : "",
-    sweetDrinkCount >= 2 ? "sweet drinks" : "",
-    alcoholDrinkCount >= 1 ? "alcohol drinks" : "",
-  ].filter(Boolean);
-
-  if (matchedTrends.length > 0) {
-    const topMatch = joinList(matchedTrends.slice(0, 2).map((item) => describeTrend(item, locale)), locale);
-    if (unmatchedPreferences.length > 0) {
-      const softerGap = describeTrend(unmatchedPreferences[0], locale);
-      return locale === "en"
-        ? `Your recent meals lined up well with your preference for ${topMatch}. ${softerGap.charAt(0).toUpperCase() + softerGap.slice(1)} showed up less often in the actual logs.`
-        : `你最近的實際紀錄和你偏好的 ${topMatch} 很一致。不過 ${softerGap} 在這週的實際紀錄裡出現得比較少。`;
-    }
-    return locale === "en"
-      ? `Your recent meals lined up well with your preference for ${topMatch}.`
-      : `你最近的實際紀錄和你偏好的 ${topMatch} 很一致。`;
-  }
-
-  if (profile.preferenceTags.length > 0 && observedTrendPool.length > 0) {
-    const observed = joinList(observedTrendPool.slice(0, 2).map((item) => describeObservedTrend(item, locale)), locale);
-    return locale === "en"
-      ? `Your saved preferences are broader than what showed up this week. Recent logs leaned more toward ${observed}.`
-      : `你儲存的偏好比這週實際出現的餐型更廣一些。最近的紀錄比較偏向 ${observed}。`;
-  }
-
-  if (observedTrendPool.length > 0) {
-    const observed = joinList(observedTrendPool.slice(0, 2).map((item) => describeObservedTrend(item, locale)), locale);
-    return locale === "en" ? `This week mostly leaned toward ${observed}.` : `這一週整體比較偏向 ${observed}。`;
-  }
-
-  return locale === "en"
-    ? "As you log more meals, this will start reflecting your own style more clearly."
-    : "隨著你記錄更多餐點，這裡會更清楚地反映出你的飲食風格。";
-};
-
-export const buildWeeklySnapshot = (history: DayHistory[], profile: Profile, locale: Locale) => {
-  const flatMeals = flattenHistoryMeals(history);
-  const loggedMealsCount = flatMeals.length;
-  const dataBasis = summarizeHistoryBasis(history);
-  const riceMeals = flatMeals.filter((meal) => detectMealFormatSignals(meal).riceHeavy).length;
-  const noodleMeals = flatMeals.filter((meal) => detectMealFormatSignals(meal).noodleHeavy).length;
-  const vegetableMeals = flatMeals.filter((meal) => meal.vegetables.length > 0).length;
-  const friedMeals = flatMeals.filter((meal) => meal.cookingMethod === "Fried" || meal.cookingMethod === "Stir-fried").length;
-  const warmMeals = flatMeals.filter((meal) => ["Soup / stew", "Boiled", "Stir-fried", "Steamed", "Grilled"].includes(meal.cookingMethod)).length;
-  const takeoutMeals = flatMeals.filter((meal) => meal.mealSource === "Takeout" || meal.mealSource === "Restaurant" || meal.mealSource === "Ready-made").length;
-  const homeMeals = flatMeals.filter((meal) => meal.mealSource === "Home-cooked").length;
-  const caffeineMeals = flatMeals.filter((meal) => meal.drink.some((item) => matchesLoggedFood(item, caffeineKeywords))).length;
-  const sweetDrinkMeals = flatMeals.filter((meal) => meal.drink.some((item) => matchesLoggedFood(item, sweetDrinkKeywords))).length;
-  const alcoholDrinkMeals = flatMeals.filter((meal) => meal.drink.some((item) => matchesLoggedFood(item, alcoholKeywords))).length;
-  const uniqueProteins = new Set(flatMeals.flatMap((meal) => meal.protein.map(normalizeLoggedFoodName))).size;
-  const uniqueProduce = new Set(flatMeals.flatMap((meal) => [...meal.vegetables, ...meal.fruit].map(normalizeLoggedFoodName))).size;
-  const mealDiversityScore = new Set(
-    flatMeals.flatMap((meal) => {
-      const formats: string[] = [];
-      if (detectMealFormatSignals(meal).riceHeavy) formats.push("rice");
-      if (detectMealFormatSignals(meal).noodleHeavy) formats.push("noodle");
-      if (meal.carbs.some((item) => matchesLoggedFood(item, ["bread", "bagel", "wrap", "tortilla", "toast", "bao / bun"]))) formats.push("bread-wrap");
-      if (meal.soup.length > 0 || meal.cookingMethod === "Soup / stew") formats.push("soup");
-      if (meal.protein.some((item) => matchesLoggedFood(item, ["tofu", "tempeh", "beans", "black beans", "chickpeas", "edamame"]))) formats.push("plant-protein");
-      if (meal.mealSource === "Takeout" || meal.mealSource === "Restaurant") formats.push("takeout");
-      if (meal.mealSource === "Home-cooked") formats.push("home");
-      return formats;
-    }),
-  ).size;
-
-  if (
-    loggedMealsCount < 4 ||
-    dataBasis.loggedDayCount < 2
-  ) {
-    return {
-      dataBasis,
-      summaryLines: [
-        locale === "en"
-          ? "You only have a small amount of meal data so far, so this weekly view is still very early."
-          : "你目前只記錄了很少的餐點，所以這個每週摘要還在很初期的階段。",
-        locale === "en"
-          ? "Log a few more meals across the week and the pattern summary will become more believable."
-          : "等你這週再多記幾餐，這裡的飲食模式摘要才會更可信。",
-      ],
-      indicators: [
-        { label: locale === "en" ? "Protein" : "蛋白質", value: locale === "en" ? "Too early" : "資料太少" },
-        { label: locale === "en" ? "Vegetables" : "蔬菜", value: locale === "en" ? "Too early" : "資料太少" },
-        { label: locale === "en" ? "Fiber variety" : "纖維多樣性", value: locale === "en" ? "Too early" : "資料太少" },
-        { label: locale === "en" ? "Fried foods" : "炸物", value: locale === "en" ? "Too early" : "資料太少" },
-        { label: locale === "en" ? "Meal diversity" : "餐型變化", value: locale === "en" ? "Too early" : "資料太少" },
-      ],
-      preferenceSummary: locale === "en"
-        ? "There is not enough weekly logging yet to say much about your recent food pattern."
-        : "目前這週的紀錄還不夠多，暫時看不出太明確的飲食偏好變化。",
-    };
-  }
-
-  const summaryLines: string[] = [];
-
-  if (riceMeals >= 2 && riceMeals > noodleMeals) {
-    summaryLines.push(
-      locale === "en"
-        ? "Rice-based meals showed up more often than noodle-based ones."
-        : "這週飯類餐點比麵類更常出現。",
-    );
-  } else if (noodleMeals >= 2 && noodleMeals > riceMeals) {
-    summaryLines.push(
-      locale === "en"
-        ? "Noodle-based meals showed up more often than rice-based ones."
-        : "這週麵類餐點比飯類更常出現。",
-    );
-  }
-
-  if (vegetableMeals <= Math.floor(loggedMealsCount * 0.4)) {
-    summaryLines.push(
-      locale === "en"
-        ? "Vegetables have shown up less often so far."
-        : "目前蔬菜出現的頻率還偏少。",
-    );
-  } else if (vegetableMeals >= Math.ceil(loggedMealsCount * 0.7)) {
-    summaryLines.push(
-      locale === "en"
-        ? "Vegetables have shown up fairly consistently so far."
-        : "目前蔬菜出現得算蠻穩定。",
-    );
-  }
-
-  if (warmMeals >= Math.max(3, Math.ceil(loggedMealsCount * 0.6))) {
-    summaryLines.push(
-      locale === "en"
-        ? "Warm meals have shown up often in the current logs."
-        : "目前的紀錄裡，溫熱餐點出現得蠻頻繁。",
-    );
-  }
-
-  if (takeoutMeals >= 3 && takeoutMeals > homeMeals) {
-    summaryLines.push(
-      locale === "en"
-        ? "Recent meals have leaned more toward takeout and convenience."
-        : "最近幾餐比較偏向外帶和方便型選擇。",
-    );
-  } else if (homeMeals >= 3 && homeMeals > takeoutMeals) {
-    summaryLines.push(
-      locale === "en"
-        ? "Recent meals have leaned more home-style."
-        : "最近幾餐比較偏向家常型選擇。",
-    );
-  }
-
-  if (caffeineMeals >= 3) {
-    summaryLines.push(
-      locale === "en"
-        ? "Caffeinated drinks have shown up fairly often in the current logs."
-        : "目前的紀錄裡，含咖啡因飲品出現得蠻頻繁。",
-    );
-  } else if (sweetDrinkMeals >= 2) {
-    summaryLines.push(
-      locale === "en"
-        ? "Sweeter drinks have shown up a few times in the current logs."
-        : "目前的紀錄裡，甜飲已經出現了幾次。",
-    );
-  } else if (alcoholDrinkMeals >= 1) {
-    summaryLines.push(
-      locale === "en"
-        ? "Alcohol has shown up in the current logs."
-        : "目前的紀錄裡有出現酒精飲品。",
-    );
-  }
-
-  return {
-    dataBasis,
-    summaryLines: summaryLines.length > 0
-      ? summaryLines
-      : [
-          locale === "en"
-            ? "There is some weekly data now, but not enough repeated patterns to make a stronger summary yet."
-            : "目前已經有一些每週資料了，但還沒有足夠重複的模式可以下更明確的摘要。",
-        ],
-    indicators: [
-      { label: locale === "en" ? "Protein" : "蛋白質", value: uniqueProteins >= 5 ? (locale === "en" ? "Good range" : "種類不錯") : (locale === "en" ? "Could vary more" : "還可以更多樣") },
-      { label: locale === "en" ? "Vegetables" : "蔬菜", value: vegetableMeals >= 14 ? (locale === "en" ? "Steady" : "算穩定") : (locale === "en" ? "A little light" : "稍微偏少") },
-      { label: locale === "en" ? "Fiber variety" : "纖維多樣性", value: uniqueProduce >= 8 ? (locale === "en" ? "Nice mix" : "搭配不錯") : (locale === "en" ? "Could widen a bit" : "還能更廣一些") },
-      { label: locale === "en" ? "Fried foods" : "炸物", value: friedMeals <= 2 ? (locale === "en" ? "Occasional" : "偶爾") : friedMeals <= 5 ? (locale === "en" ? "Moderate" : "中等") : (locale === "en" ? "Showed up often" : "出現偏多") },
-      { label: locale === "en" ? "Meal diversity" : "餐型變化", value: mealDiversityScore >= 6 ? (locale === "en" ? "Flexible" : "很有彈性") : mealDiversityScore >= 4 ? (locale === "en" ? "Fairly varied" : "還算多樣") : (locale === "en" ? "Somewhat repetitive" : "稍微重複") },
-    ],
-    preferenceSummary: buildPreferenceTrendSummary(history, profile, locale),
-  };
-};
+export { buildWeeklySnapshot } from "./weekly-summary";

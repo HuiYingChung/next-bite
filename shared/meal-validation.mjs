@@ -35,6 +35,8 @@ export const mealSchema = {
       maxItems: 16,
       items: {
         type: "object",
+        // Source food identity is attached only by the local confirmed-recipe
+        // flow; provider output must not claim that a free-text meal is mapped.
         additionalProperties: false,
         required: ["name", "group", "amount", "confidence"],
         properties: {

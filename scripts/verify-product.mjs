@@ -5,6 +5,9 @@ import {
 import { catalogMethod, evidenceSources, getCatalogMethod, getMealEvidenceNotes } from "../.audit-tmp/evidence.mjs";
 import {
   countHardAvoidedRecommendations,
+  getHardAvoidConflicts,
+  getMealTimeWindow,
+  recommendMealIdeas,
   scoreRecommendations,
 } from "../.audit-tmp/logic.mjs";
 
@@ -56,8 +59,8 @@ for (const meal of recommendationDataset) {
     `${meal.id} references an unknown evidence source.`,
   );
   expect(
-    /^\d{4}-\d{2}-\d{2}$/.test(meal.evidence.reviewedOn),
-    `${meal.id} has no review date.`,
+    meal.evidence.reviewedOn === "",
+    `${meal.id} must not claim an individual nutrition-review date from the shared editorial statement.`,
   );
   expect(
     meal.evidence.method.includes("not serving-adequacy, calorie, or medical-nutrition estimates"),
@@ -74,6 +77,10 @@ for (const meal of recommendationDataset) {
   );
   const zhNotes = getMealEvidenceNotes(meal, "zh");
   expect(/目前沒有經查證/.test(zhNotes.method), "Chinese method notes must disclose the same evidence boundary.");
+  expect(
+    !/\bpoints?\b/i.test(meal.evidence.method) && !/點數/.test(zhNotes.method),
+    `${meal.id} still describes the live inspiration selection as a summed point score.`,
+  );
 }
 
 expect(!/source-backed/i.test(catalogMethod.name), "The editorial catalog must not claim to be source-backed.");
@@ -83,6 +90,36 @@ const state = createBlankState(fixtureNow);
 const today = state.days.find((day) => day.id === state.selectedDayId);
 expect(today, "Blank state has no selected day.");
 
+const liveIdeas = recommendMealIdeas(
+  state.profile,
+  today.todayLog,
+  state.days,
+  "en",
+  fixtureNow,
+);
+expect(liveIdeas.length === 3, "The live inspiration path must provide three eligible ideas for a blank ordinary profile.");
+expect(new Set(liveIdeas.map((meal) => meal.id)).size === liveIdeas.length, "Live inspiration ideas must be distinct.");
+for (const idea of liveIdeas) {
+  expect(
+    getHardAvoidConflicts(state.profile, idea, getMealTimeWindow(fixtureNow)).length === 0,
+    `${idea.id} violates the live inspiration path's hard exclusions.`,
+  );
+  expect(
+    idea.score === 0 && idea.scoreBreakdown.length === 0 && idea.selectionTrace === null,
+    `${idea.id} must not inherit the historical nutritional point receipt.`,
+  );
+  expect(
+    idea.matchReasons.length > 0 && idea.matchReasons.every((reason) => typeof reason === "string" && reason.trim()),
+    `${idea.id} has no actual selection reasons.`,
+  );
+  expect(
+    idea.decisionTrace.preferenceOrder.length > 0 && idea.decisionTrace.varietyReason.trim() && idea.decisionTrace.selectionMethod.trim(),
+    `${idea.id} must expose its real directional preference and variety method.`,
+  );
+}
+
+// The old point engine remains a compatibility implementation. Its arithmetic
+// still has to recalculate, but these checks do not describe the live product.
 const recommendations = scoreRecommendations(
   state.profile,
   today.todayLog,
@@ -161,6 +198,21 @@ for (const recommendation of filteredRecommendations) {
   );
 }
 
+const filteredLiveIdeas = recommendMealIdeas(
+  hardAvoidProfile,
+  today.todayLog,
+  state.days,
+  "en",
+  fixtureNow,
+);
+expect(filteredLiveIdeas.length > 0, "The hard-avoid fixture must exercise an eligible live inspiration result.");
+for (const idea of filteredLiveIdeas) {
+  expect(
+    getHardAvoidConflicts(hardAvoidProfile, idea, getMealTimeWindow(fixtureNow)).length === 0,
+    `${idea.id} survived a hard avoid in the live inspiration path.`,
+  );
+}
+
 console.log(
   JSON.stringify(
     {
@@ -168,9 +220,11 @@ console.log(
       uniqueIds: true,
       uniqueTitles: true,
       editorialBasisDeclared: true,
-      scoreReceiptsRecalculate: true,
-      selectionReceiptsRecalculate: true,
-      historyBasisDisclosed: true,
+      liveInspirationDirections: true,
+      noLiveNutritionalPointReceipt: true,
+      compatibilityScoreReceiptsRecalculate: true,
+      compatibilitySelectionReceiptsRecalculate: true,
+      compatibilityHistoryBasisDisclosed: true,
       hardAvoidedMeals: avoidedCount,
       hardAvoidFilterPassed: true,
     },

@@ -6,8 +6,6 @@ import type {
   DayHistory,
   Locale,
   MealName,
-  ScoreBreakdownItem,
-  ScoredRecommendation,
 } from "./types";
 
 const text = (locale: Locale, en: string, zh: string) =>
@@ -124,119 +122,41 @@ export function HistoryGrid({ days, locale, onSelect }: HistoryGridProps) {
   );
 }
 
-const categoryLabels: Record<ScoreBreakdownItem["category"], [string, string]> =
-  {
-    protein: ["Recorded protein foods", "已記錄的蛋白質食物"],
-    vegetables: ["Recorded vegetables", "已記錄的蔬菜"],
-    carbs: ["Recorded staples", "已記錄的主食"],
-    heaviness: ["Meal style", "餐點風格"],
-    convenience: ["Practical fit", "便利程度"],
-    profile: ["Current preferences", "當下設定"],
-    preferences: ["Saved preferences", "已儲存的偏好"],
-    avoid: ["Avoided items", "避開項目"],
-    variety: ["Same-day variety", "當天餐點變化"],
-    "snack-drink": ["Snacks and drinks", "點心與飲料"],
-    "time-of-day": ["Time window", "用餐時段"],
-    "weekly-pattern": ["Recent records", "近期紀錄"],
+type RecipeOptionFactsProps = { rec: PilotRecommendation; locale: Locale };
+
+/** Keeps the recipe ranking total separate from facts for the selected portion. */
+export function RecipeOptionFacts({ rec, locale }: RecipeOptionFactsProps) {
+  const unknown = text(locale, "Unknown", "未知");
+  const quantity = (value: number | null, unit: string, integer = false) => {
+    if (value === null) return unknown;
+    const threshold = integer ? 1 : 0.1;
+    const formatted = value > 0 && value < threshold
+      ? `<${threshold}`
+      : new Intl.NumberFormat(locale === "zh" ? "zh-TW" : "en-US", {
+          maximumFractionDigits: integer ? 0 : 1,
+        }).format(value);
+    return `${formatted} ${unit}`;
   };
-
-type ScoreContributionsProps = { rec: ScoredRecommendation; locale: Locale };
-
-/** The numeric receipt uses only this recommendation's visible rule breakdown. */
-export function ScoreContributions({ rec, locale }: ScoreContributionsProps) {
-  const format = new Intl.NumberFormat(locale === "zh" ? "zh-TW" : "en-US", {
-    maximumFractionDigits: 2,
-  });
-
   return (
-    <section
-      className="score-contributions"
-      aria-label={text(
-        locale,
-        "Matching rule contributions",
-        "配對規則的加減分",
-      )}
-    >
-      <p className="contribution-explanation">
-        {text(
-          locale,
-          "Product-rule points only, not a nutrition or health score. Zero means no adjustment.",
-          "產品規則點數，不是營養或健康分數。零表示沒有加減分。",
-        )}
-      </p>
-      <table className="numeric-receipt">
-        <caption className="sr-only">
-          {text(locale, "Matching rule points", "配對規則點數")}
-        </caption>
-        <thead>
-          <tr>
-            <th scope="col">{text(locale, "Rule", "規則")}</th>
-            <th scope="col">{text(locale, "Points", "點數")}</th>
-            <th scope="col">{text(locale, "Reason", "說明")}</th>
-          </tr>
-        </thead>
-        <tbody>
-          {rec.scoreBreakdown.map((item) => {
-            const points = `${item.points > 0 ? "+" : item.points < 0 ? "−" : ""}${format.format(Math.abs(item.points))}`;
-            return (
-              <tr className="contribution-row" key={item.category}>
-                <th scope="row">
-                  {text(locale, ...categoryLabels[item.category])}
-                </th>
-                <td className="contribution-points">{points}</td>
-                <td className="contribution-note">{item.note}</td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
-    </section>
-  );
-}
-
-type PilotScoreContributionsProps = { rec: PilotRecommendation; locale: Locale };
-
-/** Practical points are the kernel's additive rules, separate from nutrient facts. */
-export function PilotScoreContributions({ rec, locale }: PilotScoreContributionsProps) {
-  const format = new Intl.NumberFormat(locale === "zh" ? "zh-TW" : "en-US", {
-    maximumFractionDigits: 2,
-  });
-
-  return (
-    <section
-      className="score-contributions"
-      aria-label={text(locale, "Practical matching rule contributions", "實用偏好的配對規則計分")}
-    >
-      <p className="contribution-explanation">
-        {text(
-          locale,
-          "Product-rule points for practical preferences, not a nutrition or health score. Zero means no points from that rule.",
-          "依實用偏好計算的產品規則點數，不是營養或健康分數。零表示此規則未加減分。",
-        )}
-      </p>
-      <table className="numeric-receipt">
-        <caption className="sr-only">
-          {text(locale, "Practical preference points", "實用偏好點數")}
-        </caption>
-        <thead>
-          <tr>
-            <th scope="col">{text(locale, "Rule", "規則")}</th>
-            <th scope="col">{text(locale, "Points", "點數")}</th>
-            <th scope="col">{text(locale, "Reason", "說明")}</th>
-          </tr>
-        </thead>
-        <tbody>
-          {rec.trace.pointBreakdown.map((item) => (
-            <tr className="contribution-row" key={item.key}>
-              <th scope="row">{item.label}</th>
-              <td className="contribution-points">
-                {`${item.points > 0 ? "+" : item.points < 0 ? "−" : ""}${format.format(Math.abs(item.points))}`}
-              </td>
-              <td className="contribution-note">{item.note}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </section>
+    <span className="recipe-option-facts">
+      <span className="recipe-option-fact recipe-option-total">
+        <span className="recipe-option-label">{text(locale, "Ranking total", "排序總分")}</span>{" "}
+        <span className="recipe-option-value">{rec.score?.model.status === "complete" && Number.isFinite(rec.score.total)
+          ? new Intl.NumberFormat(locale === "zh" ? "zh-TW" : "en-US", { maximumFractionDigits: 2 }).format(rec.score.total)
+          : text(locale, "Unavailable", "無法計分")}</span>
+      </span>{" "}
+      <span className="recipe-option-fact">
+        <span className="recipe-option-label">{text(locale, "Portion energy", "本份熱量")}</span>{" "}
+        <span className="recipe-option-value">{quantity(rec.nutrition.kcal, "kcal", true)}</span>
+      </span>{" "}
+      <span className="recipe-option-fact">
+        <span className="recipe-option-label">{text(locale, "Portion protein", "本份蛋白質")}</span>{" "}
+        <span className="recipe-option-value">{quantity(rec.nutrition.protein, "g")}</span>
+      </span>{" "}
+      <span className="recipe-option-fact">
+        <span className="recipe-option-label">{text(locale, "Assembly (ingredients ready)", "組裝（食材已備妥）")}</span>{" "}
+        <span className="recipe-option-value">{text(locale, `About ${rec.recipe.prepMinutes} min`, `約 ${rec.recipe.prepMinutes} 分鐘`)}</span>
+      </span>
+    </span>
   );
 }

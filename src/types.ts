@@ -226,6 +226,10 @@ export type ScoreBreakdownItem = {
 export type ParsedMealComponent = {
   name: string;
   group: "protein" | "vegetable" | "carb" | "fruit" | "soup" | "drink" | "other";
+  /** Optional identity from a confirmed local ingredient record, never inferred nutrition. */
+  sourceFoodId?: string;
+  /** User-selected library record; validate name/group against the loaded catalog before use. */
+  foodLibraryId?: string;
   amount: {
     quantity: number | null;
     unit: ParsedAmountUnit;

@@ -1,7 +1,13 @@
 # Twelve-recipe nutrition pilot
 
+The separate [food and drink library](./food-library.md) now provides broad
+source lookup and ingredient-level composition scores. The twelve-recipe
+calculations documented here retain their explicit formulation assumptions.
+
 For the distinction between scientific evidence, authored portion choices and
-matching points, see [the decision policy](./decision-policy.md).
+the selection policy, see [the decision policy](./decision-policy.md). The
+[model-input provenance](./model-input-provenance.md) documents the UK NPM 2018
+inputs, their derivations and the revised recipes.
 
 This pilot provides reproducible estimates for **twelve explicitly defined meal
 ideas**. It does not validate the other 88 catalog templates, estimate an
@@ -29,7 +35,7 @@ the ingredient composition records, not these recipes or recommendations.
   Service. FoodData Central, SR Legacy (April 2018). Selected records published
   April 1, 2019; retrieved November 4, 2026. Recipes and calculations: NextBite.
 
-The exact returned JSON is retained in
+The original seventeen-record JSON is retained unchanged in
 `data/nutrition/usda-sr-legacy-2026-11-04.json` (568,341 bytes). Its SHA-256 is:
 
 ```text
@@ -42,6 +48,17 @@ display labels. `recipes.json` contains the reviewed product formulations.
 Chinese labels are NextBite translations; the untouched USDA descriptions stay
 in the source records and generated application data.
 
+A separate official one-record supplement, retrieved
+**2026-11-04T20:24:55.3232573Z**, supplies FDC **171971**. It is retained in
+`data/nutrition/usda-sr-legacy-shrimp-171971-2026-11-04.json` (47,341 bytes),
+with SHA-256
+`4cd11c19a62e9a6c25d0b92c9accedbcc6d6424266760e24ebdcd324ab86f37b`.
+`source-supplement-manifest.json` records its separate retrieval and provenance.
+It has the same SR Legacy release, record publication date and CC0 license.
+There are now **18 retained source records, 16 used by the current recipes**.
+The original tofu (174291) and shrimp (175180) records remain available for
+historical identity/provenance; current recipes do not use them.
+
 ## Ingredient records
 
 All nutrient values use the source record's **100 g edible portion** basis.
@@ -52,26 +69,39 @@ Preparation state is part of food identity, not a display preference.
 | 168878 | Rice, white, long-grain, regular, enriched, cooked | Cooked rice |
 | 171477 | Chicken, broilers or fryers, breast, meat only, cooked, roasted | Roasted edible meat, no skin/bone |
 | 175168 | Fish, salmon, Atlantic, farmed, cooked, dry heat | Cooked edible salmon |
-| 174291 | Tofu, hard, prepared with nigari | Plain ready-to-eat tofu, no further cooking |
+| 174291 | Tofu, hard, prepared with nigari | Retained historical source, not used by current recipes |
 | 173424 | Egg, whole, cooked, hard-boiled | Cooked egg without shell |
 | 170457 | Tomatoes, red, ripe, raw, year round average | Raw edible tomato |
 | 169967 | Broccoli, cooked, boiled, drained, without salt | Cooked, drained broccoli |
-| 173735 | Beans, black, mature seeds, cooked, boiled, without salt | Cooked black beans |
+| 173735 | Beans, black, mature seeds, cooked, boiled, without salt | Cooked black turtle beans (*Phaseolus vulgaris*), not black soybeans |
 | 168483 | Sweet potato, cooked, baked in skin, flesh, without salt | Cooked flesh; skin excluded |
 | 169238 | Kale, cooked, boiled, drained, without salt | Cooked, drained kale |
 | 168917 | Quinoa, cooked | Cooked quinoa |
 | 168409 | Cucumber, with peel, raw | Raw cucumber, peel retained |
-| 175180 | Crustaceans, shrimp, cooked | Cooked edible shrimp, no shell |
+| 175180 | Crustaceans, shrimp, cooked | Retained historical source with missing fiber; not used by current recipes |
 | 171413 | Oil, olive, salad or cooking | All listed oil consumed |
 | 173468 | Salt, table | All listed salt consumed |
 | 173647 | Beverages, water, tap, drinking | Water retained and consumed |
 | 168411 | Edamame, frozen, prepared | Prepared edible beans, no pods |
+| 171971 | Crustaceans, shrimp, mixed species, cooked, moist heat (may contain additives to retain moisture) | Cooked edible shrimp, no shell; may contain moisture-retention additives |
 
 Every generated food includes its official record URL, FDC ID, description,
 publication date, source ID, localized name, preparation state and nullable
 nutrients. These records include analytical, calculated and other derivations;
 they must not all be described as independently lab-measured values. Original
 derivation codes, source details and household measures remain in the snapshot.
+
+FDC 173735 identifies *Phaseolus vulgaris* and calls it a black turtle bean in
+its source attributes. Its Chinese display name is **黑菜豆（非黑大豆）**. This
+distinguishes it from *Glycine max*, the black soybean commonly called 黑豆 in
+Taiwan; see the [Ministry of Agriculture bilingual glossary](https://www.moa.gov.tw/theme_list.php?sub_theme=common_agri&theme=dictionary).
+The source record is a common bean, so its recipe is not excluded as soy on
+that ingredient's account. A black-soybean substitution would change both the
+ingredient identity and its nutrition/allergen assumptions and is not covered
+by this recipe. The wording correction does not change the archived USDA bytes,
+food ID, ingredient weights or nutrient values. The recipe version remains
+`nextbite-pilot-2026-11-04-v1` because the defined food and formulation are
+unchanged; an actual ingredient or quantity change requires a new version.
 
 ## Calculation and unknowns
 
@@ -95,40 +125,59 @@ These boundaries follow the distinction between edible weights, cooking states,
 recipe yields and retention factors in the
 [FAO recipe-calculation procedure](https://www.fao.org/4/y4705e/y4705e23.htm).
 
-- Energy: USDA nutrient ID **1008**, kcal; use the reported record value. Do not
-  replace it with a forced 4/4/9 calculation.
+- Energy: USDA nutrient ID **1008**, kcal, and **1062**, kJ; import each reported
+  value independently. Do not replace them with a forced 4/4/9 calculation or
+  overwrite reported kJ by converting rounded kcal.
 - Protein **1003**, carbohydrate by difference **1005**, total fat **1004**,
   saturated fatty acids **1258**, dietary fiber **1079**, added sugars **1235**:
   grams. Sodium **1093**: milligrams.
 - A source numeric zero stays zero. An absent/null value stays unknown. The
   importer never converts a blank string to zero.
-- None of the selected SR Legacy records supplies added sugars. Consequently
-  all selected foods and all twelve recipe totals have **unknown added sugars**,
+- None of the eighteen retained SR Legacy records supplies added sugars.
+  Consequently all retained foods and all twelve recipe totals have **unknown added sugars**,
   even though these formulations add no separate sweetener. Total sugars are not
   substituted for added sugars.
-- The cooked-shrimp record does not supply dietary fiber. Its recipe's complete
-  fiber total is unknown. A sum of known ingredients is not a complete total.
+- The original shrimp 175180 record still has unknown fiber. Version 2 of the
+  shrimp recipe uses **all values** from 171971, including its reported fiber
+  zero, rather than borrowing that zero alone. Its sodium is **947 mg/100 g**,
+  compared with 111 mg/100 g in 175180. The new recipe is a different defined
+  ingredient match, not a correction to or completion of the original record.
+- Free sugars are a separate **derived model input**, not a replacement for
+  missing USDA added sugars. Zero applies only to the explicit plain-ingredient
+  recipe specification excluding added sugars, sugar-containing marinades or
+  additives, and fruit/vegetable puree, juice or paste. See the complete
+  [derivation and AOAC qualification](./model-input-provenance.md).
 - Missing values should remain visible and should not earn a low-sugar,
   low-sodium or other favorable ranking through a false zero. See the
   [FAO data-value conventions](https://www.fao.org/4/y4705e/y4705E14.htm).
 
 ## Recipe and portion interpretation
 
-The twelve meal IDs reuse the catalog's structured exclusions; they do not
-weaken allergy/avoid filtering. Every explicitly named catalog component is
-represented. Ingredients added to make a specific variant, including oil, salt,
-water and vegetable sides, are shown rather than silently inferred.
+The twelve meal IDs retain the catalog's conservative structured exclusions.
+Current pilot labels and ingredient lists describe the actual versioned recipe;
+an old catalog ID or its generic title is not a current ingredient declaration.
+Oil, salt, water and vegetable sides are shown rather than silently inferred.
 
 The regular recipe is the documented gram specification. Small is **0.75×** and
 large is **1.25×**, applied to **every** ingredient, including oil/salt/water.
 These are product choices, not official serving sizes or individualized dietary
-targets. The version is `nextbite-pilot-2026-11-04-v1`; a saved plan can retain
-that version and the selected portion.
+targets. Eight unchanged formulations retain `nextbite-pilot-2026-11-04-v1`.
+The three edamame replacements and shrimp replacement use
+`nextbite-pilot-2026-11-04-v2`. Saved plans retain their original version and
+portion; an unavailable older recipe must not acquire a current numeric estimate.
 
 - Tomato-and-egg rice is explicitly a hard-boiled egg plus raw tomato version,
   not an estimate of stir-fried tomato eggs.
-- Tofu variants use uncooked-after-purchase hard nigari tofu. They do not borrow
-  its values for fried, braised, silken or other tofu preparations.
+- The three former tofu variants now explicitly use **cooked shelled edamame**.
+  The egg bowl also uses cooked drained broccoli instead of raw cucumber, so
+  qualifying FVNS ingredients have a consistent cooked-weight basis. Tofu's
+  free-sugar/FVNS interpretation was not silently assumed complete. Cooled
+  cooked-food variants follow the prepared products' storage/handling instructions.
+- The shrimp version uses moist-heat cooked mixed-species shrimp that may
+  contain moisture-retention additives. Its recipe additionally requires no
+  sugar-containing marinade or additives; the USDA record itself does not
+  establish a manufacturer's complete ingredient list. All source nutrient
+  values, including its substantially higher sodium, are retained.
 - The `costco-salmon-sweet-potato-veg` identifier is a legacy catalog identifier.
   Its visible pilot label is generic and its formulation is **not a verified
   Costco product or restaurant meal**.
@@ -154,6 +203,12 @@ units, finite values, ingredient references, positive grams, and oil/salt/sauce
 declarations. The check mode also requires the generated
 `src/nutrition-data.ts` to match those inputs exactly. Raw snapshots are not
 imported by the application bundle. Runtime nutrition requests: **zero**.
+
+The importer also requires a model assessment for every retained food and
+complete model inputs for every active recipe ingredient. It checks that FVNS
+ingredients within each recipe use one raw/cooked state, and verifies an actual
+source total-sugars zero before using that specific derivation. The model
+assessment file records reviewed classifications separately from the raw data.
 
 For an update, obtain a new, separately named official snapshot; record its
 source/release/retrieval/hash; review identity and preparation matches; inspect

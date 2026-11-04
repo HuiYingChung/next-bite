@@ -258,6 +258,7 @@ try {
     }
   }
   const invalidMeals = [
+    { ...parsedMeal, components: [{ ...parsedMeal.components[0], sourceFoodId: "usda-168878" }] },
     {},
     null,
     [],
@@ -552,6 +553,7 @@ console.log(
       structuredOutputs: true,
       normalizedAmountPortionConfidence: true,
       metricAndHouseholdQuantityBounds: true,
+      providerCannotClaimSourceFoodIdentity: true,
       unknownSourceAndPortionPreserved: true,
       openAiStorageDisabled: true,
       responseCachingDisabled: true,

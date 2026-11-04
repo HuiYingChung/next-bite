@@ -1,70 +1,124 @@
-# Pilot decision policy
+# Twelve-recipe scoring policy
 
-Implemented and checked: 2026-11-04. Audience: general healthy adults choosing
-an ordinary meal. The pilot has twelve authored standard recipes; it is not a
-validated dietary assessment or a clinical recommendation system.
+Current authorization: 2026-11-04, published-model scoring. This supersedes the
+previous preference-tier policy. Audience: general healthy adults choosing an
+ordinary meal from twelve explicitly authored recipes.
 
-## What the evidence supports
+## Published model and scope
 
-| Decision                                          | Evidence and practical implication                                                                                                                                                                                                                                                                                                                                       |
-| ------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Calculate from ingredient grams                   | [USDA documentation](https://fdc.nal.usda.gov/Foundation_Foods_Documentation/) describes scaling per-100-g composition by edible weight. Each recipe sums its declared ingredients in matching preparation states; oil, salt and retained water are included.                                                                                                            |
-| Keep missing values unknown                       | [FAO food composition guidance](https://www.fao.org/4/y4705e/y4705E14.htm) distinguishes missing values from zero. One missing required ingredient value makes that nutrient total unknown, while other nutrients remain calculable.                                                                                                                                     |
-| Specify the actual recipe                         | [FAO recipe guidance](https://www.fao.org/4/y4705e/y4705e23.htm) explains yield and retention considerations. This pilot uses already cooked or ready-to-eat ingredients and their final weights. It does not substitute raw composition for cooked weight or apply a second cooking adjustment.                                                                         |
-| Avoid meal-level adequacy claims                  | [NCI guidance on the Healthy Eating Index](https://epi.grants.cancer.gov/hei/uses.html) concerns diet quality and the limits of intake data. A partial record cannot establish a nutrient deficit; the app does not label one meal or an incomplete day as adequate.                                                                                                     |
-| Avoid a universal calorie target                  | [Dietary Reference Intakes for Energy](https://www.nationalacademies.org/read/26818/chapter/9) considers individual characteristics and uncertainty. The pilot does not collect the inputs or assess the context required for individual energy estimates.                                                                                                               |
-| Separate public-health guidance from meal ranking | [WHO healthy diet guidance](https://www.who.int/news-room/fact-sheets/detail/healthy-diet) and the [US 2025–2030 guidelines](https://cdn.realfood.gov/DGA.pdf) inform background understanding. Daily recommendations are not automatically cut into fixed per-meal pass/fail limits; their different definitions and populations are not combined into a made-up score. |
+Use [UK Nutrient Profiling Model 2018 technical guidance](https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance),
+with its published per-100-g thresholds and protein-credit gate. The model
+profiles food composition. It does not rank the biological importance of
+nutrients, measure every vitamin/mineral, determine personal adequacy or
+validate this meal recommender. The [publication page](https://www.gov.uk/government/publications/nutrient-profiling-model-2018)
+states that the model is reference guidance and is not yet applied to policy.
 
-The ingredient records, dates, license, hash, recipe definitions and exact
-arithmetic are documented in [the source record](./README.md). USDA supplies
-composition data, not the recipes, recommendation weights or medical approval.
+The model's A points cover energy, saturated fat, free sugars and salt; C points
+cover protein, fibre and qualifying fruit/vegetables/nuts/seeds (FVNS). Protein
+is credited only when full A is below 11 or FVNS earns five points. The full A
+includes energy even when the display separates energy into its own component.
+The official result is `S = A - credited C`, with a lower result more favourable
+under that model. Exact constants and calculation live in `src/nutrient-profile.ts`.
 
-## Product choices, not research-derived thresholds
+Use the [official ingredient definitions](https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions)
+and [calculation advice](https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-worked-examples-and-further-advice-on-calculations)
+for recipe inputs. USDA composition values, separately derived model inputs,
+archived bytes, source hashes and ingredient replacements are documented in
+[the source record](./README.md) and [model-input provenance](./model-input-provenance.md).
 
-- Small, standard and large portions are 0.75, 1 and 1.25 times each authored
-  recipe. These factors are convenient recipe options, not a recommended
-  serving size, a calorie prescription or a prediction of fullness.
-- An explicit portion choice wins. Otherwise, self-reported low hunger selects
-  the smaller option, high hunger selects the larger option, and unspecified
-  or moderate hunger selects the standard recipe. The user can change it.
-- Avoided ingredients, raw/cold states and large-portion avoidance exclude
-  conflicts conservatively. Confirmed warmth and an assembly-time budget are
-  shared filters; the app does not silently relax them to fill three slots.
-- Assembly times are editorial estimates starting with prepared ingredients.
-  They exclude cooking raw ingredients. The older 100-idea catalog has no
-  confirmed minute estimates and cannot satisfy a numeric time limit.
-- Staple and cuisine preferences contribute 2 and 1 practical matching points.
-  Structured saved meal-style preferences contribute at most 2. A defined
-  light-preparation match or short-assembly match contributes 1. These are
-  transparent ordering rules, without a claim that the weights are clinically
-  validated. See `src/nutrition.ts` for the executable ordering and reasons.
-- If explicitly requested, higher protein or more vegetables resolves equally
-  practical choices using calculated protein grams or listed vegetable weight.
-  There is no default preference for fewer calories or one universal health
-  total. A stable recipe identifier resolves remaining ties.
-- Today's named staples can resolve a variety tie only when the complete
-  calculated nutrient vectors and edible weights are identical. Unmeasured
-  previous food records never become a calculated nutritional deficit.
-- Feeling tired means a preference for less assembly effort. Wanting a light
-  meal is an explicitly defined preparation preference, not a diagnosis or a
-  claim about low energy intake. No fullness duration is predicted.
+## Displayed components and total
 
-## Presentation and upkeep
+The nutrient and energy components retain the model's relative point weights:
 
-The twelve-recipe path displays kcal, protein, fiber and edible grams, with
-full nutrients and exact recipe/source links collapsed. The separate 100-idea
-path displays numeric editorial points and reasons. Their scales are not
-combined. Selecting a meal saves a plan and its recipe version/portion; a
-separate editable confirmation is required before recording food as eaten.
+```text
+Nutrient = credited C - saturated-fat A - free-sugar A - salt A
+Energy   = 10 - energy A
+Preference = sum of five product-defined bonuses, at most 10
+NextBite total = Nutrient + Energy + Preference
+              = 10 - official NPM + Preference
+```
 
-All new meal-context inputs are session-only. Recording a meal, changing the
-day, reloading, or entering/leaving the example resets them. Permanent avoids
-and saved preferences remain separate. Recipe versions are stored with plans;
-an unavailable old version is never presented as a current numeric estimate.
+The ten-point offset makes the energy contribution non-negative without
+changing ordering. It is not an additional nutrition benefit. Energy is
+arithmetically counted once; the published protein gate still depends on full
+A. Nutrient contributions can be negative. None of these numbers is a percent,
+a score out of 100, a measure of essentiality or an official combined health
+grade. The UI keeps the original official model result visible in details.
 
-There is no runtime nutrition API or recurring data refresh. A future source
-or recipe update must regenerate from an archived snapshot, review preparation
-states and safety declarations, increment changed recipe versions, and pass
-source, arithmetic, context, storage, UI and safety checks. No dietitian or
-clinical review has been claimed. Adult goal programs and special populations
-require separate policy and review before release.
+The model uses energy bands: lower energy can have equal points within a band.
+Per-100-g energy describes energy density, not whole-meal calories or whether
+a person needs more/less energy. Water remains in the declared edible recipe
+weight; arbitrary dilution is not a new recipe option. Every portion multiplier
+leaves composition and model points unchanged while changing whole-portion
+nutrient estimates. [WHO healthy-diet guidance](https://www.who.int/news-room/fact-sheets/detail/healthy-diet)
+frames healthy diets around adequacy, balance, moderation and diversity; the
+app does not turn a lower-energy ranking into a universal health claim.
+
+## Preference bonuses: NextBite product rules
+
+Each group contributes either zero or two points; each group is capped at two.
+No unspecified preference earns points. These weights and operational cutoffs
+are product choices, not validated scientific recommendations.
+
+| Group | Condition for +2 |
+| --- | --- |
+| This-meal staple | The explicitly selected staple matches the recipe. |
+| This-meal cuisine | The explicitly selected cuisine group matches. |
+| Preparation | A request for less added oil matches at most 1 g listed added oil per 100 g, or a request for less effort matches at most 10 estimated assembly minutes. The current preparation request takes priority; a saved light-meal request is used only without a current request. The same preparation preference cannot earn twice. |
+| Saved meal style | At least one supported saved style matches structured recipe/catalog facts; additional matches do not stack. |
+| Requested nutrient direction | An explicit more-protein request matches over 8.5 g protein per 100 g, or an explicit more-vegetables-and-beans request matches over 40% eligible FVNS. Both together still earn at most two. |
+
+The final group deliberately gives an extra personal preference bonus to an
+already represented composition characteristic. It is disclosed as such, not
+presented as a second independent scientific finding. FVNS includes qualifying
+pulses and is not identical to a serving of vegetables. Thresholds for the bonus
+are operational product rules even where the number is borrowed from a model
+boundary. Assembly times start with prepared ingredients and exclude cooking
+from raw ingredients. Feeling tired affects preparation effort, not a nutrient
+deficit or a stimulant recommendation.
+
+## Selection and eligibility
+
+1. Apply ingredient avoids and strict conditions, including raw/cold states,
+   confirmed warmth, assembly time and large-portion avoidance. Never relax
+   these to fill three slots.
+2. Require complete matching ingredient identity/state/weight and all model
+   inputs. Unknown is not zero; incomplete recipes are excluded from scoring
+   with an evidence reason. Preserve other nutrient unknowns in the display.
+3. Calculate each eligible recipe's same total and return its highest three.
+   Explicit preference tiers cannot secretly override a better total.
+4. Resolve exact total ties using recognized protein/staple variation across
+   today and the preceding six local calendar dates. Deduplicate aliases within
+   each meal slot; compare protein repeat counts, then staple repeat counts,
+   then recency, earlier-alternative variety and stable recipe ID.
+   No missing meal is treated as a nutrient deficit. The trace includes every
+   eligible candidate total, recorded/recognized coverage, actual tie reasons
+   and the dated food records used. This is a product variety rule, not a
+   nutrition score adjustment. Unknown records do not establish absence.
+5. An explicit portion takes priority over hunger. Otherwise hunger suggests
+   0.75x, 1x or 1.25x of every ingredient. These are editable product choices,
+   not official serving sizes, energy needs or fullness predictions.
+
+The 100-idea collection remains separate, unscored inspiration without verified
+recipe nutrient totals. It never silently fills vacancies in the scored list.
+
+## Presentation, persistence and upkeep
+
+Show nutrient, energy and preference contributions plus the actual ranking
+total as compact numbers. Put formula, per-100-g inputs, points, thresholds,
+protein gate, preference reasons, tie handling and source links in one
+collapsed scoring explanation. Show whole-portion kcal/protein/fibre/weight
+separately, with further nutrition and exact recipe ingredients collapsed.
+
+Plans retain recipe version and portion. An unavailable old version is never
+shown with new numeric estimates. Confirming consumption remains a separate
+editable step. Source identity persists only while the edited food name/group
+still matches. Session-only meal conditions reset as before; permanent avoids
+and saved preferences remain separate.
+
+No runtime nutrition API, recurring source refresh, new AI recommendation
+service or clinical validation is claimed. Optional AI continues to structure
+meal text; deterministic code selects and explains the recipe ranking. Future
+source updates require a separate archived snapshot, reviewed source states,
+versioned recipe changes, offline regeneration, model/source/arithmetic tests,
+and bilingual UI checks. Specialized populations remain outside this scope.
