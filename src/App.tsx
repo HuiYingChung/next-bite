@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { Dispatch, ReactNode, SetStateAction } from "react";
 import { parseMealWithAi } from "./ai";
+import { Drawer } from "./Drawer";
+import { HistoryGrid, ScoreContributions } from "./DashboardInsights";
 import {
   avoidTags,
   createBlankState,
@@ -292,71 +294,6 @@ function ConfirmationDialog({
   );
 }
 
-function BowlArt({ compact = false }: { compact?: boolean }) {
-  return (
-    <svg
-      className={compact ? "bowl-art compact" : "bowl-art"}
-      viewBox="0 0 240 190"
-      aria-hidden="true"
-    >
-      <ellipse cx="120" cy="167" rx="88" ry="12" fill="#194d3c" opacity=".08" />
-      <path
-        d="M30 85h180c-4 50-34 78-90 78S34 135 30 85"
-        fill="#faf5e9"
-        stroke="#234e40"
-        strokeWidth="3"
-      />
-      <ellipse
-        cx="120"
-        cy="86"
-        rx="89"
-        ry="36"
-        fill="#e8ddbf"
-        stroke="#234e40"
-        strokeWidth="3"
-      />
-      <ellipse cx="121" cy="83" rx="76" ry="27" fill="#fffaf0" />
-      <path d="M48 80c8-23 25-34 46-27l16 32-36 15z" fill="#6c9d5e" />
-      <path
-        d="M57 79l29 13m-11-34 8 32m-20-17 24 10"
-        stroke="#315b41"
-        strokeWidth="2"
-        fill="none"
-      />
-      <ellipse
-        cx="145"
-        cy="76"
-        rx="29"
-        ry="21"
-        fill="#efa84b"
-        transform="rotate(15 145 76)"
-      />
-      <ellipse cx="146" cy="76" rx="12" ry="11" fill="#f8cf6d" />
-      <path d="m100 92 14-22 15 24-15 14z" fill="#c68155" />
-      <path d="m166 90 9-15 17 15-15 12z" fill="#c68155" />
-      <path
-        d="m149 43 67-29m-57 36 65-25"
-        stroke="#234e40"
-        strokeWidth="5"
-        strokeLinecap="round"
-      />
-      <path
-        d="M90 35c-8-11 9-12 1-25m27 31c-8-11 9-12 1-25"
-        stroke="#839e8c"
-        strokeWidth="2.5"
-        fill="none"
-        strokeLinecap="round"
-      />
-      <path
-        d="M85 131c13 8 57 8 70-1"
-        stroke="#c9ba97"
-        strokeWidth="2"
-        fill="none"
-      />
-    </svg>
-  );
-}
-
 function ContextFields({
   draft,
   setDraft,
@@ -602,20 +539,6 @@ function Receipt({
   locale: Locale;
 }) {
   const trace = meal.selectionTrace;
-  const categories: Record<string, [string, string]> = {
-    protein: ["Recorded protein foods", "已記錄的蛋白質食物"],
-    vegetables: ["Recorded vegetables", "已記錄的蔬菜"],
-    carbs: ["Recorded staples", "已記錄的主食"],
-    heaviness: ["Meal style", "餐點風格"],
-    convenience: ["Practical fit", "便利程度"],
-    profile: ["Current mood", "當下想法"],
-    preferences: ["Preferences", "偏好"],
-    avoid: ["Avoided items", "避開項目"],
-    variety: ["Variety", "餐點變化"],
-    "snack-drink": ["Snacks & drinks", "點心與飲料"],
-    "time-of-day": ["Time window", "時段"],
-    "weekly-pattern": ["Recent records", "近期紀錄"],
-  };
   return (
     <details className="receipt">
       <summary>
@@ -632,39 +555,7 @@ function Receipt({
           "這些是用來配對與增加變化的產品規則分數。紀錄未提到某種食物，不代表你沒有吃，也不代表營養不足。",
         )}
       </p>
-      <table>
-        <caption className="sr-only">
-          {t(locale, "Matching rule calculation", "配對規則計算")}
-        </caption>
-        <thead>
-          <tr>
-            <th>{t(locale, "Rule", "規則")}</th>
-            <th>{t(locale, "Points", "分數")}</th>
-          </tr>
-        </thead>
-        <tbody>
-          {meal.scoreBreakdown.map((item) => (
-            <tr key={item.category}>
-              <td>
-                <strong>
-                  {t(
-                    locale,
-                    ...(categories[item.category] ?? [
-                      item.category,
-                      item.category,
-                    ]),
-                  )}
-                </strong>
-                <span>{item.note}</span>
-              </td>
-              <td>
-                {item.points > 0 ? "+" : ""}
-                {item.points}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <ScoreContributions rec={meal} locale={locale} />
       <p className="small">
         {t(locale, "Rule total", "規則合計")}: {meal.score} ·{" "}
         {t(locale, "Selection total", "選擇合計")}:{" "}
@@ -680,7 +571,20 @@ function Receipt({
             )}
           </p>
           <details>
-            <summary>{t(locale, "Full calculation", "完整計算")}</summary>
+            <summary>
+              {t(
+                locale,
+                "Full calculation & selection order",
+                "完整計算與選擇順序",
+              )}
+            </summary>
+            <p className="small muted">
+              {t(
+                locale,
+                "Hard avoids filter the catalog first. Rule points are then adjusted for each perspective, followed by catalog rotation, format variety and repeatable near-tie selection. Perspective totals use different weights and are not comparable health scores.",
+                "先排除避開項目，再計算規則分數、各推薦視角的調整、餐點輪替與餐型變化，最後在近同分候選中以可重現的方式選擇。各視角使用不同權重，總分不能視為相同尺度的健康評比。",
+              )}
+            </p>
             {trace.perspectiveAdjustments.map((item, index) => (
               <p className="small" key={`${item.key}-${index}`}>
                 {label(item.key, locale)}: {item.points} · {item.note}
@@ -707,15 +611,63 @@ function Receipt({
   );
 }
 
+function createDemoState(profile?: Profile): LaunchState {
+  const demo: LaunchState = {
+    ...createBlankState(new Date()),
+    plannedMeals: [],
+  };
+  const sample: ParsedMeal = {
+    ...blankDraft("Lunch"),
+    mealSource: "Restaurant",
+    cookingMethod: "Soup / stew",
+    displayName: "Beef noodle soup",
+    components: [
+      {
+        name: "Beef",
+        group: "protein",
+        amount: amount(),
+        confidence: "high",
+      },
+      {
+        name: "Noodles",
+        group: "carb",
+        amount: amount(),
+        confidence: "high",
+      },
+      {
+        name: "Milk tea",
+        group: "drink",
+        amount: amount(),
+        confidence: "high",
+      },
+    ],
+  };
+  const demoToday = demo.days.find((day) => day.isToday)!;
+  demoToday.todayLog.Lunch = parsedMealToEntry(sample);
+  if (profile) demo.profile = { ...profile };
+  return demo;
+}
+
 export default function App() {
   const [locale, setLocale] = useState<Locale>(loadLocale);
   const [realState, setRealState] = useState<LaunchState>(loadLaunchState);
-  const [demoState, setDemoState] = useState<LaunchState | null>(null);
+  const [demoState, setDemoState] = useState<LaunchState | null>(() =>
+    realState.days.some((day) =>
+      mealNames.some((slot) => isMealLogged(day.todayLog[slot])),
+    ) || realState.plannedMeals.length
+      ? null
+      : createDemoState(realState.profile),
+  );
   const state = demoState ?? realState;
   const isDemo = demoState !== null;
   const [clock, setClock] = useState(() => new Date());
   const [storageFailed, setStorageFailed] = useState(false);
   const [preferencesOpen, setPreferencesOpen] = useState(false);
+  const [composerOpen, setComposerOpen] = useState(false);
+  const [dataOpen, setDataOpen] = useState(false);
+  const [view, setView] = useState<"today" | "history" | "plans" | "catalog">(
+    "today",
+  );
   const [draft, setDraft] = useState<ParsedMeal>(blankDraft);
   const [fields, setFields] = useState<FoodFields>(emptyFields);
   const [review, setReview] = useState(false);
@@ -831,9 +783,7 @@ export default function App() {
     () => buildWeeklySnapshot(state.days, state.profile, locale),
     [state.days, state.profile, locale],
   );
-  const past = state.days.filter((day) => !day.isToday);
-  const selectedPast =
-    past.find((day) => day.id === historyDay) ?? past[past.length - 1];
+  const selectedPast = state.days.find((day) => day.id === historyDay) ?? today;
   const targetDay = editTarget
     ? (state.days.find((day) => day.id === editTarget.dayId) ?? today)
     : today;
@@ -868,55 +818,24 @@ export default function App() {
     setPendingPlanId(null);
     setReview(false);
     setFormError("");
-    scrollTo(composerRef.current);
+    setComposerOpen(true);
   };
   const startDemo = () => {
-    const demo: LaunchState = {
-      ...createBlankState(new Date()),
-      plannedMeals: [],
-    };
-    const sample: ParsedMeal = {
-      ...blankDraft("Lunch"),
-      mealSource: "Restaurant",
-      cookingMethod: "Soup / stew",
-      displayName: "Beef noodle soup",
-      components: [
-        {
-          name: "Beef",
-          group: "protein",
-          amount: amount(),
-          confidence: "high",
-        },
-        {
-          name: "Noodles",
-          group: "carb",
-          amount: amount(),
-          confidence: "high",
-        },
-        {
-          name: "Milk tea",
-          group: "drink",
-          amount: amount(),
-          confidence: "high",
-        },
-      ],
-    };
-    const demoToday = demo.days.find((day) => day.isToday)!;
-    demoToday.todayLog.Lunch = parsedMealToEntry(sample);
+    const demo = createDemoState(realState.profile);
     setDemoState(demo);
+    setChangeNote("");
+    setView("today");
+    setComposerOpen(false);
     setSelected(0);
     resetComposer();
-    setMessage(
-      t(
-        locale,
-        "Example mode started. Your own data stays separate.",
-        "已進入範例模式，你自己的資料會分開保留。",
-      ),
-    );
+    setMessage("");
     window.requestAnimationFrame(() => scrollTo(decisionRef.current));
   };
   const exitDemo = () => {
     setDemoState(null);
+    setChangeNote("");
+    setView("today");
+    setComposerOpen(false);
     setSelected(0);
     resetComposer();
     setMessage(
@@ -1044,6 +963,8 @@ export default function App() {
       return pendingPlanId ? removePlan(next, pendingPlanId) : next;
     });
     setSelected(0);
+    setComposerOpen(false);
+    if (!editTarget || targetDay.isToday) setView("today");
     resetComposer();
     setMessage(
       t(
@@ -1136,6 +1057,7 @@ export default function App() {
       if (requestGeneration !== aiRequestGeneration.current) return;
       const next = {
         ...result,
+        mealSlot: editTarget?.slot ?? result.mealSlot,
         portion:
           result.portion.confidence === "limited"
             ? { size: "Unspecified" as const, confidence: "limited" as const }
@@ -1143,8 +1065,6 @@ export default function App() {
       };
       setDraft(next);
       setFields(fieldsFrom(next));
-      setEditTarget(null);
-      setPendingPlanId(null);
       setReview(true);
       window.requestAnimationFrame(() => {
         if (requestGeneration === aiRequestGeneration.current)
@@ -1207,6 +1127,9 @@ export default function App() {
     setClearOpen(false);
     resetComposer();
     setPreferencesOpen(false);
+    setDataOpen(false);
+    setComposerOpen(false);
+    setView("today");
     setSelected(0);
     setMessage(
       cleared
@@ -1218,30 +1141,18 @@ export default function App() {
 
   return (
     <>
-      <a className="skip-link" href="#meal-input">
-        {t(locale, "Skip to meal input", "跳到餐點輸入")}
+      <a className="skip-link" href="#workspace">
+        {t(locale, "Skip to workspace", "跳到主要內容")}
       </a>
       <header className="site-header">
-        <a
-          href="#"
-          className="brand"
-          aria-label={t(locale, "NextBite home", "NextBite 首頁")}
-        >
-          <span className="brand-icon">N</span>
-          <span>
-            Next<span className="brand-green">Bite</span>
-            <small>
-              {t(locale, "A little less deciding.", "讓選餐輕鬆一點。")}
-            </small>
-          </span>
+        <a href="#workspace" className="brand" onClick={() => setView("today")}>
+          NextBite<span className="beta-label">BETA</span>
         </a>
         <nav aria-label={t(locale, "Settings", "設定")}>
           <button
             className="nav-button"
             type="button"
-            aria-expanded={preferencesOpen}
-            aria-controls="preferences"
-            onClick={() => setPreferencesOpen((value) => !value)}
+            onClick={() => setPreferencesOpen(true)}
           >
             {t(locale, "Preferences", "偏好")}
             {state.profile.avoidTags.length > 0 && (
@@ -1251,41 +1162,103 @@ export default function App() {
             )}
           </button>
           <button
+            className="nav-button"
+            type="button"
+            onClick={() => setDataOpen(true)}
+          >
+            {t(locale, "Data & method", "資料與方法")}
+          </button>
+          <button
             className="nav-button language"
             type="button"
+            aria-label={t(locale, "切換繁體中文", "Switch to English")}
             onClick={() => {
               setLocale((value) => (value === "en" ? "zh" : "en"));
               setMessage("");
               setChangeNote("");
               setFormError("");
             }}
-            aria-label={t(locale, "切換繁體中文", "Switch to English")}
           >
             {locale === "en" ? "繁中" : "EN"}
           </button>
         </nav>
       </header>
-      <main className="page-shell">
+      <main className="page-shell" id="workspace" tabIndex={-1}>
+        <div className="workspace-heading">
+          <div>
+            <h1>
+              {t(locale, "Less deciding. More eating.", "下一餐，少想一點。")}
+            </h1>
+            <p className="muted">
+              {t(
+                locale,
+                "Meal ideas from what you record, what you like, and your day.",
+                "根據餐點紀錄、喜好與當下安排，選下一餐。",
+              )}
+            </p>
+          </div>
+          <button
+            className="button primary"
+            type="button"
+            onClick={() => {
+              if (isDemo) exitDemo();
+              setComposerOpen(true);
+            }}
+          >
+            {!isDemo &&
+            (review ||
+              editTarget ||
+              pendingPlanId ||
+              Object.values(fields).some(Boolean))
+              ? t(locale, "Continue editing", "繼續編輯")
+              : t(locale, "Record a meal", "記錄一餐")}
+          </button>
+        </div>
+        <nav
+          className="workspace-nav"
+          aria-label={t(locale, "Workspace", "主要功能")}
+        >
+          {(
+            [
+              ["today", "Next meal", "今日選餐"],
+              ["history", "Records", "七天紀錄"],
+              ["plans", "Plans", "餐點計畫"],
+              ["catalog", "Meal library", "餐點庫"],
+            ] as const
+          ).map(([key, en, zh]) => (
+            <button
+              key={key}
+              type="button"
+              aria-current={view === key ? "page" : undefined}
+              onClick={() => {
+                setView(key);
+                setMessage("");
+                setChangeNote("");
+              }}
+            >
+              {t(locale, en, zh)}
+              {key === "plans" && state.plannedMeals.length > 0 && (
+                <span>{state.plannedMeals.length}</span>
+              )}
+            </button>
+          ))}
+        </nav>
         {isDemo && (
           <aside className="demo-banner">
             <div>
               <strong>
-                {t(locale, "You're trying an example", "你正在體驗範例")}
+                {t(locale, "You're exploring an example", "正在體驗範例")}
               </strong>
               <span>
                 {t(
                   locale,
-                  "Nothing here changes your own meals, plans or preferences.",
-                  "這裡的操作不會改變你自己的餐點、計畫或偏好。",
+                  "Example records and plans stay separate. Your preferences still apply.",
+                  "範例紀錄與計畫分開保留，偏好仍套用你的設定。",
                 )}
               </span>
             </div>
-            <button
-              className="button small-button"
-              type="button"
-              onClick={exitDemo}
-            >
-              {t(locale, "Back to my meals", "回到我的餐點")}
+            <button className="text-button" type="button" onClick={exitDemo}>
+              {t(locale, "Use my own meals", "使用我的紀錄")}
             </button>
           </aside>
         )}
@@ -1293,1106 +1266,1138 @@ export default function App() {
           <p className="notice warning" role="status">
             {t(
               locale,
-              "Browser storage is unavailable or full. You can still use this page, but changes may not survive a reload. Export your records below.",
-              "瀏覽器儲存空間無法使用或已滿。仍可在本頁操作，但重新整理可能無法保留變更，請從下方匯出紀錄。",
+              "Browser storage is unavailable. Changes may not survive reload; export a copy in Data & method.",
+              "瀏覽器儲存空間無法使用，重新整理可能無法保留變更；可從「資料與方法」匯出副本。",
             )}
           </p>
         )}
-        <section className="hero" aria-labelledby="hero-title">
-          <div className="hero-copy">
-            <p className="eyebrow">
-              {t(locale, "FOR YOUR EVERYDAY APPETITE", "照顧每天的選餐小煩惱")}
-            </p>
-            <h1 id="hero-title">
-              {t(locale, "One less thing", "下一餐，")}
-              <br className="en-break" />
-              {t(locale, " to decide.", "輕鬆決定。")}
-            </h1>
-            <p className="hero-description">
-              {t(
-                locale,
-                "From rice bowls to sandwiches. Find a next meal that fits what you've eaten, how you feel, and your day.",
-                "從家常飯菜到三明治，根據你記錄的餐點、當下想法與生活安排，找到下一餐。",
-              )}
-            </p>
-            <div className="hero-actions">
-              <button
-                type="button"
-                className="button primary"
-                onClick={() => {
-                  scrollTo(composerRef.current);
-                  composerRef.current
-                    ?.querySelector<HTMLInputElement>("input")
-                    ?.focus({ preventScroll: true });
-                }}
-              >
-                {t(locale, "Find my next meal", "開始選下一餐")}{" "}
-                <span aria-hidden="true">↗</span>
-              </button>
-              <button
-                type="button"
-                className="button quiet"
-                onClick={startDemo}
-              >
-                {t(locale, "Try an example", "看範例")}
-              </button>
-            </div>
-            <p className="hero-footnote">
-              {t(
-                locale,
-                "No account. No API key needed. English / 繁中.",
-                "免登入、免 API key，支援英文與繁中。",
-              )}
-            </p>
-          </div>
-          <div className="hero-art">
-            <BowlArt />
-            <span>
-              {t(
-                locale,
-                "Familiar food. A fresh idea.",
-                "熟悉的食物，換個新想法。",
-              )}
-            </span>
-          </div>
-        </section>
         <div className="live-message" role="status" aria-live="polite">
           {message}
         </div>
-        {preferencesOpen && (
-          <section id="preferences" className="panel preference-panel">
-            <div className="section-heading">
-              <div>
-                <p className="eyebrow">
-                  {t(locale, "MAKE IT YOURS", "更貼近你的喜好")}
-                </p>
-                <h2>{t(locale, "Your preferences", "你的偏好")}</h2>
-              </div>
-              <button
-                type="button"
-                className="button quiet small-button"
-                onClick={() => setPreferencesOpen(false)}
+        <div
+          className="change-announcement small"
+          role="status"
+          aria-live="polite"
+        >
+          {changeNote}
+        </div>
+        {view === "today" && (
+          <div className="dashboard-grid">
+            <aside className="context-column">
+              <section
+                className="panel context-panel"
+                aria-labelledby="context-title"
               >
-                {t(locale, "Done", "完成")}
-              </button>
-            </div>
-            <PreferenceControls
-              profile={state.profile}
-              update={(profile) => changeProfile(profile)}
-              locale={locale}
-            />
-          </section>
-        )}
-        <div className="main-grid">
-          <div className="input-column">
-            <section
-              className="panel composer"
-              id="meal-input"
-              ref={composerRef}
-              aria-labelledby="input-title"
-              onChangeCapture={() => {
-                if (isParsing) invalidateAiRequest();
-              }}
-              onClickCapture={(event) => {
-                if (
-                  isParsing &&
-                  event.target instanceof Element &&
-                  event.target.closest(
-                    "button, input, select, textarea, summary",
-                  )
-                )
-                  invalidateAiRequest();
-              }}
-            >
-              <p className="eyebrow">
-                {t(locale, "01 / A LITTLE CONTEXT", "01／先了解一點")}
-              </p>
-              <div className="section-heading">
-                <h2 id="input-title">
-                  {editTarget
-                    ? t(locale, "Edit your meal", "編輯這餐")
-                    : pendingPlanId
-                      ? t(
-                          locale,
-                          "What did you actually eat?",
-                          "你實際吃了什麼？",
-                        )
-                      : t(locale, "What have you eaten?", "剛剛吃了什麼？")}
-                </h2>
-                {(editTarget || pendingPlanId) && (
-                  <button
-                    type="button"
-                    className="text-button"
-                    onClick={resetComposer}
+                <div className="section-heading">
+                  <h2 id="context-title">
+                    {t(locale, "Make it fit", "配合現在的你")}
+                  </h2>
+                  <span className="small muted">
+                    {formatDate(today.date, locale)}
+                  </span>
+                </div>
+                <label>
+                  {t(locale, "I feel like…", "現在想吃…")}
+                  <select
+                    value={state.profile.feelToday}
+                    onChange={(event) =>
+                      changeProfile({
+                        ...state.profile,
+                        feelToday: event.target.value as FeelToday,
+                      })
+                    }
                   >
-                    {t(locale, "Cancel", "取消")}
+                    {(
+                      [
+                        ["Normal", "Open to ideas", "都可以"],
+                        ["Need something light", "Something light", "清淡一點"],
+                        ["Want something warm", "Something warm", "吃熱的"],
+                        ["Low energy", "Keep it easy", "省點力氣"],
+                      ] as const
+                    ).map(([value, en, zh]) => (
+                      <option value={value} key={value}>
+                        {t(locale, en, zh)}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+                <label>
+                  {t(locale, "For this meal", "這餐的安排")}
+                  <select
+                    value={state.profile.eatingStyle}
+                    onChange={(event) =>
+                      changeProfile({
+                        ...state.profile,
+                        eatingStyle: event.target.value as EatingStyle,
+                      })
+                    }
+                  >
+                    {(
+                      [
+                        ["Both", "Either works", "都方便"],
+                        ["Mostly home-cooked", "At home", "在家準備"],
+                        ["Mostly takeout", "Eating out", "外食"],
+                      ] as const
+                    ).map(([value, en, zh]) => (
+                      <option value={value} key={value}>
+                        {t(locale, en, zh)}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+                <div className="avoid-summary">
+                  <strong>{t(locale, "Always excluded", "持續避開")}</strong>
+                  <p className="small">
+                    {state.profile.avoidTags.length
+                      ? state.profile.avoidTags
+                          .map((value) => label(value, locale))
+                          .join(t(locale, ", ", "、"))
+                      : t(
+                          locale,
+                          "No avoided items set.",
+                          "尚未設定避開項目。",
+                        )}
+                  </p>
+                  <button
+                    className="text-button"
+                    type="button"
+                    onClick={() => setPreferencesOpen(true)}
+                  >
+                    {t(locale, "Edit preferences", "調整偏好")}
                   </button>
-                )}
-              </div>
-              {editTarget && (
-                <p className="small muted">
-                  {formatDate(targetDay.date, locale)} ·{" "}
-                  {label(editTarget.slot, locale)}
-                </p>
-              )}
-              {!review ? (
-                <form
-                  onSubmit={(event) => {
-                    event.preventDefault();
-                    reviewMeal();
+                </div>
+              </section>
+              <section
+                className="panel today-panel"
+                aria-labelledby="today-title"
+              >
+                <div className="section-heading">
+                  <h2 id="today-title">
+                    {t(locale, "Today, so far", "今天的紀錄")}
+                  </h2>
+                  <span className="small muted">
+                    {formatDate(today.date, locale)}
+                  </span>
+                </div>
+                <button
+                  className="button quiet full-width"
+                  type="button"
+                  onClick={() => {
+                    setComposerOpen(true);
                   }}
                 >
+                  {t(locale, "Add food or drink", "新增食物或飲料")}
+                </button>
+                <LogList
+                  day={today}
+                  locale={locale}
+                  onEdit={(slot) => editMeal(today, slot)}
+                  onDelete={(slot) =>
+                    setDeleteTarget({ dayId: today.id, slot })
+                  }
+                />
+                <p className="small muted">
+                  {t(
+                    locale,
+                    "Only what you record is shown. An empty slot does not mean you skipped a meal.",
+                    "這裡只顯示你記下的內容，空白不代表你沒有吃。",
+                  )}
+                </p>
+              </section>
+            </aside>
+            <section
+              className="panel decision-panel"
+              id="decision"
+              ref={decisionRef}
+              aria-labelledby="decision-title"
+            >
+              <p className="eyebrow">{t(locale, "NEXT MEAL", "下一餐推薦")}</p>
+              <h2 id="decision-title">
+                {t(locale, "A few good options", "從這幾道開始選")}
+              </h2>
+              {isDemo && (
+                <div className="sample-context">
+                  <strong>{t(locale, "EXAMPLE", "範例")}</strong>
+                  <span>
+                    {t(
+                      locale,
+                      "Based on the example records shown here",
+                      "依本頁的範例餐點紀錄配對",
+                    )}
+                  </span>
+                </div>
+              )}
+              {!hasMeal ? (
+                <div className="decision-empty">
+                  <h3>
+                    {t(
+                      locale,
+                      "Start with something you ate.",
+                      "從一餐開始就好。",
+                    )}
+                  </h3>
                   <p className="muted">
                     {t(
                       locale,
-                      "Pick familiar foods or type your own. Add only what you know; amounts can stay unspecified.",
-                      "選常見食物或自行輸入，只記得什麼就填什麼，份量可以保留未知。",
+                      "Record a food or drink to get three next-meal ideas. You can also try the example at the bottom of the page.",
+                      "記下一點食物或飲料，就能比較三個下一餐想法；也可以從頁尾體驗範例。",
                     )}
                   </p>
-                  {groups.slice(0, 4).map((item) => (
-                    <div className="food-field" key={item.field}>
-                      <label htmlFor={`food-${item.field}`}>
-                        {t(locale, item.en, item.zh)}
-                      </label>
-                      <input
-                        id={`food-${item.field}`}
-                        value={fields[item.field]}
-                        maxLength={1200}
-                        onChange={(event) =>
-                          setFields((current) => ({
-                            ...current,
-                            [item.field]: event.target.value,
-                          }))
-                        }
-                        placeholder={t(
-                          locale,
-                          "Separate items with commas",
-                          "多個項目可用頓號或逗號分隔",
-                        )}
-                      />
-                      <div className="quick-foods">
-                        {item.examples.map((food) => (
-                          <button
-                            type="button"
-                            key={food}
-                            onClick={() =>
-                              setFields((current) => ({
-                                ...current,
-                                [item.field]: [
-                                  ...new Set([
-                                    ...splitFoods(current[item.field]),
-                                    translateFood(food, locale),
-                                  ]),
-                                ].join(", "),
-                              }))
-                            }
-                          >
-                            + {translateFood(food, locale)}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-                  ))}
-                  <details
-                    className="optional-fields"
-                    open={Boolean(fields.fruit || fields.soup || fields.other)}
-                  >
-                    <summary>
-                      {t(
-                        locale,
-                        "Fruit, soup & other foods",
-                        "水果、湯品與其他食物",
-                      )}
-                    </summary>
-                    {groups.slice(4).map((item) => (
-                      <label key={item.field}>
-                        {t(locale, item.en, item.zh)}
-                        <input
-                          value={fields[item.field]}
-                          maxLength={1200}
-                          onChange={(event) =>
-                            setFields((current) => ({
-                              ...current,
-                              [item.field]: event.target.value,
-                            }))
-                          }
-                        />
-                      </label>
-                    ))}
-                  </details>
-                  <ContextFields
-                    draft={draft}
-                    setDraft={setDraft}
-                    locale={locale}
-                    lockSlot={Boolean(editTarget)}
-                  />
-                  <button type="submit" className="button primary full-width">
-                    {t(locale, "Review this meal", "檢查這餐內容")}{" "}
-                    <span aria-hidden="true">→</span>
-                  </button>
-                </form>
-              ) : (
-                <div className="review-area" ref={reviewRef} tabIndex={-1}>
-                  <div className="review-heading">
-                    <span className="eyebrow">
-                      {t(locale, "CHECK BEFORE SAVING", "儲存前確認一下")}
-                    </span>
-                    <button
-                      type="button"
-                      className="text-button"
-                      onClick={() => {
-                        setFields(fieldsFrom(draft));
-                        setReview(false);
-                      }}
-                    >
-                      {t(locale, "Back to input", "返回輸入")}
-                    </button>
-                  </div>
-                  {draft.clarification && (
-                    <p className="notice">{draft.clarification}</p>
-                  )}
-                  {draft.assumptions.map((note, index) => (
-                    <p className="small muted" key={index}>
-                      {note}
-                    </p>
-                  ))}
-                  {draft.components.map((component, index) => (
-                    <div className="component-editor" key={index}>
-                      <label>
-                        {t(locale, "Food", "食物")}
-                        <input
-                          value={component.name}
-                          maxLength={120}
-                          onChange={(event) =>
-                            setDraft((current) => ({
-                              ...current,
-                              components: current.components.map((item, i) =>
-                                i === index
-                                  ? { ...item, name: event.target.value }
-                                  : item,
-                              ),
-                            }))
-                          }
-                        />
-                      </label>
-                      <label>
-                        {t(locale, "Group", "類別")}
-                        <select
-                          value={component.group}
-                          onChange={(event) =>
-                            setDraft((current) => ({
-                              ...current,
-                              components: current.components.map((item, i) =>
-                                i === index
-                                  ? {
-                                      ...item,
-                                      group: event.target
-                                        .value as ParsedMealComponent["group"],
-                                    }
-                                  : item,
-                              ),
-                            }))
-                          }
-                        >
-                          {groups.map((item) => (
-                            <option key={item.group} value={item.group}>
-                              {t(locale, item.en, item.zh)}
-                            </option>
-                          ))}
-                        </select>
-                      </label>
-                      <label>
-                        {t(locale, "Amount (optional)", "數量（選填）")}
-                        <input
-                          type="number"
-                          min="0.01"
-                          max="100"
-                          step="any"
-                          value={component.amount.quantity ?? ""}
-                          placeholder={t(locale, "Unspecified", "未說明")}
-                          onChange={(event) =>
-                            setDraft((current) => ({
-                              ...current,
-                              components: current.components.map((item, i) =>
-                                i === index
-                                  ? {
-                                      ...item,
-                                      amount: {
-                                        quantity: event.target.value
-                                          ? Math.max(
-                                              0.01,
-                                              Math.min(
-                                                100,
-                                                Number(event.target.value),
-                                              ),
-                                            )
-                                          : null,
-                                        unit: item.amount.unit,
-                                        qualifier: event.target.value
-                                          ? "exact"
-                                          : "unspecified",
-                                        originalText: null,
-                                      },
-                                    }
-                                  : item,
-                              ),
-                            }))
-                          }
-                        />
-                      </label>
-                      <label>
-                        {t(locale, "Unit", "單位")}
-                        <select
-                          value={component.amount.unit}
-                          onChange={(event) =>
-                            setDraft((current) => ({
-                              ...current,
-                              components: current.components.map((item, i) =>
-                                i === index
-                                  ? {
-                                      ...item,
-                                      amount: {
-                                        ...item.amount,
-                                        unit: event.target
-                                          .value as ParsedAmountUnit,
-                                        originalText: null,
-                                      },
-                                    }
-                                  : item,
-                              ),
-                            }))
-                          }
-                        >
-                          {[
-                            "unspecified",
-                            "bowl",
-                            "cup",
-                            "plate",
-                            "piece",
-                            "slice",
-                            "serving",
-                            "portion",
-                            "tablespoon",
-                            "teaspoon",
-                            "handful",
-                            "glass",
-                            "can",
-                            "bottle",
-                          ].map((unit) => (
-                            <option key={unit} value={unit}>
-                              {label(unit, locale)}
-                            </option>
-                          ))}
-                        </select>
-                      </label>
-                      <button
-                        type="button"
-                        className="text-button danger-text remove-component"
-                        aria-label={t(
-                          locale,
-                          `Remove ${component.name}`,
-                          `移除${component.name}`,
-                        )}
-                        onClick={() =>
-                          setDraft((current) => ({
-                            ...current,
-                            components: current.components.filter(
-                              (_, i) => i !== index,
-                            ),
-                          }))
-                        }
-                      >
-                        {t(locale, "Remove", "移除")}
-                      </button>
-                    </div>
-                  ))}
                   <button
-                    className="text-button"
                     type="button"
-                    onClick={() =>
-                      setDraft((current) => ({
-                        ...current,
-                        components: [
-                          ...current.components,
-                          {
-                            name: "",
-                            group: "other",
-                            amount: amount(),
-                            confidence: "high",
-                          },
-                        ],
-                      }))
-                    }
+                    className="button quiet"
+                    onClick={() => {
+                      setComposerOpen(true);
+                    }}
                   >
-                    + {t(locale, "Add a food", "加入食物")}
+                    {t(locale, "Record my first meal", "記下第一餐")}
                   </button>
-                  <ContextFields
-                    draft={draft}
-                    setDraft={setDraft}
-                    locale={locale}
-                    lockSlot={Boolean(editTarget)}
-                  />
-                  {conflict ? (
-                    <div className="notice">
-                      <strong>
-                        {t(
-                          locale,
-                          `You already recorded ${label(draft.mealSlot, locale)}.`,
-                          `你已經記錄過${label(draft.mealSlot, locale)}。`,
-                        )}
-                      </strong>
-                      <p className="small">
-                        {t(
-                          locale,
-                          "Add these foods to that meal, or replace it with this entry.",
-                          "可以把這些食物補充到原本那餐，或用這筆內容取代。",
-                        )}
-                      </p>
-                      <div className="button-row">
-                        <button
-                          type="button"
-                          className="button primary"
-                          onClick={() => commitMeal("append")}
-                        >
-                          {t(locale, "Add to this meal", "補充這餐")}
-                        </button>
-                        <button
-                          type="button"
-                          className="button quiet"
-                          onClick={() => commitMeal("replace")}
-                        >
-                          {t(locale, "Replace this meal", "取代這餐")}
-                        </button>
-                      </div>
-                    </div>
-                  ) : (
-                    <button
-                      type="button"
-                      className="button primary full-width"
-                      onClick={() => commitMeal("replace")}
-                    >
-                      {editTarget
-                        ? t(locale, "Save changes", "儲存修改")
-                        : t(
-                            locale,
-                            "Confirm & find my next meal",
-                            "確認並找下一餐",
-                          )}
-                    </button>
-                  )}
                 </div>
-              )}
-              {formError && (
-                <p className="notice error" role="alert">
-                  {formError}
-                </p>
-              )}
-              <details className="ai-details">
-                <summary>
-                  {t(
-                    locale,
-                    "Optional: let AI organize your words",
-                    "進階選用：讓 AI 整理文字",
-                  )}
-                </summary>
-                <p className="small muted">
-                  {t(
-                    locale,
-                    "Bring your own OpenAI key. Your meal description and key pass through NextBite's relay to OpenAI. The key stays only in this page's memory; provider charges and data policies apply. The quick form works without AI.",
-                    "使用自己的 OpenAI key。餐點描述與金鑰會經 NextBite 轉送至 OpenAI；金鑰只留在本頁記憶體。費用與資料處理依供應商政策，快速輸入不需要 AI。",
-                  )}
-                </p>
-                <label>
-                  {t(locale, "Session API key", "本次使用的 API key")}
-                  <input
-                    type="password"
-                    autoComplete="off"
-                    spellCheck={false}
-                    value={apiKey}
-                    maxLength={512}
-                    onChange={(event) => setApiKey(event.target.value)}
-                    placeholder="sk-…"
-                  />
-                </label>
-                {apiKey && (
-                  <button
-                    type="button"
-                    className="text-button"
-                    onClick={() => setApiKey("")}
-                  >
-                    {t(locale, "Forget this key", "清除金鑰")}
-                  </button>
-                )}
-                <label>
-                  {t(locale, "Describe one meal", "描述一餐")}
-                  <textarea
-                    maxLength={600}
-                    value={aiText}
-                    onChange={(event) => setAiText(event.target.value)}
-                    placeholder={t(
+              ) : !active || !activePresentation ? (
+                <div className="notice no-options">
+                  <h3>
+                    {t(
                       locale,
-                      "I had chicken rice and half a milk tea for lunch.",
-                      "午餐吃了雞肉飯，喝了半杯奶茶。",
+                      "No compatible meals in this catalog",
+                      "目前餐點庫沒有符合條件的選項",
                     )}
-                  />
-                </label>
-                <span className="small muted">{aiText.length}/600</span>
-                <button
-                  type="button"
-                  className="button quiet full-width"
-                  disabled={isParsing}
-                  onClick={runAi}
-                >
-                  {isParsing
-                    ? t(locale, "Organizing…", "整理中…")
-                    : t(locale, "Organize & review", "整理並檢查")}
-                </button>
-              </details>
-            </section>
-            <section
-              className="panel today-panel"
-              aria-labelledby="today-title"
-            >
-              <div className="section-heading">
-                <h2 id="today-title">
-                  {t(locale, "Today, so far", "今天的紀錄")}
-                </h2>
-                <span className="small muted">
-                  {formatDate(today.date, locale)}
-                </span>
-              </div>
-              <LogList
-                day={today}
-                locale={locale}
-                onEdit={(slot) => editMeal(today, slot)}
-                onDelete={(slot) => setDeleteTarget({ dayId: today.id, slot })}
-              />
-              <p className="small muted">
-                {t(
-                  locale,
-                  "Only what you record is shown. An empty slot does not mean you skipped a meal.",
-                  "這裡只顯示你記下的內容，空白不代表你沒有吃。",
-                )}
-              </p>
-            </section>
-          </div>
-          <section
-            className="panel decision-panel"
-            id="decision"
-            ref={decisionRef}
-            aria-labelledby="decision-title"
-          >
-            <p className="eyebrow">
-              {t(locale, "02 / YOUR NEXT BITE", "02／你的下一餐")}
-            </p>
-            <h2 id="decision-title">
-              {t(locale, "What sounds good now?", "現在想吃什麼？")}
-            </h2>
-            <div className="mood-controls">
-              <fieldset>
-                <legend>{t(locale, "I'm feeling…", "現在比較想…")}</legend>
-                <div className="chip-list">
-                  {(
-                    [
-                      ["Normal", "Open to ideas", "都可以"],
-                      ["Need something light", "Something light", "清淡一點"],
-                      ["Want something warm", "Something warm", "吃熱的"],
-                      ["Low energy", "Keep it easy", "省點力氣"],
-                    ] as Array<[FeelToday, string, string]>
-                  ).map(([value, en, zh]) => (
-                    <button
-                      type="button"
-                      className={cx(
-                        "chip",
-                        state.profile.feelToday === value && "selected",
-                      )}
-                      key={value}
-                      aria-pressed={state.profile.feelToday === value}
-                      onClick={() =>
-                        changeProfile(
-                          { ...state.profile, feelToday: value },
-                          t(
-                            locale,
-                            `${en}. Suggestions recalculated for your choice.`,
-                            `已改為「${zh}」，建議已重新配對。`,
-                          ),
-                        )
-                      }
-                    >
-                      {t(locale, en, zh)}
-                    </button>
-                  ))}
-                </div>
-              </fieldset>
-              <fieldset>
-                <legend>
-                  {t(locale, "For this next meal", "下一餐的安排")}
-                </legend>
-                <div className="chip-list">
-                  {(
-                    [
-                      ["Both", "Either works", "都方便"],
-                      ["Mostly home-cooked", "At home", "在家準備"],
-                      ["Mostly takeout", "Eating out", "外食"],
-                    ] as Array<[EatingStyle, string, string]>
-                  ).map(([value, en, zh]) => (
-                    <button
-                      type="button"
-                      key={value}
-                      className={cx(
-                        "chip",
-                        state.profile.eatingStyle === value && "selected",
-                      )}
-                      aria-pressed={state.profile.eatingStyle === value}
-                      onClick={() =>
-                        changeProfile(
-                          { ...state.profile, eatingStyle: value },
-                          t(
-                            locale,
-                            `${en}. Suggestions recalculated.`,
-                            `已改為「${zh}」，建議已重新配對。`,
-                          ),
-                        )
-                      }
-                    >
-                      {t(locale, en, zh)}
-                    </button>
-                  ))}
-                </div>
-              </fieldset>
-            </div>
-            <p
-              className="change-announcement small"
-              role="status"
-              aria-live="polite"
-            >
-              {changeNote}
-            </p>
-            {!hasMeal ? (
-              <div className="decision-empty">
-                <BowlArt compact />
-                <h3>
-                  {t(
-                    locale,
-                    "A little context goes a long way.",
-                    "從一餐開始就好。",
-                  )}
-                </h3>
-                <p className="muted">
-                  {t(
-                    locale,
-                    "Add something you've eaten to see three next-meal ideas, or explore an example.",
-                    "記下一點吃過的內容，就能比較三個下一餐想法，也可以先體驗範例。",
-                  )}
-                </p>
-                <button
-                  type="button"
-                  className="button quiet"
-                  onClick={startDemo}
-                >
-                  {t(locale, "Explore an example", "體驗範例")}
-                </button>
-              </div>
-            ) : !active || !activePresentation ? (
-              <div className="notice no-options">
-                <h3>
-                  {t(
-                    locale,
-                    "No compatible meals in this catalog",
-                    "目前餐點庫沒有符合條件的選項",
-                  )}
-                </h3>
-                <p>
-                  {t(
-                    locale,
-                    "Your avoided items remain excluded. Review your preferences if they have changed, or choose a meal outside this small catalog.",
-                    "你設定的避開項目仍會維持排除。如果偏好有變，可以檢查設定；也可以選擇餐點庫以外的餐點。",
-                  )}
-                </p>
-                <button
-                  type="button"
-                  className="button quiet"
-                  onClick={() => {
-                    setPreferencesOpen(true);
-                    window.requestAnimationFrame(() =>
-                      document
-                        .getElementById("preferences")
-                        ?.scrollIntoView({ block: "start" }),
-                    );
-                  }}
-                >
-                  {t(locale, "Review preferences", "檢查偏好")}
-                </button>
-              </div>
-            ) : (
-              <>
-                <div className="meal-feature" key={active.id}>
-                  <div className="meal-meta">
-                    <span>{activePresentation.cuisine}</span>
-                    <span>{activePresentation.effort}</span>
-                  </div>
-                  <h3>{activePresentation.title}</h3>
-                  <p className="feature-reason">{active.shortReason}</p>
-                  <ul className="reason-list">
-                    <li>
-                      {t(locale, "Named foods", "餐名中的食物")}:{" "}
-                      {activePresentation.ingredients.join(
-                        t(locale, ", ", "、"),
-                      )}
-                    </li>
-                    <li>
-                      {t(locale, "Works for", "適合")}{" "}
-                      {active.worksFor
-                        .map((value) => label(value, locale))
-                        .join(t(locale, " or ", "或"))}{" "}
-                      · {t(locale, "Pair with", "搭配")}{" "}
-                      {label(active.suggestedDrink, locale)}
-                    </li>
-                  </ul>
-                  <div className="feature-actions">
-                    <button
-                      type="button"
-                      className="button primary full-width"
-                      onClick={() => {
-                        updateState((current) => savePlan(current, active.id));
-                        setMessage(
-                          t(
-                            locale,
-                            "Saved to your next-meal plans. It isn't recorded as eaten.",
-                            "已儲存到下一餐計畫，尚未加入已吃紀錄。",
-                          ),
-                        );
-                      }}
-                    >
-                      {state.plannedMeals.some(
-                        (plan) => plan.mealId === active.id,
-                      )
-                        ? t(locale, "Saved to my plans ✓", "已儲存到計畫 ✓")
-                        : t(locale, "Choose this meal", "就選這道")}{" "}
-                      <span aria-hidden="true">↗</span>
-                    </button>
-                    <button
-                      type="button"
-                      className="button quiet full-width"
-                      onClick={share}
-                      disabled={sharing}
-                    >
-                      {sharing
-                        ? t(locale, "Preparing card…", "製作小卡中…")
-                        : t(locale, "Download meal card", "下載選餐小卡")}
-                    </button>
-                  </div>
-                  <details className="action-tip">
-                    <summary>
-                      {t(locale, "Make it happen", "接下來怎麼準備")}
-                    </summary>
-                    <p>{activePresentation.tip}</p>
-                    <p className="small muted">
-                      {t(locale, "Named components", "餐名中的主要內容")}:{" "}
-                      {activePresentation.ingredients.join(
-                        t(locale, ", ", "、"),
-                      )}
-                    </p>
-                    <p className="small muted">
-                      {t(
-                        locale,
-                        "This is a meal idea, not a complete recipe. Check sauces, actual ingredients and preparation against your needs.",
-                        "這是選餐想法，並非完整食譜；請依自己的需求確認醬料、實際食材與製作方式。",
-                      )}
-                    </p>
-                  </details>
-                </div>
-                <div className="comparison">
-                  <h3>{t(locale, "A few ways to go", "也可以這樣選")}</h3>
-                  <div className="option-grid">
-                    {recommendations.map((meal, index) => (
-                      <button
-                        type="button"
-                        key={meal.id}
-                        className={cx(
-                          "option-card",
-                          selected % recommendations.length === index &&
-                            "active",
-                        )}
-                        aria-pressed={
-                          selected % recommendations.length === index
-                        }
-                        onClick={() => {
-                          setSelected(index);
-                          setMessage(
-                            t(
-                              locale,
-                              "Showing another option. Your meal records stay the same.",
-                              "已切換比較選項，你的餐點紀錄不變。",
-                            ),
-                          );
-                        }}
-                      >
-                        <span>{label(meal.label, locale)}</span>
-                        <strong>{mealTitle(meal, locale)}</strong>
-                        <small>
-                          {getMealPresentation(meal, locale).effort} ·{" "}
-                          {getMealPresentation(meal, locale).cuisine}
-                        </small>
-                      </button>
-                    ))}
-                  </div>
-                </div>
-                <Receipt meal={active} locale={locale} />
-                <p className="small muted filtered-note">
-                  {t(
-                    locale,
-                    `${filteredCount} of 100 curated meals excluded by your current avoids.`,
-                    `目前避開設定已從 100 道精選餐點中排除 ${filteredCount} 道。`,
-                  )}
-                </p>
-              </>
-            )}
-          </section>
-        </div>
-        <section className="panel plans-panel" aria-labelledby="plans-title">
-          <div className="section-heading">
-            <div>
-              <p className="eyebrow">
-                {t(locale, "A SMALL PLAN FOR LATER", "留給下一餐的想法")}
-              </p>
-              <h2 id="plans-title">
-                {t(locale, "My next-meal plans", "我的下一餐計畫")}
-              </h2>
-            </div>
-            <span className="small muted">{state.plannedMeals.length}/12</span>
-          </div>
-          <p className="muted">
-            {t(
-              locale,
-              "Saved ideas stay here until you remove them or record what you ate. Up to 12 recent ideas are kept in this browser.",
-              "儲存的想法會留在這裡，直到你移除或記錄吃過的內容；此瀏覽器最多保留最近 12 道。",
-            )}
-          </p>
-          {state.plannedMeals.length ? (
-            <div className="plan-grid">
-              {state.plannedMeals.map((plan) => {
-                const meal = recommendationDataset.find(
-                  (item) => item.id === plan.mealId,
-                );
-                if (!meal) return null;
-                const detail = getMealPresentation(meal, locale);
-                const conflicts = getHardAvoidConflicts(
-                  state.profile,
-                  meal,
-                  timeWindow,
-                );
-                return (
-                  <article className="plan-card" key={plan.id}>
-                    <span className="small muted">{detail.cuisine}</span>
-                    <h3>{detail.title}</h3>
-                    {conflicts.length ? (
-                      <p className="notice small">
-                        {t(
-                          locale,
-                          "This saved idea conflicts with your current avoids. Review or remove it. Recording something you actually ate is still available.",
-                          "這道先前儲存的想法不符合目前的避開設定，可檢查或移除。你仍可記錄實際吃過的內容。",
-                        )}
-                      </p>
-                    ) : (
-                      <p className="small">{detail.tip}</p>
+                  </h3>
+                  <p>
+                    {t(
+                      locale,
+                      "Your avoided items remain excluded. Review your preferences if they have changed, or choose a meal outside this small catalog.",
+                      "你設定的避開項目仍會維持排除。如果偏好有變，可以檢查設定；也可以選擇餐點庫以外的餐點。",
                     )}
-                    <div className="button-row">
+                  </p>
+                  <button
+                    type="button"
+                    className="button quiet"
+                    onClick={() => {
+                      setPreferencesOpen(true);
+                      window.requestAnimationFrame(() =>
+                        document
+                          .getElementById("preferences")
+                          ?.scrollIntoView({ block: "start" }),
+                      );
+                    }}
+                  >
+                    {t(locale, "Review preferences", "檢查偏好")}
+                  </button>
+                </div>
+              ) : (
+                <>
+                  <div className="meal-feature" key={active.id}>
+                    <div className="meal-meta">
+                      <span className="perspective-label">
+                        {label(active.label, locale)}
+                      </span>
+                      <span>{activePresentation.cuisine}</span>
+                      <span>{activePresentation.effort}</span>
+                    </div>
+                    <h3>{activePresentation.title}</h3>
+                    <p className="feature-reason">{active.shortReason}</p>
+                    <ul className="reason-list">
+                      <li>
+                        {t(locale, "Named foods", "餐名中的食物")}:{" "}
+                        {activePresentation.ingredients.join(
+                          t(locale, ", ", "、"),
+                        )}
+                      </li>
+                      <li>
+                        {t(locale, "Works for", "適合")}{" "}
+                        {active.worksFor
+                          .map((value) => label(value, locale))
+                          .join(t(locale, " or ", "或"))}{" "}
+                        · {t(locale, "Pair with", "搭配")}{" "}
+                        {label(active.suggestedDrink, locale)}
+                      </li>
+                    </ul>
+                    <div className="feature-actions">
                       <button
                         type="button"
-                        className="button quiet small-button"
-                        onClick={() => beginConsumed(meal, plan.id)}
-                      >
-                        {t(
-                          locale,
-                          "I ate this — review",
-                          "我吃了這道，確認內容",
-                        )}
-                      </button>
-                      <button
-                        type="button"
-                        className="text-button"
-                        aria-label={t(
-                          locale,
-                          `Remove plan: ${detail.title}`,
-                          `移除計畫：${detail.title}`,
-                        )}
+                        className="button primary full-width"
                         onClick={() => {
                           updateState((current) =>
-                            removePlan(current, plan.id),
+                            savePlan(current, active.id),
                           );
                           setMessage(
                             t(
                               locale,
-                              "Plan removed. Your meal records are unchanged.",
-                              "已移除計畫，已吃紀錄不變。",
+                              "Saved to your next-meal plans. It isn't recorded as eaten.",
+                              "已儲存到下一餐計畫，尚未加入已吃紀錄。",
                             ),
                           );
                         }}
                       >
-                        {t(locale, "Remove", "移除")}
+                        {state.plannedMeals.some(
+                          (plan) => plan.mealId === active.id,
+                        )
+                          ? t(locale, "Saved to plans", "已儲存到計畫")
+                          : t(locale, "Choose this meal", "就選這道")}
+                      </button>
+                      <button
+                        type="button"
+                        className="button quiet full-width"
+                        onClick={share}
+                        disabled={sharing}
+                      >
+                        {sharing
+                          ? t(locale, "Preparing card…", "製作小卡中…")
+                          : t(locale, "Download meal card", "下載選餐小卡")}
                       </button>
                     </div>
-                  </article>
-                );
-              })}
-            </div>
-          ) : (
-            <p className="empty-note muted">
-              {t(
-                locale,
-                "Found something you like? Choose a meal above to keep it here.",
-                "看到喜歡的餐點時，按「就選這道」就能留在這裡。",
+                    <details className="action-tip">
+                      <summary>
+                        {t(locale, "Make it happen", "接下來怎麼準備")}
+                      </summary>
+                      <p>{activePresentation.tip}</p>
+                      <p className="small muted">
+                        {t(locale, "Named components", "餐名中的主要內容")}:{" "}
+                        {activePresentation.ingredients.join(
+                          t(locale, ", ", "、"),
+                        )}
+                      </p>
+                      <p className="small muted">
+                        {t(
+                          locale,
+                          "This is a meal idea, not a complete recipe. Check sauces, actual ingredients and preparation against your needs.",
+                          "這是選餐想法，並非完整食譜；請依自己的需求確認醬料、實際食材與製作方式。",
+                        )}
+                      </p>
+                    </details>
+                  </div>
+                  <div className="comparison">
+                    <h3>{t(locale, "Two other directions", "另外兩個方向")}</h3>
+                    <div className="option-grid">
+                      {recommendations.map((meal, index) =>
+                        index === selected % recommendations.length ? null : (
+                          <button
+                            type="button"
+                            key={meal.id}
+                            className={cx(
+                              "option-card",
+                              selected % recommendations.length === index &&
+                                "active",
+                            )}
+                            aria-pressed={
+                              selected % recommendations.length === index
+                            }
+                            onClick={() => {
+                              setSelected(index);
+                              setMessage(
+                                t(
+                                  locale,
+                                  "Showing another option. Your meal records stay the same.",
+                                  "已切換比較選項，你的餐點紀錄不變。",
+                                ),
+                              );
+                            }}
+                          >
+                            <span>{label(meal.label, locale)}</span>
+                            <strong>{mealTitle(meal, locale)}</strong>
+                            <small>
+                              {getMealPresentation(meal, locale).effort} ·{" "}
+                              {getMealPresentation(meal, locale).cuisine}
+                            </small>
+                          </button>
+                        ),
+                      )}
+                    </div>
+                  </div>
+                  <Receipt meal={active} locale={locale} />
+                  {state.profile.avoidTags.length > 0 && (
+                    <details className="applied-avoids">
+                      <summary>
+                        {t(
+                          locale,
+                          `${state.profile.avoidTags.length} avoid filters applied`,
+                          `已套用 ${state.profile.avoidTags.length} 項避開設定`,
+                        )}
+                      </summary>
+                      <p className="small muted">
+                        {state.profile.avoidTags
+                          .map((value) => label(value, locale))
+                          .join(t(locale, ", ", "、"))}
+                      </p>
+                    </details>
+                  )}
+                  <p className="small muted filtered-note">
+                    {t(
+                      locale,
+                      `${filteredCount} of 100 curated meals excluded by your current avoids.`,
+                      `目前避開設定已從 100 道精選餐點中排除 ${filteredCount} 道。`,
+                    )}
+                  </p>
+                </>
               )}
-            </p>
-          )}
-        </section>
-        <section className="panel" id="recent-history">
-          <details className="history-details">
-            <summary>
-              <span>
-                <span className="eyebrow">
+            </section>
+          </div>
+        )}
+        {view === "plans" && (
+          <div className="view-content">
+            {" "}
+            <section
+              className="panel plans-panel"
+              aria-labelledby="plans-title"
+            >
+              <div className="section-heading">
+                <div>
+                  <p className="eyebrow">
+                    {t(locale, "A SMALL PLAN FOR LATER", "留給下一餐的想法")}
+                  </p>
+                  <h2 id="plans-title">
+                    {t(locale, "My next-meal plans", "我的下一餐計畫")}
+                  </h2>
+                </div>
+                <span className="small muted">
+                  {state.plannedMeals.length}/12
+                </span>
+              </div>
+              <p className="muted">
+                {t(
+                  locale,
+                  "Saved ideas stay here until you remove them or record what you ate. Up to 12 recent ideas are kept in this browser.",
+                  "儲存的想法會留在這裡，直到你移除或記錄吃過的內容；此瀏覽器最多保留最近 12 道。",
+                )}
+              </p>
+              {state.plannedMeals.length ? (
+                <div className="plan-grid">
+                  {state.plannedMeals.map((plan) => {
+                    const meal = recommendationDataset.find(
+                      (item) => item.id === plan.mealId,
+                    );
+                    if (!meal) return null;
+                    const detail = getMealPresentation(meal, locale);
+                    const conflicts = getHardAvoidConflicts(
+                      state.profile,
+                      meal,
+                      timeWindow,
+                    );
+                    return (
+                      <article className="plan-card" key={plan.id}>
+                        <span className="small muted">{detail.cuisine}</span>
+                        <h3>{detail.title}</h3>
+                        {conflicts.length ? (
+                          <p className="notice small">
+                            {t(
+                              locale,
+                              "This saved idea conflicts with your current avoids. Review or remove it. Recording something you actually ate is still available.",
+                              "這道先前儲存的想法不符合目前的避開設定，可檢查或移除。你仍可記錄實際吃過的內容。",
+                            )}
+                          </p>
+                        ) : (
+                          <p className="small">{detail.tip}</p>
+                        )}
+                        <div className="button-row">
+                          <button
+                            type="button"
+                            className="button quiet small-button"
+                            onClick={() => beginConsumed(meal, plan.id)}
+                          >
+                            {t(
+                              locale,
+                              "I ate this — review",
+                              "我吃了這道，確認內容",
+                            )}
+                          </button>
+                          <button
+                            type="button"
+                            className="text-button"
+                            aria-label={t(
+                              locale,
+                              `Remove plan: ${detail.title}`,
+                              `移除計畫：${detail.title}`,
+                            )}
+                            onClick={() => {
+                              updateState((current) =>
+                                removePlan(current, plan.id),
+                              );
+                              setMessage(
+                                t(
+                                  locale,
+                                  "Plan removed. Your meal records are unchanged.",
+                                  "已移除計畫，已吃紀錄不變。",
+                                ),
+                              );
+                            }}
+                          >
+                            {t(locale, "Remove", "移除")}
+                          </button>
+                        </div>
+                      </article>
+                    );
+                  })}
+                </div>
+              ) : (
+                <p className="empty-note muted">
                   {t(
                     locale,
-                    "WHEN YOU WANT THE BIGGER PICTURE",
-                    "想回顧時再看看",
+                    "Choose a meal from Next meal to save an idea here.",
+                    "到「今日選餐」找到喜歡的餐點，按「就選這道」就能儲存在這裡。",
                   )}
-                </span>
-                <span className="summary-title">
-                  {t(locale, "Recent 7 days", "最近七天")}
-                </span>
+                </p>
+              )}
+            </section>
+          </div>
+        )}
+        {view === "history" && (
+          <section
+            className="panel history-panel"
+            aria-labelledby="history-title"
+          >
+            <div className="section-heading">
+              <h2 id="history-title">
+                {t(locale, "Your last seven days", "最近七天紀錄")}
+              </h2>
+              <span className="small muted">
+                {t(
+                  locale,
+                  `${weekly.dataBasis.loggedMealCount} recorded slots`,
+                  `${weekly.dataBasis.loggedMealCount} 個餐別有紀錄`,
+                )}
               </span>
-            </summary>
+            </div>
             <p className="muted">
               {t(
                 locale,
-                "Records stay in this browser and roll over after seven calendar days. Export them below if you want to keep a copy. Unrecorded meals remain unknown.",
-                "紀錄只存在此瀏覽器，並保留滾動的七個日曆日。想保留副本可從下方匯出；未記錄的餐點仍是未知。",
+                "A record of what you logged, without daily completion targets.",
+                "回顧你記下的內容，不設定每日完成目標。",
               )}
             </p>
-            <div
-              className="date-tabs"
-              role="group"
-              aria-label={t(locale, "Previous days", "過去日期")}
-            >
-              {past.map((day) => (
-                <button
-                  className={cx(
-                    "chip",
-                    selectedPast?.id === day.id && "selected",
-                  )}
-                  type="button"
-                  key={day.id}
-                  aria-pressed={selectedPast?.id === day.id}
-                  onClick={() => setHistoryDay(day.id)}
+            <HistoryGrid
+              days={state.days}
+              locale={locale}
+              onSelect={(day, slot) => {
+                setHistoryDay(day.id);
+                if (isMealLogged(day.todayLog[slot])) editMeal(day, slot);
+                else startDraft(blankDraft(slot), { dayId: day.id, slot });
+              }}
+            />
+            <div className="record-detail">
+              <label>
+                {t(locale, "Review day", "查看日期")}
+                <select
+                  value={selectedPast.id}
+                  onChange={(event) => setHistoryDay(event.target.value)}
                 >
-                  {formatDate(day.date, locale)}
-                </button>
-              ))}
+                  {state.days.map((day) => (
+                    <option value={day.id} key={day.id}>
+                      {formatDate(day.date, locale)}
+                      {day.isToday ? t(locale, " · Today", " · 今天") : ""}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <LogList
+                day={selectedPast}
+                locale={locale}
+                onEdit={(slot) => editMeal(selectedPast, slot)}
+                onDelete={(slot) =>
+                  setDeleteTarget({ dayId: selectedPast.id, slot })
+                }
+              />
             </div>
-            {selectedPast && (
-              <>
-                <LogList
-                  day={selectedPast}
-                  locale={locale}
-                  onEdit={(slot) => editMeal(selectedPast, slot)}
-                  onDelete={(slot) =>
-                    setDeleteTarget({ dayId: selectedPast.id, slot })
-                  }
-                />
-                <div className="button-row">
-                  {mealNames
-                    .filter(
-                      (slot) => !isMealLogged(selectedPast.todayLog[slot]),
-                    )
-                    .map((slot) => (
-                      <button
-                        key={slot}
-                        type="button"
-                        className="button quiet small-button"
-                        onClick={() =>
-                          startDraft(blankDraft(slot), {
-                            dayId: selectedPast.id,
-                            slot,
-                          })
-                        }
-                      >
-                        +{" "}
-                        {t(
-                          locale,
-                          `Record ${label(slot, locale)}`,
-                          `補登${label(slot, locale)}`,
-                        )}
-                      </button>
-                    ))}
-                </div>
-              </>
-            )}
-            <div className="weekly-summary">
-              <h3>
-                {t(locale, "What appears in your records", "紀錄中出現的模式")}
-              </h3>
+            <details className="weekly-summary">
+              <summary>
+                {t(locale, "Patterns in these records", "這些紀錄中的模式")}
+              </summary>
               {weekly.summaryLines.map((line) => (
                 <p key={line}>{line}</p>
               ))}
               <p className="small muted">
                 {t(
                   locale,
-                  `${weekly.dataBasis.loggedMealCount} recorded meal slots across ${weekly.dataBasis.loggedDayCount} days. This is a description of these records, not an assessment of your usual diet.`,
-                  `${weekly.dataBasis.loggedDayCount} 天中共有 ${weekly.dataBasis.loggedMealCount} 個餐別有紀錄。這只描述這些紀錄，並非評估你平常的整體飲食。`,
+                  "Records stay in this browser and roll over after seven calendar days. Export a copy from Data & method. These patterns describe recorded food groups, not your usual diet or nutrient adequacy.",
+                  "紀錄只存在此瀏覽器，保留滾動的七個日曆日；可從「資料與方法」匯出副本。這些模式只描述紀錄中的食物類別，並非評估平常飲食或營養充足度。",
                 )}
               </p>
-            </div>
-          </details>
-        </section>
-        <section className="panel catalog-panel">
-          <details>
-            <summary>
-              <span>
+            </details>
+          </section>
+        )}
+        {view === "catalog" && (
+          <div className="view-content">
+            <section
+              className="panel catalog-panel"
+              aria-labelledby="catalog-title"
+            >
+              <h2 id="catalog-title">
+                {t(locale, "100 everyday meal ideas", "100 道日常餐點想法")}
+              </h2>{" "}
+              <p className="muted">
+                {t(
+                  locale,
+                  "A fixed collection of Asian and Western meal templates. Recipes and portions vary; these are ideas to adapt, not verified nutrient records.",
+                  "整理亞洲與西式日常餐點的固定選集。實際配方與份量各有不同，這些是可調整的選餐想法。",
+                )}
+              </p>
+              <label>
+                {t(locale, "Find a meal idea", "搜尋餐點想法")}
+                <input
+                  type="search"
+                  value={catalogQuery}
+                  onChange={(event) => setCatalogQuery(event.target.value)}
+                  placeholder={t(
+                    locale,
+                    "Try rice, soup, or tofu",
+                    "試試飯、湯或豆腐",
+                  )}
+                />
+              </label>
+              <p className="small muted">{filteredCatalog.length}/100</p>
+              <div className="catalog-grid">
+                {filteredCatalog.map((meal) => (
+                  <article key={meal.id}>
+                    <span className="small muted">
+                      {getMealPresentation(meal, locale).cuisine}
+                    </span>
+                    <h3>{mealTitle(meal, locale)}</h3>
+                    <p className="small">
+                      {getMealPresentation(meal, locale).effort}
+                    </p>
+                  </article>
+                ))}
+              </div>
+            </section>
+          </div>
+        )}
+        <footer className="site-footer">
+          <span>
+            {t(
+              locale,
+              "100 curated meal ideas. No account required.",
+              "100 道精選餐點想法，免帳號即可使用。",
+            )}
+          </span>
+          <button className="text-button" type="button" onClick={startDemo}>
+            {t(locale, "Try the beef-noodle example", "試用牛肉麵範例")}
+          </button>
+        </footer>
+      </main>
+      <Drawer
+        open={composerOpen}
+        title={t(locale, "Meal record", "餐點紀錄")}
+        closeLabel={t(locale, "Close editor", "關閉編輯")}
+        onClose={() => {
+          invalidateAiRequest();
+          setComposerOpen(false);
+        }}
+      >
+        {isDemo && (
+          <p className="notice">
+            {t(locale, "Editing example data only.", "目前只編輯範例資料。")}
+          </p>
+        )}
+        <section
+          className="panel composer"
+          id="meal-input"
+          ref={composerRef}
+          aria-labelledby="input-title"
+          onChangeCapture={() => {
+            if (isParsing) invalidateAiRequest();
+          }}
+          onClickCapture={(event) => {
+            if (
+              isParsing &&
+              event.target instanceof Element &&
+              event.target.closest("button, input, select, textarea, summary")
+            )
+              invalidateAiRequest();
+          }}
+        >
+          <div className="section-heading">
+            <h2 id="input-title">
+              {editTarget
+                ? t(locale, "Edit your meal", "編輯這餐")
+                : pendingPlanId
+                  ? t(locale, "What did you actually eat?", "你實際吃了什麼？")
+                  : t(locale, "What have you eaten?", "剛剛吃了什麼？")}
+            </h2>
+            {(editTarget ||
+              pendingPlanId ||
+              review ||
+              Object.values(fields).some(Boolean)) && (
+              <button
+                type="button"
+                className="text-button"
+                onClick={() => {
+                  resetComposer();
+                  setComposerOpen(false);
+                }}
+              >
+                {t(locale, "Discard draft", "捨棄草稿")}
+              </button>
+            )}
+          </div>
+          {editTarget && (
+            <p className="small muted">
+              {formatDate(targetDay.date, locale)} ·{" "}
+              {label(editTarget.slot, locale)}
+            </p>
+          )}
+          {!review ? (
+            <form
+              onSubmit={(event) => {
+                event.preventDefault();
+                reviewMeal();
+              }}
+            >
+              <p className="muted">
+                {t(
+                  locale,
+                  "Pick familiar foods or type your own. Add only what you know; amounts can stay unspecified.",
+                  "選常見食物或自行輸入，只記得什麼就填什麼，份量可以保留未知。",
+                )}
+              </p>
+              {groups.slice(0, 4).map((item) => (
+                <div className="food-field" key={item.field}>
+                  <label htmlFor={`food-${item.field}`}>
+                    {t(locale, item.en, item.zh)}
+                  </label>
+                  <input
+                    id={`food-${item.field}`}
+                    value={fields[item.field]}
+                    maxLength={1200}
+                    onChange={(event) =>
+                      setFields((current) => ({
+                        ...current,
+                        [item.field]: event.target.value,
+                      }))
+                    }
+                    placeholder={t(
+                      locale,
+                      "Separate items with commas",
+                      "多個項目可用頓號或逗號分隔",
+                    )}
+                  />
+                  <div className="quick-foods">
+                    {item.examples.map((food) => (
+                      <button
+                        type="button"
+                        key={food}
+                        onClick={() =>
+                          setFields((current) => ({
+                            ...current,
+                            [item.field]: [
+                              ...new Set([
+                                ...splitFoods(current[item.field]),
+                                translateFood(food, locale),
+                              ]),
+                            ].join(", "),
+                          }))
+                        }
+                      >
+                        + {translateFood(food, locale)}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              ))}
+              <details
+                className="optional-fields"
+                open={Boolean(fields.fruit || fields.soup || fields.other)}
+              >
+                <summary>
+                  {t(
+                    locale,
+                    "Fruit, soup & other foods",
+                    "水果、湯品與其他食物",
+                  )}
+                </summary>
+                {groups.slice(4).map((item) => (
+                  <label key={item.field}>
+                    {t(locale, item.en, item.zh)}
+                    <input
+                      value={fields[item.field]}
+                      maxLength={1200}
+                      onChange={(event) =>
+                        setFields((current) => ({
+                          ...current,
+                          [item.field]: event.target.value,
+                        }))
+                      }
+                    />
+                  </label>
+                ))}
+              </details>
+              <ContextFields
+                draft={draft}
+                setDraft={setDraft}
+                locale={locale}
+                lockSlot={Boolean(editTarget)}
+              />
+              <button type="submit" className="button primary full-width">
+                {t(locale, "Review this meal", "檢查這餐內容")}{" "}
+                <span aria-hidden="true">→</span>
+              </button>
+            </form>
+          ) : (
+            <div className="review-area" ref={reviewRef} tabIndex={-1}>
+              <div className="review-heading">
                 <span className="eyebrow">
-                  {t(locale, "A CURATED STARTING POINT", "精選的日常靈感")}
+                  {t(locale, "CHECK BEFORE SAVING", "儲存前確認一下")}
                 </span>
-                <span className="summary-title">
-                  {t(locale, "100 everyday meal ideas", "100 道日常餐點想法")}
-                </span>
-              </span>
-            </summary>
-            <p className="muted">
+                <button
+                  type="button"
+                  className="text-button"
+                  onClick={() => {
+                    setFields(fieldsFrom(draft));
+                    setReview(false);
+                  }}
+                >
+                  {t(locale, "Back to input", "返回輸入")}
+                </button>
+              </div>
+              {draft.clarification && (
+                <p className="notice">{draft.clarification}</p>
+              )}
+              {draft.assumptions.map((note, index) => (
+                <p className="small muted" key={index}>
+                  {note}
+                </p>
+              ))}
+              {draft.components.map((component, index) => (
+                <div className="component-editor" key={index}>
+                  <label>
+                    {t(locale, "Food", "食物")}
+                    <input
+                      value={component.name}
+                      maxLength={120}
+                      onChange={(event) =>
+                        setDraft((current) => ({
+                          ...current,
+                          components: current.components.map((item, i) =>
+                            i === index
+                              ? { ...item, name: event.target.value }
+                              : item,
+                          ),
+                        }))
+                      }
+                    />
+                  </label>
+                  <label>
+                    {t(locale, "Group", "類別")}
+                    <select
+                      value={component.group}
+                      onChange={(event) =>
+                        setDraft((current) => ({
+                          ...current,
+                          components: current.components.map((item, i) =>
+                            i === index
+                              ? {
+                                  ...item,
+                                  group: event.target
+                                    .value as ParsedMealComponent["group"],
+                                }
+                              : item,
+                          ),
+                        }))
+                      }
+                    >
+                      {groups.map((item) => (
+                        <option key={item.group} value={item.group}>
+                          {t(locale, item.en, item.zh)}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+                  <label>
+                    {t(locale, "Amount (optional)", "數量（選填）")}
+                    <input
+                      type="number"
+                      min="0.01"
+                      max="100"
+                      step="any"
+                      value={component.amount.quantity ?? ""}
+                      placeholder={t(locale, "Unspecified", "未說明")}
+                      onChange={(event) =>
+                        setDraft((current) => ({
+                          ...current,
+                          components: current.components.map((item, i) =>
+                            i === index
+                              ? {
+                                  ...item,
+                                  amount: {
+                                    quantity: event.target.value
+                                      ? Math.max(
+                                          0.01,
+                                          Math.min(
+                                            100,
+                                            Number(event.target.value),
+                                          ),
+                                        )
+                                      : null,
+                                    unit: item.amount.unit,
+                                    qualifier: event.target.value
+                                      ? "exact"
+                                      : "unspecified",
+                                    originalText: null,
+                                  },
+                                }
+                              : item,
+                          ),
+                        }))
+                      }
+                    />
+                  </label>
+                  <label>
+                    {t(locale, "Unit", "單位")}
+                    <select
+                      value={component.amount.unit}
+                      onChange={(event) =>
+                        setDraft((current) => ({
+                          ...current,
+                          components: current.components.map((item, i) =>
+                            i === index
+                              ? {
+                                  ...item,
+                                  amount: {
+                                    ...item.amount,
+                                    unit: event.target
+                                      .value as ParsedAmountUnit,
+                                    originalText: null,
+                                  },
+                                }
+                              : item,
+                          ),
+                        }))
+                      }
+                    >
+                      {[
+                        "unspecified",
+                        "bowl",
+                        "cup",
+                        "plate",
+                        "piece",
+                        "slice",
+                        "serving",
+                        "portion",
+                        "tablespoon",
+                        "teaspoon",
+                        "handful",
+                        "glass",
+                        "can",
+                        "bottle",
+                      ].map((unit) => (
+                        <option key={unit} value={unit}>
+                          {label(unit, locale)}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+                  <button
+                    type="button"
+                    className="text-button danger-text remove-component"
+                    aria-label={t(
+                      locale,
+                      `Remove ${component.name}`,
+                      `移除${component.name}`,
+                    )}
+                    onClick={() =>
+                      setDraft((current) => ({
+                        ...current,
+                        components: current.components.filter(
+                          (_, i) => i !== index,
+                        ),
+                      }))
+                    }
+                  >
+                    {t(locale, "Remove", "移除")}
+                  </button>
+                </div>
+              ))}
+              <button
+                className="text-button"
+                type="button"
+                onClick={() =>
+                  setDraft((current) => ({
+                    ...current,
+                    components: [
+                      ...current.components,
+                      {
+                        name: "",
+                        group: "other",
+                        amount: amount(),
+                        confidence: "high",
+                      },
+                    ],
+                  }))
+                }
+              >
+                + {t(locale, "Add a food", "加入食物")}
+              </button>
+              <ContextFields
+                draft={draft}
+                setDraft={setDraft}
+                locale={locale}
+                lockSlot={Boolean(editTarget)}
+              />
+              {conflict ? (
+                <div className="notice">
+                  <strong>
+                    {t(
+                      locale,
+                      `You already recorded ${label(draft.mealSlot, locale)}.`,
+                      `你已經記錄過${label(draft.mealSlot, locale)}。`,
+                    )}
+                  </strong>
+                  <p className="small">
+                    {t(
+                      locale,
+                      "Add these foods to that meal, or replace it with this entry.",
+                      "可以把這些食物補充到原本那餐，或用這筆內容取代。",
+                    )}
+                  </p>
+                  <div className="button-row">
+                    <button
+                      type="button"
+                      className="button primary"
+                      onClick={() => commitMeal("append")}
+                    >
+                      {t(locale, "Add to this meal", "補充這餐")}
+                    </button>
+                    <button
+                      type="button"
+                      className="button quiet"
+                      onClick={() => commitMeal("replace")}
+                    >
+                      {t(locale, "Replace this meal", "取代這餐")}
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <button
+                  type="button"
+                  className="button primary full-width"
+                  onClick={() => commitMeal("replace")}
+                >
+                  {editTarget
+                    ? t(locale, "Save changes", "儲存修改")
+                    : t(
+                        locale,
+                        "Confirm & find my next meal",
+                        "確認並找下一餐",
+                      )}
+                </button>
+              )}
+            </div>
+          )}
+          {formError && (
+            <p className="notice error" role="alert">
+              {formError}
+            </p>
+          )}
+          <details className="ai-details">
+            <summary>
               {t(
                 locale,
-                "A fixed collection of Asian and Western meal templates. Recipes and portions vary; these are ideas to adapt, not verified nutrient records.",
-                "整理亞洲與西式日常餐點的固定選集。實際配方與份量各有不同，這些是可調整的選餐想法。",
+                "Optional: let AI organize your words",
+                "進階選用：讓 AI 整理文字",
+              )}
+            </summary>
+            <p className="small muted">
+              {t(
+                locale,
+                "Bring your own OpenAI key. Your meal description and key pass through NextBite's relay to OpenAI. The key stays only in this page's memory; provider charges and data policies apply. The quick form works without AI.",
+                "使用自己的 OpenAI key。餐點描述與金鑰會經 NextBite 轉送至 OpenAI；金鑰只留在本頁記憶體。費用與資料處理依供應商政策，快速輸入不需要 AI。",
               )}
             </p>
             <label>
-              {t(locale, "Find a meal idea", "搜尋餐點想法")}
+              {t(locale, "Session API key", "本次使用的 API key")}
               <input
-                type="search"
-                value={catalogQuery}
-                onChange={(event) => setCatalogQuery(event.target.value)}
+                type="password"
+                autoComplete="off"
+                spellCheck={false}
+                value={apiKey}
+                maxLength={512}
+                onChange={(event) => setApiKey(event.target.value)}
+                placeholder="sk-…"
+              />
+            </label>
+            {apiKey && (
+              <button
+                type="button"
+                className="text-button"
+                onClick={() => setApiKey("")}
+              >
+                {t(locale, "Forget this key", "清除金鑰")}
+              </button>
+            )}
+            <label>
+              {t(locale, "Describe one meal", "描述一餐")}
+              <textarea
+                maxLength={600}
+                value={aiText}
+                onChange={(event) => setAiText(event.target.value)}
                 placeholder={t(
                   locale,
-                  "Try rice, soup, or tofu",
-                  "試試飯、湯或豆腐",
+                  "I had chicken rice and half a milk tea for lunch.",
+                  "午餐吃了雞肉飯，喝了半杯奶茶。",
                 )}
               />
             </label>
-            <p className="small muted">{filteredCatalog.length}/100</p>
-            <div className="catalog-grid">
-              {filteredCatalog.map((meal) => (
-                <article key={meal.id}>
-                  <span className="small muted">
-                    {getMealPresentation(meal, locale).cuisine}
-                  </span>
-                  <h3>{mealTitle(meal, locale)}</h3>
-                  <p className="small">
-                    {getMealPresentation(meal, locale).effort}
-                  </p>
-                </article>
-              ))}
-            </div>
+            <span className="small muted">{aiText.length}/600</span>
+            <button
+              type="button"
+              className="button quiet full-width"
+              disabled={isParsing}
+              onClick={runAi}
+            >
+              {isParsing
+                ? t(locale, "Organizing…", "整理中…")
+                : t(locale, "Organize & review", "整理並檢查")}
+            </button>
           </details>
         </section>
+      </Drawer>
+      <Drawer
+        open={preferencesOpen}
+        title={t(locale, "Your preferences", "你的偏好")}
+        closeLabel={t(locale, "Close preferences", "關閉偏好")}
+        onClose={() => setPreferencesOpen(false)}
+      >
+        <div className="drawer-status" role="status" aria-live="polite">
+          {changeNote}
+        </div>
+        <PreferenceControls
+          profile={realState.profile}
+          update={(profile) => {
+            const preferences = {
+              avoidTags: profile.avoidTags,
+              preferenceTags: profile.preferenceTags,
+            };
+            setRealState((current) => ({
+              ...current,
+              profile: { ...current.profile, ...preferences },
+            }));
+            setDemoState((current) =>
+              current
+                ? {
+                    ...current,
+                    profile: { ...current.profile, ...preferences },
+                  }
+                : null,
+            );
+            setSelected(0);
+            setChangeNote(
+              t(
+                locale,
+                "Preferences saved. Suggestions recalculated.",
+                "偏好已儲存，建議已重新配對。",
+              ),
+            );
+          }}
+          locale={locale}
+        />
+      </Drawer>
+      <Drawer
+        open={dataOpen}
+        title={t(locale, "Data & method", "資料與方法")}
+        closeLabel={t(locale, "Close data & method", "關閉資料與方法")}
+        onClose={() => setDataOpen(false)}
+      >
+        <div className="drawer-status" role="status" aria-live="polite">
+          {message}
+        </div>
         <section className="panel data-panel" id="your-data">
           <div className="section-heading">
             <div>
@@ -2497,20 +2502,7 @@ export default function App() {
             </p>
           </details>
         </section>
-        <footer className="site-footer">
-          <span>
-            NextBite ·{" "}
-            {t(
-              locale,
-              "Made for the everyday in-between.",
-              "讓日常選餐，輕鬆一點。",
-            )}
-          </span>
-          <span>
-            {t(locale, "A curated meal-choice beta", "精選餐點決策 Beta")}
-          </span>
-        </footer>
-      </main>
+      </Drawer>
       {deleteTarget && (
         <ConfirmationDialog
           title={t(

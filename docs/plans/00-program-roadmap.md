@@ -1,6 +1,26 @@
 # NextBite product roadmap
 
-## Active release — low-maintenance launch beta
+## Active iteration — dashboard
+
+Status: review
+Authorized: 2026-11-03–2026-11-04, user approved the dashboard iteration with
+「好，改改看」 after reviewing its scope and design tradeoffs.
+Branch: `codex/launch-beta`
+Base: `730b5632222d5b303a72785c7be5b4dd25348cb7`
+
+Read [`07-dashboard.md`](./07-dashboard.md) before continuing this iteration.
+The work reorganizes the existing product around Today, Records, Plans and
+Library; adds native drawers and descriptive record/rule views; and simplifies
+the visual system. Existing recommendation rules, local records, plans,
+credential handling and export boundaries remain in force. No new dependency
+or deployment is authorized by this iteration.
+
+Final current-tree verification and the dashboard handoff are recorded in
+`07-dashboard.md`. Both the dashboard and the underlying launch beta remain in
+`review`; neither status means user acceptance, merge, push or deployment.
+Nutrition research remains deferred.
+
+## Underlying release — low-maintenance launch beta
 
 Status: review
 Authorized: 2026-11-03, user requested a new branch and implementation of steps 1–12 from the agreed launch iteration list.

@@ -47,3 +47,6 @@ jobs:
 
       - name: Verify bilingual catalog presentation
         run: npm run verify:presentation
+
+      - name: Verify dashboard record and score charts
+        run: npm run verify:dashboard

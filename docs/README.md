@@ -12,9 +12,16 @@ entry gate, exit gate, stop conditions, and required handoff. Update the plan
 status and evidence only after the corresponding work has actually been
 verified.
 
-Current authorized release:
+Current authorized iteration:
 
-- [`Low-maintenance launch beta — steps 1–12`](./plans/06-launch-beta.md)
+- [`Dashboard iteration`](./plans/07-dashboard.md) — `review`, on
+  `codex/launch-beta`, based on the implemented launch beta at `730b563`.
+
+Underlying release:
+
+- [`Low-maintenance launch beta — steps 1–12`](./plans/06-launch-beta.md) —
+  `review`; this dashboard iteration preserves its product, storage and safety
+  boundaries. Review does not imply user acceptance, merge or deployment.
 
 The nutrition evidence phases remain deferred. The launch beta is a curated
 meal-choice product, and does not claim completion of that evidence program.
