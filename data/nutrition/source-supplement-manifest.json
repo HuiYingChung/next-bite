@@ -1,0 +1,16 @@
+{
+  "id": "usda-sr-legacy-2018-shrimp-supplement",
+  "provider": "U.S. Department of Agriculture, Agricultural Research Service",
+  "dataset": "FoodData Central — SR Legacy, cooked-shrimp supplement",
+  "release": "2018-04",
+  "recordPublicationDate": "2019-04-01",
+  "retrievedAt": "2026-11-04T20:24:55.3232573Z",
+  "url": "https://fdc.nal.usda.gov/food-details/171971/nutrients",
+  "license": "CC0-1.0",
+  "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "termsVerifiedAt": "2026-11-04",
+  "termsUrl": "https://fdc.nal.usda.gov/api-guide/",
+  "snapshotPath": "data/nutrition/usda-sr-legacy-shrimp-171971-2026-11-04.json",
+  "snapshotSha256": "4cd11c19a62e9a6c25d0b92c9accedbcc6d6424266760e24ebdcd324ab86f37b",
+  "acquisition": {"method":"GET","endpoint":"https://api.nal.usda.gov/fdc/v1/foods","authentication":"USDA public demonstration key, not a private account key","fdcIds":[171971]}
+}

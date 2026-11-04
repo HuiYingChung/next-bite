@@ -1,128 +1,7 @@
+import { mealSchema, validateParsedMeal } from "../shared/meal-validation.mjs";
 const MAX_INPUT_LENGTH = 600;
 const MAX_KEY_LENGTH = 512;
 const ALLOWED_SLOTS = ["Breakfast", "Lunch", "Dinner", "Snacks / Drinks"];
-
-const mealSchema = {
-  type: "object",
-  additionalProperties: false,
-  required: [
-    "displayName",
-    "mealSlot",
-    "components",
-    "cookingMethod",
-    "mealSource",
-    "portion",
-    "assumptions",
-    "clarification",
-  ],
-  properties: {
-    displayName: { type: "string", minLength: 1, maxLength: 100 },
-    mealSlot: { type: "string", enum: ALLOWED_SLOTS },
-    components: {
-      type: "array",
-      minItems: 1,
-      maxItems: 16,
-      items: {
-        type: "object",
-        additionalProperties: false,
-        required: ["name", "group", "amount", "confidence"],
-        properties: {
-          name: { type: "string", minLength: 1, maxLength: 60 },
-          group: {
-            type: "string",
-            enum: ["protein", "vegetable", "carb", "fruit", "soup", "drink", "other"],
-          },
-          amount: {
-            type: "object",
-            additionalProperties: false,
-            required: ["quantity", "unit", "qualifier", "originalText"],
-            properties: {
-              quantity: {
-                anyOf: [
-                  { type: "number", minimum: 0.01, maximum: 50 },
-                  { type: "null" },
-                ],
-              },
-              unit: {
-                type: "string",
-                enum: [
-                  "serving",
-                  "portion",
-                  "cup",
-                  "bowl",
-                  "plate",
-                  "piece",
-                  "slice",
-                  "tablespoon",
-                  "teaspoon",
-                  "handful",
-                  "glass",
-                  "can",
-                  "bottle",
-                  "unspecified",
-                ],
-              },
-              qualifier: {
-                type: "string",
-                enum: ["exact", "approximate", "unspecified"],
-              },
-              originalText: {
-                anyOf: [
-                  { type: "string", minLength: 1, maxLength: 40 },
-                  { type: "null" },
-                ],
-              },
-            },
-          },
-          confidence: {
-            type: "string",
-            enum: ["high", "medium", "limited"],
-          },
-        },
-      },
-    },
-    cookingMethod: {
-      type: "string",
-      enum: [
-        "Stir-fried",
-        "Grilled",
-        "Steamed",
-        "Boiled",
-        "Fried",
-        "Soup / stew",
-        "Raw / cold",
-        "Other",
-      ],
-    },
-    mealSource: {
-      type: "string",
-      enum: ["Home-cooked", "Takeout", "Restaurant", "Ready-made"],
-    },
-    portion: {
-      type: "object",
-      additionalProperties: false,
-      required: ["size", "confidence"],
-      properties: {
-        size: { type: "string", enum: ["Small", "Medium", "Large"] },
-        confidence: {
-          type: "string",
-          enum: ["high", "medium", "limited"],
-        },
-      },
-    },
-    assumptions: {
-      type: "array",
-      maxItems: 6,
-      items: { type: "string", minLength: 1, maxLength: 120 },
-    },
-    clarification: {
-      anyOf: [
-        { type: "string", minLength: 1, maxLength: 140 },
-        { type: "null" },
-      ],
-    },
-  },
-};
 
 const setPrivateResponseHeaders = (res) => {
   res.setHeader("cache-control", "no-store, max-age=0");
@@ -148,10 +27,20 @@ const extractOutputText = (response) => {
 };
 
 const parseBody = (body) => {
-  if (body && typeof body === "object") return body;
-  if (typeof body === "string") return JSON.parse(body);
-  return {};
+  const parsed = typeof body === "string" ? JSON.parse(body) : body;
+  if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) {
+    throw new Error("Expected a JSON object.");
+  }
+  return parsed;
 };
+
+const hasRefusal = (response) =>
+  Array.isArray(response?.output) &&
+  response.output.some(
+    (item) =>
+      Array.isArray(item?.content) &&
+      item.content.some((content) => content?.type === "refusal"),
+  );
 
 export default async function handler(req, res) {
   setPrivateResponseHeaders(res);
@@ -161,13 +50,15 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: "Method not allowed." });
   }
 
-  const apiKey = req.headers["x-nextbite-openai-key"];
+  const apiKey = req.headers?.["x-nextbite-openai-key"];
   if (
     typeof apiKey !== "string" ||
     !apiKey.startsWith("sk-") ||
     apiKey.length > MAX_KEY_LENGTH
   ) {
-    return res.status(401).json({ error: "Enter a valid OpenAI API key for this session." });
+    return res
+      .status(401)
+      .json({ error: "Enter a valid OpenAI API key for this session." });
   }
 
   let body;
@@ -186,16 +77,19 @@ export default async function handler(req, res) {
   if (!text || text.length > MAX_INPUT_LENGTH) {
     return res
       .status(400)
-      .json({ error: `Describe one meal in ${MAX_INPUT_LENGTH} characters or fewer.` });
+      .json({
+        error: `Describe one meal in ${MAX_INPUT_LENGTH} characters or fewer.`,
+      });
   }
 
   const instructions = [
     "You are the meal-understanding layer for NextBite.",
     "Extract only a structured description of what the user ate. Do not recommend a meal, score health, calculate calories, or provide medical advice.",
-    "Do not invent invisible ingredients, cooking oils, sauces, or portion sizes. If a detail is not stated, use the most neutral allowed value and record the uncertainty in assumptions.",
+    "Do not invent invisible ingredients, cooking oils, sauces, preparation, meal sources, or portion sizes. Record unstated details as unknown and disclose relevant uncertainty in assumptions.",
+    "Use mealSource 'Unspecified' unless the user explicitly states the source. Use cookingMethod 'Other' when preparation is not stated. Do not infer a home-cooked, takeout, restaurant, or ready-made source from the food name.",
     "Classify each visible or explicitly named component by its ordinary food-group role.",
     "Normalize each stated component amount into quantity, unit, and qualifier while preserving the user's phrase in originalText. For an unstated amount, use quantity null, unit 'unspecified', qualifier 'unspecified', and originalText null.",
-    "Normalize the overall portion to Small, Medium, or Large and attach confidence. If portion is not stated, use the most neutral Medium value with limited confidence and disclose that assumption.",
+    "Use overall portion size Small, Medium, or Large only when the user states the overall size. If overall portion is not stated, use size 'Unspecified' with confidence 'limited' and disclose the unknown. Do not infer overall size from the number of components or a single component amount.",
     "Ask at most one clarification, and only when it would materially change the food-group interpretation.",
     `Use ${locale === "zh" ? "Traditional Chinese" : "English"} for displayName, component names, assumptions, and clarification.`,
     `If the user does not state the meal slot, use ${mealSlotHint}.`,
@@ -228,7 +122,8 @@ export default async function handler(req, res) {
       }),
     });
   } catch (error) {
-    const timedOut = error?.name === "TimeoutError";
+    const timedOut =
+      error?.name === "TimeoutError" || error?.name === "AbortError";
     return res.status(timedOut ? 504 : 502).json({
       error: timedOut
         ? "OpenAI took too long to respond. Try again."
@@ -244,20 +139,57 @@ export default async function handler(req, res) {
     if (openAiResponse.status === 429) {
       return res
         .status(429)
-        .json({ error: "This OpenAI project is rate-limited or out of credits." });
+        .json({
+          error: "This OpenAI project is rate-limited or out of credits.",
+        });
     }
-    return res.status(502).json({ error: "OpenAI could not analyze this meal." });
+    return res
+      .status(502)
+      .json({ error: "OpenAI could not analyze this meal." });
+  }
+
+  if (
+    responseBody?.status !== "completed" ||
+    responseBody?.incomplete_details ||
+    responseBody?.error
+  ) {
+    return res
+      .status(502)
+      .json({
+        error:
+          "OpenAI did not finish organizing this meal. Try again or use the quick form.",
+      });
+  }
+  if (hasRefusal(responseBody)) {
+    return res
+      .status(502)
+      .json({
+        error:
+          "OpenAI could not organize this description. Try describing only the meal, or use the quick form.",
+      });
   }
 
   const outputText = extractOutputText(responseBody);
   if (!outputText) {
-    return res.status(502).json({ error: "OpenAI returned no structured meal." });
+    return res
+      .status(502)
+      .json({ error: "OpenAI returned no structured meal." });
   }
 
   try {
     const meal = JSON.parse(outputText);
+    if (!validateParsedMeal(meal)) {
+      return res
+        .status(502)
+        .json({
+          error:
+            "OpenAI returned an invalid structured meal. Try again or use the quick form.",
+        });
+    }
     return res.status(200).json({ meal });
   } catch {
-    return res.status(502).json({ error: "OpenAI returned an invalid structured meal." });
+    return res
+      .status(502)
+      .json({ error: "OpenAI returned an invalid structured meal." });
   }
 }

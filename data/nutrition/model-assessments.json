@@ -1,0 +1,28 @@
+{
+  "reviewedAt": "2026-11-04",
+  "sources": {
+    "freeSugars": "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+    "fvns": "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
+    "fiber": "https://www.ars.usda.gov/ARSUSERFILES/80400535/DATA/PUBLICATIONS/FNR/IMPLICATIONS%20OF%20TWO%20DIRRERENT%20METHODS%20FOR%20ANALYZING%20TOTAL%20DIETARY%20FIBER.PDF"
+  },
+  "foods": [
+    {"fdcId":168878,"freeSugarBasis":"declared-plain-food-no-free-sugar-source","fvnsEligible":false},
+    {"fdcId":171477,"freeSugarBasis":"declared-plain-food-no-free-sugar-source","fvnsEligible":false},
+    {"fdcId":175168,"freeSugarBasis":"declared-plain-food-no-free-sugar-source","fvnsEligible":false},
+    {"fdcId":174291,"freeSugarBasis":"unresolved","fvnsEligible":null},
+    {"fdcId":173424,"freeSugarBasis":"declared-plain-food-no-free-sugar-source","fvnsEligible":false},
+    {"fdcId":170457,"freeSugarBasis":"declared-plain-food-no-free-sugar-source","fvnsEligible":true},
+    {"fdcId":169967,"freeSugarBasis":"declared-plain-food-no-free-sugar-source","fvnsEligible":true},
+    {"fdcId":173735,"freeSugarBasis":"declared-plain-food-no-free-sugar-source","fvnsEligible":true},
+    {"fdcId":168483,"freeSugarBasis":"declared-plain-food-no-free-sugar-source","fvnsEligible":false},
+    {"fdcId":169238,"freeSugarBasis":"declared-plain-food-no-free-sugar-source","fvnsEligible":true},
+    {"fdcId":168917,"freeSugarBasis":"declared-plain-food-no-free-sugar-source","fvnsEligible":false},
+    {"fdcId":168409,"freeSugarBasis":"declared-plain-food-no-free-sugar-source","fvnsEligible":true},
+    {"fdcId":175180,"freeSugarBasis":"unresolved","fvnsEligible":false},
+    {"fdcId":171413,"freeSugarBasis":"reported-total-sugars-zero","fvnsEligible":false},
+    {"fdcId":173468,"freeSugarBasis":"reported-total-sugars-zero","fvnsEligible":false},
+    {"fdcId":173647,"freeSugarBasis":"reported-total-sugars-zero","fvnsEligible":false},
+    {"fdcId":168411,"freeSugarBasis":"declared-plain-food-no-free-sugar-source","fvnsEligible":true},
+    {"fdcId":171971,"freeSugarBasis":"reported-total-sugars-zero","fvnsEligible":false}
+  ]
+}

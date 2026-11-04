@@ -3,8 +3,8 @@ export type Locale = "en" | "zh";
 export type ActivityLevel = "Low" | "Moderate" | "Active";
 export type EatingStyle = "Mostly home-cooked" | "Mostly takeout" | "Both";
 export type FeelToday = "Normal" | "Want something warm" | "Need something light" | "Low energy" | "On period";
-export type PortionSize = "Small" | "Medium" | "Large";
-export type Source = "Home-cooked" | "Takeout" | "Restaurant" | "Ready-made";
+export type PortionSize = "Small" | "Medium" | "Large" | "Unspecified";
+export type Source = "Home-cooked" | "Takeout" | "Restaurant" | "Ready-made" | "Unspecified";
 export type WorksFor = "home-cooked" | "takeout";
 export type Convenience = "low" | "medium" | "high";
 export type HeightUnit = "cm" | "ft/in";
@@ -57,6 +57,8 @@ export type MustAvoidTag =
   | "Egg";
 export type AvoidanceCertainty = "contains" | "mayContain" | "unknown";
 export type ParsedAmountUnit =
+  | "g"
+  | "ml"
   | "serving"
   | "portion"
   | "cup"
@@ -224,6 +226,10 @@ export type ScoreBreakdownItem = {
 export type ParsedMealComponent = {
   name: string;
   group: "protein" | "vegetable" | "carb" | "fruit" | "soup" | "drink" | "other";
+  /** Optional identity from a confirmed local ingredient record, never inferred nutrition. */
+  sourceFoodId?: string;
+  /** User-selected library record; validate name/group against the loaded catalog before use. */
+  foodLibraryId?: string;
   amount: {
     quantity: number | null;
     unit: ParsedAmountUnit;

@@ -1,6 +1,91 @@
-# NextBite nutrition reliability program
+# NextBite product roadmap
 
-Status: active
+## Active iteration — seven-day reliability
+
+Status: review
+Authorized: 2026-11-04. User accepted the seven-day audit correction proposal.
+Read [`11-seven-day-reliability.md`](./11-seven-day-reliability.md).
+Continue the current branch and preserve prior approved food-library changes.
+No push or deployment is authorized.
+
+## Previous iteration — food and drink library
+
+Status: review
+Authorized: 2026-11-04. User explicitly chose direct implementation of broad
+food recognition and composition scores. Read [`10-food-library.md`](./10-food-library.md).
+This expands the 12-recipe data scope with a sourced ingredient/drink catalog;
+meal recommendations remain based on their existing documented paths.
+No push or deployment is authorized.
+
+## Previous iteration — published-model scoring
+
+Status: review
+Authorized: 2026-11-04. The user chose complete source data and a published
+nutrition model for three components and a total-ranked top three.
+Branch: `codex/nutrition-pilot`, based on `edf903c` plus approved working changes.
+
+Read [`09-published-model-scoring.md`](./09-published-model-scoring.md) first.
+The authorization supersedes the previous pilot's no-score selection policy.
+The scope remains twelve defined recipes; no deployment or push is authorized.
+
+## Previous iteration — sourced recipe and meal-context pilot
+
+Status: review
+Authorized: 2026-11-04, user accepted the research-based implementation and
+requested compact numeric receipts in place of contribution charts.
+Branch: `codex/nutrition-pilot`, based on `e0946af`.
+
+Read [`08-nutrition-pilot.md`](./08-nutrition-pilot.md) before continuing.
+The latest authorized scope includes correcting confirmed matching defects,
+12 source-mapped recipes, portion calculations and this-meal context. The old
+nutrition phases remain background design documents; their narrower Phase 1
+UI/ranking restrictions do not override this explicit user-approved pilot.
+All-100 migration, personalized diet prescriptions and specialized populations
+remain deferred. No push or deployment is authorized.
+
+## Previous iteration — dashboard
+
+Status: review
+Authorized: 2026-11-03–2026-11-04, user approved the dashboard iteration with
+「好，改改看」 after reviewing its scope and design tradeoffs.
+Branch: `codex/launch-beta`
+Base: `730b5632222d5b303a72785c7be5b4dd25348cb7`
+
+Read [`07-dashboard.md`](./07-dashboard.md) before continuing this iteration.
+The work reorganizes the existing product around Today, Records, Plans and
+Library; adds native drawers and descriptive record/rule views; and simplifies
+the visual system. Existing recommendation rules, local records, plans,
+credential handling and export boundaries remain in force. No new dependency
+or deployment is authorized by this iteration.
+
+Final current-tree verification and the dashboard handoff are recorded in
+`07-dashboard.md`. Both the dashboard and the underlying launch beta remain in
+`review`; neither status means user acceptance, merge, push or deployment.
+Nutrition research remains deferred.
+
+## Underlying release — low-maintenance launch beta
+
+Status: review
+Authorized: 2026-11-03, user requested a new branch and implementation of steps 1–12 from the agreed launch iteration list.
+Branch: `codex/launch-beta`
+Verified base: `1e5306a95501ed767d32c878b115caae1fdc8f0b` (local and remote `main`).
+
+The current release is an everyday bilingual meal-choice tool with curated
+templates and transparent product rules. It does not implement the nutrition
+evidence program below. The user's accepted release scope supersedes that
+program's execution gates for this branch. Read
+[`06-launch-beta.md`](./06-launch-beta.md) before continuing release work.
+
+The nutrition program is deferred research. Its phase statuses below record
+the previous plan, not authorization to start or claim completion of that work.
+Do not import nutrition datasets, add accounts, hosted AI allowances, payments,
+restaurant integrations, analytics, or deploy as part of this release.
+
+---
+
+# Deferred nutrition reliability program
+
+Status: deferred
 Program written: 2026-07-29
 Original planning baseline: `main` at `bbff438`
 

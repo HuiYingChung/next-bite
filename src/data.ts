@@ -193,8 +193,8 @@ export const mealOptions = {
     "Alcohol",
   ],
   cookingMethod: ["Stir-fried", "Grilled", "Steamed", "Boiled", "Fried", "Soup / stew", "Raw / cold", "Other"],
-  mealSource: ["Home-cooked", "Takeout", "Restaurant", "Ready-made"],
-  portion: ["Small", "Medium", "Large"],
+  mealSource: ["Unspecified", "Home-cooked", "Takeout", "Restaurant", "Ready-made"],
+  portion: ["Unspecified", "Small", "Medium", "Large"],
 } as const;
 
 export const drinkRecommendationDataset: DrinkOption[] = [
@@ -541,6 +541,11 @@ export const createBlankState = (now = new Date()): AppState => {
   return {
     profile: {
       ...cloneProfile(seedProfile),
+      heightCm: "",
+      heightFt: "",
+      heightIn: "",
+      weightKg: "",
+      weightLb: "",
       preferenceTags: [],
       avoidTags: [],
     },

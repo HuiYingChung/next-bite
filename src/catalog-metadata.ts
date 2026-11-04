@@ -24,6 +24,7 @@ const safetyAssignments: Partial<Record<MustAvoidTag, SafetyAssignments>> = {
       "ready-made-soup-dumplings-veg",
       "frozen-dumplings-bok-choy",
       "pork-chive-dumpling-soup-light",
+      "falafel-salad-rice",
     ],
   },
   Dairy: {
@@ -49,6 +50,8 @@ const safetyAssignments: Partial<Record<MustAvoidTag, SafetyAssignments>> = {
       "dak-galbi-light-bowl",
       "chicken-taco-rice-bowl",
       "chicken-shawarma-rice-bowl",
+      "greek-yogurt-granola-fruit-bowl",
+      "greek-yogurt-fruit-granola-bowl",
     ],
   },
   "Tree nuts": {
@@ -57,6 +60,8 @@ const safetyAssignments: Partial<Record<MustAvoidTag, SafetyAssignments>> = {
       "mediterranean-chicken-plate",
       "mediterranean-salmon-plate",
       "chicken-shawarma-rice-bowl",
+      "greek-yogurt-granola-fruit-bowl",
+      "greek-yogurt-fruit-granola-bowl",
     ],
   },
   Sesame: {
@@ -72,6 +77,7 @@ const safetyAssignments: Partial<Record<MustAvoidTag, SafetyAssignments>> = {
       "dak-galbi-light-bowl",
       "chicken-shawarma-rice-bowl",
       "mediterranean-salmon-plate",
+      "taiwanese-three-cup-chicken-light-set",
     ],
   },
   Soy: {
@@ -116,6 +122,7 @@ const safetyAssignments: Partial<Record<MustAvoidTag, SafetyAssignments>> = {
       "taiwanese-shredded-chicken-rice-veg",
       "dak-galbi-light-bowl",
       "taiwanese-turkey-rice-plate",
+      "black-bean-chicken-bitter-melon",
     ],
     unknown: [
       "udon-soup-lean-protein",
@@ -161,11 +168,23 @@ const safetyAssignments: Partial<Record<MustAvoidTag, SafetyAssignments>> = {
       "tofu-broccoli-udon-bowl",
       "rotisserie-chicken-bagged-salad-wrap",
       "pork-chive-dumpling-soup-light",
+      "turkey-pesto-sandwich-salad",
     ],
     mayContain: [
       "japanese-curry-light-set",
       "gyro-bowl-rice-salad",
       "chicken-shawarma-rice-bowl",
+      "soy-garlic-chicken-rice-cabbage",
+      "teriyaki-salmon-bowl",
+      "salmon-rice-bowl-veg",
+      "poke-bowl",
+      "beef-bibimbap-extra-veg",
+      "taiwanese-bento-light",
+      "taiwanese-three-cup-chicken-light-set",
+      "taiwanese-minced-pork-rice-light",
+      "taiwanese-shredded-chicken-rice-veg",
+      "taiwanese-turkey-rice-plate",
+      "black-bean-chicken-bitter-melon",
     ],
     unknown: ["trader-joes-soup-salad"],
   },
@@ -188,11 +207,26 @@ const safetyAssignments: Partial<Record<MustAvoidTag, SafetyAssignments>> = {
       "taiwanese-minced-pork-rice-light",
       "pork-chive-dumpling-soup-light",
     ],
-    mayContain: ["korean-soft-tofu-soup-rice"],
-    unknown: ["ready-made-soup-dumplings-veg", "udon-soup-lean-protein"],
+    mayContain: ["korean-soft-tofu-soup-rice", "mapo-tofu-light-rice"],
+    unknown: [
+      "ready-made-soup-dumplings-veg",
+      "udon-soup-lean-protein",
+      "frozen-dumplings-bok-choy",
+      "egg-drop-soup-dumpling-side-veg",
+    ],
   },
   Lamb: {
     unknown: ["gyro-bowl-rice-salad"],
+  },
+  Cilantro: {
+    mayContain: [
+      "pho-lean-beef-herbs",
+      "chicken-taco-rice-bowl",
+      "bean-cheese-veg-quesadilla-light",
+    ],
+  },
+  "Green bell pepper": {
+    mayContain: ["chicken-fajita-bowl", "shrimp-fajita-plate", "chicken-taco-rice-bowl"],
   },
   "Bitter melon": {
     contains: [
@@ -221,6 +255,7 @@ const safetyAssignments: Partial<Record<MustAvoidTag, SafetyAssignments>> = {
       "shrimp-fajita-plate",
     ],
     unknown: ["ready-made-soup-dumplings-veg", "udon-soup-lean-protein"],
+    mayContain: ["kimchi-tofu-rice-bowl", "korean-soft-tofu-soup-rice"],
   },
   "Fishy seafood": {
     contains: [
@@ -245,6 +280,11 @@ const safetyAssignments: Partial<Record<MustAvoidTag, SafetyAssignments>> = {
       "udon-soup-lean-protein",
       "warm-soba-broth-set",
     ],
+    mayContain: [
+      "chicken-caesar-wrap-light",
+      "kimchi-tofu-rice-bowl",
+      "korean-soft-tofu-soup-rice",
+    ],
   },
   "Raw food": {
     contains: [
@@ -259,7 +299,22 @@ const safetyAssignments: Partial<Record<MustAvoidTag, SafetyAssignments>> = {
       "baked-salmon-bagged-salad-potato",
       "turkey-pesto-sandwich-salad",
       "rotisserie-chicken-bagged-salad-wrap",
+      "chicken-wrap-salad",
+      "chicken-caesar-wrap-light",
+      "vegetable-omelet-toast-fruit",
+      "mapo-tofu-light-rice",
+      "japanese-curry-light-set",
+      "tuna-mayo-onigiri-side-soup",
+      "greek-yogurt-granola-fruit-bowl",
+      "cottage-cheese-fruit-toast-plate",
+      "gyro-bowl-rice-salad",
+      "hummus-chicken-wrap-fruit",
+      "veggie-black-bean-quesadilla-salad",
+      "greek-yogurt-fruit-granola-bowl",
+      "soy-milk-oatmeal-egg-fruit",
+      "salmon-cucumber-rice-set",
     ],
+    mayContain: ["pho-lean-beef-herbs"],
   },
   "Cold food": {
     contains: [
@@ -335,6 +390,8 @@ const safetyAssignments: Partial<Record<MustAvoidTag, SafetyAssignments>> = {
       "ready-made-soup-dumplings-veg",
       "frozen-dumplings-bok-choy",
       "pork-chive-dumpling-soup-light",
+      "beef-bibimbap-extra-veg",
+      "chicken-cabbage-dumpling-soup",
     ],
   },
 };
@@ -360,6 +417,65 @@ export const buildMealSafetyMetadata = (mealId: string): MealSafetyMetadata => {
   }
 
   return metadata;
+};
+
+// Ingredient declarations are curated by drink id, never guessed from a title.
+// Generic mixed drinks retain uncertainty instead of being treated as free of
+// an ingredient. Water remains an eligible, unconstrained catalog option.
+const drinkSafetyAssignments: Record<string, Partial<MealSafetyMetadata>> = {
+  water: {},
+  "sparkling-water": {},
+  "caffeine-free-tea": {},
+  tea: { contains: ["Caffeine"] },
+  "green-tea": { contains: ["Caffeine"] },
+  "black-tea": { contains: ["Caffeine"] },
+  coffee: { contains: ["Caffeine"] },
+  "iced-coffee": { contains: ["Caffeine", "Cold food"] },
+  milk: { contains: ["Dairy"] },
+  "soy-milk": { contains: ["Soy"] },
+  "oat-milk": { unknown: ["Wheat / gluten"] },
+  "almond-milk": { contains: ["Tree nuts"] },
+  "yogurt-drink": { contains: ["Dairy", "Sweet drinks", "Cold food"] },
+  "protein-shake": {
+    contains: ["Processed food"],
+    unknown: ["Dairy", "Soy", "Peanuts", "Tree nuts", "Sesame", "Wheat / gluten", "Egg", "Sweet drinks"],
+  },
+  smoothie: {
+    contains: ["Sweet drinks", "Cold food"],
+    mayContain: ["Raw food"],
+    unknown: ["Dairy", "Soy", "Peanuts", "Tree nuts", "Sesame", "Wheat / gluten", "Egg"],
+  },
+  "green-juice": { mayContain: ["Raw food", "Celery", "Cold food"] },
+  "orange-juice": { contains: ["Sweet drinks"], mayContain: ["Cold food"] },
+  "apple-juice": { contains: ["Sweet drinks"], mayContain: ["Cold food"] },
+  "coconut-water": { mayContain: ["Cold food"] },
+  soda: { contains: ["Sweet drinks", "Cold food", "Processed food"], unknown: ["Caffeine"] },
+  "diet-soda": { contains: ["Cold food", "Processed food"], unknown: ["Caffeine"] },
+  "sweet-drink": { contains: ["Sweet drinks", "Cold food"], unknown: ["Dairy", "Soy", "Tree nuts", "Caffeine", "Processed food"] },
+  "sports-drink": { contains: ["Sweet drinks", "Cold food", "Processed food"] },
+  "energy-drink": { contains: ["Caffeine", "Sweet drinks", "Cold food", "Processed food"] },
+  "milk-tea": { contains: ["Dairy", "Caffeine", "Sweet drinks"], mayContain: ["Soy", "Tree nuts", "Cold food", "Processed food"] },
+  boba: { contains: ["Dairy", "Caffeine", "Sweet drinks", "Processed food"], mayContain: ["Soy", "Tree nuts", "Cold food"] },
+  beer: { contains: ["Alcohol drinks", "Cold food"], mayContain: ["Wheat / gluten"] },
+  wine: { contains: ["Alcohol drinks"] },
+  cocktail: {
+    contains: ["Alcohol drinks", "Sweet drinks"],
+    unknown: ["Dairy", "Soy", "Peanuts", "Tree nuts", "Sesame", "Wheat / gluten", "Egg", "Caffeine"],
+  },
+  alcohol: {
+    contains: ["Alcohol drinks"],
+    unknown: ["Dairy", "Soy", "Peanuts", "Tree nuts", "Sesame", "Wheat / gluten", "Egg", "Caffeine", "Sweet drinks"],
+  },
+};
+
+export const buildDrinkSafetyMetadata = (drinkId: string): MealSafetyMetadata => {
+  const assignments = drinkSafetyAssignments[drinkId];
+  if (!assignments) throw new Error(`Missing drink safety metadata: ${drinkId}`);
+  return {
+    contains: [...(assignments.contains ?? [])],
+    mayContain: [...(assignments.mayContain ?? [])],
+    unknown: [...(assignments.unknown ?? [])],
+  };
 };
 
 export type CatalogCalibration = {
@@ -428,6 +544,7 @@ export const catalogCalibration: Record<string, CatalogCalibration> = {
 };
 
 export const catalogMetadataAudit = {
+  drinkIds: Object.keys(drinkSafetyAssignments),
   assignmentTags: Object.keys(safetyAssignments) as MustAvoidTag[],
   safetyAssignments: Object.entries(safetyAssignments).flatMap(
     ([tag, assignments]) =>

@@ -1,11 +1,13 @@
-import { readFileSync } from "node:fs";
 import {
   createBlankState,
   recommendationDataset,
 } from "../.audit-tmp/data.mjs";
-import { evidenceSources } from "../.audit-tmp/evidence.mjs";
+import { catalogMethod, evidenceSources, getCatalogMethod, getMealEvidenceNotes } from "../.audit-tmp/evidence.mjs";
 import {
   countHardAvoidedRecommendations,
+  getHardAvoidConflicts,
+  getMealTimeWindow,
+  recommendMealIdeas,
   scoreRecommendations,
 } from "../.audit-tmp/logic.mjs";
 
@@ -49,16 +51,16 @@ for (const meal of recommendationDataset) {
     `${meal.id} has an invalid confidence label.`,
   );
   expect(
-    meal.evidence.sourceIds.length >= 3,
-    `${meal.id} needs at least three declared evidence sources.`,
+    JSON.stringify(meal.evidence.sourceIds) === JSON.stringify(["nextbite-editorial"]),
+    `${meal.id} must identify editorial rules without claiming generic official links as meal-level evidence.`,
   );
   expect(
     meal.evidence.sourceIds.every((sourceId) => evidenceSources[sourceId]),
     `${meal.id} references an unknown evidence source.`,
   );
   expect(
-    /^\d{4}-\d{2}-\d{2}$/.test(meal.evidence.reviewedOn),
-    `${meal.id} has no review date.`,
+    meal.evidence.reviewedOn === "",
+    `${meal.id} must not claim an individual nutrition-review date from the shared editorial statement.`,
   );
   expect(
     meal.evidence.method.includes("not serving-adequacy, calorie, or medical-nutrition estimates"),
@@ -68,12 +70,56 @@ for (const meal of recommendationDataset) {
     meal.evidence.assumption.trim().length > 0,
     `${meal.id} has no visible assumption.`,
   );
+  expect(
+    meal.evidence.confidence === "limited" &&
+      meal.evidence.method.includes("not verified meal-level nutrition evidence"),
+    `${meal.id} must retain its unverified editorial boundary.`,
+  );
+  const zhNotes = getMealEvidenceNotes(meal, "zh");
+  expect(/目前沒有經查證/.test(zhNotes.method), "Chinese method notes must disclose the same evidence boundary.");
+  expect(
+    !/\bpoints?\b/i.test(meal.evidence.method) && !/點數/.test(zhNotes.method),
+    `${meal.id} still describes the live inspiration selection as a summed point score.`,
+  );
 }
 
-const state = createBlankState();
+expect(!/source-backed/i.test(catalogMethod.name), "The editorial catalog must not claim to be source-backed.");
+expect(getCatalogMethod("zh").limitation.includes("紀錄可能不完整"), "Chinese catalog copy must disclose incomplete logs.");
+const fixtureNow = new Date(2026, 6, 29, 18, 30);
+const state = createBlankState(fixtureNow);
 const today = state.days.find((day) => day.id === state.selectedDayId);
 expect(today, "Blank state has no selected day.");
 
+const liveIdeas = recommendMealIdeas(
+  state.profile,
+  today.todayLog,
+  state.days,
+  "en",
+  fixtureNow,
+);
+expect(liveIdeas.length === 3, "The live inspiration path must provide three eligible ideas for a blank ordinary profile.");
+expect(new Set(liveIdeas.map((meal) => meal.id)).size === liveIdeas.length, "Live inspiration ideas must be distinct.");
+for (const idea of liveIdeas) {
+  expect(
+    getHardAvoidConflicts(state.profile, idea, getMealTimeWindow(fixtureNow)).length === 0,
+    `${idea.id} violates the live inspiration path's hard exclusions.`,
+  );
+  expect(
+    idea.score === 0 && idea.scoreBreakdown.length === 0 && idea.selectionTrace === null,
+    `${idea.id} must not inherit the historical nutritional point receipt.`,
+  );
+  expect(
+    idea.matchReasons.length > 0 && idea.matchReasons.every((reason) => typeof reason === "string" && reason.trim()),
+    `${idea.id} has no actual selection reasons.`,
+  );
+  expect(
+    idea.decisionTrace.preferenceOrder.length > 0 && idea.decisionTrace.varietyReason.trim() && idea.decisionTrace.selectionMethod.trim(),
+    `${idea.id} must expose its real directional preference and variety method.`,
+  );
+}
+
+// The old point engine remains a compatibility implementation. Its arithmetic
+// still has to recalculate, but these checks do not describe the live product.
 const recommendations = scoreRecommendations(
   state.profile,
   today.todayLog,
@@ -130,28 +176,6 @@ for (const recommendation of recommendations) {
   );
 }
 
-const appSource = readFileSync(
-  new URL("../src/App.tsx", import.meta.url),
-  "utf8",
-);
-for (const requiredHistoryMarker of [
-  "rollSevenDayHistory",
-  "recent-history",
-  "Prior meals used",
-  "Weekly adjustment",
-  "4 meals are logged across at least 2 distinct days",
-  "not serving adequacy",
-]) {
-  expect(
-    appSource.includes(requiredHistoryMarker),
-    `The restored seven-day product surface is missing: ${requiredHistoryMarker}.`,
-  );
-}
-expect(
-  appSource.includes("seven-day-v4"),
-  "The rolling seven-day storage migration key is missing.",
-);
-
 const hardAvoidProfile = {
   ...state.profile,
   avoidTags: ["Fishy seafood", "Shellfish", "Dairy", "Beef", "Egg", "Pork"],
@@ -174,17 +198,33 @@ for (const recommendation of filteredRecommendations) {
   );
 }
 
+const filteredLiveIdeas = recommendMealIdeas(
+  hardAvoidProfile,
+  today.todayLog,
+  state.days,
+  "en",
+  fixtureNow,
+);
+expect(filteredLiveIdeas.length > 0, "The hard-avoid fixture must exercise an eligible live inspiration result.");
+for (const idea of filteredLiveIdeas) {
+  expect(
+    getHardAvoidConflicts(hardAvoidProfile, idea, getMealTimeWindow(fixtureNow)).length === 0,
+    `${idea.id} survived a hard avoid in the live inspiration path.`,
+  );
+}
+
 console.log(
   JSON.stringify(
     {
       catalogMeals: recommendationDataset.length,
       uniqueIds: true,
       uniqueTitles: true,
-      evidenceComplete: true,
-      scoreReceiptsRecalculate: true,
-      selectionReceiptsRecalculate: true,
-      sevenDayHistorySurface: true,
-      historyBasisDisclosed: true,
+      editorialBasisDeclared: true,
+      liveInspirationDirections: true,
+      noLiveNutritionalPointReceipt: true,
+      compatibilityScoreReceiptsRecalculate: true,
+      compatibilitySelectionReceiptsRecalculate: true,
+      compatibilityHistoryBasisDisclosed: true,
       hardAvoidedMeals: avoidedCount,
       hardAvoidFilterPassed: true,
     },

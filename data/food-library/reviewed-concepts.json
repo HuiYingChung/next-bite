@@ -1,0 +1,5258 @@
+[
+  {
+    "id": "beef",
+    "names": {
+      "en": "Beef",
+      "zh": "牛肉"
+    },
+    "aliases": [
+      "Beef",
+      "牛肉",
+      "牛",
+      "牛腱",
+      "牛腱肉",
+      "beef meat"
+    ],
+    "group": "protein",
+    "protein": "beef",
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "pork",
+    "names": {
+      "en": "Pork",
+      "zh": "豬肉"
+    },
+    "aliases": [
+      "Pork",
+      "豬肉",
+      "猪肉",
+      "pork meat"
+    ],
+    "group": "protein",
+    "protein": "pork",
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "chicken",
+    "names": {
+      "en": "Chicken",
+      "zh": "雞肉"
+    },
+    "aliases": [
+      "Chicken",
+      "雞肉",
+      "鸡肉",
+      "chicken meat"
+    ],
+    "group": "protein",
+    "protein": "chicken",
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "turkey",
+    "names": {
+      "en": "Turkey",
+      "zh": "火雞肉"
+    },
+    "aliases": [
+      "Turkey",
+      "火雞肉",
+      "火鸡肉",
+      "火雞",
+      "火鸡"
+    ],
+    "group": "protein",
+    "protein": "turkey",
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "duck",
+    "names": {
+      "en": "Duck",
+      "zh": "鴨肉"
+    },
+    "aliases": [
+      "Duck",
+      "鴨肉",
+      "鸭肉",
+      "鴨",
+      "鸭"
+    ],
+    "group": "protein",
+    "protein": "duck",
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "goose",
+    "names": {
+      "en": "Goose",
+      "zh": "鵝肉"
+    },
+    "aliases": [
+      "Goose",
+      "鵝肉",
+      "鹅肉"
+    ],
+    "group": "protein",
+    "protein": "goose",
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "sheep-goat",
+    "names": {
+      "en": "Sheep or goat meat, unspecified",
+      "zh": "羊肉"
+    },
+    "aliases": [
+      "Sheep or goat meat, unspecified",
+      "羊肉",
+      "羊"
+    ],
+    "group": "protein",
+    "protein": "sheep-goat",
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "lamb",
+    "names": {
+      "en": "Lamb",
+      "zh": "綿羊肉"
+    },
+    "aliases": [
+      "Lamb",
+      "綿羊肉",
+      "绵羊肉",
+      "羔羊肉"
+    ],
+    "group": "protein",
+    "protein": "lamb",
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "mutton",
+    "names": {
+      "en": "Mutton",
+      "zh": "成羊肉"
+    },
+    "aliases": [
+      "Mutton",
+      "成羊肉",
+      "成年綿羊肉",
+      "成年绵羊肉"
+    ],
+    "group": "protein",
+    "protein": "lamb",
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "goat",
+    "names": {
+      "en": "Goat meat",
+      "zh": "山羊肉"
+    },
+    "aliases": [
+      "Goat meat",
+      "山羊肉",
+      "goat"
+    ],
+    "group": "protein",
+    "protein": "goat",
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "venison",
+    "names": {
+      "en": "Venison",
+      "zh": "鹿肉"
+    },
+    "aliases": [
+      "Venison",
+      "鹿肉",
+      "deer meat"
+    ],
+    "group": "protein",
+    "protein": "venison",
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "rabbit",
+    "names": {
+      "en": "Rabbit",
+      "zh": "兔肉"
+    },
+    "aliases": [
+      "Rabbit",
+      "兔肉"
+    ],
+    "group": "protein",
+    "protein": "rabbit",
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "quail",
+    "names": {
+      "en": "Quail",
+      "zh": "鵪鶉肉"
+    },
+    "aliases": [
+      "Quail",
+      "鵪鶉肉",
+      "鹌鹑肉"
+    ],
+    "group": "protein",
+    "protein": "quail",
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "pigeon",
+    "names": {
+      "en": "Pigeon",
+      "zh": "鴿肉"
+    },
+    "aliases": [
+      "Pigeon",
+      "鴿肉",
+      "鸽肉",
+      "乳鴿",
+      "乳鸽"
+    ],
+    "group": "protein",
+    "protein": "pigeon",
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "ham",
+    "names": {
+      "en": "Ham",
+      "zh": "火腿"
+    },
+    "aliases": [
+      "Ham",
+      "火腿"
+    ],
+    "group": "protein",
+    "protein": "pork",
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "bacon",
+    "names": {
+      "en": "Bacon",
+      "zh": "培根"
+    },
+    "aliases": [
+      "Bacon",
+      "培根",
+      "煙肉",
+      "烟肉"
+    ],
+    "group": "protein",
+    "protein": "pork",
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "sausage",
+    "names": {
+      "en": "Sausage",
+      "zh": "香腸"
+    },
+    "aliases": [
+      "Sausage",
+      "香腸",
+      "香肠",
+      "sausage meat",
+      "sausages"
+    ],
+    "group": "protein",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "beef-liver",
+    "names": {
+      "en": "Beef liver",
+      "zh": "牛肝"
+    },
+    "aliases": [
+      "Beef liver",
+      "牛肝"
+    ],
+    "group": "protein",
+    "protein": "beef",
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "pork-liver",
+    "names": {
+      "en": "Pork liver",
+      "zh": "豬肝"
+    },
+    "aliases": [
+      "Pork liver",
+      "豬肝",
+      "猪肝"
+    ],
+    "group": "protein",
+    "protein": "pork",
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "chicken-liver",
+    "names": {
+      "en": "Chicken liver",
+      "zh": "雞肝"
+    },
+    "aliases": [
+      "Chicken liver",
+      "雞肝",
+      "鸡肝"
+    ],
+    "group": "protein",
+    "protein": "chicken",
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "pork-blood",
+    "names": {
+      "en": "Pork blood",
+      "zh": "豬血"
+    },
+    "aliases": [
+      "Pork blood",
+      "豬血",
+      "猪血"
+    ],
+    "group": "protein",
+    "protein": "pork",
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "fish",
+    "names": {
+      "en": "Fish, unspecified",
+      "zh": "魚類"
+    },
+    "aliases": [
+      "Fish, unspecified",
+      "魚類",
+      "魚",
+      "鱼",
+      "fish"
+    ],
+    "group": "protein",
+    "protein": "fish",
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "salmon",
+    "names": {
+      "en": "Salmon",
+      "zh": "鮭魚"
+    },
+    "aliases": [
+      "Salmon",
+      "鮭魚",
+      "鲑鱼",
+      "三文魚",
+      "三文鱼"
+    ],
+    "group": "protein",
+    "protein": "fish",
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "tuna",
+    "names": {
+      "en": "Tuna",
+      "zh": "鮪魚"
+    },
+    "aliases": [
+      "Tuna",
+      "鮪魚",
+      "鲔鱼",
+      "金槍魚",
+      "金枪鱼"
+    ],
+    "group": "protein",
+    "protein": "fish",
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "cod",
+    "names": {
+      "en": "Cod",
+      "zh": "鱈魚"
+    },
+    "aliases": [
+      "Cod",
+      "鱈魚",
+      "鳕鱼"
+    ],
+    "group": "protein",
+    "protein": "fish",
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "mackerel",
+    "names": {
+      "en": "Mackerel",
+      "zh": "鯖魚"
+    },
+    "aliases": [
+      "Mackerel",
+      "鯖魚",
+      "鲭鱼"
+    ],
+    "group": "protein",
+    "protein": "fish",
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "sardine",
+    "names": {
+      "en": "Sardine",
+      "zh": "沙丁魚"
+    },
+    "aliases": [
+      "Sardine",
+      "沙丁魚",
+      "沙丁鱼",
+      "sardines"
+    ],
+    "group": "protein",
+    "protein": "fish",
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "tilapia",
+    "names": {
+      "en": "Tilapia",
+      "zh": "吳郭魚"
+    },
+    "aliases": [
+      "Tilapia",
+      "吳郭魚",
+      "吴郭鱼",
+      "台灣鯛",
+      "台湾鲷",
+      "羅非魚",
+      "罗非鱼"
+    ],
+    "group": "protein",
+    "protein": "fish",
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "milkfish",
+    "names": {
+      "en": "Milkfish",
+      "zh": "虱目魚"
+    },
+    "aliases": [
+      "Milkfish",
+      "虱目魚",
+      "虱目鱼"
+    ],
+    "group": "protein",
+    "protein": "fish",
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "eel",
+    "names": {
+      "en": "Eel",
+      "zh": "鰻魚"
+    },
+    "aliases": [
+      "Eel",
+      "鰻魚",
+      "鳗鱼"
+    ],
+    "group": "protein",
+    "protein": "fish",
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "sea-bass",
+    "names": {
+      "en": "Sea bass",
+      "zh": "海鱸魚"
+    },
+    "aliases": [
+      "Sea bass",
+      "海鱸魚",
+      "海鲈鱼"
+    ],
+    "group": "protein",
+    "protein": "fish",
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "grouper",
+    "names": {
+      "en": "Grouper",
+      "zh": "石斑魚"
+    },
+    "aliases": [
+      "Grouper",
+      "石斑魚",
+      "石斑鱼"
+    ],
+    "group": "protein",
+    "protein": "fish",
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "halibut",
+    "names": {
+      "en": "Halibut",
+      "zh": "大比目魚"
+    },
+    "aliases": [
+      "Halibut",
+      "大比目魚",
+      "大比目鱼"
+    ],
+    "group": "protein",
+    "protein": "fish",
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "trout",
+    "names": {
+      "en": "Trout",
+      "zh": "鱒魚"
+    },
+    "aliases": [
+      "Trout",
+      "鱒魚",
+      "鳟鱼"
+    ],
+    "group": "protein",
+    "protein": "fish",
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "anchovy",
+    "names": {
+      "en": "Anchovy",
+      "zh": "鯷魚"
+    },
+    "aliases": [
+      "Anchovy",
+      "鯷魚",
+      "鳀鱼",
+      "anchovies"
+    ],
+    "group": "protein",
+    "protein": "fish",
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "saury",
+    "names": {
+      "en": "Pacific saury",
+      "zh": "秋刀魚"
+    },
+    "aliases": [
+      "Pacific saury",
+      "秋刀魚",
+      "秋刀鱼",
+      "saury"
+    ],
+    "group": "protein",
+    "protein": "fish",
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "shrimp",
+    "names": {
+      "en": "Shrimp",
+      "zh": "蝦"
+    },
+    "aliases": [
+      "Shrimp",
+      "蝦",
+      "蝦子",
+      "虾",
+      "虾子",
+      "prawn",
+      "prawns",
+      "shrimps"
+    ],
+    "group": "protein",
+    "protein": "shellfish",
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "crab",
+    "names": {
+      "en": "Crab",
+      "zh": "螃蟹"
+    },
+    "aliases": [
+      "Crab",
+      "螃蟹",
+      "蟹"
+    ],
+    "group": "protein",
+    "protein": "shellfish",
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "lobster",
+    "names": {
+      "en": "Lobster",
+      "zh": "龍蝦"
+    },
+    "aliases": [
+      "Lobster",
+      "龍蝦",
+      "龙虾"
+    ],
+    "group": "protein",
+    "protein": "shellfish",
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "crayfish",
+    "names": {
+      "en": "Crayfish",
+      "zh": "小龍蝦"
+    },
+    "aliases": [
+      "Crayfish",
+      "小龍蝦",
+      "小龙虾",
+      "crawfish"
+    ],
+    "group": "protein",
+    "protein": "shellfish",
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "scallop",
+    "names": {
+      "en": "Scallop, state unspecified",
+      "zh": "干貝（狀態未指定）"
+    },
+    "aliases": [
+      "Scallop, state unspecified",
+      "干貝（狀態未指定）",
+      "干貝",
+      "干贝",
+      "scallop",
+      "scallops"
+    ],
+    "group": "protein",
+    "protein": "shellfish",
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "fresh-scallop",
+    "names": {
+      "en": "Fresh scallop",
+      "zh": "鮮干貝"
+    },
+    "aliases": [
+      "Fresh scallop",
+      "鮮干貝",
+      "鲜干贝",
+      "生干貝",
+      "生干贝",
+      "fresh scallops"
+    ],
+    "group": "protein",
+    "protein": "shellfish",
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "dried-scallop",
+    "names": {
+      "en": "Dried scallop",
+      "zh": "乾貝"
+    },
+    "aliases": [
+      "Dried scallop",
+      "乾貝",
+      "瑤柱",
+      "瑶柱",
+      "dried scallops",
+      "conpoy"
+    ],
+    "group": "protein",
+    "protein": "shellfish",
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "clam",
+    "names": {
+      "en": "Clam",
+      "zh": "蛤蜊"
+    },
+    "aliases": [
+      "Clam",
+      "蛤蜊",
+      "蛤蠣",
+      "蛤仔",
+      "clams"
+    ],
+    "group": "protein",
+    "protein": "shellfish",
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "oyster",
+    "names": {
+      "en": "Oyster",
+      "zh": "牡蠣"
+    },
+    "aliases": [
+      "Oyster",
+      "牡蠣",
+      "牡蛎",
+      "蚵仔",
+      "生蠔",
+      "生蚝",
+      "oysters"
+    ],
+    "group": "protein",
+    "protein": "shellfish",
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "mussel",
+    "names": {
+      "en": "Mussel",
+      "zh": "淡菜"
+    },
+    "aliases": [
+      "Mussel",
+      "淡菜",
+      "貽貝",
+      "贻贝",
+      "青口",
+      "mussels"
+    ],
+    "group": "protein",
+    "protein": "shellfish",
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "abalone",
+    "names": {
+      "en": "Abalone",
+      "zh": "鮑魚"
+    },
+    "aliases": [
+      "Abalone",
+      "鮑魚",
+      "鲍鱼"
+    ],
+    "group": "protein",
+    "protein": "shellfish",
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "squid",
+    "names": {
+      "en": "Squid",
+      "zh": "魷魚"
+    },
+    "aliases": [
+      "Squid",
+      "魷魚",
+      "鱿鱼"
+    ],
+    "group": "protein",
+    "protein": "shellfish",
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "cuttlefish",
+    "names": {
+      "en": "Cuttlefish",
+      "zh": "花枝"
+    },
+    "aliases": [
+      "Cuttlefish",
+      "花枝",
+      "墨魚",
+      "墨鱼"
+    ],
+    "group": "protein",
+    "protein": "shellfish",
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "octopus",
+    "names": {
+      "en": "Octopus",
+      "zh": "章魚"
+    },
+    "aliases": [
+      "Octopus",
+      "章魚",
+      "章鱼"
+    ],
+    "group": "protein",
+    "protein": "shellfish",
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "snail-unspecified",
+    "names": {
+      "en": "Snail or whelk meat, unspecified",
+      "zh": "螺肉（種類未指定）"
+    },
+    "aliases": [
+      "Snail or whelk meat, unspecified",
+      "螺肉（種類未指定）",
+      "螺肉",
+      "螺"
+    ],
+    "group": "protein",
+    "protein": "shellfish",
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "land-snail",
+    "names": {
+      "en": "Land snail",
+      "zh": "蝸牛"
+    },
+    "aliases": [
+      "Land snail",
+      "蝸牛",
+      "蜗牛",
+      "escargot",
+      "snail",
+      "snails"
+    ],
+    "group": "protein",
+    "protein": "shellfish",
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "whelk",
+    "names": {
+      "en": "Whelk",
+      "zh": "海螺"
+    },
+    "aliases": [
+      "Whelk",
+      "海螺",
+      "whelks"
+    ],
+    "group": "protein",
+    "protein": "shellfish",
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "sea-cucumber",
+    "names": {
+      "en": "Sea cucumber",
+      "zh": "海參"
+    },
+    "aliases": [
+      "Sea cucumber",
+      "海參",
+      "海参"
+    ],
+    "group": "protein",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "fish-roe",
+    "names": {
+      "en": "Fish roe",
+      "zh": "魚卵"
+    },
+    "aliases": [
+      "Fish roe",
+      "魚卵",
+      "鱼卵",
+      "roe"
+    ],
+    "group": "protein",
+    "protein": "fish",
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "egg",
+    "names": {
+      "en": "Egg",
+      "zh": "雞蛋"
+    },
+    "aliases": [
+      "Egg",
+      "雞蛋",
+      "鸡蛋",
+      "蛋",
+      "eggs"
+    ],
+    "group": "protein",
+    "protein": "egg",
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "duck-egg",
+    "names": {
+      "en": "Duck egg",
+      "zh": "鴨蛋"
+    },
+    "aliases": [
+      "Duck egg",
+      "鴨蛋",
+      "鸭蛋"
+    ],
+    "group": "protein",
+    "protein": "egg",
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "quail-egg",
+    "names": {
+      "en": "Quail egg",
+      "zh": "鵪鶉蛋"
+    },
+    "aliases": [
+      "Quail egg",
+      "鵪鶉蛋",
+      "鹌鹑蛋"
+    ],
+    "group": "protein",
+    "protein": "egg",
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "salted-duck-egg",
+    "names": {
+      "en": "Salted duck egg",
+      "zh": "鹹鴨蛋"
+    },
+    "aliases": [
+      "Salted duck egg",
+      "鹹鴨蛋",
+      "咸鸭蛋",
+      "鹹蛋",
+      "咸蛋"
+    ],
+    "group": "protein",
+    "protein": "egg",
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "century-egg",
+    "names": {
+      "en": "Century egg",
+      "zh": "皮蛋"
+    },
+    "aliases": [
+      "Century egg",
+      "皮蛋",
+      "preserved egg"
+    ],
+    "group": "protein",
+    "protein": "egg",
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "tofu",
+    "names": {
+      "en": "Tofu",
+      "zh": "豆腐"
+    },
+    "aliases": [
+      "Tofu",
+      "豆腐"
+    ],
+    "group": "protein",
+    "protein": "soy",
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "firm-tofu",
+    "names": {
+      "en": "Firm tofu",
+      "zh": "板豆腐"
+    },
+    "aliases": [
+      "Firm tofu",
+      "板豆腐",
+      "硬豆腐"
+    ],
+    "group": "protein",
+    "protein": "soy",
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "silken-tofu",
+    "names": {
+      "en": "Silken tofu",
+      "zh": "嫩豆腐"
+    },
+    "aliases": [
+      "Silken tofu",
+      "嫩豆腐",
+      "絹豆腐",
+      "绢豆腐",
+      "soft tofu"
+    ],
+    "group": "protein",
+    "protein": "soy",
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "dried-tofu",
+    "names": {
+      "en": "Pressed tofu",
+      "zh": "豆干"
+    },
+    "aliases": [
+      "Pressed tofu",
+      "豆干",
+      "豆乾",
+      "dried tofu"
+    ],
+    "group": "protein",
+    "protein": "soy",
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "tofu-skin",
+    "names": {
+      "en": "Tofu skin",
+      "zh": "豆皮"
+    },
+    "aliases": [
+      "Tofu skin",
+      "豆皮",
+      "腐竹",
+      "yuba"
+    ],
+    "group": "protein",
+    "protein": "soy",
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "vegetarian-chicken",
+    "names": {
+      "en": "Vegetarian chicken, recipe unspecified",
+      "zh": "素雞"
+    },
+    "aliases": [
+      "Vegetarian chicken, recipe unspecified",
+      "素雞",
+      "素鸡",
+      "mock chicken",
+      "vegetarian chicken"
+    ],
+    "group": "protein",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "tempeh",
+    "names": {
+      "en": "Tempeh",
+      "zh": "天貝"
+    },
+    "aliases": [
+      "Tempeh",
+      "天貝",
+      "天贝"
+    ],
+    "group": "protein",
+    "protein": "soy",
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "edamame",
+    "names": {
+      "en": "Edamame",
+      "zh": "毛豆"
+    },
+    "aliases": [
+      "Edamame",
+      "毛豆"
+    ],
+    "group": "protein",
+    "protein": "soy",
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "soybean",
+    "names": {
+      "en": "Soybean",
+      "zh": "黃豆"
+    },
+    "aliases": [
+      "Soybean",
+      "黃豆",
+      "黄豆",
+      "大豆",
+      "soybeans",
+      "soya bean",
+      "soya beans"
+    ],
+    "group": "protein",
+    "protein": "soy",
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "beans",
+    "names": {
+      "en": "Beans, unspecified",
+      "zh": "豆類"
+    },
+    "aliases": [
+      "Beans, unspecified",
+      "豆類",
+      "豆类",
+      "beans",
+      "bean"
+    ],
+    "group": "protein",
+    "protein": "pulses",
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "black-bean",
+    "names": {
+      "en": "Black beans",
+      "zh": "黑龜豆"
+    },
+    "aliases": [
+      "Black beans",
+      "黑龜豆",
+      "黑龟豆",
+      "black bean",
+      "black turtle bean",
+      "black turtle beans"
+    ],
+    "group": "protein",
+    "protein": "pulses",
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "black-soybean",
+    "names": {
+      "en": "Black soybeans",
+      "zh": "黑豆"
+    },
+    "aliases": [
+      "Black soybeans",
+      "黑豆",
+      "黑大豆",
+      "black soybean"
+    ],
+    "group": "protein",
+    "protein": "soy",
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "chickpea",
+    "names": {
+      "en": "Chickpeas",
+      "zh": "鷹嘴豆"
+    },
+    "aliases": [
+      "Chickpeas",
+      "鷹嘴豆",
+      "鹰嘴豆",
+      "chickpea",
+      "garbanzo beans",
+      "garbanzo bean"
+    ],
+    "group": "protein",
+    "protein": "pulses",
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "lentil",
+    "names": {
+      "en": "Lentils",
+      "zh": "小扁豆"
+    },
+    "aliases": [
+      "Lentils",
+      "小扁豆",
+      "lentil"
+    ],
+    "group": "protein",
+    "protein": "pulses",
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "red-bean",
+    "names": {
+      "en": "Adzuki beans",
+      "zh": "紅豆"
+    },
+    "aliases": [
+      "Adzuki beans",
+      "紅豆",
+      "红豆",
+      "赤小豆",
+      "adzuki bean",
+      "aduki bean",
+      "aduki beans"
+    ],
+    "group": "protein",
+    "protein": "pulses",
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "mung-bean",
+    "names": {
+      "en": "Mung beans",
+      "zh": "綠豆"
+    },
+    "aliases": [
+      "Mung beans",
+      "綠豆",
+      "绿豆",
+      "mung bean"
+    ],
+    "group": "protein",
+    "protein": "pulses",
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "kidney-bean",
+    "names": {
+      "en": "Kidney beans",
+      "zh": "紅腰豆"
+    },
+    "aliases": [
+      "Kidney beans",
+      "紅腰豆",
+      "红腰豆",
+      "kidney bean"
+    ],
+    "group": "protein",
+    "protein": "pulses",
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "white-bean",
+    "names": {
+      "en": "White beans",
+      "zh": "白豆"
+    },
+    "aliases": [
+      "White beans",
+      "白豆",
+      "white bean"
+    ],
+    "group": "protein",
+    "protein": "pulses",
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "fava-bean",
+    "names": {
+      "en": "Fava beans",
+      "zh": "蠶豆"
+    },
+    "aliases": [
+      "Fava beans",
+      "蠶豆",
+      "蚕豆",
+      "fava bean",
+      "broad beans",
+      "broad bean"
+    ],
+    "group": "protein",
+    "protein": "pulses",
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "broccoli",
+    "names": {
+      "en": "Broccoli",
+      "zh": "青花菜"
+    },
+    "aliases": [
+      "Broccoli",
+      "青花菜",
+      "綠花椰菜",
+      "绿花椰菜",
+      "西蘭花",
+      "西兰花"
+    ],
+    "group": "vegetable",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "cauliflower",
+    "names": {
+      "en": "Cauliflower",
+      "zh": "白花椰菜"
+    },
+    "aliases": [
+      "Cauliflower",
+      "白花椰菜",
+      "花椰菜"
+    ],
+    "group": "vegetable",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "cabbage",
+    "names": {
+      "en": "Cabbage",
+      "zh": "高麗菜"
+    },
+    "aliases": [
+      "Cabbage",
+      "高麗菜",
+      "高丽菜",
+      "包心菜",
+      "甘藍",
+      "甘蓝"
+    ],
+    "group": "vegetable",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "napa-cabbage",
+    "names": {
+      "en": "Napa cabbage",
+      "zh": "大白菜"
+    },
+    "aliases": [
+      "Napa cabbage",
+      "大白菜",
+      "結球白菜",
+      "结球白菜",
+      "Chinese cabbage"
+    ],
+    "group": "vegetable",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "bok-choy",
+    "names": {
+      "en": "Bok choy",
+      "zh": "青江菜"
+    },
+    "aliases": [
+      "Bok choy",
+      "青江菜",
+      "小白菜",
+      "pak choi",
+      "pak choy"
+    ],
+    "group": "vegetable",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "spinach",
+    "names": {
+      "en": "Spinach",
+      "zh": "菠菜"
+    },
+    "aliases": [
+      "Spinach",
+      "菠菜"
+    ],
+    "group": "vegetable",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "kale",
+    "names": {
+      "en": "Kale",
+      "zh": "羽衣甘藍"
+    },
+    "aliases": [
+      "Kale",
+      "羽衣甘藍",
+      "羽衣甘蓝"
+    ],
+    "group": "vegetable",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "lettuce",
+    "names": {
+      "en": "Lettuce",
+      "zh": "萵苣"
+    },
+    "aliases": [
+      "Lettuce",
+      "萵苣",
+      "莴苣",
+      "生菜"
+    ],
+    "group": "vegetable",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "romaine",
+    "names": {
+      "en": "Romaine lettuce",
+      "zh": "蘿蔓萵苣"
+    },
+    "aliases": [
+      "Romaine lettuce",
+      "蘿蔓萵苣",
+      "萝蔓莴苣",
+      "蘿蔓",
+      "萝蔓",
+      "romaine"
+    ],
+    "group": "vegetable",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "water-spinach",
+    "names": {
+      "en": "Water spinach",
+      "zh": "空心菜"
+    },
+    "aliases": [
+      "Water spinach",
+      "空心菜",
+      "蕹菜",
+      "morning glory vegetable"
+    ],
+    "group": "vegetable",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "sweet-potato-leaf",
+    "names": {
+      "en": "Sweet potato leaves",
+      "zh": "地瓜葉"
+    },
+    "aliases": [
+      "Sweet potato leaves",
+      "地瓜葉",
+      "地瓜叶",
+      "sweet potato leaf"
+    ],
+    "group": "vegetable",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "mustard-greens",
+    "names": {
+      "en": "Mustard greens",
+      "zh": "芥菜"
+    },
+    "aliases": [
+      "Mustard greens",
+      "芥菜"
+    ],
+    "group": "vegetable",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "amaranth-leaf",
+    "names": {
+      "en": "Amaranth leaves",
+      "zh": "莧菜"
+    },
+    "aliases": [
+      "Amaranth leaves",
+      "莧菜",
+      "苋菜",
+      "amaranth leaf"
+    ],
+    "group": "vegetable",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "choy-sum",
+    "names": {
+      "en": "Choy sum",
+      "zh": "菜心"
+    },
+    "aliases": [
+      "Choy sum",
+      "菜心"
+    ],
+    "group": "vegetable",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "chinese-broccoli",
+    "names": {
+      "en": "Chinese broccoli",
+      "zh": "芥藍"
+    },
+    "aliases": [
+      "Chinese broccoli",
+      "芥藍",
+      "芥蓝",
+      "gai lan"
+    ],
+    "group": "vegetable",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "celery",
+    "names": {
+      "en": "Celery",
+      "zh": "芹菜"
+    },
+    "aliases": [
+      "Celery",
+      "芹菜",
+      "西洋芹"
+    ],
+    "group": "vegetable",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "asparagus",
+    "names": {
+      "en": "Asparagus",
+      "zh": "蘆筍"
+    },
+    "aliases": [
+      "Asparagus",
+      "蘆筍",
+      "芦笋"
+    ],
+    "group": "vegetable",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "bamboo-shoot",
+    "names": {
+      "en": "Bamboo shoots",
+      "zh": "竹筍"
+    },
+    "aliases": [
+      "Bamboo shoots",
+      "竹筍",
+      "竹笋",
+      "bamboo shoot"
+    ],
+    "group": "vegetable",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "carrot",
+    "names": {
+      "en": "Carrot",
+      "zh": "紅蘿蔔"
+    },
+    "aliases": [
+      "Carrot",
+      "紅蘿蔔",
+      "红萝卜",
+      "胡蘿蔔",
+      "胡萝卜",
+      "carrots"
+    ],
+    "group": "vegetable",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "radish",
+    "names": {
+      "en": "Radish",
+      "zh": "蘿蔔"
+    },
+    "aliases": [
+      "Radish",
+      "蘿蔔",
+      "萝卜",
+      "白蘿蔔",
+      "白萝卜",
+      "daikon"
+    ],
+    "group": "vegetable",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "beetroot",
+    "names": {
+      "en": "Beetroot",
+      "zh": "甜菜根"
+    },
+    "aliases": [
+      "Beetroot",
+      "甜菜根",
+      "beet",
+      "beets"
+    ],
+    "group": "vegetable",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "onion",
+    "names": {
+      "en": "Onion",
+      "zh": "洋蔥"
+    },
+    "aliases": [
+      "Onion",
+      "洋蔥",
+      "洋葱",
+      "onions"
+    ],
+    "group": "vegetable",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "spring-onion",
+    "names": {
+      "en": "Spring onion",
+      "zh": "青蔥"
+    },
+    "aliases": [
+      "Spring onion",
+      "青蔥",
+      "青葱",
+      "蔥",
+      "葱",
+      "scallion",
+      "scallions",
+      "green onion",
+      "green onions"
+    ],
+    "group": "vegetable",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "garlic",
+    "names": {
+      "en": "Garlic",
+      "zh": "大蒜"
+    },
+    "aliases": [
+      "Garlic",
+      "大蒜",
+      "蒜頭",
+      "蒜头",
+      "蒜"
+    ],
+    "group": "vegetable",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "ginger",
+    "names": {
+      "en": "Ginger",
+      "zh": "薑"
+    },
+    "aliases": [
+      "Ginger",
+      "薑",
+      "姜",
+      "生薑",
+      "生姜"
+    ],
+    "group": "vegetable",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "leek",
+    "names": {
+      "en": "Leek",
+      "zh": "韭蔥"
+    },
+    "aliases": [
+      "Leek",
+      "韭蔥",
+      "韭葱",
+      "leeks"
+    ],
+    "group": "vegetable",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "garlic-chives",
+    "names": {
+      "en": "Garlic chives",
+      "zh": "韭菜"
+    },
+    "aliases": [
+      "Garlic chives",
+      "韭菜",
+      "Chinese chives"
+    ],
+    "group": "vegetable",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "tomato",
+    "names": {
+      "en": "Tomato",
+      "zh": "番茄"
+    },
+    "aliases": [
+      "Tomato",
+      "番茄",
+      "蕃茄",
+      "西紅柿",
+      "西红柿",
+      "tomatoes"
+    ],
+    "group": "vegetable",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "cucumber",
+    "names": {
+      "en": "Cucumber",
+      "zh": "小黃瓜"
+    },
+    "aliases": [
+      "Cucumber",
+      "小黃瓜",
+      "小黄瓜",
+      "黃瓜",
+      "黄瓜",
+      "cucumbers"
+    ],
+    "group": "vegetable",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "zucchini",
+    "names": {
+      "en": "Zucchini",
+      "zh": "櫛瓜"
+    },
+    "aliases": [
+      "Zucchini",
+      "櫛瓜",
+      "栉瓜",
+      "courgette"
+    ],
+    "group": "vegetable",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "eggplant",
+    "names": {
+      "en": "Eggplant",
+      "zh": "茄子"
+    },
+    "aliases": [
+      "Eggplant",
+      "茄子",
+      "aubergine"
+    ],
+    "group": "vegetable",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "bell-pepper",
+    "names": {
+      "en": "Bell pepper",
+      "zh": "甜椒"
+    },
+    "aliases": [
+      "Bell pepper",
+      "甜椒",
+      "彩椒",
+      "青椒",
+      "bell peppers",
+      "sweet pepper"
+    ],
+    "group": "vegetable",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "chili-pepper",
+    "names": {
+      "en": "Chili pepper",
+      "zh": "辣椒"
+    },
+    "aliases": [
+      "Chili pepper",
+      "辣椒",
+      "chilli",
+      "chili",
+      "chilli pepper"
+    ],
+    "group": "vegetable",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "pumpkin",
+    "names": {
+      "en": "Pumpkin",
+      "zh": "南瓜"
+    },
+    "aliases": [
+      "Pumpkin",
+      "南瓜"
+    ],
+    "group": "vegetable",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "winter-melon",
+    "names": {
+      "en": "Winter melon",
+      "zh": "冬瓜"
+    },
+    "aliases": [
+      "Winter melon",
+      "冬瓜",
+      "wax gourd"
+    ],
+    "group": "vegetable",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "bitter-melon",
+    "names": {
+      "en": "Bitter melon",
+      "zh": "苦瓜"
+    },
+    "aliases": [
+      "Bitter melon",
+      "苦瓜",
+      "bitter gourd"
+    ],
+    "group": "vegetable",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "luffa",
+    "names": {
+      "en": "Luffa",
+      "zh": "絲瓜"
+    },
+    "aliases": [
+      "Luffa",
+      "絲瓜",
+      "丝瓜",
+      "loofah"
+    ],
+    "group": "vegetable",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "okra",
+    "names": {
+      "en": "Okra",
+      "zh": "秋葵"
+    },
+    "aliases": [
+      "Okra",
+      "秋葵"
+    ],
+    "group": "vegetable",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "green-bean",
+    "names": {
+      "en": "Green beans",
+      "zh": "四季豆"
+    },
+    "aliases": [
+      "Green beans",
+      "四季豆",
+      "菜豆",
+      "green bean",
+      "string beans",
+      "string bean"
+    ],
+    "group": "vegetable",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "yardlong-bean",
+    "names": {
+      "en": "Yardlong beans",
+      "zh": "長豆"
+    },
+    "aliases": [
+      "Yardlong beans",
+      "長豆",
+      "长豆",
+      "豇豆",
+      "yardlong bean"
+    ],
+    "group": "vegetable",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "pea",
+    "names": {
+      "en": "Peas",
+      "zh": "豌豆"
+    },
+    "aliases": [
+      "Peas",
+      "豌豆",
+      "青豆仁",
+      "pea",
+      "green peas"
+    ],
+    "group": "vegetable",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "snow-pea",
+    "names": {
+      "en": "Snow peas",
+      "zh": "荷蘭豆"
+    },
+    "aliases": [
+      "Snow peas",
+      "荷蘭豆",
+      "荷兰豆",
+      "snow pea",
+      "mangetout"
+    ],
+    "group": "vegetable",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "corn",
+    "names": {
+      "en": "Sweet corn",
+      "zh": "玉米"
+    },
+    "aliases": [
+      "Sweet corn",
+      "玉米",
+      "甜玉米",
+      "玉米粒",
+      "corn"
+    ],
+    "group": "vegetable",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "bean-sprout",
+    "names": {
+      "en": "Bean sprouts, unspecified",
+      "zh": "豆芽"
+    },
+    "aliases": [
+      "Bean sprouts, unspecified",
+      "豆芽",
+      "bean sprouts",
+      "bean sprout"
+    ],
+    "group": "vegetable",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "mung-bean-sprout",
+    "names": {
+      "en": "Mung bean sprouts",
+      "zh": "綠豆芽"
+    },
+    "aliases": [
+      "Mung bean sprouts",
+      "綠豆芽",
+      "绿豆芽",
+      "mung bean sprout"
+    ],
+    "group": "vegetable",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "soybean-sprout",
+    "names": {
+      "en": "Soybean sprouts",
+      "zh": "黃豆芽"
+    },
+    "aliases": [
+      "Soybean sprouts",
+      "黃豆芽",
+      "黄豆芽",
+      "soybean sprout"
+    ],
+    "group": "vegetable",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "mushroom",
+    "names": {
+      "en": "Mushrooms, unspecified",
+      "zh": "菇類"
+    },
+    "aliases": [
+      "Mushrooms, unspecified",
+      "菇類",
+      "菇类",
+      "菇",
+      "mushroom",
+      "mushrooms"
+    ],
+    "group": "vegetable",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "button-mushroom",
+    "names": {
+      "en": "Button mushrooms",
+      "zh": "洋菇"
+    },
+    "aliases": [
+      "Button mushrooms",
+      "洋菇",
+      "蘑菇",
+      "button mushroom",
+      "white mushrooms"
+    ],
+    "group": "vegetable",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "shiitake",
+    "names": {
+      "en": "Shiitake mushrooms",
+      "zh": "香菇"
+    },
+    "aliases": [
+      "Shiitake mushrooms",
+      "香菇",
+      "shiitake",
+      "shiitake mushroom"
+    ],
+    "group": "vegetable",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "enoki",
+    "names": {
+      "en": "Enoki mushrooms",
+      "zh": "金針菇"
+    },
+    "aliases": [
+      "Enoki mushrooms",
+      "金針菇",
+      "金针菇",
+      "enoki",
+      "enoki mushroom"
+    ],
+    "group": "vegetable",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "king-oyster-mushroom",
+    "names": {
+      "en": "King oyster mushrooms",
+      "zh": "杏鮑菇"
+    },
+    "aliases": [
+      "King oyster mushrooms",
+      "杏鮑菇",
+      "杏鲍菇",
+      "king oyster mushroom"
+    ],
+    "group": "vegetable",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "oyster-mushroom",
+    "names": {
+      "en": "Oyster mushrooms",
+      "zh": "平菇"
+    },
+    "aliases": [
+      "Oyster mushrooms",
+      "平菇",
+      "秀珍菇",
+      "oyster mushroom"
+    ],
+    "group": "vegetable",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "wood-ear",
+    "names": {
+      "en": "Wood ear mushrooms",
+      "zh": "黑木耳"
+    },
+    "aliases": [
+      "Wood ear mushrooms",
+      "黑木耳",
+      "木耳",
+      "wood ear",
+      "wood ears"
+    ],
+    "group": "vegetable",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "kelp",
+    "names": {
+      "en": "Kelp",
+      "zh": "海帶"
+    },
+    "aliases": [
+      "Kelp",
+      "海帶",
+      "海带",
+      "昆布",
+      "kombu"
+    ],
+    "group": "vegetable",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "nori",
+    "names": {
+      "en": "Nori",
+      "zh": "紫菜"
+    },
+    "aliases": [
+      "Nori",
+      "紫菜",
+      "海苔",
+      "laver"
+    ],
+    "group": "vegetable",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "wakame",
+    "names": {
+      "en": "Wakame",
+      "zh": "裙帶菜"
+    },
+    "aliases": [
+      "Wakame",
+      "裙帶菜",
+      "裙带菜"
+    ],
+    "group": "vegetable",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "lotus-root",
+    "names": {
+      "en": "Lotus root",
+      "zh": "蓮藕"
+    },
+    "aliases": [
+      "Lotus root",
+      "蓮藕",
+      "莲藕"
+    ],
+    "group": "vegetable",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "water-chestnut",
+    "names": {
+      "en": "Water chestnut",
+      "zh": "荸薺"
+    },
+    "aliases": [
+      "Water chestnut",
+      "荸薺",
+      "荸荠",
+      "water chestnuts"
+    ],
+    "group": "vegetable",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "apple",
+    "names": {
+      "en": "Apple",
+      "zh": "蘋果"
+    },
+    "aliases": [
+      "Apple",
+      "蘋果",
+      "苹果",
+      "apples"
+    ],
+    "group": "fruit",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "banana",
+    "names": {
+      "en": "Banana",
+      "zh": "香蕉"
+    },
+    "aliases": [
+      "Banana",
+      "香蕉",
+      "bananas"
+    ],
+    "group": "fruit",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "orange",
+    "names": {
+      "en": "Orange",
+      "zh": "柳橙"
+    },
+    "aliases": [
+      "Orange",
+      "柳橙",
+      "橙子",
+      "甜橙",
+      "oranges"
+    ],
+    "group": "fruit",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "mandarin",
+    "names": {
+      "en": "Mandarin",
+      "zh": "橘子"
+    },
+    "aliases": [
+      "Mandarin",
+      "橘子",
+      "柑橘",
+      "mandarin orange",
+      "tangerine"
+    ],
+    "group": "fruit",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "grapefruit",
+    "names": {
+      "en": "Grapefruit",
+      "zh": "葡萄柚"
+    },
+    "aliases": [
+      "Grapefruit",
+      "葡萄柚"
+    ],
+    "group": "fruit",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "pomelo",
+    "names": {
+      "en": "Pomelo",
+      "zh": "柚子"
+    },
+    "aliases": [
+      "Pomelo",
+      "柚子",
+      "文旦",
+      "pummelo"
+    ],
+    "group": "fruit",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "lemon",
+    "names": {
+      "en": "Lemon",
+      "zh": "檸檬"
+    },
+    "aliases": [
+      "Lemon",
+      "檸檬",
+      "柠檬",
+      "lemons"
+    ],
+    "group": "fruit",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "lime",
+    "names": {
+      "en": "Lime",
+      "zh": "萊姆"
+    },
+    "aliases": [
+      "Lime",
+      "萊姆",
+      "莱姆",
+      "青檸",
+      "青柠",
+      "limes"
+    ],
+    "group": "fruit",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "grape",
+    "names": {
+      "en": "Grapes",
+      "zh": "葡萄"
+    },
+    "aliases": [
+      "Grapes",
+      "葡萄",
+      "grape"
+    ],
+    "group": "fruit",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "strawberry",
+    "names": {
+      "en": "Strawberries",
+      "zh": "草莓"
+    },
+    "aliases": [
+      "Strawberries",
+      "草莓",
+      "strawberry"
+    ],
+    "group": "fruit",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "blueberry",
+    "names": {
+      "en": "Blueberries",
+      "zh": "藍莓"
+    },
+    "aliases": [
+      "Blueberries",
+      "藍莓",
+      "蓝莓",
+      "blueberry"
+    ],
+    "group": "fruit",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "raspberry",
+    "names": {
+      "en": "Raspberries",
+      "zh": "覆盆子"
+    },
+    "aliases": [
+      "Raspberries",
+      "覆盆子",
+      "raspberry"
+    ],
+    "group": "fruit",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "cherry",
+    "names": {
+      "en": "Cherries",
+      "zh": "櫻桃"
+    },
+    "aliases": [
+      "Cherries",
+      "櫻桃",
+      "樱桃",
+      "cherry"
+    ],
+    "group": "fruit",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "peach",
+    "names": {
+      "en": "Peach",
+      "zh": "桃子"
+    },
+    "aliases": [
+      "Peach",
+      "桃子",
+      "水蜜桃",
+      "peaches"
+    ],
+    "group": "fruit",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "plum",
+    "names": {
+      "en": "Plum",
+      "zh": "李子"
+    },
+    "aliases": [
+      "Plum",
+      "李子",
+      "plums"
+    ],
+    "group": "fruit",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "pear",
+    "names": {
+      "en": "Pear",
+      "zh": "梨子"
+    },
+    "aliases": [
+      "Pear",
+      "梨子",
+      "梨",
+      "pears"
+    ],
+    "group": "fruit",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "asian-pear",
+    "names": {
+      "en": "Asian pear",
+      "zh": "水梨"
+    },
+    "aliases": [
+      "Asian pear",
+      "水梨",
+      "nashi pear"
+    ],
+    "group": "fruit",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "pineapple",
+    "names": {
+      "en": "Pineapple",
+      "zh": "鳳梨"
+    },
+    "aliases": [
+      "Pineapple",
+      "鳳梨",
+      "凤梨",
+      "菠蘿",
+      "菠萝"
+    ],
+    "group": "fruit",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "mango",
+    "names": {
+      "en": "Mango",
+      "zh": "芒果"
+    },
+    "aliases": [
+      "Mango",
+      "芒果",
+      "mangoes"
+    ],
+    "group": "fruit",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "papaya",
+    "names": {
+      "en": "Papaya",
+      "zh": "木瓜"
+    },
+    "aliases": [
+      "Papaya",
+      "木瓜"
+    ],
+    "group": "fruit",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "guava",
+    "names": {
+      "en": "Guava",
+      "zh": "芭樂"
+    },
+    "aliases": [
+      "Guava",
+      "芭樂",
+      "芭乐",
+      "番石榴"
+    ],
+    "group": "fruit",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "kiwi",
+    "names": {
+      "en": "Kiwifruit",
+      "zh": "奇異果"
+    },
+    "aliases": [
+      "Kiwifruit",
+      "奇異果",
+      "奇异果",
+      "獼猴桃",
+      "猕猴桃",
+      "kiwi"
+    ],
+    "group": "fruit",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "watermelon",
+    "names": {
+      "en": "Watermelon",
+      "zh": "西瓜"
+    },
+    "aliases": [
+      "Watermelon",
+      "西瓜"
+    ],
+    "group": "fruit",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "cantaloupe",
+    "names": {
+      "en": "Cantaloupe",
+      "zh": "哈密瓜"
+    },
+    "aliases": [
+      "Cantaloupe",
+      "哈密瓜"
+    ],
+    "group": "fruit",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "honeydew",
+    "names": {
+      "en": "Honeydew melon",
+      "zh": "蜜瓜"
+    },
+    "aliases": [
+      "Honeydew melon",
+      "蜜瓜",
+      "honeydew"
+    ],
+    "group": "fruit",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "dragon-fruit",
+    "names": {
+      "en": "Dragon fruit",
+      "zh": "火龍果"
+    },
+    "aliases": [
+      "Dragon fruit",
+      "火龍果",
+      "火龙果",
+      "pitaya"
+    ],
+    "group": "fruit",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "lychee",
+    "names": {
+      "en": "Lychee",
+      "zh": "荔枝"
+    },
+    "aliases": [
+      "Lychee",
+      "荔枝",
+      "litchi"
+    ],
+    "group": "fruit",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "longan",
+    "names": {
+      "en": "Longan",
+      "zh": "龍眼"
+    },
+    "aliases": [
+      "Longan",
+      "龍眼",
+      "龙眼"
+    ],
+    "group": "fruit",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "passion-fruit",
+    "names": {
+      "en": "Passion fruit",
+      "zh": "百香果"
+    },
+    "aliases": [
+      "Passion fruit",
+      "百香果",
+      "passionfruit"
+    ],
+    "group": "fruit",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "persimmon",
+    "names": {
+      "en": "Persimmon",
+      "zh": "柿子"
+    },
+    "aliases": [
+      "Persimmon",
+      "柿子"
+    ],
+    "group": "fruit",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "avocado",
+    "names": {
+      "en": "Avocado",
+      "zh": "酪梨"
+    },
+    "aliases": [
+      "Avocado",
+      "酪梨",
+      "牛油果",
+      "avocados"
+    ],
+    "group": "fruit",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "coconut",
+    "names": {
+      "en": "Coconut flesh",
+      "zh": "椰肉"
+    },
+    "aliases": [
+      "Coconut flesh",
+      "椰肉",
+      "coconut",
+      "coconut meat"
+    ],
+    "group": "fruit",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "durian",
+    "names": {
+      "en": "Durian",
+      "zh": "榴槤"
+    },
+    "aliases": [
+      "Durian",
+      "榴槤",
+      "榴莲"
+    ],
+    "group": "fruit",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "jackfruit",
+    "names": {
+      "en": "Jackfruit",
+      "zh": "波羅蜜"
+    },
+    "aliases": [
+      "Jackfruit",
+      "波羅蜜",
+      "菠蘿蜜",
+      "菠萝蜜"
+    ],
+    "group": "fruit",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "pomegranate",
+    "names": {
+      "en": "Pomegranate",
+      "zh": "石榴"
+    },
+    "aliases": [
+      "Pomegranate",
+      "石榴"
+    ],
+    "group": "fruit",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "fig",
+    "names": {
+      "en": "Fig",
+      "zh": "無花果"
+    },
+    "aliases": [
+      "Fig",
+      "無花果",
+      "无花果",
+      "figs"
+    ],
+    "group": "fruit",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "date",
+    "names": {
+      "en": "Dates",
+      "zh": "椰棗"
+    },
+    "aliases": [
+      "Dates",
+      "椰棗",
+      "椰枣",
+      "date fruit"
+    ],
+    "group": "fruit",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "raisin",
+    "names": {
+      "en": "Raisins",
+      "zh": "葡萄乾"
+    },
+    "aliases": [
+      "Raisins",
+      "葡萄乾",
+      "葡萄干",
+      "raisin"
+    ],
+    "group": "fruit",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "olive",
+    "names": {
+      "en": "Olives",
+      "zh": "橄欖"
+    },
+    "aliases": [
+      "Olives",
+      "橄欖",
+      "橄榄",
+      "olive"
+    ],
+    "group": "fruit",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "rice",
+    "names": {
+      "en": "Cooked rice, unspecified",
+      "zh": "米飯"
+    },
+    "aliases": [
+      "Cooked rice, unspecified",
+      "米飯",
+      "米饭",
+      "白飯",
+      "白饭",
+      "飯",
+      "饭",
+      "rice",
+      "cooked rice",
+      "white rice"
+    ],
+    "group": "carb",
+    "protein": null,
+    "staple": "rice",
+    "recordIds": []
+  },
+  {
+    "id": "brown-rice",
+    "names": {
+      "en": "Brown rice",
+      "zh": "糙米"
+    },
+    "aliases": [
+      "Brown rice",
+      "糙米",
+      "糙米飯",
+      "糙米饭"
+    ],
+    "group": "carb",
+    "protein": null,
+    "staple": "rice",
+    "recordIds": []
+  },
+  {
+    "id": "rice-grain",
+    "names": {
+      "en": "Rice grain, uncooked",
+      "zh": "生米"
+    },
+    "aliases": [
+      "Rice grain, uncooked",
+      "生米",
+      "白米",
+      "uncooked rice",
+      "raw rice"
+    ],
+    "group": "carb",
+    "protein": null,
+    "staple": "rice",
+    "recordIds": []
+  },
+  {
+    "id": "congee",
+    "names": {
+      "en": "Congee",
+      "zh": "粥"
+    },
+    "aliases": [
+      "Congee",
+      "粥",
+      "稀飯",
+      "稀饭",
+      "白粥",
+      "rice porridge"
+    ],
+    "group": "carb",
+    "protein": null,
+    "staple": "rice",
+    "recordIds": []
+  },
+  {
+    "id": "noodles",
+    "names": {
+      "en": "Noodles, unspecified",
+      "zh": "麵條"
+    },
+    "aliases": [
+      "Noodles, unspecified",
+      "麵條",
+      "面条",
+      "麵",
+      "面",
+      "noodles",
+      "noodle"
+    ],
+    "group": "carb",
+    "protein": null,
+    "staple": "noodles",
+    "recordIds": []
+  },
+  {
+    "id": "pasta",
+    "names": {
+      "en": "Pasta",
+      "zh": "義大利麵"
+    },
+    "aliases": [
+      "Pasta",
+      "義大利麵",
+      "意大利面",
+      "意粉"
+    ],
+    "group": "carb",
+    "protein": null,
+    "staple": "noodles",
+    "recordIds": []
+  },
+  {
+    "id": "udon",
+    "names": {
+      "en": "Udon noodles",
+      "zh": "烏龍麵"
+    },
+    "aliases": [
+      "Udon noodles",
+      "烏龍麵",
+      "乌龙面",
+      "udon"
+    ],
+    "group": "carb",
+    "protein": null,
+    "staple": "noodles",
+    "recordIds": []
+  },
+  {
+    "id": "soba",
+    "names": {
+      "en": "Soba noodles",
+      "zh": "蕎麥麵"
+    },
+    "aliases": [
+      "Soba noodles",
+      "蕎麥麵",
+      "荞麦面",
+      "soba"
+    ],
+    "group": "carb",
+    "protein": null,
+    "staple": "noodles",
+    "recordIds": []
+  },
+  {
+    "id": "rice-noodles",
+    "names": {
+      "en": "Rice noodles",
+      "zh": "米粉"
+    },
+    "aliases": [
+      "Rice noodles",
+      "米粉",
+      "米線",
+      "米线",
+      "河粉",
+      "rice noodle"
+    ],
+    "group": "carb",
+    "protein": null,
+    "staple": "noodles",
+    "recordIds": []
+  },
+  {
+    "id": "ramen",
+    "names": {
+      "en": "Ramen noodles",
+      "zh": "拉麵"
+    },
+    "aliases": [
+      "Ramen noodles",
+      "拉麵",
+      "拉面",
+      "ramen"
+    ],
+    "group": "carb",
+    "protein": null,
+    "staple": "noodles",
+    "recordIds": []
+  },
+  {
+    "id": "bread",
+    "names": {
+      "en": "Bread",
+      "zh": "麵包"
+    },
+    "aliases": [
+      "Bread",
+      "麵包",
+      "面包"
+    ],
+    "group": "carb",
+    "protein": null,
+    "staple": "bread",
+    "recordIds": []
+  },
+  {
+    "id": "toast",
+    "names": {
+      "en": "Toast",
+      "zh": "吐司"
+    },
+    "aliases": [
+      "Toast",
+      "吐司"
+    ],
+    "group": "carb",
+    "protein": null,
+    "staple": "bread",
+    "recordIds": []
+  },
+  {
+    "id": "bagel",
+    "names": {
+      "en": "Bagel",
+      "zh": "貝果"
+    },
+    "aliases": [
+      "Bagel",
+      "貝果",
+      "贝果",
+      "bagels"
+    ],
+    "group": "carb",
+    "protein": null,
+    "staple": "bread",
+    "recordIds": []
+  },
+  {
+    "id": "tortilla",
+    "names": {
+      "en": "Tortilla",
+      "zh": "墨西哥餅"
+    },
+    "aliases": [
+      "Tortilla",
+      "墨西哥餅",
+      "墨西哥饼",
+      "tortillas"
+    ],
+    "group": "carb",
+    "protein": null,
+    "staple": "bread",
+    "recordIds": []
+  },
+  {
+    "id": "mantou",
+    "names": {
+      "en": "Steamed bun",
+      "zh": "饅頭"
+    },
+    "aliases": [
+      "Steamed bun",
+      "饅頭",
+      "馒头",
+      "mantou"
+    ],
+    "group": "carb",
+    "protein": null,
+    "staple": "bread",
+    "recordIds": []
+  },
+  {
+    "id": "oats",
+    "names": {
+      "en": "Oats",
+      "zh": "燕麥"
+    },
+    "aliases": [
+      "Oats",
+      "燕麥",
+      "燕麦",
+      "oat"
+    ],
+    "group": "carb",
+    "protein": null,
+    "staple": "other",
+    "recordIds": []
+  },
+  {
+    "id": "oatmeal",
+    "names": {
+      "en": "Oatmeal",
+      "zh": "燕麥粥"
+    },
+    "aliases": [
+      "Oatmeal",
+      "燕麥粥",
+      "燕麦粥",
+      "porridge oats"
+    ],
+    "group": "carb",
+    "protein": null,
+    "staple": "other",
+    "recordIds": []
+  },
+  {
+    "id": "quinoa",
+    "names": {
+      "en": "Quinoa",
+      "zh": "藜麥"
+    },
+    "aliases": [
+      "Quinoa",
+      "藜麥",
+      "藜麦"
+    ],
+    "group": "carb",
+    "protein": null,
+    "staple": "other",
+    "recordIds": []
+  },
+  {
+    "id": "barley",
+    "names": {
+      "en": "Barley",
+      "zh": "大麥"
+    },
+    "aliases": [
+      "Barley",
+      "大麥",
+      "大麦"
+    ],
+    "group": "carb",
+    "protein": null,
+    "staple": "other",
+    "recordIds": []
+  },
+  {
+    "id": "millet",
+    "names": {
+      "en": "Millet",
+      "zh": "小米"
+    },
+    "aliases": [
+      "Millet",
+      "小米"
+    ],
+    "group": "carb",
+    "protein": null,
+    "staple": "other",
+    "recordIds": []
+  },
+  {
+    "id": "buckwheat",
+    "names": {
+      "en": "Buckwheat",
+      "zh": "蕎麥"
+    },
+    "aliases": [
+      "Buckwheat",
+      "蕎麥",
+      "荞麦"
+    ],
+    "group": "carb",
+    "protein": null,
+    "staple": "other",
+    "recordIds": []
+  },
+  {
+    "id": "potato",
+    "names": {
+      "en": "Potato",
+      "zh": "馬鈴薯"
+    },
+    "aliases": [
+      "Potato",
+      "馬鈴薯",
+      "马铃薯",
+      "土豆",
+      "potatoes"
+    ],
+    "group": "carb",
+    "protein": null,
+    "staple": "potato",
+    "recordIds": []
+  },
+  {
+    "id": "sweet-potato",
+    "names": {
+      "en": "Sweet potato",
+      "zh": "地瓜"
+    },
+    "aliases": [
+      "Sweet potato",
+      "地瓜",
+      "番薯",
+      "甘薯",
+      "sweet potatoes"
+    ],
+    "group": "carb",
+    "protein": null,
+    "staple": "potato",
+    "recordIds": []
+  },
+  {
+    "id": "taro",
+    "names": {
+      "en": "Taro",
+      "zh": "芋頭"
+    },
+    "aliases": [
+      "Taro",
+      "芋頭",
+      "芋头"
+    ],
+    "group": "carb",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "yam",
+    "names": {
+      "en": "Yam",
+      "zh": "薯蕷"
+    },
+    "aliases": [
+      "Yam",
+      "薯蕷",
+      "薯蓣",
+      "山藥",
+      "山药",
+      "yams"
+    ],
+    "group": "carb",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "cassava",
+    "names": {
+      "en": "Cassava",
+      "zh": "木薯"
+    },
+    "aliases": [
+      "Cassava",
+      "木薯",
+      "manioc"
+    ],
+    "group": "carb",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "plantain",
+    "names": {
+      "en": "Plantain",
+      "zh": "大蕉"
+    },
+    "aliases": [
+      "Plantain",
+      "大蕉",
+      "plantains"
+    ],
+    "group": "carb",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "wheat-flour",
+    "names": {
+      "en": "Wheat flour",
+      "zh": "小麥麵粉"
+    },
+    "aliases": [
+      "Wheat flour",
+      "小麥麵粉",
+      "小麦面粉",
+      "麵粉",
+      "面粉"
+    ],
+    "group": "carb",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "rice-flour",
+    "names": {
+      "en": "Rice flour",
+      "zh": "米粉末"
+    },
+    "aliases": [
+      "Rice flour",
+      "米粉末",
+      "在來米粉",
+      "在来米粉"
+    ],
+    "group": "carb",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "water",
+    "names": {
+      "en": "Drinking water",
+      "zh": "水"
+    },
+    "aliases": [
+      "Drinking water",
+      "水",
+      "白開水",
+      "白开水",
+      "開水",
+      "开水",
+      "water"
+    ],
+    "group": "drink",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "sparkling-water",
+    "names": {
+      "en": "Sparkling water",
+      "zh": "氣泡水"
+    },
+    "aliases": [
+      "Sparkling water",
+      "氣泡水",
+      "气泡水",
+      "carbonated water",
+      "seltzer"
+    ],
+    "group": "drink",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "tea",
+    "names": {
+      "en": "Tea, preparation unspecified",
+      "zh": "茶"
+    },
+    "aliases": [
+      "Tea, preparation unspecified",
+      "茶",
+      "tea"
+    ],
+    "group": "drink",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "unsweetened-tea",
+    "names": {
+      "en": "Unsweetened tea",
+      "zh": "無糖茶"
+    },
+    "aliases": [
+      "Unsweetened tea",
+      "無糖茶",
+      "无糖茶",
+      "plain tea"
+    ],
+    "group": "drink",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "green-tea",
+    "names": {
+      "en": "Green tea",
+      "zh": "綠茶"
+    },
+    "aliases": [
+      "Green tea",
+      "綠茶",
+      "绿茶"
+    ],
+    "group": "drink",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "unsweetened-green-tea",
+    "names": {
+      "en": "Unsweetened green tea",
+      "zh": "無糖綠茶"
+    },
+    "aliases": [
+      "Unsweetened green tea",
+      "無糖綠茶",
+      "无糖绿茶"
+    ],
+    "group": "drink",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "black-tea",
+    "names": {
+      "en": "Black tea",
+      "zh": "紅茶"
+    },
+    "aliases": [
+      "Black tea",
+      "紅茶",
+      "红茶"
+    ],
+    "group": "drink",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "unsweetened-black-tea",
+    "names": {
+      "en": "Unsweetened black tea",
+      "zh": "無糖紅茶"
+    },
+    "aliases": [
+      "Unsweetened black tea",
+      "無糖紅茶",
+      "无糖红茶"
+    ],
+    "group": "drink",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "oolong-tea",
+    "names": {
+      "en": "Oolong tea",
+      "zh": "烏龍茶"
+    },
+    "aliases": [
+      "Oolong tea",
+      "烏龍茶",
+      "乌龙茶",
+      "oolong"
+    ],
+    "group": "drink",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "herbal-tea",
+    "names": {
+      "en": "Herbal tea",
+      "zh": "花草茶"
+    },
+    "aliases": [
+      "Herbal tea",
+      "花草茶",
+      "herbal infusion"
+    ],
+    "group": "drink",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "coffee",
+    "names": {
+      "en": "Coffee, preparation unspecified",
+      "zh": "咖啡"
+    },
+    "aliases": [
+      "Coffee, preparation unspecified",
+      "咖啡",
+      "coffee"
+    ],
+    "group": "drink",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "black-coffee",
+    "names": {
+      "en": "Black coffee",
+      "zh": "黑咖啡"
+    },
+    "aliases": [
+      "Black coffee",
+      "黑咖啡",
+      "美式咖啡",
+      "americano",
+      "plain coffee"
+    ],
+    "group": "drink",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "latte",
+    "names": {
+      "en": "Latte",
+      "zh": "拿鐵"
+    },
+    "aliases": [
+      "Latte",
+      "拿鐵",
+      "拿铁",
+      "caffe latte",
+      "café latte"
+    ],
+    "group": "drink",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "cappuccino",
+    "names": {
+      "en": "Cappuccino",
+      "zh": "卡布奇諾"
+    },
+    "aliases": [
+      "Cappuccino",
+      "卡布奇諾",
+      "卡布奇诺"
+    ],
+    "group": "drink",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "milk-tea",
+    "names": {
+      "en": "Milk tea",
+      "zh": "奶茶"
+    },
+    "aliases": [
+      "Milk tea",
+      "奶茶",
+      "鮮奶茶",
+      "鲜奶茶"
+    ],
+    "group": "drink",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "bubble-tea",
+    "names": {
+      "en": "Bubble tea",
+      "zh": "珍珠奶茶"
+    },
+    "aliases": [
+      "Bubble tea",
+      "珍珠奶茶",
+      "波霸奶茶",
+      "珍奶",
+      "boba",
+      "boba tea"
+    ],
+    "group": "drink",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "milk",
+    "names": {
+      "en": "Milk, fat level unspecified",
+      "zh": "牛奶"
+    },
+    "aliases": [
+      "Milk, fat level unspecified",
+      "牛奶",
+      "鮮奶",
+      "鲜奶",
+      "milk",
+      "cow milk",
+      "cow's milk"
+    ],
+    "group": "drink",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "whole-milk",
+    "names": {
+      "en": "Whole milk",
+      "zh": "全脂牛奶"
+    },
+    "aliases": [
+      "Whole milk",
+      "全脂牛奶",
+      "全脂鮮奶",
+      "全脂鲜奶"
+    ],
+    "group": "drink",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "low-fat-milk",
+    "names": {
+      "en": "Low-fat milk",
+      "zh": "低脂牛奶"
+    },
+    "aliases": [
+      "Low-fat milk",
+      "低脂牛奶",
+      "低脂鮮奶",
+      "低脂鲜奶",
+      "low fat milk"
+    ],
+    "group": "drink",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "skim-milk",
+    "names": {
+      "en": "Skim milk",
+      "zh": "脫脂牛奶"
+    },
+    "aliases": [
+      "Skim milk",
+      "脫脂牛奶",
+      "脱脂牛奶",
+      "nonfat milk"
+    ],
+    "group": "drink",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "lactose-free-milk",
+    "names": {
+      "en": "Lactose-free milk",
+      "zh": "無乳糖牛奶"
+    },
+    "aliases": [
+      "Lactose-free milk",
+      "無乳糖牛奶",
+      "无乳糖牛奶",
+      "lactose free milk"
+    ],
+    "group": "drink",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "chocolate-milk",
+    "names": {
+      "en": "Chocolate milk",
+      "zh": "巧克力牛奶"
+    },
+    "aliases": [
+      "Chocolate milk",
+      "巧克力牛奶"
+    ],
+    "group": "drink",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "soy-milk",
+    "names": {
+      "en": "Soy milk, sweetness unspecified",
+      "zh": "豆漿"
+    },
+    "aliases": [
+      "Soy milk, sweetness unspecified",
+      "豆漿",
+      "豆浆",
+      "豆奶",
+      "soy milk",
+      "soymilk",
+      "soya milk"
+    ],
+    "group": "drink",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "unsweetened-soy-milk",
+    "names": {
+      "en": "Unsweetened soy milk",
+      "zh": "無糖豆漿"
+    },
+    "aliases": [
+      "Unsweetened soy milk",
+      "無糖豆漿",
+      "无糖豆浆",
+      "無糖豆奶",
+      "无糖豆奶"
+    ],
+    "group": "drink",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "oat-milk",
+    "names": {
+      "en": "Oat milk",
+      "zh": "燕麥奶"
+    },
+    "aliases": [
+      "Oat milk",
+      "燕麥奶",
+      "燕麦奶"
+    ],
+    "group": "drink",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "almond-milk",
+    "names": {
+      "en": "Almond milk",
+      "zh": "杏仁奶"
+    },
+    "aliases": [
+      "Almond milk",
+      "杏仁奶"
+    ],
+    "group": "drink",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "rice-milk",
+    "names": {
+      "en": "Rice milk",
+      "zh": "米奶"
+    },
+    "aliases": [
+      "Rice milk",
+      "米奶"
+    ],
+    "group": "drink",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "coconut-milk",
+    "names": {
+      "en": "Coconut milk",
+      "zh": "椰奶"
+    },
+    "aliases": [
+      "Coconut milk",
+      "椰奶",
+      "椰漿",
+      "椰浆"
+    ],
+    "group": "drink",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "coconut-water",
+    "names": {
+      "en": "Coconut water",
+      "zh": "椰子水"
+    },
+    "aliases": [
+      "Coconut water",
+      "椰子水"
+    ],
+    "group": "drink",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "orange-juice",
+    "names": {
+      "en": "Orange juice",
+      "zh": "柳橙汁"
+    },
+    "aliases": [
+      "Orange juice",
+      "柳橙汁",
+      "橙汁"
+    ],
+    "group": "drink",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "apple-juice",
+    "names": {
+      "en": "Apple juice",
+      "zh": "蘋果汁"
+    },
+    "aliases": [
+      "Apple juice",
+      "蘋果汁",
+      "苹果汁"
+    ],
+    "group": "drink",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "grape-juice",
+    "names": {
+      "en": "Grape juice",
+      "zh": "葡萄汁"
+    },
+    "aliases": [
+      "Grape juice",
+      "葡萄汁"
+    ],
+    "group": "drink",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "grapefruit-juice",
+    "names": {
+      "en": "Grapefruit juice",
+      "zh": "葡萄柚汁"
+    },
+    "aliases": [
+      "Grapefruit juice",
+      "葡萄柚汁"
+    ],
+    "group": "drink",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "tomato-juice",
+    "names": {
+      "en": "Tomato juice",
+      "zh": "番茄汁"
+    },
+    "aliases": [
+      "Tomato juice",
+      "番茄汁",
+      "蕃茄汁"
+    ],
+    "group": "drink",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "fruit-juice",
+    "names": {
+      "en": "Fruit juice, unspecified",
+      "zh": "果汁"
+    },
+    "aliases": [
+      "Fruit juice, unspecified",
+      "果汁",
+      "fruit juice"
+    ],
+    "group": "drink",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "smoothie",
+    "names": {
+      "en": "Smoothie, recipe unspecified",
+      "zh": "果昔"
+    },
+    "aliases": [
+      "Smoothie, recipe unspecified",
+      "果昔",
+      "冰沙",
+      "smoothie"
+    ],
+    "group": "drink",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "yogurt-drink",
+    "names": {
+      "en": "Yogurt drink",
+      "zh": "優格飲"
+    },
+    "aliases": [
+      "Yogurt drink",
+      "優格飲",
+      "优格饮",
+      "優酪乳",
+      "优酪乳",
+      "yoghurt drink"
+    ],
+    "group": "drink",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "protein-shake",
+    "names": {
+      "en": "Protein shake",
+      "zh": "蛋白飲"
+    },
+    "aliases": [
+      "Protein shake",
+      "蛋白飲",
+      "蛋白饮",
+      "蛋白奶昔",
+      "protein drink"
+    ],
+    "group": "drink",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "soda",
+    "names": {
+      "en": "Soda",
+      "zh": "汽水"
+    },
+    "aliases": [
+      "Soda",
+      "汽水",
+      "碳酸飲料",
+      "碳酸饮料",
+      "soft drink"
+    ],
+    "group": "drink",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "cola",
+    "names": {
+      "en": "Cola",
+      "zh": "可樂"
+    },
+    "aliases": [
+      "Cola",
+      "可樂",
+      "可乐"
+    ],
+    "group": "drink",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "diet-soda",
+    "names": {
+      "en": "Diet soda",
+      "zh": "無糖汽水"
+    },
+    "aliases": [
+      "Diet soda",
+      "無糖汽水",
+      "无糖汽水",
+      "零卡可樂",
+      "零卡可乐",
+      "無糖可樂",
+      "无糖可乐",
+      "diet cola",
+      "zero-sugar soda"
+    ],
+    "group": "drink",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "sports-drink",
+    "names": {
+      "en": "Sports drink",
+      "zh": "運動飲料"
+    },
+    "aliases": [
+      "Sports drink",
+      "運動飲料",
+      "运动饮料"
+    ],
+    "group": "drink",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "energy-drink",
+    "names": {
+      "en": "Energy drink",
+      "zh": "能量飲料"
+    },
+    "aliases": [
+      "Energy drink",
+      "能量飲料",
+      "能量饮料"
+    ],
+    "group": "drink",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "lemonade",
+    "names": {
+      "en": "Lemonade",
+      "zh": "檸檬水飲料"
+    },
+    "aliases": [
+      "Lemonade",
+      "檸檬水飲料",
+      "柠檬水饮料"
+    ],
+    "group": "drink",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "beer",
+    "names": {
+      "en": "Beer",
+      "zh": "啤酒"
+    },
+    "aliases": [
+      "Beer",
+      "啤酒"
+    ],
+    "group": "drink",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "wine",
+    "names": {
+      "en": "Wine",
+      "zh": "葡萄酒"
+    },
+    "aliases": [
+      "Wine",
+      "葡萄酒",
+      "紅酒",
+      "红酒",
+      "白葡萄酒"
+    ],
+    "group": "drink",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "rice-wine",
+    "names": {
+      "en": "Rice wine",
+      "zh": "米酒"
+    },
+    "aliases": [
+      "Rice wine",
+      "米酒"
+    ],
+    "group": "drink",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "sake",
+    "names": {
+      "en": "Sake",
+      "zh": "清酒"
+    },
+    "aliases": [
+      "Sake",
+      "清酒"
+    ],
+    "group": "drink",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "spirits",
+    "names": {
+      "en": "Distilled spirits",
+      "zh": "烈酒"
+    },
+    "aliases": [
+      "Distilled spirits",
+      "烈酒",
+      "蒸餾酒",
+      "蒸馏酒",
+      "spirits"
+    ],
+    "group": "drink",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "cocktail",
+    "names": {
+      "en": "Cocktail",
+      "zh": "調酒"
+    },
+    "aliases": [
+      "Cocktail",
+      "調酒",
+      "调酒"
+    ],
+    "group": "drink",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "alcohol",
+    "names": {
+      "en": "Alcoholic drink, unspecified",
+      "zh": "酒精飲品"
+    },
+    "aliases": [
+      "Alcoholic drink, unspecified",
+      "酒精飲品",
+      "酒精饮品",
+      "酒",
+      "alcohol",
+      "alcoholic drink"
+    ],
+    "group": "drink",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "almond",
+    "names": {
+      "en": "Almonds",
+      "zh": "杏仁果"
+    },
+    "aliases": [
+      "Almonds",
+      "杏仁果",
+      "扁桃仁",
+      "almond"
+    ],
+    "group": "other",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "walnut",
+    "names": {
+      "en": "Walnuts",
+      "zh": "核桃"
+    },
+    "aliases": [
+      "Walnuts",
+      "核桃",
+      "walnut"
+    ],
+    "group": "other",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "cashew",
+    "names": {
+      "en": "Cashews",
+      "zh": "腰果"
+    },
+    "aliases": [
+      "Cashews",
+      "腰果",
+      "cashew"
+    ],
+    "group": "other",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "peanut",
+    "names": {
+      "en": "Peanuts",
+      "zh": "花生"
+    },
+    "aliases": [
+      "Peanuts",
+      "花生",
+      "peanut",
+      "groundnut",
+      "groundnuts"
+    ],
+    "group": "other",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "pistachio",
+    "names": {
+      "en": "Pistachios",
+      "zh": "開心果"
+    },
+    "aliases": [
+      "Pistachios",
+      "開心果",
+      "开心果",
+      "pistachio"
+    ],
+    "group": "other",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "hazelnut",
+    "names": {
+      "en": "Hazelnuts",
+      "zh": "榛果"
+    },
+    "aliases": [
+      "Hazelnuts",
+      "榛果",
+      "榛子",
+      "hazelnut"
+    ],
+    "group": "other",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "macadamia",
+    "names": {
+      "en": "Macadamia nuts",
+      "zh": "夏威夷豆"
+    },
+    "aliases": [
+      "Macadamia nuts",
+      "夏威夷豆",
+      "澳洲堅果",
+      "澳洲坚果",
+      "macadamia",
+      "macadamia nut"
+    ],
+    "group": "other",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "pecan",
+    "names": {
+      "en": "Pecans",
+      "zh": "碧根果"
+    },
+    "aliases": [
+      "Pecans",
+      "碧根果",
+      "美洲胡桃",
+      "pecan"
+    ],
+    "group": "other",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "chestnut",
+    "names": {
+      "en": "Chestnuts",
+      "zh": "栗子"
+    },
+    "aliases": [
+      "Chestnuts",
+      "栗子",
+      "chestnut"
+    ],
+    "group": "other",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "sesame",
+    "names": {
+      "en": "Sesame seeds",
+      "zh": "芝麻"
+    },
+    "aliases": [
+      "Sesame seeds",
+      "芝麻",
+      "sesame",
+      "sesame seed"
+    ],
+    "group": "other",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "chia",
+    "names": {
+      "en": "Chia seeds",
+      "zh": "奇亞籽"
+    },
+    "aliases": [
+      "Chia seeds",
+      "奇亞籽",
+      "奇亚籽",
+      "chia",
+      "chia seed"
+    ],
+    "group": "other",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "flaxseed",
+    "names": {
+      "en": "Flaxseeds",
+      "zh": "亞麻籽"
+    },
+    "aliases": [
+      "Flaxseeds",
+      "亞麻籽",
+      "亚麻籽",
+      "flaxseed",
+      "linseed",
+      "linseeds"
+    ],
+    "group": "other",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "pumpkin-seed",
+    "names": {
+      "en": "Pumpkin seeds",
+      "zh": "南瓜籽"
+    },
+    "aliases": [
+      "Pumpkin seeds",
+      "南瓜籽",
+      "pumpkin seed"
+    ],
+    "group": "other",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "sunflower-seed",
+    "names": {
+      "en": "Sunflower seeds",
+      "zh": "葵花籽"
+    },
+    "aliases": [
+      "Sunflower seeds",
+      "葵花籽",
+      "sunflower seed"
+    ],
+    "group": "other",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "cheese",
+    "names": {
+      "en": "Cheese",
+      "zh": "起司"
+    },
+    "aliases": [
+      "Cheese",
+      "起司",
+      "乳酪",
+      "芝士"
+    ],
+    "group": "other",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "yogurt",
+    "names": {
+      "en": "Yogurt",
+      "zh": "優格"
+    },
+    "aliases": [
+      "Yogurt",
+      "優格",
+      "优格",
+      "酸奶",
+      "yoghurt"
+    ],
+    "group": "other",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "plain-yogurt",
+    "names": {
+      "en": "Plain yogurt",
+      "zh": "原味無糖優格"
+    },
+    "aliases": [
+      "Plain yogurt",
+      "原味無糖優格",
+      "原味无糖优格",
+      "plain yoghurt",
+      "unsweetened yogurt"
+    ],
+    "group": "other",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "butter",
+    "names": {
+      "en": "Butter",
+      "zh": "奶油"
+    },
+    "aliases": [
+      "Butter",
+      "奶油",
+      "牛油"
+    ],
+    "group": "other",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "cream",
+    "names": {
+      "en": "Cream",
+      "zh": "鮮奶油"
+    },
+    "aliases": [
+      "Cream",
+      "鮮奶油",
+      "鲜奶油",
+      "乳脂"
+    ],
+    "group": "other",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "olive-oil",
+    "names": {
+      "en": "Olive oil",
+      "zh": "橄欖油"
+    },
+    "aliases": [
+      "Olive oil",
+      "橄欖油",
+      "橄榄油"
+    ],
+    "group": "other",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "sesame-oil",
+    "names": {
+      "en": "Sesame oil",
+      "zh": "芝麻油"
+    },
+    "aliases": [
+      "Sesame oil",
+      "芝麻油",
+      "麻油"
+    ],
+    "group": "other",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "canola-oil",
+    "names": {
+      "en": "Canola oil",
+      "zh": "芥花油"
+    },
+    "aliases": [
+      "Canola oil",
+      "芥花油",
+      "菜籽油",
+      "rapeseed oil"
+    ],
+    "group": "other",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "soybean-oil",
+    "names": {
+      "en": "Soybean oil",
+      "zh": "大豆油"
+    },
+    "aliases": [
+      "Soybean oil",
+      "大豆油",
+      "黃豆油",
+      "黄豆油"
+    ],
+    "group": "other",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "coconut-oil",
+    "names": {
+      "en": "Coconut oil",
+      "zh": "椰子油"
+    },
+    "aliases": [
+      "Coconut oil",
+      "椰子油"
+    ],
+    "group": "other",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "salt",
+    "names": {
+      "en": "Salt",
+      "zh": "鹽"
+    },
+    "aliases": [
+      "Salt",
+      "鹽",
+      "盐",
+      "食鹽",
+      "食盐",
+      "table salt"
+    ],
+    "group": "other",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "sugar",
+    "names": {
+      "en": "Sugar",
+      "zh": "糖"
+    },
+    "aliases": [
+      "Sugar",
+      "糖",
+      "砂糖",
+      "白糖",
+      "白砂糖",
+      "table sugar"
+    ],
+    "group": "other",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "brown-sugar",
+    "names": {
+      "en": "Brown sugar",
+      "zh": "紅糖"
+    },
+    "aliases": [
+      "Brown sugar",
+      "紅糖",
+      "红糖"
+    ],
+    "group": "other",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "honey",
+    "names": {
+      "en": "Honey",
+      "zh": "蜂蜜"
+    },
+    "aliases": [
+      "Honey",
+      "蜂蜜"
+    ],
+    "group": "other",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "maple-syrup",
+    "names": {
+      "en": "Maple syrup",
+      "zh": "楓糖漿"
+    },
+    "aliases": [
+      "Maple syrup",
+      "楓糖漿",
+      "枫糖浆"
+    ],
+    "group": "other",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "soy-sauce",
+    "names": {
+      "en": "Soy sauce",
+      "zh": "醬油"
+    },
+    "aliases": [
+      "Soy sauce",
+      "醬油",
+      "酱油"
+    ],
+    "group": "other",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "vinegar",
+    "names": {
+      "en": "Vinegar",
+      "zh": "醋"
+    },
+    "aliases": [
+      "Vinegar",
+      "醋"
+    ],
+    "group": "other",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "mayonnaise",
+    "names": {
+      "en": "Mayonnaise",
+      "zh": "美乃滋"
+    },
+    "aliases": [
+      "Mayonnaise",
+      "美乃滋",
+      "蛋黃醬",
+      "蛋黄酱",
+      "mayo"
+    ],
+    "group": "other",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "ketchup",
+    "names": {
+      "en": "Ketchup",
+      "zh": "番茄醬"
+    },
+    "aliases": [
+      "Ketchup",
+      "番茄醬",
+      "番茄酱",
+      "tomato ketchup"
+    ],
+    "group": "other",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "peanut-butter",
+    "names": {
+      "en": "Peanut butter",
+      "zh": "花生醬"
+    },
+    "aliases": [
+      "Peanut butter",
+      "花生醬",
+      "花生酱"
+    ],
+    "group": "other",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "chocolate",
+    "names": {
+      "en": "Chocolate",
+      "zh": "巧克力"
+    },
+    "aliases": [
+      "Chocolate",
+      "巧克力"
+    ],
+    "group": "other",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "cookies",
+    "names": {
+      "en": "Cookies",
+      "zh": "餅乾"
+    },
+    "aliases": [
+      "Cookies",
+      "餅乾",
+      "饼干",
+      "cookie",
+      "biscuits",
+      "biscuit"
+    ],
+    "group": "other",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "cake",
+    "names": {
+      "en": "Cake",
+      "zh": "蛋糕"
+    },
+    "aliases": [
+      "Cake",
+      "蛋糕"
+    ],
+    "group": "other",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "ice-cream",
+    "names": {
+      "en": "Ice cream",
+      "zh": "冰淇淋"
+    },
+    "aliases": [
+      "Ice cream",
+      "冰淇淋",
+      "冰激凌"
+    ],
+    "group": "other",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "chips",
+    "names": {
+      "en": "Potato chips",
+      "zh": "洋芋片"
+    },
+    "aliases": [
+      "Potato chips",
+      "洋芋片",
+      "薯片",
+      "chips",
+      "crisps"
+    ],
+    "group": "other",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "popcorn",
+    "names": {
+      "en": "Popcorn",
+      "zh": "爆米花"
+    },
+    "aliases": [
+      "Popcorn",
+      "爆米花"
+    ],
+    "group": "other",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "beef-noodle-soup",
+    "names": {
+      "en": "Beef noodle soup, recipe unspecified",
+      "zh": "牛肉麵"
+    },
+    "aliases": [
+      "Beef noodle soup, recipe unspecified",
+      "牛肉麵",
+      "牛肉面",
+      "beef noodle soup"
+    ],
+    "group": "other",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "fried-rice",
+    "names": {
+      "en": "Fried rice, recipe unspecified",
+      "zh": "炒飯"
+    },
+    "aliases": [
+      "Fried rice, recipe unspecified",
+      "炒飯",
+      "炒饭",
+      "fried rice"
+    ],
+    "group": "other",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "chicken-rice",
+    "names": {
+      "en": "Chicken rice, recipe unspecified",
+      "zh": "雞肉飯"
+    },
+    "aliases": [
+      "Chicken rice, recipe unspecified",
+      "雞肉飯",
+      "鸡肉饭",
+      "chicken rice"
+    ],
+    "group": "other",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "dumpling",
+    "names": {
+      "en": "Dumplings, recipe unspecified",
+      "zh": "餃子"
+    },
+    "aliases": [
+      "Dumplings, recipe unspecified",
+      "餃子",
+      "饺子",
+      "水餃",
+      "水饺",
+      "dumpling",
+      "dumplings"
+    ],
+    "group": "other",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "steamed-filled-bun",
+    "names": {
+      "en": "Filled steamed bun",
+      "zh": "包子"
+    },
+    "aliases": [
+      "Filled steamed bun",
+      "包子",
+      "bao"
+    ],
+    "group": "other",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "pizza",
+    "names": {
+      "en": "Pizza",
+      "zh": "披薩"
+    },
+    "aliases": [
+      "Pizza",
+      "披薩",
+      "披萨",
+      "比薩",
+      "比萨"
+    ],
+    "group": "other",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "hamburger",
+    "names": {
+      "en": "Hamburger",
+      "zh": "漢堡"
+    },
+    "aliases": [
+      "Hamburger",
+      "漢堡",
+      "汉堡",
+      "burger"
+    ],
+    "group": "other",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "sushi",
+    "names": {
+      "en": "Sushi, filling unspecified",
+      "zh": "壽司"
+    },
+    "aliases": [
+      "Sushi, filling unspecified",
+      "壽司",
+      "寿司",
+      "sushi"
+    ],
+    "group": "other",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "soup",
+    "names": {
+      "en": "Soup, recipe unspecified",
+      "zh": "湯品"
+    },
+    "aliases": [
+      "Soup, recipe unspecified",
+      "湯品",
+      "汤品",
+      "湯",
+      "汤",
+      "soup"
+    ],
+    "group": "soup",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "miso-soup",
+    "names": {
+      "en": "Miso soup",
+      "zh": "味噌湯"
+    },
+    "aliases": [
+      "Miso soup",
+      "味噌湯",
+      "味噌汤"
+    ],
+    "group": "soup",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "egg-drop-soup",
+    "names": {
+      "en": "Egg drop soup",
+      "zh": "蛋花湯"
+    },
+    "aliases": [
+      "Egg drop soup",
+      "蛋花湯",
+      "蛋花汤"
+    ],
+    "group": "soup",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "corn-soup",
+    "names": {
+      "en": "Corn soup",
+      "zh": "玉米湯"
+    },
+    "aliases": [
+      "Corn soup",
+      "玉米湯",
+      "玉米汤",
+      "玉米濃湯",
+      "玉米浓汤"
+    ],
+    "group": "soup",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  },
+  {
+    "id": "hot-and-sour-soup",
+    "names": {
+      "en": "Hot and sour soup",
+      "zh": "酸辣湯"
+    },
+    "aliases": [
+      "Hot and sour soup",
+      "酸辣湯",
+      "酸辣汤"
+    ],
+    "group": "soup",
+    "protein": null,
+    "staple": null,
+    "recordIds": []
+  }
+]

@@ -1,0 +1,20 @@
+[
+  {"fdcId":168878,"description":"Rice, white, long-grain, regular, enriched, cooked","label":{"en":"Cooked white rice","zh":"煮熟白飯"},"state":"cooked"},
+  {"fdcId":171477,"description":"Chicken, broilers or fryers, breast, meat only, cooked, roasted","label":{"en":"Roasted skinless chicken breast","zh":"去皮烤雞胸肉"},"state":"cooked"},
+  {"fdcId":175168,"description":"Fish, salmon, Atlantic, farmed, cooked, dry heat","label":{"en":"Baked farmed Atlantic salmon","zh":"烤養殖大西洋鮭魚"},"state":"cooked"},
+  {"fdcId":174291,"description":"Tofu, hard, prepared with nigari","label":{"en":"Plain hard nigari tofu, ready to eat","zh":"原味硬質鹽滷豆腐（即食）"},"state":"ready-to-eat"},
+  {"fdcId":173424,"description":"Egg, whole, cooked, hard-boiled","label":{"en":"Peeled hard-boiled whole egg","zh":"去殼水煮全蛋"},"state":"cooked"},
+  {"fdcId":170457,"description":"Tomatoes, red, ripe, raw, year round average","label":{"en":"Raw ripe tomato","zh":"生食成熟紅番茄"},"state":"raw"},
+  {"fdcId":169967,"description":"Broccoli, cooked, boiled, drained, without salt","label":{"en":"Boiled drained broccoli, no salt","zh":"水煮瀝乾青花菜（無鹽）"},"state":"cooked"},
+  {"fdcId":173735,"description":"Beans, black, mature seeds, cooked, boiled, without salt","label":{"en":"Boiled black turtle beans, no salt","zh":"煮熟黑菜豆（非黑大豆，無鹽）"},"state":"cooked"},
+  {"fdcId":168483,"description":"Sweet potato, cooked, baked in skin, flesh, without salt","label":{"en":"Baked sweet potato flesh, no salt","zh":"帶皮烤熟後取出的地瓜肉（無鹽）"},"state":"cooked"},
+  {"fdcId":169238,"description":"Kale, cooked, boiled, drained, without salt","label":{"en":"Boiled drained kale, no salt","zh":"水煮瀝乾羽衣甘藍（無鹽）"},"state":"cooked"},
+  {"fdcId":168917,"description":"Quinoa, cooked","label":{"en":"Cooked quinoa","zh":"煮熟藜麥"},"state":"cooked"},
+  {"fdcId":168409,"description":"Cucumber, with peel, raw","label":{"en":"Raw cucumber with peel","zh":"帶皮生小黃瓜"},"state":"raw"},
+  {"fdcId":175180,"description":"Crustaceans, shrimp, cooked","label":{"en":"Cooked peeled shrimp","zh":"煮熟去殼蝦仁"},"state":"cooked"},
+  {"fdcId":171413,"description":"Oil, olive, salad or cooking","label":{"en":"Olive oil","zh":"橄欖油"},"state":"ready-to-eat"},
+  {"fdcId":173468,"description":"Salt, table","label":{"en":"Table salt","zh":"食鹽"},"state":"ready-to-eat"},
+  {"fdcId":173647,"description":"Beverages, water, tap, drinking","label":{"en":"Drinking water retained in the bowl","zh":"保留在碗中的飲用水"},"state":"ready-to-eat"},
+  {"fdcId":168411,"description":"Edamame, frozen, prepared","label":{"en":"Prepared shelled edamame","zh":"煮熟去莢毛豆"},"state":"cooked"},
+  {"fdcId":171971,"description":"Crustaceans, shrimp, mixed species, cooked, moist heat (may contain additives to retain moisture)","label":{"en":"Moist-heat cooked shrimp, may contain moisture-retention additives","zh":"濕熱煮熟蝦仁（可能含保水添加物）"},"state":"cooked"}
+]
