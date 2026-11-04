@@ -1,5 +1,18 @@
 const ALLOWED_SLOTS = ["Breakfast", "Lunch", "Dinner", "Snacks / Drinks"];
 
+const householdUnits = ["serving", "portion", "cup", "bowl", "plate", "piece", "slice", "tablespoon", "teaspoon", "handful", "glass", "can", "bottle", "unspecified"];
+const amountSchema = (units, maximum) => ({
+  type: "object",
+  additionalProperties: false,
+  required: ["quantity", "unit", "qualifier", "originalText"],
+  properties: {
+    quantity: { anyOf: [{ type: "number", minimum: 0.01, maximum }, { type: "null" }] },
+    unit: { type: "string", enum: units },
+    qualifier: { type: "string", enum: ["exact", "approximate", "unspecified"] },
+    originalText: { anyOf: [{ type: "string", minLength: 1, maxLength: 40 }, { type: "null" }] },
+  },
+});
+
 export const mealSchema = {
   type: "object",
   additionalProperties: false,
@@ -39,46 +52,7 @@ export const mealSchema = {
             ],
           },
           amount: {
-            type: "object",
-            additionalProperties: false,
-            required: ["quantity", "unit", "qualifier", "originalText"],
-            properties: {
-              quantity: {
-                anyOf: [
-                  { type: "number", minimum: 0.01, maximum: 50 },
-                  { type: "null" },
-                ],
-              },
-              unit: {
-                type: "string",
-                enum: [
-                  "serving",
-                  "portion",
-                  "cup",
-                  "bowl",
-                  "plate",
-                  "piece",
-                  "slice",
-                  "tablespoon",
-                  "teaspoon",
-                  "handful",
-                  "glass",
-                  "can",
-                  "bottle",
-                  "unspecified",
-                ],
-              },
-              qualifier: {
-                type: "string",
-                enum: ["exact", "approximate", "unspecified"],
-              },
-              originalText: {
-                anyOf: [
-                  { type: "string", minLength: 1, maxLength: 40 },
-                  { type: "null" },
-                ],
-              },
-            },
+            anyOf: [amountSchema(householdUnits, 50), amountSchema(["g", "ml"], 10_000)],
           },
           confidence: {
             type: "string",

@@ -1,6 +1,7 @@
 import { mealNames } from "./data";
 import { isMealLogged } from "./logic";
 import { label } from "./presentation";
+import type { PilotRecommendation } from "./nutrition";
 import type {
   DayHistory,
   Locale,
@@ -141,12 +142,8 @@ const categoryLabels: Record<ScoreBreakdownItem["category"], [string, string]> =
 
 type ScoreContributionsProps = { rec: ScoredRecommendation; locale: Locale };
 
-/** Each bar uses only this recommendation's visible rule breakdown. */
+/** The numeric receipt uses only this recommendation's visible rule breakdown. */
 export function ScoreContributions({ rec, locale }: ScoreContributionsProps) {
-  const maxMagnitude = Math.max(
-    1,
-    ...rec.scoreBreakdown.map((item) => Math.abs(item.points)),
-  );
   const format = new Intl.NumberFormat(locale === "zh" ? "zh-TW" : "en-US", {
     maximumFractionDigits: 2,
   });
@@ -163,45 +160,83 @@ export function ScoreContributions({ rec, locale }: ScoreContributionsProps) {
       <p className="contribution-explanation">
         {text(
           locale,
-          "These heuristic points describe how this meal matches your records and preferences. They are not a nutrition or health score. Zero means that rule added no points.",
-          "這些經驗規則點數描述這道餐點如何配對你的紀錄與偏好，不是營養或健康分數。零表示該規則沒有加減分。",
+          "Product-rule points only, not a nutrition or health score. Zero means no adjustment.",
+          "產品規則點數，不是營養或健康分數。零表示沒有加減分。",
         )}
       </p>
-      <ul className="contribution-list">
-        {rec.scoreBreakdown.map((item) => {
-          const direction =
-            item.points < 0
-              ? "negative"
-              : item.points > 0
-                ? "positive"
-                : "neutral";
-          const width = (Math.abs(item.points) / maxMagnitude) * 50;
-          const points = `${item.points > 0 ? "+" : item.points < 0 ? "−" : ""}${format.format(Math.abs(item.points))}`;
-          return (
-            <li className={`contribution-row ${direction}`} key={item.category}>
-              <div className="contribution-heading">
-                <strong>
+      <table className="numeric-receipt">
+        <caption className="sr-only">
+          {text(locale, "Matching rule points", "配對規則點數")}
+        </caption>
+        <thead>
+          <tr>
+            <th scope="col">{text(locale, "Rule", "規則")}</th>
+            <th scope="col">{text(locale, "Points", "點數")}</th>
+            <th scope="col">{text(locale, "Reason", "說明")}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {rec.scoreBreakdown.map((item) => {
+            const points = `${item.points > 0 ? "+" : item.points < 0 ? "−" : ""}${format.format(Math.abs(item.points))}`;
+            return (
+              <tr className="contribution-row" key={item.category}>
+                <th scope="row">
                   {text(locale, ...categoryLabels[item.category])}
-                </strong>
-                <span className="contribution-points">
-                  {points} {text(locale, "pts", "點")}
-                </span>
-              </div>
-              <div className="contribution-track" aria-hidden="true">
-                <span className="contribution-zero" />
-                <span
-                  className={`contribution-bar ${direction}`}
-                  style={{
-                    width: `${width}%`,
-                    left: `${item.points < 0 ? 50 - width : 50}%`,
-                  }}
-                />
-              </div>
-              <p className="contribution-note">{item.note}</p>
-            </li>
-          );
-        })}
-      </ul>
+                </th>
+                <td className="contribution-points">{points}</td>
+                <td className="contribution-note">{item.note}</td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </section>
+  );
+}
+
+type PilotScoreContributionsProps = { rec: PilotRecommendation; locale: Locale };
+
+/** Practical points are the kernel's additive rules, separate from nutrient facts. */
+export function PilotScoreContributions({ rec, locale }: PilotScoreContributionsProps) {
+  const format = new Intl.NumberFormat(locale === "zh" ? "zh-TW" : "en-US", {
+    maximumFractionDigits: 2,
+  });
+
+  return (
+    <section
+      className="score-contributions"
+      aria-label={text(locale, "Practical matching rule contributions", "實用偏好的配對規則計分")}
+    >
+      <p className="contribution-explanation">
+        {text(
+          locale,
+          "Product-rule points for practical preferences, not a nutrition or health score. Zero means no points from that rule.",
+          "依實用偏好計算的產品規則點數，不是營養或健康分數。零表示此規則未加減分。",
+        )}
+      </p>
+      <table className="numeric-receipt">
+        <caption className="sr-only">
+          {text(locale, "Practical preference points", "實用偏好點數")}
+        </caption>
+        <thead>
+          <tr>
+            <th scope="col">{text(locale, "Rule", "規則")}</th>
+            <th scope="col">{text(locale, "Points", "點數")}</th>
+            <th scope="col">{text(locale, "Reason", "說明")}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {rec.trace.pointBreakdown.map((item) => (
+            <tr className="contribution-row" key={item.key}>
+              <th scope="row">{item.label}</th>
+              <td className="contribution-points">
+                {`${item.points > 0 ? "+" : item.points < 0 ? "−" : ""}${format.format(Math.abs(item.points))}`}
+              </td>
+              <td className="contribution-note">{item.note}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </section>
   );
 }

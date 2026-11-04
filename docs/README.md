@@ -14,6 +14,11 @@ verified.
 
 Current authorized iteration:
 
+- [`Sourced recipe and meal-context pilot`](./plans/08-nutrition-pilot.md) —
+  `review`, on `codex/nutrition-pilot`, based on `e0946af`.
+
+Previous iteration:
+
 - [`Dashboard iteration`](./plans/07-dashboard.md) — `review`, on
   `codex/launch-beta`, based on the implemented launch beta at `730b563`.
 
@@ -23,5 +28,7 @@ Underlying release:
   `review`; this dashboard iteration preserves its product, storage and safety
   boundaries. Review does not imply user acceptance, merge or deployment.
 
-The nutrition evidence phases remain deferred. The launch beta is a curated
-meal-choice product, and does not claim completion of that evidence program.
+The broader nutrition evidence phases remain deferred. The current bounded
+pilot does not claim completion of that program. See the
+[source provenance](./nutrition/README.md) and
+[evidence versus product rules](./nutrition/decision-policy.md).

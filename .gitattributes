@@ -1,0 +1,4 @@
+# Preserve the exact archived source bytes used by the provenance hash.
+data/nutrition/usda-sr-legacy-2026-11-04.json -text
+# The offline importer generates deterministic LF output on every platform.
+src/nutrition-data.ts text eol=lf

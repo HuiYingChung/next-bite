@@ -1,5 +1,7 @@
 import { drinkRecommendationDataset, recommendationDataset } from "./data";
 import { buildDrinkSafetyMetadata } from "./catalog-metadata";
+import { getContextExclusions, getContextPreferenceFit, getLegacyMealContext, normalizeMealContext } from "./meal-context";
+import type { MealContext } from "./meal-context";
 import type {
   AvoidanceCertainty,
   DailyStatus,
@@ -28,18 +30,18 @@ export type MealTimeWindow =
   | "late";
 
 const preferenceTagMap: Record<string, string[]> = {
-  "Chinese-style": ["chinese-style", "comfort", "warm", "mapo"],
-  "Taiwanese-style": ["taiwanese-style", "bento"],
-  Japanese: ["japanese-inspired", "set-meal", "soba", "udon"],
-  Korean: ["korean-inspired", "kimchi", "bibimbap"],
+  "Chinese-style": ["chinese-style"],
+  "Taiwanese-style": ["taiwanese-style"],
+  Japanese: ["japanese-inspired"],
+  Korean: ["korean-inspired"],
   "American light meals": ["american-light", "sandwich", "wrap"],
-  "Bowl meals": ["bowl", "rice bowl", "grain bowl", "poke bowl", "bibimbap"],
-  "Set meals": ["set-meal", "set meal", "bento", "plate"],
+  "Bowl meals": ["bowl"],
+  "Set meals": ["set-meal", "plate"],
   "Wraps / sandwiches": ["wrap", "sandwich"],
   "Portable meals": ["portable", "wrap", "sandwich", "hand roll"],
   "Soupy meals": ["soupy", "soup", "congee"],
-  "Rice-based meals": ["rice-based", "bowl"],
-  "Noodle-based meals": ["noodle", "udon", "soba"],
+  "Rice-based meals": ["rice-based"],
+  "Noodle-based meals": ["noodle-based"],
   "High-protein": ["high-protein"],
   "Light meals": ["light", "gentle"],
   "Warm meals": ["warm", "soupy", "comfort", "steamed"],
@@ -47,8 +49,8 @@ const preferenceTagMap: Record<string, string[]> = {
   "Quick grocery meals": ["quick", "ready-made", "rotisserie", "microwave", "grocery"],
   "Takeout-friendly": ["takeout", "convenient", "portable", "quick"],
   "Vegetable-forward": ["vegetable-forward", "vegetable", "greens", "salad", "bok choy", "broccoli", "cabbage"],
-  "Breakfast-for-dinner": ["breakfast-for-dinner", "omelet", "toast", "egg"],
-  "Plant-protein": ["plant-protein", "tofu", "beans", "chickpeas", "edamame", "tempeh"],
+  "Breakfast-for-dinner": ["breakfast-for-dinner"],
+  "Plant-protein": ["plant-protein"],
   "Coffee / caffeine": ["coffee", "green tea", "black tea", "milk tea", "energy drink", "caffeine"],
   Tea: ["tea", "green tea", "black tea"],
   "Simple drinks": ["water", "sparkling water", "tea"],
@@ -282,8 +284,12 @@ const getAmountWeight = (
   if (
     amount.qualifier === "unspecified" ||
     amount.quantity === null ||
-    amount.unit === "unspecified"
+    amount.unit === "unspecified" ||
+    amount.unit === "g" ||
+    amount.unit === "ml"
   ) {
+    // Metric weights require an identified food/recipe mapping. The legacy
+    // presence heuristic cannot convert grams or millilitres into servings.
     return 1;
   }
 
@@ -668,8 +674,9 @@ const scoreProfileFit = (profile: Profile, meal: Recommendation) => {
 
   if (profile.feelToday === "Want something warm") {
     const warmTags = meal.tags.map((tag) => tag.toLowerCase());
-    const isSoupyGentle = warmTags.some((tag) => ["soupy", "gentle"].includes(tag));
-    const isComfortWarm = warmTags.some((tag) => ["comfort", "warm"].includes(tag));
+    const confirmedWarm = getLegacyMealContext(meal).temperature === "warm";
+    const isSoupyGentle = confirmedWarm && warmTags.some((tag) => ["soupy", "gentle"].includes(tag));
+    const isComfortWarm = confirmedWarm && warmTags.some((tag) => ["comfort", "warm"].includes(tag));
 
     if (isSoupyGentle) {
       score += 4;
@@ -678,7 +685,7 @@ const scoreProfileFit = (profile: Profile, meal: Recommendation) => {
       score += 3;
       notes.push("Warm and comforting meals fit how you feel today.");
     }
-    if (meal.heaviness === "light") {
+    if ((isSoupyGentle || isComfortWarm) && meal.heaviness === "light") {
       score += 1;
       notes.push("Keeping the meal warm without too much heaviness is a nice fit here.");
     }
@@ -727,6 +734,7 @@ const scoreFeelPriority = (profile: Profile, meal: Recommendation) => {
   const tags = meal.tags.map((tag) => tag.toLowerCase());
 
   if (profile.feelToday === "Want something warm") {
+    if (getLegacyMealContext(meal).temperature !== "warm") return 0;
     const warmGentle = tags.some((tag) => ["soupy", "comfort", "gentle"].includes(tag));
     const soupyGentle = tags.some((tag) => ["soupy", "gentle"].includes(tag));
     if (soupyGentle && meal.heaviness === "light") return 4;
@@ -753,15 +761,23 @@ const scoreFeelPriority = (profile: Profile, meal: Recommendation) => {
   return 0;
 };
 
+export const getMatchedPreferenceTags = (profile: Profile, meal: Recommendation) => {
+  const tags = new Set(meal.tags.map(tag => tag.toLowerCase()));
+  return profile.preferenceTags.filter(tag => {
+    if (tag === "Light meals") return meal.heaviness === "light";
+    if (tag === "High-protein") return meal.proteinLevel === "high";
+    if (tag === "Vegetable-forward") return meal.vegetableLevel === "high";
+    if (tag === "Warm meals") return getLegacyMealContext(meal).temperature === "warm";
+    return (preferenceTagMap[tag] ?? []).some(key => tags.has(key.toLowerCase()));
+  });
+};
+
 const scorePreferenceFit = (profile: Profile, meal: Recommendation) => {
   let score = 0;
-  const mealText = serializeMeal(meal);
   const mealTags = meal.tags.map((tag) => tag.toLowerCase());
   const matches: string[] = [];
 
-  profile.preferenceTags.forEach((tag) => {
-    const mapped = preferenceTagMap[tag] ?? [tag.toLowerCase()];
-    if (mapped.some((keyword) => mealText.includes(keyword.toLowerCase()))) {
+  getMatchedPreferenceTags(profile, meal).forEach((tag) => {
       score += 2;
       matches.push(tag);
 
@@ -777,7 +793,6 @@ const scorePreferenceFit = (profile: Profile, meal: Recommendation) => {
       ) {
         score += 1;
       }
-    }
   });
 
   const capped = Math.min(score, 8);
@@ -1613,12 +1628,20 @@ const pickRecommendation = (
   buildPerspectiveAdjustments: (
     item: ScoredRecommendation,
   ) => SelectionAdjustment[],
+  context?: MealContext,
 ) => {
   const ranked = rankCandidates(
     source,
     picked,
     pickedFormats,
-    buildPerspectiveAdjustments,
+    (item) => {
+      const adjustments = buildPerspectiveAdjustments(item);
+      if (context) {
+        const fit = getContextPreferenceFit(context, getLegacyMealContext(item), locale);
+        if (fit.notes.length) adjustments.push(selectionAdjustment("meal-context", fit.points, fit.notes.join(" ")));
+      }
+      return adjustments;
+    },
   );
   if (ranked.length === 0) return null;
 
@@ -1669,7 +1692,7 @@ const pickRecommendation = (
   };
 };
 
-export const getBestMatch = (summary: TodayIntakeSummary, profile: Profile, locale: Locale, rotationSeed: string, items: ScoredRecommendation[], picked: Set<string>, pickedFormats: Set<string>) =>
+export const getBestMatch = (summary: TodayIntakeSummary, profile: Profile, locale: Locale, rotationSeed: string, items: ScoredRecommendation[], picked: Set<string>, pickedFormats: Set<string>, context?: MealContext) =>
   pickRecommendation("Best Match", summary, profile, locale, `${rotationSeed}:best-match`, items, picked, pickedFormats, (item) => {
     const mealTypeBonus =
       item.mealType === "balanced"
@@ -1701,9 +1724,9 @@ export const getBestMatch = (summary: TodayIntakeSummary, profile: Profile, loca
         "Best Match applies its declared meal-type fit.",
       ),
     ];
-  });
+  }, context);
 
-export const getBestBalance = (summary: TodayIntakeSummary, profile: Profile, locale: Locale, rotationSeed: string, items: ScoredRecommendation[], picked: Set<string>, pickedFormats: Set<string>) =>
+export const getBestBalance = (summary: TodayIntakeSummary, profile: Profile, locale: Locale, rotationSeed: string, items: ScoredRecommendation[], picked: Set<string>, pickedFormats: Set<string>, context?: MealContext) =>
   pickRecommendation("Best Balance", summary, profile, locale, `${rotationSeed}:best-balance`, items, picked, pickedFormats, (item) => {
     const mealTypeBonus = item.mealType === "balanced" || item.mealType === "recovery" || item.mealType === "light" ? 2 : 0;
     const steadinessBonus = item.heaviness === "light" ? 1 : item.heaviness === "medium" ? 0.5 : -1;
@@ -1716,9 +1739,9 @@ export const getBestBalance = (summary: TodayIntakeSummary, profile: Profile, lo
       selectionAdjustment("meal-type", mealTypeBonus, "Balanced, recovery, and light templates receive the declared fit."),
       selectionAdjustment("steadiness", steadinessBonus, "Lighter templates receive the declared steadiness adjustment."),
     ];
-  });
+  }, context);
 
-export const getMostConvenient = (summary: TodayIntakeSummary, profile: Profile, locale: Locale, rotationSeed: string, items: ScoredRecommendation[], picked: Set<string>, pickedFormats: Set<string>) =>
+export const getMostConvenient = (summary: TodayIntakeSummary, profile: Profile, locale: Locale, rotationSeed: string, items: ScoredRecommendation[], picked: Set<string>, pickedFormats: Set<string>, context?: MealContext) =>
   pickRecommendation("Most Convenient", summary, profile, locale, `${rotationSeed}:most-convenient`, items, picked, pickedFormats, (item) => {
     const convenienceBonus = item.convenience === "high" ? 2 : item.convenience === "medium" ? 1 : -1;
     const reasonableBalanceGuard = item.balanceScore >= 0 ? 1 : -1;
@@ -1733,9 +1756,9 @@ export const getMostConvenient = (summary: TodayIntakeSummary, profile: Profile,
       selectionAdjustment("variety", item.varietyScore, "Same-day variety remains part of this perspective."),
       selectionAdjustment("reasonable-balance", reasonableBalanceGuard, "A non-negative balance subtotal receives the declared guard."),
     ];
-  });
+  }, context);
 
-export const scoreRecommendations = (profile: Profile, todayLog: TodayLog, history: DayHistory[], locale: Locale, now = new Date()): ScoredRecommendation[] => {
+export const scoreRecommendations = (profile: Profile, todayLog: TodayLog, history: DayHistory[], locale: Locale, now = new Date(), context?: MealContext): ScoredRecommendation[] => {
   const summary = summarizeTodayIntake(todayLog);
   const timeWindow = getMealTimeWindow(now);
   const priorHistory = getPriorHistory(history);
@@ -1753,8 +1776,10 @@ export const scoreRecommendations = (profile: Profile, todayLog: TodayLog, histo
     summary.carbStatus,
     summary.heavinessStatus,
   ].join(":");
+  const normalizedContext = normalizeMealContext(context);
   const eligibleMeals = recommendationDataset.filter(
-    (meal) => getHardAvoidConflicts(profile, meal, timeWindow).length === 0,
+    (meal) => getHardAvoidConflicts(profile, meal, timeWindow).length === 0 &&
+      getContextExclusions(profile, normalizedContext, getLegacyMealContext(meal)).length === 0,
   );
   const scored = eligibleMeals
     .map((meal) =>
@@ -1775,9 +1800,9 @@ export const scoreRecommendations = (profile: Profile, todayLog: TodayLog, histo
   const picked = new Set<string>();
   const pickedFormats = new Set<string>();
 
-  const bestMatch = getBestMatch(summary, profile, locale, rotationSeed, deduped, picked, pickedFormats);
-  const bestBalance = getBestBalance(summary, profile, locale, rotationSeed, deduped, picked, pickedFormats);
-  const mostConvenient = getMostConvenient(summary, profile, locale, rotationSeed, deduped, picked, pickedFormats);
+  const bestMatch = getBestMatch(summary, profile, locale, rotationSeed, deduped, picked, pickedFormats, context ? normalizedContext : undefined);
+  const bestBalance = getBestBalance(summary, profile, locale, rotationSeed, deduped, picked, pickedFormats, context ? normalizedContext : undefined);
+  const mostConvenient = getMostConvenient(summary, profile, locale, rotationSeed, deduped, picked, pickedFormats, context ? normalizedContext : undefined);
 
   return [bestMatch, bestBalance, mostConvenient].filter(Boolean) as ScoredRecommendation[];
 };

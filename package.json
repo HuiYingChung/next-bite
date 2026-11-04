@@ -12,10 +12,11 @@
     "verify:engine": "esbuild src/data.ts --bundle --platform=node --format=esm --log-level=error --outfile=.audit-tmp/data.mjs && esbuild src/logic.ts --bundle --platform=node --format=esm --log-level=error --outfile=.audit-tmp/logic.mjs && esbuild src/catalog-metadata.ts --bundle --platform=node --format=esm --log-level=error --outfile=.audit-tmp/catalog-metadata.mjs && node scripts/verify-engine.mjs",
     "verify:launch": "node scripts/verify-launch-state.mjs",
     "verify:presentation": "node scripts/verify-presentation.mjs",
-    "verify": "npm run build && npm run verify:product && npm run verify:engine && npm run verify:api && npm run verify:launch && npm run verify:presentation && npm run verify:dashboard",
+    "verify": "npm run build && npm run verify:product && npm run verify:engine && npm run verify:api && npm run verify:launch && npm run verify:presentation && npm run verify:dashboard && npm run verify:nutrition",
     "audit:reachability": "esbuild src/data.ts --bundle --platform=node --format=esm --log-level=error --outfile=.audit-tmp/data.mjs && esbuild src/logic.ts --bundle --platform=node --format=esm --log-level=error --outfile=.audit-tmp/logic.mjs && node scripts/reachability-audit.mjs",
     "audit:drinks": "esbuild src/data.ts --bundle --platform=node --format=esm --log-level=error --outfile=.audit-tmp/data.mjs && esbuild src/logic.ts --bundle --platform=node --format=esm --log-level=error --outfile=.audit-tmp/logic.mjs && node scripts/drink-reachability-audit.mjs",
-    "verify:dashboard": "node scripts/verify-dashboard.mjs"
+    "verify:dashboard": "node scripts/verify-dashboard.mjs",
+    "verify:nutrition": "node scripts/import-nutrition-data.mjs --check && node scripts/verify-nutrition.mjs"
   },
   "dependencies": {
     "@vercel/analytics": "^2.0.1",

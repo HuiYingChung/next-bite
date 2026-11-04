@@ -516,6 +516,8 @@ const zhLabels: Record<string, string> = {
   soup: "湯品",
   drink: "飲品",
   other: "其他",
+  g: "克",
+  ml: "毫升",
   serving: "份",
   portion: "份",
   cup: "杯",

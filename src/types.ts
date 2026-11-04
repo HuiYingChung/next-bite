@@ -57,6 +57,8 @@ export type MustAvoidTag =
   | "Egg";
 export type AvoidanceCertainty = "contains" | "mayContain" | "unknown";
 export type ParsedAmountUnit =
+  | "g"
+  | "ml"
   | "serving"
   | "portion"
   | "cup"

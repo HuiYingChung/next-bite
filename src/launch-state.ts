@@ -18,7 +18,15 @@ import type {
   Profile,
 } from "./types";
 
-export type PlannedMeal = { id: string; mealId: string; createdAt: string };
+export type PlannedMealChoice = {
+  portion?: "small" | "regular" | "large";
+  recipeVersion?: string;
+};
+export type PlannedMeal = {
+  id: string;
+  mealId: string;
+  createdAt: string;
+} & PlannedMealChoice;
 export type LaunchState = AppState & { plannedMeals: PlannedMeal[] };
 export type LocalStorageAccess = Pick<
   Storage,
@@ -71,6 +79,8 @@ const sources = [
 const portions = ["Small", "Medium", "Large", "Unspecified"] as const;
 const confidence = ["limited", "medium", "high"] as const;
 const units = [
+  "g",
+  "ml",
   "serving",
   "portion",
   "cup",
@@ -87,6 +97,7 @@ const units = [
   "unspecified",
 ] as const;
 const qualifiers = ["exact", "approximate", "unspecified"] as const;
+const amountLimit = (unit: string) => unit === "g" || unit === "ml" ? 10_000 : 50;
 const catalogIds = new Set(recommendationDataset.map((meal) => meal.id));
 const record = (value: unknown): Record<string, unknown> =>
   value !== null && typeof value === "object" && !Array.isArray(value)
@@ -133,8 +144,8 @@ const normalizeComponent = (value: unknown): ParsedMealComponent | null => {
   const quantity =
     typeof amount.quantity === "number" &&
     Number.isFinite(amount.quantity) &&
-    amount.quantity > 0 &&
-    amount.quantity <= 10_000
+    amount.quantity >= 0.01 &&
+    amount.quantity <= amountLimit(unit)
       ? amount.quantity
       : null;
   const knownAmount = quantity !== null && unit !== "unspecified";
@@ -234,6 +245,16 @@ const normalizeProfile = (value: unknown, fallback: Profile): Profile => {
   };
 };
 
+const normalizePlanChoice = (value: unknown): PlannedMealChoice => {
+  const choice = record(value);
+  const portion = enumValue(choice.portion, ["small", "regular", "large"] as const, "regular");
+  const version = typeof choice.recipeVersion === "string" ? choice.recipeVersion.trim() : "";
+  return {
+    ...(["small", "regular", "large"].includes(choice.portion as string) ? { portion } : {}),
+    ...(version.length <= 100 && /^[A-Za-z0-9][A-Za-z0-9._:+-]*$/.test(version) ? { recipeVersion: version } : {}),
+  };
+};
+
 const normalizePlans = (value: unknown): PlannedMeal[] => {
   if (!Array.isArray(value)) return [];
   const seenMeals = new Set<string>();
@@ -255,7 +276,7 @@ const normalizePlans = (value: unknown): PlannedMeal[] => {
         return [];
       seenMeals.add(mealId);
       seenIds.add(id);
-      return [{ id, mealId, createdAt: new Date(createdAt).toISOString() }];
+      return [{ id, mealId, createdAt: new Date(createdAt).toISOString(), ...normalizePlanChoice(plan) }];
     })
     .slice(0, MAX_PLANNED_MEALS);
 };
@@ -459,6 +480,7 @@ export const mergeMealEntries = (
         component.amount.quantity !== null &&
         previous.amount.unit === component.amount.unit &&
         previous.amount.unit !== "unspecified" &&
+        previous.amount.quantity + component.amount.quantity <= amountLimit(component.amount.unit) &&
         previous.amount.qualifier !== "unspecified" &&
         component.amount.qualifier !== "unspecified",
     );
@@ -535,17 +557,21 @@ export const savePlan = (
   state: LaunchState,
   mealId: string,
   now = new Date(),
+  choice?: PlannedMealChoice,
 ): LaunchState => {
-  if (
-    !catalogIds.has(mealId) ||
-    state.plannedMeals.some((plan) => plan.mealId === mealId)
-  )
-    return state;
+  if (!catalogIds.has(mealId)) return state;
+  const metadata = normalizePlanChoice(choice);
+  const existing = state.plannedMeals.find((plan) => plan.mealId === mealId);
+  if (existing) {
+    const changed = Object.entries(metadata).some(([key, value]) => existing[key as keyof PlannedMealChoice] !== value);
+    if (!changed) return state;
+    return { ...state, plannedMeals: state.plannedMeals.map((plan) => plan.id === existing.id ? { ...plan, ...metadata } : plan) };
+  }
   const createdAt = now.toISOString();
   return {
     ...state,
     plannedMeals: [
-      { id: `plan-${mealId}-${now.getTime().toString(36)}`, mealId, createdAt },
+      { id: `plan-${mealId}-${now.getTime().toString(36)}`, mealId, createdAt, ...metadata },
       ...state.plannedMeals,
     ].slice(0, MAX_PLANNED_MEALS),
   };

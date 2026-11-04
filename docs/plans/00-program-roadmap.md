@@ -1,6 +1,21 @@
 # NextBite product roadmap
 
-## Active iteration — dashboard
+## Active iteration — sourced recipe and meal-context pilot
+
+Status: review
+Authorized: 2026-11-04, user accepted the research-based implementation and
+requested compact numeric receipts in place of contribution charts.
+Branch: `codex/nutrition-pilot`, based on `e0946af`.
+
+Read [`08-nutrition-pilot.md`](./08-nutrition-pilot.md) before continuing.
+The latest authorized scope includes correcting confirmed matching defects,
+12 source-mapped recipes, portion calculations and this-meal context. The old
+nutrition phases remain background design documents; their narrower Phase 1
+UI/ranking restrictions do not override this explicit user-approved pilot.
+All-100 migration, personalized diet prescriptions and specialized populations
+remain deferred. No push or deployment is authorized.
+
+## Previous iteration — dashboard
 
 Status: review
 Authorized: 2026-11-03–2026-11-04, user approved the dashboard iteration with

@@ -1,0 +1,21 @@
+{
+  "id": "usda-sr-legacy-2018",
+  "provider": "U.S. Department of Agriculture, Agricultural Research Service",
+  "dataset": "FoodData Central — SR Legacy",
+  "release": "2018-04",
+  "recordPublicationDate": "2019-04-01",
+  "retrievedAt": "2026-11-04T17:24:13.340Z",
+  "url": "https://fdc.nal.usda.gov/download-datasets/",
+  "license": "CC0-1.0",
+  "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "termsVerifiedAt": "2026-11-04",
+  "termsUrl": "https://fdc.nal.usda.gov/api-guide/",
+  "snapshotPath": "data/nutrition/usda-sr-legacy-2026-11-04.json",
+  "snapshotSha256": "f10761e7d36d53581ddff24e358dedc6ffc563e331c7695b522dda079c3b0e42",
+  "acquisition": {
+    "method": "GET",
+    "endpoint": "https://api.nal.usda.gov/fdc/v1/foods",
+    "authentication": "USDA public demonstration key, not a private account key",
+    "fdcIds": [168878, 171477, 175168, 174291, 173424, 170457, 169967, 173735, 168483, 169238, 168917, 168409, 175180, 171413, 173468, 173647, 168411]
+  }
+}

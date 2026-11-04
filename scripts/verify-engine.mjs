@@ -16,6 +16,7 @@ import {
   buildWeeklySnapshot,
   countHardAvoidedRecommendations,
   getHardAvoidConflicts,
+  getMatchedPreferenceTags,
   getDrinkHardAvoidConflicts,
   isDrinkEligible,
   isMealLogged,
@@ -713,19 +714,29 @@ expect(
   ).some((recommendation) => recommendation.id === "egg-tomato-rice"),
   "The calibrated fairness path must keep Egg and Tomato over Rice reachable.",
 );
-expect(
-  scoreRecommendations(
-    makeProfile({
-      eatingStyle: "Mostly takeout",
-      preferenceTags: ["Chinese-style"],
-    }),
-    makeLog(),
-    seedHistory,
-    "en",
-    new Date("2026-07-29T08:30:00"),
-  ).some((recommendation) => recommendation.id === "mapo-tofu-light-rice"),
-  "The calibrated fairness path must keep Mapo Tofu reachable.",
-);
+// Exact winner snapshots depended on title substrings ("bowl", "beans",
+// "veggie"). Test the intended preference contract instead of forcing a
+// particular near-tie winner after correcting those accidental matches.
+expect(getMatchedPreferenceTags(makeProfile({ preferenceTags: ["Chinese-style"] }), requireMeal("mapo-tofu-light-rice")).includes("Chinese-style"), "Mapo Tofu must retain its declared Chinese-style preference match.");
+const preferenceCounterexamples = [
+  ["Rice-based meals", "greek-yogurt-granola-fruit-bowl"],
+  ["Plant-protein", "rotisserie-chicken-corn-green-beans"],
+  ["Breakfast-for-dinner", "veggie-black-bean-quesadilla-salad"],
+];
+for (const [tag, id] of preferenceCounterexamples) {
+  const meal = id === "rotisserie-chicken-corn-green-beans"
+    ? recommendationDataset.find(item => item.title === "Rotisserie Chicken with Corn and Green Beans")
+    : requireMeal(id);
+  expect(meal && !getMatchedPreferenceTags(makeProfile({ preferenceTags: [tag] }), meal).includes(tag), `${tag} must use declared structured meal properties rather than accidental title fragments.`);
+}
+const context = { hunger: "hungry", appetite: "unspecified", temperature: "any", preferredStaple: "rice", cuisine: "asian", maxPrepMinutes: null };
+const contextCards = scoreRecommendations(makeProfile(), makeLog(), seedHistory, "en", fixtureNow, context);
+expect(contextCards.length === 3 && contextCards.every(card => card.selectionTrace.perspectiveAdjustments.some(item => item.key === "meal-context")), "Every legacy perspective must include the same declared context preferences.");
+for (const profile of [makeProfile({ feelToday: "Want something warm" }), makeProfile()]) {
+  const cards = scoreRecommendations(profile, makeLog(), seedHistory, "en", fixtureNow, { ...context, temperature: "warm" });
+  expect(cards.length > 0 && cards.every(card => ![...card.safety.contains, ...card.safety.mayContain, ...card.safety.unknown].includes("Cold food") && card.tags.some(tag => ["warm", "soupy"].includes(tag))), "Only-warm must exclude cold and unconfirmed options across every perspective.");
+}
+expect(scoreRecommendations(makeProfile(), makeLog(), seedHistory, "en", fixtureNow, { ...context, maxPrepMinutes: 10 }).length === 0, "Unknown legacy preparation minutes must not satisfy a strict minute budget.");
 
 // Catalog completeness and calibrated distribution gates.
 const catalogIds = new Set(recommendationDataset.map((meal) => meal.id));

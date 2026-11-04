@@ -191,11 +191,15 @@ try {
     "Structured Outputs must use strict mode.",
   );
   const forwardedSchema = forwardedRequest.body.text?.format?.schema;
+  const amountBranches = forwardedSchema?.properties?.components?.items?.properties?.amount?.anyOf;
   expect(
-    forwardedSchema?.properties?.components?.items?.properties?.amount
-      ?.properties?.quantity,
-    "Component amounts must use the normalized structured schema.",
+    Array.isArray(amountBranches) && amountBranches.length === 2 && amountBranches.every((branch) => branch.properties?.quantity && branch.additionalProperties === false),
+    "Component amounts must use the unit-bounded normalized structured schema.",
   );
+  const metricBranch = amountBranches.find((branch) => branch.properties.unit.enum.includes("g"));
+  const householdBranch = amountBranches.find((branch) => branch.properties.unit.enum.includes("bowl"));
+  expect(metricBranch.properties.unit.enum.includes("ml") && metricBranch.properties.quantity.anyOf[0].maximum === 10_000, "Grams and milliliters need their own bounded quantity branch.");
+  expect(householdBranch.properties.quantity.anyOf[0].maximum === 50 && !householdBranch.properties.unit.enum.includes("g"), "Household units must retain their original upper bound.");
   expect(
     forwardedSchema?.properties?.portion?.properties?.confidence,
     "Portion confidence must remain in the structured output.",
@@ -244,6 +248,15 @@ try {
         headers: { "content-type": "application/json" },
       });
   };
+  for (const unit of ["g", "ml"]) {
+    for (const quantity of [0.01, 150, 10_000]) {
+      const meal = { ...parsedMeal, components: [{ ...parsedMeal.components[0], amount: { quantity, unit, qualifier: "exact", originalText: `${quantity} ${unit}` } }] };
+      expect(validateParsedMeal(meal), `Valid ${unit} amounts must pass the shared guard.`);
+      respondWith({ status: "completed", output_text: JSON.stringify(meal) });
+      const response = await invoke(validRequest);
+      expect(response.statusCode === 200 && response.payload.meal.components[0].amount.quantity === quantity && response.payload.meal.components[0].amount.unit === unit, `The relay must preserve ${unit} without converting it to servings.`);
+    }
+  }
   const invalidMeals = [
     {},
     null,
@@ -270,6 +283,8 @@ try {
     { ...parsedMeal, displayName: "x".repeat(101) },
     { ...parsedMeal, displayName: "   " },
     { ...parsedMeal, apiKey: "must-not-echo" },
+    ...["g", "ml"].flatMap((unit) => [0, 0.001, 10_000.01].map((quantity) => ({ ...parsedMeal, components: [{ ...parsedMeal.components[0], amount: { quantity, unit, qualifier: "exact", originalText: `${quantity} ${unit}` } }] }))),
+    { ...parsedMeal, components: [{ ...parsedMeal.components[0], amount: { quantity: 50.01, unit: "bowl", qualifier: "exact", originalText: "too many bowls" } }] },
   ];
   for (const meal of invalidMeals) {
     expect(
@@ -536,6 +551,7 @@ console.log(
       responsesApi: true,
       structuredOutputs: true,
       normalizedAmountPortionConfidence: true,
+      metricAndHouseholdQuantityBounds: true,
       unknownSourceAndPortionPreserved: true,
       openAiStorageDisabled: true,
       responseCachingDisabled: true,

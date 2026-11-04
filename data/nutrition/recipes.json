@@ -1,0 +1,62 @@
+[
+  {
+    "mealId":"salmon-rice-bowl-veg","label":{"en":"Baked salmon, rice and broccoli — standard recipe","zh":"烤鮭魚、白飯與青花菜（標準配方）"},"temperature":"warm","staple":"rice","cuisine":"asian","prepMinutes":15,
+    "ingredients":[{"foodId":"usda-175168","grams":120,"weighedState":"cooked","role":"protein"},{"foodId":"usda-168878","grams":150,"weighedState":"cooked","role":"staple"},{"foodId":"usda-169967","grams":150,"weighedState":"cooked","role":"vegetable"},{"foodId":"usda-171413","grams":5,"weighedState":"ready-to-eat","role":"fat"},{"foodId":"usda-173468","grams":0.5,"weighedState":"ready-to-eat","role":"seasoning"}],
+    "seasoning":{"oilGrams":5,"saltGrams":0.5,"sauceGrams":0},"notes":{"en":"Uses dry-heat-cooked farmed Atlantic salmon and boiled drained broccoli. All listed oil and salt stay on the plate; no sauce is included.","zh":"使用乾熱烹調的養殖大西洋鮭魚與水煮瀝乾青花菜。表列油鹽全部留在盤中，不含醬汁。"}
+  },
+  {
+    "mealId":"tofu-vegetable-rice-bowl","label":{"en":"Cold nigari tofu, broccoli and rice — standard recipe","zh":"冷鹽滷豆腐、青花菜與白飯（標準配方）"},"temperature":"flexible","staple":"rice","cuisine":"asian","prepMinutes":10,
+    "ingredients":[{"foodId":"usda-174291","grams":150,"weighedState":"ready-to-eat","role":"protein"},{"foodId":"usda-168878","grams":150,"weighedState":"cooked","role":"staple"},{"foodId":"usda-169967","grams":150,"weighedState":"cooked","role":"vegetable"},{"foodId":"usda-171413","grams":5,"weighedState":"ready-to-eat","role":"fat"},{"foodId":"usda-173468","grams":0.5,"weighedState":"ready-to-eat","role":"seasoning"}],
+    "seasoning":{"oilGrams":5,"saltGrams":0.5,"sauceGrams":0},"notes":{"en":"The tofu is plain hard nigari tofu served without further cooking. This does not estimate fried, braised, silken or sauced tofu. Rice and broccoli are weighed cooked.","zh":"豆腐限定原味硬質鹽滷豆腐，不再烹煮；不代表油炸、滷製、嫩豆腐或加醬豆腐。白飯與青花菜以熟重秤量。"}
+  },
+  {
+    "mealId":"chicken-broccoli-rice-bowl","label":{"en":"Roasted chicken breast, broccoli and rice — standard recipe","zh":"烤雞胸、青花菜與白飯（標準配方）"},"temperature":"warm","staple":"rice","cuisine":"asian","prepMinutes":15,
+    "ingredients":[{"foodId":"usda-171477","grams":120,"weighedState":"cooked","role":"protein"},{"foodId":"usda-168878","grams":150,"weighedState":"cooked","role":"staple"},{"foodId":"usda-169967","grams":150,"weighedState":"cooked","role":"vegetable"},{"foodId":"usda-171413","grams":5,"weighedState":"ready-to-eat","role":"fat"},{"foodId":"usda-173468","grams":0.5,"weighedState":"ready-to-eat","role":"seasoning"}],
+    "seasoning":{"oilGrams":5,"saltGrams":0.5,"sauceGrams":0},"notes":{"en":"Uses roasted skinless breast, not grilled or fried chicken. Weigh only the cooked edible meat. No marinade, skin, bone or sauce is included.","zh":"限定去皮烤雞胸，不以此估算煎炸或其他雞肉。只秤煮熟後可食肉重，不含醃料、雞皮、骨頭或醬汁。"}
+  },
+  {
+    "mealId":"egg-tomato-rice","label":{"en":"Hard-boiled egg and fresh tomato over rice — standard recipe","zh":"水煮蛋與鮮番茄蓋飯（標準配方）"},"temperature":"flexible","staple":"rice","cuisine":"asian","prepMinutes":10,
+    "ingredients":[{"foodId":"usda-173424","grams":100,"weighedState":"cooked","role":"protein"},{"foodId":"usda-170457","grams":150,"weighedState":"raw","role":"vegetable"},{"foodId":"usda-168878","grams":150,"weighedState":"cooked","role":"staple"},{"foodId":"usda-171413","grams":5,"weighedState":"ready-to-eat","role":"fat"},{"foodId":"usda-173468","grams":0.5,"weighedState":"ready-to-eat","role":"seasoning"}],
+    "seasoning":{"oilGrams":5,"saltGrams":0.5,"sauceGrams":0},"notes":{"en":"This is a sliced hard-boiled egg and raw tomato version, not tomato scrambled eggs. Egg weight excludes shell; tomato weight is raw edible flesh. No sugar or sauce is added.","zh":"這是切片水煮蛋搭配生番茄的版本，不是番茄炒蛋。蛋重不含殼，番茄以生的可食部分秤量，不加糖或醬汁。"}
+  },
+  {
+    "mealId":"congee-egg-side-veg","label":{"en":"Rice porridge with boiled egg and broccoli — standard recipe","zh":"白飯粥、水煮蛋與青花菜（標準配方）"},"temperature":"warm","staple":"rice","cuisine":"asian","prepMinutes":15,
+    "ingredients":[{"foodId":"usda-168878","grams":120,"weighedState":"cooked","role":"staple"},{"foodId":"usda-173647","grams":240,"weighedState":"ready-to-eat","role":"liquid"},{"foodId":"usda-173424","grams":100,"weighedState":"cooked","role":"protein"},{"foodId":"usda-169967","grams":100,"weighedState":"cooked","role":"vegetable"},{"foodId":"usda-173468","grams":0.5,"weighedState":"ready-to-eat","role":"seasoning"}],
+    "seasoning":{"oilGrams":0,"saltGrams":0.5,"sauceGrams":0},"notes":{"en":"Recipe calculation: soften 120 g already-cooked rice with water, then top up so rice plus retained water weighs 360 g before sides. Consume all liquid. No raw-rice yield factor or restaurant-congee equivalence is claimed; no oil or sauce is added.","zh":"以配方計算：將 120 克已煮熟白飯加水煮軟，最後補水至飯與保留湯水共 360 克，再配旁邊的蛋菜。湯水全部食用；不套用生米熟化倍率，也不代表餐廳粥品，不加油或醬汁。"}
+  },
+  {
+    "mealId":"tofu-egg-protein-bowl","label":{"en":"Cold nigari tofu and boiled egg bowl — standard recipe","zh":"冷鹽滷豆腐水煮蛋碗（標準配方）"},"temperature":"cool","staple":"none","cuisine":"asian","prepMinutes":10,
+    "ingredients":[{"foodId":"usda-174291","grams":150,"weighedState":"ready-to-eat","role":"protein"},{"foodId":"usda-173424","grams":100,"weighedState":"cooked","role":"protein"},{"foodId":"usda-168409","grams":150,"weighedState":"raw","role":"vegetable"},{"foodId":"usda-171413","grams":5,"weighedState":"ready-to-eat","role":"fat"},{"foodId":"usda-173468","grams":0.5,"weighedState":"ready-to-eat","role":"seasoning"}],
+    "seasoning":{"oilGrams":5,"saltGrams":0.5,"sauceGrams":0},"notes":{"en":"A chilled bowl of plain hard nigari tofu, peeled boiled egg and raw cucumber with peel. No rice, soy sauce, frying or further tofu cooking is included.","zh":"冷食版包含原味硬質鹽滷豆腐、去殼水煮蛋與帶皮生小黃瓜，不含白飯、醬油、油炸或再次烹調豆腐。"}
+  },
+  {
+    "mealId":"bean-veggie-rice-bowl","label":{"en":"Black bean, broccoli and rice bowl — standard recipe","zh":"黑豆青花菜飯碗（標準配方）"},"temperature":"warm","staple":"rice","cuisine":"western","prepMinutes":10,
+    "ingredients":[{"foodId":"usda-173735","grams":150,"weighedState":"cooked","role":"protein"},{"foodId":"usda-168878","grams":120,"weighedState":"cooked","role":"staple"},{"foodId":"usda-169967","grams":150,"weighedState":"cooked","role":"vegetable"},{"foodId":"usda-171413","grams":5,"weighedState":"ready-to-eat","role":"fat"},{"foodId":"usda-173468","grams":0.5,"weighedState":"ready-to-eat","role":"seasoning"}],
+    "seasoning":{"oilGrams":5,"saltGrams":0.5,"sauceGrams":0},"notes":{"en":"Uses unsalted boiled black beans and drained broccoli, not canned salted beans or refried beans. All added oil and salt are consumed; no salsa or other sauce is included.","zh":"使用無鹽水煮黑豆與瀝乾青花菜，不代表加鹽罐頭豆或炒豆泥。添加的油鹽全部食用，不含莎莎醬或其他醬汁。"}
+  },
+  {
+    "mealId":"costco-salmon-sweet-potato-veg","label":{"en":"Baked salmon, sweet potato and broccoli — standard recipe","zh":"烤鮭魚、地瓜與青花菜（標準配方）"},"temperature":"warm","staple":"potato","cuisine":"western","prepMinutes":15,
+    "ingredients":[{"foodId":"usda-175168","grams":120,"weighedState":"cooked","role":"protein"},{"foodId":"usda-168483","grams":200,"weighedState":"cooked","role":"staple"},{"foodId":"usda-169967","grams":150,"weighedState":"cooked","role":"vegetable"},{"foodId":"usda-171413","grams":5,"weighedState":"ready-to-eat","role":"fat"},{"foodId":"usda-173468","grams":0.5,"weighedState":"ready-to-eat","role":"seasoning"}],
+    "seasoning":{"oilGrams":5,"saltGrams":0.5,"sauceGrams":0},"notes":{"en":"A generic standardized plate, not a Costco product. Sweet potato is baked in its skin but only cooked flesh is weighed; skin is excluded. Broccoli is boiled and drained, not roasted.","zh":"這是一般定量餐盤，不是 Costco 商品資料。地瓜帶皮烤熟，但只秤熟地瓜肉、不含皮；青花菜為水煮瀝乾，不以烤蔬菜資料替代。"}
+  },
+  {
+    "mealId":"tofu-kale-quinoa-bowl","label":{"en":"Cold nigari tofu with cooked kale and quinoa — standard recipe","zh":"冷鹽滷豆腐佐熟羽衣甘藍藜麥（標準配方）"},"temperature":"flexible","staple":"other","cuisine":"western","prepMinutes":10,
+    "ingredients":[{"foodId":"usda-174291","grams":150,"weighedState":"ready-to-eat","role":"protein"},{"foodId":"usda-169238","grams":150,"weighedState":"cooked","role":"vegetable"},{"foodId":"usda-168917","grams":150,"weighedState":"cooked","role":"staple"},{"foodId":"usda-171413","grams":5,"weighedState":"ready-to-eat","role":"fat"},{"foodId":"usda-173468","grams":0.5,"weighedState":"ready-to-eat","role":"seasoning"}],
+    "seasoning":{"oilGrams":5,"saltGrams":0.5,"sauceGrams":0},"notes":{"en":"The tofu is served without further cooking. Kale is boiled, drained and unsalted; quinoa is already cooked. No dressing, sweetener or sauce is included.","zh":"豆腐不再烹煮；羽衣甘藍為無鹽水煮瀝乾，藜麥已煮熟。不含沙拉醬、甜味料或其他醬汁。"}
+  },
+  {
+    "mealId":"salmon-cucumber-rice-set","label":{"en":"Baked salmon with cucumber and rice — standard recipe","zh":"烤鮭魚佐小黃瓜白飯（標準配方）"},"temperature":"flexible","staple":"rice","cuisine":"asian","prepMinutes":15,
+    "ingredients":[{"foodId":"usda-175168","grams":120,"weighedState":"cooked","role":"protein"},{"foodId":"usda-168409","grams":150,"weighedState":"raw","role":"vegetable"},{"foodId":"usda-168878","grams":150,"weighedState":"cooked","role":"staple"},{"foodId":"usda-171413","grams":5,"weighedState":"ready-to-eat","role":"fat"},{"foodId":"usda-173468","grams":0.5,"weighedState":"ready-to-eat","role":"seasoning"}],
+    "seasoning":{"oilGrams":5,"saltGrams":0.5,"sauceGrams":0},"notes":{"en":"Cooked farmed Atlantic salmon with raw cucumber, peel retained. This is not raw-fish sushi or sashimi. No soy sauce, glaze, pickling liquid or sugar is included.","zh":"使用熟養殖大西洋鮭魚與帶皮生小黃瓜，不是生魚壽司或生魚片。不含醬油、照燒醬、醃漬液或糖。"}
+  },
+  {
+    "mealId":"shrimp-quinoa-bowl","label":{"en":"Cooked shrimp, quinoa and broccoli bowl — standard recipe","zh":"熟蝦仁藜麥青花菜碗（標準配方）"},"temperature":"warm","staple":"other","cuisine":"western","prepMinutes":15,
+    "ingredients":[{"foodId":"usda-175180","grams":120,"weighedState":"cooked","role":"protein"},{"foodId":"usda-168917","grams":150,"weighedState":"cooked","role":"staple"},{"foodId":"usda-169967","grams":150,"weighedState":"cooked","role":"vegetable"},{"foodId":"usda-171413","grams":5,"weighedState":"ready-to-eat","role":"fat"},{"foodId":"usda-173468","grams":0.5,"weighedState":"ready-to-eat","role":"seasoning"}],
+    "seasoning":{"oilGrams":5,"saltGrams":0.5,"sauceGrams":0},"notes":{"en":"Uses the USDA cooked-shrimp record, edible shrimp only; no shell or breading. Fiber is not supplied by this shrimp record, so the complete recipe's fiber stays unknown rather than treating shrimp as a measured zero.","zh":"使用 USDA 熟蝦仁紀錄，只秤可食蝦肉、不含殼或裹粉。該蝦仁紀錄未提供纖維值，因此整份配方的纖維維持未知，不自行當作測得的零。"}
+  },
+  {
+    "mealId":"salmon-edamame-bowl","label":{"en":"Baked salmon, edamame and rice bowl — standard recipe","zh":"烤鮭魚毛豆飯碗（標準配方）"},"temperature":"warm","staple":"rice","cuisine":"asian","prepMinutes":15,
+    "ingredients":[{"foodId":"usda-175168","grams":100,"weighedState":"cooked","role":"protein"},{"foodId":"usda-168411","grams":100,"weighedState":"cooked","role":"protein"},{"foodId":"usda-168878","grams":120,"weighedState":"cooked","role":"staple"},{"foodId":"usda-169967","grams":100,"weighedState":"cooked","role":"vegetable"},{"foodId":"usda-171413","grams":5,"weighedState":"ready-to-eat","role":"fat"},{"foodId":"usda-173468","grams":0.5,"weighedState":"ready-to-eat","role":"seasoning"}],
+    "seasoning":{"oilGrams":5,"saltGrams":0.5,"sauceGrams":0},"notes":{"en":"Uses cooked farmed Atlantic salmon and prepared edamame. Weigh edamame after removing pods. Rice, broccoli, oil and salt are all included; no sauce or sweetener is included.","zh":"使用熟養殖大西洋鮭魚與煮熟毛豆，毛豆秤重不含豆莢。白飯、青花菜、油鹽皆已列入，不含醬汁或甜味料。"}
+  }
+]
