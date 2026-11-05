@@ -2818,6 +2818,13 @@ export default function App() {
               )}
             </p>
             <p>
+              {t(
+                locale,
+                "Vercel Web Analytics records basic visit statistics. Analytics URLs exclude query strings and fragments. Meal records, descriptions and API keys are not attached to analytics events.",
+                "Vercel Web Analytics 記錄基本瀏覽統計，統計網址會移除查詢參數與頁內標記。餐點紀錄、描述與 API key 不會附加到統計事件。",
+              )}
+            </p>
+            <p>
               <a
                 href="https://openai.com/policies/privacy-policy/"
                 target="_blank"
