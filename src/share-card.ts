@@ -9,7 +9,7 @@ export type MealCardCopy = {
 };
 
 const fontStack =
-  'system-ui, -apple-system, "Segoe UI", "Microsoft JhengHei", sans-serif';
+  'Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", "Noto Sans TC", "Microsoft JhengHei", sans-serif';
 const clean = (value: string, limit: number) =>
   value
     .replace(/[\u0000-\u001f]/g, " ")
@@ -65,60 +65,23 @@ const fitLines = (
   return visible;
 };
 
-const drawBowl = (context: CanvasRenderingContext2D) => {
-  context.save();
-  context.translate(1003, 492);
-  context.rotate(-0.08);
-  context.lineCap = "round";
-  context.strokeStyle = "#16634b";
-  context.lineWidth = 9;
-  [-46, 0, 46].forEach((offset) => {
-    context.beginPath();
-    context.moveTo(offset, -85);
-    context.bezierCurveTo(
-      offset - 23,
-      -111,
-      offset + 25,
-      -127,
-      offset + 5,
-      -153,
-    );
-    context.stroke();
-  });
-  context.fillStyle = "#f7b17b";
-  context.beginPath();
-  context.ellipse(0, 7, 116, 42, 0, 0, Math.PI * 2);
-  context.fill();
-  context.fillStyle = "#4f9665";
-  [
-    [-64, -2],
-    [-12, -11],
-    [42, 4],
-    [74, -7],
-  ].forEach(([x, y]) => {
-    context.beginPath();
-    context.ellipse(x, y, 22, 13, -0.4, 0, Math.PI * 2);
-    context.fill();
-  });
-  context.fillStyle = "#ffffff";
-  context.beginPath();
-  context.moveTo(-116, 14);
-  context.bezierCurveTo(-104, 150, 104, 150, 116, 14);
-  context.closePath();
-  context.fill();
-  context.stroke();
-  context.beginPath();
-  context.ellipse(0, 14, 116, 37, 0, 0, Math.PI);
-  context.stroke();
-  context.strokeStyle = "#e4b770";
-  context.lineWidth = 7;
-  context.beginPath();
-  context.moveTo(16, -36);
-  context.lineTo(131, -140);
-  context.moveTo(34, -30);
-  context.lineTo(147, -130);
-  context.stroke();
-  context.restore();
+const balanceTitle = (
+  context: CanvasRenderingContext2D,
+  text: string,
+  width: number,
+): string[] => {
+  const lines = wrapText(context, text, width);
+  if (lines.length < 2) return lines;
+  // Balance the available lines so a long Chinese name does not leave just
+  // one character on its final line. Keep the existing readable type size.
+  let lower = width / lines.length;
+  let upper = width;
+  for (let attempt = 0; attempt < 12; attempt += 1) {
+    const candidate = (lower + upper) / 2;
+    if (wrapText(context, text, candidate).length <= lines.length) upper = candidate;
+    else lower = candidate;
+  }
+  return wrapText(context, text, upper);
 };
 
 export const downloadMealCard = async ({
@@ -138,78 +101,89 @@ export const downloadMealCard = async ({
         : "The meal card could not be created. Please try again.",
     );
 
-  context.fillStyle = "#f7f3e9";
+  await document.fonts.ready;
+  context.fillStyle = "#f4f5f6";
   context.fillRect(0, 0, canvas.width, canvas.height);
-  context.fillStyle = "#e2eddd";
-  context.beginPath();
-  context.arc(1140, 355, 330, 0, Math.PI * 2);
-  context.fill();
-  context.fillStyle = "#176349";
-  context.font = `750 39px ${fontStack}`;
-  context.fillText("MealHatch", 76, 99);
-  context.font = `500 23px ${fontStack}`;
-  context.fillStyle = "#526453";
+  context.fillStyle = "#ffffff";
+  context.fillRect(32, 32, 1136, 836);
+  context.strokeStyle = "#c4d0c9";
+  context.lineWidth = 2;
+  context.strokeRect(33, 33, 1134, 834);
+  context.fillStyle = "#205641";
+  context.font = `750 36px ${fontStack}`;
+  context.fillText("MealHatch", 76, 108);
+  context.font = `500 22px ${fontStack}`;
+  context.textAlign = "right";
+  context.fillStyle = "#52635c";
   context.fillText(
     locale === "zh"
       ? "下一餐，從這道開始。"
-      : "A little inspiration for your next meal.",
-    76,
-    143,
+      : "One less thing to decide.",
+    1124,
+    106,
   );
+  context.textAlign = "left";
+  context.strokeStyle = "#c4d0c9";
+  context.beginPath();
+  context.moveTo(76, 148);
+  context.lineTo(1124, 148);
+  context.stroke();
 
-  context.fillStyle = "#a4512d";
-  context.font = `650 23px ${fontStack}`;
+  context.fillStyle = "#52635c";
+  context.font = `550 24px ${fontStack}`;
   const cuisineLines = fitLines(
     context,
-    wrapText(context, clean(cuisine, 90), 700),
+    wrapText(context, clean(cuisine, 90), 1048),
     2,
-    700,
+    1048,
   );
   cuisineLines.forEach((line, index) =>
-    context.fillText(line, 76, 224 + index * 30),
+    context.fillText(line, 76, 209 + index * 30),
   );
 
   const safeTitle =
     clean(title, 220) ||
     (locale === "zh" ? "下一餐靈感" : "Your next meal inspiration");
-  let size = 68;
+  let size = 76;
   context.font = `750 ${size}px ${fontStack}`;
-  let titleLines = wrapText(context, safeTitle, 710);
-  while (titleLines.length > 4 && size > 44) {
+  let titleLines = wrapText(context, safeTitle, 1048);
+  while (titleLines.length > 3 && size > 48) {
     size -= 4;
     context.font = `750 ${size}px ${fontStack}`;
-    titleLines = wrapText(context, safeTitle, 710);
+    titleLines = wrapText(context, safeTitle, 1048);
   }
-  context.fillStyle = "#183d30";
-  fitLines(context, titleLines, 5, 710).forEach((line, index) =>
-    context.fillText(line, 76, 313 + index * (size * 1.22)),
+  titleLines = balanceTitle(context, safeTitle, 1048);
+  context.fillStyle = "#202925";
+  fitLines(context, titleLines, 4, 1048).forEach((line, index) =>
+    context.fillText(line, 76, 308 + index * (size * 1.16)),
   );
-  drawBowl(context);
 
-  context.strokeStyle = "#d0d6c7";
-  context.lineWidth = 2;
+  context.strokeStyle = "#c4d0c9";
   context.beginPath();
-  context.moveTo(76, 656);
-  context.lineTo(1124, 656);
+  context.moveTo(76, 586);
+  context.lineTo(1124, 586);
   context.stroke();
-  context.fillStyle = "#526453";
-  context.font = `500 25px ${fontStack}`;
-  fitLines(context, wrapText(context, clean(tip, 300), 1025), 3, 1025).forEach(
-    (line, index) => context.fillText(line, 76, 706 + index * 35),
+  context.fillStyle = "#205641";
+  context.font = `650 22px ${fontStack}`;
+  context.fillText(locale === "zh" ? "準備這一餐" : "Make it happen", 76, 633);
+  context.fillStyle = "#52635c";
+  context.font = `400 28px ${fontStack}`;
+  fitLines(context, wrapText(context, clean(tip, 400), 1048), 3, 1048).forEach(
+    (line, index) => context.fillText(line, 76, 680 + index * 37),
   );
 
-  context.fillStyle = "#176349";
+  context.fillStyle = "#205641";
   context.font = `650 22px ${fontStack}`;
-  context.fillText("mealhatch.vercel.app", 76, 847);
+  context.fillText("mealhatch.vercel.app", 76, 823);
   context.textAlign = "right";
-  context.fillStyle = "#71806d";
-  context.font = `450 19px ${fontStack}`;
+  context.fillStyle = "#52635c";
+  context.font = `450 20px ${fontStack}`;
   context.fillText(
     locale === "zh"
-      ? "整理餐點靈感 · 日常飲食選擇"
-      : "Curated meal inspiration · Everyday choices",
+      ? "選好下一餐・免註冊"
+      : "Your next meal · No account needed",
     1124,
-    847,
+    823,
   );
 
   const blob = await new Promise<Blob>((resolve, reject) =>

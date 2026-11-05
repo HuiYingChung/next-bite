@@ -20,7 +20,7 @@
     "verify:weekly-summary": "node scripts/verify-weekly-summary.mjs",
     "audit:reachability": "esbuild src/data.ts --bundle --platform=node --format=esm --log-level=error --outfile=.audit-tmp/data.mjs && esbuild src/logic.ts --bundle --platform=node --format=esm --log-level=error --outfile=.audit-tmp/logic.mjs && node scripts/reachability-audit.mjs",
     "audit:drinks": "esbuild src/data.ts --bundle --platform=node --format=esm --log-level=error --outfile=.audit-tmp/data.mjs && esbuild src/logic.ts --bundle --platform=node --format=esm --log-level=error --outfile=.audit-tmp/logic.mjs && node scripts/drink-reachability-audit.mjs",
-    "verify:dashboard": "node scripts/verify-dashboard.mjs",
+    "verify:dashboard": "node scripts/verify-dashboard.mjs && node scripts/verify-collection-availability.mjs",
     "verify:nutrition": "node scripts/import-nutrition-data.mjs --check && node scripts/verify-nutrition.mjs && node scripts/verify-nutrient-profile.mjs",
     "verify:food-library": "node scripts/import-food-library.mjs --check && node scripts/verify-food-library-assessment.mjs && node scripts/verify-food-library.mjs"
   },
