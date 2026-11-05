@@ -1,3 +1,4 @@
+import { useId } from "react";
 import type { MealContext } from "./meal-context";
 import type { Locale, Profile } from "./types";
 
@@ -21,66 +22,118 @@ export function MealContextControls({
   showMealSetting?: boolean;
   showRecipePortions?: boolean;
 }) {
+  const timeHelpId = useId();
   return (
     <div className="meal-context-controls">
-      {showRecipePortions && (
-        <div className="context-primary">
-          <label>
-            {t(locale, "How hungry are you?", "現在餓不餓？")}
-            <select
-              value={value.hunger}
-              onChange={(event) =>
-                onChange({
-                  ...value,
-                  hunger: event.target.value as MealContext["hunger"],
-                })
-              }
-            >
-              <option value="unspecified">
-                {t(locale, "Not specified", "先不指定")}
+      <div className="context-primary">
+        <label>
+          {t(locale, "Preferred staple", "偏好的主食")}
+          <select
+            value={value.preferredStaple}
+            onChange={(event) =>
+              onChange({
+                ...value,
+                preferredStaple: event.target
+                  .value as MealContext["preferredStaple"],
+              })
+            }
+          >
+            {(
+              [
+                ["any", "Open to ideas", "都可以"],
+                ["rice", "Rice", "飯類"],
+                ["noodles", "Noodles", "麵類"],
+                ["bread", "Bread or wraps", "麵包／捲餅"],
+                ["potato", "Potato or sweet potato", "馬鈴薯／地瓜"],
+                ["other", "Other grains", "其他穀物"],
+                ["none", "Prefer no staple", "偏好無主食餐型"],
+              ] as const
+            ).map(([key, en, zh]) => (
+              <option key={key} value={key}>
+                {t(locale, en, zh)}
               </option>
-              <option value="not-hungry">
-                {t(locale, "Not very hungry", "不太餓")}
-              </option>
-              <option value="moderate">
-                {t(locale, "Somewhat hungry", "有一點餓")}
-              </option>
-              <option value="hungry">{t(locale, "Hungry", "很餓")}</option>
-            </select>
-          </label>
-          <label>
-            {t(locale, "Portion to explore", "這餐想看多大份？")}
-            <select
-              value={value.appetite}
-              onChange={(event) =>
-                onChange({
-                  ...value,
-                  appetite: event.target.value as MealContext["appetite"],
-                })
-              }
-            >
-              <option value="unspecified">
-                {t(locale, "Suggest from my hunger", "依飢餓感先建議")}
-              </option>
-              <option value="small">
-                {t(locale, "Small recipe portion", "小份配方")}
-              </option>
-              <option value="regular">
-                {t(locale, "Standard recipe portion", "標準份配方")}
-              </option>
-              <option value="large">
-                {t(locale, "Large recipe portion", "大份配方")}
-              </option>
-            </select>
-          </label>
-        </div>
-      )}
+            ))}
+          </select>
+        </label>
+        <label>
+          {t(locale, "Preferred style", "偏好的風格")}
+          <select
+            value={value.cuisine}
+            onChange={(event) =>
+              onChange({
+                ...value,
+                cuisine: event.target.value as MealContext["cuisine"],
+              })
+            }
+          >
+            <option value="any">{t(locale, "Any style", "都可以")}</option>
+            <option value="asian">
+              {t(locale, "Asian-style", "亞洲風味")}
+            </option>
+            <option value="western">
+              {t(locale, "Western-style", "西式風味")}
+            </option>
+          </select>
+        </label>
+        {showRecipePortions && (
+          <>
+            <label>
+              {t(locale, "How hungry are you?", "現在餓不餓？")}
+              <select
+                value={value.hunger}
+                onChange={(event) =>
+                  onChange({
+                    ...value,
+                    hunger: event.target.value as MealContext["hunger"],
+                  })
+                }
+              >
+                <option value="unspecified">
+                  {t(locale, "Not specified", "先不指定")}
+                </option>
+                <option value="not-hungry">
+                  {t(locale, "Not very hungry", "不太餓")}
+                </option>
+                <option value="moderate">
+                  {t(locale, "Somewhat hungry", "有一點餓")}
+                </option>
+                <option value="hungry">{t(locale, "Hungry", "很餓")}</option>
+              </select>
+            </label>
+            <label>
+              {t(locale, "Portion to explore", "這餐想看多大份？")}
+              <select
+                value={value.appetite}
+                onChange={(event) =>
+                  onChange({
+                    ...value,
+                    appetite: event.target.value as MealContext["appetite"],
+                  })
+                }
+              >
+                <option value="unspecified">
+                  {t(locale, "Suggest from my hunger", "依飢餓感先建議")}
+                </option>
+                <option value="small">
+                  {t(locale, "Small recipe portion", "小份配方")}
+                </option>
+                <option value="regular">
+                  {t(locale, "Standard recipe portion", "標準份配方")}
+                </option>
+                <option value="large">
+                  {t(locale, "Large recipe portion", "大份配方")}
+                </option>
+              </select>
+            </label>
+          </>
+        )}
+      </div>
       <details className="meal-context-extra">
         <summary>
           {t(
             locale,
-            "Taste, preparation & other preferences",
-            "口味、準備方式與其他條件",
+            "Preparation & other preferences",
+            "準備方式與其他條件",
           )}
         </summary>
         <label>
@@ -135,62 +188,18 @@ export function MealContextControls({
           </select>
         </label>
         <label>
-          {t(locale, "Preferred staple", "偏好的主食")}
-          <select
-            value={value.preferredStaple}
-            onChange={(event) =>
-              onChange({
-                ...value,
-                preferredStaple: event.target
-                  .value as MealContext["preferredStaple"],
-              })
-            }
-          >
-            {(
-              [
-                ["any", "Open to ideas", "都可以"],
-                ["rice", "Rice", "飯類"],
-                ["noodles", "Noodles", "麵類"],
-                ["bread", "Bread or wraps", "麵包／捲餅"],
-                ["potato", "Potato or sweet potato", "馬鈴薯／地瓜"],
-                ["other", "Other grains", "其他穀物"],
-                ["none", "Prefer no staple", "偏好無主食餐型"],
-              ] as const
-            ).map(([key, en, zh]) => (
-              <option key={key} value={key}>
-                {t(locale, en, zh)}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label>
-          {t(locale, "Preferred style", "偏好的風格")}
-          <select
-            value={value.cuisine}
-            onChange={(event) =>
-              onChange({
-                ...value,
-                cuisine: event.target.value as MealContext["cuisine"],
-              })
-            }
-          >
-            <option value="any">{t(locale, "Any style", "都可以")}</option>
-            <option value="asian">
-              {t(locale, "Asian-style", "亞洲風味")}
-            </option>
-            <option value="western">
-              {t(locale, "Western-style", "西式風味")}
-            </option>
-          </select>
-        </label>
-        <label>
           {t(
             locale,
-            "Estimated assembly time limit (ingredients ready)",
-            "預估組合時間上限（食材已備妥）",
+            showRecipePortions
+              ? "Estimated assembly time limit (ingredients ready)"
+              : "Assembly time limit",
+            showRecipePortions
+              ? "預估組合時間上限（食材已備妥）"
+              : "組合時間上限",
           )}
           <select
             value={value.maxPrepMinutes ?? "any"}
+            aria-describedby={showRecipePortions ? undefined : timeHelpId}
             onChange={(event) =>
               onChange({
                 ...value,
@@ -209,6 +218,15 @@ export function MealContextControls({
             ))}
           </select>
         </label>
+        {!showRecipePortions && (
+          <p id={timeHelpId} className="small muted">
+            {t(
+              locale,
+              "Meal ideas have no verified preparation times. A time limit excludes them; choose the recipe collection for timed options.",
+              "餐點靈感沒有已確認的準備時間。設定時間上限會排除這些靈感；請切換至配方集，查看有預估時間的選項。",
+            )}
+          </p>
+        )}
         {showMealSetting && (
           <label>
             {t(locale, "Meal setting", "這餐的安排")}

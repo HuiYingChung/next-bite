@@ -20,19 +20,22 @@ Optional AI helps organize a meal description before you review it.
 
 ## What you can do
 
-1. Explore the example or start your own records. Add foods manually, recognize
-   familiar names, and optionally select an exact nutrition source.
-2. Set ingredient avoids, meal preferences, preparation constraints and a recipe
-   portion. Compare the recommended options and expand their calculation details.
-3. Save a plan, download a meal card, or review and record what you ate. Revisit
-   and edit entries in the rolling seven-day view.
+1. Start with **100 meal ideas**, compare a few options and save a plan. A fresh
+   visit starts with your own empty records; no meal logging is required first.
+   An explicitly labeled example remains available to explore separately.
+2. Change the meal preferences or switch to **12 standard recipes** for stated
+   portions, nutrient estimates and numeric ranking details. Collection
+   availability is shown when a selected staple cannot be matched.
+3. Download a meal card or record what you actually ate. Add foods manually,
+   recognize familiar names and optionally select an exact nutrition source.
+   Revisit plans and edit records in the rolling seven-day view.
 
 There are three distinct collections:
 
 | Collection | Current scope | What it provides |
 | --- | --- | --- |
+| Meal ideas (default) | 100 curated ideas | Suggestions organized by preferences and variety; no calculated nutrient totals. |
 | Standard recipes | 12 defined recipes | Ingredient weights, portion estimates, source links and numeric ranking components. |
-| Meal ideas | 100 curated ideas | Suggestions organized by preferences and variety; no calculated nutrient totals. |
 | Food and drink library | 15,438 source records and 309 reviewed bilingual concepts | Searchable composition records, name recognition, and scores where the required evidence is complete. |
 
 Source records include different preparations and datasets; they are not a
@@ -85,6 +88,11 @@ thresholds, assumptions and limits.
   unknowns visible and distinguish stir-frying from frying.
 - Example records and plans stay separate from personal data. Exports exclude
   example data and API keys; downloadable meal cards exclude personal records.
+- Vercel Web Analytics records basic visit statistics. The app strips query
+  strings and fragments from analytics URLs and does not attach meal records,
+  descriptions or API keys to events. No custom task-completion events are
+  configured, so visit counts do not establish whether people chose a meal.
+  See [Vercel's analytics privacy information](https://vercel.com/docs/analytics/privacy-policy).
 
 Optional AI sends the entered description and session API key through the
 same-origin `/api/parse-meal` route to OpenAI. The key stays in page memory and
@@ -141,10 +149,19 @@ calculations and source-data consistency. Focused checks include:
 | `npm run verify:weekly-summary` | Recorded-slot counts, aliases, source identities and bilingual summaries. |
 | `npm run verify:food-library` | Pinned source hashes, generated data, recognition and scoring availability. |
 
-The latest local verification and browser evidence are recorded in the
+Iteration-specific verification and remaining checks are recorded in the
+[launch-experience plan](docs/plans/13-launch-experience.md),
+[AI reliability handoff](docs/plans/12-ai-reliability.md) and
 [seven-day reliability handoff](docs/plans/11-seven-day-reliability.md).
 The generated IndexedDB browser harness requires a separate browser run;
 `npm run verify` does not itself automate the app's browser interactions.
+Mocked AI checks do not verify real account/model access, extraction quality,
+latency or long-description behavior. Those still require a real-provider test.
+
+The [launch preparation pack](docs/launch/README.md) includes draft public copy,
+gallery captions, a short demo storyboard and a five-person usability protocol.
+These materials are preparation, not evidence of a Product Hunt launch or
+completed user research.
 
 ## Data and project structure
 

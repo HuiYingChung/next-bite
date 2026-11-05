@@ -17,11 +17,17 @@ verified.
 
 Current authorized iteration:
 
+- [`Launch experience`](./plans/13-launch-experience.md) — `review`, on
+  `codex/launch-experience`, covering first-use selection, mobile hierarchy,
+  collection availability and share/launch materials. The
+  [launch pack](./launch/README.md) includes a manual usability protocol;
+  participant observations and live-provider AI checks remain pending.
+
+Previous iterations (historical handoffs):
+
 - [`AI reliability`](./plans/12-ai-reliability.md) — `review`, on
   `codex/ai-reliability`, covering cancellation, error messages, amount validation
   and local API routing. Verification uses mocks; live key testing is pending.
-
-Previous iterations:
 
 - [`Seven-day reliability`](./plans/11-seven-day-reliability.md) — `review`,
   transactional browser saves and seven-day exact-tie recommendation evidence.

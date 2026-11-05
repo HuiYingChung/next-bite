@@ -1,6 +1,25 @@
 # MealHatch product roadmap
 
-## Active iteration — AI reliability
+## Active iteration — launch experience
+
+Status: review
+Authorized: 2026-11-05. User requested a new branch implementing the latest
+launch assessment. Read [`13-launch-experience.md`](./13-launch-experience.md).
+Branch: `codex/launch-experience`, based on
+`199137c374da4ff9ba2707d70943e9cfbbe6ee6b`.
+Scope: first-use meal selection, compact mobile actions, honest collection
+availability, share/launch assets and a manual usability study kit.
+This iteration does not add analytics events, a backend or nutrition data.
+Real-provider AI verification and observation of actual users remain separate.
+Local implementation, full verification, browser checks and draft launch assets
+are recorded in the active plan; no publication or deployment is implied.
+
+The entries below preserve their historical handoffs. Their old branch names,
+release restrictions and `review` statuses describe those sessions; this active
+user-authorized iteration governs current work. Its status does not imply a
+commit, merge, production deployment or Product Hunt publication.
+
+## Previous iteration — AI reliability
 
 Status: review
 Authorized: 2026-11-04. User requested fixes from the code-only AI audit before
