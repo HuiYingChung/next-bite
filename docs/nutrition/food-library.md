@@ -39,7 +39,7 @@ clamped; out-of-range required model inputs cannot produce a complete score.
 
 The calculation uses the published [UK NPM 2018 technical guidance](https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance)
 and [FVNS definitions](https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions).
-Its raw score S = A − credited C is separate from NextBite's display combination:
+Its raw score S = A − credited C is separate from MealHatch's display combination:
 
 - Nutrient component = credited C − saturated-fat A − free-sugar A − salt A.
 - Energy component = 10 − energy A. The common 10 is a display offset.

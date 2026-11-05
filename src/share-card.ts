@@ -146,7 +146,7 @@ export const downloadMealCard = async ({
   context.fill();
   context.fillStyle = "#176349";
   context.font = `750 39px ${fontStack}`;
-  context.fillText("NextBite", 76, 99);
+  context.fillText("MealHatch", 76, 99);
   context.font = `500 23px ${fontStack}`;
   context.fillStyle = "#526453";
   context.fillText(
@@ -200,7 +200,7 @@ export const downloadMealCard = async ({
 
   context.fillStyle = "#176349";
   context.font = `650 22px ${fontStack}`;
-  context.fillText("next-bite-eight.vercel.app", 76, 847);
+  context.fillText("mealhatch.vercel.app", 76, 847);
   context.textAlign = "right";
   context.fillStyle = "#71806d";
   context.font = `450 19px ${fontStack}`;
@@ -228,7 +228,7 @@ export const downloadMealCard = async ({
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
   link.href = url;
-  link.download = `nextbite-meal-${locale}.png`;
+  link.download = `mealhatch-meal-${locale}.png`;
   document.body.appendChild(link);
   link.click();
   link.remove();

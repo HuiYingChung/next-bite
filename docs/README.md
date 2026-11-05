@@ -1,4 +1,4 @@
-# NextBite documentation
+# MealHatch documentation
 
 For the product overview, local setup and verification commands, start with the
 [project README](../README.md).

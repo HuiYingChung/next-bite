@@ -12,7 +12,7 @@ inputs, their derivations and the revised recipes.
 This pilot provides reproducible estimates for **twelve explicitly defined meal
 ideas**. It does not validate the other 88 catalog templates, estimate an
 arbitrary restaurant meal, or assess a person's nutrient adequacy. The recipe
-formulations and portion choices are NextBite product decisions. USDA supplies
+formulations and portion choices are MealHatch product decisions. USDA supplies
 the ingredient composition records, not these recipes or recommendations.
 
 ## Source and license
@@ -33,7 +33,7 @@ the ingredient composition records, not these recipes or recommendations.
   as public domain and requests source attribution.
 - Suggested attribution: U.S. Department of Agriculture, Agricultural Research
   Service. FoodData Central, SR Legacy (April 2018). Selected records published
-  April 1, 2019; retrieved November 4, 2026. Recipes and calculations: NextBite.
+  April 1, 2019; retrieved November 4, 2026. Recipes and calculations: MealHatch.
 
 The original seventeen-record JSON is retained unchanged in
 `data/nutrition/usda-sr-legacy-2026-11-04.json` (568,341 bytes). Its SHA-256 is:
@@ -45,7 +45,7 @@ f10761e7d36d53581ddff24e358dedc6ffc563e331c7695b522dda079c3b0e42
 `source-manifest.json` records the release, retrieval, license, record IDs and
 hash. `food-definitions.json` fixes food identity, preparation state and bilingual
 display labels. `recipes.json` contains the reviewed product formulations.
-Chinese labels are NextBite translations; the untouched USDA descriptions stay
+Chinese labels are MealHatch translations; the untouched USDA descriptions stay
 in the source records and generated application data.
 
 A separate official one-record supplement, retrieved

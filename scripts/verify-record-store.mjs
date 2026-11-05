@@ -92,7 +92,7 @@ const edit = (base, slot, name, date = '2026-11-04') => { const next=structuredC
 const legacy = new Map([[LAUNCH_STORAGE_KEY, JSON.stringify(edit(blank,'Lunch','Legacy tofu'))]]);
 let blockRemoval = false;
 const storage = {getItem:k=>legacy.get(k)??null,setItem:(k,v)=>legacy.set(k,v),removeItem:k=>{if(blockRemoval)throw new Error('blocked');legacy.delete(k);}};
-const databaseName = 'next-bite-records-test-' + crypto.randomUUID();
+const databaseName = 'mealhatch-records-test-' + crypto.randomUUID();
 const a = createRecordStore({databaseName,legacyStorage:storage,clock:()=>now});
 const b = createRecordStore({databaseName,legacyStorage:storage,clock:()=>now});
 try {

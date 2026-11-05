@@ -736,8 +736,8 @@ export default function App() {
     document.documentElement.lang = locale === "zh" ? "zh-Hant" : "en";
     document.title = t(
       locale,
-      "NextBite — Find your next meal",
-      "NextBite — 輕鬆選下一餐",
+      "MealHatch — Find your next meal",
+      "MealHatch — 輕鬆選下一餐",
     );
   }, [locale]);
   useEffect(() => {
@@ -1294,7 +1294,7 @@ export default function App() {
     setSelected(0);
     setMessage(
       cleared
-        ? "Your NextBite records, plans, preferences and session key have been cleared."
+        ? "Your MealHatch records, plans, preferences and session key have been cleared."
         : "This session was cleared, but browser storage could not be accessed. Check your browser's site-data settings.",
     );
     setStorageFailed(!cleared);
@@ -1307,7 +1307,7 @@ export default function App() {
       </a>
       <header className="site-header">
         <a href="#workspace" className="brand" onClick={() => setView("today")}>
-          NextBite<span className="beta-label">BETA</span>
+          MealHatch<span className="beta-label">BETA</span>
         </a>
         <nav aria-label={t(locale, "Settings", "設定")}>
           <button
@@ -2600,8 +2600,8 @@ export default function App() {
             <p className="small muted">
               {t(
                 locale,
-                "Bring your own OpenAI key. Your meal description and key pass through NextBite's relay to OpenAI. The key stays only in this page's memory; provider charges and data policies apply. The quick form works without AI.",
-                "使用自己的 OpenAI key。餐點描述與金鑰會經 NextBite 轉送至 OpenAI；金鑰只留在本頁記憶體。費用與資料處理依供應商政策，快速輸入不需要 AI。",
+                "Bring your own OpenAI key. Your meal description and key pass through MealHatch's relay to OpenAI. The key stays only in this page's memory; provider charges and data policies apply. The quick form works without AI.",
+                "使用自己的 OpenAI key。餐點描述與金鑰會經 MealHatch 轉送至 OpenAI；金鑰只留在本頁記憶體。費用與資料處理依供應商政策，快速輸入不需要 AI。",
               )}
             </p>
             <label>
@@ -2729,8 +2729,8 @@ export default function App() {
           <p>
             {t(
               locale,
-              "Meal records, preferences and plans are saved only in this browser. They do not sync across devices. No account or paid AI is needed for the main experience. Example data stays separate.",
-              "餐點紀錄、偏好與計畫只儲存在此瀏覽器，不會跨裝置同步。主要流程免帳號，也不需要付費 AI；範例資料分開處理。",
+              "Meal records, preferences and plans are saved only in this browser for this website address. They do not sync across devices or website addresses. No account or paid AI is needed for the main experience. Example data stays separate.",
+              "餐點紀錄、偏好與計畫只儲存在此瀏覽器的此網站網址中，不會跨裝置或跨網址同步。主要流程免帳號，也不需要付費 AI；範例資料分開處理。",
             )}
           </p>
           <div className="button-row">
@@ -2768,8 +2768,8 @@ export default function App() {
             >
               {t(
                 locale,
-                "Clear all my NextBite data",
-                "清除所有 NextBite 資料",
+                "Clear all my MealHatch data",
+                "清除所有 MealHatch 資料",
               )}
             </button>
             <a
@@ -2800,8 +2800,8 @@ export default function App() {
             <p>
               {t(
                 locale,
-                "The 12 recipes use stated edible ingredient weights and pinned USDA records. UK NPM 2018 compares composition per 100 g; NextBite separates its nutrient and energy contributions, adds a disclosed preference bonus, and selects the three highest totals after strict exclusions. The combined total is a product ranking, not an official health grade or a measure of every vitamin and mineral. Lower energy density can tie within model bands and does not guarantee a lower-energy whole portion. Required missing data prevents scoring. Hunger suggests an editable recipe portion, not calorie needs or predicted satiety. The separate 100-idea collection remains unscored inspiration. This version is for general healthy adults, without individual adequacy or medical recommendations.",
-                "12 道配方以明確可食重量及固定 USDA 紀錄計算。UK NPM 2018 統一比較每 100 克的營養組成；NextBite 拆開顯示營養與熱量項，加上公開的偏好加分，套用必要排除後取總分最高三名。綜合分數是產品排序，並非官方健康等級，也未評估所有維生素與礦物質。模型採熱量級距，因此可能同分；較低能量密度不保證整份熱量較低。必要資料缺漏時不計分。飢餓感只建議可修改的配方份量，不推算熱量需求或飽足感。另有 100 道不計分的餐點靈感。本版適用一般健康成人，不評估個人營養充足度或提供醫療建議。",
+                "The 12 recipes use stated edible ingredient weights and pinned USDA records. UK NPM 2018 compares composition per 100 g; MealHatch separates its nutrient and energy contributions, adds a disclosed preference bonus, and selects the three highest totals after strict exclusions. The combined total is a product ranking, not an official health grade or a measure of every vitamin and mineral. Lower energy density can tie within model bands and does not guarantee a lower-energy whole portion. Required missing data prevents scoring. Hunger suggests an editable recipe portion, not calorie needs or predicted satiety. The separate 100-idea collection remains unscored inspiration. This version is for general healthy adults, without individual adequacy or medical recommendations.",
+                "12 道配方以明確可食重量及固定 USDA 紀錄計算。UK NPM 2018 統一比較每 100 克的營養組成；MealHatch 拆開顯示營養與熱量項，加上公開的偏好加分，套用必要排除後取總分最高三名。綜合分數是產品排序，並非官方健康等級，也未評估所有維生素與礦物質。模型採熱量級距，因此可能同分；較低能量密度不保證整份熱量較低。必要資料缺漏時不計分。飢餓感只建議可修改的配方份量，不推算熱量需求或飽足感。另有 100 道不計分的餐點靈感。本版適用一般健康成人，不評估個人營養充足度或提供醫療建議。",
               )}
             </p>
             <p>
@@ -2813,8 +2813,8 @@ export default function App() {
             <p>
               {t(
                 locale,
-                "If you choose AI, your description and session key are sent through NextBite to OpenAI. The request uses store:false and no-store caching, which does not override provider retention policies. The key is never written into local records, exports or meal cards. Reload or use Forget this key to remove it from the page.",
-                "若選用 AI，描述與本次金鑰會經 NextBite 送至 OpenAI。請求設定 store:false 與禁止快取，仍適用供應商的資料保留政策。金鑰不會寫入本機紀錄、匯出資料或小卡；重新整理或按清除金鑰即可從頁面記憶體移除。",
+                "If you choose AI, your description and session key are sent through MealHatch to OpenAI. The request uses store:false and no-store caching, which does not override provider retention policies. The key is never written into local records, exports or meal cards. Reload or use Forget this key to remove it from the page.",
+                "若選用 AI，描述與本次金鑰會經 MealHatch 送至 OpenAI。請求設定 store:false 與禁止快取，仍適用供應商的資料保留政策。金鑰不會寫入本機紀錄、匯出資料或小卡；重新整理或按清除金鑰即可從頁面記憶體移除。",
               )}
             </p>
             <p>
@@ -2866,8 +2866,8 @@ export default function App() {
         <ConfirmationDialog
           title={t(
             locale,
-            "Clear all NextBite data?",
-            "要清除所有 NextBite 資料嗎？",
+            "Clear all MealHatch data?",
+            "要清除所有 MealHatch 資料嗎？",
           )}
           confirm={t(locale, "Clear all data", "清除全部資料")}
           cancel={t(locale, "Cancel", "取消")}

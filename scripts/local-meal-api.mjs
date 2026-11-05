@@ -55,7 +55,7 @@ export function createMealApiMiddleware() {
 
 export default function localMealApi() {
   return {
-    name: "nextbite-local-meal-api",
+    name: "mealhatch-local-meal-api",
     configureServer(server) {
       server.middlewares.use(createMealApiMiddleware());
     },

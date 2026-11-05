@@ -1,7 +1,7 @@
 # UK NPM 2018 input provenance
 
 Reviewed 2026-11-04. This file documents the inputs to the published UK model,
-not validation of NextBite's separate energy/preference combination or a
+not validation of MealHatch's separate energy/preference combination or a
 personal dietary prescription. [The UK publication](https://www.gov.uk/government/publications/nutrient-profiling-model-2018)
 was published on 27 January 2026 for reference and says the 2018 model has not
 yet been applied to policy. The model classifies a food's composition per 100 g;

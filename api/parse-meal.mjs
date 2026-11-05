@@ -83,7 +83,7 @@ export default async function handler(req, res) {
   }
 
   const instructions = [
-    "You are the meal-understanding layer for NextBite.",
+    "You are the meal-understanding layer for MealHatch.",
     "Extract only a structured description of what the user ate. Do not recommend a meal, score health, calculate calories, or provide medical advice.",
     "Do not invent invisible ingredients, cooking oils, sauces, preparation, meal sources, or portion sizes. Record unstated details as unknown and disclose relevant uncertainty in assumptions.",
     "Use mealSource 'Unspecified' unless the user explicitly states the source. Use cookingMethod 'Other' when preparation is not stated. Do not infer a home-cooked, takeout, restaurant, or ready-made source from the food name.",
@@ -118,7 +118,7 @@ export default async function handler(req, res) {
         text: {
           format: {
             type: "json_schema",
-            name: "nextbite_meal_parse",
+            name: "mealhatch_meal_parse",
             strict: true,
             schema: mealSchema,
           },

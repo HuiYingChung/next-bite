@@ -6,13 +6,13 @@ Planning baseline: `main` at `bbff438` (`Merge pull request #7 from HuiYingChung
 
 ## 1. Objective
 
-Build the first auditable nutrition-evidence layer for NextBite without changing the product's core authority boundary:
+Build the first auditable nutrition-evidence layer for MealHatch without changing the product's core authority boundary:
 
 - AI may convert the user's words into structured input.
 - Deterministic code owns eligibility, calculations, ranking, selection, and the decision receipt.
 - Official data and published guidance support nutrition-facing claims.
 - Product heuristics remain allowed only when explicitly identified as product heuristics.
-- NextBite remains general everyday decision support, not clinical nutrition advice or an individualized adequacy assessment.
+- MealHatch remains general everyday decision support, not clinical nutrition advice or an individualized adequacy assessment.
 
 This phase is a foundation and feasibility gate. It covers the evidence policy, schemas, source registry, and a representative pilot. It does **not** recalibrate all 100 meals or replace the production ranking algorithm.
 

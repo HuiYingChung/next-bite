@@ -28,8 +28,8 @@ export const evidenceSources: Record<
     role: "Background food-composition reference; no source records imported into this pilot",
   },
   "nextbite-editorial": {
-    name: "NextBite editorial method",
-    shortName: "NextBite",
+    name: "MealHatch editorial method",
+    shortName: "MealHatch",
     url: "/#method",
     role: "Editorial named-food, style, practical-preference and variety policy",
   },
@@ -54,7 +54,7 @@ export const enrichRecommendation = (meal: BaseMealOption): MealOption => {
 };
 
 export const catalogMethod = {
-  name: "NextBite 100 meal ideas",
+  name: "MealHatch 100 meal ideas",
   statement:
     "100 editorial everyday meal ideas selected through supported constraints, style and practical preferences, and named-food variety.",
   limitation:
@@ -65,7 +65,7 @@ export const getCatalogMethod = (locale: Locale) =>
   locale === "en"
     ? catalogMethod
     : {
-        name: "NextBite 100 道餐點靈感",
+        name: "MealHatch 100 道餐點靈感",
         statement: "依有依據的必要條件、餐食風格與實用偏好，以及具名食物的變化，挑選 100 道人工整理的日常餐點想法。",
         limitation: "這些一般餐點想法未建立可計算營養總量的配方與食品來源對應。紀錄可能不完整；食物名稱無法判斷營養充足度、精確熱量、醫療需求或營養補償。",
       };

@@ -105,7 +105,7 @@ export function FoodRecordDetails({ food, profile, context, locale }: FoodRecord
     {model && <details className="food-calculation">
       <summary>{t(locale, "Show calculation", "展開計算明細")}</summary>
       <p>{t(locale, "Nutrient = credited C − saturated-fat A − free-sugars A − salt A. Energy = 10 − energy A. Total = nutrient + energy + preference.", "營養項＝可計入 C 分－飽和脂肪 A 分－游離糖 A 分－鹽 A 分；熱量項＝10－能量 A 分；總分＝營養項＋熱量項＋偏好項。")}</p>
-      <p>{t(locale, "NextBite custom combination; 10 is a shared display offset. The model uses kJ per 100 g (1 kcal = 4.184 kJ).", "此組合為 NextBite 自訂；固定 10 分為所有項目共用的顯示位移。模型使用每 100 克的 kJ（1 kcal＝4.184 kJ）。")}</p>
+      <p>{t(locale, "MealHatch custom combination; 10 is a shared display offset. The model uses kJ per 100 g (1 kcal = 4.184 kJ).", "此組合為 MealHatch 自訂；固定 10 分為所有項目共用的顯示位移。模型使用每 100 克的 kJ（1 kcal＝4.184 kJ）。")}</p>
       <div className="food-table-scroll" role="region" tabIndex={0} aria-label={t(locale, "Food scoring calculation, scroll horizontally", "食物計分表，可左右捲動")}>
         <table className="food-model-table">
           <caption>{t(locale, "UK NPM 2018 · per 100 g", "英國 NPM 2018 · 每 100 克")}</caption>

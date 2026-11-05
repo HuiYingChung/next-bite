@@ -1,4 +1,4 @@
-# NextBite product roadmap
+# MealHatch product roadmap
 
 ## Active iteration — AI reliability
 
@@ -99,7 +99,7 @@ Original planning baseline: `main` at `bbff438`
 
 ## 1. Program outcome
 
-Turn NextBite from a deterministic but mainly editorial recommendation system
+Turn MealHatch from a deterministic but mainly editorial recommendation system
 into an auditable, guideline-informed everyday food decision product.
 
 The target is not clinical validation. The target is:

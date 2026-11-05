@@ -1,8 +1,16 @@
-# NextBite
+# MealHatch
+
+Live site: [mealhatch.vercel.app](https://mealhatch.vercel.app/).
+
+MealHatch was previously named NextBite. The previous public address is retired.
+Browser records do not transfer automatically between addresses; the app
+currently supports JSON export, without an import flow. Storage keys, export
+format identifiers, evidence IDs and API headers retain their existing names
+for compatibility.
 
 **Less deciding. More eating.**
 
-NextBite helps you choose your next meal from your preferences, current plans,
+MealHatch helps you choose your next meal from your preferences, current plans,
 and recent food records. Compare a few options, inspect why they appeared, and
 save a meal plan or record what you actually ate.
 
@@ -37,13 +45,13 @@ The recipe path first applies ingredient avoids and strict meal conditions,
 then ranks eligible recipes with complete inputs by:
 
 ```text
-NextBite total = nutrient component + energy component + preference component
+MealHatch total = nutrient component + energy component + preference component
               = 10 - raw UK NPM 2018 score + product preference bonuses
 ```
 
 Composition is compared per **100 g of edible recipe weight**. Energy contributes
 once to the total; recipe preference bonuses are capped at 10. The combined
-total is NextBite's product ranking, with the published model result and custom
+total is MealHatch's product ranking, with the published model result and custom
 rules separately inspectable. It is not a percentage or an official health grade.
 
 The highest three eligible totals are shown, or fewer when exclusions leave

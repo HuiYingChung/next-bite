@@ -133,7 +133,7 @@ A ready PR may be proposed only when:
 - no high-severity safety, provenance, trace, privacy, or claim defect remains;
 - medium limitations are documented and do not make the core recommendation
   misleading;
-- the worktree and PR scope contain only NextBite changes;
+- the worktree and PR scope contain only MealHatch changes;
 - the final evidence and limitation summary is accurate.
 
 Do not merge or deploy without the user's explicit instruction.

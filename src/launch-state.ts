@@ -619,7 +619,7 @@ export const downloadLocalData = (state: LaunchState, locale: Locale): void => {
   );
   const link = document.createElement("a");
   link.href = url;
-  link.download = `nextbite-data-${exported.exportedAt.slice(0, 10)}.json`;
+  link.download = `mealhatch-data-${exported.exportedAt.slice(0, 10)}.json`;
   document.body.appendChild(link);
   link.click();
   link.remove();

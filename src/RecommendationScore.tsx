@@ -18,7 +18,7 @@ export function RecommendationScore({ rec, locale }: RecommendationScoreProps) {
     return `${value < 0 ? "−" : signed && value > 0 ? "+" : ""}${formatted}`;
   };
   if (!score) return <section className="recommendation-score">
-    <h4>{text(locale, "NextBite ranking total", "NextBite 排序總分")}</h4>
+    <h4>{text(locale, "MealHatch ranking total", "MealHatch 排序總分")}</h4>
     <p className="score-unavailable">{unknown}</p>
   </section>;
 
@@ -65,9 +65,9 @@ export function RecommendationScore({ rec, locale }: RecommendationScoreProps) {
   };
 
   return (
-    <section className="recommendation-score" aria-label={text(locale, "NextBite ranking calculation", "NextBite 排序計算")}>
+    <section className="recommendation-score" aria-label={text(locale, "MealHatch ranking calculation", "MealHatch 排序計算")}>
       <div className="recommendation-score-heading">
-        <h4>{text(locale, "NextBite ranking total", "NextBite 排序總分")}</h4>
+        <h4>{text(locale, "MealHatch ranking total", "MealHatch 排序總分")}</h4>
         <strong className="recommendation-score-total">{complete ? number(score.total) : unknown}</strong>
       </div>
       <dl className="score-components">
@@ -76,8 +76,8 @@ export function RecommendationScore({ rec, locale }: RecommendationScoreProps) {
         <div><dt>{text(locale, "Preference component", "偏好項")}</dt><dd className="score-preference">{number(score.preference, true)}</dd></div>
       </dl>
       <p className="score-basis-note">{text(locale,
-        "Per 100 g · higher ranks first. A NextBite custom combination.",
-        "每 100 克計算，總分較高者優先；這是 NextBite 自訂組合。",
+        "Per 100 g · higher ranks first. A MealHatch custom combination.",
+        "每 100 克計算，總分較高者優先；這是 MealHatch 自訂組合。",
       )}</p>
       {!complete && <p className="score-unavailable">{text(locale, "Required model data are incomplete; no total is assigned.", "必要模型資料不完整，因此不提供總分。")}</p>}
       <HistoryBasis trace={rec.trace.variety} locale={locale} />
@@ -121,7 +121,7 @@ export function RecommendationScore({ rec, locale }: RecommendationScoreProps) {
         <p className="score-official-raw">{text(locale, "Published-model raw result (lower is better)", "公開模型原始分數（較低較佳）")}: {number(model.rawScore)}</p>
         {model.missing.length > 0 && <p className="score-missing">{text(locale, "Missing inputs", "缺少輸入資料")}: {model.missing.join(", ")}</p>}
         <table className="numeric-receipt score-preference-receipt">
-          <caption>{text(locale, "NextBite preference bonus · up to 10", "NextBite 自訂偏好加分・最多 10 分")}</caption>
+          <caption>{text(locale, "MealHatch preference bonus · up to 10", "MealHatch 自訂偏好加分・最多 10 分")}</caption>
           <thead><tr><th scope="col">{text(locale, "Preference", "偏好")}</th><th scope="col">{text(locale, "Points", "點數")}</th><th scope="col">{text(locale, "Reason", "說明")}</th></tr></thead>
           <tbody>{score.preferenceRows.map((row) => <tr className="score-preference-row" key={row.key}>
             <th scope="row">{row.label}</th><td className="contribution-points">{number(row.points, true)}</td><td className="contribution-note">{row.note}</td>

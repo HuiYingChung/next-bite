@@ -34,7 +34,7 @@ The nutrient and energy components retain the model's relative point weights:
 Nutrient = credited C - saturated-fat A - free-sugar A - salt A
 Energy   = 10 - energy A
 Preference = sum of five product-defined bonuses, at most 10
-NextBite total = Nutrient + Energy + Preference
+MealHatch total = Nutrient + Energy + Preference
               = 10 - official NPM + Preference
 ```
 
@@ -54,7 +54,7 @@ nutrient estimates. [WHO healthy-diet guidance](https://www.who.int/news-room/fa
 frames healthy diets around adequacy, balance, moderation and diversity; the
 app does not turn a lower-energy ranking into a universal health claim.
 
-## Preference bonuses: NextBite product rules
+## Preference bonuses: MealHatch product rules
 
 Each group contributes either zero or two points; each group is capped at two.
 No unspecified preference earns points. These weights and operational cutoffs
