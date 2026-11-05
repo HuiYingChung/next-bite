@@ -96,15 +96,22 @@ npm run dev
 Open the local URL printed by Vite. Manual recording, recommendations and the
 food library require no API key or environment variables.
 
+The development server also runs `/api/parse-meal` using the same handler as
+production. To test optional AI, open **Record a meal → Optional AI**, enter
+your session OpenAI key, describe one meal, and choose **Organize & review**.
+Review the editable result before saving. Keys are kept in page memory; do not
+put them in source files or environment files. Restart an older development
+server after updating the Vite configuration.
+
 ```sh
 npm run build
 npm run preview
 ```
 
-The production frontend is written to `dist/`. Vite's development and preview
-servers serve the frontend only. Optional AI additionally needs a host that
-executes [the API handler](api/parse-meal.mjs) at `/api/parse-meal`; static hosting
-alone does not provide that route.
+The production frontend is written to `dist/`. Both local development and
+preview servers include the AI route. A deployed site still needs a host that
+executes [the API handler](api/parse-meal.mjs) at `/api/parse-meal`; uploading
+`dist/` to static hosting alone does not provide that route.
 
 ## Verify changes
 
@@ -118,6 +125,9 @@ calculations and source-data consistency. Focused checks include:
 
 | Command | Coverage |
 | --- | --- |
+| `npm run verify:api` | Provider/client mocks, amount validation, cancellation and safe errors. No real key or provider request. |
+| `npm run verify:ai-ui` | Actual editor handlers: harmless interactions, stale results and localized errors. |
+| `npm run verify:local-api` | Development and preview routes with a mocked provider, including success and invalid requests. |
 | `npm run verify:records` | Transaction merge rules, conflicts, expiry and storage failures. Also generates an isolated browser harness for actual IndexedDB checks. |
 | `npm run verify:history-ranking` | Both live recommendation paths, historical edits/deletions, exact ties and calendar boundaries. |
 | `npm run verify:weekly-summary` | Recorded-slot counts, aliases, source identities and bilingual summaries. |

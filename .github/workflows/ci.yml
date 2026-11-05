@@ -42,6 +42,12 @@ jobs:
       - name: Verify BYOK API boundary
         run: npm run verify:api
 
+      - name: Verify AI editor interactions
+        run: npm run verify:ai-ui
+
+      - name: Verify local development and preview API routes
+        run: npm run verify:local-api
+
       - name: Verify local records and plans
         run: npm run verify:launch
 

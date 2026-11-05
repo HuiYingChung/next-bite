@@ -1,6 +1,14 @@
 # NextBite product roadmap
 
-## Active iteration — seven-day reliability
+## Active iteration — AI reliability
+
+Status: review
+Authorized: 2026-11-04. User requested fixes from the code-only AI audit before
+testing with their own key. Read [`12-ai-reliability.md`](./12-ai-reliability.md).
+Branch: `codex/ai-reliability`, based on `dcb93df`.
+Mock verification is complete; real provider behavior remains unverified.
+
+## Previous iteration — seven-day reliability
 
 Status: review
 Authorized: 2026-11-04. User accepted the seven-day audit correction proposal.

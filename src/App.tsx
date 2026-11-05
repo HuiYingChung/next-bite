@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { Dispatch, ReactNode, SetStateAction } from "react";
-import { parseMealWithAi } from "./ai";
+import { MealParseError, parseMealWithAi } from "./ai";
 import { Drawer } from "./Drawer";
 import {
   HistoryGrid,
@@ -675,6 +675,7 @@ export default function App() {
   const decisionRef = useRef<HTMLElement>(null);
   const reviewRef = useRef<HTMLDivElement>(null);
   const aiRequestGeneration = useRef(0);
+  const aiRequestAbort = useRef<AbortController | null>(null);
   const realStateRef = recordStore.stateRef;
   const draftBaseRef = useRef<LaunchState | null>(null);
   const deleteBaseRef = useRef<LaunchState | null>(null);
@@ -704,7 +705,17 @@ export default function App() {
   };
   const invalidateAiRequest = () => {
     aiRequestGeneration.current += 1;
+    aiRequestAbort.current?.abort();
+    aiRequestAbort.current = null;
     setIsParsing(false);
+  };
+  const editDraft: Dispatch<SetStateAction<ParsedMeal>> = (update) => {
+    invalidateAiRequest();
+    setDraft(update);
+  };
+  const editFields: Dispatch<SetStateAction<FoodFields>> = (update) => {
+    invalidateAiRequest();
+    setFields(update);
   };
   const scrollTo = (element: HTMLElement | null) =>
     element?.scrollIntoView({
@@ -717,6 +728,7 @@ export default function App() {
   useEffect(() => {
     return () => {
       aiRequestGeneration.current += 1;
+      aiRequestAbort.current?.abort();
     };
   }, []);
   useEffect(() => {
@@ -909,6 +921,7 @@ export default function App() {
     );
   };
   const reviewMeal = () => {
+    invalidateAiRequest();
     const components = groups.flatMap((item) => {
       const previous = draft.components.filter(
         (component) => component.group === item.group,
@@ -958,6 +971,7 @@ export default function App() {
     });
   };
   const commitMeal = async (mode: "append" | "replace") => {
+    invalidateAiRequest();
     const now = new Date();
     const dayId = editTarget?.dayId ?? draftDayId ?? toLocalDateId(now);
     if (!rollSevenDayHistory([], now).some(day => day.id === dayId)) {
@@ -1179,6 +1193,9 @@ export default function App() {
       return;
     }
     const requestGeneration = ++aiRequestGeneration.current;
+    aiRequestAbort.current?.abort();
+    const controller = new AbortController();
+    aiRequestAbort.current = controller;
     setIsParsing(true);
     setFormError("");
     try {
@@ -1187,6 +1204,7 @@ export default function App() {
         locale,
         apiKey,
         mealSlotHint: draft.mealSlot,
+        signal: controller.signal,
       });
       if (requestGeneration !== aiRequestGeneration.current) return;
       const next = {
@@ -1204,18 +1222,20 @@ export default function App() {
         if (requestGeneration === aiRequestGeneration.current)
           reviewRef.current?.focus();
       });
-    } catch {
+    } catch (error) {
       if (requestGeneration !== aiRequestGeneration.current) return;
       setFormError(
-        t(
+        error instanceof MealParseError ? error.message : t(
           locale,
           "AI could not prepare this meal. Your text is still here; try the quick form or check your key and connection.",
           "AI 暫時無法整理這餐。你的文字仍保留著，可以使用快速輸入，或檢查金鑰與連線。",
         ),
       );
     } finally {
-      if (requestGeneration === aiRequestGeneration.current)
+      if (requestGeneration === aiRequestGeneration.current) {
+        aiRequestAbort.current = null;
         setIsParsing(false);
+      }
     }
   };
   const share = async () => {
@@ -1314,6 +1334,7 @@ export default function App() {
             type="button"
             aria-label={t(locale, "切換繁體中文", "Switch to English")}
             onClick={() => {
+              invalidateAiRequest();
               setLocale((value) => (value === "en" ? "zh" : "en"));
               setMessage("");
               setChangeNote("");
@@ -2135,17 +2156,6 @@ export default function App() {
           id="meal-input"
           ref={composerRef}
           aria-labelledby="input-title"
-          onChangeCapture={() => {
-            if (isParsing) invalidateAiRequest();
-          }}
-          onClickCapture={(event) => {
-            if (
-              isParsing &&
-              event.target instanceof Element &&
-              event.target.closest("button, input, select, textarea, summary")
-            )
-              invalidateAiRequest();
-          }}
         >
           <div className="section-heading">
             <h2 id="input-title">
@@ -2181,6 +2191,7 @@ export default function App() {
             <label>{t(locale, "Choose a date for this draft", "選擇草稿的記錄日期")}
               <select value="" onChange={event => {
                 if (!event.target.value) return;
+                invalidateAiRequest();
                 const id = event.target.value;
                 const latest = isDemo ? state : realStateRef.current;
                 draftBaseRef.current = { ...latest, days: rollSevenDayHistory(latest.days, new Date()) };
@@ -2219,7 +2230,7 @@ export default function App() {
                     value={fields[item.field]}
                     maxLength={1200}
                     onChange={(event) =>
-                      setFields((current) => ({
+                      editFields((current) => ({
                         ...current,
                         [item.field]: event.target.value,
                       }))
@@ -2236,7 +2247,7 @@ export default function App() {
                         type="button"
                         key={food}
                         onClick={() =>
-                          setFields((current) => ({
+                          editFields((current) => ({
                             ...current,
                             [item.field]: [
                               ...new Set([
@@ -2271,7 +2282,7 @@ export default function App() {
                       value={fields[item.field]}
                       maxLength={1200}
                       onChange={(event) =>
-                        setFields((current) => ({
+                        editFields((current) => ({
                           ...current,
                           [item.field]: event.target.value,
                         }))
@@ -2282,7 +2293,7 @@ export default function App() {
               </details>
               <ContextFields
                 draft={draft}
-                setDraft={setDraft}
+                setDraft={editDraft}
                 locale={locale}
                 lockSlot={Boolean(editTarget)}
               />
@@ -2301,7 +2312,7 @@ export default function App() {
                   type="button"
                   className="text-button"
                   onClick={() => {
-                    setFields(fieldsFrom(draft));
+                    editFields(fieldsFrom(draft));
                     setReview(false);
                   }}
                 >
@@ -2327,7 +2338,7 @@ export default function App() {
                       value={component.name}
                       maxLength={300}
                       onChange={(event) =>
-                        setDraft((current) => ({
+                        editDraft((current) => ({
                           ...current,
                           components: current.components.map((item, i) =>
                             i === index
@@ -2343,7 +2354,7 @@ export default function App() {
                     <select
                       value={component.group}
                       onChange={(event) =>
-                        setDraft((current) => ({
+                        editDraft((current) => ({
                           ...current,
                           components: current.components.map((item, i) =>
                             i === index
@@ -2381,7 +2392,7 @@ export default function App() {
                       value={component.amount.quantity ?? ""}
                       placeholder={t(locale, "Unspecified", "未說明")}
                       onChange={(event) =>
-                        setDraft((current) => ({
+                        editDraft((current) => ({
                           ...current,
                           components: current.components.map((item, i) =>
                             i === index
@@ -2409,7 +2420,7 @@ export default function App() {
                     <select
                       value={component.amount.unit}
                       onChange={(event) =>
-                        setDraft((current) => ({
+                        editDraft((current) => ({
                           ...current,
                           components: current.components.map((item, i) =>
                             i === index
@@ -2458,7 +2469,7 @@ export default function App() {
                     profile={effectiveProfile}
                     context={mealContext}
                     locale={locale}
-                    onSelect={(food) => setDraft(current => ({
+                    onSelect={(food) => editDraft(current => ({
                       ...current,
                       components: current.components.map((item, itemIndex) => itemIndex !== index ? item : food ? {
                         ...item, name: foodLibraryName(food, locale), group: food.group,
@@ -2475,7 +2486,7 @@ export default function App() {
                       `移除${component.name}`,
                     )}
                     onClick={() =>
-                      setDraft((current) => ({
+                      editDraft((current) => ({
                         ...current,
                         components: current.components.filter(
                           (_, i) => i !== index,
@@ -2491,7 +2502,7 @@ export default function App() {
                 className="text-button"
                 type="button"
                 onClick={() =>
-                  setDraft((current) => ({
+                  editDraft((current) => ({
                     ...current,
                     components: [
                       ...current.components,
@@ -2509,7 +2520,7 @@ export default function App() {
               </button>
               <ContextFields
                 draft={draft}
-                setDraft={setDraft}
+                setDraft={editDraft}
                 locale={locale}
                 lockSlot={Boolean(editTarget)}
               />
@@ -2571,6 +2582,7 @@ export default function App() {
           {draftConflict && <div className="notice">
             <p>{t(locale, "Latest saved record", "最新儲存內容")}: {entryNames(targetDay.todayLog[draft.mealSlot], locale) || t(locale, "Empty", "空白")}</p>
             <button type="button" className="button quiet" onClick={() => {
+              invalidateAiRequest();
               draftBaseRef.current = isDemo ? state : realStateRef.current;
               setDraftConflict(false);
               setFormError("");
@@ -2600,7 +2612,10 @@ export default function App() {
                 spellCheck={false}
                 value={apiKey}
                 maxLength={512}
-                onChange={(event) => setApiKey(event.target.value)}
+                onChange={(event) => {
+                  invalidateAiRequest();
+                  setApiKey(event.target.value);
+                }}
                 placeholder="sk-…"
               />
             </label>
@@ -2608,7 +2623,10 @@ export default function App() {
               <button
                 type="button"
                 className="text-button"
-                onClick={() => setApiKey("")}
+                onClick={() => {
+                  invalidateAiRequest();
+                  setApiKey("");
+                }}
               >
                 {t(locale, "Forget this key", "清除金鑰")}
               </button>
@@ -2618,7 +2636,10 @@ export default function App() {
               <textarea
                 maxLength={600}
                 value={aiText}
-                onChange={(event) => setAiText(event.target.value)}
+                onChange={(event) => {
+                  invalidateAiRequest();
+                  setAiText(event.target.value);
+                }}
                 placeholder={t(
                   locale,
                   "I had chicken rice and half a milk tea for lunch.",

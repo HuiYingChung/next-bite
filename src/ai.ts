@@ -6,6 +6,7 @@ type ParseMealRequest = {
   locale: Locale;
   mealSlotHint: MealName;
   apiKey: string;
+  signal?: AbortSignal;
 };
 
 export class MealParseError extends Error {
@@ -49,10 +50,20 @@ export const parseMealWithAi = async ({
   locale,
   mealSlotHint,
   apiKey,
+  signal,
 }: ParseMealRequest): Promise<ParsedMeal> => {
   const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 35_000);
+  let timedOut = false;
+  const cancel = () => controller.abort();
+  signal?.addEventListener("abort", cancel, { once: true });
+  if (signal?.aborted) cancel();
+  const timeout = setTimeout(() => {
+    timedOut = true;
+    controller.abort();
+  }, 35_000);
   try {
+    if (signal?.aborted)
+      throw new DOMException("Meal parsing was cancelled.", "AbortError");
     const response = await fetch("/api/parse-meal", {
       method: "POST",
       credentials: "same-origin",
@@ -69,7 +80,9 @@ export const parseMealWithAi = async ({
         safeErrorMessage(locale, response.status),
         response.status,
       );
-    const payload: unknown = await response.json().catch(() => null);
+    const payload: unknown = await response.json();
+    if (signal?.aborted)
+      throw new DOMException("Meal parsing was cancelled.", "AbortError");
     if (
       !payload ||
       typeof payload !== "object" ||
@@ -80,10 +93,13 @@ export const parseMealWithAi = async ({
     }
     return payload.meal;
   } catch (error) {
+    if (signal?.aborted)
+      throw new DOMException("Meal parsing was cancelled.", "AbortError");
     if (error instanceof MealParseError) throw error;
-    const status = controller.signal.aborted ? 504 : 502;
+    const status = timedOut ? 504 : 502;
     throw new MealParseError(safeErrorMessage(locale, status), status);
   } finally {
     clearTimeout(timeout);
+    signal?.removeEventListener("abort", cancel);
   }
 };

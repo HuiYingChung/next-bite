@@ -1,17 +1,32 @@
 const ALLOWED_SLOTS = ["Breakfast", "Lunch", "Dinner", "Snacks / Drinks"];
 
-const householdUnits = ["serving", "portion", "cup", "bowl", "plate", "piece", "slice", "tablespoon", "teaspoon", "handful", "glass", "can", "bottle", "unspecified"];
+const householdUnits = ["serving", "portion", "cup", "bowl", "plate", "piece", "slice", "tablespoon", "teaspoon", "handful", "glass", "can", "bottle"];
+const originalAmountText = {
+  anyOf: [{ type: "string", minLength: 1, maxLength: 40 }, { type: "null" }],
+};
 const amountSchema = (units, maximum) => ({
   type: "object",
   additionalProperties: false,
   required: ["quantity", "unit", "qualifier", "originalText"],
   properties: {
-    quantity: { anyOf: [{ type: "number", minimum: 0.01, maximum }, { type: "null" }] },
+    quantity: { type: "number", minimum: 0.01, maximum },
     unit: { type: "string", enum: units },
-    qualifier: { type: "string", enum: ["exact", "approximate", "unspecified"] },
-    originalText: { anyOf: [{ type: "string", minLength: 1, maxLength: 40 }, { type: "null" }] },
+    qualifier: { type: "string", enum: ["exact", "approximate"] },
+    originalText: originalAmountText,
   },
 });
+// A vague stated amount can retain its words without inventing a number or unit.
+const unknownAmountSchema = {
+  type: "object",
+  additionalProperties: false,
+  required: ["quantity", "unit", "qualifier", "originalText"],
+  properties: {
+    quantity: { type: "null" },
+    unit: { type: "string", enum: ["unspecified"] },
+    qualifier: { type: "string", enum: ["unspecified"] },
+    originalText: originalAmountText,
+  },
+};
 
 export const mealSchema = {
   type: "object",
@@ -54,7 +69,11 @@ export const mealSchema = {
             ],
           },
           amount: {
-            anyOf: [amountSchema(householdUnits, 50), amountSchema(["g", "ml"], 10_000)],
+            anyOf: [
+              amountSchema(householdUnits, 50),
+              amountSchema(["g", "ml"], 10_000),
+              unknownAmountSchema,
+            ],
           },
           confidence: {
             type: "string",
