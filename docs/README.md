@@ -17,10 +17,14 @@ verified.
 
 Current authorized iteration:
 
-- [`Seven-day reliability`](./plans/11-seven-day-reliability.md) — `review`,
-  transactional browser saves and seven-day exact-tie recommendation evidence.
+- [`AI reliability`](./plans/12-ai-reliability.md) — `review`, on
+  `codex/ai-reliability`, covering cancellation, error messages, amount validation
+  and local API routing. Verification uses mocks; live key testing is pending.
 
 Previous iterations:
+
+- [`Seven-day reliability`](./plans/11-seven-day-reliability.md) — `review`,
+  transactional browser saves and seven-day exact-tie recommendation evidence.
 
 - [`Food and drink library`](./plans/10-food-library.md) — `review`, on
   `codex/nutrition-pilot`, with broad recognition and source composition lookup.

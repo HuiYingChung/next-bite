@@ -89,6 +89,7 @@ export default async function handler(req, res) {
     "Use mealSource 'Unspecified' unless the user explicitly states the source. Use cookingMethod 'Other' when preparation is not stated. Do not infer a home-cooked, takeout, restaurant, or ready-made source from the food name.",
     "Classify each visible or explicitly named component by its ordinary food-group role.",
     "Normalize each stated component amount into quantity, unit, and qualifier while preserving the user's phrase in originalText. For an unstated amount, use quantity null, unit 'unspecified', qualifier 'unspecified', and originalText null.",
+    "A numeric quantity must have a supported unit and qualifier 'exact' or 'approximate'. If an amount cannot be normalized without guessing, use quantity null, unit 'unspecified', qualifier 'unspecified', and preserve the stated phrase in originalText.",
     "Use overall portion size Small, Medium, or Large only when the user states the overall size. If overall portion is not stated, use size 'Unspecified' with confidence 'limited' and disclose the unknown. Do not infer overall size from the number of components or a single component amount.",
     "Ask at most one clarification, and only when it would materially change the food-group interpretation.",
     `Use ${locale === "zh" ? "Traditional Chinese" : "English"} for displayName, component names, assumptions, and clarification.`,
@@ -96,6 +97,7 @@ export default async function handler(req, res) {
   ].join("\n");
 
   let openAiResponse;
+  let responseBody;
   try {
     openAiResponse = await fetch("https://api.openai.com/v1/responses", {
       method: "POST",
@@ -108,7 +110,9 @@ export default async function handler(req, res) {
         model: "gpt-5.6-luna",
         store: false,
         reasoning: { effort: "none" },
-        max_output_tokens: 700,
+        // Leave room for up to 16 structured components plus uncertainty notes.
+        // This is an output ceiling, not a target length or measured guarantee.
+        max_output_tokens: 4096,
         instructions,
         input: text,
         text: {
@@ -121,6 +125,9 @@ export default async function handler(req, res) {
         },
       }),
     });
+    // The same deadline also covers reading the response body, not just headers.
+    // Error bodies are intentionally unused so provider diagnostics stay private.
+    if (openAiResponse.ok) responseBody = await openAiResponse.json();
   } catch (error) {
     const timedOut =
       error?.name === "TimeoutError" || error?.name === "AbortError";
@@ -131,8 +138,14 @@ export default async function handler(req, res) {
     });
   }
 
-  const responseBody = await openAiResponse.json().catch(() => null);
   if (!openAiResponse.ok) {
+    // Release an unread error response without exposing provider diagnostics.
+    // Cleanup failure must not hide an authentication or rate-limit response.
+    try {
+      await openAiResponse.body?.cancel();
+    } catch {
+      // The HTTP status remains the authoritative recovery signal.
+    }
     if (openAiResponse.status === 401) {
       return res.status(401).json({ error: "OpenAI rejected this API key." });
     }
