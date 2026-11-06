@@ -2,22 +2,26 @@
 
 Status: draft materials; no Product Hunt publication or user study is claimed.
 Prepared for the 2026-11-05 launch-experience iteration; copy updated for the
-2026-11-06 consolidation into one 108-recipe meal library.
+2026-11-06 preference-first iteration on the unified 108-recipe library.
 
 MealHatch's proposed launch message is a small, complete meal-choice workflow:
-compare a few options, understand why they appeared and save one for later.
+compare a few options with current preferences first, understand why they
+appeared and save one for later. The design focus is Chinese adults in North
+America using English or Traditional Chinese; audience fit awaits user study.
 The meal library offers 108 defined recipes with portion estimates, preparation
 steps and inspectable numeric ranking. Food/drink source lookup is separate.
 
 - [Product Hunt copy, three gallery captions and short demo storyboard](./product-hunt-draft.md)
 - [Five-person usability protocol and empty results template](./usability-study.md)
-- [Implementation scope and actual verification status](../plans/13-launch-experience.md)
+- [Implementation scope and actual verification status](../plans/23-preference-first.md)
 
 ## Captured review assets
 
-The gallery screenshots and video below were recaptured locally on 2026-11-06
-for the unified 108-recipe collection. The social preview reflects the same
-scope. Recheck all assets against the final live build before publication;
+The gallery screenshots and video below were captured locally on 2026-11-06
+for the unified collection **before the preference-first iteration**. They show
+the previous additive ranking and need recapture before publication. The social
+preview describes the general workflow. Recheck all assets against the final
+live build before publication;
 none is evidence of published launch results:
 
 - [Choose a meal](./assets/01-choose-a-meal.png) — 1270 × 760.

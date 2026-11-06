@@ -1,8 +1,10 @@
 # Standard-recipe scoring policy
 
-Scoring authorization: 2026-11-04; collection expanded to 108 recipes on
-2026-11-06. The published-model scoring supersedes the previous preference-tier
-policy. Audience: general healthy adults choosing an ordinary meal from
+Published-model authorization: 2026-11-04. Preference-first ordering authorized
+2026-11-06, on the 108-recipe collection. This ordering supersedes the additive
+total ranking while retaining the published model and its detailed calculations.
+Ranking policy: `mealhatch-preference-first-2026-11-06-v1`.
+Audience: general healthy adults choosing an ordinary meal from
 explicitly authored recipes. Browsing the full collection does not alter the
 top-three ranking or bypass exclusions.
 
@@ -28,24 +30,26 @@ for recipe inputs. USDA composition values, separately derived model inputs,
 archived bytes, source hashes and ingredient replacements are documented in
 [the source record](./README.md) and [model-input provenance](./model-input-provenance.md).
 
-## Displayed components and total
+## Composition reference and preference calculations
 
 The nutrient and energy components retain the model's relative point weights:
 
 ```text
 Nutrient = credited C - saturated-fat A - free-sugar A - salt A
 Energy   = 10 - energy A
-Preference = sum of five product-defined bonuses, at most 10
-MealHatch total = Nutrient + Energy + Preference
-              = 10 - official NPM + Preference
+Nutrition reference = Nutrient + Energy = 10 - official NPM
+Current preference = sum of active current-meal groups (0 or 2 each)
+Saved preference = sum of active saved groups (0 or 2 each)
 ```
 
 The ten-point offset makes the energy contribution non-negative without
 changing ordering. It is not an additional nutrition benefit. Energy is
 arithmetically counted once; the published protein gate still depends on full
 A. Nutrient contributions can be negative. None of these numbers is a percent,
-a score out of 100, a measure of essentiality or an official combined health
-grade. The UI keeps the original official model result visible in details.
+a score out of 100, a measure of essentiality or a personal health grade.
+The UI retains the original official model result, all seven input rows and
+their bands, the protein gate and the component formulas in details. Energy
+remains a model input, not an additional low-calorie or weight-loss bonus.
 
 The model uses energy bands: lower energy can have equal points within a band.
 Per-100-g energy describes energy density, not whole-meal calories or whether
@@ -56,7 +60,7 @@ nutrient estimates. [WHO healthy-diet guidance](https://www.who.int/news-room/fa
 frames healthy diets around adequacy, balance, moderation and diversity; the
 app does not turn a lower-energy ranking into a universal health claim.
 
-## Preference bonuses: MealHatch product rules
+## Preference groups: MealHatch product rules
 
 Each group contributes either zero or two points; each group is capped at two.
 No unspecified preference earns points. These weights and operational cutoffs
@@ -66,11 +70,18 @@ are product choices, not validated scientific recommendations.
 | --- | --- |
 | This-meal staple | The explicitly selected staple matches the recipe. |
 | This-meal cuisine | The explicitly selected cuisine group matches. |
-| Preparation | A request for less added oil matches at most 1 g listed added oil per 100 g, or a request for less effort matches at most 10 estimated assembly minutes. The current preparation request takes priority; a saved light-meal request is used only without a current request. The same preparation preference cannot earn twice. |
+| Preparation | A request for less added oil matches at most 1 g listed added oil per 100 g, or a request for less effort matches at most 10 estimated assembly minutes. If ingredients still need preparation, assembly time cannot earn a less-effort match because total time is unknown. The current preparation request takes priority; a saved light-meal request is used only without a current request. The same preparation preference cannot earn twice. |
 | Saved meal style | At least one supported saved style matches structured recipe/catalog facts; additional matches do not stack. |
 | Requested nutrient direction | An explicit more-protein request matches over 8.5 g protein per 100 g, or an explicit more-vegetables-and-beans request matches over 40% eligible FVNS. Both together still earn at most two. |
 
-The final group deliberately gives an extra personal preference bonus to an
+Staple and cuisine belong to the current-meal group. Preparation belongs to
+current-meal preferences when explicitly selected there; its saved fallback
+belongs to saved preferences. Saved styles and nutrient directions belong to
+saved preferences. A summary counts matched versus selected groups, not a
+percentage of nutritional adequacy; an unset group earns nothing. The five
+group contributions still sum to at most 10, but that sum is not the ranking.
+
+The final group deliberately expresses a personal preference for an
 already represented composition characteristic. It is disclosed as such, not
 presented as a second independent scientific finding. FVNS includes qualifying
 pulses and is not identical to a serving of vegetables. Thresholds for the bonus
@@ -87,19 +98,31 @@ deficit or a stimulant recommendation.
 2. Require complete matching ingredient identity/state/weight and all model
    inputs. Unknown is not zero; incomplete recipes are excluded from scoring
    with an evidence reason. Preserve other nutrient unknowns in the display.
-3. Calculate each eligible recipe's same total and return its highest three.
-   Explicit preference tiers cannot secretly override a better total.
-4. Resolve exact total ties using recognized protein/staple variation across
+3. Compare current-meal preference points first, then saved preference points,
+   then nutrition reference. Compare each value only after the preceding value
+   ties; do not add them or present an invented scientific percentage weight.
+   Return the first three, or fewer if there are fewer eligible candidates.
+   Matching every active current group beats a partial match. Explain actual
+   mismatches when alternatives require compromise; never relax a hard avoid.
+4. Only when all three values tie, use recognized protein/staple variation across
    today and the preceding six local calendar dates. Deduplicate aliases within
    each meal slot; compare protein repeat counts, then staple repeat counts,
    then recency, earlier-alternative variety and stable recipe ID.
    No missing meal is treated as a nutrient deficit. The trace includes every
-   eligible candidate total, recorded/recognized coverage, actual tie reasons
+   eligible candidate's priority tuple and ranking-policy version,
+   recorded/recognized coverage, actual tie reasons
    and the dated food records used. This is a product variety rule, not a
    nutrition score adjustment. Unknown records do not establish absence.
 5. An explicit portion takes priority over hunger. Otherwise hunger suggests
    0.75x, 1x or 1.25x of every ingredient. These are editable product choices,
    not official serving sizes, energy needs or fullness predictions.
+
+Ingredient readiness is a current-meal condition: unspecified, prepared, or
+still needing preparation. Unspecified/ready use the explicitly labeled
+assembly-time limit. When preparation remains, full time is unknown and cannot
+meet a required time limit. Without a limit the recipe remains browsable with
+a clear qualification. No raw-start duration, inventory or ingredient
+availability is inferred.
 
 The current meal library contains only the 108 defined recipes. Legacy ideas
 are retained for old saved plans and do not fill vacancies in the scored list.
@@ -117,10 +140,12 @@ recipe as heavy, use a compatibility placeholder, or silently relax an avoid.
 
 ## Presentation, persistence and upkeep
 
-Show nutrient, energy and preference contributions plus the actual ranking
-total as compact numbers. Put formula, per-100-g inputs, points, thresholds,
-protein gate, preference reasons, tie handling and source links in one
-collapsed scoring explanation. Show whole-portion kcal/protein/fibre/weight
+Lead with actual current preference/preparation reasons and the choose action.
+Show compact current match counts and a composition reference separately.
+Keep every formula, per-100-g input, point, threshold, protein gate, preference
+contribution/reason, tie explanation and source derivation/link inside one
+scoring disclosure that is closed by default and keyboard-operable. No scoring
+detail is removed for visual simplification. Show whole-portion kcal/protein/fibre/weight
 separately, with further nutrition and exact recipe ingredients collapsed.
 
 Plans retain recipe version and portion. Unversioned legacy plans keep their

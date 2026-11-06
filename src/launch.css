@@ -1469,13 +1469,38 @@ details[open] > summary::after {
 }
 .recipe-option-facts {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1.3fr);
-  gap: 10px;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 6px;
   width: 100%;
   margin: auto 0 0;
   padding-top: 12px;
   border-top: 1px solid #dfe6e0;
   text-align: left;
+}
+.option-card .recipe-option-match,
+.option-card .recipe-option-reason {
+  white-space: normal;
+  font-size: 0.75rem;
+  line-height: 1.5;
+}
+.option-card .recipe-option-match { color: #205641; font-weight: 600; }
+.recipe-fit-summary { margin: 14px 0 18px; }
+.recipe-fit-reasons { margin: 8px 0; padding-left: 20px; font-size: 0.9rem; line-height: 1.5; }
+.recipe-fit-reasons li + li { margin-top: 5px; }
+.recipe-fit-mismatches p { margin: 6px 0; }
+.meal-card-download { margin: 10px 0 4px; }
+.score-match-groups { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin: 16px 0; }
+.score-match-groups dt { font-weight: 600; }
+.score-match-groups dd { margin: 4px 0 0; }
+.preference-row-scope { display: block; margin-top: 5px; color: #627467; font-size: 0.72rem; }
+.preference-row-values { margin: 10px 0; }
+.preference-row-values div { margin-top: 5px; }
+.preference-row-values dt { font-weight: 600; }
+.preference-row-values dd { margin: 2px 0 0; }
+.score-ranking-version { overflow-wrap: anywhere; }
+.score-table-hint { display: none; color: #627467; }
+@media (max-width: 600px) {
+  .score-table-hint { display: block; }
 }
 .recipe-option-fact {
   display: flex;

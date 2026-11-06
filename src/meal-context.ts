@@ -7,11 +7,12 @@ export type MealContext = {
   preferredStaple: "any" | "rice" | "noodles" | "bread" | "potato" | "other" | "none";
   cuisine: "any" | "asian" | "western";
   maxPrepMinutes: number | null;
+  ingredientReadiness: "unspecified" | "ready" | "needs-prep";
 };
 
 export const defaultMealContext: MealContext = {
   hunger: "unspecified", appetite: "unspecified", temperature: "any",
-  preferredStaple: "any", cuisine: "any", maxPrepMinutes: null,
+  preferredStaple: "any", cuisine: "any", maxPrepMinutes: null, ingredientReadiness: "unspecified",
 };
 
 export type ContextMealMetadata = {
@@ -25,6 +26,7 @@ export const normalizeMealContext = (context?: Partial<MealContext>): MealContex
   ...defaultMealContext, ...context,
   maxPrepMinutes: typeof context?.maxPrepMinutes === "number" && Number.isFinite(context.maxPrepMinutes) && context.maxPrepMinutes >= 0
     ? context.maxPrepMinutes : null,
+  ingredientReadiness: context?.ingredientReadiness === "ready" || context?.ingredientReadiness === "needs-prep" ? context.ingredientReadiness : "unspecified",
 });
 
 export const requiresWarmMeal = (profile: Profile, context?: Partial<MealContext>) =>
@@ -33,7 +35,10 @@ export const requiresWarmMeal = (profile: Profile, context?: Partial<MealContext
 export const getContextExclusions = (profile: Profile, context: MealContext, metadata: ContextMealMetadata): string[] => {
   const exclusions: string[] = [];
   if (requiresWarmMeal(profile, context) && metadata.temperature !== "warm") exclusions.push("warm-temperature-not-confirmed");
-  if (context.maxPrepMinutes !== null && (metadata.prepMinutes === null || metadata.prepMinutes > context.maxPrepMinutes)) exclusions.push("preparation-budget-not-confirmed");
+  if (context.maxPrepMinutes !== null) {
+    if (context.ingredientReadiness === "needs-prep") exclusions.push("preparation-total-time-unknown");
+    else if (metadata.prepMinutes === null || metadata.prepMinutes > context.maxPrepMinutes) exclusions.push("preparation-budget-not-confirmed");
+  }
   return exclusions;
 };
 

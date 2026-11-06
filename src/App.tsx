@@ -5,6 +5,7 @@ import { Drawer } from "./Drawer";
 import {
   HistoryGrid,
   RecipeOptionFacts,
+  RecipeFitSummary,
 } from "./DashboardInsights";
 import { MealContextControls } from "./MealContextControls";
 import { getRecipeStapleAvailability } from "./collection-availability";
@@ -530,8 +531,8 @@ function PreferenceControls({
         <p className="small muted">
           {t(
             locale,
-            "These preferences can affect recipe scores. Beans count toward the model's plant component.",
-            "這些偏好可以影響配方分數；豆類也計入模型的植物食材項。",
+            "Saved preferences are compared after this meal’s choices. Beans count toward the model's plant component.",
+            "先比較本餐條件，再比較這些已存偏好；豆類也計入模型的植物食材項。",
           )}
         </p>
         <div className="chip-list">
@@ -1367,8 +1368,8 @@ export default function App() {
             <p className="muted">
               {t(
                 locale,
-                `Find your next meal among ${recipeCount} recipes. Compare portions, ingredients and clear scores. No account needed.`,
-                `從 ${recipeCount} 道配方挑選下一餐，比較份量、食材與明確分數。免註冊即可用。`,
+                `Find your next meal among ${recipeCount} recipes. Your preferences first, nutrition as a reference. No account needed.`,
+                `從 ${recipeCount} 道日常配方挑選下一餐。先看你的偏好，再參考營養。免註冊即可用。`,
               )}
             </p>
           </div>
@@ -1623,8 +1624,8 @@ export default function App() {
                   <span>
                     {t(
                       locale,
-                      "Example records reduce repeats only when totals tie",
-                      "僅在總分相同時，參考範例紀錄減少重複",
+                      "Example records reduce repeats only when preference matches and nutrition references tie",
+                      "本餐偏好、已存偏好與營養參考皆相同時，才以範例紀錄減少重複",
                     )}
                   </span>
                 </div>
@@ -1641,8 +1642,12 @@ export default function App() {
                   <p>
                     {t(
                       locale,
-                      "Your avoided items and strict meal conditions remain applied. Review this meal’s temperature and time limits, or inspect the recipes in the library.",
-                      "避開項目與本餐必要條件仍維持套用。可檢查溫度、時間上限，或到資料庫查看配方。",
+                      mealContext.ingredientReadiness === "needs-prep" && mealContext.maxPrepMinutes !== null
+                        ? "Your ingredients still need preparation, but full cooking time is unknown. Remove the time limit or return when ingredients are ready. Your avoids remain applied."
+                        : "Your avoided items and strict meal conditions remain applied. Review this meal’s temperature and time limits, or inspect the recipes in the library.",
+                      mealContext.ingredientReadiness === "needs-prep" && mealContext.maxPrepMinutes !== null
+                        ? "食材仍需處理或烹調，但目前沒有完整烹調時間資料。請移除時間上限，或等食材備妥後再選餐；避開設定仍維持套用。"
+                        : "避開項目與本餐必要條件仍維持套用。可檢查溫度、時間上限，或到資料庫查看配方。",
                     )}
                   </p>
                   <button
@@ -1667,23 +1672,11 @@ export default function App() {
                         {t(locale, "STANDARD RECIPE", "標準配方")}
                       </span>
                       <span>{activePresentation.cuisine}</span>
-                      <span>
-                        {t(
-                          locale,
-                          `Est. ${pilotActive.recipe.prepMinutes} min assembly`,
-                          `備好食材後約 ${pilotActive.recipe.prepMinutes} 分鐘組合`,
-                        )}
-                      </span>
                     </div>
                     <h3>
                       {pilotActive.recipe.label[locale]}
                     </h3>
-                    <p className="feature-reason">
-                      {t(locale,
-                        `Top ${pilot.recommendations.length} by total · ${pilot.candidateCount} eligible ${pilot.candidateCount === 1 ? "recipe" : "recipes"}`,
-                        `依總分選出前 ${pilot.recommendations.length} 名 · 共 ${pilot.candidateCount} 道符合條件配方`,
-                      )}
-                    </p>
+                    <RecipeFitSummary rec={pilotActive} locale={locale} />
                     <div className="feature-actions">
                       <button
                         type="button"
@@ -1702,17 +1695,14 @@ export default function App() {
                           ? t(locale, "Saved to plans", "已儲存到計畫")
                           : t(locale, "Choose this meal", "就選這道")}
                       </button>
-                      <button
-                        type="button"
-                        className="button quiet full-width"
-                        onClick={share}
-                        disabled={sharing}
-                      >
-                        {sharing
-                          ? t(locale, "Preparing card…", "製作小卡中…")
-                          : t(locale, "Download meal card", "下載選餐小卡")}
-                      </button>
+                      <button type="button" className="button quiet full-width" disabled={displayedMeals.length < 2} onClick={() => {
+                        setSelected(index => (index + 1) % displayedMeals.length);
+                        setMessage(t(locale, "Showing another option. Your meal records stay the same.", "已切換比較選項，你的餐點紀錄不變。"));
+                      }}>{t(locale, "Show another option", "換一道看看")}</button>
                     </div>
+                    <button type="button" className="text-button meal-card-download" onClick={share} disabled={sharing}>
+                      {sharing ? t(locale, "Preparing card…", "製作小卡中…") : t(locale, "Download meal card", "下載選餐小卡")}
+                    </button>
                     <RecipeDetails recipe={pilotActive.recipe} portion={pilotActive.portion} calculation={pilotActive} recommendation={pilotActive} locale={locale} />
                   </div>
                   {displayedMeals.length > 1 && (
@@ -2698,8 +2688,8 @@ export default function App() {
             <p>
               {t(
                 locale,
-                "Recipes use stated edible ingredient weights and pinned USDA records. UK NPM 2018 compares composition per 100 g; MealHatch separates its nutrient and energy contributions, adds a disclosed preference bonus, and selects the three highest totals after strict exclusions. The combined total is a product ranking, not an official health grade or a measure of every vitamin and mineral. Lower energy density can tie within model bands and does not guarantee a lower-energy whole portion. Required missing data prevents scoring. Hunger suggests an editable recipe portion, not calorie needs or predicted satiety. The same recipes appear in recommendations and the recipe library. This version is for general healthy adults, without individual adequacy or medical recommendations.",
-                "配方以明確可食重量及固定 USDA 紀錄計算。UK NPM 2018 統一比較每 100 克的營養組成；MealHatch 拆開顯示營養與熱量項，加上公開的偏好加分，套用必要排除後取總分最高三名。綜合分數是產品排序，並非官方健康等級，也未評估所有維生素與礦物質。模型採熱量級距，因此可能同分；較低能量密度不保證整份熱量較低。必要資料缺漏時不計分。飢餓感只建議可修改的配方份量，不推算熱量需求或飽足感。推薦與配方資料庫使用同一份配方。本版適用一般健康成人，不評估個人營養充足度或提供醫療建議。",
+                "Designed for Chinese adults in North America, in English and Traditional Chinese. MealHatch helps choose a daily meal without grading eating habits or setting weight-loss goals. After ingredient and strict meal-condition exclusions, recipes are compared in order: current-meal preference groups, saved preference groups, then the nutrition reference. The reference is nutrient contribution + energy contribution = 10 minus the raw UK NPM 2018 result per 100 g; preference points are not added to it. Only ties in all three stages use recognized records for variety, then alternative variety and a stable ID. These ordering choices are product rules, not scientific weights or a health grade. All model inputs, thresholds, protein conditions, preference points and sources remain in each recipe’s calculation details. Times describe assembly with prepared ingredients; full cooking time is unknown. Hunger suggests an editable portion, not calorie needs or predicted fullness. Recommendations and the library use the same recipes. This version supports general healthy adults’ daily meal choices, without individual adequacy or medical recommendations.",
+                "為北美華人成年人的日常選餐設計，提供英文與繁體中文；不評論飲食習慣，也不設定減重目標。先排除避開項目與不符合必要條件的配方，再依序比較本餐偏好群組、已存偏好群組、營養參考值。營養參考值＝營養項＋熱量項＝10－每 100 克 UK NPM 2018 原始分數，偏好點數不加進營養。前三個比較階段皆相同時，才依具名紀錄減少重複，再以其他選項的多樣性與固定 ID 排序。這些先後順序是產品規則，並非科學權重或健康等級。所有模型輸入、門檻、蛋白質計分條件、偏好點數與來源都保留於各配方的計算明細。時間只描述備妥食材後的組合，完整烹調時間未知。飢餓感只建議可調整的份量，不推算熱量需求或飽足感。推薦與資料庫使用同一份配方，協助一般健康成人日常選餐，不評估個人營養充足度或提供醫療建議。",
               )}
             </p>
             <p>

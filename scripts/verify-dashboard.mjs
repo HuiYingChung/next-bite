@@ -65,7 +65,7 @@ const hasClass = (node, name) =>
   typeof node.props?.className === "string" &&
   node.props.className.split(" ").includes(name);
 
-const { HistoryGrid, RecipeOptionFacts } = loadSource(
+const { HistoryGrid, RecipeOptionFacts, RecipeFitSummary, recipeMatchLabel } = loadSource(
   "src/DashboardInsights.tsx",
 );
 const { createBlankState, createEmptyMeal, mealNames, recommendationDataset } =
@@ -280,7 +280,7 @@ for (const locale of ["en", "zh"]) {
     assert.strictEqual(nested[0].props.trace, rec.trace.variety);
     const scoreHtml = renderToStaticMarkup(scoreTree);
     assert.equal((scoreHtml.match(/class="history-basis"/g) ?? []).length, 1);
-    assert.equal(content(elements(scoreTree, node => hasClass(node, "recommendation-score-total"))[0]), String(rec.score.total));
+    assert.equal(content(elements(scoreTree, node => hasClass(node, "recommendation-score-total"))[0]), String(rec.score.nutritionReference));
   }
   assert.equal(JSON.stringify(ranked), before, "Rendering keeps engine order, totals and evidence unchanged.");
   verifyHistoryBasis(unchanged.recommendations[0].trace.variety, locale);
@@ -334,10 +334,20 @@ function verifyScorePanel(rec, locale) {
   }
   const { model } = rec.score;
   assert.equal(model.status, "complete");
-  assert.equal(content(elements(tree, (node) => hasClass(node, "recommendation-score-total"))[0]), scoreNumber(rec.score.total, locale));
+  assert.equal(content(elements(tree, (node) => hasClass(node, "recommendation-score-total"))[0]), scoreNumber(rec.score.nutritionReference, locale));
   for (const key of ["nutrient", "energy", "preference"]) assert.equal(content(elements(tree, (node) => hasClass(node, `score-${key}`))[0]), scoreNumber(rec.score[key], locale, true));
-  assert.equal(rec.score.total, rec.score.nutrient + rec.score.energy + rec.score.preference);
-  assert.equal(rec.score.total, 10 - model.rawScore + rec.score.preference);
+  assert.equal(tree.type, "details", "The entire scoring receipt is one native disclosure");
+  assert.ok(!tree.props.open, "All scoring starts collapsed");
+  assert.equal(rec.score.nutritionReference, rec.score.nutrient + rec.score.energy);
+  assert.equal(rec.score.nutritionReference, 10 - model.rawScore);
+  assert(content(tree).includes(rec.trace.rankingPolicy.version));
+  assert.equal(elements(tree, node => hasClass(node, "score-ranking-order"))[0].props.children.length, rec.trace.rankingPolicy.order.length);
+  for (const scope of ["current", "saved"]) {
+    const fit = rec.score[`${scope}Preference`];
+    const summary = content(elements(tree, node => hasClass(node, `score-${scope}-fit`))[0]);
+    assert(summary.includes(fit.selected ? `${fit.points}/${fit.possible}` : scope === "saved" ? locale === "en" ? "No active saved preference groups" : "目前沒有參與排序的已存偏好" : locale === "en" ? "No current-meal preferences selected" : "未選擇本餐偏好"));
+    assert(!summary.includes("0/0"));
+  }
   const disclosures = elements(tree, (node) => node.type === "details");
   assert.equal(disclosures.length, 2, "Keep one main calculation disclosure and a separate nested source disclosure.");
   assert.ok(disclosures.every((node) => !node.props.open));
@@ -360,7 +370,7 @@ function verifyScorePanel(rec, locale) {
   assert.ok(content(elements(tree, (node) => hasClass(node, "score-rounding-note"))[0]).includes(locale === "en" ? "bands use unrounded calculations" : "門檻以未取整計算值判定"));
   const preferenceRows = elements(tree, (node) => hasClass(node, "score-preference-row"));
   assert.equal(preferenceRows.length, rec.score.preferenceRows.length);
-  assert.deepEqual(preferenceRows.map((row) => content(elements(row, (node) => node.type === "th")[0])), rec.score.preferenceRows.map((row) => row.label));
+  assert.deepEqual(preferenceRows.map((row) => content(elements(row, (node) => hasClass(node, "preference-row-label"))[0])), rec.score.preferenceRows.map((row) => row.label));
   assert.deepEqual(preferenceRows.map((row) => content(elements(row, (node) => hasClass(node, "contribution-note"))[0])), rec.score.preferenceRows.map((row) => row.note));
   assert.deepEqual(preferenceRows.map((row) => content(elements(row, (node) => hasClass(node, "contribution-points"))[0])), rec.score.preferenceRows.map((row) => scoreNumber(row.points, locale, true)));
   const raw = content(elements(tree, (node) => hasClass(node, "score-official-raw"))[0]);
@@ -389,7 +399,7 @@ function verifyScorePanel(rec, locale) {
   assert.ok(content(tree).includes(rec.score.basis.note));
   const inputBasis = elements(tree, (node) => hasClass(node, "score-input-basis"))[0];
   assert.ok(content(sourceDetails[0]).includes(locale === "en" ? "unknown USDA added-sugar field" : "未知的 USDA 添加糖欄位"));
-  assert.ok(content(sourceDetails[0]).includes(locale === "en" ? "dataset level" : "資料集方法紀錄"));
+  assert.ok(content(sourceDetails[0]).includes(locale === "en" ? "dataset level" : "資料集"));
   assert.ok(content(sourceDetails[0]).includes("2.5"));
   assert.equal(content(tree).split(rec.score.basis.note).length - 1, 1, "Show the model summary exactly once.");
   assert.equal(elements(inputBasis, (node) => hasClass(node, "score-input-note")).length, new Set(rec.score.inputBasis.map((input) => input.note)).size, "Repeat identical ingredient assumptions once while retaining every food label.");
@@ -410,25 +420,14 @@ function verifyRecipeOptionFacts(rec, locale) {
   assert.equal(tree.type, "span");
   assert.ok(hasClass(tree, "recipe-option-facts"));
   assert.equal(elements(tree, (node) => typeof node.type === "string" && node.type !== "span").length, 0, "Facts must remain phrasing content for the enclosing option button.");
-  assert.equal(elements(tree, (node) => hasClass(node, "recipe-option-fact")).length, 4);
-  assert.deepEqual(
-    elements(tree, (node) => hasClass(node, "recipe-option-label")).map(content),
-    locale === "en" ? ["Ranking total", "Portion energy", "Portion protein", "Assembly (ingredients ready)"] : ["排序總分", "本份熱量", "本份蛋白質", "組裝（食材已備妥）"],
-  );
-  assert.deepEqual(
-    elements(tree, (node) => hasClass(node, "recipe-option-value")).map(content),
-    [
-      rec.score ? new Intl.NumberFormat(locale === "en" ? "en-US" : "zh-TW", { maximumFractionDigits: 2 }).format(rec.score.total) : locale === "en" ? "Unavailable" : "無法計分",
-      expectedNutritionValue(rec.nutrition.kcal, "kcal", locale),
-      expectedNutritionValue(rec.nutrition.protein, "g", locale),
-      locale === "en" ? `About ${rec.recipe.prepMinutes} min` : `約 ${rec.recipe.prepMinutes} 分鐘`,
-    ],
-    "Comparisons must use actual selected-portion totals and mark assembly time approximate.",
-  );
-  for (const fact of elements(tree, (node) => hasClass(node, "recipe-option-fact"))) {
-    const label = content(elements(fact, (node) => hasClass(node, "recipe-option-label"))[0]);
-    const value = content(elements(fact, (node) => hasClass(node, "recipe-option-value"))[0]);
-    assert.equal(content(fact), `${label} ${value}`, "Each button fact must retain its label and value as separate readable words.");
+  assert.equal(content(elements(tree, node => hasClass(node, "recipe-option-match"))[0]), recipeMatchLabel(rec, locale));
+  assert.deepEqual(elements(tree, node => hasClass(node, "recipe-option-reason")).map(content), (rec.score && rec.score.currentPreference.selected + rec.score.savedPreference.selected > 0 ? rec.matchReasons.slice(0, 2) : rec.matchReasons.slice(1, 3)), "Alternative cards use actual fit facts without presenting the old sum as rank");
+  assert(!content(tree).includes(locale === "en" ? "Ranking total" : "排序總分"));
+  if (rec.score) {
+    const summary = RecipeFitSummary({ rec, locale });
+    assert.equal(elements(summary, node => hasClass(node, "recipe-match-count")).length, rec.score.currentPreference.selected + rec.score.savedPreference.selected > 0 ? 1 : 0, "Do not repeat the no-preference explanation in a separate count line");
+    assert.deepEqual(elements(elements(summary, node => hasClass(node, "recipe-fit-reasons"))[0], node => node.type === "li").map(content), rec.matchReasons.slice(0, 3));
+    for (const reason of rec.mismatchReasons) assert(content(summary).includes(reason));
   }
   assert.ok(!/health score|健康分數|\/\s*100\s*%/i.test(content(tree)), "The product ranking total cannot become a health-score percentage.");
   assert.equal(elements(tree, (node) => ["svg", "canvas", "meter", "progress"].includes(node.type) || node.props?.style || /(?:^|[ -])(bar|track|chart)(?:$|[ -])/.test(node.props?.className ?? "")).length, 0);
@@ -541,7 +540,11 @@ for (const locale of ["en", "zh"]) {
   const actual = recommendPilotMeals(state.profile, defaultMealContext, locale, now);
   assert.ok(actual.recommendations.length > 0, "Render recommendations selected by the actual pilot kernel.");
   assert.deepEqual(actual.recommendations.map((rec) => rec.meal.id), actual.trace.candidateScores.slice(0, 3).map((candidate) => candidate.mealId), "The rendered choices must follow the actual total-ranked candidates.");
-  assert.ok(actual.trace.candidateScores.every((candidate, index, candidates) => index === 0 || candidates[index - 1].score.total >= candidate.score.total), "No hidden variety adjustment may outrank a larger actual total.");
+  assert.ok(actual.trace.candidateScores.every((candidate, index, candidates) => {
+    if (!index) return true;
+    const a = candidates[index - 1].score, b = candidate.score;
+    return a.currentPreference.points > b.currentPreference.points || a.currentPreference.points === b.currentPreference.points && (a.savedPreference.points > b.savedPreference.points || a.savedPreference.points === b.savedPreference.points && a.nutritionReference >= b.nutritionReference);
+  }), "Rendered choices preserve current, saved, then nutrition priority");
   assert.ok(actual.recommendations.every((rec) => rec.score.preference === 0), "Unselected preferences do not receive invented bonus points.");
   for (const appetite of ["small", "regular", "large"]) {
     const portionResult = recommendPilotMeals(state.profile, { ...defaultMealContext, appetite }, locale, now);
@@ -563,13 +566,13 @@ for (const locale of ["en", "zh"]) {
     const fullDetails = renderToStaticMarkup(require("react").createElement(RecipeDetails, {
       recipe: option.recipe, portion: option.portion, calculation: option, recommendation: option, locale,
     }));
-    assert.equal((fullDetails.match(/class="recommendation-score"/g) ?? []).length, 1);
+    assert.equal((fullDetails.match(/class="recommendation-score score-receipt"/g) ?? []).length, 1);
     assert.equal((fullDetails.match(/class="nutrition-details"/g) ?? []).length, 1);
     assert(fullDetails.includes(locale === "en" ? "Make it happen" : "接下來怎麼準備"));
     const inspectOnly = renderToStaticMarkup(require("react").createElement(RecipeDetails, {
       recipe: option.recipe, portion: option.portion, calculation: option, locale,
     }));
-    assert(!inspectOnly.includes('class="recommendation-score"'),
+    assert(!inspectOnly.includes('class="recommendation-score score-receipt"'),
       "Inspecting an excluded recipe must not fabricate eligibility or a ranking trace");
     assert(inspectOnly.includes('class="nutrition-details"'),
       "Ingredient weights and source estimates remain inspectable without eligibility");
@@ -663,10 +666,10 @@ console.log(
       actualRecipeComparisons: comparisonFactsChecked,
       actualScorePanels: scorePanelsChecked,
       missingScorePanels: missingScorePanelsChecked,
-      threeComponentsSumToActualRankingTotal: true,
+      nutritionComponentsSeparateFromPreferencePriority: true,
       officialRawModelAndCustomTotalSeparated: true,
       officialThresholdBandsAndProteinGateVisible: true,
-      rankedTotalControlsTopThree: true,
+      preferencePriorityControlsTopThree: true,
       per100gScoreStableWhilePortionFactsScale: true,
       unsetAndUnmatchedZeroPreferencesDistinct: true,
       modelInputDerivationsInspectable: true,

@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { Drawer } from "./Drawer";
 import { RecipeDetails } from "./RecipeDetails";
+import { RecipeFitSummary, recipeMatchLabel } from "./DashboardInsights";
 import { getPortionPreference } from "./meal-context";
 import type { MealContext } from "./meal-context";
 import { calculateRecipe } from "./nutrition";
@@ -27,6 +28,8 @@ function exclusionText(exclusion: PilotResult["trace"]["exclusions"][number] | u
   if (exclusion?.stage === "context") return exclusion.reasons.map(reason =>
     reason === "warm-temperature-not-confirmed"
       ? text(locale, "Does not meet the warm-meal condition.", "不符合溫熱餐點條件。")
+      : reason === "preparation-total-time-unknown"
+        ? text(locale, "Ingredients still need preparation, but full cooking time is unknown. Remove the time limit or return when ingredients are ready.", "食材仍需處理，但完整烹調時間未知。請移除時間上限，或等食材備妥後再選餐。")
       : text(locale, "Does not meet the preparation-time limit.", "不符合準備時間上限。"),
   ).join(" ");
   return text(locale, "Required recipe or scoring data are incomplete.", "必要配方或計分資料不完整。");
@@ -74,8 +77,8 @@ export function RecipeLibrary({ result, context, locale, plans, busy, onPortionC
   return <section className="panel recipe-library" aria-labelledby="recipe-library-title">
     <h2 id="recipe-library-title" tabIndex={-1}>{text(locale, `${standardizedRecipes.length} recipes with nutrition & portions`, `${standardizedRecipes.length} 道附營養與份量配方`)}</h2>
     <p className="muted">{text(locale,
-      "Browse every recipe, including those outside the top three. Scores use your current preferences; excluded recipes can be inspected but cannot be chosen.",
-      "可查看全部配方，包含前三名之外的選項。分數採用你目前的偏好；被排除的配方仍可查看，但無法選入計畫。",
+      "Browse every recipe, including those outside the three suggestions. Your current preferences come first; excluded recipes can be inspected but cannot be chosen.",
+      "可查看全部配方，包含三道建議之外的選項。優先依本餐偏好排序；被排除的配方仍可查看，但無法選入計畫。",
     )}</p>
     <div className="recipe-library-controls">
       <label>{text(locale, "Find a recipe or ingredient", "搜尋配方或食材")}
@@ -95,9 +98,9 @@ export function RecipeLibrary({ result, context, locale, plans, busy, onPortionC
       {recipes.map(recipe => {
         const option = eligible.get(recipe.mealId);
         return <article key={recipe.mealId} className="recipe-library-card">
-          <p className="small muted">{option ? text(locale, `Rank ${option.rank} · total ${option.recipe.score.total}`, `第 ${option.rank} 名 · 總分 ${option.recipe.score.total}`) : text(locale, "Excluded under current conditions", "目前條件下已排除")}</p>
+          <p className="small muted">{option ? recipeMatchLabel(option.recipe, locale) : text(locale, "Excluded under current conditions", "目前條件下已排除")}</p>
           <h3>{recipe.label[locale]}</h3>
-          <p className="small muted">{text(locale, `Est. ${recipe.prepMinutes} min assembly with prepared ingredients`, `食材備妥後，約 ${recipe.prepMinutes} 分鐘組合`)}</p>
+          <p className="small muted">{context.ingredientReadiness === "needs-prep" ? text(locale, "Full preparation and cooking time unknown", "完整處理與烹調時間未知") : text(locale, `Est. ${recipe.prepMinutes} min assembly with prepared ingredients`, `食材備妥後，約 ${recipe.prepMinutes} 分鐘組合`)}</p>
           <button type="button" className="button quiet" aria-haspopup="dialog" aria-label={text(locale, `View recipe: ${recipe.label.en}`, `查看配方：${recipe.label.zh}`)} onClick={() => { setSelectedId(recipe.mealId); setSaveMessage(""); }}>
             {text(locale, "View recipe", "查看配方")}
           </button>
@@ -111,6 +114,7 @@ export function RecipeLibrary({ result, context, locale, plans, busy, onPortionC
           "Portions scale the listed recipe. They do not estimate your energy needs; per-100-g scores stay the same.",
           "份量依列出的配方等比例調整，不推算個人熱量需求；每百克分數維持相同。",
         )}</p>
+        {selectedOption && <RecipeFitSummary rec={selectedOption} locale={locale} />}
         {!selectedOption && <p className="notice" role="status">{exclusionText(exclusions.get(selectedRecipe.mealId), locale)}</p>}
         <button type="button" className="button primary full-width" disabled={busy || !selectedOption} onClick={async () => {
           if (!selectedOption) return;

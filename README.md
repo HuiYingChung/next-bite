@@ -10,9 +10,11 @@ for compatibility.
 
 **Less deciding. More eating.**
 
-MealHatch helps you choose your next meal from your preferences, current plans,
-and recent food records. Compare a few options, inspect why they appeared, and
-save a meal plan or record what you actually ate.
+MealHatch helps Chinese adults in North America choose their next meal, with
+what they want to eat taking priority and sourced nutrition as a reference.
+Compare a few options, inspect why they appeared, and save a meal plan or
+record what you actually ate. It does not grade eating habits or set weight-loss
+goals. This audience is a design focus, not a claim of validated cultural fit.
 
 The beta supports **English and Traditional Chinese**, with no account required.
 The main workflow runs in the browser with deterministic recommendation rules.
@@ -24,8 +26,9 @@ Optional AI helps organize a meal description before you review it.
    visit starts with your own empty records; no meal logging is required first.
    An explicitly labeled example remains available to explore separately.
 2. Change the meal preferences, inspect stated portions, nutrient estimates and
-   numeric ranking details. Availability is shown when a selected staple cannot
-   be matched. Browse every
+   numeric ranking details, collapsed by default. Set whether ingredients are
+   ready; assembly estimates are not full cooking times. Availability is shown
+   when preferences cannot be matched. Browse every
    detailed recipe in **Meal library → Recipes**, including options outside the
    top three; current exclusions still apply when choosing a meal.
 3. Download a meal card or record what you actually ate. Add foods manually,
@@ -53,24 +56,41 @@ available only through existing plans, without invented nutrition estimates.
 
 ## How recommendations work
 
-The recommender first applies ingredient avoids and strict meal conditions,
-then ranks eligible recipes with complete inputs by:
+The recommender first applies ingredient avoids, strict meal conditions and
+evidence completeness. It compares eligible recipes in this explicit order:
 
 ```text
-MealHatch total = nutrient component + energy component + preference component
-              = 10 - raw UK NPM 2018 score + product preference bonuses
+1. Current-meal preference points (higher first)
+2. Saved preference points (higher first)
+3. Nutrition reference = nutrient component + energy component
+                       = 10 - raw UK NPM 2018 score (higher first)
+4. Recent-record variety, offered-option variety, then stable recipe ID
 ```
 
-Composition is compared per **100 g of edible recipe weight**. Energy contributes
-once to the total; recipe preference bonuses are capped at 10. The combined
-total is MealHatch's product ranking, with the published model result and custom
-rules separately inspectable. It is not a percentage or an official health grade.
+Each preference group contributes 0 or 2 product points. A stronger current-meal
+match takes priority over saved preferences and composition; nutrition cannot
+cancel that preference by adding more points. These are product priorities, not
+scientific percentage weights. Unmatched soft preferences remain visible and do
+not bypass hard exclusions. No selected preferences means composition leads.
 
-The highest three eligible totals are shown, or fewer when exclusions leave
-fewer candidates. **Only exact-total ties use seven-day history**: recognized
+Composition is compared per **100 g of edible recipe weight**, with energy
+counted once within the unchanged published model. It is not a percentage,
+official health grade or estimate of individual needs. All input values,
+thresholds, component formulas, preference calculations and sources remain
+available in the collapsed **Match & nutrition details**.
+
+The first three eligible recipes in that order are shown, or fewer when
+exclusions leave fewer candidates. **Only recipes tied on all three preceding
+values use seven-day history**: recognized
 protein-source and staple repetitions, then recency, variation among the
 offered options, and a stable ID. The explanation shows record coverage and
-the dates and foods actually used.
+the dates and foods actually used. The same inputs, records, date/time window,
+recipe/source versions and ranking-policy version reproduce the same result.
+
+Times describe assembly using prepared ingredients. If ingredients still need
+preparation, full cooking time is unknown. Setting a time limit in that state
+cannot produce a confirmed timed option; removing the limit allows browsing
+with this qualification. The app does not invent cooking times.
 
 Changing portion size changes the whole-portion estimates, while the per-100-g
 composition score stays the same. Hunger suggests an editable recipe portion.
@@ -158,6 +178,7 @@ calculations and source-data consistency. Focused checks include:
 | `npm run verify:food-library` | Pinned source hashes, generated data, recognition and scoring availability. |
 
 Iteration-specific verification and remaining checks are recorded in the
+[preference-first plan](docs/plans/23-preference-first.md),
 [catalog consolidation plan](docs/plans/22-catalog-unification.md),
 [launch-experience plan](docs/plans/13-launch-experience.md),
 [AI reliability handoff](docs/plans/12-ai-reliability.md) and

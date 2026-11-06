@@ -310,7 +310,7 @@ const recorded = clone(blank);
 recorded.Lunch.carbs = ["白飯"];
 const recordResult = recommendPilotMeals(profile(), context(), "en", now, recorded);
 assert.deepEqual(recordResult.recommendations.map(item=>item.score.total),normal.recommendations.map(item=>item.score.total),"Record variety cannot replace a higher total");
-assert(recordResult.recommendations.every(item=>item.reasons.some(reason=>reason.includes("Only exact-total ties"))),"Record variety is explicitly limited to exact total ties");
+assert(recordResult.recommendations.every(item=>item.reasons.some(reason=>reason.includes("equal current preferences, saved preferences and nutrition reference"))),"Record variety is explicitly limited to equal priority tiers");
 for (const [id, family] of [["usda-171534", "chicken"], ["usda-171986", "fish"], ["usda-174314", "lamb"], ["usda-174271", "soy"]]) {
   const food = sourceFoods.find(item => item.id === id);
   for (const locale of ["en", "zh"]) {
@@ -358,4 +358,4 @@ assert(takeout.recommendations.every(item => item.reasons.some(reason => reason.
 const zh = recommendPilotMeals(profile(), context({ hunger: "hungry", preferredStaple: "noodles" }), "zh", now, unknownOnly);
 assert(zh.eligibleRecipes.every(item => item.reasons.some(reason => reason.includes("並非估算熱量需求")) && (item.recipe.staple === "noodles" || item.reasons.some(reason => reason.includes("此偏好保留彈性"))) && item.unknowns.every(unknown => unknown.reason.includes("未知，並非零"))));
 
-console.log(JSON.stringify({ standardizedRecipes: 108, sourceFoods: sourceFoods.length, pinnedSourceValues: sourceValues, independentChickenGolden: true, independentAllPortionNutrients: true, allPortionFactors: true, missingValuesPropagate: true, sourceStateAndIngredientSafety: true, hardAvoidContexts: avoidTags.length * 108, sharedContextConstraints: true, hungerAndAppetitePortions: true, allEligibleRecipesBrowsable: true, summedActualTotal: true, officialProfileAndProductScoreSeparated: true, explicitNutrientDirection: true, recordVarietyOnlyExactTotalTies: true, metricPresenceOnlyInLegacy: true, bilingualReasons: true }, null, 2));
+console.log(JSON.stringify({ standardizedRecipes: 108, sourceFoods: sourceFoods.length, pinnedSourceValues: sourceValues, independentChickenGolden: true, independentAllPortionNutrients: true, allPortionFactors: true, missingValuesPropagate: true, sourceStateAndIngredientSafety: true, hardAvoidContexts: avoidTags.length * 108, sharedContextConstraints: true, hungerAndAppetitePortions: true, allEligibleRecipesBrowsable: true, retainedArithmeticDiagnostic: true, officialProfileAndProductScoreSeparated: true, explicitNutrientDirection: true, recordVarietyOnlyEqualPriorityTiers: true, metricPresenceOnlyInLegacy: true, bilingualReasons: true }, null, 2));

@@ -9,24 +9,30 @@ MealHatch
 
 ## Tagline
 
-Choose your next meal, with reasons you can inspect
+Your next meal, with your preferences first
 
 ## Description
 
-MealHatch turns “what should I eat?” into a few options you can compare and
-save. Explore 108 defined recipes, adjust your preferences, and inspect portion
-estimates, preparation steps and transparent scoring. English and
-Traditional Chinese. No account or AI key needed for the core workflow.
+MealHatch helps Chinese adults in North America choose their next meal.
+What sounds good comes first, with sourced nutrition as a reference. Compare
+108 recipes, check what preparation they need and save a plan. Every scoring
+step is available when you want it. English and Traditional Chinese. No account
+or AI key needed for the core workflow.
 
 ## Maker comment
 
 I built MealHatch around a familiar moment: being ready to eat but still
-scrolling through possibilities.
+scrolling through possibilities. The design focuses on Chinese adults in North
+America who use English or Traditional Chinese and prepare their own meals.
 
 You can start with a few suggestions, change what sounds good, inspect the
 reason for a suggestion and save a plan. One meal library brings together 108
 defined recipes with stated portions, preparation steps, source links and
-numeric comparisons. A separate food and drink lookup helps with recording.
+numeric comparisons. Current-meal preferences take priority over saved
+preferences, then composition. Every calculation remains inspectable, with
+details closed until you need them. It is about choosing the next meal, without
+grading your habits or setting weight-loss goals. A separate food and drink
+lookup helps with recording.
 
 The core workflow runs without an account or AI key. Optional AI organizes a
 meal description for review; deterministic rules select the recommendations.
@@ -46,13 +52,13 @@ outcome. Source files and any export dimensions belong with the assets.
 | View | Capture | Caption | Alt text |
 | --- | --- | --- | --- |
 | 1. Choose | Default recipe view, main meal and save action visible | A few options. One next meal. | MealHatch shows preference controls, a defined recipe, its portion estimates and an action to save the meal. |
-| 2. Adjust | A selected noodle preference with its actual point contribution visible | Make a preference part of the comparison. | The selected staple is noodles and the scoring details show how preferences contribute to the total. |
-| 3. Understand | Standard-recipe view with numeric score and a readable expanded source or scoring basis | Inspect the numbers behind a defined recipe. | A standard recipe shows its ranking components and an explanation of the values and rules used. |
+| 2. Adjust | A selected noodle preference and actual matching options | What sounds good comes first. | The noodle preference changes the suggestions; actual fit reasons appear beside each option. |
+| 3. Understand | The initially collapsed calculation opened to its input table | Details when you want them. | A recipe shows its current and saved preference calculations, composition reference, model inputs, thresholds and sources. |
 
 Do not show a preference match unless the actual displayed option matches it.
-Preferences contribute points; they do not guarantee that a matching recipe
-outranks every other eligible total. Record the real result without staging a
-stronger claim.
+With several current preferences, matched groups are compared together. Other
+conditions can remove matches. Show the actual fit and any compromise; do not
+stage a stronger claim or imply that an avoid was relaxed.
 If copy overlays are used, preserve the legibility of the underlying interface.
 
 ## Short demo storyboard

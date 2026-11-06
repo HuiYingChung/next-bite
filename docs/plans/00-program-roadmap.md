@@ -1,6 +1,21 @@
 # MealHatch product roadmap
 
-## Active iteration — one recipe-backed meal library
+## Active iteration — preference-first next-meal decisions
+
+Status: review
+Authorized: 2026-11-06. User accepted the product-positioning recommendations
+and required all calculation details to remain available, collapsed by default.
+Read [`23-preference-first.md`](./23-preference-first.md).
+Branch: `codex/preference-first`, based on committed catalog version `f21411e`.
+Current-meal preferences precede saved preferences, then the unchanged nutrition
+model, then recent variety. Ingredient-readiness/time handling, complete
+collapsed calculations and compact bilingual explanations are implemented.
+Repository and isolated browser checks passed; see the active plan for evidence.
+On 2026-11-06 the user authorized commit, push and merge of this version,
+including its committed catalog dependency. Use Git history and remote checks
+for actual release results; deployment status is separate.
+
+## Previous iteration — one recipe-backed meal library
 
 Status: review
 Authorized: 2026-11-06. User approved catalog completion and consolidation.

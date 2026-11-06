@@ -41,10 +41,11 @@ function loadSource(name) {
 const { recommendationDataset: catalogMeals, legacyRecommendationDataset: legacyMeals, createBlankState } = loadSource("data.ts");
 const { legacyMealTitle, getLegacyNamedMealComponents, translateFood } = loadSource("presentation.ts");
 const recipeCount = definitions.length;
+const flowsOnly = process.argv.includes("--flows-only");
 assert(recipeCount > 3, "The library must include recipes outside the top three");
 const screenshotRecipeId = process.argv[4] || definitions.at(-1).mealId;
 assert(definitions.some(recipe => recipe.mealId === screenshotRecipeId), "The screenshot recipe must exist in the current collection");
-const output = new URL("../output/playwright/catalog-unification/", import.meta.url);
+const output = new URL("../output/playwright/preference-first/", import.meta.url);
 await mkdir(output, { recursive: true });
 const browser = await chromium.launch({ headless: true });
 let detailsChecked = 0;
@@ -158,8 +159,100 @@ async function verifySavedPlans(locale) {
   await context.close();
 }
 
+async function verifyPreferenceFirst(locale) {
+  const context = await browser.newContext({ viewport: { width: 390, height: 900 }, reducedMotion: "reduce" });
+  const page = await context.newPage();
+  const noon = new Date(2026, 10, 6, 12);
+  await page.clock.install({ time: noon });
+  await context.addInitScript(locale => localStorage.setItem("next-bite-locale", locale), locale);
+  page.on("pageerror", error => errors.push(error.message));
+  await page.route("**/*", route => {
+    const url = new URL(route.request().url());
+    return url.origin === base.origin && !url.pathname.startsWith("/_vercel/") && !url.pathname.startsWith("/api/") ? route.continue() : route.abort();
+  });
+  await page.goto(base.href);
+  const choose = () => page.getByRole("button", { name: locale === "en" ? "Choose this meal" : "就選這道", exact: true });
+  await choose().waitFor();
+  assert.equal(await page.locator(".meal-feature .recipe-match-count").count(), 0, "The default no-preference explanation is not duplicated");
+  assert.equal(await page.locator(".recommendation-score").evaluate(node => node.open), false);
+  for (const width of [320, 390, 1280]) {
+    await page.setViewportSize({ width, height: 900 });
+    assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false);
+    if (width !== 320) await page.screenshot({ path: fileURLToPath(new URL(`${locale}-home-${width === 390 ? "mobile" : "desktop"}.png`, output)) });
+  }
+  await page.setViewportSize({ width: 390, height: 900 });
+  await page.getByRole("combobox", { name: locale === "en" ? "Preferred staple" : "偏好的主食", exact: true }).selectOption("noodles");
+  await page.getByRole("combobox", { name: locale === "en" ? "Preferred style" : "偏好的風格", exact: true }).selectOption("asian");
+  await page.locator(".meal-context-extra > summary").click();
+  await page.getByRole("combobox", { name: locale === "en" ? "For this meal I want…" : "這餐比較想…", exact: true }).selectOption("Need something light");
+  const readiness = page.getByRole("combobox", { name: locale === "en" ? "Are the ingredients ready?" : "食材準備好了嗎？", exact: true });
+  await readiness.selectOption("ready");
+  const { recommendPilotMeals } = loadSource("nutrition.ts");
+  const { defaultMealContext } = loadSource("meal-context.ts");
+  const expected = recommendPilotMeals({ ...createBlankState(noon).profile, feelToday: "Need something light" }, { ...defaultMealContext, preferredStaple: "noodles", cuisine: "asian", ingredientReadiness: "ready" }, locale, noon);
+  assert.equal(await page.locator(".meal-feature h3").innerText(), expected.recommendations[0].recipe.label[locale]);
+  assert(expected.recommendations.every(rec => rec.recipe.staple === "noodles"));
+  assert.equal(await page.locator(".recommendation-score").evaluate(node => node.open), false);
+  assert.deepEqual(await page.locator(".meal-feature .recipe-fit-reasons li").allTextContents(), expected.recommendations[0].matchReasons);
+  await page.locator(".meal-feature").evaluate(node => node.scrollIntoView({ block: "start" }));
+  await page.screenshot({ path: fileURLToPath(new URL(`${locale}-preference-match-mobile.png`, output)) });
+  await page.getByRole("button", { name: locale === "en" ? "Show another option" : "換一道看看", exact: true }).click();
+  assert.equal(await page.locator(".meal-feature h3").innerText(), expected.recommendations[1].recipe.label[locale]);
+  const receipt = page.locator(".recommendation-score");
+  assert.equal(await receipt.evaluate(node => node.open), false);
+  await receipt.locator(":scope > summary").focus();
+  await page.keyboard.press("Enter");
+  assert.equal(await receipt.locator(".score-model-row").count(), 7);
+  assert.equal(await receipt.locator(".score-preference-row").count(), 5);
+  const current = expected.recommendations[1].score.currentPreference;
+  assert((await receipt.locator(".score-current-fit").innerText()).includes(`${current.points}/${current.possible}`));
+  assert((await receipt.locator(".score-ranking-version").innerText()).includes(expected.trace.rankingPolicy.version));
+  assert.equal(await receipt.locator(".score-ranking-order li").count(), 6);
+  await receipt.locator(".score-source-details > summary").focus();
+  await page.keyboard.press("Enter");
+  assert.equal(await receipt.locator(".score-source-links a").first().isVisible(), true);
+  await receipt.locator(".history-basis > summary").focus();
+  await page.keyboard.press("Enter");
+  assert.equal(await receipt.locator(".history-basis p").first().isVisible(), true);
+  for (const width of [320, 390, 1280]) {
+    await page.setViewportSize({ width, height: 900 });
+    assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false, `${locale} expanded receipt overflow at ${width}`);
+    if (width <= 390) {
+      assert.equal(await receipt.locator(".score-table-hint").isVisible(), true);
+      const table = receipt.locator(".score-table-scroll");
+      assert(await table.evaluate(node => node.scrollWidth > node.clientWidth), "The narrow table scrolls inside its own region");
+      await table.evaluate(node => { node.scrollLeft = node.scrollWidth; });
+      const reachable = await table.evaluate(node => {
+        const cell = node.querySelector(".score-model-row .contribution-points");
+        return cell.getBoundingClientRect().right <= node.getBoundingClientRect().right + 1;
+      });
+      assert(reachable, "The rightmost model-points column must be reachable by horizontal scroll");
+      await table.evaluate(node => { node.scrollLeft = 0; });
+    }
+    if (width === 390) {
+      await receipt.locator(".score-table-hint").evaluate(node => node.scrollIntoView({ block: "start" }));
+      await page.screenshot({ path: fileURLToPath(new URL(`${locale}-calculation-mobile.png`, output)) });
+    }
+  }
+  await readiness.selectOption("needs-prep");
+  await page.getByRole("combobox", { name: locale === "en" ? "Time available" : "這餐可用時間", exact: true }).selectOption("10");
+  await page.locator(".no-options").waitFor();
+  assert((await page.locator(".no-options").innerText()).includes(locale === "en" ? "full cooking time is unknown" : "完整烹調時間資料"));
+  assert.equal(await choose().count(), 0);
+  await page.getByRole("combobox", { name: locale === "en" ? "Time available" : "這餐可用時間", exact: true }).selectOption("any");
+  await choose().waitFor();
+  assert((await page.locator(".recipe-fit-summary").innerText()).includes(locale === "en" ? "total cooking time is unknown" : "完整料理時間未知"));
+  const savedTitle = await page.locator(".meal-feature h3").innerText();
+  await choose().click();
+  await page.getByRole("button", { name: locale === "en" ? "Saved to plans" : "已儲存到計畫", exact: true }).waitFor();
+  await page.reload();
+  await page.locator(".workspace-nav").getByRole("button", { name: locale === "en" ? /^Plans/ : /^餐點計畫/ }).click();
+  assert.equal(await page.locator(".plan-card h3").innerText(), savedTitle);
+  await context.close();
+}
+
 try {
-  for (const locale of ["en", "zh"]) {
+  for (const locale of flowsOnly ? [] : ["en", "zh"]) {
     const context = await browser.newContext({ viewport: { width: 1280, height: 900 }, reducedMotion: "reduce" });
     const page = await context.newPage();
     let savedTitle = "";
@@ -174,7 +267,9 @@ try {
     await page.goto(base.href);
     await page.getByRole("button", { name: "Choose this meal", exact: true }).waitFor();
     assert.equal(await page.locator(".recommendation-mode").count(), 0);
-    assert.equal(await page.locator(".recommendation-score").count(), 1, "Fresh visits must immediately show scored recipes");
+    assert.equal(await page.locator(".recommendation-score").count(), 1, "Fresh visits offer complete score details in a disclosure");
+    assert.equal(await page.locator(".recommendation-score").evaluate(node => node.open), false);
+    assert.equal(await page.locator(".recommendation-score-total").isVisible(), false);
     if (locale === "zh") await page.getByRole("button", { name: "切換繁體中文", exact: true }).click();
     assert((await page.locator(".workspace-heading").innerText()).includes(String(recipeCount)));
     assert((await page.locator("footer").innerText()).includes(locale === "en" ? `${recipeCount} recipes` : `${recipeCount} 道`));
@@ -186,7 +281,7 @@ try {
     }
     await page.getByRole("button", { name: locale === "en" ? "Data & method" : "資料與方法", exact: true }).click();
     await page.locator("dialog[open] #method > summary").click();
-    assert((await page.locator("dialog[open] #method").innerText()).includes(locale === "en" ? "The same recipes appear" : "使用同一份配方"));
+    assert((await page.locator("dialog[open] #method").innerText()).includes(locale === "en" ? "Recommendations and the library use the same recipes" : "使用同一份配方"));
     await page.keyboard.press("Escape");
     await page.getByRole("button", { name: locale === "en" ? `Browse all ${recipeCount} recipes` : `瀏覽全部 ${recipeCount} 道配方`, exact: true }).click();
     assert.equal(await page.locator(".recipe-library-card").count(), recipeCount);
@@ -214,6 +309,18 @@ try {
       const preparedIngredients = generatedRecipe.ingredients.filter(ingredient => ingredient.processing === "pureed");
       assert.equal(await dialog.evaluate(node => node.scrollWidth > node.clientWidth), false, `${locale} recipe ${index + 1} overflows at 390 px`);
       assert.equal(await dialog.locator(".recommendation-score").count(), 1);
+      const receipt = dialog.locator(".recommendation-score");
+      assert.equal(await receipt.evaluate(node => node.open), false, "Each recipe starts with all scoring collapsed");
+      await receipt.locator(":scope > summary").focus();
+      await page.keyboard.press("Enter");
+      assert.equal(await receipt.evaluate(node => node.open), true);
+      assert.equal(await receipt.locator(".score-model-row").count(), 7);
+      assert.equal(await receipt.locator(".score-preference-row").count(), 5);
+      assert.equal(await receipt.locator(".score-model-row").last().isVisible(), true);
+      await receipt.locator(".score-source-details > summary").focus();
+      await page.keyboard.press("Enter");
+      assert.equal(await receipt.locator(".score-source-links a").first().isVisible(), true);
+      assert((await receipt.locator(".score-input-note").count()) > 0);
       const score = await dialog.locator(".recommendation-score-total").innerText();
       const energy = [];
       for (const portion of ["small", "regular", "large"]) {
@@ -333,10 +440,10 @@ try {
     }
     await context.close();
   }
-  for (const locale of ["en", "zh"]) await verifySavedPlans(locale);
+  for (const locale of ["en", "zh"]) { await verifySavedPlans(locale); await verifyPreferenceFirst(locale); }
   assert.deepEqual(errors, []);
-  const report = { recipeCount, canonicalCatalogCount: catalogMeals.length, soleRecipeDefault: true, legacyAndRetiredPlansPreserved: true, unavailableVersionNotSubstituted: true, legacyExportPreserved: true, retiredSettingsExplicitAndRemovable: true, languages: 2, detailsChecked, portionsChecked, sourceLabelsChecked, preparationPortionsChecked, instructionListsChecked, screenshotRecipeId, belowTopThreeSaved: true, savedVersionAndPortionSurviveReload: true, excludedRecipesBlocked: true, keyboardFocusRestored: true, widths: [320, 390, 768, 1280], pageErrors: errors.length };
-  await writeFile(new URL("browser-verification.json", output), `${JSON.stringify(report, null, 2)}\n`);
+  const report = { scope: flowsOnly ? "migration-and-preference-flows" : "complete-library-and-flows", recipeCount, canonicalCatalogCount: catalogMeals.length, soleRecipeDefault: true, completeScoreDisclosureClosedByDefault: true, allModelAndPreferenceRowsKeyboardAccessible: true, preferenceFirstMatchAndSwitch: true, ingredientReadinessHonest: true, mobileModelPointsReachableByHorizontalScroll: true, legacyAndRetiredPlansPreserved: true, unavailableVersionNotSubstituted: true, legacyExportPreserved: true, retiredSettingsExplicitAndRemovable: true, languages: 2, detailsChecked, portionsChecked, sourceLabelsChecked, preparationPortionsChecked, instructionListsChecked, screenshotRecipeId, ...(flowsOnly ? {} : { belowTopThreeSaved: true, savedVersionAndPortionSurviveReload: true, excludedRecipesBlocked: true, keyboardFocusRestored: true }), widths: flowsOnly ? [320, 390, 1280] : [320, 390, 768, 1280], pageErrors: errors.length };
+  await writeFile(new URL(flowsOnly ? "preference-flow-verification.json" : "browser-verification.json", output), `${JSON.stringify(report, null, 2)}\n`);
   console.log(JSON.stringify(report));
 } finally {
   await browser.close();

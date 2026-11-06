@@ -53,11 +53,11 @@ try {
 
   await page.getByRole("combobox", { name: "Preferred staple", exact: true }).selectOption("noodles");
   assert.equal(await page.getByRole("combobox", { name: "Preferred staple", exact: true }).inputValue(), "noodles");
-  // A preference adds points; it need not outrank every other recipe total.
+  // Current-meal preference groups take priority over saved groups and nutrition.
   // Capture the real result without claiming a guaranteed staple match.
   await capture("02-match-your-preference.png");
   await pause(6000);
-  await page.getByText("Calculation & recommendation basis", { exact: true }).click();
+  await page.getByText("Match & nutrition details", { exact: true }).click();
   await pause(5000);
   await choose.click();
   await pause(2000);
@@ -84,14 +84,14 @@ if (completed) {
     recipePage.on("pageerror", error => errors.push(error.message));
     await recipePage.goto(base.href);
     await recipePage.getByRole("button", { name: "Choose this meal", exact: true }).waitFor();
-    await recipePage.getByText("Calculation & recommendation basis", { exact: true }).click();
+    await recipePage.getByText("Match & nutrition details", { exact: true }).click();
     await recipePage.evaluate(() => {
       const score = document.querySelector(".recommendation-score");
       window.scrollTo(0, scrollY + score.getBoundingClientRect().top - 24);
     });
     await recipePage.screenshot({ path: path.join(output, "03-inspect-the-basis.png") });
     assert.deepEqual(errors, []);
-    await writeFile(path.join(output, "capture-notes.md"), `# Actual interface capture\n\nCaptured from a local preview on ${new Date().toISOString().slice(0, 10)}.\n\n- Three 1270 × 760 screenshots and one silent WebM recording of the unified recipe library.\n- Fresh isolated English workspace, no personal records or API key.\n- The video changes a staple preference, reads the calculation basis, saves a plan and revisits Plans. Timing is paced for readability, not a measured user result.\n- The preference contributes points but does not guarantee a matching recipe outranks every other total. The recording shows the actual result.\n- No external requests, invented outcomes, overlays or simulated AI responses.\n- Screenshot 3 is scrolled to the actual calculation panel.\n- These are review drafts; upload/publication is a separate step.\n`);
+    await writeFile(path.join(output, "capture-notes.md"), `# Actual interface capture\n\nCaptured from a local preview on ${new Date().toISOString().slice(0, 10)}.\n\n- Three 1270 × 760 screenshots and one silent WebM recording of the unified recipe library.\n- Fresh isolated English workspace, no personal records or API key.\n- The video changes a staple preference, opens the full match and nutrition calculation disclosure, saves a plan and revisits Plans. Timing is paced for readability, not a measured user result.\n- Current-meal match groups are compared before saved groups and the nutrition reference. The recording shows the actual result, with complete calculations available in a disclosure.\n- No external requests, invented outcomes, overlays or simulated AI responses.\n- Screenshot 3 is scrolled to the actual calculation panel.\n- These are review drafts; upload/publication is a separate step.\n`);
     console.log("Captured three gallery drafts and docs/launch/assets/mealhatch-demo.webm.");
   } finally {
     await browser.close();

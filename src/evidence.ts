@@ -57,7 +57,7 @@ export const enrichRecommendation = (meal: BaseMealOption): MealOption => {
 export const catalogMethod = {
   name: `MealHatch ${standardizedRecipes.length} recipes`,
   statement:
-    "Measured recipes use stated edible ingredient weights and pinned source records. Recommendations apply strict conditions, composition scores and disclosed preference points, with history breaking exact-total ties.",
+    "Defined recipes use stated edible ingredient weights and pinned source records. After strict conditions, recommendations compare current-meal preferences, saved preferences and the composition reference in that order. History separates only recipes tied on all three values.",
   limitation:
     "Recipe estimates describe the listed ingredients and portions, not restaurant servings or individual requirements. Logs may be incomplete; food names do not establish nutrient deficits or a need for nutritional compensation.",
 };
@@ -67,7 +67,7 @@ export const getCatalogMethod = (locale: Locale) =>
     ? catalogMethod
     : {
         name: `MealHatch ${standardizedRecipes.length} 道配方`,
-        statement: "配方以明確可食重量與固定來源紀錄計算，推薦先套用必要條件，再比較營養組成分數與公開的偏好加分；只有總分相同時，才由近期紀錄決定變化順序。",
+        statement: "配方以明確可食重量與固定來源紀錄計算。先套用必要條件，再依序比較本餐偏好、已儲存偏好與營養組成參考分；三項都相同時，才參考近期紀錄安排變化。",
         limitation: "估算對應表列食材與份量，不代表餐廳實際餐點或個人所需份量。紀錄可能不完整；食物名稱無法判斷營養缺口或補償需求。",
       };
 

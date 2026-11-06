@@ -124,39 +124,30 @@ export function HistoryGrid({ days, locale, onSelect }: HistoryGridProps) {
 
 type RecipeOptionFactsProps = { rec: PilotRecommendation; locale: Locale };
 
-/** Keeps the recipe ranking total separate from facts for the selected portion. */
+export function recipeMatchLabel(rec: PilotRecommendation, locale: Locale): string {
+  if (!rec.score) return text(locale, "Unavailable", "無法計分");
+  const current = rec.score.currentPreference;
+  const saved = rec.score.savedPreference;
+  return current.selected
+    ? text(locale, `This meal: ${current.matched}/${current.selected} preferences match`, `本餐偏好符合 ${current.matched}/${current.selected} 項`)
+    : saved.selected
+      ? text(locale, `Saved preferences: ${saved.matched}/${saved.selected} groups match`, `已存偏好符合 ${saved.matched}/${saved.selected} 組`)
+      : rec.score.unsupportedSavedPreferences.length ? text(locale, "No applicable meal preferences selected", "目前沒有可用於選餐的偏好") : text(locale, "No preferences selected", "未選擇偏好");
+}
+
+/** Compact, engine-derived reasons; full arithmetic stays in the disclosure. */
+export function RecipeFitSummary({ rec, locale }: RecipeOptionFactsProps) {
+  return <div className="recipe-fit-summary">
+    {rec.score.currentPreference.selected + rec.score.savedPreference.selected > 0 && <p className="small muted recipe-match-count">{recipeMatchLabel(rec, locale)}</p>}
+    <ul className="recipe-fit-reasons">{rec.matchReasons.slice(0, 3).map(reason => <li key={reason}>{reason}</li>)}</ul>
+    {rec.mismatchReasons.length > 0 && <div className="recipe-fit-mismatches">{rec.mismatchReasons.filter(reason => !rec.matchReasons.includes(reason)).map(reason => <p className="small muted" key={reason}>{reason}</p>)}</div>}
+  </div>;
+}
+
 export function RecipeOptionFacts({ rec, locale }: RecipeOptionFactsProps) {
-  const unknown = text(locale, "Unknown", "未知");
-  const quantity = (value: number | null, unit: string, integer = false) => {
-    if (value === null) return unknown;
-    const threshold = integer ? 1 : 0.1;
-    const formatted = value > 0 && value < threshold
-      ? `<${threshold}`
-      : new Intl.NumberFormat(locale === "zh" ? "zh-TW" : "en-US", {
-          maximumFractionDigits: integer ? 0 : 1,
-        }).format(value);
-    return `${formatted} ${unit}`;
-  };
-  return (
-    <span className="recipe-option-facts">
-      <span className="recipe-option-fact recipe-option-total">
-        <span className="recipe-option-label">{text(locale, "Ranking total", "排序總分")}</span>{" "}
-        <span className="recipe-option-value">{rec.score?.model.status === "complete" && Number.isFinite(rec.score.total)
-          ? new Intl.NumberFormat(locale === "zh" ? "zh-TW" : "en-US", { maximumFractionDigits: 2 }).format(rec.score.total)
-          : text(locale, "Unavailable", "無法計分")}</span>
-      </span>{" "}
-      <span className="recipe-option-fact">
-        <span className="recipe-option-label">{text(locale, "Portion energy", "本份熱量")}</span>{" "}
-        <span className="recipe-option-value">{quantity(rec.nutrition.kcal, "kcal", true)}</span>
-      </span>{" "}
-      <span className="recipe-option-fact">
-        <span className="recipe-option-label">{text(locale, "Portion protein", "本份蛋白質")}</span>{" "}
-        <span className="recipe-option-value">{quantity(rec.nutrition.protein, "g")}</span>
-      </span>{" "}
-      <span className="recipe-option-fact">
-        <span className="recipe-option-label">{text(locale, "Assembly (ingredients ready)", "組裝（食材已備妥）")}</span>{" "}
-        <span className="recipe-option-value">{text(locale, `About ${rec.recipe.prepMinutes} min`, `約 ${rec.recipe.prepMinutes} 分鐘`)}</span>
-      </span>
-    </span>
-  );
+  const hasActivePreferences = rec.score && rec.score.currentPreference.selected + rec.score.savedPreference.selected > 0;
+  return <span className="recipe-option-facts">
+    <span className="recipe-option-match">{recipeMatchLabel(rec, locale)}</span>
+    {(hasActivePreferences ? rec.matchReasons.slice(0, 2) : rec.matchReasons.slice(1, 3)).map(reason => <span className="recipe-option-reason" key={reason}>{reason}</span>)}
+  </span>;
 }

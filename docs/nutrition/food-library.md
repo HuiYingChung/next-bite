@@ -47,9 +47,14 @@ Its raw score S = A − credited C is separate from MealHatch's display combinat
   an explicitly requested protein/plant direction supported by that record.
   Maximum ingredient preference is 4; it is an authored product rule, not a
   published nutrient threshold recommendation. The 108 complete recipes
-  have additional meal-level preference fields and a separately documented cap.
+  use a separate [preference-first selection policy](./decision-policy.md).
 - Total = nutrient + energy + preference = 10 − S + preference.
   Energy enters once, including the published full-A protein-credit gate.
+
+This source-food total is a composition lookup aid, not the recipe-ranking
+formula. It does not reorder source search results or add foods to the next-meal
+recommendation pool. Recipe recommendations compare current preferences, saved
+preferences and composition separately, in that order.
 
 No total is assigned without all model inputs. Energy can remain available
 independently. Alcoholic beverages are outside the model; infant and unresolved

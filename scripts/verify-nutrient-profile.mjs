@@ -3,6 +3,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import ts from "typescript";
+import { independentRecipeRanking, compareIndependentTiers } from "./recipe-ranking-oracle.mjs";
 
 const root = fileURLToPath(new URL("../", import.meta.url));
 const modules = new Map();
@@ -104,19 +105,10 @@ for (const id of ["usda-171534", "usda-171986", "usda-174314"]) {
   assert.equal(food.modelBasis.fvnsEligible, false, `${id} is the specified plain animal protein, without a qualifying plant ingredient`);
   assert.equal(food.modelBasis.freeSugarsPer100g, 0, `${id} retains the source-supported zero-sugar input`);
 }
-// Recalculate all 108 totals independently from source weights and threshold
-// literals, so a sorted-looking but incorrect top3 cannot pass this test.
+// Recalculate all 108 recipes from source weights and threshold literals,
+// including priority groups from recipe facts rather than the returned trace.
 function independent(recipe, selectedProfile, selectedContext) {
-  const grams = recipe.ingredients.reduce((sum,item)=>sum+item.grams,0);
-  const weighted = read => recipe.ingredients.reduce((sum,item)=>sum+item.grams*read(sourceFoods.find(food=>food.id===item.foodId),item),0)/grams;
-  const values = { energyKj:weighted(food=>food.nutrientsPer100g.energyKj), saturatedFat:weighted(food=>food.nutrientsPer100g.saturatedFat), freeSugars:weighted((food,item)=>item.processing==="pureed"?4.8:food.modelBasis.freeSugarsPer100g), salt:weighted(food=>food.nutrientsPer100g.sodium*.0025), protein:weighted(food=>food.nutrientsPer100g.protein), fiber:weighted(food=>food.nutrientsPer100g.fiber), fvnsPercent:weighted(food=>food.modelBasis.fvnsEligible?100:0) };
-  const points = key => { const count=thresholds[key].filter(t=>values[key]>t).length; return key==="fvnsPercent"?[0,1,2,5][count]:count; };
-  const a=points("energyKj")+points("saturatedFat")+points("freeSugars")+points("salt");
-  const c=points("fiber")+points("fvnsPercent")+((a<11||points("fvnsPercent")===5)?points("protein"):0);
-  // Neutral profile and selected-staple/cuisine cases avoid reusing style or
-  // preference helper code when independently validating the full ranking.
-  const p=(selectedContext.preferredStaple!=="any"&&recipe.staple===selectedContext.preferredStaple?2:0)+(selectedContext.cuisine!=="any"&&recipe.cuisine===selectedContext.cuisine?2:0);
-  return { total:10-a+c+p, raw:a-c, values };
+  return independentRecipeRanking(recipe, sourceFoods, selectedProfile, selectedContext);
 }
 // Independently checked FDC173757 reports4.8g total sugars/100g. UK NPM
 // worked example8 counts puréed chickpea sugars as free sugars, while the
@@ -188,24 +180,28 @@ try{
   assert(result.trace.exclusions.some(item=>item.mealId===invalid.mealId&&item.stage==="evidence"&&item.reasons.includes("model-input:freeSugars")),"A flagged recipe without preparation evidence cannot enter the selectable collection");
 }finally{standardizedRecipes[0]=retainedFirstRecipe;}
 assert.deepEqual(chickpea,retainedChickpea,"Recipe-specific processing never mutates the shared whole-food source");
-for (const selectedContext of [context(),context({preferredStaple:"rice"}),context({preferredStaple:"noodles"}),context({preferredStaple:"bread"}),context({cuisine:"western"}),context({preferredStaple:"potato",cuisine:"western"})]) {
-  const result = recommendPilotMeals(profile(),selectedContext,"en",now,log);
+for (const selectedContext of [context(),context({preferredStaple:"rice"}),context({preferredStaple:"noodles"}),context({preferredStaple:"bread"}),context({cuisine:"western"}),context({preferredStaple:"potato",cuisine:"western"}),context({preferredStaple:"bread",ingredientReadiness:"needs-prep"})]) for (const selectedProfile of [profile(),profile({preferenceTags:["Light meals","High-protein","Rice-based meals"]}),profile({feelToday:"Low energy",preferenceTags:["Light meals","Plant-protein","Soupy meals"]}),profile({feelToday:"Need something light",preferenceTags:["Vegetable-forward","Warm meals"]})]) {
+  const result = recommendPilotMeals(selectedProfile,selectedContext,"en",now,log);
   assert.equal(result.candidateCount,108);
   assert.equal(result.trace.candidateScores.length,108);
   assert.equal(result.eligibleRecipes.length,108);
-  const independentTotals=standardizedRecipes.map(recipe=>({id:recipe.mealId,...independent(recipe,profile(),selectedContext)}));
+  const independentTotals=standardizedRecipes.map(recipe=>({id:recipe.mealId,...independent(recipe,selectedProfile,selectedContext)}));
   for (const item of result.trace.candidateScores) {
     const expected=independentTotals.find(row=>row.id===item.mealId);
-    assert.equal(item.score.total,expected.total,`${item.mealId} independent total`);
+    assert.equal(item.score.total,expected.total,`${item.mealId} retained arithmetic diagnostic`);
+    assert.equal(item.score.currentPreference.points,expected.current,`${item.mealId} independent current preference`);
+    assert.equal(item.score.savedPreference.points,expected.saved,`${item.mealId} independent saved preference`);
+    assert.equal(item.score.nutritionReference,expected.reference,`${item.mealId} independent nutrition reference`);
     assert.equal(item.score.model.rawScore,expected.raw);
     assert.equal(item.score.nutrient+item.score.energy+item.score.preference,item.score.total);
     assert.equal(item.score.total,10-item.score.model.rawScore+item.score.preference,"Energy included once");
     assert.equal(item.score.preferenceRows.reduce((sum,row)=>sum+row.points,0),item.score.preference);
     assert(item.score.preference>=0&&item.score.preference<=10);
   }
-  const bestTotals=independentTotals.map(row=>row.total).sort((a,b)=>b-a).slice(0,3);
-  assert.deepEqual(result.recommendations.map(item=>item.score.total),bestTotals,"Actual top3 totals, not hidden preference tiers or diversity replacement");
-  assert.deepEqual(result.eligibleRecipes.map(item=>item.score.total),independentTotals.map(row=>row.total).sort((a,b)=>b-a),"The full browsable collection preserves the same score ordering");
+  const expectedOrder=independentTotals.map(row=>row.tier).sort(compareIndependentTiers);
+  const actualTier=item=>[-item.score.currentPreference.points,-item.score.savedPreference.points,-item.score.nutritionReference];
+  assert.deepEqual(result.recommendations.map(actualTier),expectedOrder.slice(0,3),"Actual top three follow independent preference-first tiers; lower priority cannot compensate for a preference mismatch");
+  assert.deepEqual(result.eligibleRecipes.map(actualTier),expectedOrder,"The full browsable collection preserves preference-first ordering");
 }
 for (const recipe of standardizedRecipes) {
   const baseline=calculateRecipeProfile(recipe);
@@ -273,4 +269,4 @@ const bothNutrition=calculateScoreForRecipe(basicRecipe,profile({preferenceTags:
 assert.equal(bothNutrition.preferenceRows.find(row=>row.key==="nutrition-direction").points,2,"Nutrition direction capped once");
 const savedAndCurrent=calculateScoreForRecipe(basicRecipe,profile({feelToday:"Need something light",preferenceTags:["Light meals"]}),context());
 assert.equal(savedAndCurrent.preferenceRows.find(row=>row.key==="preparation").points,0,"Same saved/current request does not double count or bypass the per100g oil threshold");
-console.log(JSON.stringify({strictBoundaryChecks:boundaryChecks,officialWorkedExamples:3,fullAProteinGate:true,unknownAndInvalidInputs:true,mixedFvnsStateRejected:true,independentAll108Totals:true,actualTop3:true,completeBrowsableOrder:true,energyCountedOnce:true,preferenceBound10:true,scaleInvariance:true,hardExclusions:true,unsetVsUnmatched:true},null,2));
+console.log(JSON.stringify({strictBoundaryChecks:boundaryChecks,officialWorkedExamples:3,fullAProteinGate:true,unknownAndInvalidInputs:true,mixedFvnsStateRejected:true,independentAll108PriorityTiers:true,actualTop3:true,completeBrowsableOrder:true,energyCountedOnce:true,preferenceBound10:true,scaleInvariance:true,hardExclusions:true,unsetVsUnmatched:true},null,2));

@@ -188,45 +188,23 @@ export function MealContextControls({
           </select>
         </label>
         <label>
-          {t(
-            locale,
-            showRecipePortions
-              ? "Estimated assembly time limit (ingredients ready)"
-              : "Assembly time limit",
-            showRecipePortions
-              ? "預估組合時間上限（食材已備妥）"
-              : "組合時間上限",
-          )}
-          <select
-            value={value.maxPrepMinutes ?? "any"}
-            aria-describedby={showRecipePortions ? undefined : timeHelpId}
-            onChange={(event) =>
-              onChange({
-                ...value,
-                maxPrepMinutes:
-                  event.target.value === "any"
-                    ? null
-                    : Number(event.target.value),
-              })
-            }
-          >
-            <option value="any">{t(locale, "No limit", "不限制")}</option>
-            {[10, 15, 20, 30].map((minutes) => (
-              <option key={minutes} value={minutes}>
-                {t(locale, `Up to ${minutes} minutes`, `${minutes} 分鐘以內`)}
-              </option>
-            ))}
+          {t(locale, "Are the ingredients ready?", "食材準備好了嗎？")}
+          <select value={value.ingredientReadiness} onChange={event => onChange({ ...value, ingredientReadiness: event.target.value as MealContext["ingredientReadiness"] })}>
+            <option value="unspecified">{t(locale, "Not specified", "先不指定")}</option>
+            <option value="ready">{t(locale, "Ready to assemble", "已備妥，可直接組合")}</option>
+            <option value="needs-prep">{t(locale, "Still need preparation", "還需要處理或烹調")}</option>
           </select>
         </label>
-        {!showRecipePortions && (
-          <p id={timeHelpId} className="small muted">
-            {t(
-              locale,
-              "Meal ideas have no verified preparation times. A time limit excludes them; choose the recipe collection for timed options.",
-              "餐點靈感沒有已確認的準備時間。設定時間上限會排除這些靈感；請切換至配方集，查看有預估時間的選項。",
-            )}
-          </p>
-        )}
+        <label>
+          {t(locale, value.ingredientReadiness === "needs-prep" ? "Time available" : "Assembly time limit (ingredients ready)", value.ingredientReadiness === "needs-prep" ? "這餐可用時間" : "組合時間上限（食材已備妥）")}
+          <select value={value.maxPrepMinutes ?? "any"} aria-describedby={timeHelpId} onChange={event => onChange({ ...value, maxPrepMinutes: event.target.value === "any" ? null : Number(event.target.value) })}>
+            <option value="any">{t(locale, "No limit", "不限制")}</option>
+            {[10, 15, 20, 30].map(minutes => <option key={minutes} value={minutes}>{t(locale, `Up to ${minutes} minutes`, `${minutes} 分鐘以內`)}</option>)}
+          </select>
+        </label>
+        <p id={timeHelpId} className="small muted">{value.ingredientReadiness === "needs-prep"
+          ? t(locale, "Full preparation and cooking time is unknown. A time limit excludes recipes until ingredients are ready or the limit is removed.", "尚無完整處理與烹調時間資料。設定時間上限時會排除配方；食材備妥或移除時間限制後可再選餐。")
+          : t(locale, "Times cover assembly with the listed ingredients already cooked or prepared. They do not include shopping, thawing or cooking ingredients.", "時間只包含將列出的已熟或已處理食材組合，不含採買、解凍或食材烹調。")}</p>
         {showMealSetting && (
           <label>
             {t(locale, "Meal setting", "這餐的安排")}
@@ -251,17 +229,10 @@ export function MealContextControls({
             </select>
           </label>
         )}
-        <p className="small muted">
-          {t(
-            locale,
-            showRecipePortions
-              ? "Preferences add to the recipe ranking total; an unmatched preference gives no bonus. Warm-only and estimated time limits filter every option."
-              : "Staple comes first, then style and preparation preferences. Unmatched preferences are explained. Warm-only and estimated time limits filter every option.",
-            showRecipePortions
-              ? "偏好會加入配方排序總分，未符合時不加分。只要熱食與預估時間上限會篩選每個選項。"
-              : "先依主食，再依風格與準備偏好排序；未符合時會說明。只要熱食與預估時間上限會篩選每個選項。",
-          )}
-        </p>
+        <p className="small muted">{t(locale,
+          "Current-meal matches come first, followed by saved preferences, then the nutrition reference. Warm-only and time limits filter all options.",
+          "先比較本餐偏好符合數，再比較已存偏好，最後參考營養。只要熱食與時間上限會篩選所有選項。",
+        )}</p>
       </details>
       <p className="small muted context-scope">
         {t(
