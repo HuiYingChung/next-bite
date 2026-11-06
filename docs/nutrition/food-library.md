@@ -46,7 +46,7 @@ Its raw score S = A − credited C is separate from MealHatch's display combinat
 - Ingredient preference = +2 for a confirmed selected staple; +2 at most for
   an explicitly requested protein/plant direction supported by that record.
   Maximum ingredient preference is 4; it is an authored product rule, not a
-  published nutrient threshold recommendation. The twelve complete recipes
+  published nutrient threshold recommendation. The 108 complete recipes
   have additional meal-level preference fields and a separately documented cap.
 - Total = nutrient + energy + preference = 10 − S + preference.
   Energy enters once, including the published full-A protein-credit gate.
@@ -68,7 +68,9 @@ records outside scope**. These are source-record counts, not food categories.
 A score compares composition and does not establish nutrient adequacy, personal
 health, fullness, allergen suitability or the appropriateness of a complete meal.
 The library is not used to rank water or individual ingredients as meal choices.
-The existing 12 standardized recipes and 100 meal ideas remain separate paths.
+The 108 standardized recipes form the single meal recommendation collection;
+this food/drink source lookup remains separate. Older unversioned meal ideas
+are retained only for saved-plan compatibility.
 
 ## Recognition and persistence
 

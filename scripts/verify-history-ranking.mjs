@@ -24,7 +24,7 @@ function loadSource(relativePath) {
 }
 
 const { createBlankState, createEmptyMeal, seedProfile, toLocalDateId } = loadSource("src/data.ts");
-const { recommendPilotMeals } = loadSource("src/nutrition.ts");
+const { recommendPilotMeals, getRecipeHardAvoidConflicts } = loadSource("src/nutrition.ts");
 const { recommendMealIdeas } = loadSource("src/logic.ts");
 const { defaultMealContext } = loadSource("src/meal-context.ts");
 const { buildHistoryVarietyContext, pickHistoryVariedChoices } = loadSource("src/history-variety.ts");
@@ -40,23 +40,29 @@ const scores = result => Object.fromEntries(result.trace.candidateScores.map(ite
 const recipes = (history, selectedToday = today, locale = "en", selectedProfile = profile, context = defaultMealContext) => recommendPilotMeals(selectedProfile, context, locale, now, selectedToday, history);
 const ideas = (history, selectedToday = today, locale = "en", context = defaultMealContext) => recommendMealIdeas(profile, selectedToday, history, locale, now, context);
 const normal = recipes(blank.days);
-assert.deepEqual(recipeIds(normal).slice(0, 2), ["bean-veggie-rice-bowl", "tofu-kale-quinoa-bowl"]);
+const riceTieId = "bean-veggie-rice-bowl", quinoaTieId = "tofu-kale-quinoa-bowl";
+const candidate = (result, id) => result.eligibleRecipes.find(item => item.recipe.mealId === id);
+const position = (result, id) => result.trace.eligibleRecipeIds.indexOf(id);
+assert.equal(candidate(normal, riceTieId).score.total, candidate(normal, quinoaTieId).score.total, "The retained rice/quinoa recipes form an actual exact-total tie");
 const previous = state();
 previous.days.find(day => day.date === "2026-11-03").todayLog.Lunch.carbs = ["Rice"];
 const priorRice = recipes(previous.days);
-assert.equal(recipeIds(priorRice)[0], "tofu-kale-quinoa-bowl", "Yesterday's rice must change the live exact-total tie");
-assert.equal(priorRice.recommendations[0].trace.variety.applied, true);
-assert.equal(priorRice.recommendations[0].trace.variety.comparison.candidateId, "bean-veggie-rice-bowl");
-assert.deepEqual(priorRice.recommendations[0].trace.variety.evidence.map(item => [item.date, item.mealName, item.foodNames]), [["2026-11-03", "Lunch", ["Rice"]]]);
-assert.equal(priorRice.recommendations[0].trace.variety.scope.recognizedMealCount, 1);
-assert.equal(priorRice.recommendations[0].trace.variety.scope.recognizedDayCount, 1);
+assert(position(priorRice, quinoaTieId) < position(priorRice, riceTieId), "Yesterday's rice puts the non-rice recipe first within the live exact-total tie, even below the top three");
+const quinoaHistory = candidate(priorRice, quinoaTieId).trace.variety;
+assert.equal(quinoaHistory.applied, true);
+assert.equal(candidate(priorRice, quinoaHistory.comparison.candidateId).recipe.staple, "rice");
+assert.equal(candidate(priorRice, quinoaHistory.comparison.candidateId).score.total, candidate(priorRice, quinoaTieId).score.total);
+assert.deepEqual(quinoaHistory.evidence.map(item => [item.date, item.mealName, item.foodNames]), [["2026-11-03", "Lunch", ["Rice"]]]);
+assert.equal(quinoaHistory.scope.recognizedMealCount, 1);
+assert.equal(quinoaHistory.scope.recognizedDayCount, 1);
 assert.deepEqual(scores(priorRice), scores(normal), "History must not alter any nutrient, energy, preference or total points");
 
 const edited = clone(previous);
 edited.days.find(day => day.date === "2026-11-03").todayLog.Lunch.carbs = ["Quinoa"];
-assert.equal(recipeIds(recipes(edited.days))[0], "bean-veggie-rice-bowl", "Editing history recomputes the actual live tie");
+const priorQuinoa = recipes(edited.days);
+assert(position(priorQuinoa, riceTieId) < position(priorQuinoa, quinoaTieId), "Editing history recomputes the actual live tie");
 edited.days.find(day => day.date === "2026-11-03").todayLog.Lunch = createEmptyMeal();
-assert.deepEqual(recipeIds(recipes(edited.days)), recipeIds(normal), "Deleting history removes its ranking effect");
+assert.deepEqual(recipes(edited.days).trace.eligibleRecipeIds, normal.trace.eligibleRecipeIds, "Deleting history removes its ranking effect across all 108 recipes");
 
 const alias = clone(previous);
 alias.days.find(day => day.date === "2026-11-03").todayLog.Lunch.carbs = ["Rice", "白飯", "白米飯"];
@@ -64,7 +70,8 @@ const riceSource = sourceFoods.find(food => food.id === "usda-168878");
 alias.days.find(day => day.date === "2026-11-03").todayLog.Lunch.componentDetails = [{ name: riceSource.label.zh, group: "carb", sourceFoodId: riceSource.id, confidence: "high", amount: { quantity: 1000, unit: "g", qualifier: "exact", originalText: null } }];
 const aliasResult = recipes(alias.days, today, "zh");
 assert.deepEqual(recipeIds(aliasResult), recipeIds(priorRice), "Aliases and selected source forms preserve ranking across locales");
-assert.equal(aliasResult.recommendations[0].trace.variety.comparison.otherStapleMeals, 1, "Aliases and grams do not multiply the meal count");
+assert.deepEqual(aliasResult.trace.eligibleRecipeIds, priorRice.trace.eligibleRecipeIds);
+assert.equal(candidate(aliasResult, quinoaTieId).trace.variety.comparison.otherStapleMeals, 1, "Aliases and grams do not multiply the meal count");
 assert.deepEqual(scores(aliasResult), scores(priorRice));
 
 const duplicateToday = state();
@@ -89,7 +96,7 @@ recordedEgg.days.find(day => day.date === "2026-11-03").todayLog.Lunch.protein =
 const normalIdeas = ideas(blank.days);
 const eggIdeas = ideas(recordedEgg.days);
 assert.equal(normalIdeas[0].id, "avocado-egg-toast-soup");
-assert.notEqual(eggIdeas[0].id, normalIdeas[0].id, "The live 100-idea path also responds to previous-day foods");
+assert.notEqual(eggIdeas[0].id, normalIdeas[0].id, "The retained legacy idea compatibility path also responds to previous-day foods");
 assert(eggIdeas[0].decisionTrace.variety.applied);
 assert(eggIdeas[0].decisionTrace.variety.evidence.some(item => item.date === "2026-11-03" && item.foodNames.includes("Egg")));
 assert.deepEqual(ideas(recordedEgg.days, today, "zh").map(item => item.id), eggIdeas.map(item => item.id));
@@ -117,7 +124,8 @@ for (const logged of [previous.days, alias.days, recency.days]) for (const local
   const result = recipes(logged, today, locale, { ...profile, ...changes });
   const totals = result.trace.candidateScores.map(item => item.score.total).sort((a, b) => b - a).slice(0, 3);
   assert.deepEqual(result.recommendations.map(item => item.score.total), totals, "Actual live top three must be the highest eligible totals");
-  if (changes.avoidTags?.includes("Soy")) assert(result.recommendations.every(item => !item.recipe.mealId.includes("tofu") && !item.recipe.mealId.includes("edamame")));
+  assert.deepEqual(result.eligibleRecipes.slice(0, 3), result.recommendations, "Full collection and top-three history order stay consistent");
+  if (changes.avoidTags?.includes("Soy")) assert(result.recommendations.every(item => getRecipeHardAvoidConflicts({ ...profile, ...changes }, item.recipe, item.portion).length === 0), "Actual ingredient safety, not historical IDs, governs soy exclusion");
   topThreeChecks++;
 }
 
@@ -141,6 +149,6 @@ for (const timezone of ["America/Chicago", "Asia/Taipei", "Pacific/Auckland", "U
 }
 if (originalTz === undefined) delete process.env.TZ; else process.env.TZ = originalTz;
 
-console.log(JSON.stringify({ liveRecipeHistoryEditDelete: true, liveIdeaHistoryEditDelete: true, unchangedNutritionAndTotal: true, aliasSourceAndLocaleParity: true,
+console.log(JSON.stringify({ liveRecipeHistoryEditDelete: true, legacyIdeaHistoryEditDelete: true, unchangedNutritionAndTotal: true, aliasSourceAndLocaleParity: true,
   todayCountedOnce: true, datedDecisionEvidence: true, unknownHistoryNeutral: true, staleAndFutureDatesIgnored: true,
   repeatFrequencyAndRecency: true, topThreeChecks, calendarChecks }, null, 2));

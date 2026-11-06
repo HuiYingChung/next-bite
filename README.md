@@ -20,31 +20,40 @@ Optional AI helps organize a meal description before you review it.
 
 ## What you can do
 
-1. Start with **100 meal ideas**, compare a few options and save a plan. A fresh
+1. Start with **108 defined recipes**, compare a few options and save a plan. A fresh
    visit starts with your own empty records; no meal logging is required first.
    An explicitly labeled example remains available to explore separately.
-2. Change the meal preferences or switch to **12 standard recipes** for stated
-   portions, nutrient estimates and numeric ranking details. Collection
-   availability is shown when a selected staple cannot be matched.
+2. Change the meal preferences, inspect stated portions, nutrient estimates and
+   numeric ranking details. Availability is shown when a selected staple cannot
+   be matched. Browse every
+   detailed recipe in **Meal library → Recipes**, including options outside the
+   top three; current exclusions still apply when choosing a meal.
 3. Download a meal card or record what you actually ate. Add foods manually,
    recognize familiar names and optionally select an exact nutrition source.
    Revisit plans and edit records in the rolling seven-day view.
 
-There are three distinct collections:
+The meal collection and the source lookup serve different tasks:
 
 | Collection | Current scope | What it provides |
 | --- | --- | --- |
-| Meal ideas (default) | 100 curated ideas | Suggestions organized by preferences and variety; no calculated nutrient totals. |
-| Standard recipes | 12 defined recipes | Ingredient weights, portion estimates, source links and numeric ranking components. |
+| Meal library (default) | 108 defined recipes | Ingredient weights, preparation steps, portion estimates, source links and numeric ranking components; searchable details and eligible plan selection. |
 | Food and drink library | 15,438 source records and 309 reviewed bilingual concepts | Searchable composition records, name recognition, and scores where the required evidence is complete. |
 
 Source records include different preparations and datasets; they are not a
 count of unique ingredients. Broad names such as “fish” do not automatically
 select a specific nutrient record. Unknown foods can still be recorded.
 
+The detailed collection includes rice, noodles, bread, potato and grain/legume
+meals. Each is a specified preparation, not an estimate for every restaurant
+or packaged version with a similar name. New ingredients use a separate pinned
+USDA snapshot; no live nutrition service or account is needed. Current meal
+names and avoidance metadata follow the actual recipes. Older saved meal ideas
+retain their original descriptions; four unsupported dumpling concepts are
+available only through existing plans, without invented nutrition estimates.
+
 ## How recommendations work
 
-The recipe path first applies ingredient avoids and strict meal conditions,
+The recommender first applies ingredient avoids and strict meal conditions,
 then ranks eligible recipes with complete inputs by:
 
 ```text
@@ -61,8 +70,7 @@ The highest three eligible totals are shown, or fewer when exclusions leave
 fewer candidates. **Only exact-total ties use seven-day history**: recognized
 protein-source and staple repetitions, then recency, variation among the
 offered options, and a stable ID. The explanation shows record coverage and
-the dates and foods actually used. The meal-idea path uses history after its
-preference priorities, without assigning nutrition scores.
+the dates and foods actually used.
 
 Changing portion size changes the whole-portion estimates, while the per-100-g
 composition score stays the same. Hunger suggests an editable recipe portion.
@@ -145,11 +153,12 @@ calculations and source-data consistency. Focused checks include:
 | `npm run verify:ai-ui` | Actual editor handlers: harmless interactions, stale results and localized errors. |
 | `npm run verify:local-api` | Development and preview routes with a mocked provider, including success and invalid requests. |
 | `npm run verify:records` | Transaction merge rules, conflicts, expiry and storage failures. Also generates an isolated browser harness for actual IndexedDB checks. |
-| `npm run verify:history-ranking` | Both live recommendation paths, historical edits/deletions, exact ties and calendar boundaries. |
+| `npm run verify:history-ranking` | Current recipe ranking, legacy compatibility, historical edits/deletions, exact ties and calendar boundaries. |
 | `npm run verify:weekly-summary` | Recorded-slot counts, aliases, source identities and bilingual summaries. |
 | `npm run verify:food-library` | Pinned source hashes, generated data, recognition and scoring availability. |
 
 Iteration-specific verification and remaining checks are recorded in the
+[catalog consolidation plan](docs/plans/22-catalog-unification.md),
 [launch-experience plan](docs/plans/13-launch-experience.md),
 [AI reliability handoff](docs/plans/12-ai-reliability.md) and
 [seven-day reliability handoff](docs/plans/11-seven-day-reliability.md).
@@ -175,7 +184,8 @@ for release details, licensing and score availability.
 | --- | --- |
 | `src/App.tsx` | Dashboard, meal editor, preferences and plans. |
 | `src/nutrition.ts`, `src/nutrient-profile.ts` | Recipe calculations and published-model scoring. |
-| `src/logic.ts`, `src/history-variety.ts` | Meal-idea selection and seven-day variation. |
+| `src/recipe-catalog.ts`, `src/data.ts` | Current recipe-backed meal catalog and retained legacy idea data. |
+| `src/logic.ts`, `src/history-variety.ts` | Shared meal rules, legacy selection diagnostics and seven-day variation. |
 | `src/record-store.ts`, `src/use-record-state.ts` | Transactional persistence and cross-tab updates. |
 | `src/weekly-summary.ts`, `src/food-identity.ts` | Recorded-food summaries and identity matching. |
 | `data/`, `public/food-library/` | Source snapshots, reviewed definitions and generated catalog. |

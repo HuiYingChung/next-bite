@@ -1,6 +1,6 @@
 import {
   createBlankState,
-  recommendationDataset,
+  legacyRecommendationDataset as recommendationDataset,
 } from "../.audit-tmp/data.mjs";
 import { catalogMethod, evidenceSources, getCatalogMethod, getMealEvidenceNotes } from "../.audit-tmp/evidence.mjs";
 import {
@@ -10,6 +10,10 @@ import {
   recommendMealIdeas,
   scoreRecommendations,
 } from "../.audit-tmp/logic.mjs";
+
+// The current product uses only measured recipes. The remainder retains
+// arithmetic and migration diagnostics for the retired editorial collection.
+await import("./verify-canonical-catalog.mjs");
 
 const fail = (message) => {
   throw new Error(message);
@@ -23,8 +27,8 @@ const duplicates = (items) =>
   [...new Set(items.filter((item, index) => items.indexOf(item) !== index))];
 
 expect(
-  recommendationDataset.length === 100,
-  `Expected exactly 100 meals, found ${recommendationDataset.length}.`,
+  recommendationDataset.length === 112,
+  `Expected exactly 112 meals, found ${recommendationDataset.length}.`,
 );
 
 expect(
@@ -216,12 +220,12 @@ for (const idea of filteredLiveIdeas) {
 console.log(
   JSON.stringify(
     {
-      catalogMeals: recommendationDataset.length,
+      legacyCompatibilityMeals: recommendationDataset.length,
       uniqueIds: true,
       uniqueTitles: true,
       editorialBasisDeclared: true,
-      liveInspirationDirections: true,
-      noLiveNutritionalPointReceipt: true,
+      legacyInspirationDirections: true,
+      legacyIdeaReceiptUnscored: true,
       compatibilityScoreReceiptsRecalculate: true,
       compatibilitySelectionReceiptsRecalculate: true,
       compatibilityHistoryBasisDisclosed: true,

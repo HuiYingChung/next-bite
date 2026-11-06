@@ -398,7 +398,40 @@ const safetyAssignments: Partial<Record<MustAvoidTag, SafetyAssignments>> = {
 
 const certaintyOrder = ["contains", "mayContain", "unknown"] as const;
 
+// These additions describe the same reviewed formulation as their detailed
+// recipe. Unknown bread ingredients stay unknown in the idea collection too.
+const recipeLinkedSafety: Record<string, MealSafetyMetadata> = {
+  "salmon-lentil-spinach-bowl": { contains: ["Fishy seafood"], mayContain: [], unknown: [] },
+  "roast-turkey-sweet-potato-pepper-plate": { contains: [], mayContain: [], unknown: [] },
+  "roast-lamb-lentil-carrot-bowl": { contains: ["Lamb"], mayContain: [], unknown: [] },
+  "pork-zucchini-tomato-rice-bowl": { contains: ["Pork"], mayContain: [], unknown: [] },
+  "cod-white-bean-leek-soup": { contains: ["Fishy seafood", "Celery"], mayContain: [], unknown: [] },
+  "chickpea-quinoa-cauliflower-bowl": { contains: ["Sesame"], mayContain: [], unknown: [] },
+  "black-bean-corn-pepper-potato": { contains: [], mayContain: [], unknown: [] },
+  "egg-edamame-bok-choy-rice-noodles": { contains: ["Egg", "Soy"], mayContain: [], unknown: [] },
+  "tuna-tomato-cucumber-sandwich": {
+    contains: ["Fishy seafood", "Processed food", "Wheat / gluten", "Raw food", "Cold food"],
+    mayContain: [],
+    unknown: ["Dairy", "Egg", "Soy", "Sesame", "Peanuts", "Tree nuts"],
+  },
+  "mozzarella-avocado-tomato-bread-plate": {
+    contains: ["Dairy", "Wheat / gluten", "Raw food", "Cold food"],
+    mayContain: [],
+    unknown: ["Egg", "Soy", "Sesame", "Peanuts", "Tree nuts"],
+  },
+  "cottage-cheese-banana-oat-bowl": { contains: ["Dairy", "Raw food", "Cold food"], mayContain: [], unknown: [] },
+  "parmesan-lentil-spinach-pasta": { contains: ["Dairy", "Wheat / gluten"], mayContain: [], unknown: [] },
+};
+
 export const buildMealSafetyMetadata = (mealId: string): MealSafetyMetadata => {
+  const recipeLinked = recipeLinkedSafety[mealId];
+  if (recipeLinked) {
+    return {
+      contains: [...recipeLinked.contains],
+      mayContain: [...recipeLinked.mayContain],
+      unknown: [...recipeLinked.unknown],
+    };
+  }
   const metadata: MealSafetyMetadata = {
     contains: [],
     mayContain: [],
@@ -545,8 +578,9 @@ export const catalogCalibration: Record<string, CatalogCalibration> = {
 
 export const catalogMetadataAudit = {
   drinkIds: Object.keys(drinkSafetyAssignments),
+  recipeLinkedMealIds: Object.keys(recipeLinkedSafety),
   assignmentTags: Object.keys(safetyAssignments) as MustAvoidTag[],
-  safetyAssignments: Object.entries(safetyAssignments).flatMap(
+  safetyAssignments: [...Object.entries(safetyAssignments).flatMap(
     ([tag, assignments]) =>
       certaintyOrder.flatMap((certainty) =>
         (assignments[certainty] ?? []).map((mealId) => ({
@@ -555,6 +589,8 @@ export const catalogMetadataAudit = {
           mealId,
         })),
       ),
-  ),
+  ), ...Object.entries(recipeLinkedSafety).flatMap(([mealId, metadata]) =>
+    certaintyOrder.flatMap((certainty) => metadata[certainty].map((tag) => ({ tag, certainty, mealId }))),
+  )],
   calibratedMealIds: Object.keys(catalogCalibration),
 };

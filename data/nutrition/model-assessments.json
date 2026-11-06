@@ -1,28 +1,893 @@
 {
-  "reviewedAt": "2026-11-04",
+  "reviewedAt": "2026-11-05",
   "sources": {
     "freeSugars": "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
     "fvns": "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
     "fiber": "https://www.ars.usda.gov/ARSUSERFILES/80400535/DATA/PUBLICATIONS/FNR/IMPLICATIONS%20OF%20TWO%20DIRRERENT%20METHODS%20FOR%20ANALYZING%20TOTAL%20DIETARY%20FIBER.PDF"
   },
   "foods": [
-    {"fdcId":168878,"freeSugarBasis":"declared-plain-food-no-free-sugar-source","fvnsEligible":false},
-    {"fdcId":171477,"freeSugarBasis":"declared-plain-food-no-free-sugar-source","fvnsEligible":false},
-    {"fdcId":175168,"freeSugarBasis":"declared-plain-food-no-free-sugar-source","fvnsEligible":false},
-    {"fdcId":174291,"freeSugarBasis":"unresolved","fvnsEligible":null},
-    {"fdcId":173424,"freeSugarBasis":"declared-plain-food-no-free-sugar-source","fvnsEligible":false},
-    {"fdcId":170457,"freeSugarBasis":"declared-plain-food-no-free-sugar-source","fvnsEligible":true},
-    {"fdcId":169967,"freeSugarBasis":"declared-plain-food-no-free-sugar-source","fvnsEligible":true},
-    {"fdcId":173735,"freeSugarBasis":"declared-plain-food-no-free-sugar-source","fvnsEligible":true},
-    {"fdcId":168483,"freeSugarBasis":"declared-plain-food-no-free-sugar-source","fvnsEligible":false},
-    {"fdcId":169238,"freeSugarBasis":"declared-plain-food-no-free-sugar-source","fvnsEligible":true},
-    {"fdcId":168917,"freeSugarBasis":"declared-plain-food-no-free-sugar-source","fvnsEligible":false},
-    {"fdcId":168409,"freeSugarBasis":"declared-plain-food-no-free-sugar-source","fvnsEligible":true},
-    {"fdcId":175180,"freeSugarBasis":"unresolved","fvnsEligible":false},
-    {"fdcId":171413,"freeSugarBasis":"reported-total-sugars-zero","fvnsEligible":false},
-    {"fdcId":173468,"freeSugarBasis":"reported-total-sugars-zero","fvnsEligible":false},
-    {"fdcId":173647,"freeSugarBasis":"reported-total-sugars-zero","fvnsEligible":false},
-    {"fdcId":168411,"freeSugarBasis":"declared-plain-food-no-free-sugar-source","fvnsEligible":true},
-    {"fdcId":171971,"freeSugarBasis":"reported-total-sugars-zero","fvnsEligible":false}
+    {
+      "fdcId": 168878,
+      "freeSugarBasis": "declared-plain-food-no-free-sugar-source",
+      "fvnsEligible": false
+    },
+    {
+      "fdcId": 171477,
+      "freeSugarBasis": "declared-plain-food-no-free-sugar-source",
+      "fvnsEligible": false
+    },
+    {
+      "fdcId": 175168,
+      "freeSugarBasis": "declared-plain-food-no-free-sugar-source",
+      "fvnsEligible": false
+    },
+    {
+      "fdcId": 174291,
+      "freeSugarBasis": "unresolved",
+      "fvnsEligible": null
+    },
+    {
+      "fdcId": 173424,
+      "freeSugarBasis": "declared-plain-food-no-free-sugar-source",
+      "fvnsEligible": false
+    },
+    {
+      "fdcId": 170457,
+      "freeSugarBasis": "declared-plain-food-no-free-sugar-source",
+      "fvnsEligible": true
+    },
+    {
+      "fdcId": 169967,
+      "freeSugarBasis": "declared-plain-food-no-free-sugar-source",
+      "fvnsEligible": true
+    },
+    {
+      "fdcId": 173735,
+      "freeSugarBasis": "declared-plain-food-no-free-sugar-source",
+      "fvnsEligible": true
+    },
+    {
+      "fdcId": 168483,
+      "freeSugarBasis": "declared-plain-food-no-free-sugar-source",
+      "fvnsEligible": false
+    },
+    {
+      "fdcId": 169238,
+      "freeSugarBasis": "declared-plain-food-no-free-sugar-source",
+      "fvnsEligible": true
+    },
+    {
+      "fdcId": 168917,
+      "freeSugarBasis": "declared-plain-food-no-free-sugar-source",
+      "fvnsEligible": false
+    },
+    {
+      "fdcId": 168409,
+      "freeSugarBasis": "declared-plain-food-no-free-sugar-source",
+      "fvnsEligible": true
+    },
+    {
+      "fdcId": 175180,
+      "freeSugarBasis": "unresolved",
+      "fvnsEligible": false
+    },
+    {
+      "fdcId": 171413,
+      "freeSugarBasis": "reported-total-sugars-zero",
+      "fvnsEligible": false
+    },
+    {
+      "fdcId": 173468,
+      "freeSugarBasis": "reported-total-sugars-zero",
+      "fvnsEligible": false
+    },
+    {
+      "fdcId": 173647,
+      "freeSugarBasis": "reported-total-sugars-zero",
+      "fvnsEligible": false
+    },
+    {
+      "fdcId": 168411,
+      "freeSugarBasis": "declared-plain-food-no-free-sugar-source",
+      "fvnsEligible": true
+    },
+    {
+      "fdcId": 171971,
+      "freeSugarBasis": "reported-total-sugars-zero",
+      "fvnsEligible": false
+    },
+    {
+      "fdcId": 168914,
+      "freeSugarBasis": "declared-plain-food-no-free-sugar-source",
+      "fvnsEligible": false,
+      "note": {
+        "en": "Use the named plain ingredient without added sugar, sweetened marinades or fruit/vegetable puree, powder, juice or paste. Naturally occurring sugars in this intact food or cereal are excluded from free sugars under UK NPM; 0 is a declared-formulation model derivation, not a USDA added-sugars measurement.",
+        "zh": "限定列名原味食材，不含添加糖、甜醃料、蔬果泥、粉、汁或醬。依 UK NPM，此完整食物或穀物中的天然糖不屬於游離糖；0 是依明示配方規格推導的模型值，不是 USDA 添加糖實測。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
+        "https://fdc.nal.usda.gov/food-details/168914/nutrients"
+      ]
+    },
+    {
+      "fdcId": 169732,
+      "freeSugarBasis": "declared-plain-food-no-free-sugar-source",
+      "fvnsEligible": false,
+      "note": {
+        "en": "Use the named plain ingredient without added sugar, sweetened marinades or fruit/vegetable puree, powder, juice or paste. Naturally occurring sugars in this intact food or cereal are excluded from free sugars under UK NPM; 0 is a declared-formulation model derivation, not a USDA added-sugars measurement.",
+        "zh": "限定列名原味食材，不含添加糖、甜醃料、蔬果泥、粉、汁或醬。依 UK NPM，此完整食物或穀物中的天然糖不屬於游離糖；0 是依明示配方規格推導的模型值，不是 USDA 添加糖實測。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
+        "https://fdc.nal.usda.gov/food-details/169732/nutrients"
+      ]
+    },
+    {
+      "fdcId": 168910,
+      "freeSugarBasis": "declared-plain-food-no-free-sugar-source",
+      "fvnsEligible": false,
+      "note": {
+        "en": "Use the named plain ingredient without added sugar, sweetened marinades or fruit/vegetable puree, powder, juice or paste. Naturally occurring sugars in this intact food or cereal are excluded from free sugars under UK NPM; 0 is a declared-formulation model derivation, not a USDA added-sugars measurement.",
+        "zh": "限定列名原味食材，不含添加糖、甜醃料、蔬果泥、粉、汁或醬。依 UK NPM，此完整食物或穀物中的天然糖不屬於游離糖；0 是依明示配方規格推導的模型值，不是 USDA 添加糖實測。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
+        "https://fdc.nal.usda.gov/food-details/168910/nutrients"
+      ]
+    },
+    {
+      "fdcId": 168649,
+      "freeSugarBasis": "reported-total-sugars-zero",
+      "fvnsEligible": false,
+      "note": {
+        "en": "The source explicitly reports total sugars 0 g/100 g; free sugars are derived as 0 for this exact plain ingredient. USDA added sugars remain unknown.",
+        "zh": "來源明示總糖為每 100 克 0 克；僅對此特定原味食材推導游離糖為 0。USDA 添加糖仍未知。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
+        "https://fdc.nal.usda.gov/food-details/168649/nutrients"
+      ]
+    },
+    {
+      "fdcId": 168463,
+      "freeSugarBasis": "declared-plain-food-no-free-sugar-source",
+      "fvnsEligible": true,
+      "note": {
+        "en": "Use the named plain ingredient without added sugar, sweetened marinades or fruit/vegetable puree, powder, juice or paste. Naturally occurring sugars in this intact food or cereal are excluded from free sugars under UK NPM; 0 is a declared-formulation model derivation, not a USDA added-sugars measurement.",
+        "zh": "限定列名原味食材，不含添加糖、甜醃料、蔬果泥、粉、汁或醬。依 UK NPM，此完整食物或穀物中的天然糖不屬於游離糖；0 是依明示配方規格推導的模型值，不是 USDA 添加糖實測。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
+        "https://fdc.nal.usda.gov/food-details/168463/nutrients"
+      ]
+    },
+    {
+      "fdcId": 170394,
+      "freeSugarBasis": "declared-plain-food-no-free-sugar-source",
+      "fvnsEligible": true,
+      "note": {
+        "en": "Use the named plain ingredient without added sugar, sweetened marinades or fruit/vegetable puree, powder, juice or paste. Naturally occurring sugars in this intact food or cereal are excluded from free sugars under UK NPM; 0 is a declared-formulation model derivation, not a USDA added-sugars measurement.",
+        "zh": "限定列名原味食材，不含添加糖、甜醃料、蔬果泥、粉、汁或醬。依 UK NPM，此完整食物或穀物中的天然糖不屬於游離糖；0 是依明示配方規格推導的模型值，不是 USDA 添加糖實測。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
+        "https://fdc.nal.usda.gov/food-details/170394/nutrients"
+      ]
+    },
+    {
+      "fdcId": 169247,
+      "freeSugarBasis": "declared-plain-food-no-free-sugar-source",
+      "fvnsEligible": true,
+      "note": {
+        "en": "Use the named plain ingredient without added sugar, sweetened marinades or fruit/vegetable puree, powder, juice or paste. Naturally occurring sugars in this intact food or cereal are excluded from free sugars under UK NPM; 0 is a declared-formulation model derivation, not a USDA added-sugars measurement.",
+        "zh": "限定列名原味食材，不含添加糖、甜醃料、蔬果泥、粉、汁或醬。依 UK NPM，此完整食物或穀物中的天然糖不屬於游離糖；0 是依明示配方規格推導的模型值，不是 USDA 添加糖實測。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
+        "https://fdc.nal.usda.gov/food-details/169247/nutrients"
+      ]
+    },
+    {
+      "fdcId": 171496,
+      "freeSugarBasis": "reported-total-sugars-zero",
+      "fvnsEligible": false,
+      "note": {
+        "en": "The source explicitly reports total sugars 0 g/100 g; free sugars are derived as 0 for this exact plain ingredient. USDA added sugars remain unknown.",
+        "zh": "來源明示總糖為每 100 克 0 克；僅對此特定原味食材推導游離糖為 0。USDA 添加糖仍未知。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
+        "https://fdc.nal.usda.gov/food-details/171496/nutrients"
+      ]
+    },
+    {
+      "fdcId": 174091,
+      "freeSugarBasis": "reported-total-sugars-zero",
+      "fvnsEligible": false,
+      "note": {
+        "en": "The exact whole-wheat French/Vienna bread source reports total sugars 0 g/100 g, so free sugars are derived as 0 for this record only. This is not a claim about all breads, tortillas or the source of added sugars; the USDA added-sugars field remains missing. Use the specifically named bread, without extra sweetener, filling or coating. This generic USDA bread record does not give a full ingredient list establishing the absence of dairy, egg, soy, sesame, peanuts or tree nuts. Those supported avoids remain unknown and exclude this recipe when selected; this is not a claim that the bread contains them or an assessment of cross-contact.",
+        "zh": "此全麥法式／維也納麵包的特定來源，總糖明示為每 100 克 0 克，因此僅對此紀錄推導游離糖為 0。這不代表所有麵包或墨西哥餅皮，也不是添加糖實測；USDA 添加糖欄位仍缺漏。限定使用列名麵包，不另加甜味料、夾餡或表面塗料。 此 USDA 一般麵包紀錄沒有完整成分表可確立不含乳製品、蛋、黃豆、芝麻、花生或樹堅果，因此這些支援的忌口項目保留為未知，使用者選擇排除時會排除此配方；這不代表宣稱麵包含有它們，也不是交叉接觸評估。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
+        "https://fdc.nal.usda.gov/food-details/174091/nutrients"
+      ]
+    },
+    {
+      "fdcId": 170093,
+      "freeSugarBasis": "declared-plain-food-no-free-sugar-source",
+      "fvnsEligible": false,
+      "note": {
+        "en": "Use the named plain ingredient without added sugar, sweetened marinades or fruit/vegetable puree, powder, juice or paste. Naturally occurring sugars in this intact food or cereal are excluded from free sugars under UK NPM; 0 is a declared-formulation model derivation, not a USDA added-sugars measurement.",
+        "zh": "限定列名原味食材，不含添加糖、甜醃料、蔬果泥、粉、汁或醬。依 UK NPM，此完整食物或穀物中的天然糖不屬於游離糖；0 是依明示配方規格推導的模型值，不是 USDA 添加糖實測。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
+        "https://fdc.nal.usda.gov/food-details/170093/nutrients"
+      ]
+    },
+    {
+      "fdcId": 172421,
+      "freeSugarBasis": "declared-plain-food-no-free-sugar-source",
+      "fvnsEligible": true,
+      "note": {
+        "en": "Use the named plain ingredient without added sugar, sweetened marinades or fruit/vegetable puree, powder, juice or paste. Naturally occurring sugars in this intact food or cereal are excluded from free sugars under UK NPM; 0 is a declared-formulation model derivation, not a USDA added-sugars measurement.",
+        "zh": "限定列名原味食材，不含添加糖、甜醃料、蔬果泥、粉、汁或醬。依 UK NPM，此完整食物或穀物中的天然糖不屬於游離糖；0 是依明示配方規格推導的模型值，不是 USDA 添加糖實測。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
+        "https://fdc.nal.usda.gov/food-details/172421/nutrients"
+      ]
+    },
+    {
+      "fdcId": 170894,
+      "freeSugarBasis": "declared-plain-food-no-free-sugar-source",
+      "fvnsEligible": false,
+      "note": {
+        "en": "Use plain unsweetened nonfat dairy Greek yogurt, not lactose-hydrolysed yogurt and without whey powder or added sugar. Naturally occurring dairy lactose is excluded from UK NPM free sugars; derived free sugars 0 is not the unknown USDA added-sugars field. Dairy contributes no FVNS.",
+        "zh": "限定原味無加糖的脫脂乳製希臘優格，不使用乳糖水解優格，不含乳清粉或添加糖。乳製品天然乳糖不納入 UK NPM 游離糖；推導的游離糖 0 並非未知的 USDA 添加糖欄位。乳製品不納入 FVNS。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
+        "https://fdc.nal.usda.gov/food-details/170894/nutrients"
+      ]
+    },
+    {
+      "fdcId": 173905,
+      "freeSugarBasis": "declared-plain-food-no-free-sugar-source",
+      "fvnsEligible": false,
+      "note": {
+        "en": "Use the named plain ingredient without added sugar, sweetened marinades or fruit/vegetable puree, powder, juice or paste. Naturally occurring sugars in this intact food or cereal are excluded from free sugars under UK NPM; 0 is a declared-formulation model derivation, not a USDA added-sugars measurement.",
+        "zh": "限定列名原味食材，不含添加糖、甜醃料、蔬果泥、粉、汁或醬。依 UK NPM，此完整食物或穀物中的天然糖不屬於游離糖；0 是依明示配方規格推導的模型值，不是 USDA 添加糖實測。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
+        "https://fdc.nal.usda.gov/food-details/173905/nutrients"
+      ]
+    },
+    {
+      "fdcId": 171711,
+      "freeSugarBasis": "declared-plain-food-no-free-sugar-source",
+      "fvnsEligible": true,
+      "note": {
+        "en": "Use the named plain ingredient without added sugar, sweetened marinades or fruit/vegetable puree, powder, juice or paste. Naturally occurring sugars in this intact food or cereal are excluded from free sugars under UK NPM; 0 is a declared-formulation model derivation, not a USDA added-sugars measurement.",
+        "zh": "限定列名原味食材，不含添加糖、甜醃料、蔬果泥、粉、汁或醬。依 UK NPM，此完整食物或穀物中的天然糖不屬於游離糖；0 是依明示配方規格推導的模型值，不是 USDA 添加糖實測。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
+        "https://fdc.nal.usda.gov/food-details/171711/nutrients"
+      ]
+    },
+    {
+      "fdcId": 169640,
+      "freeSugarBasis": "reported-total-sugars-as-free",
+      "fvnsEligible": false,
+      "note": {
+        "en": "UK NPM includes all honey sugars as free sugars. The derived input uses this exact USDA record's nutrient 2000 total sugars (82.12 g/100 g), not a zero assumption or an added-sugars measurement. Honey contributes no FVNS.",
+        "zh": "UK NPM 將蜂蜜中的所有糖計入游離糖。推導值使用此筆 USDA 紀錄的營養素 2000 總糖（每 100 克 82.12 克），不是假設為零，也不是添加糖實測。蜂蜜不納入 FVNS。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
+        "https://fdc.nal.usda.gov/food-details/169640/nutrients"
+      ]
+    },
+    {
+      "fdcId": 167747,
+      "freeSugarBasis": "reported-total-sugars-as-free",
+      "fvnsEligible": true,
+      "note": {
+        "en": "All sugars in lemon juice are free sugars under UK NPM. The derived input uses nutrient 2000 total sugars from this exact record (2.52 g/100 g). Fresh 100% juice counts toward FVNS at its raw weight; recipes using it contain only raw-state qualifying FVNS ingredients. This is not a USDA added-sugars measurement.",
+        "zh": "依 UK NPM，檸檬汁中的所有糖均屬游離糖；推導值使用此筆來源營養素 2000 的總糖（每 100 克 2.52 克）。新鮮百分之百果汁依生重納入 FVNS，使用此汁的配方之其他合格 FVNS 食材也皆採生重。這不是 USDA 添加糖實測。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
+        "https://fdc.nal.usda.gov/food-details/167747/nutrients"
+      ]
+    },
+    {
+      "fdcId": 169193,
+      "freeSugarBasis": "reported-total-sugars-zero",
+      "fvnsEligible": false,
+      "note": {
+        "en": "The exact source reports total sugars 0 g/100 g, so free sugars are derived as 0 for this plain ingredient. Use no breading, sweetened marinade or added sauce. USDA added sugars remain unknown. The 96% lean / 4% fat description identifies the starting ground-pork formulation, not the cooked nutrient proportion; the source reports 7.15 g total fat/100 g cooked crumbles.",
+        "zh": "此特定來源明示總糖為每 100 克 0 克，因此原味食材的游離糖推導為 0；不加裹粉、甜醃料或醬汁。USDA 添加糖仍未知。 96% 瘦肉／4% 脂肪是原豬絞肉配方描述，不是熟肉營養比例；來源每 100 克熟碎粒含總脂肪 7.15 克。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
+        "https://fdc.nal.usda.gov/food-details/169193/nutrients"
+      ]
+    },
+    {
+      "fdcId": 171956,
+      "freeSugarBasis": "reported-total-sugars-zero",
+      "fvnsEligible": false,
+      "note": {
+        "en": "The exact source reports total sugars 0 g/100 g, so free sugars are derived as 0 for this plain ingredient. Use no breading, sweetened marinade or added sauce. USDA added sugars remain unknown.",
+        "zh": "此特定來源明示總糖為每 100 克 0 克，因此原味食材的游離糖推導為 0；不加裹粉、甜醃料或醬汁。USDA 添加糖仍未知。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
+        "https://fdc.nal.usda.gov/food-details/171956/nutrients"
+      ]
+    },
+    {
+      "fdcId": 173757,
+      "freeSugarBasis": "declared-plain-food-no-free-sugar-source",
+      "fvnsEligible": true,
+      "note": {
+        "en": "The recipe specifies this plain intact food without added sugars or fruit/vegetable puree, juice, paste or powder. UK NPM excludes its naturally occurring sugars from free sugars. The derived 0 is a formulation assumption, not a missing nutrient converted to zero; USDA added sugars remain unknown.",
+        "zh": "配方限定此原味完整食物，不含添加糖或蔬果泥、汁、醬、粉。依 UK NPM，其天然糖不屬於游離糖；推導的 0 是明示配方假設，不是把缺漏營養值當成零。USDA 添加糖仍未知。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
+        "https://fdc.nal.usda.gov/food-details/173757/nutrients"
+      ]
+    },
+    {
+      "fdcId": 175203,
+      "freeSugarBasis": "declared-plain-food-no-free-sugar-source",
+      "fvnsEligible": true,
+      "note": {
+        "en": "The recipe specifies this plain intact food without added sugars or fruit/vegetable puree, juice, paste or powder. UK NPM excludes its naturally occurring sugars from free sugars. The derived 0 is a formulation assumption, not a missing nutrient converted to zero; USDA added sugars remain unknown.",
+        "zh": "配方限定此原味完整食物，不含添加糖或蔬果泥、汁、醬、粉。依 UK NPM，其天然糖不屬於游離糖；推導的 0 是明示配方假設，不是把缺漏營養值當成零。USDA 添加糖仍未知。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
+        "https://fdc.nal.usda.gov/food-details/175203/nutrients"
+      ]
+    },
+    {
+      "fdcId": 172182,
+      "freeSugarBasis": "declared-plain-food-no-free-sugar-source",
+      "fvnsEligible": false,
+      "note": {
+        "en": "Use plain unsweetened 2%-milkfat dairy cottage cheese, without hydrolysed lactose, whey powder, fruit preparation or added sugars. Naturally occurring dairy lactose is excluded from UK NPM free sugars. The derived 0 is not the unknown USDA added-sugars field. Cottage cheese contributes no FVNS.",
+        "zh": "限定原味無加糖的 2% 乳脂乳製茅屋起司，不含水解乳糖、乳清粉、水果調製物或添加糖。乳製品天然乳糖不納入 UK NPM 游離糖；推導的 0 並非未知的 USDA 添加糖欄位。茅屋起司不納入 FVNS。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
+        "https://fdc.nal.usda.gov/food-details/172182/nutrients"
+      ]
+    },
+    {
+      "fdcId": 173768,
+      "freeSugarBasis": "reported-total-sugars-as-free",
+      "fvnsEligible": null,
+      "note": {
+        "en": "UK NPM treats all sugars in non-dairy drinks as free sugars, even when the drink is unsweetened. Use this exact source nutrient 2000 total sugars value, 0.41 g/100 g, for the soy drink contribution. This light fortified original/vanilla soy drink is not plain unfortified soy milk or a measured brand. Its FVNS interpretation and qualifying soy proportion are unresolved: the generic source does not establish the processing details and ingredient weights needed for that calculation. No FVNS zero is assumed, and this retained source is not used by a scored recipe. USDA added sugars remain unknown. The generic source does not provide a full ingredient list establishing the absence of dairy, egg, wheat/gluten, peanuts, tree nuts or sesame. Those formulation avoids remain unknown and exclude the recipe when selected; soy is a known ingredient. These declarations do not claim those unknown ingredients are present or assess cross-contact.",
+        "zh": "UK NPM 將非乳製飲料中的所有糖計為游離糖，即使飲料沒有加糖也一樣。豆飲的貢獻使用此筆來源營養素 2000 總糖，每 100 克 0.41 克。此來源是來源命名為 Light 款的強化原味／香草豆飲，不代表一般未強化豆漿或特定品牌實測。FVNS 判讀及可計入的豆類比例尚未解決：此一般來源未確立計算所需的處理方式及成分重量，不假設 FVNS 為零；此保留來源不供計分配方使用。USDA 添加糖仍未知。 此一般來源沒有完整成分表可確立不含乳製品、蛋、小麥／麩質、花生、樹堅果或芝麻，因此這些配方忌口項目保留未知，選擇排除時會排除此配方；黃豆是已知食材。這些宣告不表示未知食材確實存在，也不是交叉接觸評估。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
+        "https://fdc.nal.usda.gov/food-details/173768/nutrients"
+      ]
+    },
+    {
+      "fdcId": 170391,
+      "freeSugarBasis": "declared-plain-food-no-free-sugar-source",
+      "fvnsEligible": true,
+      "note": {
+        "en": "The recipe specifies this plain intact food without added sugars or fruit/vegetable puree, juice, paste or powder. UK NPM excludes its naturally occurring sugars from free sugars. The derived 0 is a formulation assumption, not a missing nutrient converted to zero; USDA added sugars remain unknown.",
+        "zh": "配方限定此原味完整食物，不含添加糖或蔬果泥、汁、醬、粉。依 UK NPM，其天然糖不屬於游離糖；推導的 0 是明示配方假設，不是把缺漏營養值當成零。USDA 添加糖仍未知。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
+        "https://fdc.nal.usda.gov/food-details/170391/nutrients"
+      ]
+    },
+    {
+      "fdcId": 169980,
+      "freeSugarBasis": "declared-plain-food-no-free-sugar-source",
+      "fvnsEligible": true,
+      "note": {
+        "en": "The recipe specifies this plain intact food without added sugars or fruit/vegetable puree, juice, paste or powder. UK NPM excludes its naturally occurring sugars from free sugars. The derived 0 is a formulation assumption, not a missing nutrient converted to zero; USDA added sugars remain unknown. This source does not report total sugars; no source total-sugars zero is claimed. The free-sugar classification comes solely from the explicit plain intact-vegetable specification.",
+        "zh": "配方限定此原味完整食物，不含添加糖或蔬果泥、汁、醬、粉。依 UK NPM，其天然糖不屬於游離糖；推導的 0 是明示配方假設，不是把缺漏營養值當成零。USDA 添加糖仍未知。 此來源沒有提供總糖，不宣稱來源總糖為零；游離糖分類僅依明示的原味完整蔬菜規格判定。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
+        "https://fdc.nal.usda.gov/food-details/169980/nutrients"
+      ]
+    },
+    {
+      "fdcId": 169252,
+      "freeSugarBasis": "declared-plain-food-no-free-sugar-source",
+      "fvnsEligible": true,
+      "note": {
+        "en": "The recipe specifies this plain intact food without added sugars or fruit/vegetable puree, juice, paste or powder. UK NPM excludes its naturally occurring sugars from free sugars. The derived 0 is a formulation assumption, not a missing nutrient converted to zero; USDA added sugars remain unknown.",
+        "zh": "配方限定此原味完整食物，不含添加糖或蔬果泥、汁、醬、粉。依 UK NPM，其天然糖不屬於游離糖；推導的 0 是明示配方假設，不是把缺漏營養值當成零。USDA 添加糖仍未知。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
+        "https://fdc.nal.usda.gov/food-details/169252/nutrients"
+      ]
+    },
+    {
+      "fdcId": 169976,
+      "freeSugarBasis": "declared-plain-food-no-free-sugar-source",
+      "fvnsEligible": true,
+      "note": {
+        "en": "The recipe specifies this plain intact food without added sugars or fruit/vegetable puree, juice, paste or powder. UK NPM excludes its naturally occurring sugars from free sugars. The derived 0 is a formulation assumption, not a missing nutrient converted to zero; USDA added sugars remain unknown.",
+        "zh": "配方限定此原味完整食物，不含添加糖或蔬果泥、汁、醬、粉。依 UK NPM，其天然糖不屬於游離糖；推導的 0 是明示配方假設，不是把缺漏營養值當成零。USDA 添加糖仍未知。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
+        "https://fdc.nal.usda.gov/food-details/169976/nutrients"
+      ]
+    },
+    {
+      "fdcId": 170110,
+      "freeSugarBasis": "declared-plain-food-no-free-sugar-source",
+      "fvnsEligible": true,
+      "note": {
+        "en": "The recipe specifies this plain intact food without added sugars or fruit/vegetable puree, juice, paste or powder. UK NPM excludes its naturally occurring sugars from free sugars. The derived 0 is a formulation assumption, not a missing nutrient converted to zero; USDA added sugars remain unknown.",
+        "zh": "配方限定此原味完整食物，不含添加糖或蔬果泥、汁、醬、粉。依 UK NPM，其天然糖不屬於游離糖；推導的 0 是明示配方假設，不是把缺漏營養值當成零。USDA 添加糖仍未知。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
+        "https://fdc.nal.usda.gov/food-details/170110/nutrients"
+      ]
+    },
+    {
+      "fdcId": 170001,
+      "freeSugarBasis": "declared-plain-food-no-free-sugar-source",
+      "fvnsEligible": true,
+      "note": {
+        "en": "The recipe specifies this plain intact food without added sugars or fruit/vegetable puree, juice, paste or powder. UK NPM excludes its naturally occurring sugars from free sugars. The derived 0 is a formulation assumption, not a missing nutrient converted to zero; USDA added sugars remain unknown.",
+        "zh": "配方限定此原味完整食物，不含添加糖或蔬果泥、汁、醬、粉。依 UK NPM，其天然糖不屬於游離糖；推導的 0 是明示配方假設，不是把缺漏營養值當成零。USDA 添加糖仍未知。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
+        "https://fdc.nal.usda.gov/food-details/170001/nutrients"
+      ]
+    },
+    {
+      "fdcId": 169292,
+      "freeSugarBasis": "declared-plain-food-no-free-sugar-source",
+      "fvnsEligible": true,
+      "note": {
+        "en": "The recipe specifies this plain intact food without added sugars or fruit/vegetable puree, juice, paste or powder. UK NPM excludes its naturally occurring sugars from free sugars. The derived 0 is a formulation assumption, not a missing nutrient converted to zero; USDA added sugars remain unknown.",
+        "zh": "配方限定此原味完整食物，不含添加糖或蔬果泥、汁、醬、粉。依 UK NPM，其天然糖不屬於游離糖；推導的 0 是明示配方假設，不是把缺漏營養值當成零。USDA 添加糖仍未知。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
+        "https://fdc.nal.usda.gov/food-details/169292/nutrients"
+      ]
+    },
+    {
+      "fdcId": 170050,
+      "freeSugarBasis": "declared-plain-food-no-free-sugar-source",
+      "fvnsEligible": true,
+      "note": {
+        "en": "The recipe specifies this plain intact food without added sugars or fruit/vegetable puree, juice, paste or powder. UK NPM excludes its naturally occurring sugars from free sugars. The derived 0 is a formulation assumption, not a missing nutrient converted to zero; USDA added sugars remain unknown. Keep the tomato in recognizable cooked pieces; this classification does not cover pureed, concentrated or powdered tomato sauce.",
+        "zh": "配方限定此原味完整食物，不含添加糖或蔬果泥、汁、醬、粉。依 UK NPM，其天然糖不屬於游離糖；推導的 0 是明示配方假設，不是把缺漏營養值當成零。USDA 添加糖仍未知。 番茄保持可辨識的熟塊狀；此分類不適用於打泥、濃縮或粉末形式的番茄醬。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
+        "https://fdc.nal.usda.gov/food-details/170050/nutrients"
+      ]
+    },
+    {
+      "fdcId": 173944,
+      "freeSugarBasis": "declared-plain-food-no-free-sugar-source",
+      "fvnsEligible": true,
+      "note": {
+        "en": "The recipe specifies this plain intact food without added sugars or fruit/vegetable puree, juice, paste or powder. UK NPM excludes its naturally occurring sugars from free sugars. The derived 0 is a formulation assumption, not a missing nutrient converted to zero; USDA added sugars remain unknown.",
+        "zh": "配方限定此原味完整食物，不含添加糖或蔬果泥、汁、醬、粉。依 UK NPM，其天然糖不屬於游離糖；推導的 0 是明示配方假設，不是把缺漏營養值當成零。USDA 添加糖仍未知。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
+        "https://fdc.nal.usda.gov/food-details/173944/nutrients"
+      ]
+    },
+    {
+      "fdcId": 171705,
+      "freeSugarBasis": "declared-plain-food-no-free-sugar-source",
+      "fvnsEligible": true,
+      "note": {
+        "en": "The recipe specifies raw avocado flesh in intact slices, with skin and stone excluded. Avocado is explicitly included in the UK NPM FVNS fruit-vegetable list. Naturally occurring sugars in this plain intact fruit are excluded from free sugars; derived 0 is not a source added-sugars measurement. No sweetener, puree, dressing or processing additive is included.",
+        "zh": "配方限定生酪梨果肉切片，不含皮與果核。UK NPM 的果菜類 FVNS 清單明列酪梨；此原味完整果實的天然糖不屬游離糖，推導的 0 不是來源添加糖實測。不含甜味料、果泥、沙拉醬或加工添加物。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
+        "https://fdc.nal.usda.gov/food-details/171705/nutrients"
+      ]
+    },
+    {
+      "fdcId": 169999,
+      "freeSugarBasis": "declared-plain-food-no-free-sugar-source",
+      "fvnsEligible": true,
+      "note": {
+        "en": "UK NPM explicitly lists sweet corn as a pod/seed vegetable. This assessment counts boiled whole yellow sweetcorn kernels at their cooked edible weight, with the cob excluded; it does not apply to dried maize grain, cornmeal, flour or an unspecified corn product. Natural sugars in the plain intact kernels are excluded from free sugars. The derived 0 is not a USDA added-sugars measurement.",
+        "zh": "UK NPM 明列甜玉米為莢果及種子蔬菜。此判讀以水煮完整黃甜玉米粒的可食熟重納入 FVNS，不含玉米梗；不適用於乾玉米穀粒、玉米粗粉、麵粉或未明玉米製品。原味完整玉米粒中的天然糖不屬游離糖，推導的 0 不是 USDA 添加糖實測。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
+        "https://fdc.nal.usda.gov/food-details/169999/nutrients"
+      ]
+    },
+    {
+      "fdcId": 169141,
+      "freeSugarBasis": "declared-plain-food-no-free-sugar-source",
+      "fvnsEligible": true,
+      "note": {
+        "en": "The source is green snap-bean pods, not mature dried bean seeds. Green/French beans are explicitly included in the UK NPM pod-vegetable definitions, counted at the declared boiled and drained weight. Plain intact vegetables without added sugar have derived free sugars 0 under this recipe specification; source added sugars remain unknown.",
+        "zh": "來源為四季豆嫩莢，不是成熟乾豆籽。UK NPM 莢果蔬菜定義明列 green/French beans，依表列水煮瀝乾重量納入 FVNS。此配方規格為無加糖的原味完整蔬菜，游離糖推導為 0；來源添加糖仍未知。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
+        "https://fdc.nal.usda.gov/food-details/169141/nutrients"
+      ]
+    },
+    {
+      "fdcId": 168394,
+      "freeSugarBasis": "declared-plain-food-no-free-sugar-source",
+      "fvnsEligible": true,
+      "note": {
+        "en": "The USDA source identifies bitter-gourd fruit (pods), not leafy tips. The FVNS classification is a documented inference from the UK NPM category Other gourds (Cucurbitaceae spp.): Singapore NParks links bitter gourd/balsam pear to Momordica charantia; Kew confirms that species belongs to Cucurbitaceae. The model does not name bitter gourd individually. Use plain boiled drained edible fruit; its natural sugars are excluded from free sugars, with derived 0 rather than a USDA added-sugars measurement.",
+        "zh": "USDA 來源標示苦瓜果實（pods），不是嫩葉。FVNS 分類是依 UK NPM「其他瓜類（葫蘆科 Cucurbitaceae）」所作的明示推論；新加坡 NParks 將苦瓜／balsam pear 對應至 Momordica charantia，Kew 確認此物種屬葫蘆科，模型並未逐項列名苦瓜。限定原味水煮瀝乾可食果肉，其天然糖不屬游離糖；推導的 0 並非 USDA 添加糖實測。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
+        "https://fdc.nal.usda.gov/food-details/168394/nutrients",
+        "https://powo.science.kew.org/taxon/293413-1",
+        "https://www.nparks.gov.sg/florafaunaweb/flora/1/4/1452"
+      ]
+    },
+    {
+      "fdcId": 171534,
+      "freeSugarBasis": "reported-total-sugars-zero",
+      "fvnsEligible": false,
+      "note": {
+        "en": "The source reports total sugars of 0 g per 100 g for plain grilled skinless, boneless chicken breast without added solution. Use unbreaded, unglazed meat; all recipe oil and salt are listed separately. Chicken is outside the FVNS ingredient groups.",
+        "zh": "來源的原味去皮去骨炙烤雞胸肉（非添加溶液版本）總糖為每 100 克 0 克。使用未裹粉、未上甜醬的肉，配方油鹽另外明列。雞肉不屬於 FVNS 食材類別。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions"
+      ]
+    },
+    {
+      "fdcId": 171986,
+      "freeSugarBasis": "reported-total-sugars-zero",
+      "fvnsEligible": false,
+      "note": {
+        "en": "The source reports total sugars of 0 g per 100 g for light tuna canned in water without salt, weighed as drained solids. Use this plain water-packed version, not tuna in oil, mayonnaise or seasoned sauce. Fish is outside the FVNS ingredient groups. The Processed food tag records the app's canned-food avoidance preference; it is not a NOVA or health classification.",
+        "zh": "來源為未加鹽水浸淡色鮪魚罐頭的瀝乾固形物，總糖每 100 克 0 克。使用此原味水浸版本，不以油漬、拌美乃滋或調味醬的鮪魚代替。魚不屬於 FVNS 食材類別。Processed food 標籤僅用於本產品的罐頭食品避開偏好，不代表 NOVA 或健康分類。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions"
+      ]
+    },
+    {
+      "fdcId": 174314,
+      "freeSugarBasis": "reported-total-sugars-zero",
+      "fvnsEligible": false,
+      "note": {
+        "en": "The source reports total sugars of 0 g per 100 g for roasted whole lamb leg, separable lean only, with the source carcass cut trimmed to 1/4 inch fat. Weigh only edible cooked lean meat, excluding bone and separable fat. This is plain lamb, not a processed gyro loaf or marinated product. Lamb is outside the FVNS ingredient groups.",
+        "zh": "來源為整支烤羊腿僅分離瘦肉，原始切塊修脂至 1/4 英吋，總糖每 100 克 0 克。僅秤去骨、去可分離脂肪後的可食熟瘦肉。此為原味羊肉，不是加工 gyro 肉條或醃製產品。羊肉不屬於 FVNS 食材類別。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions"
+      ]
+    },
+    {
+      "fdcId": 170416,
+      "freeSugarBasis": "declared-plain-food-no-free-sugar-source",
+      "fvnsEligible": true,
+      "note": {
+        "en": "Fresh parsley (Petroselinum crispum) is explicitly listed among leaf vegetables in the official FVNS definitions. The recipe uses washed, drained, raw leaves, chopped but not blended into puree or paste. Its naturally occurring sugars are not free sugars under this intact-vegetable specification; this does not assert that source total sugars are zero.",
+        "zh": "新鮮巴西里（Petroselinum crispum）明列於官方 FVNS 葉菜定義。配方使用洗淨瀝乾的生葉，可切碎但不攪成果泥或糊。依此完整蔬菜規格，天然糖不算游離糖；並非宣稱來源總糖為零。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions"
+      ]
+    },
+    {
+      "fdcId": 170005,
+      "freeSugarBasis": "declared-plain-food-no-free-sugar-source",
+      "fvnsEligible": true,
+      "note": {
+        "en": "Spring onion is explicitly listed among onion-family vegetables in the official FVNS definitions. The recipe uses raw edible tops and bulb, washed, drained and sliced, with no sweetening or puree. Naturally occurring sugars in this intact vegetable are not free sugars; the source total sugars are not zero.",
+        "zh": "青蔥明列於官方 FVNS 蔥屬蔬菜定義。配方使用洗淨瀝乾、切片的生可食蔥綠與蔥白，不加糖也不打成泥。此完整蔬菜的天然糖不算游離糖；來源總糖並非零。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions"
+      ]
+    },
+    {
+      "fdcId": 170152,
+      "freeSugarBasis": "declared-plain-food-no-free-sugar-source",
+      "fvnsEligible": true,
+      "note": {
+        "en": "The source specifies toasted, decorticated sesame kernels without added salt. Toasting establishes the cooked ingredient state. The recipe grinds these weighed plain kernels without adding sweeteners; naturally occurring seed sugars are not free sugars, including in sesame paste, as illustrated by official worked example 8. Sesame seeds are explicitly eligible FVNS; toasted seeds are used only with other cooked qualifying ingredients.",
+        "zh": "來源指定烘烤、去殼且未加鹽的芝麻仁，烘烤提供熟食狀態依據。配方將這些秤好的原味芝麻仁磨碎，不加甜味劑；依官方範例 8，包含芝麻糊在內的種籽天然糖不算游離糖。芝麻明列為合格 FVNS，烘烤芝麻僅搭配其他熟重合格食材。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-worked-examples-and-further-advice-on-calculations"
+      ]
+    },
+    {
+      "fdcId": 173928,
+      "freeSugarBasis": "declared-plain-food-no-free-sugar-source",
+      "fvnsEligible": true,
+      "note": {
+        "en": "Although the full USDA description contains the word raw, its final preparation explicitly says cooked, boiled. Use peeled, cored apple pieces boiled without added sugar, then drained and weighed cooked. Do not mash, puree or blend the apple. Naturally occurring sugars in these intact cooked fruit pieces are not free sugars; the nonzero source total sugars are retained. Apples are listed FVNS fruit. Some FoodOn attributes still describe raw apple; this metadata inconsistency is retained, and the declared preparation uses the record description's explicit final cooked, boiled state.",
+        "zh": "USDA 完整名稱雖含 raw 字樣，最終處理明確標示 cooked, boiled。使用去皮去核、未加糖水煮的蘋果塊，瀝乾後秤熟重，不壓泥、打成果泥或攪打。完整熟果塊的天然糖不算游離糖，仍保留來源非零總糖值；蘋果明列為 FVNS 水果。 部分 FoodOn 屬性仍描述生蘋果；此中繼資料不一致予以保留，配方處理狀態依據紀錄名稱明確的最終 cooked, boiled（熟、水煮）狀態。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions"
+      ]
+    },
+    {
+      "fdcId": 167762,
+      "freeSugarBasis": "declared-plain-food-no-free-sugar-source",
+      "fvnsEligible": true,
+      "note": {
+        "en": "Use fresh raw strawberries with leaves and other inedible parts removed, washed and drained. Whole or sliced berries contain naturally occurring sugars outside the free-sugars definition; do not puree or sweeten them. Strawberries are explicitly listed in the official FVNS definitions.",
+        "zh": "使用去葉及不可食部分、洗淨瀝乾的新鮮生草莓。完整或切片草莓的天然糖不屬於游離糖，不打成果泥或加糖；草莓明列於官方 FVNS 定義。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions"
+      ]
+    },
+    {
+      "fdcId": 168437,
+      "freeSugarBasis": "declared-plain-food-no-free-sugar-source",
+      "fvnsEligible": true,
+      "note": {
+        "en": "The source is cooked shiitake without salt, not dried mushrooms or raw mushrooms. Use plain cooked edible mushroom pieces, with tough inedible stems removed and cooking liquid drained. No sweetened glaze or puree is included. Intact mushroom sugars are not free sugars, and shiitake is explicitly listed among eligible fungi.",
+        "zh": "來源是未加鹽熟香菇，不是乾香菇或生香菇。使用去除不可食硬蒂、瀝去烹調液的原味熟可食香菇塊，不含含糖醬汁，也不打成泥。完整菇類天然糖不算游離糖，香菇明列於合格真菌類。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions"
+      ]
+    },
+    {
+      "fdcId": 169230,
+      "freeSugarBasis": "declared-plain-food-no-free-sugar-source",
+      "fvnsEligible": true,
+      "note": {
+        "en": "Use peeled raw garlic, sliced or chopped by hand and served without further cooking. Do not crush or blend it into a paste. Under this intact-vegetable specification, naturally occurring sugars are not free sugars; this is not a source-total-sugars zero. Garlic is explicitly listed among FVNS onion-family vegetables.",
+        "zh": "使用去皮生蒜，手工切片或切碎，之後不再烹煮，不壓成泥也不攪打成糊。依此完整蔬菜規格，天然糖不算游離糖；並非來源總糖為零。大蒜明列於 FVNS 蔥屬蔬菜。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions"
+      ]
+    },
+    {
+      "fdcId": 170848,
+      "freeSugarBasis": "declared-plain-food-no-free-sugar-source",
+      "fvnsEligible": false,
+      "note": {
+        "en": "Use a plain piece of hard Parmesan and grate it at assembly, not a flavored or starch-coated pre-grated blend. Naturally present milk sugars in unsweetened cheese are outside the free-sugars definition. No lactose-free treatment, added sugar, whey powder or vegetable preparation is specified. Dairy cheese is not an FVNS ingredient.",
+        "zh": "使用原味硬質帕瑪森起司塊，組裝時現刨，不以調味或裹澱粉的預刨混合物代替。未加糖起司中天然存在的乳糖不屬於游離糖，規格不含去乳糖處理、添加糖、乳清粉或蔬菜調製品。乳製起司不是 FVNS 食材。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions"
+      ]
+    },
+    {
+      "fdcId": 170844,
+      "freeSugarBasis": "declared-plain-food-no-free-sugar-source",
+      "fvnsEligible": false,
+      "note": {
+        "en": "Use plain Monterey cheese, without pepper, fruit, sweeteners or added whey powder, not a flavored or processed cheese blend. Naturally present milk sugars in this unsweetened dairy food are not free sugars. The source reports nonzero total sugars, retained separately; dairy cheese is outside FVNS.",
+        "zh": "使用原味蒙特瑞起司，不加辣椒、水果、甜味劑或乳清粉，不以調味或再製起司混合物代替。此未加糖乳製品中的天然乳糖不算游離糖；來源非零總糖仍另行保留，乳製起司不屬於 FVNS。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions"
+      ]
+    },
+    {
+      "fdcId": 170845,
+      "freeSugarBasis": "reported-total-sugars-zero",
+      "fvnsEligible": false,
+      "note": {
+        "en": "The selected whole-milk mozzarella source reports total sugars of 0 g per 100 g. Use plain whole-milk mozzarella, not the separately listed low-moisture, part-skim or pre-shredded source records. Dairy cheese is outside FVNS.",
+        "zh": "選用的全脂莫札瑞拉來源總糖為每 100 克 0 克。使用原味全脂莫札瑞拉，不套用另列的低水分、部分脫脂或預刨版本；乳製起司不屬於 FVNS。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions"
+      ]
+    },
+    {
+      "fdcId": 171651,
+      "freeSugarBasis": "reported-total-sugars-zero",
+      "fvnsEligible": false,
+      "note": {
+        "en": "This pinned SR Legacy record is specifically QUAKER Puffed Rice and reports total sugars of 0 g per 100 g. Puffed rice is a cereal grain, not FVNS. The recipe is an estimate from this archived product record; it is not verified against a current package or another cereal. The record lacks a full ingredient/allergen declaration, so other ingredient absences remain unknown rather than being certified.",
+        "zh": "此固定 SR Legacy 紀錄指定 QUAKER 膨化米穀片，總糖為每 100 克 0 克。膨化米屬穀物，不屬於 FVNS。配方依此歷史產品紀錄估算，未驗證現售包裝或其他穀片；紀錄缺乏完整原料及過敏原聲明，其他原料是否不存在仍保留未知，不作排除保證。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions"
+      ]
+    },
+    {
+      "fdcId": 174271,
+      "freeSugarBasis": "declared-plain-food-no-free-sugar-source",
+      "fvnsEligible": true,
+      "note": {
+        "en": "The source is mature soybeans fully cooked by boiling without salt. Use the hydrated edible whole beans, not dry seeds, immature edamame, tofu or soybean extract. Plain intact beans contain naturally occurring sugars outside the free-sugars definition; total sugars are not zero. Soya beans are explicitly listed in FVNS. This does not resolve the fraction of soybeans in processed tofu or soy drinks.",
+        "zh": "來源為未加鹽水煮至熟的成熟黃豆。使用吸水煮熟的可食完整豆粒，不是乾豆、未成熟毛豆、豆腐或黃豆萃取物。原味完整豆粒的天然糖不算游離糖，總糖並非零；黃豆明列於 FVNS。此分類不代表加工豆腐或豆飲中的黃豆比例已知。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions"
+      ]
+    },
+    {
+      "fdcId": 168426,
+      "freeSugarBasis": "declared-plain-food-no-free-sugar-source",
+      "fvnsEligible": true,
+      "note": {
+        "en": "Use the leek bulb and lower leaf portion, boiled without salt and drained before cooked weighing; exclude roots and tough upper leaves. Keep the edible leek sliced or in pieces, not pureed. Naturally occurring sugars in this intact cooked vegetable are not free sugars. Leek is explicitly listed among FVNS onion-family vegetables.",
+        "zh": "使用韭蔥莖基與下段葉，未加鹽水煮、瀝乾後秤熟重，排除根與粗硬上段葉。可食韭蔥保持切片或塊狀，不打成泥。完整熟蔬菜的天然糖不算游離糖；韭蔥明列於 FVNS 蔥屬蔬菜。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions"
+      ]
+    },
+    {
+      "fdcId": 169229,
+      "freeSugarBasis": "declared-plain-food-no-free-sugar-source",
+      "fvnsEligible": true,
+      "note": {
+        "en": "Use plain eggplant boiled without salt and drained, not fried eggplant or baba ghanoush. Remove the stalk and other inedible parts before final cooked edible weighing; keep the fruit in pieces. Intact cooked eggplant sugars are not free sugars, and aubergine/eggplant is explicitly listed in FVNS.",
+        "zh": "使用未加鹽水煮瀝乾的原味茄子，不是炸茄子或茄泥醬。去除蒂及不可食部分後秤最終可食熟重，保持塊狀。完整熟茄子的天然糖不算游離糖，茄子明列於 FVNS。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions"
+      ]
+    },
+    {
+      "fdcId": 169989,
+      "freeSugarBasis": "declared-plain-food-no-free-sugar-source",
+      "fvnsEligible": true,
+      "note": {
+        "en": "Use plain celery boiled without salt, drained and weighed cooked, with no sweetened glaze or blending. Its naturally occurring sugars are not free sugars under this intact-vegetable specification. Celery is explicitly listed as an FVNS stalk vegetable and carries the named Celery avoidance tag.",
+        "zh": "使用未加鹽水煮、瀝乾秤熟重的原味西洋芹，不加含糖醬或攪打成泥。依完整蔬菜規格，天然糖不算游離糖；西洋芹明列於 FVNS 莖菜，並帶有 Celery 避開標籤。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions"
+      ]
+    },
+    {
+      "fdcId": 170058,
+      "freeSugarBasis": "declared-plain-food-no-free-sugar-source",
+      "fvnsEligible": true,
+      "note": {
+        "en": "Use plain turnip root boiled without salt, drained and kept in pieces. This source is turnip, not potato or radish. The official FVNS definitions explicitly include turnip as a root vegetable, while their separate tuber exclusions name foods such as potato. Naturally occurring sugars in intact cooked turnip are not free sugars.",
+        "zh": "使用未加鹽水煮、瀝乾並保持塊狀的蕪菁根。來源為蕪菁，不是馬鈴薯或蘿蔔；官方 FVNS 根菜定義明列蕪菁，另列塊莖排除項目才包含馬鈴薯等食物。完整熟蕪菁的天然糖不算游離糖。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions"
+      ]
+    },
+    {
+      "fdcId": 170397,
+      "freeSugarBasis": "declared-plain-food-no-free-sugar-source",
+      "fvnsEligible": true,
+      "note": {
+        "en": "Use plain cauliflower boiled without salt, drained and weighed cooked, with no cheese sauce or puree. Naturally occurring sugars in intact cooked cauliflower are outside the free-sugars definition. Cauliflower is explicitly listed among eligible FVNS brassicas.",
+        "zh": "使用未加鹽水煮、瀝乾秤熟重的原味白花椰菜，不加起司醬或打成泥。完整熟白花椰菜的天然糖不屬於游離糖，白花椰菜明列於合格 FVNS 十字花科蔬菜。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions"
+      ]
+    },
+    {
+      "fdcId": 170420,
+      "freeSugarBasis": "declared-plain-food-no-free-sugar-source",
+      "fvnsEligible": true,
+      "note": {
+        "en": "Use shelled green peas boiled without salt and drained, not dried peas or pea pods. The cooked peas remain whole, not pureed. Their naturally occurring sugars are not free sugars; the source total sugars remain nonzero. Green/garden peas are explicitly listed among FVNS pod and seed vegetables.",
+        "zh": "使用未加鹽水煮瀝乾的去莢青豌豆仁，不是乾豌豆或豆莢。熟豌豆保持完整、不打成泥，天然糖不算游離糖，來源總糖仍為非零。青豌豆明列於 FVNS 莢及種籽蔬菜。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions"
+      ]
+    },
+    {
+      "fdcId": 170932,
+      "freeSugarBasis": "reported-total-sugars-as-free",
+      "fvnsEligible": false,
+      "note": {
+        "en": "Reviewed recipe-input assumption: use only the archived dry red/cayenne pepper spice finely ground to powder, with nothing added or removed. USDA calls this record \"Spices, pepper, red or cayenne\" and does not itself establish grinding; its physical nutrient values are retained unchanged. FDA identifies red/cayenne pepper as dried Capsicum fruit. For the explicitly powdered input, UK NPM counts vegetable-powder sugars as free and excludes the powder from FVNS. Therefore the actual archived total sugars, 10.34 g per 100 g, are derived as free sugars; this is not a USDA measurement of free sugars or a separate powder-specific assay. Do not extend this assessment to whole pods, flakes or seasoning blends.",
+        "zh": "已審查的配方投入規格假設：僅使用此歷史來源的乾燥紅／卡宴辣椒香料，細磨成粉，不增減其他成分。USDA 紀錄名稱為 \"Spices, pepper, red or cayenne\"，本身未確認研磨形式，原始物理營養數值全部保留不變。FDA 將紅／卡宴辣椒定義為乾燥 Capsicum 果實。針對此明確粉末規格，英國 NPM 將蔬菜粉的糖計為游離糖，並不納入 FVNS。因此將來源實際每 100 克 10.34 克總糖推導為游離糖；這不是 USDA 的游離糖測量或另作粉末專用檢驗。不得自動套用至整顆乾椒、辣椒碎片或混合調味粉。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
+        "https://www.fda.gov/regulatory-information/search-fda-guidance-documents/cpg-sec-525750-spices-definitions"
+      ]
+    },
+    {
+      "fdcId": 171325,
+      "freeSugarBasis": "reported-total-sugars-as-free",
+      "fvnsEligible": false,
+      "note": {
+        "en": "The USDA title and FoodOn description explicitly identify garlic powder, not garlic salt or a seasoning blend. Use plain powder with nothing added. UK NPM counts sugars in vegetable powders as free sugars and excludes the powder from FVNS; therefore the actual archived total sugars, 2.43 g per 100 g, are used as free sugars. This is a model derivation, not a USDA measurement of free sugars. The intact chopped-garlic assessment remains separate and unchanged.",
+        "zh": "USDA 名稱與 FoodOn 描述明確為蒜粉，不是蒜鹽或混合調味料；僅使用未添加其他成分的原味蒜粉。英國 NPM 將蔬菜粉中的糖計為游離糖，且粉末不計入 FVNS，因此採來源實際每 100 克 2.43 克總糖作為游離糖。這是模型推導，不是 USDA 的游離糖測量；原有完整切碎蒜頭的評估獨立保留，不作更動。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions"
+      ]
+    }
   ]
 }

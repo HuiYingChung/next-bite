@@ -28,7 +28,7 @@ function loadSource(relativePath) {
     },
   );
   const localRequire = (specifier) => {
-    if (specifier === "react/jsx-runtime") return require(specifier);
+    if (specifier === "react" || specifier === "react/jsx-runtime") return require(specifier);
     assert.ok(
       specifier.startsWith("."),
       `Unexpected runtime dependency: ${specifier}`,
@@ -71,6 +71,8 @@ const { HistoryGrid, RecipeOptionFacts } = loadSource(
 const { createBlankState, createEmptyMeal, mealNames, recommendationDataset } =
   loadSource("src/data.ts");
 const { NutritionDetails } = loadSource("src/NutritionDetails.tsx");
+const { RecipeDetails } = loadSource("src/RecipeDetails.tsx");
+const { RecipeLibrary } = loadSource("src/RecipeLibrary.tsx");
 const { RecommendationScore } = loadSource("src/RecommendationScore.tsx");
 const { HistoryBasis } = loadSource("src/HistoryBasis.tsx");
 const { buildHistoryVarietyContext } = loadSource("src/history-variety.ts");
@@ -261,11 +263,16 @@ const historyBlank = createBlankState(now).days;
 for (const locale of ["en", "zh"]) {
   const unchanged = recommendPilotMeals(historyProfile, defaultMealContext, locale, now, historyToday, historyBlank);
   const ranked = recommendPilotMeals(historyProfile, defaultMealContext, locale, now, historyToday, historyState.days);
-  assert.equal(ranked.recommendations[0].recipe.mealId, "tofu-kale-quinoa-bowl");
-  assert.equal(ranked.recommendations[0].trace.variety.applied, true);
+  const quinoa = ranked.eligibleRecipes.find(rec => rec.recipe.mealId === "tofu-kale-quinoa-bowl");
+  const beans = ranked.eligibleRecipes.find(rec => rec.recipe.mealId === "bean-veggie-rice-bowl");
+  assert.ok(quinoa && beans, "The original equal-total recipe pair remains inspectable in the expanded collection");
+  assert.equal(quinoa.score.total, beans.score.total);
+  assert.equal(quinoa.trace.variety.applied, true);
+  assert(ranked.eligibleRecipes.indexOf(quinoa) < ranked.eligibleRecipes.indexOf(beans),
+    "A prior rice record can distinguish equal totals even below the top three");
   assert.deepEqual(ranked.recommendations.map(rec => rec.score.total), unchanged.recommendations.map(rec => rec.score.total), "History UI cannot hide a lower-total reorder.");
   const before = JSON.stringify(ranked);
-  for (const rec of ranked.recommendations) {
+  for (const rec of new Set([...ranked.recommendations, quinoa])) {
     verifyHistoryBasis(rec.trace.variety, locale);
     const scoreTree = RecommendationScore({ rec, locale });
     const nested = elements(scoreTree, node => node.type === HistoryBasis);
@@ -433,6 +440,7 @@ function verifyRecipeOptionFacts(rec, locale) {
 let nutritionPanelsChecked = 0;
 let unknownFiberPanelsChecked = 0;
 let exactIngredientLinksChecked = 0;
+let preparationNotesChecked = 0;
 function verifyNutritionPanel(recommendation, locale) {
   verifyRecipeOptionFacts(recommendation, locale);
   verifyScorePanel(recommendation, locale);
@@ -494,6 +502,20 @@ function verifyNutritionPanel(recommendation, locale) {
     assert.equal(links[0].props.href, `https://fdc.nal.usda.gov/food-details/${ingredient.food.fdcId}/nutrients`);
     assert.ok(content(links[0]).includes(`USDA FDC ${ingredient.food.fdcId}`));
     exactIngredientLinksChecked += 1;
+    const preparationNotes = elements(row, (node) => hasClass(node, "nutrition-preparation-note"));
+    assert.equal(preparationNotes.length, ingredient.processing === "pureed" ? 1 : 0,
+      "Only the recipe's explicitly pureed ingredient receives a preparation-specific model note.");
+    if (ingredient.processing === "pureed") {
+      const note = preparationNotes[0];
+      const value = elements(note, (node) => hasClass(node, "nutrition-preparation-value"))[0];
+      assert.equal(content(elements(value, (node) => node.type === "span")[0]),
+        expectedNutritionValue(ingredient.preparationFreeSugarsGrams ?? null, "g", locale),
+        "Render the engine's selected-portion free-sugar estimate, not the plain source's zero or a new UI calculation.");
+      assert.ok(content(note).includes(ingredient.preparationModelBasis.note[locale]));
+      assert.deepEqual(elements(note, (node) => hasClass(node, "nutrition-preparation-link")).map(link => link.props.href),
+        ingredient.preparationModelBasis.sourceUrls, "Expose the actual preparation-specific model references.");
+      preparationNotesChecked += 1;
+    }
   });
   const heading = content(elements(tree, (node) => hasClass(node, "nutrition-recipe-heading"))[0]);
   assert.ok(heading.includes(recommendation.recipe.label[locale]));
@@ -529,6 +551,29 @@ for (const locale of ["en", "zh"]) {
     assert.ok(Math.abs(portionResult.recommendations[0].nutrition.kcal - actual.recommendations[0].nutrition.kcal * factor) < 0.001, "The whole-portion nutrient facts still scale even when the model score does not.");
   }
   actual.recommendations.forEach((recommendation) => verifyNutritionPanel(recommendation, locale));
+  const libraryHtml = renderToStaticMarkup(require("react").createElement(RecipeLibrary, {
+    result: actual, context: defaultMealContext, locale, plans: [], busy: false,
+    onPortionChange() {}, onChoose: async () => true, onAdjustConditions() {},
+  }));
+  assert.equal((libraryHtml.match(/class="recipe-library-card"/g) ?? []).length, standardizedRecipes.length,
+    "The recipe library must expose every recipe, including those outside the top three");
+  assert.equal((libraryHtml.match(/aria-haspopup="dialog"/g) ?? []).length, standardizedRecipes.length,
+    "Every recipe has an accessible details action");
+  for (const option of actual.eligibleRecipes) {
+    const fullDetails = renderToStaticMarkup(require("react").createElement(RecipeDetails, {
+      recipe: option.recipe, portion: option.portion, calculation: option, recommendation: option, locale,
+    }));
+    assert.equal((fullDetails.match(/class="recommendation-score"/g) ?? []).length, 1);
+    assert.equal((fullDetails.match(/class="nutrition-details"/g) ?? []).length, 1);
+    assert(fullDetails.includes(locale === "en" ? "Make it happen" : "接下來怎麼準備"));
+    const inspectOnly = renderToStaticMarkup(require("react").createElement(RecipeDetails, {
+      recipe: option.recipe, portion: option.portion, calculation: option, locale,
+    }));
+    assert(!inspectOnly.includes('class="recommendation-score"'),
+      "Inspecting an excluded recipe must not fabricate eligibility or a ranking trace");
+    assert(inspectOnly.includes('class="nutrition-details"'),
+      "Ingredient weights and source estimates remain inspectable without eligibility");
+  }
   for (const recipe of standardizedRecipes) {
     const meal = recommendationDataset.find((item) => item.id === recipe.mealId);
     assert.ok(meal);
@@ -629,6 +674,7 @@ console.log(
       actualNutritionPanels: nutritionPanelsChecked,
       missingFiberPanels: unknownFiberPanelsChecked,
       exactOfficialIngredientLinks: exactIngredientLinksChecked,
+      preparationSpecificIngredientNotes: preparationNotesChecked,
       fourMainNutritionMetrics: true,
       collapsedNutritionSourcesAndVersion: true,
       missingValuesNotZero: true,

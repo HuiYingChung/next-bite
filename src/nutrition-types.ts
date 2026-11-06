@@ -1,3 +1,5 @@
+import type { MustAvoidTag } from "./types";
+
 export type LocalizedNutritionText = { en: string; zh: string };
 export type NutrientKey = "kcal" | "energyKj" | "protein" | "carbs" | "fat" | "saturatedFat" | "fiber" | "sodium" | "addedSugar";
 export type NutrientValues = Record<NutrientKey, number | null>;
@@ -24,6 +26,8 @@ export type SourceFood = {
   description: string;
   label: LocalizedNutritionText;
   state: FoodState;
+  avoidTags: MustAvoidTag[];
+  unknownAvoidTags?: MustAvoidTag[];
   sourceId: string;
   recordUrl: string;
   publicationDate: string;
@@ -38,12 +42,21 @@ export type SourceFood = {
   };
 };
 
+export type IngredientPreparationModelBasis = {
+  freeSugarBasis: "reported-total-sugars-as-free";
+  freeSugarsPer100g: number | null;
+  note: LocalizedNutritionText;
+  sourceUrls: string[];
+};
+
 export type RecipeIngredient = {
   foodId: string;
   grams: number;
   weighedState: FoodState;
   group: "protein" | "vegetable" | "carb" | "fruit" | "soup" | "drink" | "other";
-  role: "protein" | "vegetable" | "staple" | "fat" | "seasoning" | "liquid";
+  role: "protein" | "vegetable" | "fruit" | "staple" | "fat" | "seasoning" | "sauce" | "liquid";
+  processing?: "pureed";
+  preparationModelBasis?: IngredientPreparationModelBasis;
 };
 
 export type StandardizedRecipe = {

@@ -1,4 +1,5 @@
 import { enrichRecommendation } from "./evidence";
+import { recipeRecommendationDataset } from "./recipe-catalog";
 import {
   buildMealSafetyMetadata,
   catalogCalibration,
@@ -1957,7 +1958,122 @@ const recommendationCatalog: RawMealOption[] = [
   },
 ];
 
-export const recommendationDataset: Recommendation[] = recommendationCatalog.map(
+// These additions name the same foods as their measured recipe counterparts.
+// Their catalog signals remain editorial; the recipe engine calculates nutrition.
+const recipeLinkedAdditions: RawMealOption[] = [
+  {
+    id: "salmon-lentil-spinach-bowl",
+    title: "Salmon, Lentil and Spinach Bowl",
+    tags: ["bowl", "warm", "home-style"],
+    proteinLevel: "high", vegetableLevel: "medium", carbLevel: "low",
+    heaviness: "medium", convenience: "medium", worksFor: ["home-cooked"],
+    mealType: "balanced", avoidTags: [],
+    description: "Cooked salmon and whole lentils with spinach and leek, served warm with measured olive oil and salt.",
+  },
+  {
+    id: "roast-turkey-sweet-potato-pepper-plate",
+    title: "Roast Turkey, Sweet Potato and Red Pepper Plate",
+    tags: ["plate", "warm", "home-style"],
+    proteinLevel: "high", vegetableLevel: "high", carbLevel: "medium",
+    heaviness: "medium", convenience: "medium", worksFor: ["home-cooked"],
+    mealType: "balanced", avoidTags: [],
+    description: "Roasted turkey breast with baked sweet-potato flesh, boiled red pepper and onion; season with olive oil and salt.",
+  },
+  {
+    id: "roast-lamb-lentil-carrot-bowl",
+    title: "Roast Lamb, Lentil and Carrot Bowl",
+    tags: ["bowl", "warm", "home-style"],
+    proteinLevel: "high", vegetableLevel: "medium", carbLevel: "low",
+    heaviness: "medium", convenience: "medium", worksFor: ["home-cooked"],
+    mealType: "balanced", avoidTags: [],
+    description: "Lean roasted lamb with whole lentils, cooked carrot and onion, assembled without a prepared sauce.",
+  },
+  {
+    id: "pork-zucchini-tomato-rice-bowl",
+    title: "Pork, Zucchini and Tomato Rice Bowl",
+    tags: ["bowl", "rice-based", "warm", "home-style"],
+    proteinLevel: "high", vegetableLevel: "high", carbLevel: "medium",
+    heaviness: "medium", convenience: "medium", worksFor: ["home-cooked"],
+    mealType: "balanced", avoidTags: [],
+    description: "Cooked lean pork crumbles, zucchini and tomato pieces over rice with plain garlic powder, olive oil and salt.",
+  },
+  {
+    id: "cod-white-bean-leek-soup",
+    title: "Cod, White Bean and Leek Soup",
+    tags: ["soupy", "warm", "home-style"],
+    proteinLevel: "high", vegetableLevel: "high", carbLevel: "low",
+    heaviness: "light", convenience: "medium", worksFor: ["home-cooked"],
+    mealType: "balanced", avoidTags: [],
+    description: "Cooked cod, whole white beans, leek and celery in measured water seasoned with olive oil and salt.",
+  },
+  {
+    id: "chickpea-quinoa-cauliflower-bowl",
+    title: "Chickpea, Quinoa and Cauliflower Bowl",
+    tags: ["bowl", "plant-protein", "warm", "home-style"],
+    proteinLevel: "medium", vegetableLevel: "high", carbLevel: "medium",
+    heaviness: "medium", convenience: "medium", worksFor: ["home-cooked"],
+    mealType: "balanced", avoidTags: [],
+    description: "Whole chickpeas and quinoa with cooked cauliflower, peas and toasted sesame, finished with olive oil and salt.",
+  },
+  {
+    id: "black-bean-corn-pepper-potato",
+    title: "Black Bean, Sweetcorn and Red Pepper Baked Potato",
+    tags: ["plate", "plant-protein", "warm", "home-style"],
+    proteinLevel: "medium", vegetableLevel: "high", carbLevel: "medium",
+    heaviness: "medium", convenience: "medium", worksFor: ["home-cooked"],
+    mealType: "balanced", avoidTags: [],
+    description: "A baked potato with its skin, whole black turtle beans, sweetcorn and cooked red pepper, with olive oil and salt.",
+  },
+  {
+    id: "egg-edamame-bok-choy-rice-noodles",
+    title: "Egg, Edamame and Bok Choy Rice Noodles",
+    tags: ["bowl", "noodle-based", "warm", "home-style"],
+    proteinLevel: "high", vegetableLevel: "high", carbLevel: "medium",
+    heaviness: "medium", convenience: "medium", worksFor: ["home-cooked"],
+    mealType: "balanced", avoidTags: [],
+    description: "Hard-boiled egg and shelled edamame with cooked bok choy and rice noodles, using olive oil and salt as the seasoning.",
+  },
+  {
+    id: "tuna-tomato-cucumber-sandwich",
+    title: "Tuna, Tomato and Cucumber with Wholewheat Bread",
+    tags: ["sandwich", "portable", "quick", "grocery"],
+    proteinLevel: "high", vegetableLevel: "medium", carbLevel: "medium",
+    heaviness: "medium", convenience: "high", worksFor: ["home-cooked"],
+    mealType: "convenient", avoidTags: [],
+    description: "Drained unsalted canned tuna, raw tomato and cucumber with wholewheat bread and olive oil, served cool without mayonnaise.",
+  },
+  {
+    id: "mozzarella-avocado-tomato-bread-plate",
+    title: "Mozzarella, Avocado and Tomato Bread Plate",
+    tags: ["plate", "quick", "grocery"],
+    proteinLevel: "medium", vegetableLevel: "medium", carbLevel: "medium",
+    heaviness: "medium", convenience: "high", worksFor: ["home-cooked"],
+    mealType: "convenient", avoidTags: [],
+    description: "Plain mozzarella, raw avocado and tomato with wholewheat bread and olive oil, served cool without a prepared dressing.",
+  },
+  {
+    id: "cottage-cheese-banana-oat-bowl",
+    title: "Cottage Cheese, Banana and Oatmeal Bowl",
+    tags: ["bowl", "quick", "breakfast-for-dinner"],
+    proteinLevel: "medium", vegetableLevel: "low", carbLevel: "medium",
+    heaviness: "light", convenience: "high", worksFor: ["home-cooked"],
+    mealType: "convenient", avoidTags: [],
+    description: "Plain cottage cheese with cooled water-cooked oatmeal, raw banana and a separately measured amount of honey.",
+  },
+  {
+    id: "parmesan-lentil-spinach-pasta",
+    title: "Parmesan, Lentil and Spinach Pasta",
+    tags: ["noodle-based", "warm", "home-style"],
+    proteinLevel: "medium", vegetableLevel: "medium", carbLevel: "medium",
+    heaviness: "medium", convenience: "medium", worksFor: ["home-cooked"],
+    mealType: "balanced", avoidTags: [],
+    description: "Whole lentils, cooked spinach and wholewheat pasta with hard Parmesan, olive oil and salt; no prepared pasta sauce.",
+  },
+];
+
+// Historical unversioned plans retain their original idea identity and safety.
+// Current recommendation and library views use only the recipe-backed catalog.
+export const legacyRecommendationDataset: Recommendation[] = [...recommendationCatalog, ...recipeLinkedAdditions].map(
   ({ avoidTags: _legacyAvoidTags, ...meal }) => {
     const calibration = catalogCalibration[meal.id] ?? {};
     return enrichRecommendation({
@@ -1969,5 +2085,7 @@ export const recommendationDataset: Recommendation[] = recommendationCatalog.map
     });
   },
 );
+
+export const recommendationDataset: Recommendation[] = recipeRecommendationDataset;
 
 export const seededState: AppState = createSeededState();

@@ -44,17 +44,20 @@ try {
   await page.goto(base.href);
   const choose = page.getByRole("button", { name: "Choose this meal", exact: true });
   await choose.waitFor();
-  assert.equal(await page.locator(".recommendation-mode select").inputValue(), "ideas");
+  assert.equal(await page.locator(".recommendation-mode select").count(), 0);
+  await page.locator(".recommendation-score").waitFor();
   assert.equal(await page.locator(".demo-banner").count(), 0);
   await capture("01-choose-a-meal.png");
   console.log("Captured the actual fresh first-use screen.");
   await pause(5000);
 
   await page.getByRole("combobox", { name: "Preferred staple", exact: true }).selectOption("noodles");
-  assert.match(await page.locator(".feature-reason").innerText(), /selected staple/);
+  assert.equal(await page.getByRole("combobox", { name: "Preferred staple", exact: true }).inputValue(), "noodles");
+  // A preference adds points; it need not outrank every other recipe total.
+  // Capture the real result without claiming a guaranteed staple match.
   await capture("02-match-your-preference.png");
   await pause(6000);
-  await page.getByText("Recommendation basis", { exact: true }).click();
+  await page.getByText("Calculation & recommendation basis", { exact: true }).click();
   await pause(5000);
   await choose.click();
   await pause(2000);
@@ -71,8 +74,8 @@ try {
 if (completed) {
   try {
     await copyFile(await video.path(), path.join(output, "mealhatch-demo.webm"));
-    // Keep the video focused on one complete task. The separate recipe
-    // collection belongs in its own still image, not in that first-use story.
+    // Keep the video focused on one complete task. The detailed calculation
+    // also gets its own still image for readable source/model inspection.
     const recipePage = await browser.newPage({ viewport: { width: 1270, height: 760 }, reducedMotion: "reduce" });
     await recipePage.route("**/*", route => {
       const url = new URL(route.request().url());
@@ -80,7 +83,7 @@ if (completed) {
     });
     recipePage.on("pageerror", error => errors.push(error.message));
     await recipePage.goto(base.href);
-    await recipePage.locator(".recommendation-mode select").selectOption("pilot");
+    await recipePage.getByRole("button", { name: "Choose this meal", exact: true }).waitFor();
     await recipePage.getByText("Calculation & recommendation basis", { exact: true }).click();
     await recipePage.evaluate(() => {
       const score = document.querySelector(".recommendation-score");
@@ -88,7 +91,7 @@ if (completed) {
     });
     await recipePage.screenshot({ path: path.join(output, "03-inspect-the-basis.png") });
     assert.deepEqual(errors, []);
-    await writeFile(path.join(output, "capture-notes.md"), `# Actual interface capture\n\nCaptured from a local preview on ${new Date().toISOString().slice(0, 10)}.\n\n- Three 1270 × 760 screenshots and one silent WebM recording.\n- Fresh isolated English workspace, no personal records or API key.\n- The video changes a staple preference, reads the reason, saves a plan and revisits Plans. Timing is paced for readability, not a measured user result.\n- No external requests, invented outcomes, overlays or simulated AI responses.\n- Screenshot 3 is a separate recipe-mode capture scrolled to the actual calculation panel.\n- These are review drafts; upload/publication is a separate step.\n`);
+    await writeFile(path.join(output, "capture-notes.md"), `# Actual interface capture\n\nCaptured from a local preview on ${new Date().toISOString().slice(0, 10)}.\n\n- Three 1270 × 760 screenshots and one silent WebM recording of the unified recipe library.\n- Fresh isolated English workspace, no personal records or API key.\n- The video changes a staple preference, reads the calculation basis, saves a plan and revisits Plans. Timing is paced for readability, not a measured user result.\n- The preference contributes points but does not guarantee a matching recipe outranks every other total. The recording shows the actual result.\n- No external requests, invented outcomes, overlays or simulated AI responses.\n- Screenshot 3 is scrolled to the actual calculation panel.\n- These are review drafts; upload/publication is a separate step.\n`);
     console.log("Captured three gallery drafts and docs/launch/assets/mealhatch-demo.webm.");
   } finally {
     await browser.close();

@@ -1,20 +1,841 @@
 [
-  {"fdcId":168878,"description":"Rice, white, long-grain, regular, enriched, cooked","label":{"en":"Cooked white rice","zh":"煮熟白飯"},"state":"cooked"},
-  {"fdcId":171477,"description":"Chicken, broilers or fryers, breast, meat only, cooked, roasted","label":{"en":"Roasted skinless chicken breast","zh":"去皮烤雞胸肉"},"state":"cooked"},
-  {"fdcId":175168,"description":"Fish, salmon, Atlantic, farmed, cooked, dry heat","label":{"en":"Baked farmed Atlantic salmon","zh":"烤養殖大西洋鮭魚"},"state":"cooked"},
-  {"fdcId":174291,"description":"Tofu, hard, prepared with nigari","label":{"en":"Plain hard nigari tofu, ready to eat","zh":"原味硬質鹽滷豆腐（即食）"},"state":"ready-to-eat"},
-  {"fdcId":173424,"description":"Egg, whole, cooked, hard-boiled","label":{"en":"Peeled hard-boiled whole egg","zh":"去殼水煮全蛋"},"state":"cooked"},
-  {"fdcId":170457,"description":"Tomatoes, red, ripe, raw, year round average","label":{"en":"Raw ripe tomato","zh":"生食成熟紅番茄"},"state":"raw"},
-  {"fdcId":169967,"description":"Broccoli, cooked, boiled, drained, without salt","label":{"en":"Boiled drained broccoli, no salt","zh":"水煮瀝乾青花菜（無鹽）"},"state":"cooked"},
-  {"fdcId":173735,"description":"Beans, black, mature seeds, cooked, boiled, without salt","label":{"en":"Boiled black turtle beans, no salt","zh":"煮熟黑菜豆（非黑大豆，無鹽）"},"state":"cooked"},
-  {"fdcId":168483,"description":"Sweet potato, cooked, baked in skin, flesh, without salt","label":{"en":"Baked sweet potato flesh, no salt","zh":"帶皮烤熟後取出的地瓜肉（無鹽）"},"state":"cooked"},
-  {"fdcId":169238,"description":"Kale, cooked, boiled, drained, without salt","label":{"en":"Boiled drained kale, no salt","zh":"水煮瀝乾羽衣甘藍（無鹽）"},"state":"cooked"},
-  {"fdcId":168917,"description":"Quinoa, cooked","label":{"en":"Cooked quinoa","zh":"煮熟藜麥"},"state":"cooked"},
-  {"fdcId":168409,"description":"Cucumber, with peel, raw","label":{"en":"Raw cucumber with peel","zh":"帶皮生小黃瓜"},"state":"raw"},
-  {"fdcId":175180,"description":"Crustaceans, shrimp, cooked","label":{"en":"Cooked peeled shrimp","zh":"煮熟去殼蝦仁"},"state":"cooked"},
-  {"fdcId":171413,"description":"Oil, olive, salad or cooking","label":{"en":"Olive oil","zh":"橄欖油"},"state":"ready-to-eat"},
-  {"fdcId":173468,"description":"Salt, table","label":{"en":"Table salt","zh":"食鹽"},"state":"ready-to-eat"},
-  {"fdcId":173647,"description":"Beverages, water, tap, drinking","label":{"en":"Drinking water retained in the bowl","zh":"保留在碗中的飲用水"},"state":"ready-to-eat"},
-  {"fdcId":168411,"description":"Edamame, frozen, prepared","label":{"en":"Prepared shelled edamame","zh":"煮熟去莢毛豆"},"state":"cooked"},
-  {"fdcId":171971,"description":"Crustaceans, shrimp, mixed species, cooked, moist heat (may contain additives to retain moisture)","label":{"en":"Moist-heat cooked shrimp, may contain moisture-retention additives","zh":"濕熱煮熟蝦仁（可能含保水添加物）"},"state":"cooked"}
+  {
+    "fdcId": 168878,
+    "description": "Rice, white, long-grain, regular, enriched, cooked",
+    "label": {
+      "en": "Cooked white rice",
+      "zh": "煮熟白飯"
+    },
+    "state": "cooked",
+    "avoidTags": []
+  },
+  {
+    "fdcId": 171477,
+    "description": "Chicken, broilers or fryers, breast, meat only, cooked, roasted",
+    "label": {
+      "en": "Roasted skinless chicken breast",
+      "zh": "去皮烤雞胸肉"
+    },
+    "state": "cooked",
+    "avoidTags": []
+  },
+  {
+    "fdcId": 175168,
+    "description": "Fish, salmon, Atlantic, farmed, cooked, dry heat",
+    "label": {
+      "en": "Baked farmed Atlantic salmon",
+      "zh": "烤養殖大西洋鮭魚"
+    },
+    "state": "cooked",
+    "avoidTags": [
+      "Fishy seafood"
+    ]
+  },
+  {
+    "fdcId": 174291,
+    "description": "Tofu, hard, prepared with nigari",
+    "label": {
+      "en": "Plain hard nigari tofu, ready to eat",
+      "zh": "原味硬質鹽滷豆腐（即食）"
+    },
+    "state": "ready-to-eat",
+    "avoidTags": [
+      "Soy"
+    ]
+  },
+  {
+    "fdcId": 173424,
+    "description": "Egg, whole, cooked, hard-boiled",
+    "label": {
+      "en": "Peeled hard-boiled whole egg",
+      "zh": "去殼水煮全蛋"
+    },
+    "state": "cooked",
+    "avoidTags": [
+      "Egg"
+    ]
+  },
+  {
+    "fdcId": 170457,
+    "description": "Tomatoes, red, ripe, raw, year round average",
+    "label": {
+      "en": "Raw ripe tomato",
+      "zh": "生食成熟紅番茄"
+    },
+    "state": "raw",
+    "avoidTags": []
+  },
+  {
+    "fdcId": 169967,
+    "description": "Broccoli, cooked, boiled, drained, without salt",
+    "label": {
+      "en": "Boiled drained broccoli, no salt",
+      "zh": "水煮瀝乾青花菜（無鹽）"
+    },
+    "state": "cooked",
+    "avoidTags": []
+  },
+  {
+    "fdcId": 173735,
+    "description": "Beans, black, mature seeds, cooked, boiled, without salt",
+    "label": {
+      "en": "Boiled black turtle beans, no salt",
+      "zh": "煮熟黑菜豆（非黑大豆，無鹽）"
+    },
+    "state": "cooked",
+    "avoidTags": []
+  },
+  {
+    "fdcId": 168483,
+    "description": "Sweet potato, cooked, baked in skin, flesh, without salt",
+    "label": {
+      "en": "Baked sweet potato flesh, no salt",
+      "zh": "帶皮烤熟後取出的地瓜肉（無鹽）"
+    },
+    "state": "cooked",
+    "avoidTags": []
+  },
+  {
+    "fdcId": 169238,
+    "description": "Kale, cooked, boiled, drained, without salt",
+    "label": {
+      "en": "Boiled drained kale, no salt",
+      "zh": "水煮瀝乾羽衣甘藍（無鹽）"
+    },
+    "state": "cooked",
+    "avoidTags": []
+  },
+  {
+    "fdcId": 168917,
+    "description": "Quinoa, cooked",
+    "label": {
+      "en": "Cooked quinoa",
+      "zh": "煮熟藜麥"
+    },
+    "state": "cooked",
+    "avoidTags": []
+  },
+  {
+    "fdcId": 168409,
+    "description": "Cucumber, with peel, raw",
+    "label": {
+      "en": "Raw cucumber with peel",
+      "zh": "帶皮生小黃瓜"
+    },
+    "state": "raw",
+    "avoidTags": []
+  },
+  {
+    "fdcId": 175180,
+    "description": "Crustaceans, shrimp, cooked",
+    "label": {
+      "en": "Cooked peeled shrimp",
+      "zh": "煮熟去殼蝦仁"
+    },
+    "state": "cooked",
+    "avoidTags": [
+      "Shellfish"
+    ]
+  },
+  {
+    "fdcId": 171413,
+    "description": "Oil, olive, salad or cooking",
+    "label": {
+      "en": "Olive oil",
+      "zh": "橄欖油"
+    },
+    "state": "ready-to-eat",
+    "avoidTags": []
+  },
+  {
+    "fdcId": 173468,
+    "description": "Salt, table",
+    "label": {
+      "en": "Table salt",
+      "zh": "食鹽"
+    },
+    "state": "ready-to-eat",
+    "avoidTags": []
+  },
+  {
+    "fdcId": 173647,
+    "description": "Beverages, water, tap, drinking",
+    "label": {
+      "en": "Drinking water retained in the bowl",
+      "zh": "保留在碗中的飲用水"
+    },
+    "state": "ready-to-eat",
+    "avoidTags": []
+  },
+  {
+    "fdcId": 168411,
+    "description": "Edamame, frozen, prepared",
+    "label": {
+      "en": "Prepared shelled edamame",
+      "zh": "煮熟去莢毛豆"
+    },
+    "state": "cooked",
+    "avoidTags": [
+      "Soy"
+    ]
+  },
+  {
+    "fdcId": 171971,
+    "description": "Crustaceans, shrimp, mixed species, cooked, moist heat (may contain additives to retain moisture)",
+    "label": {
+      "en": "Moist-heat cooked shrimp, may contain moisture-retention additives",
+      "zh": "濕熱煮熟蝦仁（可能含保水添加物）"
+    },
+    "state": "cooked",
+    "avoidTags": [
+      "Shellfish"
+    ]
+  },
+  {
+    "fdcId": 168914,
+    "description": "Rice noodles, cooked",
+    "label": {
+      "en": "Cooked rice noodles",
+      "zh": "煮熟米製麵條"
+    },
+    "state": "cooked",
+    "avoidTags": []
+  },
+  {
+    "fdcId": 169732,
+    "description": "Noodles, egg, enriched, cooked",
+    "label": {
+      "en": "Cooked enriched egg noodles",
+      "zh": "煮熟營養強化雞蛋麵"
+    },
+    "state": "cooked",
+    "avoidTags": [
+      "Wheat / gluten",
+      "Egg"
+    ]
+  },
+  {
+    "fdcId": 168910,
+    "description": "Pasta, whole-wheat, cooked (Includes foods for USDA's Food Distribution Program)",
+    "label": {
+      "en": "Cooked whole-wheat pasta",
+      "zh": "煮熟全麥義大利麵"
+    },
+    "state": "cooked",
+    "avoidTags": [
+      "Wheat / gluten"
+    ]
+  },
+  {
+    "fdcId": 168649,
+    "description": "Beef, round, top round steak, boneless, separable lean only, trimmed to 0\" fat, all grades, cooked, grilled",
+    "label": {
+      "en": "Grilled lean top-round beef, visible fat removed",
+      "zh": "去除可見脂肪的烤牛後腿肉（top round）"
+    },
+    "state": "cooked",
+    "avoidTags": [
+      "Beef"
+    ]
+  },
+  {
+    "fdcId": 168463,
+    "description": "Spinach, cooked, boiled, drained, without salt",
+    "label": {
+      "en": "Boiled drained spinach, no salt",
+      "zh": "水煮瀝乾菠菜（無鹽）"
+    },
+    "state": "cooked",
+    "avoidTags": []
+  },
+  {
+    "fdcId": 170394,
+    "description": "Carrots, cooked, boiled, drained, without salt",
+    "label": {
+      "en": "Boiled drained carrots, no salt",
+      "zh": "水煮瀝乾紅蘿蔔（無鹽）"
+    },
+    "state": "cooked",
+    "avoidTags": []
+  },
+  {
+    "fdcId": 169247,
+    "description": "Lettuce, cos or romaine, raw",
+    "label": {
+      "en": "Raw romaine lettuce",
+      "zh": "生蘿蔓萵苣"
+    },
+    "state": "raw",
+    "avoidTags": []
+  },
+  {
+    "fdcId": 171496,
+    "description": "Turkey, whole, breast, meat only, cooked, roasted",
+    "label": {
+      "en": "Roasted turkey breast meat, no skin",
+      "zh": "去皮烤火雞胸肉"
+    },
+    "state": "cooked",
+    "avoidTags": []
+  },
+  {
+    "fdcId": 174091,
+    "description": "Bread, french or vienna, whole wheat",
+    "label": {
+      "en": "Whole-wheat French or Vienna bread",
+      "zh": "全麥法式或維也納麵包"
+    },
+    "state": "ready-to-eat",
+    "avoidTags": [
+      "Wheat / gluten"
+    ],
+    "unknownAvoidTags": [
+      "Dairy",
+      "Egg",
+      "Soy",
+      "Sesame",
+      "Peanuts",
+      "Tree nuts"
+    ]
+  },
+  {
+    "fdcId": 170093,
+    "description": "Potatoes, baked, flesh and skin, without salt",
+    "label": {
+      "en": "Baked potato, flesh and skin, no salt",
+      "zh": "帶皮烤馬鈴薯（無鹽）"
+    },
+    "state": "cooked",
+    "avoidTags": []
+  },
+  {
+    "fdcId": 172421,
+    "description": "Lentils, mature seeds, cooked, boiled, without salt",
+    "label": {
+      "en": "Boiled lentils, no salt",
+      "zh": "水煮扁豆（無鹽）"
+    },
+    "state": "cooked",
+    "avoidTags": []
+  },
+  {
+    "fdcId": 170894,
+    "description": "Yogurt, Greek, plain, nonfat (Includes foods for USDA's Food Distribution Program)",
+    "label": {
+      "en": "Plain nonfat Greek yogurt",
+      "zh": "原味脫脂希臘優格"
+    },
+    "state": "ready-to-eat",
+    "avoidTags": [
+      "Dairy"
+    ]
+  },
+  {
+    "fdcId": 173905,
+    "description": "Cereals, oats, regular and quick, unenriched, cooked with water (includes boiling and microwaving), without salt",
+    "label": {
+      "en": "Oats cooked with water, no salt",
+      "zh": "以水煮熟的燕麥（無鹽）"
+    },
+    "state": "cooked",
+    "avoidTags": []
+  },
+  {
+    "fdcId": 171711,
+    "description": "Blueberries, raw",
+    "label": {
+      "en": "Raw whole blueberries",
+      "zh": "新鮮完整藍莓"
+    },
+    "state": "raw",
+    "avoidTags": []
+  },
+  {
+    "fdcId": 169640,
+    "description": "Honey",
+    "label": {
+      "en": "Honey",
+      "zh": "蜂蜜"
+    },
+    "state": "ready-to-eat",
+    "avoidTags": []
+  },
+  {
+    "fdcId": 167747,
+    "description": "Lemon juice, raw",
+    "label": {
+      "en": "Raw lemon juice",
+      "zh": "新鮮檸檬汁"
+    },
+    "state": "raw",
+    "avoidTags": []
+  },
+  {
+    "fdcId": 169193,
+    "description": "Pork, ground, 96% lean / 4% fat, cooked, crumbles",
+    "label": {
+      "en": "Cooked crumbles from 96% lean / 4% fat ground pork",
+      "zh": "96% 瘦肉／4% 脂肪豬絞肉的熟碎粒"
+    },
+    "state": "cooked",
+    "avoidTags": [
+      "Pork"
+    ]
+  },
+  {
+    "fdcId": 171956,
+    "description": "Fish, cod, Atlantic, cooked, dry heat",
+    "label": {
+      "en": "Baked Atlantic cod",
+      "zh": "烤大西洋鱈魚"
+    },
+    "state": "cooked",
+    "avoidTags": [
+      "Fishy seafood"
+    ]
+  },
+  {
+    "fdcId": 173757,
+    "description": "Chickpeas (garbanzo beans, bengal gram), mature seeds, cooked, boiled, without salt",
+    "label": {
+      "en": "Boiled chickpeas, no salt",
+      "zh": "水煮鷹嘴豆（無鹽）"
+    },
+    "state": "cooked",
+    "avoidTags": []
+  },
+  {
+    "fdcId": 175203,
+    "description": "Beans, white, mature seeds, cooked, boiled, without salt",
+    "label": {
+      "en": "Boiled white beans, no salt",
+      "zh": "水煮白菜豆（無鹽）"
+    },
+    "state": "cooked",
+    "avoidTags": []
+  },
+  {
+    "fdcId": 172182,
+    "description": "Cheese, cottage, lowfat, 2% milkfat",
+    "label": {
+      "en": "Plain cottage cheese, 2% milkfat",
+      "zh": "原味 2% 乳脂茅屋起司"
+    },
+    "state": "ready-to-eat",
+    "avoidTags": [
+      "Dairy"
+    ]
+  },
+  {
+    "fdcId": 173768,
+    "description": "Soymilk, original and vanilla, light, unsweetened, with added calcium, vitamins A and D",
+    "label": {
+      "en": "Light unsweetened original/vanilla soy drink, fortified with calcium and vitamins A and D",
+      "zh": "Light 款無加糖原味／香草豆飲（強化鈣、維生素 A 與 D）"
+    },
+    "state": "ready-to-eat",
+    "avoidTags": [
+      "Soy"
+    ],
+    "unknownAvoidTags": [
+      "Dairy",
+      "Egg",
+      "Wheat / gluten",
+      "Peanuts",
+      "Tree nuts",
+      "Sesame"
+    ]
+  },
+  {
+    "fdcId": 170391,
+    "description": "Cabbage, chinese (pak-choi), cooked, boiled, drained, without salt",
+    "label": {
+      "en": "Boiled drained bok choy, no salt",
+      "zh": "水煮瀝乾青江菜（無鹽）"
+    },
+    "state": "cooked",
+    "avoidTags": []
+  },
+  {
+    "fdcId": 169980,
+    "description": "Cabbage, chinese (pe-tsai), cooked, boiled, drained, without salt",
+    "label": {
+      "en": "Boiled drained napa cabbage, no salt",
+      "zh": "水煮瀝乾大白菜（無鹽）"
+    },
+    "state": "cooked",
+    "avoidTags": []
+  },
+  {
+    "fdcId": 169252,
+    "description": "Mushrooms, white, cooked, boiled, drained, without salt",
+    "label": {
+      "en": "Boiled drained white mushrooms, no salt",
+      "zh": "水煮瀝乾白蘑菇（無鹽）"
+    },
+    "state": "cooked",
+    "avoidTags": []
+  },
+  {
+    "fdcId": 169976,
+    "description": "Cabbage, cooked, boiled, drained, without salt",
+    "label": {
+      "en": "Boiled drained cabbage, no salt",
+      "zh": "水煮瀝乾高麗菜（無鹽）"
+    },
+    "state": "cooked",
+    "avoidTags": []
+  },
+  {
+    "fdcId": 170110,
+    "description": "Peppers, sweet, red, cooked, boiled, drained, without salt",
+    "label": {
+      "en": "Boiled drained red sweet pepper, no salt",
+      "zh": "水煮瀝乾紅甜椒（無鹽）"
+    },
+    "state": "cooked",
+    "avoidTags": []
+  },
+  {
+    "fdcId": 170001,
+    "description": "Onions, cooked, boiled, drained, without salt",
+    "label": {
+      "en": "Boiled drained onion, no salt",
+      "zh": "水煮瀝乾洋蔥（無鹽）"
+    },
+    "state": "cooked",
+    "avoidTags": []
+  },
+  {
+    "fdcId": 169292,
+    "description": "Squash, summer, zucchini, includes skin, cooked, boiled, drained, without salt",
+    "label": {
+      "en": "Boiled drained zucchini with skin, no salt",
+      "zh": "帶皮水煮瀝乾櫛瓜（無鹽）"
+    },
+    "state": "cooked",
+    "avoidTags": []
+  },
+  {
+    "fdcId": 170050,
+    "description": "Tomatoes, red, ripe, cooked",
+    "label": {
+      "en": "Cooked ripe red tomato, not pureed",
+      "zh": "煮熟紅番茄（非泥狀）"
+    },
+    "state": "cooked",
+    "avoidTags": []
+  },
+  {
+    "fdcId": 173944,
+    "description": "Bananas, raw",
+    "label": {
+      "en": "Raw peeled banana",
+      "zh": "去皮新鮮香蕉"
+    },
+    "state": "raw",
+    "avoidTags": []
+  },
+  {
+    "fdcId": 171705,
+    "description": "Avocados, raw, all commercial varieties",
+    "label": {
+      "en": "Raw avocado flesh",
+      "zh": "新鮮酪梨果肉"
+    },
+    "state": "raw",
+    "avoidTags": []
+  },
+  {
+    "fdcId": 169999,
+    "description": "Corn, sweet, yellow, cooked, boiled, drained, without salt",
+    "label": {
+      "en": "Boiled drained yellow sweetcorn kernels, no salt",
+      "zh": "水煮瀝乾黃甜玉米粒（無鹽）"
+    },
+    "state": "cooked",
+    "avoidTags": []
+  },
+  {
+    "fdcId": 169141,
+    "description": "Beans, snap, green, cooked, boiled, drained, without salt",
+    "label": {
+      "en": "Boiled drained green snap beans, no salt",
+      "zh": "水煮瀝乾四季豆（無鹽）"
+    },
+    "state": "cooked",
+    "avoidTags": []
+  },
+  {
+    "fdcId": 168394,
+    "description": "Balsam-pear (bitter gourd), pods, cooked, boiled, drained, without salt",
+    "label": {
+      "en": "Boiled drained bitter gourd fruit, no salt",
+      "zh": "水煮瀝乾苦瓜果肉（無鹽）"
+    },
+    "state": "cooked",
+    "avoidTags": [
+      "Bitter melon"
+    ]
+  },
+  {
+    "fdcId": 171534,
+    "description": "Chicken, broiler or fryers, breast, skinless, boneless, meat only, cooked, grilled",
+    "label": {
+      "en": "Grilled skinless boneless chicken breast",
+      "zh": "去皮去骨炙烤雞胸肉"
+    },
+    "state": "cooked",
+    "avoidTags": []
+  },
+  {
+    "fdcId": 171986,
+    "description": "Fish, tuna, light, canned in water, without salt, drained solids",
+    "label": {
+      "en": "Light tuna canned in water without salt, drained",
+      "zh": "未加鹽水浸鮪魚罐頭（淡色肉，瀝乾）"
+    },
+    "state": "ready-to-eat",
+    "avoidTags": [
+      "Fishy seafood",
+      "Processed food"
+    ]
+  },
+  {
+    "fdcId": 174314,
+    "description": "Lamb, leg, whole (shank and sirloin), separable lean only, trimmed to 1/4\" fat, choice, cooked, roasted",
+    "label": {
+      "en": "Roasted lamb leg, separable lean only",
+      "zh": "烤羊腿肉（僅分離瘦肉）"
+    },
+    "state": "cooked",
+    "avoidTags": [
+      "Lamb"
+    ]
+  },
+  {
+    "fdcId": 170416,
+    "description": "Parsley, fresh",
+    "label": {
+      "en": "Fresh raw parsley",
+      "zh": "新鮮生巴西里"
+    },
+    "state": "raw",
+    "avoidTags": []
+  },
+  {
+    "fdcId": 170005,
+    "description": "Onions, spring or scallions (includes tops and bulb), raw",
+    "label": {
+      "en": "Raw scallion, tops and bulb",
+      "zh": "生青蔥（蔥綠與蔥白）"
+    },
+    "state": "raw",
+    "avoidTags": []
+  },
+  {
+    "fdcId": 170152,
+    "description": "Seeds, sesame seed kernels, toasted, without salt added (decorticated)",
+    "label": {
+      "en": "Toasted sesame kernels, without added salt",
+      "zh": "烘烤去殼芝麻仁（未加鹽）"
+    },
+    "state": "cooked",
+    "avoidTags": [
+      "Sesame"
+    ]
+  },
+  {
+    "fdcId": 173928,
+    "description": "Apples, raw, without skin, cooked, boiled",
+    "label": {
+      "en": "Peeled apple, boiled in pieces",
+      "zh": "去皮水煮蘋果塊"
+    },
+    "state": "cooked",
+    "avoidTags": []
+  },
+  {
+    "fdcId": 167762,
+    "description": "Strawberries, raw",
+    "label": {
+      "en": "Raw strawberries, edible portion",
+      "zh": "生草莓可食部分"
+    },
+    "state": "raw",
+    "avoidTags": []
+  },
+  {
+    "fdcId": 168437,
+    "description": "Mushrooms, shiitake, cooked, without salt",
+    "label": {
+      "en": "Cooked shiitake mushrooms, without salt",
+      "zh": "熟香菇（未加鹽）"
+    },
+    "state": "cooked",
+    "avoidTags": []
+  },
+  {
+    "fdcId": 169230,
+    "description": "Garlic, raw",
+    "label": {
+      "en": "Raw peeled garlic",
+      "zh": "去皮生蒜"
+    },
+    "state": "raw",
+    "avoidTags": []
+  },
+  {
+    "fdcId": 170848,
+    "description": "Cheese, parmesan, hard",
+    "label": {
+      "en": "Plain hard Parmesan cheese",
+      "zh": "原味硬質帕瑪森起司"
+    },
+    "state": "ready-to-eat",
+    "avoidTags": [
+      "Dairy"
+    ]
+  },
+  {
+    "fdcId": 170844,
+    "description": "Cheese, monterey",
+    "label": {
+      "en": "Plain Monterey cheese",
+      "zh": "原味蒙特瑞起司"
+    },
+    "state": "ready-to-eat",
+    "avoidTags": [
+      "Dairy"
+    ]
+  },
+  {
+    "fdcId": 170845,
+    "description": "Cheese, mozzarella, whole milk",
+    "label": {
+      "en": "Plain whole-milk mozzarella",
+      "zh": "原味全脂莫札瑞拉起司"
+    },
+    "state": "ready-to-eat",
+    "avoidTags": [
+      "Dairy"
+    ]
+  },
+  {
+    "fdcId": 171651,
+    "description": "Cereals ready-to-eat, QUAKER, QUAKER Puffed Rice",
+    "label": {
+      "en": "QUAKER Puffed Rice cereal (archived USDA source)",
+      "zh": "QUAKER 膨化米穀片（USDA 歷史來源）"
+    },
+    "state": "ready-to-eat",
+    "avoidTags": [],
+    "unknownAvoidTags": [
+      "Dairy",
+      "Egg",
+      "Wheat / gluten",
+      "Soy",
+      "Sesame",
+      "Peanuts",
+      "Tree nuts"
+    ]
+  },
+  {
+    "fdcId": 174271,
+    "description": "Soybeans, mature cooked, boiled, without salt",
+    "label": {
+      "en": "Mature whole soybeans, boiled without salt",
+      "zh": "水煮成熟黃豆（未加鹽）"
+    },
+    "state": "cooked",
+    "avoidTags": [
+      "Soy"
+    ]
+  },
+  {
+    "fdcId": 168426,
+    "description": "Leeks, (bulb and lower leaf-portion), cooked, boiled, drained, without salt",
+    "label": {
+      "en": "Boiled leek, bulb and lower leaves, drained",
+      "zh": "水煮瀝乾韭蔥（莖基與下段葉）"
+    },
+    "state": "cooked",
+    "avoidTags": []
+  },
+  {
+    "fdcId": 169229,
+    "description": "Eggplant, cooked, boiled, drained, without salt",
+    "label": {
+      "en": "Boiled eggplant, drained without salt",
+      "zh": "水煮瀝乾茄子（未加鹽）"
+    },
+    "state": "cooked",
+    "avoidTags": [
+      "Eggplant"
+    ]
+  },
+  {
+    "fdcId": 169989,
+    "description": "Celery, cooked, boiled, drained, without salt",
+    "label": {
+      "en": "Boiled celery, drained without salt",
+      "zh": "水煮瀝乾西洋芹（未加鹽）"
+    },
+    "state": "cooked",
+    "avoidTags": [
+      "Celery"
+    ]
+  },
+  {
+    "fdcId": 170058,
+    "description": "Turnips, cooked, boiled, drained, without salt",
+    "label": {
+      "en": "Boiled turnip, drained without salt",
+      "zh": "水煮瀝乾蕪菁（未加鹽）"
+    },
+    "state": "cooked",
+    "avoidTags": []
+  },
+  {
+    "fdcId": 170397,
+    "description": "Cauliflower, cooked, boiled, drained, without salt",
+    "label": {
+      "en": "Boiled cauliflower, drained without salt",
+      "zh": "水煮瀝乾白花椰菜（未加鹽）"
+    },
+    "state": "cooked",
+    "avoidTags": []
+  },
+  {
+    "fdcId": 170420,
+    "description": "Peas, green, cooked, boiled, drained, without salt",
+    "label": {
+      "en": "Boiled shelled green peas, drained without salt",
+      "zh": "水煮瀝乾青豌豆仁（未加鹽）"
+    },
+    "state": "cooked",
+    "avoidTags": []
+  },
+  {
+    "fdcId": 170932,
+    "description": "Spices, pepper, red or cayenne",
+    "label": {
+      "en": "Plain finely ground cayenne/red pepper powder",
+      "zh": "原味細磨卡宴紅辣椒粉"
+    },
+    "state": "ready-to-eat",
+    "avoidTags": [
+      "Spicy food"
+    ]
+  },
+  {
+    "fdcId": 171325,
+    "description": "Spices, garlic powder",
+    "label": {
+      "en": "Plain garlic powder",
+      "zh": "原味蒜粉"
+    },
+    "state": "ready-to-eat",
+    "avoidTags": []
+  }
 ]

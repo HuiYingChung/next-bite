@@ -4,6 +4,7 @@ import type {
   Locale,
   MealOption,
 } from "./types";
+import { standardizedRecipes } from "./nutrition-data";
 
 export const evidenceSources: Record<
   EvidenceSourceId,
@@ -19,7 +20,7 @@ export const evidenceSources: Record<
     name: "USDA FoodData Central",
     shortName: "USDA FDC",
     url: "https://fdc.nal.usda.gov/data-documentation/",
-    role: "Ingredient-composition source for the separate standardized-recipe pilot, not evidence for these generic meal ideas",
+    role: "Pinned ingredient-composition records for the measured recipe catalog",
   },
   "taiwan-fda": {
     name: "Taiwan FDA Food Nutrition Database",
@@ -54,26 +55,32 @@ export const enrichRecommendation = (meal: BaseMealOption): MealOption => {
 };
 
 export const catalogMethod = {
-  name: "MealHatch 100 meal ideas",
+  name: `MealHatch ${standardizedRecipes.length} recipes`,
   statement:
-    "100 editorial everyday meal ideas selected through supported constraints, style and practical preferences, and named-food variety.",
+    "Measured recipes use stated edible ingredient weights and pinned source records. Recommendations apply strict conditions, composition scores and disclosed preference points, with history breaking exact-total ties.",
   limitation:
-    "These generic ideas have no verified recipe-to-food-record mapping for nutrient totals. Logs may be incomplete; food names do not establish nutrient adequacy, exact calories, medical needs or nutritional compensation.",
+    "Recipe estimates describe the listed ingredients and portions, not restaurant servings or individual requirements. Logs may be incomplete; food names do not establish nutrient deficits or a need for nutritional compensation.",
 };
 
 export const getCatalogMethod = (locale: Locale) =>
   locale === "en"
     ? catalogMethod
     : {
-        name: "MealHatch 100 道餐點靈感",
-        statement: "依有依據的必要條件、餐食風格與實用偏好，以及具名食物的變化，挑選 100 道人工整理的日常餐點想法。",
-        limitation: "這些一般餐點想法未建立可計算營養總量的配方與食品來源對應。紀錄可能不完整；食物名稱無法判斷營養充足度、精確熱量、醫療需求或營養補償。",
+        name: `MealHatch ${standardizedRecipes.length} 道配方`,
+        statement: "配方以明確可食重量與固定來源紀錄計算，推薦先套用必要條件，再比較營養組成分數與公開的偏好加分；只有總分相同時，才由近期紀錄決定變化順序。",
+        limitation: "估算對應表列食材與份量，不代表餐廳實際餐點或個人所需份量。紀錄可能不完整；食物名稱無法判斷營養缺口或補償需求。",
       };
 
-export const getMealEvidenceNotes = (meal: MealOption, locale: Locale) =>
-  locale === "en"
+export const getMealEvidenceNotes = (meal: MealOption, locale: Locale) => {
+  const recipe = standardizedRecipes.find(item => item.mealId === meal.id && item.version === meal.recipeVersion);
+  if (recipe) return {
+    method: locale === "en" ? meal.evidence.method : "依明確可食食材重量與固定 USDA 紀錄估算配方營養。營養組成採 UK NPM 2018，偏好加分為產品規則，不是個人營養或健康評估。",
+    assumption: recipe.notes[locale],
+  };
+  return locale === "en"
     ? { method: meal.evidence.method, assumption: meal.evidence.assumption }
     : {
         method: "依有依據的必要條件、具名食物、已存餐食風格、實用偏好與變化提供靈感，目前沒有經查證的餐點級營養證據。這些想法不是份量充足度、熱量或醫療營養評估；食物名稱不能推定營養缺口，餐點庫的定性營養標籤也不決定此次選擇。",
         assumption: "以餐名列出的組成作為編輯餐型。實際食材、作法與份量會變動；缺少的細節仍未經確認。",
       };
+};

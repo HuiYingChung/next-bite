@@ -4,6 +4,7 @@ import {
   createBlankState,
   createEmptyMeal,
   mealNames,
+  legacyRecommendationDataset,
   preferenceTags,
   recommendationDataset,
   rollSevenDayHistory,
@@ -99,7 +100,9 @@ const units = [
 ] as const;
 const qualifiers = ["exact", "approximate", "unspecified"] as const;
 const amountLimit = (unit: string) => unit === "g" || unit === "ml" ? 10_000 : 50;
-const catalogIds = new Set(recommendationDataset.map((meal) => meal.id));
+// Retired ideas can remain in saved plans, but cannot re-enter the current
+// recipe catalog merely because their historical IDs are still recognized.
+const catalogIds = new Set([...recommendationDataset, ...legacyRecommendationDataset].map((meal) => meal.id));
 const record = (value: unknown): Record<string, unknown> =>
   value !== null && typeof value === "object" && !Array.isArray(value)
     ? (value as Record<string, unknown>)

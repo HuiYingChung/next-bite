@@ -1,5 +1,5 @@
 import { scoreRecommendations } from "../.audit-tmp/logic.mjs";
-import { createEmptyMeal, recommendationDataset, seedHistory, seedProfile } from "../.audit-tmp/data.mjs";
+import { createEmptyMeal, legacyRecommendationDataset as recommendationDataset, seedHistory, seedProfile } from "../.audit-tmp/data.mjs";
 
 const mealNames = ["Breakfast", "Lunch", "Dinner", "Snacks / Drinks"];
 
@@ -340,6 +340,7 @@ const unreachable = ranked.filter((item) => item.total === 0);
 const lowReach = ranked.filter((item) => item.total > 0 && item.total <= 10);
 
 const summary = {
+  scope: "legacy-template-compatibility",
   scenarios: scenarioCount,
   totalMeals: recommendationDataset.length,
   reachedMeals: ranked.filter((item) => item.total > 0).length,
@@ -354,7 +355,7 @@ console.log(JSON.stringify(summary, null, 2));
 
 if (unreachable.length > 0) {
   console.error(
-    `Reachability gate failed: ${unreachable.length} catalog meals were never selected.`,
+    `Legacy-template reachability gate failed: ${unreachable.length} catalog meals were never selected.`,
   );
   process.exitCode = 1;
 }

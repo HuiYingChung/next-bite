@@ -1,8 +1,10 @@
-# Twelve-recipe scoring policy
+# Standard-recipe scoring policy
 
-Current authorization: 2026-11-04, published-model scoring. This supersedes the
-previous preference-tier policy. Audience: general healthy adults choosing an
-ordinary meal from twelve explicitly authored recipes.
+Scoring authorization: 2026-11-04; collection expanded to 108 recipes on
+2026-11-06. The published-model scoring supersedes the previous preference-tier
+policy. Audience: general healthy adults choosing an ordinary meal from
+explicitly authored recipes. Browsing the full collection does not alter the
+top-three ranking or bypass exclusions.
 
 ## Published model and scope
 
@@ -99,8 +101,19 @@ deficit or a stimulant recommendation.
    0.75x, 1x or 1.25x of every ingredient. These are editable product choices,
    not official serving sizes, energy needs or fullness predictions.
 
-The 100-idea collection remains separate, unscored inspiration without verified
-recipe nutrient totals. It never silently fills vacancies in the scored list.
+The current meal library contains only the 108 defined recipes. Legacy ideas
+are retained for old saved plans and do not fill vacancies in the scored list.
+Current names, ingredient groups and safety metadata derive from each actual
+recipe. Unrelated old idea ingredients do not add exclusions or style bonuses;
+source unknowns and actual preparation conditions still apply.
+
+New saved-style choices are limited to supported recipe attributes. Previously
+saved unsupported preferences remain visible and removable, without inventing
+matching cuisine labels. The legacy “Late-night heavy meals” condition has no
+reviewed classifier for these recipes and is no longer offered as a new choice.
+If already saved, it remains an explicit unknown constraint at the late time
+window, blocking selection until the user removes it. It does not classify every
+recipe as heavy, use a compatibility placeholder, or silently relax an avoid.
 
 ## Presentation, persistence and upkeep
 
@@ -110,8 +123,10 @@ protein gate, preference reasons, tie handling and source links in one
 collapsed scoring explanation. Show whole-portion kcal/protein/fibre/weight
 separately, with further nutrition and exact recipe ingredients collapsed.
 
-Plans retain recipe version and portion. An unavailable old version is never
-shown with new numeric estimates. Confirming consumption remains a separate
+Plans retain recipe version and portion. Unversioned legacy plans keep their
+original idea descriptions, including retired dumpling ideas. An unavailable
+old version is never shown with new numeric estimates or replacement recipe
+ingredients. Confirming consumption remains a separate
 editable step. Source identity persists only while the edited food name/group
 still matches. Session-only meal conditions reset as before; permanent avoids
 and saved preferences remain separate.

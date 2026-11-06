@@ -5,7 +5,9 @@ import type { NutrientKey } from "./nutrition-types";
 import type { Locale } from "./types";
 
 type NutritionDetailsProps = {
-  recommendation: PilotRecommendation;
+  recommendation: Pick<PilotRecommendation,
+    "recipe" | "portion" | "nutrition" | "ingredientAmounts" | "sourceIds" | "unknowns" | "portionGrams"
+  >;
   locale: Locale;
 };
 
@@ -217,6 +219,43 @@ export function NutritionDetails({
                       "食材來源紀錄尚缺",
                     )}
                   </span>
+                )}
+                {ingredient.processing === "pureed" && (
+                  <div className="nutrition-preparation-note">
+                    <p className="nutrition-preparation-value">
+                      {text(
+                        locale,
+                        "Puréed ingredient · estimated free sugars in this selected portion",
+                        "打成泥的食材 · 此選定份量的估計游離糖",
+                      )}
+                      {": "}
+                      <span>
+                        {ingredient.preparationFreeSugarsGrams == null
+                          ? unknown
+                          : `${quantity(ingredient.preparationFreeSugarsGrams)} g`}
+                      </span>
+                    </p>
+                    <p>
+                      {ingredient.preparationModelBasis?.note[locale] ??
+                        text(
+                          locale,
+                          "The preparation-specific free-sugar basis is unavailable; it is unknown, not zero.",
+                          "此調製方式的游離糖依據尚缺；未知不等於零。",
+                        )}
+                    </p>
+                    {ingredient.preparationModelBasis?.sourceUrls.map((url, sourceIndex, urls) => (
+                      <a
+                        key={url}
+                        href={url}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="nutrition-preparation-link"
+                      >
+                        {text(locale, "Preparation basis", "調製方式依據")}
+                        {urls.length > 1 ? ` ${sourceIndex + 1}` : ""}
+                      </a>
+                    ))}
+                  </div>
                 )}
               </li>
             );

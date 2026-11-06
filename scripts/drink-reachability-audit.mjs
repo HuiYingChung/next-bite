@@ -1,5 +1,5 @@
 import { buildSuggestedDrink, isDrinkEligible, summarizeTodayIntake } from "../.audit-tmp/logic.mjs";
-import { createEmptyMeal, drinkRecommendationDataset, recommendationDataset, seedProfile } from "../.audit-tmp/data.mjs";
+import { createEmptyMeal, drinkRecommendationDataset, legacyRecommendationDataset as recommendationDataset, seedProfile } from "../.audit-tmp/data.mjs";
 
 const mealNames = ["Breakfast", "Lunch", "Dinner", "Snacks / Drinks"];
 const timeWindows = ["breakfast", "lunch", "afternoon", "dinner", "late"];
@@ -149,6 +149,7 @@ const unreachableWithOptIn = [...reachedWithOptIn.entries()].filter(([, count]) 
 console.log(
   JSON.stringify(
     {
+      scope: "legacy-template-drink-compatibility",
       totalDrinks,
       defaultDeniedSensitiveDrinks: true,
       hardAvoidEligibilityChecked: true,

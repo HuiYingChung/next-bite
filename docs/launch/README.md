@@ -1,12 +1,13 @@
 # MealHatch launch preparation
 
 Status: draft materials; no Product Hunt publication or user study is claimed.
-Prepared for the 2026-11-05 launch-experience iteration.
+Prepared for the 2026-11-05 launch-experience iteration; copy updated for the
+2026-11-06 consolidation into one 108-recipe meal library.
 
 MealHatch's proposed launch message is a small, complete meal-choice workflow:
 compare a few options, understand why they appeared and save one for later.
-The default collection offers 100 meal ideas; a separate collection offers 12
-defined recipes with portion estimates and inspectable numeric ranking.
+The meal library offers 108 defined recipes with portion estimates, preparation
+steps and inspectable numeric ranking. Food/drink source lookup is separate.
 
 - [Product Hunt copy, three gallery captions and short demo storyboard](./product-hunt-draft.md)
 - [Five-person usability protocol and empty results template](./usability-study.md)
@@ -14,12 +15,15 @@ defined recipes with portion estimates and inspectable numeric ranking.
 
 ## Captured review assets
 
-These are actual local interface captures, not published launch results:
+The gallery screenshots and video below were recaptured locally on 2026-11-06
+for the unified 108-recipe collection. The social preview reflects the same
+scope. Recheck all assets against the final live build before publication;
+none is evidence of published launch results:
 
 - [Choose a meal](./assets/01-choose-a-meal.png) — 1270 × 760.
 - [Change the staple preference](./assets/02-match-your-preference.png) — 1270 × 760.
 - [Inspect the recipe scoring basis](./assets/03-inspect-the-basis.png) — 1270 × 760, scrolled detail.
-- [Silent first-use demo](./assets/mealhatch-demo.webm) — 26.84 seconds; ends on the saved plan.
+- [Silent first-use demo](./assets/mealhatch-demo.webm) — paced first-use recording; ends on the saved plan.
 - [Social preview](../../public/social-preview.png) — 1200 × 630, used by the page's OG/Twitter metadata.
 - [Capture notes](./assets/capture-notes.md).
 
@@ -44,9 +48,10 @@ blocking analytics and all non-local requests. The social preview source is
 
 Use a fresh empty workspace or the explicitly labeled example for public
 screenshots and recordings. Never include personal meal records, API keys or
-participant details. Keep a clear distinction between meal ideas and calculated recipes.
-Public copy must not imply that all 100 ideas have nutrition scores, that a
-score measures individual health, or that a saved plan means a meal was eaten.
+participant details. Describe estimates for the stated recipes and portions.
+Public copy must not imply that similarly named restaurant meals have the same
+values, that a score measures individual health, or that a saved plan means a
+meal was eaten.
 
 Before publishing, inspect the final assets and live version, run the manual
 study and address any confusing first-use behavior. If optional AI is part of

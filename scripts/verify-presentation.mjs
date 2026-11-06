@@ -48,8 +48,8 @@ const {
   mealTitle,
   translateFood,
 } = loadSource("src/presentation.ts");
-const meals = data.recommendationDataset;
-assert.equal(meals.length, 100, "The launch catalog should contain 100 meals");
+const meals = data.legacyRecommendationDataset;
+assert.equal(meals.length, 112, "The launch catalog should contain 112 meals");
 assert.equal(
   new Set(meals.map((meal) => meal.id)).size,
   meals.length,
@@ -61,12 +61,16 @@ assert.equal(
 const titleAnchors = [
   [/\bchicken\b/i, /雞/],
   [/\bsalmon\b/i, /鮭魚/],
+  [/\btuna\b/i, /鮪魚/],
   [/\btofu\b/i, /豆腐/],
   [/\bshrimp\b/i, /蝦/],
   [/\begg\b/i, /蛋/],
   [/\bbeef\b/i, /牛肉/],
   [/\bturkey\b/i, /火雞/],
   [/\bpork\b/i, /豬肉|肉燥/],
+  [/\blamb\b/i, /羊肉/],
+  [/\bmozzarella\b/i, /莫札瑞拉/],
+  [/\bparmesan\b/i, /帕瑪森/],
   [/\bbeans?\b/i, /豆/],
   [/\bcongee\b|\bporridge\b/i, /粥/],
   [/\boatmeal\b|\boats\b/i, /燕麥/],
@@ -83,6 +87,7 @@ const titleAnchors = [
   [/\budon\b/i, /烏龍/],
   [/\brice\b/i, /飯|米/],
   [/\blentils?\b/i, /扁豆/],
+  [/\bchickpeas?\b/i, /鷹嘴豆/],
   [/\bsoup\b|\bbroth\b/i, /湯/],
   [/\bbitter melon\b/i, /苦瓜/],
   [/\bcurry\b/i, /咖哩/],
@@ -321,5 +326,5 @@ assert.deepEqual(
 );
 
 console.log(
-  `Presentation verification passed: ${meals.length} meals, ${supportedLabels.size} display labels, ${traceKeys.size} trace labels; named foods, bilingual output, and free-text boundaries checked.`,
+  `Legacy presentation verification passed: ${meals.length} meals, ${supportedLabels.size} display labels, ${traceKeys.size} trace labels; named foods, bilingual output, and free-text boundaries checked.`,
 );

@@ -10,7 +10,7 @@ import { calculateNutrientProfile, NPM2018_SOURCE_URL, NPM2018_VERSION } from ".
 import type { NutrientProfileResult } from "./nutrient-profile";
 import type { MealContext } from "./meal-context";
 import { nutrientKeys, sourceFoods, standardizedRecipes } from "./nutrition-data";
-import type { NutrientKey, NutrientValues, NutritionPortion, SourceFood, StandardizedRecipe } from "./nutrition-types";
+import type { IngredientPreparationModelBasis, NutrientKey, NutrientValues, NutritionPortion, RecipeIngredient, SourceFood, StandardizedRecipe } from "./nutrition-types";
 import type { DayHistory, Locale, MustAvoidTag, Profile, Recommendation, TodayLog } from "./types";
 
 export const nutrientUnits: Record<NutrientKey, string> = {
@@ -21,7 +21,8 @@ export const nutrientUnits: Record<NutrientKey, string> = {
 export type RecipeCalculation = {
   portionGrams: number | null;
   nutrition: NutrientValues;
-  ingredientAmounts: Array<{ foodId: string; food: SourceFood | null; grams: number | null; sourceId: string | null }>;
+  ingredientAmounts: Array<{ foodId: string; food: SourceFood | null; grams: number | null; sourceId: string | null;
+    processing?: "pureed"; preparationModelBasis?: IngredientPreparationModelBasis; preparationFreeSugarsGrams?: number | null }>;
   sourceIds: string[];
   unknowns: Array<{ nutrient: NutrientKey; missingFoodIds: string[]; reason: string }>;
 };
@@ -48,6 +49,8 @@ export type PilotRecommendation = RecipeCalculation & {
 
 export type PilotResult = {
   recommendations: PilotRecommendation[];
+  /** All eligible recipes in the same score and exact-tie order as the top three. */
+  eligibleRecipes: PilotRecommendation[];
   candidateCount: number;
   excludedCount: number;
   trace: {
@@ -75,27 +78,42 @@ const localized = (locale: Locale, en: string, zh: string) => locale === "en" ? 
 const finiteNonnegative = (value: unknown): value is number => typeof value === "number" && Number.isFinite(value) && value >= 0;
 const round = (value: number) => Math.round((value + Number.EPSILON) * 10000) / 10000;
 
-// Ingredient identity declarations for this bounded pilot, keyed to actual
-// source records. Empty lists mean none of the supported named ingredient
-// conflicts, not an allergy-free or cross-contact certification.
-const ingredientAvoidTags: Record<string, MustAvoidTag[]> = {
-  "usda-168878": [], "usda-171477": [], "usda-175168": ["Fishy seafood"],
-  "usda-174291": ["Soy"], "usda-173424": ["Egg"], "usda-170457": [],
-  "usda-169967": [], "usda-173735": [], "usda-168483": [], "usda-169238": [],
-  "usda-168917": [], "usda-168409": [], "usda-175180": ["Shellfish"], "usda-171971": ["Shellfish"],
-  "usda-171413": [], "usda-173468": [], "usda-173647": [], "usda-168411": ["Soy"],
+// The importer derives this narrow preparation input from the pinned cooked
+// chickpea record. Processing changes free-sugar classification, not source
+// nutrient quantities, FVNS eligibility, thresholds, or preference weights.
+const ingredientFreeSugars = (ingredient: RecipeIngredient, food: SourceFood): number | null | undefined => {
+  if (ingredient.processing === undefined && ingredient.preparationModelBasis === undefined) return food.modelBasis?.freeSugarsPer100g;
+  const prepared = ingredient.preparationModelBasis;
+  if (ingredient.processing !== "pureed" || food.id !== "usda-173757" || food.state !== "cooked" || ingredient.weighedState !== "cooked"
+    || prepared?.freeSugarBasis !== "reported-total-sugars-as-free"
+    || !finiteNonnegative(prepared.freeSugarsPer100g) || prepared.freeSugarsPer100g > 100
+    || typeof prepared.note?.en !== "string" || !prepared.note.en.trim()
+    || typeof prepared.note?.zh !== "string" || !prepared.note.zh.trim()
+    || !Array.isArray(prepared.sourceUrls) || !prepared.sourceUrls.length
+    || !prepared.sourceUrls.every(url => typeof url === "string" && url.startsWith("https://"))) return null;
+  return prepared.freeSugarsPer100g;
 };
+
+// Reviewed declarations travel with the source food. Empty lists mean no
+// supported named ingredient conflict, not allergy or cross-contact clearance.
+const sourceFoodById = new Map(sourceFoods.map(food => [food.id, food]));
 
 export const getRecipeHardAvoidConflicts = (profile: Profile, recipe: StandardizedRecipe, portion: NutritionPortion): HardAvoidConflict[] => {
   const declared: Array<{ tag: MustAvoidTag; certainty: HardAvoidConflict["certainty"] }> = recipe.ingredients
     .filter(ingredient => ingredient.grams > 0)
-    .flatMap(ingredient => (ingredientAvoidTags[ingredient.foodId] ?? []).map(tag => ({ tag, certainty: "contains" as const })));
+    .flatMap(ingredient => {
+      const food = sourceFoodById.get(ingredient.foodId);
+      return [
+        ...(food?.avoidTags ?? []).map(tag => ({ tag, certainty: "contains" as const })),
+        ...(food?.unknownAvoidTags ?? []).map(tag => ({ tag, certainty: "unknown" as const })),
+      ];
+    });
   if (recipe.ingredients.some(ingredient => ingredient.grams > 0 && ingredient.weighedState === "raw")) declared.push({ tag: "Raw food", certainty: "contains" });
   if (recipe.temperature === "cool") declared.push({ tag: "Cold food", certainty: "contains" });
   else if (recipe.temperature !== "warm") declared.push({ tag: "Cold food", certainty: "unknown" });
   if (portion === "large") declared.push({ tag: "Large portions", certainty: "contains" });
   return profile.avoidTags.flatMap(tag => {
-    const match = declared.find(item => item.tag === tag);
+    const match = declared.find(item => item.tag === tag && item.certainty === "contains") ?? declared.find(item => item.tag === tag);
     return match ? [match] : [];
   });
 };
@@ -115,7 +133,14 @@ export const calculateRecipe = (
     const food = byId.get(ingredient.foodId) ?? null;
     const grams = finiteNonnegative(factor) && factor > 0 && finiteNonnegative(ingredient.grams)
       ? round(ingredient.grams * factor) : null;
-    return { foodId: ingredient.foodId, food, grams, sourceId: food?.sourceId ?? null };
+    const preparationFreeSugars = food ? ingredientFreeSugars(ingredient, food) : null;
+    const preparation = ingredient.processing === undefined && ingredient.preparationModelBasis === undefined ? {} : {
+      ...(ingredient.processing !== undefined ? { processing: ingredient.processing } : {}),
+      ...(ingredient.preparationModelBasis !== undefined ? { preparationModelBasis: ingredient.preparationModelBasis } : {}),
+      preparationFreeSugarsGrams: grams === 0 ? 0 : grams !== null && finiteNonnegative(preparationFreeSugars)
+        ? round(grams / 100 * preparationFreeSugars) : null,
+    };
+    return { foodId: ingredient.foodId, food, grams, sourceId: food?.sourceId ?? null, ...preparation };
   });
   const portionGrams = ingredientAmounts.length > 0 && ingredientAmounts.every(item => item.grams !== null)
     ? round(ingredientAmounts.reduce((sum, item) => sum + item.grams!, 0)) : null;
@@ -152,14 +177,14 @@ export const calculateRecipeProfile = (recipe: StandardizedRecipe, foods: Source
   const byId = new Map(foods.map(food => [food.id, food]));
   const validAmounts = recipe.ingredients.length > 0 && recipe.ingredients.every(item => finiteNonnegative(item.grams));
   const grams = validAmounts ? recipe.ingredients.reduce((sum, item) => sum + item.grams, 0) : 0;
-  const weighted = (read: (food: SourceFood) => number | null | undefined) => {
+  const weighted = (read: (food: SourceFood, ingredient: RecipeIngredient) => number | null | undefined) => {
     if (grams <= 0) return null;
     let sum = 0;
     for (const ingredient of recipe.ingredients) {
       if (ingredient.grams === 0) continue;
       const food = byId.get(ingredient.foodId);
       if (!food || food.state !== ingredient.weighedState) return null;
-      const value = read(food);
+      const value = read(food, ingredient);
       if (!finiteNonnegative(value)) return null;
       sum += ingredient.grams * value;
     }
@@ -169,7 +194,7 @@ export const calculateRecipeProfile = (recipe: StandardizedRecipe, foods: Source
   const fvnsStates = new Set(recipe.ingredients.filter(item => item.grams > 0 && byId.get(item.foodId)?.modelBasis?.fvnsEligible === true).map(item => byId.get(item.foodId)!.state));
   const mixedFvnsStates = fvnsStates.has("raw") && fvnsStates.has("cooked");
   const result = calculateNutrientProfile({ energyKj: weighted(food => food.nutrientsPer100g.energyKj), saturatedFat: weighted(food => food.nutrientsPer100g.saturatedFat),
-    freeSugars: weighted(food => food.modelBasis?.freeSugarsPer100g), salt: weighted(food => food.nutrientsPer100g.sodium === null ? null : food.nutrientsPer100g.sodium * 2.5 / 1000),
+    freeSugars: weighted((food, ingredient) => ingredientFreeSugars(ingredient, food)), salt: weighted(food => food.nutrientsPer100g.sodium === null ? null : food.nutrientsPer100g.sodium * 2.5 / 1000),
     protein: weighted(food => food.nutrientsPer100g.protein), fiber: weighted(food => food.nutrientsPer100g.fiber),
     fvnsPercent: mixedFvnsStates ? null : weighted(food => typeof food.modelBasis?.fvnsEligible === "boolean" ? food.modelBasis.fvnsEligible ? 100 : 0 : null),
     fiberMethod: fiberCompatible ? "AOAC-compatible" : "unknown" });
@@ -207,9 +232,15 @@ export const calculateScoreForRecipe = (recipe: StandardizedRecipe, profile: Pro
   const preference = preferenceRows.reduce((sum, row) => sum + row.points, 0);
   const nutrient = model.cTotal! - model.points.a.saturatedFat! - model.points.a.freeSugars! - model.points.a.salt!;
   const energy = 10 - model.points.a.energy!;
-  const sourceUrls = [...new Set([NPM2018_SOURCE_URL, ...recipe.ingredients.flatMap(ingredient => foods.find(food => food.id === ingredient.foodId)?.modelBasis?.sourceUrls ?? [])])];
+  const inputBasis = recipe.ingredients.flatMap(ingredient => {
+    const food = foods.find(item => item.id === ingredient.foodId);
+    if (!food) return [];
+    const basis = ingredient.processing === "pureed" && ingredient.preparationModelBasis ? ingredient.preparationModelBasis : food.modelBasis;
+    return [{ foodId: food.id, label: food.label[locale], note: basis.note[locale], sourceUrls: basis.sourceUrls }];
+  });
+  const sourceUrls = [...new Set([NPM2018_SOURCE_URL, ...inputBasis.flatMap(item => item.sourceUrls)])];
   return { model, nutrient, energy, preference, total: nutrient + energy + preference, preferenceRows,
-    inputBasis: recipe.ingredients.flatMap(ingredient => { const food = foods.find(item => item.id === ingredient.foodId); return food ? [{ foodId: food.id, label: food.label[locale], note: food.modelBasis.note[locale], sourceUrls: food.modelBasis.sourceUrls }] : []; }),
+    inputBasis,
     basis: { normalization: "per-100g", model: "UK NPM 2018", version: NPM2018_VERSION, sourceUrls,
       note: localized(locale, "UK NPM 2018 profile composition is calculated per 100 g of the standard recipe. The MealHatch total is 10 minus the official raw score plus product preference points; it is not the official profile score or a personal adequacy assessment. Energy is included once. Portion amounts are displayed separately. Free sugars use reviewed ingredient classifications, not the unknown USDA added-sugar field. Salt is source sodium (mg) ×2.5/1000. AOAC compatibility is documented at dataset level, not an individual meal assay.", "以標準配方每 100 克的組成計算 UK NPM 2018 模型。MealHatch 總分是 10 減官方原始分再加產品偏好分；不是官方模型原始分，也不是個人營養充足評估。能量只計一次，實際選擇份量另外呈現。游離糖依已審核食材分類計算，並非套用未知的 USDA 添加糖欄位。鹽當量由來源鈉（毫克）乘 2.5 再除以 1000 計算。AOAC 相容性依資料集方法紀錄，並非逐份餐點實驗測定。") } };
 };
@@ -236,7 +267,7 @@ export const recommendPilotMeals = (
     const contextConflicts = getContextExclusions(profile, context, recipe);
     if (contextConflicts.length) { exclusions.push({ mealId: recipe.mealId, stage: "context", reasons: contextConflicts }); continue; }
     const calculation = calculateRecipe(recipe, portionChoice.portion, locale);
-    const gaps = calculation.ingredientAmounts.filter((item, index) => !item.food || item.grams === null || item.food.state !== recipe.ingredients[index].weighedState || !Object.prototype.hasOwnProperty.call(ingredientAvoidTags, item.foodId));
+    const gaps = calculation.ingredientAmounts.filter((item, index) => !item.food || item.grams === null || item.food.state !== recipe.ingredients[index].weighedState || (item.grams > 0 && !Array.isArray(item.food.avoidTags)));
     if (!calculation.portionGrams || gaps.length || (["kcal", "protein", "carbs", "fat"] as const).some(key => calculation.nutrition[key] === null)) {
       exclusions.push({ mealId: recipe.mealId, stage: "evidence", reasons: ["incomplete-core-portion-or-nutrient-data", ...gaps.map(item => item.foodId)] }); continue;
     }
@@ -263,7 +294,7 @@ export const recommendPilotMeals = (
     candidates.push({ id: recipe.mealId, value, tier: [-score.total], proteins: [...new Set(identities.flatMap(identity => identity.protein ? [identity.protein] : []))], staple: recipe.staple === "none" ? null : recipe.staple });
   }
   const ordered = pickHistoryVariedChoices(candidates, records, candidates.length);
-  const recommendations = ordered.slice(0, 3).map((choice, index) => {
+  const eligibleRecipes = ordered.map((choice, index) => {
     const variety = describeHistoryVariety(choice, records.scope, locale, "recipe", value => value.recipe.label[locale]);
     choice.value.reasons[0] = localized(locale, `Rank ${index + 1} of ${candidates.length} eligible recipes by total ${choice.value.score.total}; exact ties use declared ingredient variety.`, `以總分 ${choice.value.score.total} 排在 ${candidates.length} 道符合條件配方中的第 ${index + 1} 名；總分相同時，依明示食材變化規則決定。`);
     choice.value.trace.variety = variety;
@@ -271,7 +302,7 @@ export const recommendPilotMeals = (
     choice.value.reasons.push(variety.reason);
     return choice.value;
   });
-  return { recommendations, candidateCount: candidates.length, excludedCount: exclusions.length,
+  return { recommendations: eligibleRecipes.slice(0, 3), eligibleRecipes, candidateCount: candidates.length, excludedCount: exclusions.length,
     trace: { catalogCount: standardizedRecipes.length, exclusions, eligibleRecipeIds: ordered.map(choice => choice.id), selectionMethod: method,
       candidateScores: ordered.map(choice => ({ mealId: choice.id, score: choice.value.score })) } };
 };
