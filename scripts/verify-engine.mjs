@@ -6,7 +6,7 @@ import {
   createEmptyMeal,
   createSeededState,
   drinkRecommendationDataset,
-  recommendationDataset,
+  legacyRecommendationDataset as recommendationDataset,
   rollSevenDayHistory,
   seedProfile,
   toLocalDateId,
@@ -808,6 +808,9 @@ for (const certainty of ["contains", "mayContain", "unknown"]) {
   );
 }
 
+const originalCatalog = recommendationDataset.slice(0, 100);
+expect(catalogMetadataAudit.recipeLinkedMealIds.length === 12, "Each recipe-linked addition needs an explicit safety declaration, including empty declarations.");
+expect(recommendationDataset.slice(100).every(meal => catalogMetadataAudit.recipeLinkedMealIds.includes(meal.id) && meal.fairnessExposureAdjustment === 0), "New recipe-linked ideas cannot silently acquire legacy exposure adjustments.");
 const distributions = {};
 for (const field of [
   "proteinLevel",
@@ -817,10 +820,10 @@ for (const field of [
   "convenience",
 ]) {
   distributions[field] = Object.fromEntries(
-    [...new Set(recommendationDataset.map((meal) => meal[field]))].map(
+    [...new Set(originalCatalog.map((meal) => meal[field]))].map(
       (value) => [
         value,
-        recommendationDataset.filter((meal) => meal[field] === value).length,
+        originalCatalog.filter((meal) => meal[field] === value).length,
       ],
     ),
   );
@@ -834,7 +837,7 @@ expect(
       heaviness: { medium: 26, light: 57, heavy: 17 },
       convenience: { medium: 42, low: 10, high: 48 },
     }),
-  "Catalog signal distributions changed without recalibration.",
+  "The original 100 catalog signal distributions must remain unchanged.",
 );
 
 const logicSource = readFileSync(

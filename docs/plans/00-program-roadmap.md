@@ -1,6 +1,137 @@
 # MealHatch product roadmap
 
-## Active iteration — launch experience
+## Active iteration — preference-first next-meal decisions
+
+Status: review
+Authorized: 2026-11-06. User accepted the product-positioning recommendations
+and required all calculation details to remain available, collapsed by default.
+Read [`23-preference-first.md`](./23-preference-first.md).
+Branch: `codex/preference-first`, based on committed catalog version `f21411e`.
+Current-meal preferences precede saved preferences, then the unchanged nutrition
+model, then recent variety. Ingredient-readiness/time handling, complete
+collapsed calculations and compact bilingual explanations are implemented.
+Repository and isolated browser checks passed; see the active plan for evidence.
+On 2026-11-06 the user authorized commit, push and merge of this version,
+including its committed catalog dependency. Use Git history and remote checks
+for actual release results; deployment status is separate.
+
+## Previous iteration — one recipe-backed meal library
+
+Status: review
+Authorized: 2026-11-06. User approved catalog completion and consolidation.
+Read [`22-catalog-unification.md`](./22-catalog-unification.md).
+Use the 108 defined recipes as the single current collection, aligning names,
+ingredients and avoidance metadata. Preserve old saved plans and recipe versions.
+The four unresolved dumpling concepts are retained only for historical plans;
+available evidence does not support complete formulation/model inputs.
+No new nutrient values or model rules are introduced. Current UI/copy, source
+preservation, full repository checks and bilingual browser/compatibility checks
+are complete; see the active plan for evidence. The user authorized committing
+and pushing this version on 2026-11-06. Merge and deployment remain separate.
+
+## Previous iteration — 108 detailed recipes
+
+Status: review
+Authorized: 2026-11-06. User requested twelve additional detailed recipes.
+Continue `codex/recipes-24`, preserving the completed, uncommitted 96-recipe
+collection. Read [`21-recipes-108.md`](./21-recipes-108.md).
+Scope: twelve distinct sourced formulations and matching new catalog entries,
+yielding 108 detailed recipes and 112 meal ideas. Preserve the old catalog,
+data, rules and exclusions; verify both paths and current public counts.
+Implementation, preservation of the original 100 ideas and 96 recipes, the full repository suite and
+bilingual browser verification are complete. Evidence is in the active plan.
+No commit, push, merge or deployment was performed.
+
+## Previous iteration — 96 detailed recipes
+
+Status: review
+Authorized: 2026-11-06. User requested twelve additional detailed recipes.
+Continue `codex/recipes-24`, preserving the completed, uncommitted 84-recipe
+collection. Read [`20-recipes-96.md`](./20-recipes-96.md).
+Scope: twelve distinct source-matched formulations, complete portion/model
+inputs, bilingual preparation and full-collection verification. Preserve
+existing data, model rules, ranking, history and conservative exclusions.
+Implementation, prior-84 preservation, the full repository suite and bilingual
+browser verification are complete. Evidence is in the active plan. No commit,
+push, merge or deployment was performed.
+
+## Previous iteration — 84 detailed recipes
+
+Status: review
+Authorized: 2026-11-06. User requested twelve additional detailed recipes.
+Continue `codex/recipes-24`, preserving the completed, uncommitted 72-recipe
+collection. Read [`19-recipes-84.md`](./19-recipes-84.md).
+Scope: twelve distinct source-matched formulations, bilingual preparation,
+nutrition/model checks and complete collection verification. Preserve existing
+formulations, scoring, processing rules, history and conservative exclusions.
+Implementation, source/model checks, prior-72 preservation, full repository
+verification and bilingual browser checks are complete; evidence is in the
+active plan. No commit, push, merge or deployment was performed.
+
+## Previous iteration — 72 detailed recipes
+
+Status: review
+Authorized: 2026-11-06. User requested twelve additional detailed recipes.
+Continue `codex/recipes-24` and preserve the completed, uncommitted 60-recipe
+collection. Read [`18-recipes-72.md`](./18-recipes-72.md).
+Scope: twelve additional source-matched formulations, including explicit
+recipe-level preparation evidence where required by the published model.
+Preserve prior data, thresholds, ranking, history and conservative exclusions.
+Implementation, source/model checks, prior-60 preservation, full repository
+verification and bilingual browser checks are complete; evidence is recorded
+in the active plan. No commit, push, merge or deployment was performed.
+
+## Previous iteration — 60 detailed recipes
+
+Status: review
+Authorized: 2026-11-06. User requested twelve additional detailed recipes.
+Continue `codex/recipes-24`, preserving the completed, uncommitted 48-recipe
+collection. Read [`17-recipes-60.md`](./17-recipes-60.md).
+Scope: twelve additional source-matched formulations, bilingual preparation,
+nutrition and scoring checks, and full-collection browser verification.
+Keep ranking, existing exclusions and the prior formulations unchanged.
+Implementation, source/model checks, baseline preservation, full repository
+verification and bilingual browser checks are complete; evidence is in the
+active plan. No commit, push, merge or deployment was performed.
+
+## Previous iteration — 48 detailed recipes
+
+Status: review
+Authorized: 2026-11-06. User requested twelve additional detailed recipes.
+Continue `codex/recipes-24`, preserving the completed, uncommitted 36-recipe
+collection. Read [`16-recipes-48.md`](./16-recipes-48.md).
+Scope: twelve distinct source-matched formulations, bilingual preparation and
+full-collection verification. Keep ranking and existing exclusions unchanged.
+Implementation, baseline preservation, source/model checks, full repository
+verification and bilingual browser checks are complete; evidence is in the
+active plan. No commit, push, merge or deployment was performed.
+
+## Previous iteration — 36 detailed recipes
+
+Status: review
+Authorized: 2026-11-05. User requested twelve further detailed recipes after
+reviewing the completed 24-recipe implementation. Continue `codex/recipes-24`
+and preserve that iteration's uncommitted work. Read
+[`15-recipes-36.md`](./15-recipes-36.md).
+Scope: additional source-matched formulations, complete model inputs and
+verification of the entire 36-recipe collection. No push or deployment.
+Implementation, source preservation, full repository checks and bilingual
+browser checks are complete. Evidence and the retained conservative exclusion
+limitation are recorded in the active plan.
+
+## Previous iteration — 24 detailed recipes
+
+Status: review
+Authorized: 2026-11-05. User accepted the 24-recipe proposal and requested a new
+branch. Read [`14-recipes-24.md`](./14-recipes-24.md).
+Branch: `codex/recipes-24`, based on `09471f1`.
+Scope: twelve additional sourced formulations, complete calculation inputs,
+and a browsable detailed-recipe collection with existing exclusions intact.
+This authorization supersedes historical twelve-recipe scope restrictions.
+Implementation and local verification are complete; evidence is recorded in
+the active plan. No commit, push, merge or deployment is implied.
+
+## Previous iteration — launch experience
 
 Status: review
 Authorized: 2026-11-05. User requested a new branch implementing the latest

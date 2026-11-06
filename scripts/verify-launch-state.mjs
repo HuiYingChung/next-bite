@@ -297,8 +297,9 @@ assert.equal(mergeMealEntries(libraryEntry, unlinkedLibraryEntry).componentDetai
 let sourceIdentitiesChecked = 0;
 const identifiedComponents = sourceFoods.map((food) => {
   const ingredient = standardizedRecipes.flatMap((recipe) => recipe.ingredients).find((item) => item.foodId === food.id);
-  // Retired recipe ingredients remain valid in a user's previously saved records.
-  const group = ingredient?.group ?? ({ "usda-174291": "protein", "usda-175180": "protein" })[food.id];
+  // Retained sources stay valid as recorded identities even when their model
+  // inputs are incomplete and no current scored recipe uses them.
+  const group = ingredient?.group ?? ({ "usda-174291": "protein", "usda-175180": "protein", "usda-173768": "drink" })[food.id];
   assert.ok(group, "Every active or retired source identity must have an explicit group.");
   for (const name of [food.label.en, food.label.zh, food.label.en.replace(/[,，]/g, " ·"), food.label.zh.replace(/[,，]/g, " ·")]) {
     const component = { ...rice(150, "g"), name, group, sourceFoodId: food.id };

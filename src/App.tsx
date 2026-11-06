@@ -5,16 +5,16 @@ import { Drawer } from "./Drawer";
 import {
   HistoryGrid,
   RecipeOptionFacts,
+  RecipeFitSummary,
 } from "./DashboardInsights";
 import { MealContextControls } from "./MealContextControls";
 import { getRecipeStapleAvailability } from "./collection-availability";
-import { NutritionDetails } from "./NutritionDetails";
-import { RecommendationScore } from "./RecommendationScore";
+import { RecipeDetails } from "./RecipeDetails";
+import { RecipeLibrary } from "./RecipeLibrary";
 import { FoodLibrary } from "./FoodLibrary";
 import { FoodRecognition } from "./FoodRecognition";
 import { foodLibraryName } from "./food-library";
 import { useRecordState } from "./use-record-state";
-import { HistoryBasis } from "./HistoryBasis";
 import { defaultMealContext } from "./meal-context";
 import type { MealContext } from "./meal-context";
 import {
@@ -22,6 +22,7 @@ import {
   calculateRecipe,
   getRecipeHardAvoidConflicts,
 } from "./nutrition";
+import type { PilotRecommendation } from "./nutrition";
 import { standardizedRecipes } from "./nutrition-data";
 import type { NutritionPortion } from "./nutrition-types";
 import {
@@ -32,16 +33,16 @@ import {
   mealOptions,
   preferenceTags,
   recommendationDataset,
+  legacyRecommendationDataset,
   rollSevenDayHistory,
   toLocalDateId,
 } from "./data";
 import {
   buildWeeklySnapshot,
-  countHardAvoidedRecommendations,
   getMealTimeWindow,
   getHardAvoidConflicts,
+  getMatchedPreferenceTags,
   isMealLogged,
-  recommendMealIdeas,
 } from "./logic";
 import {
   clearLaunchStorage,
@@ -57,9 +58,10 @@ import {
 import type { LaunchState, PlannedMeal } from "./launch-state";
 import {
   getMealPresentation,
-  getNamedMealComponents,
+  getLegacyMealPresentation,
+  getLegacyNamedMealComponents,
+  legacyMealTitle,
   label,
-  mealTitle,
   translateFood,
 } from "./presentation";
 import { downloadMealCard } from "./share-card";
@@ -77,6 +79,14 @@ import type {
   Recommendation,
 } from "./types";
 
+const recipeCount = standardizedRecipes.length;
+const recipeDirectionTags = ["High-protein", "Vegetable-forward", "Light meals", "Warm meals", "Rice-based meals", "Noodle-based meals"];
+const defaultPreferenceProfile = createBlankState().profile;
+const supportedPreferenceTags = preferenceTags.filter(tag =>
+  recipeDirectionTags.includes(tag) || recommendationDataset.some(meal =>
+    getMatchedPreferenceTags({ ...defaultPreferenceProfile, preferenceTags: [tag] }, meal).includes(tag)),
+);
+const retiredAvoidTag = "Late-night heavy meals";
 const t = (locale: Locale, en: string, zh: string) =>
   locale === "en" ? en : zh;
 const cx = (...values: Array<string | false | undefined>) =>
@@ -521,12 +531,12 @@ function PreferenceControls({
         <p className="small muted">
           {t(
             locale,
-            "Protein, vegetables and beans, and added oil are scored only in the 12 recipes with portions. Beans count toward the model's plant component.",
-            "蛋白質、蔬菜與豆類、添加油的偏好，只在 12 道附份量配方中計分；豆類也計入模型的植物食材項。",
+            "Saved preferences are compared after this meal’s choices. Beans count toward the model's plant component.",
+            "先比較本餐條件，再比較這些已存偏好；豆類也計入模型的植物食材項。",
           )}
         </p>
         <div className="chip-list">
-          {preferenceTags.filter(tag => !["Coffee / caffeine", "Tea", "Simple drinks", "Juices / smoothies"].includes(tag)).map((tag) => (
+          {supportedPreferenceTags.map((tag) => (
             <button
               type="button"
               key={tag}
@@ -548,6 +558,17 @@ function PreferenceControls({
           ))}
         </div>
       </fieldset>
+      {profile.preferenceTags.some(tag => !supportedPreferenceTags.includes(tag)) && (
+        <fieldset className="retained-preferences">
+          <legend>{t(locale, "No matching recipes currently", "目前沒有對應配方")}</legend>
+          <p className="small muted">{t(locale, "These earlier preferences remain saved but do not add recipe points. Select one to remove it.", "這些先前偏好仍保留，但不會增加配方分數；點選即可移除。")}</p>
+          <div className="chip-list">
+            {profile.preferenceTags.filter(tag => !supportedPreferenceTags.includes(tag)).map(tag => (
+              <button type="button" className="chip selected" key={tag} aria-label={t(locale, `Remove saved preference: ${label(tag, locale)}`, `移除已存偏好：${label(tag, locale)}`)} onClick={() => toggle("preferenceTags", tag)}>{label(tag, locale)}</button>
+            ))}
+          </div>
+        </fieldset>
+      )}
       <fieldset>
         <legend>
           {t(locale, "Keep these out of suggestions", "從建議中避開這些項目")}
@@ -560,7 +581,7 @@ function PreferenceControls({
           )}
         </p>
         <div className="chip-list">
-          {avoidTags.map((tag) => (
+          {avoidTags.filter(tag => tag !== retiredAvoidTag).map((tag) => (
             <button
               type="button"
               key={tag}
@@ -575,6 +596,12 @@ function PreferenceControls({
             </button>
           ))}
         </div>
+        {profile.avoidTags.includes(retiredAvoidTag) && (
+          <div className="notice retained-avoid">
+            <p className="small">{t(locale, "Your earlier late-night heavy-meal restriction is still saved. Current recipes cannot assess this condition, so late-night suggestions pause until you remove it. Daytime suggestions are unaffected.", "先前的「宵夜厚重餐」限制仍保留。目前配方無法判斷此條件，因此深夜會暫停推薦，直到你移除此設定；白天推薦不受影響。")}</p>
+            <button type="button" className="text-button" onClick={() => toggle("avoidTags", retiredAvoidTag)}>{t(locale, "Remove earlier late-night restriction", "移除先前的宵夜限制")}</button>
+          </div>
+        )}
       </fieldset>
     </>
   );
@@ -646,9 +673,6 @@ export default function App() {
   const [draftDayId, setDraftDayId] = useState<string | null>(null);
   const [draftConflict, setDraftConflict] = useState(false);
   const [selected, setSelected] = useState(0);
-  const [recommendationMode, setRecommendationMode] = useState<
-    "pilot" | "ideas"
-  >("ideas");
   const [mealContext, setMealContext] =
     useState<MealContext>(defaultMealContext);
   const [mealMood, setMealMood] = useState<FeelToday>("Normal");
@@ -664,8 +688,7 @@ export default function App() {
     slot: MealName;
   } | null>(null);
   const [clearOpen, setClearOpen] = useState(false);
-  const [catalogQuery, setCatalogQuery] = useState("");
-  const [catalogSection, setCatalogSection] = useState<"foods" | "ideas">("foods");
+  const [catalogSection, setCatalogSection] = useState<"foods" | "recipes">("recipes");
   const composerRef = useRef<HTMLElement>(null);
   const decisionRef = useRef<HTMLElement>(null);
   const reviewRef = useRef<HTMLDivElement>(null);
@@ -783,30 +806,6 @@ export default function App() {
   );
   const today =
     state.days.find((day) => day.isToday) ?? state.days[state.days.length - 1];
-  const recommendations = useMemo(
-    () =>
-      recommendMealIdeas(
-        effectiveProfile,
-        today.todayLog,
-        state.days,
-        locale,
-        new Date(
-          `${dateId}T${({ breakfast: "09", lunch: "12", afternoon: "16", dinner: "18", late: "22" } as const)[timeWindow]}:30:00`,
-        ),
-        mealContext,
-      ),
-    [
-      effectiveProfile,
-      mealContext,
-      state.days,
-      today.todayLog,
-      locale,
-      timeWindow,
-      dateId,
-    ],
-  );
-  const active =
-    recommendations[selected % Math.max(recommendations.length, 1)] ?? null;
   const pilot = useMemo(
     () =>
       recommendPilotMeals(
@@ -821,23 +820,15 @@ export default function App() {
       ),
     [effectiveProfile, mealContext, locale, dateId, timeWindow, today.todayLog, state.days],
   );
-  const pilotActive =
-    recommendationMode === "pilot"
-      ? (pilot.recommendations[
-          selected % Math.max(pilot.recommendations.length, 1)
-        ] ?? null)
-      : null;
+  const pilotActive = pilot.recommendations[
+    selected % Math.max(pilot.recommendations.length, 1)
+  ] ?? null;
   const stapleAvailability = getRecipeStapleAvailability(
     mealContext.preferredStaple,
     pilot.trace.eligibleRecipeIds,
   );
-  const chosenMeal =
-    recommendationMode === "pilot" ? (pilotActive?.meal ?? null) : active;
-  const displayedMeals =
-    recommendationMode === "pilot"
-      ? pilot.recommendations.map((option) => option.meal)
-      : recommendations;
-  const filteredCount = countHardAvoidedRecommendations(state.profile, clock);
+  const chosenMeal = pilotActive?.meal ?? null;
+  const displayedMeals = pilot.recommendations.map((option) => option.meal);
   const weekly = useMemo(
     () => buildWeeklySnapshot(state.days, state.profile, locale),
     [state.days, state.profile, locale],
@@ -849,11 +840,36 @@ export default function App() {
   const activePresentation = chosenMeal
     ? getMealPresentation(chosenMeal, locale)
     : null;
-  const filteredCatalog = recommendationDataset.filter((meal) =>
-    `${meal.title} ${mealTitle(meal, "zh")} ${meal.tags.join(" ")}`
-      .toLowerCase()
-      .includes(catalogQuery.toLowerCase().trim()),
-  );
+  const chooseRecipe = async (recipe: PilotRecommendation) => {
+    // Recheck the current engine result instead of allowing a catalog entry to
+    // bypass hard conditions or a changed portion.
+    const eligible = pilot.eligibleRecipes.find(option => option.meal.id === recipe.meal.id
+      && option.portion === recipe.portion && option.recipe.version === recipe.recipe.version);
+    if (!eligible || !recordStore.ready || recordStore.busy) return false;
+    const status = await updateState(current => savePlan(current, eligible.meal.id, new Date(), {
+      portion: eligible.portion, recipeVersion: eligible.recipe.version,
+    }));
+    if (status !== "ok") return false;
+    setMessage(t(locale, "Saved to your next-meal plans. It isn't recorded as eaten.", "已儲存到下一餐計畫，尚未加入已吃紀錄。"));
+    return true;
+  };
+  const browseRecipes = () => {
+    setCatalogSection("recipes");
+    setView("catalog");
+    window.requestAnimationFrame(() => {
+      const heading = document.getElementById("recipe-library-title");
+      heading?.focus({ preventScroll: true });
+      scrollTo(heading);
+    });
+  };
+  const adjustRecipeConditions = () => {
+    setView("today");
+    window.requestAnimationFrame(() => {
+      const panel = document.getElementById("meal-preferences");
+      panel?.focus({ preventScroll: true });
+      scrollTo(panel);
+    });
+  };
 
   const resetComposer = () => {
     invalidateAiRequest();
@@ -1121,6 +1137,7 @@ export default function App() {
     );
   };
   const beginConsumed = (meal: Recommendation, plan: PlannedMeal) => {
+    const isLegacyIdea = !plan.recipeVersion;
     const recipe = standardizedRecipes.find(
       (item) => item.mealId === meal.id && item.version === plan.recipeVersion,
     );
@@ -1130,7 +1147,7 @@ export default function App() {
         : null;
     const next: ParsedMeal = {
       ...blankDraft(),
-      displayName: recipe?.label[locale] ?? mealTitle(meal, locale),
+      displayName: recipe?.label[locale] ?? (isLegacyIdea ? legacyMealTitle(meal, locale) : ""),
       components:
         calculation && recipe
           ? calculation.ingredientAmounts.map((ingredient, index) => ({
@@ -1151,21 +1168,25 @@ export default function App() {
               },
               confidence: "limited" as const,
             }))
-          : getNamedMealComponents(meal).map((component) => ({
+          : isLegacyIdea ? getLegacyNamedMealComponents(meal).map((component) => ({
               ...component,
               name: translateFood(component.name, locale),
               amount: amount(),
               confidence: "limited",
-            })),
+            })) : [],
       assumptions: [
         t(
           locale,
           calculation
             ? "These are the saved recipe's ingredient amounts, not measured consumption. Edit every item and amount to match what you actually ate before recording."
-            : "These are named components from a meal idea. Edit them to match what you actually ate; recipe details and amounts are unspecified.",
+            : isLegacyIdea
+              ? "These are the original named components saved as a meal idea. Edit them to match what you actually ate; recipe details and amounts are unspecified."
+              : "This saved recipe version is unavailable. No current recipe ingredients or amounts have been substituted. Enter what you actually ate before recording.",
           calculation
             ? "這些是已儲存配方的食材量，並非實際食用量。請先逐項修改成真正吃的內容與份量，再確認記錄。"
-            : "這些是餐名中的主要內容。請修改成你實際吃的食物，配方細節與份量尚未指定。",
+            : isLegacyIdea
+              ? "這些是先前餐點想法中的具名食物。請修改成你實際吃的食物，配方細節與份量尚未指定。"
+              : "此已存配方版本無法取得，未以目前配方的食材或份量代替。請填入實際吃下的內容再記錄。",
         ),
       ],
     };
@@ -1231,22 +1252,16 @@ export default function App() {
     }
   };
   const share = async () => {
-    if (!activePresentation || sharing) return;
+    if (!pilotActive || !activePresentation || sharing) return;
     setSharing(true);
     try {
       await downloadMealCard({
-        title: pilotActive
-          ? pilotActive.recipe.label[locale].replace(locale === "zh" ? /（標準配方）$/ : / — standard recipe$/, "")
-          : activePresentation.title,
-        cuisine: pilotActive
-          ? `${activePresentation.cuisine} · ${t(locale, "Standard recipe", "標準配方")}`
-          : activePresentation.cuisine,
-        tip: pilotActive
-          ? t(locale,
-              `About ${pilotActive.recipe.prepMinutes} minutes to assemble with prepared ingredients. Find the ingredient weights and steps on MealHatch.`,
-              `食材備妥後，約 ${pilotActive.recipe.prepMinutes} 分鐘組合完成。在 MealHatch 查看食材重量與準備步驟。`,
-            )
-          : activePresentation.tip,
+        title: pilotActive.recipe.label[locale].replace(locale === "zh" ? /（標準配方）$/ : / — standard recipe$/, ""),
+        cuisine: `${activePresentation.cuisine} · ${t(locale, "Standard recipe", "標準配方")}`,
+        tip: t(locale,
+          `About ${pilotActive.recipe.prepMinutes} minutes to assemble with prepared ingredients. Find the ingredient weights and steps on MealHatch.`,
+          `食材備妥後，約 ${pilotActive.recipe.prepMinutes} 分鐘組合完成。在 MealHatch 查看食材重量與準備步驟。`,
+        ),
         locale,
       });
       setMessage(
@@ -1353,8 +1368,8 @@ export default function App() {
             <p className="muted">
               {t(
                 locale,
-                "Pick from 100 meal ideas, see why they fit, and save your next meal. No account needed.",
-                "從 100 道餐點靈感中挑選、了解推薦原因，再存下下一餐。免註冊即可用。",
+                `Find your next meal among ${recipeCount} recipes. Your preferences first, nutrition as a reference. No account needed.`,
+                `從 ${recipeCount} 道日常配方挑選下一餐。先看你的偏好，再參考營養。免註冊即可用。`,
               )}
             </p>
           </div>
@@ -1459,27 +1474,13 @@ export default function App() {
         </div>
         {view === "today" && (
           <div className="dashboard-grid">
-            <section className="collection-switcher" aria-label={t(locale, "Choose a meal collection", "選擇選餐範圍")}>
-              <label className="recommendation-mode">
-                {t(locale, "Meal collection", "選餐範圍")}
-                <select
-                  value={recommendationMode}
-                  aria-describedby="collection-description"
-                  onChange={(event) => {
-                    setRecommendationMode(event.target.value as "pilot" | "ideas");
-                    setSelected(0);
-                    setChangeNote("");
-                  }}
-                >
-                  <option value="ideas">{t(locale, "100 meal ideas", "100 道餐點靈感")}</option>
-                  <option value="pilot">{t(locale, "12 recipes with nutrition & portions", "12 道附營養與份量配方")}</option>
-                </select>
-              </label>
-              <p id="collection-description" className="small muted">
-                {recommendationMode === "ideas"
-                  ? t(locale, "Match your preferences and explore variety. No nutrition estimates.", "配合喜好、探索餐點變化，不提供營養估算。")
-                  : t(locale, "Compare recipe portions, estimated nutrition and ranking totals.", "比較配方份量、營養估算與排序總分。")}
+            <section className="collection-switcher" aria-label={t(locale, "Recipe collection", "配方資料庫")}>
+              <p className="small muted">
+                {t(locale, "Recipes with ingredient weights, nutrition estimates and preparation steps.", "每道配方都有食材重量、營養估算與準備步驟。")}
               </p>
+              <button type="button" className="text-button" onClick={browseRecipes}>
+                {t(locale, `Browse all ${recipeCount} recipes`, `瀏覽全部 ${recipeCount} 道配方`)}
+              </button>
               <button type="button" className="text-button adjust-preferences" onClick={() => {
                 const context = document.getElementById("meal-preferences");
                 context?.focus({ preventScroll: true });
@@ -1504,8 +1505,8 @@ export default function App() {
                   </span>
                 </div>
                 <MealContextControls
-                  showRecipePortions={recommendationMode === "pilot"}
-                  showMealSetting={recommendationMode === "ideas"}
+                  showRecipePortions
+                  showMealSetting={false}
                   value={mealContext}
                   profile={effectiveProfile}
                   locale={locale}
@@ -1523,17 +1524,11 @@ export default function App() {
                   onProfileChange={changeProfile}
                 />
                 <p className="small muted collection-scope">
-                  {recommendationMode === "pilot"
-                    ? t(
-                        locale,
-                        "General healthy adults · recipes you assemble. Times start with prepared ingredients; restaurant portions are not confirmed.",
-                        "一般健康成人 · 自備配方估算。時間從備好食材起算，無法確認餐廳實際份量。",
-                      )
-                    : t(
-                        locale,
-                        "Meal inspiration matched to styles and variety. No nutrient ranking or calorie estimates. Preparation minutes are unknown.",
-                        "依餐食風格與變化提供靈感，不做營養優劣排序或熱量估算；準備分鐘數未知。",
-                      )}
+                  {t(
+                    locale,
+                    "General healthy adults · recipes you assemble. Times start with prepared ingredients; restaurant portions are not confirmed.",
+                    "一般健康成人 · 自備配方估算。時間從備好食材起算，無法確認餐廳實際份量。",
+                  )}
                 </p>
                 <button type="button" className="text-button back-to-options" onClick={() => {
                   decisionRef.current?.focus({ preventScroll: true });
@@ -1543,6 +1538,9 @@ export default function App() {
                 </button>
                 <div className="avoid-summary">
                   <strong>{t(locale, "Always excluded", "持續避開")}</strong>
+                  {timeWindow === "late" && state.profile.avoidTags.includes(retiredAvoidTag) && (
+                    <p className="notice small">{t(locale, "Your saved late-night restriction pauses suggestions because these recipes cannot assess meal heaviness. Edit preferences to review or remove it.", "已存的宵夜限制暫停了推薦，因為目前配方無法判斷餐點厚重程度。可開啟偏好檢查或移除此設定。")}</p>
+                  )}
                   <p className="small">
                     {state.profile.avoidTags.length
                       ? state.profile.avoidTags
@@ -1609,17 +1607,15 @@ export default function App() {
               <h2 id="decision-title">
                 {t(locale, "A few good options", "從這幾道開始選")}
               </h2>
-              {recommendationMode === "pilot" && (stapleAvailability.status === "absent" || stapleAvailability.status === "excluded") && (
+              {(stapleAvailability.status === "absent" || stapleAvailability.status === "excluded") && (
                 <div className="collection-notice" role="status">
                   <p>{stapleAvailability.status === "absent"
-                    ? t(locale, "These 12 recipes do not include your selected staple.", "這 12 道配方沒有你選的主食。")
+                    ? t(locale, `These ${standardizedRecipes.length} recipes do not include your selected staple.`, `這 ${standardizedRecipes.length} 道配方沒有你選的主食。`)
                     : t(locale, "No recipe with your selected staple is eligible under the current conditions.", "目前條件下，沒有符合所選主食的可用配方。")}
                     {chosenMeal && t(locale, " The options below do not match that preference.", "以下選項未符合這項偏好。")}</p>
-                  <button type="button" className="text-button" onClick={() => {
-                    setRecommendationMode("ideas");
-                    setSelected(0);
-                    setChangeNote(t(locale, "Exploring 100 ideas with the same preferences and exclusions.", "已切換至 100 道靈感，偏好與避開條件持續套用。"));
-                  }}>{t(locale, "Explore 100 meal ideas", "改看 100 道餐點靈感")}</button>
+                  <button type="button" className="text-button" onClick={adjustRecipeConditions}>
+                    {t(locale, "Adjust this meal", "調整這餐條件")}
+                  </button>
                 </div>
               )}
               {isDemo && (
@@ -1628,17 +1624,13 @@ export default function App() {
                   <span>
                     {t(
                       locale,
-                      recommendationMode === "pilot"
-                        ? "Example records reduce repeats only when totals tie"
-                        : "Example records are used to reduce repeats among equally preferred options",
-                      recommendationMode === "pilot"
-                        ? "僅在總分相同時，參考範例紀錄減少重複"
-                        : "同等符合偏好時，參考範例紀錄減少重複",
+                      "Example records reduce repeats only when preference matches and nutrition references tie",
+                      "本餐偏好、已存偏好與營養參考皆相同時，才以範例紀錄減少重複",
                     )}
                   </span>
                 </div>
               )}
-              {!chosenMeal || !activePresentation ? (
+              {!pilotActive || !chosenMeal || !activePresentation ? (
                 <div className="notice no-options">
                   <h3>
                     {t(
@@ -1650,8 +1642,12 @@ export default function App() {
                   <p>
                     {t(
                       locale,
-                      "Your avoided items and strict meal conditions remain applied. Review this meal’s temperature and time limits, or change the collection. Preferences below remain available.",
-                      "避開項目與本餐必要條件仍維持套用。可檢查溫度、時間上限，或更換選餐範圍；也可以調整偏好。",
+                      mealContext.ingredientReadiness === "needs-prep" && mealContext.maxPrepMinutes !== null
+                        ? "Your ingredients still need preparation, but full cooking time is unknown. Remove the time limit or return when ingredients are ready. Your avoids remain applied."
+                        : "Your avoided items and strict meal conditions remain applied. Review this meal’s temperature and time limits, or inspect the recipes in the library.",
+                      mealContext.ingredientReadiness === "needs-prep" && mealContext.maxPrepMinutes !== null
+                        ? "食材仍需處理或烹調，但目前沒有完整烹調時間資料。請移除時間上限，或等食材備妥後再選餐；避開設定仍維持套用。"
+                        : "避開項目與本餐必要條件仍維持套用。可檢查溫度、時間上限，或到資料庫查看配方。",
                     )}
                   </p>
                   <button
@@ -1673,146 +1669,41 @@ export default function App() {
                   <div className="meal-feature" key={chosenMeal.id}>
                     <div className="meal-meta">
                       <span className="perspective-label">
-                        {pilotActive
-                          ? t(locale, "STANDARD RECIPE", "標準配方")
-                          : t(locale, "MEAL IDEA", "餐點靈感")}
+                        {t(locale, "STANDARD RECIPE", "標準配方")}
                       </span>
                       <span>{activePresentation.cuisine}</span>
-                      <span>
-                        {pilotActive
-                          ? t(
-                              locale,
-                              `Est. ${pilotActive.recipe.prepMinutes} min assembly`,
-                              `備好食材後約 ${pilotActive.recipe.prepMinutes} 分鐘組合`,
-                            )
-                          : activePresentation.effort}
-                      </span>
                     </div>
                     <h3>
-                      {pilotActive
-                        ? pilotActive.recipe.label[locale]
-                        : activePresentation.title}
+                      {pilotActive.recipe.label[locale]}
                     </h3>
-                    <p className="feature-reason">
-                      {pilotActive
-                        ? t(locale,
-                            `Top ${pilot.recommendations.length} by total · ${pilot.candidateCount} eligible ${pilot.candidateCount === 1 ? "recipe" : "recipes"}`,
-                            `依總分選出前 ${pilot.recommendations.length} 名 · 共 ${pilot.candidateCount} 道符合條件配方`,
-                          )
-                        : active?.shortReason}
-                    </p>
+                    <RecipeFitSummary rec={pilotActive} locale={locale} />
                     <div className="feature-actions">
                       <button
                         type="button"
                         className="button primary full-width"
                         disabled={!recordStore.ready || recordStore.busy}
                         onClick={async () => {
-                          const status = await updateState((current) =>
-                            savePlan(
-                              current,
-                              chosenMeal.id,
-                              new Date(),
-                              pilotActive
-                                ? {
-                                    portion: pilotActive.portion,
-                                    recipeVersion: pilotActive.recipe.version,
-                                  }
-                                : undefined,
-                            ),
-                          );
-                          if (status !== "ok") return;
-                          setMessage(
-                            t(
-                              locale,
-                              "Saved to your next-meal plans. It isn't recorded as eaten.",
-                              "已儲存到下一餐計畫，尚未加入已吃紀錄。",
-                            ),
-                          );
+                          await chooseRecipe(pilotActive);
                         }}
                       >
                         {state.plannedMeals.some(
                           (plan) =>
                             plan.mealId === chosenMeal.id &&
-                            (!pilotActive ||
-                              (plan.portion === pilotActive.portion &&
-                                plan.recipeVersion ===
-                                  pilotActive.recipe.version)),
+                            plan.portion === pilotActive.portion &&
+                            plan.recipeVersion === pilotActive.recipe.version,
                         )
                           ? t(locale, "Saved to plans", "已儲存到計畫")
                           : t(locale, "Choose this meal", "就選這道")}
                       </button>
-                      <button
-                        type="button"
-                        className="button quiet full-width"
-                        onClick={share}
-                        disabled={sharing}
-                      >
-                        {sharing
-                          ? t(locale, "Preparing card…", "製作小卡中…")
-                          : t(locale, "Download meal card", "下載選餐小卡")}
-                      </button>
+                      <button type="button" className="button quiet full-width" disabled={displayedMeals.length < 2} onClick={() => {
+                        setSelected(index => (index + 1) % displayedMeals.length);
+                        setMessage(t(locale, "Showing another option. Your meal records stay the same.", "已切換比較選項，你的餐點紀錄不變。"));
+                      }}>{t(locale, "Show another option", "換一道看看")}</button>
                     </div>
-                    {pilotActive ? (
-                      <>
-                        <RecommendationScore rec={pilotActive} locale={locale} />
-                        <NutritionDetails
-                          recommendation={pilotActive}
-                          locale={locale}
-                        />
-                      </>
-                    ) : (
-                      <ul className="reason-list">
-                        <li>
-                          {t(locale, "Named foods", "餐名中的食物")}:{" "}
-                          {activePresentation.ingredients.join(
-                            t(locale, ", ", "、"),
-                          )}
-                        </li>
-                        <li>
-                          {t(locale, "Works for", "適合")}{" "}
-                          {chosenMeal.worksFor
-                            .map((value) => label(value, locale))
-                            .join(t(locale, " or ", "或"))}
-                        </li>
-                      </ul>
-                    )}
-                    {!pilotActive && active && <HistoryBasis trace={active.decisionTrace.variety} locale={locale} />}
-                    {!pilotActive && <details className="recommendation-basis">
-                      <summary>{t(locale, "Recommendation basis", "推薦依據")}</summary>
-                      <ul>
-                        {(active?.matchReasons ?? []).filter(reason => reason !== active?.shortReason && reason !== active?.decisionTrace.variety.reason).map((reason, index) => (
-                          <li key={index}>{reason}</li>
-                        ))}
-                      </ul>
-                      <p className="small muted">
-                        {active?.decisionTrace.selectionMethod}
-                      </p>
-                    </details>}
-                    <details className="action-tip">
-                      <summary>
-                        {t(locale, "Make it happen", "接下來怎麼準備")}
-                      </summary>
-                      {pilotActive ? (
-                        <ol>
-                          {pilotActive.recipe.instructions.map(
-                            (step, index) => (
-                              <li key={index}>{step[locale]}</li>
-                            ),
-                          )}
-                        </ol>
-                      ) : (
-                        <>
-                          <p>{activePresentation.tip}</p>
-                          <p className="small muted">
-                            {t(
-                              locale,
-                              "This is a meal idea, not a complete recipe. Check sauces, actual ingredients and preparation against your needs.",
-                              "這是選餐想法，並非完整食譜；請依自己的需求確認醬料、實際食材與製作方式。",
-                            )}
-                          </p>
-                        </>
-                      )}
-                    </details>
+                    <button type="button" className="text-button meal-card-download" onClick={share} disabled={sharing}>
+                      {sharing ? t(locale, "Preparing card…", "製作小卡中…") : t(locale, "Download meal card", "下載選餐小卡")}
+                    </button>
+                    <RecipeDetails recipe={pilotActive.recipe} portion={pilotActive.portion} calculation={pilotActive} recommendation={pilotActive} locale={locale} />
                   </div>
                   {displayedMeals.length > 1 && (
                     <div className="comparison">
@@ -1837,26 +1728,12 @@ export default function App() {
                               }}
                             >
                               <span>
-                                {recommendationMode === "pilot"
-                                  ? t(locale, "STANDARD RECIPE", "標準配方")
-                                  : t(locale, "MEAL IDEA", "餐點靈感")}
+                                {t(locale, "STANDARD RECIPE", "標準配方")}
                               </span>
                               <strong>
-                                {recommendationMode === "pilot"
-                                  ? pilot.recommendations[index].recipe.label[
-                                      locale
-                                    ]
-                                  : mealTitle(meal, locale)}
+                                {pilot.recommendations[index].recipe.label[locale]}
                               </strong>
-                              {recommendationMode === "pilot" ? (
-                                <RecipeOptionFacts rec={pilot.recommendations[index]} locale={locale} />
-                              ) : (
-                                <small>
-                                  {getMealPresentation(meal, locale).cuisine}
-                                  {" · "}
-                                  {getMealPresentation(meal, locale).effort}
-                                </small>
-                              )}
+                              <RecipeOptionFacts rec={pilot.recommendations[index]} locale={locale} />
                             </button>
                           ),
                         )}
@@ -1882,12 +1759,8 @@ export default function App() {
                   <p className="small muted filtered-note">
                     {t(
                       locale,
-                      recommendationMode === "pilot"
-                        ? `${pilot.excludedCount} of 12 recipes excluded by avoids, strict conditions or incomplete scoring data.`
-                        : `${filteredCount} of 100 curated meals excluded by your current avoids.`,
-                      recommendationMode === "pilot"
-                        ? `避開設定、必要條件或計分資料缺漏已排除 12 道配方中的 ${pilot.excludedCount} 道。`
-                        : `目前避開設定已從 100 道精選餐點中排除 ${filteredCount} 道。`,
+                      `${pilot.excludedCount} of ${recipeCount} recipes excluded by avoids, strict conditions or incomplete scoring data.`,
+                      `避開設定、必要條件或計分資料缺漏已排除 ${recipeCount} 道配方中的 ${pilot.excludedCount} 道。`,
                     )}
                   </p>
                 </>
@@ -1918,24 +1791,28 @@ export default function App() {
               <p className="muted">
                 {t(
                   locale,
-                  "Saved ideas stay here until you remove them or record what you ate. Up to 12 recent ideas are kept in this browser.",
-                  "儲存的想法會留在這裡，直到你移除或記錄吃過的內容；此瀏覽器最多保留最近 12 道。",
+                  "Saved meals stay here until you remove them or record what you ate. Up to 12 recent plans are kept in this browser.",
+                  "儲存的餐點會留在這裡，直到你移除或記錄吃過的內容；此瀏覽器最多保留最近 12 道計畫。",
                 )}
               </p>
               {state.plannedMeals.length ? (
                 <div className="plan-grid">
                   {state.plannedMeals.map((plan) => {
-                    const meal = recommendationDataset.find(
-                      (item) => item.id === plan.mealId,
-                    );
+                    const legacyMeal = legacyRecommendationDataset.find(item => item.id === plan.mealId);
+                    const currentMeal = recommendationDataset.find(item => item.id === plan.mealId);
+                    const isLegacyIdea = !plan.recipeVersion;
+                    const meal = isLegacyIdea ? legacyMeal ?? currentMeal : currentMeal ?? legacyMeal;
                     if (!meal) return null;
-                    const detail = getMealPresentation(meal, locale);
+                    const detail = isLegacyIdea ? getLegacyMealPresentation(meal, locale) : getMealPresentation(meal, locale);
                     const savedRecipe = standardizedRecipes.find(
                       (recipe) =>
                         recipe.mealId === meal.id &&
                         recipe.version === plan.recipeVersion,
                     );
-                    const conflicts = [
+                    const planTitle = savedRecipe?.label[locale] ?? (isLegacyIdea
+                      ? legacyMealTitle(meal, locale)
+                      : t(locale, "Saved recipe unavailable", "無法取得的已存配方"));
+                    const conflicts = !isLegacyIdea && !savedRecipe ? [] : [
                       ...getHardAvoidConflicts(state.profile, meal, timeWindow),
                       ...(savedRecipe && plan.portion
                         ? getRecipeHardAvoidConflicts(
@@ -1947,8 +1824,13 @@ export default function App() {
                     ];
                     return (
                       <article className="plan-card" key={plan.id}>
-                        <span className="small muted">{detail.cuisine}</span>
-                        <h3>{savedRecipe?.label[locale] ?? detail.title}</h3>
+                        <span className="small muted">{isLegacyIdea ? t(locale, "Earlier meal idea", "先前的餐點想法") : savedRecipe ? detail.cuisine : t(locale, "Saved recipe", "已存配方")}</span>
+                        <h3>{planTitle}</h3>
+                        {isLegacyIdea && (
+                          <p className="notice small">
+                            {t(locale, "Saved as a meal idea. Its original name and named foods are preserved; no recipe version or ingredient amounts were saved.", "這是先前儲存的餐點想法，保留原有餐名與具名食物；當時未儲存配方版本或食材份量。")}
+                          </p>
+                        )}
                         {plan.portion && (
                           <p className="small muted">
                             {t(locale, "Saved recipe portion", "已存配方份量")}:{" "}
@@ -1974,19 +1856,20 @@ export default function App() {
                         )}
                         {plan.recipeVersion && !savedRecipe && (
                           <p className="notice small">
-                            {t(locale, "This saved recipe version is unavailable. Only the general meal idea is shown; review the ingredients before recording it.", "此已存配方版本已無法取得，目前只顯示一般餐點想法；記錄前請重新確認食材。")}
+                            {t(locale, "This saved recipe version is unavailable. Ingredients and amounts will not be replaced with the current recipe. Enter what you actually ate before recording.", "此已存配方版本已無法取得，不會以目前配方的食材與份量代替。請填入實際吃下的內容再記錄。")}
+                            {legacyMeal && <> {t(locale, "Earlier meal reference", "先前餐點參照")}: {legacyMealTitle(legacyMeal, locale)}</>}
                           </p>
                         )}
                         {conflicts.length ? (
                           <p className="notice small">
                             {t(
                               locale,
-                              "This saved idea conflicts with your current avoids. Review or remove it. Recording something you actually ate is still available.",
-                              "這道先前儲存的想法不符合目前的避開設定，可檢查或移除。你仍可記錄實際吃過的內容。",
+                              "This saved meal conflicts with your current avoids. Review or remove it. Recording something you actually ate is still available.",
+                              "這道已儲存的餐點不符合目前的避開設定，可檢查或移除。你仍可記錄實際吃過的內容。",
                             )}
                           </p>
                         ) : (
-                          <p className="small">{savedRecipe ? savedRecipe.instructions.map((step) => step[locale]).join(" ") : detail.tip}</p>
+                          <p className="small">{savedRecipe ? savedRecipe.instructions.map((step) => step[locale]).join(" ") : isLegacyIdea ? detail.tip : ""}</p>
                         )}
                         <div className="button-row">
                           <button
@@ -2005,8 +1888,8 @@ export default function App() {
                             className="text-button"
                             aria-label={t(
                               locale,
-                              `Remove plan: ${savedRecipe?.label[locale] ?? detail.title}`,
-                              `移除計畫：${savedRecipe?.label[locale] ?? detail.title}`,
+                              `Remove plan: ${planTitle}`,
+                              `移除計畫：${planTitle}`,
                             )}
                             disabled={recordStore.busy}
                             onClick={async () => {
@@ -2034,7 +1917,7 @@ export default function App() {
                 <p className="empty-note muted">
                   {t(
                     locale,
-                    "Choose a meal from Next meal to save an idea here.",
+                    "Choose a recipe from Next meal or the Library to save a plan here.",
                     "到「今日選餐」找到喜歡的餐點，按「就選這道」就能儲存在這裡。",
                   )}
                 </p>
@@ -2117,52 +2000,13 @@ export default function App() {
         {view === "catalog" && (
           <div className="view-content">
             <nav className="food-library-sections" aria-label={t(locale, "Library collection", "資料庫分類")}>
+              <button type="button" className={cx("button", catalogSection === "recipes" && "primary")} aria-pressed={catalogSection === "recipes"} onClick={() => setCatalogSection("recipes")}>{t(locale, `${standardizedRecipes.length} recipes`, `${standardizedRecipes.length} 道配方`)}</button>
               <button type="button" className={cx("button", catalogSection === "foods" && "primary")} aria-pressed={catalogSection === "foods"} onClick={() => setCatalogSection("foods")}>{t(locale, "Foods & drinks", "食材與飲料")}</button>
-              <button type="button" className={cx("button", catalogSection === "ideas" && "primary")} aria-pressed={catalogSection === "ideas"} onClick={() => setCatalogSection("ideas")}>{t(locale, "100 meal ideas", "100 道餐點想法")}</button>
             </nav>
             {catalogSection === "foods" ? <section className="panel"><FoodLibrary profile={effectiveProfile} context={mealContext} locale={locale} /></section> : (
-            <section
-              className="panel catalog-panel"
-              aria-labelledby="catalog-title"
-            >
-              <h2 id="catalog-title">
-                {t(locale, "100 everyday meal ideas", "100 道日常餐點想法")}
-              </h2>{" "}
-              <p className="muted">
-                {t(
-                  locale,
-                  "A fixed collection of Asian and Western meal templates. Recipes and portions vary; these are ideas to adapt, not verified nutrient records.",
-                  "整理亞洲與西式日常餐點的固定選集。實際配方與份量各有不同，這些是可調整的選餐想法。",
-                )}
-              </p>
-              <label>
-                {t(locale, "Find a meal idea", "搜尋餐點想法")}
-                <input
-                  type="search"
-                  value={catalogQuery}
-                  onChange={(event) => setCatalogQuery(event.target.value)}
-                  placeholder={t(
-                    locale,
-                    "Try rice, soup, or tofu",
-                    "試試飯、湯或豆腐",
-                  )}
-                />
-              </label>
-              <p className="small muted">{filteredCatalog.length}/100</p>
-              <div className="catalog-grid">
-                {filteredCatalog.map((meal) => (
-                  <article key={meal.id}>
-                    <span className="small muted">
-                      {getMealPresentation(meal, locale).cuisine}
-                    </span>
-                    <h3>{mealTitle(meal, locale)}</h3>
-                    <p className="small">
-                      {getMealPresentation(meal, locale).effort}
-                    </p>
-                  </article>
-                ))}
-              </div>
-            </section>
+              <RecipeLibrary result={pilot} context={mealContext} locale={locale} plans={state.plannedMeals} busy={!recordStore.ready || recordStore.busy}
+                onPortionChange={appetite => setMealContext(current => ({ ...current, appetite }))}
+                onChoose={chooseRecipe} onAdjustConditions={adjustRecipeConditions} />
             )}
           </div>
         )}
@@ -2170,8 +2014,8 @@ export default function App() {
           <span>
             {t(
               locale,
-              "100 curated meal ideas. No account required.",
-              "100 道精選餐點想法，免帳號即可使用。",
+              `${recipeCount} recipes with ingredients and portions. No account required.`,
+              `${recipeCount} 道附食材與份量的配方，免帳號即可使用。`,
             )}
           </span>
           <button className="text-button" type="button" onClick={startDemo}>
@@ -2844,8 +2688,8 @@ export default function App() {
             <p>
               {t(
                 locale,
-                "The 12 recipes use stated edible ingredient weights and pinned USDA records. UK NPM 2018 compares composition per 100 g; MealHatch separates its nutrient and energy contributions, adds a disclosed preference bonus, and selects the three highest totals after strict exclusions. The combined total is a product ranking, not an official health grade or a measure of every vitamin and mineral. Lower energy density can tie within model bands and does not guarantee a lower-energy whole portion. Required missing data prevents scoring. Hunger suggests an editable recipe portion, not calorie needs or predicted satiety. The separate 100-idea collection remains unscored inspiration. This version is for general healthy adults, without individual adequacy or medical recommendations.",
-                "12 道配方以明確可食重量及固定 USDA 紀錄計算。UK NPM 2018 統一比較每 100 克的營養組成；MealHatch 拆開顯示營養與熱量項，加上公開的偏好加分，套用必要排除後取總分最高三名。綜合分數是產品排序，並非官方健康等級，也未評估所有維生素與礦物質。模型採熱量級距，因此可能同分；較低能量密度不保證整份熱量較低。必要資料缺漏時不計分。飢餓感只建議可修改的配方份量，不推算熱量需求或飽足感。另有 100 道不計分的餐點靈感。本版適用一般健康成人，不評估個人營養充足度或提供醫療建議。",
+                "Designed for Chinese adults in North America, in English and Traditional Chinese. MealHatch helps choose a daily meal without grading eating habits or setting weight-loss goals. After ingredient and strict meal-condition exclusions, recipes are compared in order: current-meal preference groups, saved preference groups, then the nutrition reference. The reference is nutrient contribution + energy contribution = 10 minus the raw UK NPM 2018 result per 100 g; preference points are not added to it. Only ties in all three stages use recognized records for variety, then alternative variety and a stable ID. These ordering choices are product rules, not scientific weights or a health grade. All model inputs, thresholds, protein conditions, preference points and sources remain in each recipe’s calculation details. Times describe assembly with prepared ingredients; full cooking time is unknown. Hunger suggests an editable portion, not calorie needs or predicted fullness. Recommendations and the library use the same recipes. This version supports general healthy adults’ daily meal choices, without individual adequacy or medical recommendations.",
+                "為北美華人成年人的日常選餐設計，提供英文與繁體中文；不評論飲食習慣，也不設定減重目標。先排除避開項目與不符合必要條件的配方，再依序比較本餐偏好群組、已存偏好群組、營養參考值。營養參考值＝營養項＋熱量項＝10－每 100 克 UK NPM 2018 原始分數，偏好點數不加進營養。前三個比較階段皆相同時，才依具名紀錄減少重複，再以其他選項的多樣性與固定 ID 排序。這些先後順序是產品規則，並非科學權重或健康等級。所有模型輸入、門檻、蛋白質計分條件、偏好點數與來源都保留於各配方的計算明細。時間只描述備妥食材後的組合，完整烹調時間未知。飢餓感只建議可調整的份量，不推算熱量需求或飽足感。推薦與資料庫使用同一份配方，協助一般健康成人日常選餐，不評估個人營養充足度或提供醫療建議。",
               )}
             </p>
             <p>

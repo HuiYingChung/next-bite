@@ -1,26 +1,27 @@
 # First-use usability study
 
 Status: protocol ready; no sessions conducted or results recorded in this file.
-Study version: 2026-11-05 launch-experience draft.
+Study version: 2026-11-06 preference-first draft; no sessions conducted.
 
 ## Question
 
 Can a new visitor understand MealHatch, choose and save a plausible next meal,
 and explain why it appeared without being guided through the interface?
 
-The working hypothesis is that a default 100-idea collection and earlier save
+The working hypothesis is that one recipe-backed meal library and a visible save
 action make that journey clearer. Five sessions can reveal specific problems;
 they do not establish market demand, nutritional validity or a population-wide
 success rate. Product Hunt exposure is a separate measure.
 
 ## Participants and setup
 
-- Recruit five adults who sometimes decide their own meals and have not used
-  this version. Aim for three phone sessions and two desktop sessions; include
+- Recruit five Chinese adults living in North America who sometimes prepare
+  their own meals and have not used this version. Aim for three phone sessions
+  and two desktop sessions; include
   both supported languages when participants naturally use them.
 - Run one participant at a time for about 15 minutes. Use a fresh isolated
   browser profile on their normal device where practical. Begin with empty
-  personal records and the default ideas collection, without opting into the
+  personal records and the default recipe recommendations, without opting into the
   separate example workspace.
 - Record the tested build/commit, date, language, viewport and device. Do not
   overwrite the maker's personal records or use a real API key.
@@ -43,15 +44,21 @@ Stop at completion, abandonment or three minutes; record any assistance.
 | Task | Participant prompt | Completion evidence |
 | --- | --- | --- |
 | 1. Choose | “You want an idea for your next meal. Find one you would consider and keep it for later.” | Chooses a plausible option and saves a plan without being told which control to use. |
-| 2. Adjust | “Now you feel like noodles. Make that preference part of your choice.” | Finds the preference, selects noodles and recognizes a matching idea. Observe whether the change is understood. |
-| 3. Explain | “Why do you think this option appeared? Find information that helps you explain it.” | Finds the basis and describes an actual preference/variety reason without inventing a health or nutrient-deficit claim. |
+| 2. Adjust | “Now you feel like noodles. Find an option that fits.” | Selects noodles, recognizes matching choices or understands a disclosed compromise when conditions leave no complete match. |
+| 3. Explain | “Why do you think this option appeared? Find information that helps you explain it.” | Finds the scoring basis and describes an actual composition, preference or tie-break reason without inventing a health or nutrient-deficit claim. |
 | 4. Revisit | “Leave this view, then find the meal you kept. Has the app recorded that you ate it?” | Finds the saved plan and understands that recording an eaten meal is a separate action. Reload the fresh-visit workspace and confirm the first saved plan persists. |
-| 5. Compare collections | “Explore the collection with portions and nutrition estimates. Keep your noodle preference and tell me what the app can offer.” | Notices the stated lack of a noodle match in that collection and can return to the broader ideas. Does not assume unmatched recipes satisfy the preference. |
+| 5. Browse recipes | “Find a different noodle recipe, inspect its ingredients and portion, and keep it for later if it suits you.” | Finds an eligible recipe in the full meal library, inspects its stated ingredients/portion and saves it. Understands that exclusions can prevent selection even when details remain browsable. |
 
-After task 5 ask: “What do the numbers mean here? Would you expect the 100 meal
-ideas to have the same numbers?” Accept “a comparison for these defined recipes”
+After task 5 ask: “What do the numbers mean here? Would you expect a restaurant
+meal with the same name to have the same numbers?” Accept “a comparison for these defined recipes”
 without requiring knowledge of the scoring formula. Record misconceptions
 verbatim. Do not teach the intended answer before recording the response.
+
+Then ask: “You have uncooked ingredients and 15 minutes. Can you tell whether
+this meal fits?” Observe whether the participant distinguishes assembly time
+from unknown full cooking time and can adjust the condition. Ask which food or
+ingredient they expected but could not find, and where they normally buy it;
+record their words rather than assuming one set of Chinese food preferences.
 
 If a participant asks for help, first ask “What would you try?” Then provide
 only the minimum needed. Mark the task **assisted**; do not count it as unaided
@@ -67,7 +74,7 @@ benchmarks or statistical estimates:
 - At least four of five change the staple and find the recommendation basis
   unaided, and can revisit the plan.
 - No participant leaves believing a saved plan is an eaten-meal record or that
-  all 100 ideas have calculated nutrition scores. Any such misunderstanding
+  an unspecified restaurant meal has the same estimated nutrition. Any such misunderstanding
   gets a concrete copy/layout fix and a fresh check before launch.
 - Fix a repeatable blocker even if only one participant encounters it. Prioritize
   repeated confusion over cosmetic preferences, and keep contrary observations.
@@ -83,7 +90,7 @@ Leave cells blank until observed. Use **unaided**, **assisted**, **abandoned** o
 
 Tested build/commit: ______  Live/local URL: ______  Session dates: ______
 
-| ID | Device / viewport | Language | T1 choose + seconds | T2 adjust | T3 explain | T4 revisit | T5 collections | Misunderstanding / actual quote |
+| ID | Device / viewport | Language | T1 choose + seconds | T2 adjust | T3 explain | T4 revisit | T5 browse | Misunderstanding / actual quote |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | P1 | | | | | | | | |
 | P2 | | | | | | | | |

@@ -3,6 +3,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import ts from "typescript";
+import { independentRecipeRanking, compareIndependentTiers } from "./recipe-ranking-oracle.mjs";
 
 const root = fileURLToPath(new URL("../", import.meta.url));
 const modules = new Map();
@@ -20,7 +21,7 @@ function loadSource(relative) {
 }
 
 const { calculateNutrientProfile, getNpm2018Band } = loadSource("src/nutrient-profile.ts");
-const { calculateRecipeProfile, calculateScoreForRecipe, recommendPilotMeals, getRecipeHardAvoidConflicts } = loadSource("src/nutrition.ts");
+const { calculateRecipe, calculateRecipeProfile, calculateScoreForRecipe, recommendPilotMeals, getRecipeHardAvoidConflicts } = loadSource("src/nutrition.ts");
 const { sourceFoods, standardizedRecipes } = loadSource("src/nutrition-data.ts");
 const { seedProfile, createBlankState, avoidTags } = loadSource("src/data.ts");
 const { defaultMealContext } = loadSource("src/meal-context.ts");
@@ -74,36 +75,133 @@ const now = new Date(2026,10,4,12,30);
 const profile = changes => ({ ...clone(seedProfile), feelToday:"Normal", preferenceTags:[], avoidTags:[], sensitiveDrinkOptIns:[], ...changes });
 const context = changes => ({ ...defaultMealContext, ...changes });
 const log = createBlankState(now).days.find(day => day.isToday).todayLog;
-// Recalculate all12 totals independently from source weights and threshold
-// literals, so a sorted-looking but incorrect top3 cannot pass this test.
-function independent(recipe, selectedProfile, selectedContext) {
-  const grams = recipe.ingredients.reduce((sum,item)=>sum+item.grams,0);
-  const weighted = read => recipe.ingredients.reduce((sum,item)=>sum+item.grams*read(sourceFoods.find(food=>food.id===item.foodId)),0)/grams;
-  const values = { energyKj:weighted(food=>food.nutrientsPer100g.energyKj), saturatedFat:weighted(food=>food.nutrientsPer100g.saturatedFat), freeSugars:weighted(food=>food.modelBasis.freeSugarsPer100g), salt:weighted(food=>food.nutrientsPer100g.sodium*.0025), protein:weighted(food=>food.nutrientsPer100g.protein), fiber:weighted(food=>food.nutrientsPer100g.fiber), fvnsPercent:weighted(food=>food.modelBasis.fvnsEligible?100:0) };
-  const points = key => { const count=thresholds[key].filter(t=>values[key]>t).length; return key==="fvnsPercent"?[0,1,2,5][count]:count; };
-  const a=points("energyKj")+points("saturatedFat")+points("freeSugars")+points("salt");
-  const c=points("fiber")+points("fvnsPercent")+((a<11||points("fvnsPercent")===5)?points("protein"):0);
-  // Neutral profile and selected-staple/cuisine cases avoid reusing style or
-  // preference helper code when independently validating the full ranking.
-  const p=(selectedContext.preferredStaple!=="any"&&recipe.staple===selectedContext.preferredStaple?2:0)+(selectedContext.cuisine!=="any"&&recipe.cuisine===selectedContext.cuisine?2:0);
-  return { total:10-a+c+p, raw:a-c, values };
+// Known nonzero free-sugar sources must retain the actual archived values.
+// Unsweetened soy milk remains a drink ingredient under the published rule;
+// the other dairy ingredient's intrinsic lactose is treated separately.
+for (const [id, expected] of [["usda-169640", 82.12], ["usda-167747", 2.52], ["usda-173768", .41], ["usda-170932",10.34], ["usda-171325",2.43]]) {
+  assert.equal(sourceFoods.find(food => food.id === id)?.modelBasis.freeSugarsPer100g, expected, `${id} keeps its independently checked nonzero free-sugar input`);
 }
-for (const selectedContext of [context(),context({preferredStaple:"rice"}),context({cuisine:"western"}),context({preferredStaple:"potato",cuisine:"western"})]) {
-  const result = recommendPilotMeals(profile(),selectedContext,"en",now,log);
-  assert.equal(result.candidateCount,12);
-  assert.equal(result.trace.candidateScores.length,12);
-  const independentTotals=standardizedRecipes.map(recipe=>({id:recipe.mealId,...independent(recipe,profile(),selectedContext)}));
+assert.equal(sourceFoods.find(food => food.id === "usda-172182").modelBasis.freeSugarsPer100g, 0, "Specified unsweetened cottage cheese excludes intrinsic dairy lactose from free sugars");
+assert.equal(sourceFoods.find(food => food.id === "usda-169980").modelBasis.freeSugarsPer100g, 0, "Plain napa cabbage uses a declared formulation rule rather than pretending its missing source total sugar was measured zero");
+for(const id of ["usda-174271","usda-168426","usda-169229","usda-169989","usda-170058","usda-170397","usda-170420"]){
+  const food=sourceFoods.find(item=>item.id===id);
+  assert.equal(food.state,"cooked",`${id} uses its actual boiled edible source weight`);
+  assert.equal(food.modelBasis.fvnsEligible,true,`${id} is an intact qualifying bean or vegetable`);
+  assert.equal(food.modelBasis.freeSugarsPer100g,0,`${id} preserves intrinsic sugars outside the free-sugar definition`);
+}
+for(const id of ["usda-170932","usda-171325"]){
+  const powderSource=sourceFoods.find(food=>food.id===id);
+  assert.equal(powderSource.state,"ready-to-eat",`${id} uses the weighed spice input without an invented fresh-to-dried yield`);
+  assert.equal(powderSource.modelBasis.fvnsEligible,false,`${id} uses the explicit powder exclusion, not intact-plant FVNS credit`);
+}
+for (const [id, state] of [["usda-171705", "raw"], ["usda-169999", "cooked"], ["usda-169141", "cooked"], ["usda-168394", "cooked"], ["usda-170416", "raw"], ["usda-170005", "raw"], ["usda-170152", "cooked"], ["usda-173928", "cooked"], ["usda-167762", "raw"], ["usda-168437", "cooked"], ["usda-169230", "raw"]]) {
+  const food = sourceFoods.find(item => item.id === id);
+  assert.equal(food?.state, state, `${id} preserves its reviewed edible preparation state`);
+  assert.equal(food.modelBasis.fvnsEligible, true, `${id} is a reviewed qualifying plant ingredient`);
+  assert.equal(food.modelBasis.freeSugarsPer100g, 0, `${id} uses the explicit plain-food formulation rule for intrinsic sugars`);
+}
+for (const id of ["usda-171534", "usda-171986", "usda-174314"]) {
+  const food = sourceFoods.find(item => item.id === id);
+  assert.equal(food.modelBasis.fvnsEligible, false, `${id} is the specified plain animal protein, without a qualifying plant ingredient`);
+  assert.equal(food.modelBasis.freeSugarsPer100g, 0, `${id} retains the source-supported zero-sugar input`);
+}
+// Recalculate all 108 recipes from source weights and threshold literals,
+// including priority groups from recipe facts rather than the returned trace.
+function independent(recipe, selectedProfile, selectedContext) {
+  return independentRecipeRanking(recipe, sourceFoods, selectedProfile, selectedContext);
+}
+// Independently checked FDC173757 reports4.8g total sugars/100g. UK NPM
+// worked example8 counts puréed chickpea sugars as free sugars, while the
+// retained whole-chickpea formulation remains0. Keep physical nutrients and
+// FVNS identical so this cannot turn into a general score override.
+const chickpea = sourceFoods.find(food=>food.id==="usda-173757");
+const retainedChickpea = clone(chickpea);
+const processedRecipes = standardizedRecipes.filter(recipe=>recipe.ingredients.some(item=>item.processing!==undefined));
+assert.deepEqual(processedRecipes.map(recipe=>recipe.mealId).sort(),["falafel-salad-rice","hummus-chicken-wrap-fruit"],"Only the two explicitly reviewed hummus formulations apply chickpea processing");
+for(const recipe of processedRecipes) for(const ingredient of recipe.ingredients.filter(item=>item.processing!==undefined)){
+  assert.equal(ingredient.foodId,"usda-173757");
+  assert.equal(ingredient.processing,"pureed");
+  assert.equal(ingredient.preparationModelBasis.freeSugarsPer100g,4.8);
+  for(const portion of ["small","regular","large"]){
+    const displayed=calculateRecipe(recipe,portion).ingredientAmounts.find(item=>item.foodId===ingredient.foodId);
+    assert(Math.abs(displayed.preparationFreeSugarsGrams-ingredient.grams*recipe.portions[portion]*4.8/100)<.00011,"Selected portion displays the independently derived preparation free sugars");
+  }
+}
+const pureeIngredient = {foodId:chickpea.id,grams:100,weighedState:"cooked",group:"protein",role:"protein",processing:"pureed",preparationModelBasis:{
+  freeSugarBasis:"reported-total-sugars-as-free",freeSugarsPer100g:4.8,
+  note:{en:"Puréed chickpea sugars use the archived total-sugar value.",zh:"鷹嘴豆泥的游離糖採用封存來源總糖值。"},
+  sourceUrls:[chickpea.recordUrl,"https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-worked-examples-and-further-advice-on-calculations"],
+}};
+const pureeRecipe = {...clone(standardizedRecipes[0]),ingredients:[pureeIngredient,{foodId:"usda-173647",grams:100,weighedState:"ready-to-eat",group:"other",role:"liquid"}],seasoning:{oilGrams:0,saltGrams:0,sauceGrams:0}};
+const wholeRecipe = clone(pureeRecipe);
+delete wholeRecipe.ingredients[0].processing;
+delete wholeRecipe.ingredients[0].preparationModelBasis;
+const wholeModel = calculateRecipeProfile(wholeRecipe), pureeModel = calculateRecipeProfile(pureeRecipe);
+assert.equal(chickpea.modelBasis.freeSugarsPer100g,0);
+assert.equal(wholeModel.inputs.freeSugars,0);
+assert.equal(pureeModel.inputs.freeSugars,2.4,"100g chickpeas plus100g water independently yields2.4g free sugars/100g");
+assert.equal(pureeModel.points.a.freeSugars,2);
+assert.deepEqual({...pureeModel.inputs,freeSugars:0},wholeModel.inputs,"Processing changes only the reviewed free-sugar input");
+for(const [portion,expected] of [["small",3.6],["regular",4.8],["large",6]]){
+  const calculated=calculateRecipe(pureeRecipe,portion);
+  assert.equal(calculated.ingredientAmounts[0].preparationFreeSugarsGrams,expected);
+  assert.deepEqual(calculated.nutrition,calculateRecipe(wholeRecipe,portion).nutrition,"Puréed preparation does not change the source nutrient sum");
+  assert(!("preparationFreeSugarsGrams" in calculateRecipe(wholeRecipe,portion).ingredientAmounts[0]),"Older unprocessed ingredient output shape remains unchanged");
+}
+for(const locale of ["en","zh"]){
+  const scored=calculateScoreForRecipe(pureeRecipe,profile(),context(),locale);
+  assert.equal(scored.inputBasis[0].note,pureeIngredient.preparationModelBasis.note[locale]);
+  assert.deepEqual(scored.inputBasis[0].sourceUrls,pureeIngredient.preparationModelBasis.sourceUrls);
+}
+for(const change of [
+  item=>{delete item.preparationModelBasis;},
+  item=>{delete item.processing;},
+  item=>{item.processing="unreviewed";},
+  item=>{item.foodId="usda-171477";},
+  item=>{item.weighedState="raw";},
+  ...[null,NaN,-1,101].map(value=>item=>{item.preparationModelBasis.freeSugarsPer100g=value;}),
+  item=>{item.preparationModelBasis.freeSugarBasis="unresolved";},
+  item=>{item.preparationModelBasis.note.en="";},
+  item=>{item.preparationModelBasis.note.en=42;},
+  item=>{item.preparationModelBasis.sourceUrls=[];},
+  item=>{item.preparationModelBasis.sourceUrls=["http://unreviewed.example"];},
+]){
+  const invalid=clone(pureeRecipe);change(invalid.ingredients[0]);
+  assert.equal(calculateRecipeProfile(invalid).status,"incomplete","Unsupported or missing preparation evidence must fail closed");
+  assert.equal(calculateScoreForRecipe(invalid,profile(),context()),null);
+  assert.equal(calculateRecipe(invalid,"regular").ingredientAmounts[0].preparationFreeSugarsGrams,null,"Invalid preparation never falls back to the whole-food zero");
+}
+const retainedFirstRecipe=standardizedRecipes[0];
+try{
+  const invalid=clone(pureeRecipe);delete invalid.ingredients[0].preparationModelBasis;
+  standardizedRecipes[0]=invalid;
+  const result=recommendPilotMeals(profile(),context(),"en",now,log);
+  assert(!result.eligibleRecipes.some(item=>item.recipe.mealId===invalid.mealId));
+  assert(result.trace.exclusions.some(item=>item.mealId===invalid.mealId&&item.stage==="evidence"&&item.reasons.includes("model-input:freeSugars")),"A flagged recipe without preparation evidence cannot enter the selectable collection");
+}finally{standardizedRecipes[0]=retainedFirstRecipe;}
+assert.deepEqual(chickpea,retainedChickpea,"Recipe-specific processing never mutates the shared whole-food source");
+for (const selectedContext of [context(),context({preferredStaple:"rice"}),context({preferredStaple:"noodles"}),context({preferredStaple:"bread"}),context({cuisine:"western"}),context({preferredStaple:"potato",cuisine:"western"}),context({preferredStaple:"bread",ingredientReadiness:"needs-prep"})]) for (const selectedProfile of [profile(),profile({preferenceTags:["Light meals","High-protein","Rice-based meals"]}),profile({feelToday:"Low energy",preferenceTags:["Light meals","Plant-protein","Soupy meals"]}),profile({feelToday:"Need something light",preferenceTags:["Vegetable-forward","Warm meals"]})]) {
+  const result = recommendPilotMeals(selectedProfile,selectedContext,"en",now,log);
+  assert.equal(result.candidateCount,108);
+  assert.equal(result.trace.candidateScores.length,108);
+  assert.equal(result.eligibleRecipes.length,108);
+  const independentTotals=standardizedRecipes.map(recipe=>({id:recipe.mealId,...independent(recipe,selectedProfile,selectedContext)}));
   for (const item of result.trace.candidateScores) {
     const expected=independentTotals.find(row=>row.id===item.mealId);
-    assert.equal(item.score.total,expected.total,`${item.mealId} independent total`);
+    assert.equal(item.score.total,expected.total,`${item.mealId} retained arithmetic diagnostic`);
+    assert.equal(item.score.currentPreference.points,expected.current,`${item.mealId} independent current preference`);
+    assert.equal(item.score.savedPreference.points,expected.saved,`${item.mealId} independent saved preference`);
+    assert.equal(item.score.nutritionReference,expected.reference,`${item.mealId} independent nutrition reference`);
     assert.equal(item.score.model.rawScore,expected.raw);
     assert.equal(item.score.nutrient+item.score.energy+item.score.preference,item.score.total);
     assert.equal(item.score.total,10-item.score.model.rawScore+item.score.preference,"Energy included once");
     assert.equal(item.score.preferenceRows.reduce((sum,row)=>sum+row.points,0),item.score.preference);
     assert(item.score.preference>=0&&item.score.preference<=10);
   }
-  const bestTotals=independentTotals.map(row=>row.total).sort((a,b)=>b-a).slice(0,3);
-  assert.deepEqual(result.recommendations.map(item=>item.score.total),bestTotals,"Actual top3 totals, not hidden preference tiers or diversity replacement");
+  const expectedOrder=independentTotals.map(row=>row.tier).sort(compareIndependentTiers);
+  const actualTier=item=>[-item.score.currentPreference.points,-item.score.savedPreference.points,-item.score.nutritionReference];
+  assert.deepEqual(result.recommendations.map(actualTier),expectedOrder.slice(0,3),"Actual top three follow independent preference-first tiers; lower priority cannot compensate for a preference mismatch");
+  assert.deepEqual(result.eligibleRecipes.map(actualTier),expectedOrder,"The full browsable collection preserves preference-first ordering");
 }
 for (const recipe of standardizedRecipes) {
   const baseline=calculateRecipeProfile(recipe);
@@ -115,6 +213,20 @@ for (const recipe of standardizedRecipes) {
   }
 }
 const basicRecipe=standardizedRecipes.find(recipe=>recipe.mealId==="chicken-broccoli-rice-bowl");
+const retainedSoy=sourceFoods.find(food=>food.id==="usda-173768");
+assert.equal(retainedSoy.modelBasis.fvnsEligible,null,"Unknown qualifying bean content in the retained soy drink is not silently counted as zero");
+const recipeWithUnresolvedSoy={...basicRecipe,ingredients:[...basicRecipe.ingredients,{foodId:retainedSoy.id,grams:100,weighedState:"ready-to-eat",group:"drink",role:"liquid"}]};
+assert.equal(calculateRecipeProfile(recipeWithUnresolvedSoy).status,"incomplete");
+assert(calculateRecipeProfile(recipeWithUnresolvedSoy).missing.includes("fvnsPercent"));
+assert.equal(calculateScoreForRecipe(recipeWithUnresolvedSoy,profile(),context()),null,"Known free sugars do not compensate for unresolved FVNS");
+assert(getRecipeHardAvoidConflicts(profile({avoidTags:["Soy"]}),recipeWithUnresolvedSoy,"regular").some(conflict=>conflict.tag==="Soy"&&conflict.certainty==="contains"));
+const basicIndex=standardizedRecipes.indexOf(basicRecipe);
+try {
+  standardizedRecipes[basicIndex]=recipeWithUnresolvedSoy;
+  const incomplete=recommendPilotMeals(profile(),context(),"en",now,log);
+  assert(!incomplete.eligibleRecipes.some(item=>item.recipe.mealId===basicRecipe.mealId));
+  assert(incomplete.trace.exclusions.some(item=>item.mealId===basicRecipe.mealId&&item.stage==="evidence"&&item.reasons.includes("model-input:fvnsPercent")),"A recipe using unresolved soy evidence cannot enter either recommendations or the selectable collection");
+} finally { standardizedRecipes[basicIndex]=basicRecipe; }
 const missingFoods=sourceFoods.map(food=>food.id==="usda-171477"?{...food,modelBasis:{...food.modelBasis,freeSugarsPer100g:null}}:food);
 assert.equal(calculateRecipeProfile(basicRecipe,missingFoods).rawScore,null);
 assert.equal(calculateScoreForRecipe(basicRecipe,profile(),context(),"en",missingFoods),null,"Unknown scoring input never becomes zero or a fallback score");
@@ -157,4 +269,4 @@ const bothNutrition=calculateScoreForRecipe(basicRecipe,profile({preferenceTags:
 assert.equal(bothNutrition.preferenceRows.find(row=>row.key==="nutrition-direction").points,2,"Nutrition direction capped once");
 const savedAndCurrent=calculateScoreForRecipe(basicRecipe,profile({feelToday:"Need something light",preferenceTags:["Light meals"]}),context());
 assert.equal(savedAndCurrent.preferenceRows.find(row=>row.key==="preparation").points,0,"Same saved/current request does not double count or bypass the per100g oil threshold");
-console.log(JSON.stringify({strictBoundaryChecks:boundaryChecks,officialWorkedExamples:3,fullAProteinGate:true,unknownAndInvalidInputs:true,mixedFvnsStateRejected:true,independentAll12Totals:true,actualTop3:true,energyCountedOnce:true,preferenceBound10:true,scaleInvariance:true,hardExclusions:true,unsetVsUnmatched:true},null,2));
+console.log(JSON.stringify({strictBoundaryChecks:boundaryChecks,officialWorkedExamples:3,fullAProteinGate:true,unknownAndInvalidInputs:true,mixedFvnsStateRejected:true,independentAll108PriorityTiers:true,actualTop3:true,completeBrowsableOrder:true,energyCountedOnce:true,preferenceBound10:true,scaleInvariance:true,hardExclusions:true,unsetVsUnmatched:true},null,2));

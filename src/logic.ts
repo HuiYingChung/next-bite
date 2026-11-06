@@ -1,4 +1,4 @@
-import { drinkRecommendationDataset, recommendationDataset } from "./data";
+import { drinkRecommendationDataset, legacyRecommendationDataset, recommendationDataset } from "./data";
 import { buildDrinkSafetyMetadata } from "./catalog-metadata";
 import { getContextExclusions, getContextPreferenceFit, getLegacyMealContext, normalizeMealContext } from "./meal-context";
 import type { PreferenceCandidate } from "./meal-context";
@@ -730,6 +730,17 @@ const scoreFeelPriority = (profile: Profile, meal: Recommendation) => {
 
 export const getMatchedPreferenceTags = (profile: Profile, meal: Recommendation) => {
   const tags = new Set(meal.tags.map(tag => tag.toLowerCase()));
+  if (meal.recipeVersion) {
+    // Canonical recipes advertise only reviewed formats and food identities.
+    // Nutrient/added-oil directions are evaluated numerically by nutrition.ts.
+    const recipeStyles: Record<string, string[]> = {
+      "Bowl meals": ["bowl"], "Set meals": ["plate"],
+      "Wraps / sandwiches": ["sandwich"], "Soupy meals": ["soupy"],
+      "Plant-protein": ["plant-protein"], "Warm meals": ["warm"],
+      "Rice-based meals": ["rice-based"], "Noodle-based meals": ["noodle-based"],
+    };
+    return profile.preferenceTags.filter(tag => (recipeStyles[tag] ?? []).some(value => tags.has(value)));
+  }
   return profile.preferenceTags.filter(tag => {
     if (tag === "Light meals") return meal.heaviness === "light";
     if (tag === "High-protein") return meal.proteinLevel === "high";
@@ -812,12 +823,12 @@ export const getHardAvoidConflicts = (
     if (
       tag === "Late-night heavy meals" &&
       timeWindow === "late" &&
-      meal.heaviness !== "light" &&
+      (meal.recipeVersion || meal.heaviness !== "light") &&
       !conflicts.some((conflict) => conflict.tag === tag)
     ) {
       conflicts.push({
         tag,
-        certainty: meal.heaviness === "heavy" ? "contains" : "mayContain",
+        certainty: meal.recipeVersion ? "unknown" : meal.heaviness === "heavy" ? "contains" : "mayContain",
       });
     }
   }
@@ -1379,7 +1390,7 @@ const genericFairnessTags = new Set([
   "flavorful",
 ]);
 
-const datasetTagFrequency = recommendationDataset.reduce<Map<string, number>>((map, meal) => {
+const datasetTagFrequency = legacyRecommendationDataset.reduce<Map<string, number>>((map, meal) => {
   meal.tags.forEach((tag) => {
     const normalized = tag.toLowerCase();
     map.set(normalized, (map.get(normalized) ?? 0) + 1);
@@ -1645,7 +1656,7 @@ export const scoreRecommendations = (profile: Profile, todayLog: TodayLog, histo
     summary.heavinessStatus,
   ].join(":");
   const normalizedContext = normalizeMealContext(context);
-  const eligibleMeals = recommendationDataset.filter(
+  const eligibleMeals = legacyRecommendationDataset.filter(
     (meal) => getHardAvoidConflicts(profile, meal, timeWindow).length === 0 &&
       getContextExclusions(profile, normalizedContext, getLegacyMealContext(meal)).length === 0,
   );
@@ -1680,8 +1691,8 @@ export type MealIdeaRecommendation = ScoredRecommendation & {
   decisionTrace: { preferenceOrder: string[]; varietyReason: string; selectionMethod: string; variety: HistoryVarietyTrace };
 };
 
-// The live inspiration path deliberately does not call the historical nutrient
-// level scorer. Food ideas have no measured amounts or supported adequacy rank.
+// Retained only for compatibility diagnostics of historical meal ideas. The
+// current product uses the recipe engine and never exposes this old collection.
 export const recommendMealIdeas = (profile: Profile, todayLog: TodayLog, history: DayHistory[], locale: Locale, now = new Date(), suppliedContext?: MealContext): MealIdeaRecommendation[] => {
   const context = normalizeMealContext(suppliedContext);
   const timeWindow = getMealTimeWindow(now);
@@ -1690,7 +1701,7 @@ export const recommendMealIdeas = (profile: Profile, todayLog: TodayLog, history
   const text = (en: string, zh: string) => locale === "en" ? en : zh;
   const method = text("Meal ideas are filtered by declared avoids and strict conditions, then compared by this meal's staple/cuisine preferences, the catalog effort descriptor when requested, saved meal styles and home/takeout suitability. Only equally preferred ideas use today's and the preceding six calendar days' recognized records: fewer protein-source repeat meals, then fewer staple repeat meals, then less recent matches. Earlier-option variety and stable IDs resolve remaining ties. These are product variety rules, not nutrient or intake assessments.", "餐點靈感先套用避開與必要條件，再比較本餐主食、料理偏好、明確需要時的目錄省力描述、已儲存風格及在家／外食適用性。只有同樣符合偏好時，才參考今天與前六個日曆日的可辨識紀錄：先選蛋白質來源重複餐數較少者，再比較主食重複餐數，再比較最近紀錄較早者，最後依前面選項的變化與固定代碼決定。這是產品變化規則，不是營養或攝取量評估。");
   const candidates: PreferenceCandidate<MealIdeaRecommendation>[] = [];
-  for (const meal of recommendationDataset) {
+  for (const meal of legacyRecommendationDataset) {
     if (getHardAvoidConflicts(profile, meal, timeWindow).length) continue;
     const identities = getNamedMealComponents(meal).map(item => resolveFoodIdentity(item.name));
     const staples = [...new Set(identities.flatMap(identity => identity.staple ? [identity.staple] : []))];

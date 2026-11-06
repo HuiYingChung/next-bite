@@ -1,0 +1,39 @@
+{
+  "id": "usda-sr-legacy-2018-recipes24-expansion",
+  "provider": "U.S. Department of Agriculture, Agricultural Research Service",
+  "dataset": "FoodData Central — SR Legacy, 24-recipe expansion",
+  "release": "2018-04",
+  "recordPublicationDate": "2019-04-01",
+  "retrievedAt": "2026-11-05T23:09:56.2557636Z",
+  "url": "https://fdc.nal.usda.gov/download-datasets/",
+  "license": "CC0-1.0",
+  "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "termsVerifiedAt": "2026-11-05",
+  "termsUrl": "https://fdc.nal.usda.gov/api-guide/",
+  "snapshotPath": "data/nutrition/usda-sr-legacy-expansion-2026-11-05.json",
+  "snapshotSha256": "f7755b176f019b17d0894867c92032d85c767f6c702d1a08905742c9f6409595",
+  "acquisition": {
+    "method": "GET",
+    "endpoint": "https://api.nal.usda.gov/fdc/v1/foods",
+    "authentication": "USDA public demonstration key, not a private account key",
+    "format": "full",
+    "fdcIds": [
+      168914,
+      169732,
+      168910,
+      168649,
+      168463,
+      170394,
+      169247,
+      171496,
+      174091,
+      170093,
+      172421,
+      170894,
+      173905,
+      171711,
+      169640,
+      167747
+    ]
+  }
+}

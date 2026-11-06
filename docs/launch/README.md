@@ -1,25 +1,33 @@
 # MealHatch launch preparation
 
 Status: draft materials; no Product Hunt publication or user study is claimed.
-Prepared for the 2026-11-05 launch-experience iteration.
+Prepared for the 2026-11-05 launch-experience iteration; copy updated for the
+2026-11-06 preference-first iteration on the unified 108-recipe library.
 
 MealHatch's proposed launch message is a small, complete meal-choice workflow:
-compare a few options, understand why they appeared and save one for later.
-The default collection offers 100 meal ideas; a separate collection offers 12
-defined recipes with portion estimates and inspectable numeric ranking.
+compare a few options with current preferences first, understand why they
+appeared and save one for later. The design focus is Chinese adults in North
+America using English or Traditional Chinese; audience fit awaits user study.
+The meal library offers 108 defined recipes with portion estimates, preparation
+steps and inspectable numeric ranking. Food/drink source lookup is separate.
 
 - [Product Hunt copy, three gallery captions and short demo storyboard](./product-hunt-draft.md)
 - [Five-person usability protocol and empty results template](./usability-study.md)
-- [Implementation scope and actual verification status](../plans/13-launch-experience.md)
+- [Implementation scope and actual verification status](../plans/23-preference-first.md)
 
 ## Captured review assets
 
-These are actual local interface captures, not published launch results:
+The gallery screenshots and video below were captured locally on 2026-11-06
+for the unified collection **before the preference-first iteration**. They show
+the previous additive ranking and need recapture before publication. The social
+preview describes the general workflow. Recheck all assets against the final
+live build before publication;
+none is evidence of published launch results:
 
 - [Choose a meal](./assets/01-choose-a-meal.png) — 1270 × 760.
 - [Change the staple preference](./assets/02-match-your-preference.png) — 1270 × 760.
 - [Inspect the recipe scoring basis](./assets/03-inspect-the-basis.png) — 1270 × 760, scrolled detail.
-- [Silent first-use demo](./assets/mealhatch-demo.webm) — 26.84 seconds; ends on the saved plan.
+- [Silent first-use demo](./assets/mealhatch-demo.webm) — paced first-use recording; ends on the saved plan.
 - [Social preview](../../public/social-preview.png) — 1200 × 630, used by the page's OG/Twitter metadata.
 - [Capture notes](./assets/capture-notes.md).
 
@@ -44,9 +52,10 @@ blocking analytics and all non-local requests. The social preview source is
 
 Use a fresh empty workspace or the explicitly labeled example for public
 screenshots and recordings. Never include personal meal records, API keys or
-participant details. Keep a clear distinction between meal ideas and calculated recipes.
-Public copy must not imply that all 100 ideas have nutrition scores, that a
-score measures individual health, or that a saved plan means a meal was eaten.
+participant details. Describe estimates for the stated recipes and portions.
+Public copy must not imply that similarly named restaurant meals have the same
+values, that a score measures individual health, or that a saved plan means a
+meal was eaten.
 
 Before publishing, inspect the final assets and live version, run the manual
 study and address any confusing first-use behavior. If optional AI is part of

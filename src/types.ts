@@ -108,6 +108,8 @@ export type TodayLog = Record<MealName, MealEntry>;
 
 export interface MealOption {
   id: string;
+  /** Present only for a current catalog entry backed by this exact recipe. */
+  recipeVersion?: string;
   title: string;
   tags: string[];
   proteinLevel: MealLevel;

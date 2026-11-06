@@ -130,7 +130,7 @@ export const pickHistoryVariedChoices = <T>(candidates: PreferenceCandidate<T>[]
 export const describeHistoryVariety = <T>(choice: HistoryChoice<T>, scope: HistoryVarietyScope, locale: Locale, kind: "recipe" | "idea", title: (value: T) => string): HistoryVarietyTrace => {
   const text = (en: string, zh: string) => locale === "en" ? en : zh;
   const other = choice.historyComparison;
-  const boundary = kind === "recipe" ? text("Only exact-total ties use history.", "只有總分完全相同時才參考歷史紀錄。") : text("History only separates equally preferred ideas.", "只有同樣符合偏好的靈感才參考歷史紀錄。");
+  const boundary = kind === "recipe" ? text("History only separates recipes with equal current preferences, saved preferences and nutrition reference.", "只有本餐偏好、已儲存偏好及營養參考三項完全相同時，才參考歷史紀錄。") : text("History only separates equally preferred ideas.", "只有同樣符合偏好的靈感才參考歷史紀錄。");
   let explanation: string;
   if (other) {
     const countsDiffer = choice.historyTier[0] !== other.historyTier[0] || choice.historyTier[1] !== other.historyTier[1];

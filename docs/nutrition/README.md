@@ -1,7 +1,7 @@
-# Twelve-recipe nutrition pilot
+# One hundred eight standardized recipes
 
 The separate [food and drink library](./food-library.md) now provides broad
-source lookup and ingredient-level composition scores. The twelve-recipe
+source lookup and ingredient-level composition scores. The 108-recipe
 calculations documented here retain their explicit formulation assumptions.
 
 For the distinction between scientific evidence, authored portion choices and
@@ -9,8 +9,9 @@ the selection policy, see [the decision policy](./decision-policy.md). The
 [model-input provenance](./model-input-provenance.md) documents the UK NPM 2018
 inputs, their derivations and the revised recipes.
 
-This pilot provides reproducible estimates for **twelve explicitly defined meal
-ideas**. It does not validate the other 88 catalog templates, estimate an
+This collection provides reproducible estimates for **108 explicitly defined meal
+formulations**. The four unsupported legacy dumpling ideas are no longer in
+the current recommendation collection. It does not estimate an
 arbitrary restaurant meal, or assess a person's nutrient adequacy. The recipe
 formulations and portion choices are MealHatch product decisions. USDA supplies
 the ingredient composition records, not these recipes or recommendations.
@@ -33,7 +34,7 @@ the ingredient composition records, not these recipes or recommendations.
   as public domain and requests source attribution.
 - Suggested attribution: U.S. Department of Agriculture, Agricultural Research
   Service. FoodData Central, SR Legacy (April 2018). Selected records published
-  April 1, 2019; retrieved November 4, 2026. Recipes and calculations: MealHatch.
+  April 1, 2019; retrieved November 4–6, 2026 (UTC). Recipes and calculations: MealHatch.
 
 The original seventeen-record JSON is retained unchanged in
 `data/nutrition/usda-sr-legacy-2026-11-04.json` (568,341 bytes). Its SHA-256 is:
@@ -55,9 +56,73 @@ with SHA-256
 `4cd11c19a62e9a6c25d0b92c9accedbcc6d6424266760e24ebdcd324ab86f37b`.
 `source-supplement-manifest.json` records its separate retrieval and provenance.
 It has the same SR Legacy release, record publication date and CC0 license.
-There are now **18 retained source records, 16 used by the current recipes**.
+A sixteen-record expansion was retrieved **2026-11-05T23:09:56.2557636Z**.
+`source-expansion-manifest.json` identifies its record IDs and original full
+API responses in `usda-sr-legacy-expansion-2026-11-05.json`, with SHA-256:
+
+```text
+f7755b176f019b17d0894867c92032d85c767f6c702d1a08905742c9f6409595
+```
+
+A further fifteen-record expansion was retrieved **2026-11-06T05:18:13.6597447Z**
+(November 5 in the project's local timezone). Its manifest is
+`source-expansion-36-manifest.json`; the full responses are retained in
+`usda-sr-legacy-expansion-36-2026-11-05.json` (428,610 bytes), with SHA-256:
+
+```text
+383f57acce0740f295b6f5c51940aa5198c2c234e235a3d2a7a6d3a5ad3330c3
+```
+
+The four-record expansion for 48 recipes was retrieved
+**2026-11-06T18:02:06.2504411Z**. Its manifest is
+`source-expansion-48-manifest.json`; full responses are retained in
+`usda-sr-legacy-expansion-48-2026-11-06.json` (124,782 bytes), with SHA-256:
+
+```text
+40b0cc6c7df114918446a0ea0dd0ceb0e67076e91b45524866ca4f6e5651c790
+```
+
+The five-record expansion for 60 recipes was retrieved
+**2026-11-06T18:21:35.1014883Z**. Its manifest is
+`source-expansion-60-manifest.json`; full responses are retained in
+`usda-sr-legacy-expansion-60-2026-11-06.json` (146,139 bytes), with SHA-256:
+
+```text
+63b6ed272fb6c998c404edbd2d8e3e08292534908be0b1f534b6272dd531ae80
+```
+
+The nine-record expansion for 72 recipes was retrieved
+**2026-11-06T20:29:06.6574389Z**. Its manifest is
+`source-expansion-72-manifest.json`; full responses are retained in
+`usda-sr-legacy-expansion-72-2026-11-06.json` (243,184 bytes), with SHA-256:
+
+```text
+33ddf9a629c02d12931965a4b39bac3b5b3dfdc24ec0c45b9ed5e7450ea366e2
+```
+
+The eight-record expansion for 84 recipes was retrieved
+**2026-11-06T20:43:14.8815644Z**. Its manifest is
+`source-expansion-84-manifest.json`; full responses are retained in
+`usda-sr-legacy-expansion-84-2026-11-06.json` (191,241 bytes), with SHA-256:
+
+```text
+d095d6f5797d8a502a44a501045db2deeccfd830cbf352ba2f032a95b5730970
+```
+
+The one-record expansion for 96 recipes was retrieved
+**2026-11-06T20:59:39.5285851Z**. Its manifest is
+`source-expansion-96-manifest.json`; the full response is retained in
+`usda-sr-legacy-expansion-96-2026-11-06.json` (43,098 bytes), with SHA-256:
+
+```text
+f0f2b1f3264f845017c9184971421d61182d8c0597ce19d473144f1f7a1913a9
+```
+
+There are now **76 retained source records, 73 used by the current recipes**.
 The original tofu (174291) and shrimp (175180) records remain available for
 historical identity/provenance; current recipes do not use them.
+The newly reviewed soymilk (173768) is also retained without use: its FVNS
+fraction is unresolved, so it cannot enter a complete scored recipe.
 
 ## Ingredient records
 
@@ -84,6 +149,140 @@ Preparation state is part of food identity, not a display preference.
 | 173647 | Beverages, water, tap, drinking | Water retained and consumed |
 | 168411 | Edamame, frozen, prepared | Prepared edible beans, no pods |
 | 171971 | Crustaceans, shrimp, mixed species, cooked, moist heat (may contain additives to retain moisture) | Cooked edible shrimp, no shell; may contain moisture-retention additives |
+
+The expansion adds 168914 (cooked rice noodles), 169732 (cooked egg noodles),
+168910 (cooked whole-wheat pasta), 168649 (grilled lean top-round beef), 168463
+(boiled drained spinach), 170394 (boiled drained carrots), 169247 (raw romaine),
+171496 (roasted turkey breast), 174091 (whole-wheat French/Vienna bread), 170093
+(baked potato with skin), 172421 (boiled lentils), 170894 (plain nonfat Greek
+yogurt), 173905 (oats cooked with water), 171711 (raw blueberries), 169640
+(honey), and 167747 (raw lemon juice). Exact USDA descriptions, bilingual labels,
+preparation states and ingredient avoidance declarations are in
+`data/nutrition/food-definitions.json` and the visible recipe source tables.
+The generic bread source does not establish the absence of dairy, egg, soy,
+sesame, peanuts or tree nuts. Those declarations remain **unknown**, so selecting
+any corresponding avoid excludes its recipes. This does not claim those
+ingredients are present or establish cross-contact safety.
+
+The 36-recipe expansion adds 169193 (cooked ground-pork crumbles), 171956
+(Atlantic cod cooked by dry heat), 173757 (boiled chickpeas), 175203 (boiled
+white beans), 172182 (low-fat 2% milkfat cottage cheese), 173768 (light,
+unsweetened, fortified original/vanilla soymilk), 170391 (boiled drained pak
+choi), 169980 (cooked napa cabbage), 169252 (boiled drained white mushrooms),
+169976 (boiled drained cabbage), 170110 (boiled drained red sweet pepper),
+170001 (boiled drained onion), 169292 (boiled drained zucchini with skin),
+170050 (cooked red tomato) and 173944 (raw banana). The soymilk's incomplete
+ingredient list likewise leaves Dairy, Egg, Wheat / gluten, Sesame, Peanuts
+and Tree nuts unresolved; Soy is a known ingredient. Its data and unresolved
+classification are retained for provenance; the new breakfast instead uses
+water-cooked oats, boiled egg and banana. These are formulation checks, not
+a guarantee about packaged products or cross-contact.
+
+The 48-recipe expansion adds only four new foods: **171705** (raw avocado,
+all commercial varieties), **169999** (yellow sweetcorn, boiled and drained
+without salt), **169141** (green snap beans, boiled and drained without salt)
+and **168394** (bitter-gourd pods, boiled and drained without salt). Weigh only
+edible avocado flesh, kernels off the cob and prepared edible vegetable parts.
+Other new formulations reuse the existing reviewed source records.
+
+The 60-recipe expansion adds five exact ingredient sources: **171534**
+(grilled skinless chicken breast), **171986** (light tuna canned in water,
+without salt, drained solids), **174314** (roasted lean lamb leg), **170416**
+(fresh parsley) and **170005** (raw spring onions/scallions). The new recipes
+use weighed parsley and scallion where listed; they do not assume an
+unreviewed nutrient-model classification for ginger, basil or cilantro.
+The exact source description `Parsley, fresh` is reviewed as an intact raw
+herb. The importer permits this equivalence only for FDC 170416 with that
+description; it does not treat any food called "fresh" as raw.
+The canned tuna's `Processed food` avoidance tag describes its explicit canned
+format under the app's product rules, not a NOVA or health classification.
+
+The 72-recipe expansion adds **170152** (toasted unsalted sesame kernels),
+**173928** (peeled boiled apple), **167762** (raw strawberries), **168437**
+(cooked unsalted shiitake), **169230** (raw garlic), **170848** (hard Parmesan),
+**170844** (Monterey cheese), **170845** (whole-milk mozzarella) and **171651**
+(the historical QUAKER Puffed Rice record). Sesame is a known Sesame conflict;
+the three cheeses are Dairy conflicts. The cereal's unresolved manufacturer
+ingredient declarations remain unknown, and its historical estimate does not
+establish the current brand formulation. Bread variants are named as bread;
+wholewheat pasta variants are named as pasta/noodles, not udon or soba. An
+incomplete cooked-soba record and an unspecified tortilla formulation were
+not used to fill gaps or manufacture a complete score.
+
+Two hummus recipes mark the cooked chickpeas as puréed. Their free-sugar input
+is derived separately from the exact source total sugar and the official
+hummus example. The whole-food nutrient record and all prior intact-chickpea
+recipes are unchanged. See [preparation provenance](./model-input-provenance.md)
+for the derivation, the sesame exception and the boiled-apple source-state
+ambiguity. Source details expose the selected-portion sugar contribution and
+citations beside the affected ingredient.
+
+The 84-recipe expansion adds **174271** (mature boiled soybeans), **168426**
+(boiled drained leek bulb/lower leaf), **169229** (boiled drained eggplant),
+**169989** (boiled drained celery), **170058** (boiled drained turnip), **170397**
+(boiled drained cauliflower), **170420** (boiled drained green peas) and
+**170932** (red/cayenne pepper spice, used as declared plain powder).
+All seven whole beans/vegetables are unsalted cooked sources. They are weighed
+after cooking/draining; their mass is not a raw purchase weight. Mature whole
+soybeans are not tofu, soy drink or edamame. Cayenne is weighed as supplied;
+its reviewed powder specification is documented in [model provenance](./model-input-provenance.md).
+Soy, Eggplant, Celery and Spicy food ingredient exclusions remain explicit.
+
+The new soups, rice porridges, stew and bowls have ingredient-specific names.
+Whole-bean versions do not estimate tofu or miso, and the named chicken stew
+does not estimate an unspecified curry product. Porridge and soup instructions
+retain all listed liquid and restore evaporated water to the documented mass.
+No new model or preparation rule is needed for these formulations.
+
+The 96-recipe expansion adds **171325**, explicitly described as "Spices,
+garlic powder". The recipe specification uses plain powder, without salt,
+sugar or other ingredients added. Its source total sugars support the separate
+free-sugar derivation; powdered garlic is excluded from the FVNS numerator.
+Earlier raw garlic retains its original intact-ingredient classification.
+See [model provenance](./model-input-provenance.md) for the rule and the
+unresolved ginger classification that was left out of this expansion.
+
+The 96-recipe iteration's twelve additions cover whole-soybean vegetable soup; egg/spinach/corn
+egg-noodle soup; garlic chicken/soybean/cabbage rice; white-bean/shiitake/leek
+wholewheat noodle soup; egg/corn/celery soup with bread; scallion/egg/raw-vegetable
+rice; lentil/carrot/pepper cold wholewheat noodles; chicken/turnip/leek rice soup;
+chicken/cauliflower/pea egg-noodle soup; sesame-garlic chicken/shiitake/green-bean
+rice; spicy shrimp/soybean/napa-cabbage soup with rice; and whole-soybean/cabbage/
+shiitake rice. Visible labels describe these actual formulations. Stable catalog
+IDs do not imply that tofu, miso, soba, dumplings or three-cup sauce is present.
+The remaining four dumpling concepts are retired from the current catalog.
+Existing saved plans retain their original descriptions, without invented
+ingredient weights or composition scores.
+
+The 108-recipe expansion reuses the same 76 retained ingredient records and
+added twelve matching catalog entries. The subsequent consolidation uses all
+108 defined recipes as one current meal catalog, replacing the parallel
+112-idea collection. The original idea objects remain only for historical plan
+compatibility and diagnostics. All 108 formulations and their numeric inputs
+remain unchanged. Current names, ingredients and avoidance metadata derive from
+the actual recipe sources and preparation states, including unresolved bread
+declarations. They no longer inherit ingredients from unrelated old idea names.
+
+The four unresolved IDs are `ready-made-soup-dumplings-veg`,
+`chicken-cabbage-dumpling-soup`, `frozen-dumplings-bok-choy` and
+`pork-chive-dumpling-soup-light`. The reviewed USDA wrapper record 172802 lacks
+total sugars and a cooked-weight basis. Generic frozen/steamed dumplings and
+TFDA cooked dumplings lack the ingredient proportions needed to establish
+FVNS and free sugars for these specific recipes. The
+[FAO recipe-calculation method](https://www.fao.org/4/y4705e/y4705e23.htm)
+requires appropriate cooked yield and nutrient-retention treatment; raw dough
+weights cannot simply be relabeled as cooked portions. These concepts can
+return only after a defined preparation and complete reviewed evidence exist.
+
+The new recipes are salmon/lentil/spinach; turkey/sweet-potato/pepper;
+lamb/lentil/carrot; pork/zucchini/cooked-tomato rice; cod/white-bean/leek soup;
+chickpea/quinoa/cauliflower with sesame; black-bean/corn/pepper baked potato;
+egg/edamame/bok-choy rice noodles; tuna/tomato/cucumber sandwich;
+mozzarella/avocado/tomato bread plate; cottage-cheese/banana/oatmeal with honey;
+and Parmesan/lentil/spinach pasta. Fish/legume bowls and soup with no separate
+grain or potato retain all carbohydrates in their ingredient totals. The honey
+and garlic-powder recipes reuse existing nonzero free-sugar derivations; no new
+model rule, source assessment or archive is introduced.
 
 Every generated food includes its official record URL, FDC ID, description,
 publication date, source ID, localized name, preparation state and nullable
@@ -133,9 +332,9 @@ recipe yields and retention factors in the
   grams. Sodium **1093**: milligrams.
 - A source numeric zero stays zero. An absent/null value stays unknown. The
   importer never converts a blank string to zero.
-- None of the eighteen retained SR Legacy records supplies added sugars.
-  Consequently all retained foods and all twelve recipe totals have **unknown added sugars**,
-  even though these formulations add no separate sweetener. Total sugars are not
+- None of the 76 retained SR Legacy records supplies added sugars.
+  Consequently all retained foods and all 108 recipe totals have **unknown added sugars**,
+  including the recipe with explicitly weighed honey. Total sugars are not
   substituted for added sugars.
 - The original shrimp 175180 record still has unknown fiber. Version 2 of the
   shrimp recipe uses **all values** from 171971, including its reported fiber
@@ -143,9 +342,14 @@ recipe yields and retention factors in the
   compared with 111 mg/100 g in 175180. The new recipe is a different defined
   ingredient match, not a correction to or completion of the original record.
 - Free sugars are a separate **derived model input**, not a replacement for
-  missing USDA added sugars. Zero applies only to the explicit plain-ingredient
-  recipe specification excluding added sugars, sugar-containing marinades or
-  additives, and fruit/vegetable puree, juice or paste. See the complete
+  missing USDA added sugars. Plain-ingredient zero assumptions apply only to
+  ingredients explicitly excluding free-sugar sources. Honey, lemon juice and
+  the specified nondairy soymilk instead use their source total sugars
+  (82.12, 2.52 and 0.41 g/100 g respectively) as free sugars,
+  according to their reviewed ingredient classifications. Bread's zero comes
+  from an actual total-sugar zero in the specific source, not a claim about all
+  bread. The importer requires source values, units and cited bilingual
+  justification for the nonzero derivation. See the complete
   [derivation and AOAC qualification](./model-input-provenance.md).
 - Missing values should remain visible and should not earn a low-sugar,
   low-sodium or other favorable ranking through a false zero. See the
@@ -153,10 +357,21 @@ recipe yields and retention factors in the
 
 ## Recipe and portion interpretation
 
-The twelve meal IDs retain the catalog's conservative structured exclusions.
+The first 96 meal IDs retain the catalog's conservative structured exclusions.
 Current pilot labels and ingredient lists describe the actual versioned recipe;
 an old catalog ID or its generic title is not a current ingredient declaration.
 Oil, salt, water and vegetable sides are shown rather than silently inferred.
+This inherited gate can exclude more than the detailed ingredient list alone:
+the water-cooked oats/egg/banana formulation omits soy, but its original
+soy-milk idea still has a Soy exclusion. That item remains excluded for a
+Soy avoid. This is a known conservative limitation, not evidence that the
+listed oats, egg or banana contains soy; this expansion does not relax the gate.
+New detailed formulations inherit the same gate: the tuna rice bowl can be
+excluded by the old idea's wheat/egg declarations, the plain lamb bowl by its
+unknown beef declaration, the warm shrimp-rice assembly by its fried-food
+declaration, and the parsley soup by its possible-cilantro declaration.
+These are retained conservative catalog constraints, not declarations that
+the actual listed ingredients contain those items.
 
 The regular recipe is the documented gram specification. Small is **0.75×** and
 large is **1.25×**, applied to **every** ingredient, including oil/salt/water.
@@ -165,6 +380,18 @@ targets. Eight unchanged formulations retain `nextbite-pilot-2026-11-04-v1`.
 The three edamame replacements and shrimp replacement use
 `nextbite-pilot-2026-11-04-v2`. Saved plans retain their original version and
 portion; an unavailable older recipe must not acquire a current numeric estimate.
+Recipes 13–24 retain `mealhatch-recipes-2026-11-05-v1` and recipes 25–36 retain
+`mealhatch-recipes36-2026-11-05-v1`. Recipes 37–48 retain
+`mealhatch-recipes48-2026-11-06-v1`; recipes 49–60 retain
+`mealhatch-recipes60-2026-11-06-v1`; recipes 61–72 retain
+`mealhatch-recipes72-2026-11-06-v1`; recipes 73–84 retain
+`mealhatch-recipes84-2026-11-06-v1`; recipes 85–96 retain
+`mealhatch-recipes96-2026-11-06-v1`. The twelve newest formulations use
+`mealhatch-recipes108-2026-11-06-v1`. Expanding the collection does not change
+the preceding 96 formulations, versions or ingredient weights.
+All 108 are inspectable through the recipe library, including excluded recipes.
+Only eligible recipes may be selected; browsing does not change the top-three
+ranking or override an avoidance or required meal condition.
 
 - Tomato-and-egg rice is explicitly a hard-boiled egg plus raw tomato version,
   not an estimate of stir-fried tomato eggs.
@@ -181,9 +408,20 @@ portion; an unavailable older recipe must not acquire a current numeric estimate
 - The `costco-salmon-sweet-potato-veg` identifier is a legacy catalog identifier.
   Its visible pilot label is generic and its formulation is **not a verified
   Costco product or restaurant meal**.
-- Sauces, marinades and sweeteners are explicitly **0 g included** in this
-  pilot's formulations. This declaration does not establish that a restaurant
-  version, a packaged substitute, or a chosen source record has zero added sugar.
+- The original 12 formulations include no separate sauce or sweetener. New
+  formulations explicitly weigh honey and lemon juice where used. Sauce mass
+  must reconcile with sourced ingredients carrying the sauce role; oil and
+  salt are reconciled separately. Unlisted dressings and substitutions are not
+  covered by these estimates.
+- The two proposed wrap variants use explicitly named whole-wheat French-bread
+  sandwiches because the assessed tortilla records did not support the intended
+  ready-to-eat formulation and complete free-sugar derivation. Their legacy idea
+  IDs do not change what the current ingredient list actually contains.
+- The two cod recipes use dry-heat cooked fish, not an unsupported steamed-fish
+  estimate. The pepper/onion dishes use the documented boiled vegetables,
+  and the cottage-cheese plate uses untoasted bread. Cooked tomato is an
+  intact cooked ingredient, not an unspecified sauce or concentrated puree.
+  Current names and instructions describe these actual formulations.
 - `prepMinutes`, cuisine, temperature and staple are editorial product metadata.
   Time estimates describe assembly **from the prepared ingredients shown** and
   exclude cooking from raw ingredients. They are not USDA findings.
@@ -209,6 +447,11 @@ complete model inputs for every active recipe ingredient. It checks that FVNS
 ingredients within each recipe use one raw/cooked state, and verifies an actual
 source total-sugars zero before using that specific derivation. The model
 assessment file records reviewed classifications separately from the raw data.
+Source-backed nonzero free-sugar derivations are validated separately; missing,
+blank, duplicate, negative or incorrectly labelled source values are rejected.
+Recipe-level purée metadata is generated from its reviewed source, never
+accepted as a handwritten numeric override. The runtime excludes scoring when
+the required preparation evidence is missing or malformed.
 
 For an update, obtain a new, separately named official snapshot; record its
 source/release/retrieval/hash; review identity and preparation matches; inspect

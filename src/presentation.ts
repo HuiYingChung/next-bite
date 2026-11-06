@@ -1,4 +1,6 @@
 import type { Locale, MealOption, ParsedMealComponent } from "./types";
+import { getCatalogRecipe } from "./recipe-catalog";
+import { sourceFoods } from "./nutrition-data";
 
 type CatalogPresentation = {
   title: string;
@@ -402,6 +404,42 @@ const catalogPresentation: Record<string, CatalogPresentation> = {
     title: "豆豉苦瓜雞肉",
     components: ["Black bean chicken", "Bitter melon"],
   },
+  "salmon-lentil-spinach-bowl": {
+    title: "鮭魚扁豆菠菜碗", components: ["Salmon", "Lentils", "Spinach"],
+  },
+  "roast-turkey-sweet-potato-pepper-plate": {
+    title: "烤火雞肉地瓜紅甜椒餐盤", components: ["Turkey", "Sweet potato", "Red pepper"],
+  },
+  "roast-lamb-lentil-carrot-bowl": {
+    title: "烤綿羊肉扁豆紅蘿蔔碗", components: ["Lamb", "Lentils", "Carrot"],
+  },
+  "pork-zucchini-tomato-rice-bowl": {
+    title: "豬肉櫛瓜番茄飯碗", components: ["Pork", "Zucchini", "Tomato", "Rice"],
+  },
+  "cod-white-bean-leek-soup": {
+    title: "鱈魚白豆西洋韭蔥湯", components: ["Cod", "White beans", "Leek"],
+  },
+  "chickpea-quinoa-cauliflower-bowl": {
+    title: "鷹嘴豆藜麥白花椰菜碗", components: ["Chickpeas", "Quinoa", "Cauliflower"],
+  },
+  "black-bean-corn-pepper-potato": {
+    title: "黑菜豆甜玉米紅甜椒烤馬鈴薯", components: ["Black beans", "Sweetcorn", "Red pepper", "Potato"],
+  },
+  "egg-edamame-bok-choy-rice-noodles": {
+    title: "雞蛋毛豆青江菜米粉", components: ["Egg", "Edamame", "Bok choy", "Rice noodles"],
+  },
+  "tuna-tomato-cucumber-sandwich": {
+    title: "鮪魚番茄小黃瓜佐全麥麵包", components: ["Tuna", "Tomato", "Cucumber", "Bread"],
+  },
+  "mozzarella-avocado-tomato-bread-plate": {
+    title: "莫札瑞拉起司酪梨番茄麵包餐盤", components: ["Mozzarella", "Avocado", "Tomato", "Bread"],
+  },
+  "cottage-cheese-banana-oat-bowl": {
+    title: "茅屋起司香蕉燕麥粥碗", components: ["Cottage cheese", "Banana", "Oatmeal"],
+  },
+  "parmesan-lentil-spinach-pasta": {
+    title: "帕瑪森起司扁豆菠菜義大利麵", components: ["Parmesan", "Lentils", "Spinach", "Pasta"],
+  },
 };
 
 const zhLabels: Record<string, string> = {
@@ -575,6 +613,12 @@ const englishLabels: Record<string, string> = {
 };
 
 const zhFoods: Record<string, string> = {
+  Lamb: "綿羊肉",
+  "Red pepper": "紅甜椒",
+  Leek: "西洋韭蔥",
+  Sweetcorn: "甜玉米",
+  Mozzarella: "莫札瑞拉起司",
+  Parmesan: "帕瑪森起司",
   Chicken: "雞肉",
   Turkey: "火雞肉",
   "Chicken sausage": "雞肉香腸",
@@ -812,7 +856,7 @@ export const translateFood = (value: string, locale: Locale): string => {
   return zhFoods[value] ?? lowerCaseFoods.get(value.toLowerCase()) ?? value;
 };
 
-export const mealTitle = (
+export const legacyMealTitle = (
   meal: Pick<MealOption, "id" | "title">,
   locale: Locale,
 ): string =>
@@ -820,10 +864,18 @@ export const mealTitle = (
     ? (catalogPresentation[meal.id]?.title ?? meal.title)
     : meal.title;
 
+export const mealTitle = (
+  meal: Pick<MealOption, "id" | "title" | "recipeVersion">,
+  locale: Locale,
+): string => getCatalogRecipe(meal)?.label[locale] ?? legacyMealTitle(meal, locale);
+
 const namedComponentGroups: Partial<
   Record<ParsedMealComponent["group"], readonly string[]>
 > = {
   protein: [
+    "Lamb",
+    "Mozzarella",
+    "Parmesan",
     "Chicken",
     "Turkey",
     "Chicken sausage",
@@ -870,6 +922,9 @@ const namedComponentGroups: Partial<
     "Soy garlic chicken",
   ],
   vegetable: [
+    "Red pepper",
+    "Leek",
+    "Sweetcorn",
     "Vegetables",
     "Greens",
     "Leafy greens",
@@ -1014,7 +1069,7 @@ const namedComponentGroupLookup = new Map(
 );
 
 /** Draft components for review, not a claim about what the user actually ate. */
-export const getNamedMealComponents = (
+export const getLegacyNamedMealComponents = (
   meal: Pick<MealOption, "id" | "title">,
 ): Array<Pick<ParsedMealComponent, "name" | "group">> =>
   (catalogPresentation[meal.id]?.components ?? [meal.title]).map((name) => ({
@@ -1024,6 +1079,18 @@ export const getNamedMealComponents = (
     group: namedComponentGroupLookup.get(name.toLowerCase()) ?? "other",
   }));
 
+export const getNamedMealComponents = (
+  meal: Pick<MealOption, "id" | "title" | "recipeVersion">,
+): Array<Pick<ParsedMealComponent, "name" | "group" | "sourceFoodId">> => {
+  const recipe = getCatalogRecipe(meal);
+  if (!recipe) return getLegacyNamedMealComponents(meal);
+  return recipe.ingredients.filter(item => item.grams > 0).map(item => ({
+    name: sourceFoods.find(food => food.id === item.foodId)?.label.en ?? item.foodId,
+    group: item.group,
+    sourceFoodId: item.foodId,
+  }));
+};
+
 export type MealPresentation = {
   title: string;
   cuisine: string;
@@ -1032,7 +1099,7 @@ export type MealPresentation = {
   tip: string;
 };
 
-export const getMealPresentation = (
+export const getLegacyMealPresentation = (
   meal: Pick<MealOption, "id" | "title" | "tags" | "worksFor" | "convenience">,
   locale: Locale,
 ): MealPresentation => {
@@ -1103,12 +1170,27 @@ export const getMealPresentation = (
       "先備齊列出的內容，搭配你熟悉的食譜料理。這份清單沒有列出所有調味料與食材，仍需另外確認。";
   }
   return {
-    title: mealTitle(meal, locale),
+    title: legacyMealTitle(meal, locale),
     cuisine: label(cuisine, locale),
     effort: locale === "en" ? englishEffort : chineseEffort,
     ingredients: (catalogPresentation[meal.id]?.components ?? [meal.title]).map(
       (component) => translateFood(component, locale),
     ),
     tip: locale === "en" ? tipEn : tipZh,
+  };
+};
+
+export const getMealPresentation = (
+  meal: Pick<MealOption, "id" | "title" | "tags" | "worksFor" | "convenience" | "recipeVersion">,
+  locale: Locale,
+): MealPresentation => {
+  const recipe = getCatalogRecipe(meal);
+  if (!recipe) return getLegacyMealPresentation(meal, locale);
+  return {
+    title: recipe.label[locale],
+    cuisine: locale === "en" ? (recipe.cuisine === "asian" ? "Asian-style" : "Western-style") : (recipe.cuisine === "asian" ? "亞洲風格" : "西式風格"),
+    effort: locale === "en" ? `${recipe.prepMinutes} min assembly` : `組裝約 ${recipe.prepMinutes} 分鐘`,
+    ingredients: recipe.ingredients.filter(item => item.grams > 0).map(item => sourceFoods.find(food => food.id === item.foodId)?.label[locale] ?? item.foodId),
+    tip: locale === "en" ? "Assembly starts with prepared ingredients. Follow the selected portion's ingredient weights and recipe steps." : "組裝從備妥食材開始，依所選份量的食材重量與配方步驟準備。",
   };
 };

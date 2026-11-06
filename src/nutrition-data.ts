@@ -30,6 +30,97 @@ export const nutritionSources: NutritionSource[] = [
     "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
     "snapshotPath": "data/nutrition/usda-sr-legacy-shrimp-171971-2026-11-04.json",
     "snapshotSha256": "4cd11c19a62e9a6c25d0b92c9accedbcc6d6424266760e24ebdcd324ab86f37b"
+  },
+  {
+    "id": "usda-sr-legacy-2018-recipes24-expansion",
+    "provider": "U.S. Department of Agriculture, Agricultural Research Service",
+    "dataset": "FoodData Central — SR Legacy, 24-recipe expansion",
+    "release": "2018-04",
+    "recordPublicationDate": "2019-04-01",
+    "retrievedAt": "2026-11-05T23:09:56.2557636Z",
+    "url": "https://fdc.nal.usda.gov/download-datasets/",
+    "license": "CC0-1.0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "snapshotPath": "data/nutrition/usda-sr-legacy-expansion-2026-11-05.json",
+    "snapshotSha256": "f7755b176f019b17d0894867c92032d85c767f6c702d1a08905742c9f6409595"
+  },
+  {
+    "id": "usda-sr-legacy-2018-recipes36-expansion",
+    "provider": "U.S. Department of Agriculture, Agricultural Research Service",
+    "dataset": "FoodData Central — SR Legacy, 36-recipe expansion",
+    "release": "2018-04",
+    "recordPublicationDate": "2019-04-01",
+    "retrievedAt": "2026-11-06T05:18:13.6597447Z",
+    "url": "https://fdc.nal.usda.gov/download-datasets/",
+    "license": "CC0-1.0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "snapshotPath": "data/nutrition/usda-sr-legacy-expansion-36-2026-11-05.json",
+    "snapshotSha256": "383f57acce0740f295b6f5c51940aa5198c2c234e235a3d2a7a6d3a5ad3330c3"
+  },
+  {
+    "id": "usda-sr-legacy-2018-recipes48-expansion",
+    "provider": "U.S. Department of Agriculture, Agricultural Research Service",
+    "dataset": "FoodData Central — SR Legacy, 48-recipe expansion",
+    "release": "2018-04",
+    "recordPublicationDate": "2019-04-01",
+    "retrievedAt": "2026-11-06T18:02:06.2504411Z",
+    "url": "https://fdc.nal.usda.gov/download-datasets/",
+    "license": "CC0-1.0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "snapshotPath": "data/nutrition/usda-sr-legacy-expansion-48-2026-11-06.json",
+    "snapshotSha256": "40b0cc6c7df114918446a0ea0dd0ceb0e67076e91b45524866ca4f6e5651c790"
+  },
+  {
+    "id": "usda-sr-legacy-2018-recipes60-expansion",
+    "provider": "U.S. Department of Agriculture, Agricultural Research Service",
+    "dataset": "FoodData Central — SR Legacy, 60-recipe expansion",
+    "release": "2018-04",
+    "recordPublicationDate": "2019-04-01",
+    "retrievedAt": "2026-11-06T18:21:35.1014883Z",
+    "url": "https://fdc.nal.usda.gov/download-datasets/",
+    "license": "CC0-1.0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "snapshotPath": "data/nutrition/usda-sr-legacy-expansion-60-2026-11-06.json",
+    "snapshotSha256": "63b6ed272fb6c998c404edbd2d8e3e08292534908be0b1f534b6272dd531ae80"
+  },
+  {
+    "id": "usda-sr-legacy-2018-recipes72-expansion",
+    "provider": "U.S. Department of Agriculture, Agricultural Research Service",
+    "dataset": "FoodData Central — SR Legacy, 72-recipe expansion",
+    "release": "2018-04",
+    "recordPublicationDate": "2019-04-01",
+    "retrievedAt": "2026-11-06T20:29:06.6574389Z",
+    "url": "https://fdc.nal.usda.gov/download-datasets/",
+    "license": "CC0-1.0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "snapshotPath": "data/nutrition/usda-sr-legacy-expansion-72-2026-11-06.json",
+    "snapshotSha256": "33ddf9a629c02d12931965a4b39bac3b5b3dfdc24ec0c45b9ed5e7450ea366e2"
+  },
+  {
+    "id": "usda-sr-legacy-2018-recipes84-expansion",
+    "provider": "U.S. Department of Agriculture, Agricultural Research Service",
+    "dataset": "FoodData Central — SR Legacy, 84-recipe expansion",
+    "release": "2018-04",
+    "recordPublicationDate": "2019-04-01",
+    "retrievedAt": "2026-11-06T20:43:14.8815644Z",
+    "url": "https://fdc.nal.usda.gov/download-datasets/",
+    "license": "CC0-1.0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "snapshotPath": "data/nutrition/usda-sr-legacy-expansion-84-2026-11-06.json",
+    "snapshotSha256": "d095d6f5797d8a502a44a501045db2deeccfd830cbf352ba2f032a95b5730970"
+  },
+  {
+    "id": "usda-sr-legacy-2018-recipes96-expansion",
+    "provider": "U.S. Department of Agriculture, Agricultural Research Service",
+    "dataset": "FoodData Central — SR Legacy, 96-recipe expansion",
+    "release": "2018-04",
+    "recordPublicationDate": "2019-04-01",
+    "retrievedAt": "2026-11-06T20:59:39.5285851Z",
+    "url": "https://fdc.nal.usda.gov/download-datasets/",
+    "license": "CC0-1.0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "snapshotPath": "data/nutrition/usda-sr-legacy-expansion-96-2026-11-06.json",
+    "snapshotSha256": "f0f2b1f3264f845017c9184971421d61182d8c0597ce19d473144f1f7a1913a9"
   }
 ];
 
@@ -43,6 +134,8 @@ export const sourceFoods: SourceFood[] = [
       "zh": "煮熟白飯"
     },
     "state": "cooked",
+    "avoidTags": [],
+    "unknownAvoidTags": [],
     "sourceId": "usda-sr-legacy-2018",
     "recordUrl": "https://fdc.nal.usda.gov/food-details/168878/nutrients",
     "publicationDate": "2019-04-01",
@@ -68,8 +161,8 @@ export const sourceFoods: SourceFood[] = [
       "fvnsEligible": false,
       "fiberMethod": "AOAC-compatible",
       "note": {
-        "en": "Free sugars 0 g is a model derivation for the recipe's explicit plain-ingredient specification: no added sugars or sugar-containing marinades/additives, and no fruit/vegetable puree, juice or paste. It is not a USDA added-sugars measurement; source added sugars remain unknown. USDA SR total dietary fiber uses an AOAC-compatible database basis (985.29/991.43); individual values may be calculated or imputed, not individually assayed. This does not establish equivalence to every newer enhanced AOAC assay. This ingredient contributes to recipe mass, not the FVNS numerator.",
-        "zh": "游離糖 0 克是依配方明示的原味食材規格推導：不含添加糖、含糖醃料或添加物，也不含蔬果泥、汁、醬。這不是 USDA 添加糖實測值；來源添加糖仍未知。 USDA SR 總膳食纖維採 AOAC 相容的資料庫方法基礎（985.29／991.43）；個別數值可能來自計算或推估，並非逐項實測，也不代表與每種較新的增強型 AOAC 檢測完全等同。 此食材只納入配方總重，不納入 FVNS 分子。"
+        "en": "Free sugars 0 g is derived for the specified plain ingredient with no added sugars, sugar-containing marinades/additives, or fruit/vegetable puree, juice or paste. It is not a USDA added-sugars measurement. USDA SR total dietary fiber uses an AOAC-compatible database basis (985.29/991.43); individual values may be calculated or imputed, not individually assayed. This does not establish equivalence to every newer enhanced AOAC assay. This ingredient contributes to recipe mass, not the FVNS numerator.",
+        "zh": "游離糖 0 克依指定原味食材推導：不含添加糖、含糖醃料或添加物，也不含蔬果泥、汁、醬；這不是 USDA 添加糖實測值。USDA SR 總膳食纖維採 AOAC 相容的資料庫方法基礎（985.29／991.43）；個別數值可能來自計算或推估，並非逐項實測，也不代表與每種較新的增強型 AOAC 檢測完全等同。此食材只納入配方總重，不納入 FVNS 分子。"
       },
       "sourceUrls": [
         "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
@@ -88,6 +181,8 @@ export const sourceFoods: SourceFood[] = [
       "zh": "去皮烤雞胸肉"
     },
     "state": "cooked",
+    "avoidTags": [],
+    "unknownAvoidTags": [],
     "sourceId": "usda-sr-legacy-2018",
     "recordUrl": "https://fdc.nal.usda.gov/food-details/171477/nutrients",
     "publicationDate": "2019-04-01",
@@ -113,8 +208,8 @@ export const sourceFoods: SourceFood[] = [
       "fvnsEligible": false,
       "fiberMethod": "AOAC-compatible",
       "note": {
-        "en": "Free sugars 0 g is a model derivation for the recipe's explicit plain-ingredient specification: no added sugars or sugar-containing marinades/additives, and no fruit/vegetable puree, juice or paste. It is not a USDA added-sugars measurement; source added sugars remain unknown. USDA SR total dietary fiber uses an AOAC-compatible database basis (985.29/991.43); individual values may be calculated or imputed, not individually assayed. This does not establish equivalence to every newer enhanced AOAC assay. This ingredient contributes to recipe mass, not the FVNS numerator.",
-        "zh": "游離糖 0 克是依配方明示的原味食材規格推導：不含添加糖、含糖醃料或添加物，也不含蔬果泥、汁、醬。這不是 USDA 添加糖實測值；來源添加糖仍未知。 USDA SR 總膳食纖維採 AOAC 相容的資料庫方法基礎（985.29／991.43）；個別數值可能來自計算或推估，並非逐項實測，也不代表與每種較新的增強型 AOAC 檢測完全等同。 此食材只納入配方總重，不納入 FVNS 分子。"
+        "en": "Free sugars 0 g is derived for the specified plain ingredient with no added sugars, sugar-containing marinades/additives, or fruit/vegetable puree, juice or paste. It is not a USDA added-sugars measurement. USDA SR total dietary fiber uses an AOAC-compatible database basis (985.29/991.43); individual values may be calculated or imputed, not individually assayed. This does not establish equivalence to every newer enhanced AOAC assay. This ingredient contributes to recipe mass, not the FVNS numerator.",
+        "zh": "游離糖 0 克依指定原味食材推導：不含添加糖、含糖醃料或添加物，也不含蔬果泥、汁、醬；這不是 USDA 添加糖實測值。USDA SR 總膳食纖維採 AOAC 相容的資料庫方法基礎（985.29／991.43）；個別數值可能來自計算或推估，並非逐項實測，也不代表與每種較新的增強型 AOAC 檢測完全等同。此食材只納入配方總重，不納入 FVNS 分子。"
       },
       "sourceUrls": [
         "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
@@ -133,6 +228,10 @@ export const sourceFoods: SourceFood[] = [
       "zh": "烤養殖大西洋鮭魚"
     },
     "state": "cooked",
+    "avoidTags": [
+      "Fishy seafood"
+    ],
+    "unknownAvoidTags": [],
     "sourceId": "usda-sr-legacy-2018",
     "recordUrl": "https://fdc.nal.usda.gov/food-details/175168/nutrients",
     "publicationDate": "2019-04-01",
@@ -158,8 +257,8 @@ export const sourceFoods: SourceFood[] = [
       "fvnsEligible": false,
       "fiberMethod": "AOAC-compatible",
       "note": {
-        "en": "Free sugars 0 g is a model derivation for the recipe's explicit plain-ingredient specification: no added sugars or sugar-containing marinades/additives, and no fruit/vegetable puree, juice or paste. It is not a USDA added-sugars measurement; source added sugars remain unknown. USDA SR total dietary fiber uses an AOAC-compatible database basis (985.29/991.43); individual values may be calculated or imputed, not individually assayed. This does not establish equivalence to every newer enhanced AOAC assay. This ingredient contributes to recipe mass, not the FVNS numerator.",
-        "zh": "游離糖 0 克是依配方明示的原味食材規格推導：不含添加糖、含糖醃料或添加物，也不含蔬果泥、汁、醬。這不是 USDA 添加糖實測值；來源添加糖仍未知。 USDA SR 總膳食纖維採 AOAC 相容的資料庫方法基礎（985.29／991.43）；個別數值可能來自計算或推估，並非逐項實測，也不代表與每種較新的增強型 AOAC 檢測完全等同。 此食材只納入配方總重，不納入 FVNS 分子。"
+        "en": "Free sugars 0 g is derived for the specified plain ingredient with no added sugars, sugar-containing marinades/additives, or fruit/vegetable puree, juice or paste. It is not a USDA added-sugars measurement. USDA SR total dietary fiber uses an AOAC-compatible database basis (985.29/991.43); individual values may be calculated or imputed, not individually assayed. This does not establish equivalence to every newer enhanced AOAC assay. This ingredient contributes to recipe mass, not the FVNS numerator.",
+        "zh": "游離糖 0 克依指定原味食材推導：不含添加糖、含糖醃料或添加物，也不含蔬果泥、汁、醬；這不是 USDA 添加糖實測值。USDA SR 總膳食纖維採 AOAC 相容的資料庫方法基礎（985.29／991.43）；個別數值可能來自計算或推估，並非逐項實測，也不代表與每種較新的增強型 AOAC 檢測完全等同。此食材只納入配方總重，不納入 FVNS 分子。"
       },
       "sourceUrls": [
         "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
@@ -178,6 +277,10 @@ export const sourceFoods: SourceFood[] = [
       "zh": "原味硬質鹽滷豆腐（即食）"
     },
     "state": "ready-to-eat",
+    "avoidTags": [
+      "Soy"
+    ],
+    "unknownAvoidTags": [],
     "sourceId": "usda-sr-legacy-2018",
     "recordUrl": "https://fdc.nal.usda.gov/food-details/174291/nutrients",
     "publicationDate": "2019-04-01",
@@ -204,7 +307,7 @@ export const sourceFoods: SourceFood[] = [
       "fiberMethod": "AOAC-compatible",
       "note": {
         "en": "Free-sugars interpretation is unresolved; this retained historical source is not used by the current scored recipes. USDA SR total dietary fiber uses an AOAC-compatible database basis (985.29/991.43); individual values may be calculated or imputed, not individually assayed. This does not establish equivalence to every newer enhanced AOAC assay. FVNS treatment is unresolved.",
-        "zh": "游離糖判讀尚未解決；此保留的歷史來源不納入目前計分配方。 USDA SR 總膳食纖維採 AOAC 相容的資料庫方法基礎（985.29／991.43）；個別數值可能來自計算或推估，並非逐項實測，也不代表與每種較新的增強型 AOAC 檢測完全等同。 FVNS 分類尚未解決。"
+        "zh": "游離糖判讀尚未解決；此保留的歷史來源不納入目前計分配方。USDA SR 總膳食纖維採 AOAC 相容的資料庫方法基礎（985.29／991.43）；個別數值可能來自計算或推估，並非逐項實測，也不代表與每種較新的增強型 AOAC 檢測完全等同。FVNS 分類尚未解決。"
       },
       "sourceUrls": [
         "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
@@ -223,6 +326,10 @@ export const sourceFoods: SourceFood[] = [
       "zh": "去殼水煮全蛋"
     },
     "state": "cooked",
+    "avoidTags": [
+      "Egg"
+    ],
+    "unknownAvoidTags": [],
     "sourceId": "usda-sr-legacy-2018",
     "recordUrl": "https://fdc.nal.usda.gov/food-details/173424/nutrients",
     "publicationDate": "2019-04-01",
@@ -248,8 +355,8 @@ export const sourceFoods: SourceFood[] = [
       "fvnsEligible": false,
       "fiberMethod": "AOAC-compatible",
       "note": {
-        "en": "Free sugars 0 g is a model derivation for the recipe's explicit plain-ingredient specification: no added sugars or sugar-containing marinades/additives, and no fruit/vegetable puree, juice or paste. It is not a USDA added-sugars measurement; source added sugars remain unknown. USDA SR total dietary fiber uses an AOAC-compatible database basis (985.29/991.43); individual values may be calculated or imputed, not individually assayed. This does not establish equivalence to every newer enhanced AOAC assay. This ingredient contributes to recipe mass, not the FVNS numerator.",
-        "zh": "游離糖 0 克是依配方明示的原味食材規格推導：不含添加糖、含糖醃料或添加物，也不含蔬果泥、汁、醬。這不是 USDA 添加糖實測值；來源添加糖仍未知。 USDA SR 總膳食纖維採 AOAC 相容的資料庫方法基礎（985.29／991.43）；個別數值可能來自計算或推估，並非逐項實測，也不代表與每種較新的增強型 AOAC 檢測完全等同。 此食材只納入配方總重，不納入 FVNS 分子。"
+        "en": "Free sugars 0 g is derived for the specified plain ingredient with no added sugars, sugar-containing marinades/additives, or fruit/vegetable puree, juice or paste. It is not a USDA added-sugars measurement. USDA SR total dietary fiber uses an AOAC-compatible database basis (985.29/991.43); individual values may be calculated or imputed, not individually assayed. This does not establish equivalence to every newer enhanced AOAC assay. This ingredient contributes to recipe mass, not the FVNS numerator.",
+        "zh": "游離糖 0 克依指定原味食材推導：不含添加糖、含糖醃料或添加物，也不含蔬果泥、汁、醬；這不是 USDA 添加糖實測值。USDA SR 總膳食纖維採 AOAC 相容的資料庫方法基礎（985.29／991.43）；個別數值可能來自計算或推估，並非逐項實測，也不代表與每種較新的增強型 AOAC 檢測完全等同。此食材只納入配方總重，不納入 FVNS 分子。"
       },
       "sourceUrls": [
         "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
@@ -268,6 +375,8 @@ export const sourceFoods: SourceFood[] = [
       "zh": "生食成熟紅番茄"
     },
     "state": "raw",
+    "avoidTags": [],
+    "unknownAvoidTags": [],
     "sourceId": "usda-sr-legacy-2018",
     "recordUrl": "https://fdc.nal.usda.gov/food-details/170457/nutrients",
     "publicationDate": "2019-04-01",
@@ -293,8 +402,8 @@ export const sourceFoods: SourceFood[] = [
       "fvnsEligible": true,
       "fiberMethod": "AOAC-compatible",
       "note": {
-        "en": "Free sugars 0 g is a model derivation for the recipe's explicit plain-ingredient specification: no added sugars or sugar-containing marinades/additives, and no fruit/vegetable puree, juice or paste. It is not a USDA added-sugars measurement; source added sugars remain unknown. USDA SR total dietary fiber uses an AOAC-compatible database basis (985.29/991.43); individual values may be calculated or imputed, not individually assayed. This does not establish equivalence to every newer enhanced AOAC assay. This intact vegetable or whole bean qualifies for FVNS at its stated prepared weight.",
-        "zh": "游離糖 0 克是依配方明示的原味食材規格推導：不含添加糖、含糖醃料或添加物，也不含蔬果泥、汁、醬。這不是 USDA 添加糖實測值；來源添加糖仍未知。 USDA SR 總膳食纖維採 AOAC 相容的資料庫方法基礎（985.29／991.43）；個別數值可能來自計算或推估，並非逐項實測，也不代表與每種較新的增強型 AOAC 檢測完全等同。 此完整蔬菜或全豆，以標示的處理後重量納入 FVNS。"
+        "en": "Free sugars 0 g is derived for the specified plain ingredient with no added sugars, sugar-containing marinades/additives, or fruit/vegetable puree, juice or paste. It is not a USDA added-sugars measurement. USDA SR total dietary fiber uses an AOAC-compatible database basis (985.29/991.43); individual values may be calculated or imputed, not individually assayed. This does not establish equivalence to every newer enhanced AOAC assay. This ingredient qualifies for FVNS at its documented prepared weight.",
+        "zh": "游離糖 0 克依指定原味食材推導：不含添加糖、含糖醃料或添加物，也不含蔬果泥、汁、醬；這不是 USDA 添加糖實測值。USDA SR 總膳食纖維採 AOAC 相容的資料庫方法基礎（985.29／991.43）；個別數值可能來自計算或推估，並非逐項實測，也不代表與每種較新的增強型 AOAC 檢測完全等同。此食材以標示的處理後重量納入 FVNS。"
       },
       "sourceUrls": [
         "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
@@ -313,6 +422,8 @@ export const sourceFoods: SourceFood[] = [
       "zh": "水煮瀝乾青花菜（無鹽）"
     },
     "state": "cooked",
+    "avoidTags": [],
+    "unknownAvoidTags": [],
     "sourceId": "usda-sr-legacy-2018",
     "recordUrl": "https://fdc.nal.usda.gov/food-details/169967/nutrients",
     "publicationDate": "2019-04-01",
@@ -338,8 +449,8 @@ export const sourceFoods: SourceFood[] = [
       "fvnsEligible": true,
       "fiberMethod": "AOAC-compatible",
       "note": {
-        "en": "Free sugars 0 g is a model derivation for the recipe's explicit plain-ingredient specification: no added sugars or sugar-containing marinades/additives, and no fruit/vegetable puree, juice or paste. It is not a USDA added-sugars measurement; source added sugars remain unknown. USDA SR total dietary fiber uses an AOAC-compatible database basis (985.29/991.43); individual values may be calculated or imputed, not individually assayed. This does not establish equivalence to every newer enhanced AOAC assay. This intact vegetable or whole bean qualifies for FVNS at its stated prepared weight.",
-        "zh": "游離糖 0 克是依配方明示的原味食材規格推導：不含添加糖、含糖醃料或添加物，也不含蔬果泥、汁、醬。這不是 USDA 添加糖實測值；來源添加糖仍未知。 USDA SR 總膳食纖維採 AOAC 相容的資料庫方法基礎（985.29／991.43）；個別數值可能來自計算或推估，並非逐項實測，也不代表與每種較新的增強型 AOAC 檢測完全等同。 此完整蔬菜或全豆，以標示的處理後重量納入 FVNS。"
+        "en": "Free sugars 0 g is derived for the specified plain ingredient with no added sugars, sugar-containing marinades/additives, or fruit/vegetable puree, juice or paste. It is not a USDA added-sugars measurement. USDA SR total dietary fiber uses an AOAC-compatible database basis (985.29/991.43); individual values may be calculated or imputed, not individually assayed. This does not establish equivalence to every newer enhanced AOAC assay. This ingredient qualifies for FVNS at its documented prepared weight.",
+        "zh": "游離糖 0 克依指定原味食材推導：不含添加糖、含糖醃料或添加物，也不含蔬果泥、汁、醬；這不是 USDA 添加糖實測值。USDA SR 總膳食纖維採 AOAC 相容的資料庫方法基礎（985.29／991.43）；個別數值可能來自計算或推估，並非逐項實測，也不代表與每種較新的增強型 AOAC 檢測完全等同。此食材以標示的處理後重量納入 FVNS。"
       },
       "sourceUrls": [
         "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
@@ -358,6 +469,8 @@ export const sourceFoods: SourceFood[] = [
       "zh": "煮熟黑菜豆（非黑大豆，無鹽）"
     },
     "state": "cooked",
+    "avoidTags": [],
+    "unknownAvoidTags": [],
     "sourceId": "usda-sr-legacy-2018",
     "recordUrl": "https://fdc.nal.usda.gov/food-details/173735/nutrients",
     "publicationDate": "2019-04-01",
@@ -383,8 +496,8 @@ export const sourceFoods: SourceFood[] = [
       "fvnsEligible": true,
       "fiberMethod": "AOAC-compatible",
       "note": {
-        "en": "Free sugars 0 g is a model derivation for the recipe's explicit plain-ingredient specification: no added sugars or sugar-containing marinades/additives, and no fruit/vegetable puree, juice or paste. It is not a USDA added-sugars measurement; source added sugars remain unknown. USDA SR total dietary fiber uses an AOAC-compatible database basis (985.29/991.43); individual values may be calculated or imputed, not individually assayed. This does not establish equivalence to every newer enhanced AOAC assay. This intact vegetable or whole bean qualifies for FVNS at its stated prepared weight.",
-        "zh": "游離糖 0 克是依配方明示的原味食材規格推導：不含添加糖、含糖醃料或添加物，也不含蔬果泥、汁、醬。這不是 USDA 添加糖實測值；來源添加糖仍未知。 USDA SR 總膳食纖維採 AOAC 相容的資料庫方法基礎（985.29／991.43）；個別數值可能來自計算或推估，並非逐項實測，也不代表與每種較新的增強型 AOAC 檢測完全等同。 此完整蔬菜或全豆，以標示的處理後重量納入 FVNS。"
+        "en": "Free sugars 0 g is derived for the specified plain ingredient with no added sugars, sugar-containing marinades/additives, or fruit/vegetable puree, juice or paste. It is not a USDA added-sugars measurement. USDA SR total dietary fiber uses an AOAC-compatible database basis (985.29/991.43); individual values may be calculated or imputed, not individually assayed. This does not establish equivalence to every newer enhanced AOAC assay. This ingredient qualifies for FVNS at its documented prepared weight.",
+        "zh": "游離糖 0 克依指定原味食材推導：不含添加糖、含糖醃料或添加物，也不含蔬果泥、汁、醬；這不是 USDA 添加糖實測值。USDA SR 總膳食纖維採 AOAC 相容的資料庫方法基礎（985.29／991.43）；個別數值可能來自計算或推估，並非逐項實測，也不代表與每種較新的增強型 AOAC 檢測完全等同。此食材以標示的處理後重量納入 FVNS。"
       },
       "sourceUrls": [
         "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
@@ -403,6 +516,8 @@ export const sourceFoods: SourceFood[] = [
       "zh": "帶皮烤熟後取出的地瓜肉（無鹽）"
     },
     "state": "cooked",
+    "avoidTags": [],
+    "unknownAvoidTags": [],
     "sourceId": "usda-sr-legacy-2018",
     "recordUrl": "https://fdc.nal.usda.gov/food-details/168483/nutrients",
     "publicationDate": "2019-04-01",
@@ -428,8 +543,8 @@ export const sourceFoods: SourceFood[] = [
       "fvnsEligible": false,
       "fiberMethod": "AOAC-compatible",
       "note": {
-        "en": "Free sugars 0 g is a model derivation for the recipe's explicit plain-ingredient specification: no added sugars or sugar-containing marinades/additives, and no fruit/vegetable puree, juice or paste. It is not a USDA added-sugars measurement; source added sugars remain unknown. USDA SR total dietary fiber uses an AOAC-compatible database basis (985.29/991.43); individual values may be calculated or imputed, not individually assayed. This does not establish equivalence to every newer enhanced AOAC assay. This ingredient contributes to recipe mass, not the FVNS numerator.",
-        "zh": "游離糖 0 克是依配方明示的原味食材規格推導：不含添加糖、含糖醃料或添加物，也不含蔬果泥、汁、醬。這不是 USDA 添加糖實測值；來源添加糖仍未知。 USDA SR 總膳食纖維採 AOAC 相容的資料庫方法基礎（985.29／991.43）；個別數值可能來自計算或推估，並非逐項實測，也不代表與每種較新的增強型 AOAC 檢測完全等同。 此食材只納入配方總重，不納入 FVNS 分子。"
+        "en": "Free sugars 0 g is derived for the specified plain ingredient with no added sugars, sugar-containing marinades/additives, or fruit/vegetable puree, juice or paste. It is not a USDA added-sugars measurement. USDA SR total dietary fiber uses an AOAC-compatible database basis (985.29/991.43); individual values may be calculated or imputed, not individually assayed. This does not establish equivalence to every newer enhanced AOAC assay. This ingredient contributes to recipe mass, not the FVNS numerator.",
+        "zh": "游離糖 0 克依指定原味食材推導：不含添加糖、含糖醃料或添加物，也不含蔬果泥、汁、醬；這不是 USDA 添加糖實測值。USDA SR 總膳食纖維採 AOAC 相容的資料庫方法基礎（985.29／991.43）；個別數值可能來自計算或推估，並非逐項實測，也不代表與每種較新的增強型 AOAC 檢測完全等同。此食材只納入配方總重，不納入 FVNS 分子。"
       },
       "sourceUrls": [
         "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
@@ -448,6 +563,8 @@ export const sourceFoods: SourceFood[] = [
       "zh": "水煮瀝乾羽衣甘藍（無鹽）"
     },
     "state": "cooked",
+    "avoidTags": [],
+    "unknownAvoidTags": [],
     "sourceId": "usda-sr-legacy-2018",
     "recordUrl": "https://fdc.nal.usda.gov/food-details/169238/nutrients",
     "publicationDate": "2019-04-01",
@@ -473,8 +590,8 @@ export const sourceFoods: SourceFood[] = [
       "fvnsEligible": true,
       "fiberMethod": "AOAC-compatible",
       "note": {
-        "en": "Free sugars 0 g is a model derivation for the recipe's explicit plain-ingredient specification: no added sugars or sugar-containing marinades/additives, and no fruit/vegetable puree, juice or paste. It is not a USDA added-sugars measurement; source added sugars remain unknown. USDA SR total dietary fiber uses an AOAC-compatible database basis (985.29/991.43); individual values may be calculated or imputed, not individually assayed. This does not establish equivalence to every newer enhanced AOAC assay. This intact vegetable or whole bean qualifies for FVNS at its stated prepared weight.",
-        "zh": "游離糖 0 克是依配方明示的原味食材規格推導：不含添加糖、含糖醃料或添加物，也不含蔬果泥、汁、醬。這不是 USDA 添加糖實測值；來源添加糖仍未知。 USDA SR 總膳食纖維採 AOAC 相容的資料庫方法基礎（985.29／991.43）；個別數值可能來自計算或推估，並非逐項實測，也不代表與每種較新的增強型 AOAC 檢測完全等同。 此完整蔬菜或全豆，以標示的處理後重量納入 FVNS。"
+        "en": "Free sugars 0 g is derived for the specified plain ingredient with no added sugars, sugar-containing marinades/additives, or fruit/vegetable puree, juice or paste. It is not a USDA added-sugars measurement. USDA SR total dietary fiber uses an AOAC-compatible database basis (985.29/991.43); individual values may be calculated or imputed, not individually assayed. This does not establish equivalence to every newer enhanced AOAC assay. This ingredient qualifies for FVNS at its documented prepared weight.",
+        "zh": "游離糖 0 克依指定原味食材推導：不含添加糖、含糖醃料或添加物，也不含蔬果泥、汁、醬；這不是 USDA 添加糖實測值。USDA SR 總膳食纖維採 AOAC 相容的資料庫方法基礎（985.29／991.43）；個別數值可能來自計算或推估，並非逐項實測，也不代表與每種較新的增強型 AOAC 檢測完全等同。此食材以標示的處理後重量納入 FVNS。"
       },
       "sourceUrls": [
         "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
@@ -493,6 +610,8 @@ export const sourceFoods: SourceFood[] = [
       "zh": "煮熟藜麥"
     },
     "state": "cooked",
+    "avoidTags": [],
+    "unknownAvoidTags": [],
     "sourceId": "usda-sr-legacy-2018",
     "recordUrl": "https://fdc.nal.usda.gov/food-details/168917/nutrients",
     "publicationDate": "2019-04-01",
@@ -518,8 +637,8 @@ export const sourceFoods: SourceFood[] = [
       "fvnsEligible": false,
       "fiberMethod": "AOAC-compatible",
       "note": {
-        "en": "Free sugars 0 g is a model derivation for the recipe's explicit plain-ingredient specification: no added sugars or sugar-containing marinades/additives, and no fruit/vegetable puree, juice or paste. It is not a USDA added-sugars measurement; source added sugars remain unknown. USDA SR total dietary fiber uses an AOAC-compatible database basis (985.29/991.43); individual values may be calculated or imputed, not individually assayed. This does not establish equivalence to every newer enhanced AOAC assay. This ingredient contributes to recipe mass, not the FVNS numerator.",
-        "zh": "游離糖 0 克是依配方明示的原味食材規格推導：不含添加糖、含糖醃料或添加物，也不含蔬果泥、汁、醬。這不是 USDA 添加糖實測值；來源添加糖仍未知。 USDA SR 總膳食纖維採 AOAC 相容的資料庫方法基礎（985.29／991.43）；個別數值可能來自計算或推估，並非逐項實測，也不代表與每種較新的增強型 AOAC 檢測完全等同。 此食材只納入配方總重，不納入 FVNS 分子。"
+        "en": "Free sugars 0 g is derived for the specified plain ingredient with no added sugars, sugar-containing marinades/additives, or fruit/vegetable puree, juice or paste. It is not a USDA added-sugars measurement. USDA SR total dietary fiber uses an AOAC-compatible database basis (985.29/991.43); individual values may be calculated or imputed, not individually assayed. This does not establish equivalence to every newer enhanced AOAC assay. This ingredient contributes to recipe mass, not the FVNS numerator.",
+        "zh": "游離糖 0 克依指定原味食材推導：不含添加糖、含糖醃料或添加物，也不含蔬果泥、汁、醬；這不是 USDA 添加糖實測值。USDA SR 總膳食纖維採 AOAC 相容的資料庫方法基礎（985.29／991.43）；個別數值可能來自計算或推估，並非逐項實測，也不代表與每種較新的增強型 AOAC 檢測完全等同。此食材只納入配方總重，不納入 FVNS 分子。"
       },
       "sourceUrls": [
         "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
@@ -538,6 +657,8 @@ export const sourceFoods: SourceFood[] = [
       "zh": "帶皮生小黃瓜"
     },
     "state": "raw",
+    "avoidTags": [],
+    "unknownAvoidTags": [],
     "sourceId": "usda-sr-legacy-2018",
     "recordUrl": "https://fdc.nal.usda.gov/food-details/168409/nutrients",
     "publicationDate": "2019-04-01",
@@ -563,8 +684,8 @@ export const sourceFoods: SourceFood[] = [
       "fvnsEligible": true,
       "fiberMethod": "AOAC-compatible",
       "note": {
-        "en": "Free sugars 0 g is a model derivation for the recipe's explicit plain-ingredient specification: no added sugars or sugar-containing marinades/additives, and no fruit/vegetable puree, juice or paste. It is not a USDA added-sugars measurement; source added sugars remain unknown. USDA SR total dietary fiber uses an AOAC-compatible database basis (985.29/991.43); individual values may be calculated or imputed, not individually assayed. This does not establish equivalence to every newer enhanced AOAC assay. This intact vegetable or whole bean qualifies for FVNS at its stated prepared weight.",
-        "zh": "游離糖 0 克是依配方明示的原味食材規格推導：不含添加糖、含糖醃料或添加物，也不含蔬果泥、汁、醬。這不是 USDA 添加糖實測值；來源添加糖仍未知。 USDA SR 總膳食纖維採 AOAC 相容的資料庫方法基礎（985.29／991.43）；個別數值可能來自計算或推估，並非逐項實測，也不代表與每種較新的增強型 AOAC 檢測完全等同。 此完整蔬菜或全豆，以標示的處理後重量納入 FVNS。"
+        "en": "Free sugars 0 g is derived for the specified plain ingredient with no added sugars, sugar-containing marinades/additives, or fruit/vegetable puree, juice or paste. It is not a USDA added-sugars measurement. USDA SR total dietary fiber uses an AOAC-compatible database basis (985.29/991.43); individual values may be calculated or imputed, not individually assayed. This does not establish equivalence to every newer enhanced AOAC assay. This ingredient qualifies for FVNS at its documented prepared weight.",
+        "zh": "游離糖 0 克依指定原味食材推導：不含添加糖、含糖醃料或添加物，也不含蔬果泥、汁、醬；這不是 USDA 添加糖實測值。USDA SR 總膳食纖維採 AOAC 相容的資料庫方法基礎（985.29／991.43）；個別數值可能來自計算或推估，並非逐項實測，也不代表與每種較新的增強型 AOAC 檢測完全等同。此食材以標示的處理後重量納入 FVNS。"
       },
       "sourceUrls": [
         "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
@@ -583,6 +704,10 @@ export const sourceFoods: SourceFood[] = [
       "zh": "煮熟去殼蝦仁"
     },
     "state": "cooked",
+    "avoidTags": [
+      "Shellfish"
+    ],
+    "unknownAvoidTags": [],
     "sourceId": "usda-sr-legacy-2018",
     "recordUrl": "https://fdc.nal.usda.gov/food-details/175180/nutrients",
     "publicationDate": "2019-04-01",
@@ -613,7 +738,7 @@ export const sourceFoods: SourceFood[] = [
       "fiberMethod": "unknown",
       "note": {
         "en": "Free-sugars interpretation is unresolved; this retained historical source is not used by the current scored recipes. This source does not supply dietary fiber. This ingredient contributes to recipe mass, not the FVNS numerator.",
-        "zh": "游離糖判讀尚未解決；此保留的歷史來源不納入目前計分配方。 此來源沒有提供膳食纖維。 此食材只納入配方總重，不納入 FVNS 分子。"
+        "zh": "游離糖判讀尚未解決；此保留的歷史來源不納入目前計分配方。此來源沒有提供膳食纖維。此食材只納入配方總重，不納入 FVNS 分子。"
       },
       "sourceUrls": [
         "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
@@ -632,6 +757,8 @@ export const sourceFoods: SourceFood[] = [
       "zh": "橄欖油"
     },
     "state": "ready-to-eat",
+    "avoidTags": [],
+    "unknownAvoidTags": [],
     "sourceId": "usda-sr-legacy-2018",
     "recordUrl": "https://fdc.nal.usda.gov/food-details/171413/nutrients",
     "publicationDate": "2019-04-01",
@@ -657,8 +784,8 @@ export const sourceFoods: SourceFood[] = [
       "fvnsEligible": false,
       "fiberMethod": "AOAC-compatible",
       "note": {
-        "en": "Free sugars 0 g is a model derivation for the recipe's explicit plain-ingredient specification: no added sugars or sugar-containing marinades/additives, and no fruit/vegetable puree, juice or paste. It is not a USDA added-sugars measurement; source added sugars remain unknown. USDA SR total dietary fiber uses an AOAC-compatible database basis (985.29/991.43); individual values may be calculated or imputed, not individually assayed. This does not establish equivalence to every newer enhanced AOAC assay. This ingredient contributes to recipe mass, not the FVNS numerator.",
-        "zh": "游離糖 0 克是依配方明示的原味食材規格推導：不含添加糖、含糖醃料或添加物，也不含蔬果泥、汁、醬。這不是 USDA 添加糖實測值；來源添加糖仍未知。 USDA SR 總膳食纖維採 AOAC 相容的資料庫方法基礎（985.29／991.43）；個別數值可能來自計算或推估，並非逐項實測，也不代表與每種較新的增強型 AOAC 檢測完全等同。 此食材只納入配方總重，不納入 FVNS 分子。"
+        "en": "The source reports total sugars 0 g per 100 g, supporting a derived free-sugars value of 0 for this exact source estimate. This does not fill the unknown added-sugars field or describe an unspecified substitute. USDA SR total dietary fiber uses an AOAC-compatible database basis (985.29/991.43); individual values may be calculated or imputed, not individually assayed. This does not establish equivalence to every newer enhanced AOAC assay. This ingredient contributes to recipe mass, not the FVNS numerator.",
+        "zh": "來源每 100 克總糖為 0 克，支持此特定來源估算的游離糖推導值為 0；這不會填補未知的添加糖欄位，也不適用於未指定替代品。USDA SR 總膳食纖維採 AOAC 相容的資料庫方法基礎（985.29／991.43）；個別數值可能來自計算或推估，並非逐項實測，也不代表與每種較新的增強型 AOAC 檢測完全等同。此食材只納入配方總重，不納入 FVNS 分子。"
       },
       "sourceUrls": [
         "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
@@ -677,6 +804,8 @@ export const sourceFoods: SourceFood[] = [
       "zh": "食鹽"
     },
     "state": "ready-to-eat",
+    "avoidTags": [],
+    "unknownAvoidTags": [],
     "sourceId": "usda-sr-legacy-2018",
     "recordUrl": "https://fdc.nal.usda.gov/food-details/173468/nutrients",
     "publicationDate": "2019-04-01",
@@ -702,8 +831,8 @@ export const sourceFoods: SourceFood[] = [
       "fvnsEligible": false,
       "fiberMethod": "AOAC-compatible",
       "note": {
-        "en": "Free sugars 0 g is a model derivation for the recipe's explicit plain-ingredient specification: no added sugars or sugar-containing marinades/additives, and no fruit/vegetable puree, juice or paste. It is not a USDA added-sugars measurement; source added sugars remain unknown. USDA SR total dietary fiber uses an AOAC-compatible database basis (985.29/991.43); individual values may be calculated or imputed, not individually assayed. This does not establish equivalence to every newer enhanced AOAC assay. This ingredient contributes to recipe mass, not the FVNS numerator.",
-        "zh": "游離糖 0 克是依配方明示的原味食材規格推導：不含添加糖、含糖醃料或添加物，也不含蔬果泥、汁、醬。這不是 USDA 添加糖實測值；來源添加糖仍未知。 USDA SR 總膳食纖維採 AOAC 相容的資料庫方法基礎（985.29／991.43）；個別數值可能來自計算或推估，並非逐項實測，也不代表與每種較新的增強型 AOAC 檢測完全等同。 此食材只納入配方總重，不納入 FVNS 分子。"
+        "en": "The source reports total sugars 0 g per 100 g, supporting a derived free-sugars value of 0 for this exact source estimate. This does not fill the unknown added-sugars field or describe an unspecified substitute. USDA SR total dietary fiber uses an AOAC-compatible database basis (985.29/991.43); individual values may be calculated or imputed, not individually assayed. This does not establish equivalence to every newer enhanced AOAC assay. This ingredient contributes to recipe mass, not the FVNS numerator.",
+        "zh": "來源每 100 克總糖為 0 克，支持此特定來源估算的游離糖推導值為 0；這不會填補未知的添加糖欄位，也不適用於未指定替代品。USDA SR 總膳食纖維採 AOAC 相容的資料庫方法基礎（985.29／991.43）；個別數值可能來自計算或推估，並非逐項實測，也不代表與每種較新的增強型 AOAC 檢測完全等同。此食材只納入配方總重，不納入 FVNS 分子。"
       },
       "sourceUrls": [
         "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
@@ -722,6 +851,8 @@ export const sourceFoods: SourceFood[] = [
       "zh": "保留在碗中的飲用水"
     },
     "state": "ready-to-eat",
+    "avoidTags": [],
+    "unknownAvoidTags": [],
     "sourceId": "usda-sr-legacy-2018",
     "recordUrl": "https://fdc.nal.usda.gov/food-details/173647/nutrients",
     "publicationDate": "2019-04-01",
@@ -747,8 +878,8 @@ export const sourceFoods: SourceFood[] = [
       "fvnsEligible": false,
       "fiberMethod": "AOAC-compatible",
       "note": {
-        "en": "Free sugars 0 g is a model derivation for the recipe's explicit plain-ingredient specification: no added sugars or sugar-containing marinades/additives, and no fruit/vegetable puree, juice or paste. It is not a USDA added-sugars measurement; source added sugars remain unknown. USDA SR total dietary fiber uses an AOAC-compatible database basis (985.29/991.43); individual values may be calculated or imputed, not individually assayed. This does not establish equivalence to every newer enhanced AOAC assay. This ingredient contributes to recipe mass, not the FVNS numerator.",
-        "zh": "游離糖 0 克是依配方明示的原味食材規格推導：不含添加糖、含糖醃料或添加物，也不含蔬果泥、汁、醬。這不是 USDA 添加糖實測值；來源添加糖仍未知。 USDA SR 總膳食纖維採 AOAC 相容的資料庫方法基礎（985.29／991.43）；個別數值可能來自計算或推估，並非逐項實測，也不代表與每種較新的增強型 AOAC 檢測完全等同。 此食材只納入配方總重，不納入 FVNS 分子。"
+        "en": "The source reports total sugars 0 g per 100 g, supporting a derived free-sugars value of 0 for this exact source estimate. This does not fill the unknown added-sugars field or describe an unspecified substitute. USDA SR total dietary fiber uses an AOAC-compatible database basis (985.29/991.43); individual values may be calculated or imputed, not individually assayed. This does not establish equivalence to every newer enhanced AOAC assay. This ingredient contributes to recipe mass, not the FVNS numerator.",
+        "zh": "來源每 100 克總糖為 0 克，支持此特定來源估算的游離糖推導值為 0；這不會填補未知的添加糖欄位，也不適用於未指定替代品。USDA SR 總膳食纖維採 AOAC 相容的資料庫方法基礎（985.29／991.43）；個別數值可能來自計算或推估，並非逐項實測，也不代表與每種較新的增強型 AOAC 檢測完全等同。此食材只納入配方總重，不納入 FVNS 分子。"
       },
       "sourceUrls": [
         "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
@@ -767,6 +898,10 @@ export const sourceFoods: SourceFood[] = [
       "zh": "煮熟去莢毛豆"
     },
     "state": "cooked",
+    "avoidTags": [
+      "Soy"
+    ],
+    "unknownAvoidTags": [],
     "sourceId": "usda-sr-legacy-2018",
     "recordUrl": "https://fdc.nal.usda.gov/food-details/168411/nutrients",
     "publicationDate": "2019-04-01",
@@ -792,8 +927,8 @@ export const sourceFoods: SourceFood[] = [
       "fvnsEligible": true,
       "fiberMethod": "AOAC-compatible",
       "note": {
-        "en": "Free sugars 0 g is a model derivation for the recipe's explicit plain-ingredient specification: no added sugars or sugar-containing marinades/additives, and no fruit/vegetable puree, juice or paste. It is not a USDA added-sugars measurement; source added sugars remain unknown. USDA SR total dietary fiber uses an AOAC-compatible database basis (985.29/991.43); individual values may be calculated or imputed, not individually assayed. This does not establish equivalence to every newer enhanced AOAC assay. This intact vegetable or whole bean qualifies for FVNS at its stated prepared weight.",
-        "zh": "游離糖 0 克是依配方明示的原味食材規格推導：不含添加糖、含糖醃料或添加物，也不含蔬果泥、汁、醬。這不是 USDA 添加糖實測值；來源添加糖仍未知。 USDA SR 總膳食纖維採 AOAC 相容的資料庫方法基礎（985.29／991.43）；個別數值可能來自計算或推估，並非逐項實測，也不代表與每種較新的增強型 AOAC 檢測完全等同。 此完整蔬菜或全豆，以標示的處理後重量納入 FVNS。"
+        "en": "Free sugars 0 g is derived for the specified plain ingredient with no added sugars, sugar-containing marinades/additives, or fruit/vegetable puree, juice or paste. It is not a USDA added-sugars measurement. USDA SR total dietary fiber uses an AOAC-compatible database basis (985.29/991.43); individual values may be calculated or imputed, not individually assayed. This does not establish equivalence to every newer enhanced AOAC assay. This ingredient qualifies for FVNS at its documented prepared weight.",
+        "zh": "游離糖 0 克依指定原味食材推導：不含添加糖、含糖醃料或添加物，也不含蔬果泥、汁、醬；這不是 USDA 添加糖實測值。USDA SR 總膳食纖維採 AOAC 相容的資料庫方法基礎（985.29／991.43）；個別數值可能來自計算或推估，並非逐項實測，也不代表與每種較新的增強型 AOAC 檢測完全等同。此食材以標示的處理後重量納入 FVNS。"
       },
       "sourceUrls": [
         "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
@@ -812,6 +947,10 @@ export const sourceFoods: SourceFood[] = [
       "zh": "濕熱煮熟蝦仁（可能含保水添加物）"
     },
     "state": "cooked",
+    "avoidTags": [
+      "Shellfish"
+    ],
+    "unknownAvoidTags": [],
     "sourceId": "usda-sr-legacy-2018-shrimp-supplement",
     "recordUrl": "https://fdc.nal.usda.gov/food-details/171971/nutrients",
     "publicationDate": "2019-04-01",
@@ -837,14 +976,2808 @@ export const sourceFoods: SourceFood[] = [
       "fvnsEligible": false,
       "fiberMethod": "AOAC-compatible",
       "note": {
-        "en": "Free sugars 0 g is a model derivation for the recipe's explicit plain-ingredient specification: no added sugars or sugar-containing marinades/additives, and no fruit/vegetable puree, juice or paste. It is not a USDA added-sugars measurement; source added sugars remain unknown. USDA SR total dietary fiber uses an AOAC-compatible database basis (985.29/991.43); individual values may be calculated or imputed, not individually assayed. This does not establish equivalence to every newer enhanced AOAC assay. This ingredient contributes to recipe mass, not the FVNS numerator.",
-        "zh": "游離糖 0 克是依配方明示的原味食材規格推導：不含添加糖、含糖醃料或添加物，也不含蔬果泥、汁、醬。這不是 USDA 添加糖實測值；來源添加糖仍未知。 USDA SR 總膳食纖維採 AOAC 相容的資料庫方法基礎（985.29／991.43）；個別數值可能來自計算或推估，並非逐項實測，也不代表與每種較新的增強型 AOAC 檢測完全等同。 此食材只納入配方總重，不納入 FVNS 分子。"
+        "en": "The source reports total sugars 0 g per 100 g, supporting a derived free-sugars value of 0 for this exact source estimate. This does not fill the unknown added-sugars field or describe an unspecified substitute. USDA SR total dietary fiber uses an AOAC-compatible database basis (985.29/991.43); individual values may be calculated or imputed, not individually assayed. This does not establish equivalence to every newer enhanced AOAC assay. This ingredient contributes to recipe mass, not the FVNS numerator.",
+        "zh": "來源每 100 克總糖為 0 克，支持此特定來源估算的游離糖推導值為 0；這不會填補未知的添加糖欄位，也不適用於未指定替代品。USDA SR 總膳食纖維採 AOAC 相容的資料庫方法基礎（985.29／991.43）；個別數值可能來自計算或推估，並非逐項實測，也不代表與每種較新的增強型 AOAC 檢測完全等同。此食材只納入配方總重，不納入 FVNS 分子。"
       },
       "sourceUrls": [
         "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
         "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
         "https://www.ars.usda.gov/ARSUSERFILES/80400535/DATA/PUBLICATIONS/FNR/IMPLICATIONS%20OF%20TWO%20DIRRERENT%20METHODS%20FOR%20ANALYZING%20TOTAL%20DIETARY%20FIBER.PDF",
         "https://fdc.nal.usda.gov/food-details/171971/nutrients"
+      ]
+    }
+  },
+  {
+    "id": "usda-168914",
+    "fdcId": 168914,
+    "description": "Rice noodles, cooked",
+    "label": {
+      "en": "Cooked rice noodles",
+      "zh": "煮熟米製麵條"
+    },
+    "state": "cooked",
+    "avoidTags": [],
+    "unknownAvoidTags": [],
+    "sourceId": "usda-sr-legacy-2018-recipes24-expansion",
+    "recordUrl": "https://fdc.nal.usda.gov/food-details/168914/nutrients",
+    "publicationDate": "2019-04-01",
+    "nutrientsPer100g": {
+      "kcal": 108,
+      "energyKj": 454,
+      "protein": 1.79,
+      "carbs": 24.01,
+      "fat": 0.2,
+      "saturatedFat": 0.023,
+      "fiber": 1,
+      "sodium": 19,
+      "addedSugar": null
+    },
+    "nutrientNotes": {
+      "addedSugar": {
+        "en": "Added sugars is not supplied in this source record. Unknown is not zero.",
+        "zh": "此來源紀錄未提供添加糖，未知值不等於零。"
+      }
+    },
+    "modelBasis": {
+      "freeSugarsPer100g": 0,
+      "fvnsEligible": false,
+      "fiberMethod": "AOAC-compatible",
+      "note": {
+        "en": "Free sugars 0 g is derived for the specified plain ingredient with no added sugars, sugar-containing marinades/additives, or fruit/vegetable puree, juice or paste. It is not a USDA added-sugars measurement. Use the named plain ingredient without added sugar, sweetened marinades or fruit/vegetable puree, powder, juice or paste. Naturally occurring sugars in this intact food or cereal are excluded from free sugars under UK NPM; 0 is a declared-formulation model derivation, not a USDA added-sugars measurement. USDA SR total dietary fiber uses an AOAC-compatible database basis (985.29/991.43); individual values may be calculated or imputed, not individually assayed. This does not establish equivalence to every newer enhanced AOAC assay. This ingredient contributes to recipe mass, not the FVNS numerator.",
+        "zh": "游離糖 0 克依指定原味食材推導：不含添加糖、含糖醃料或添加物，也不含蔬果泥、汁、醬；這不是 USDA 添加糖實測值。限定列名原味食材，不含添加糖、甜醃料、蔬果泥、粉、汁或醬。依 UK NPM，此完整食物或穀物中的天然糖不屬於游離糖；0 是依明示配方規格推導的模型值，不是 USDA 添加糖實測。USDA SR 總膳食纖維採 AOAC 相容的資料庫方法基礎（985.29／991.43）；個別數值可能來自計算或推估，並非逐項實測，也不代表與每種較新的增強型 AOAC 檢測完全等同。此食材只納入配方總重，不納入 FVNS 分子。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
+        "https://www.ars.usda.gov/ARSUSERFILES/80400535/DATA/PUBLICATIONS/FNR/IMPLICATIONS%20OF%20TWO%20DIRRERENT%20METHODS%20FOR%20ANALYZING%20TOTAL%20DIETARY%20FIBER.PDF",
+        "https://fdc.nal.usda.gov/food-details/168914/nutrients"
+      ]
+    }
+  },
+  {
+    "id": "usda-169732",
+    "fdcId": 169732,
+    "description": "Noodles, egg, enriched, cooked",
+    "label": {
+      "en": "Cooked enriched egg noodles",
+      "zh": "煮熟營養強化雞蛋麵"
+    },
+    "state": "cooked",
+    "avoidTags": [
+      "Wheat / gluten",
+      "Egg"
+    ],
+    "unknownAvoidTags": [],
+    "sourceId": "usda-sr-legacy-2018-recipes24-expansion",
+    "recordUrl": "https://fdc.nal.usda.gov/food-details/169732/nutrients",
+    "publicationDate": "2019-04-01",
+    "nutrientsPer100g": {
+      "kcal": 138,
+      "energyKj": 578,
+      "protein": 4.54,
+      "carbs": 25.16,
+      "fat": 2.07,
+      "saturatedFat": 0.419,
+      "fiber": 1.2,
+      "sodium": 5,
+      "addedSugar": null
+    },
+    "nutrientNotes": {
+      "addedSugar": {
+        "en": "Added sugars is not supplied in this source record. Unknown is not zero.",
+        "zh": "此來源紀錄未提供添加糖，未知值不等於零。"
+      }
+    },
+    "modelBasis": {
+      "freeSugarsPer100g": 0,
+      "fvnsEligible": false,
+      "fiberMethod": "AOAC-compatible",
+      "note": {
+        "en": "Free sugars 0 g is derived for the specified plain ingredient with no added sugars, sugar-containing marinades/additives, or fruit/vegetable puree, juice or paste. It is not a USDA added-sugars measurement. Use the named plain ingredient without added sugar, sweetened marinades or fruit/vegetable puree, powder, juice or paste. Naturally occurring sugars in this intact food or cereal are excluded from free sugars under UK NPM; 0 is a declared-formulation model derivation, not a USDA added-sugars measurement. USDA SR total dietary fiber uses an AOAC-compatible database basis (985.29/991.43); individual values may be calculated or imputed, not individually assayed. This does not establish equivalence to every newer enhanced AOAC assay. This ingredient contributes to recipe mass, not the FVNS numerator.",
+        "zh": "游離糖 0 克依指定原味食材推導：不含添加糖、含糖醃料或添加物，也不含蔬果泥、汁、醬；這不是 USDA 添加糖實測值。限定列名原味食材，不含添加糖、甜醃料、蔬果泥、粉、汁或醬。依 UK NPM，此完整食物或穀物中的天然糖不屬於游離糖；0 是依明示配方規格推導的模型值，不是 USDA 添加糖實測。USDA SR 總膳食纖維採 AOAC 相容的資料庫方法基礎（985.29／991.43）；個別數值可能來自計算或推估，並非逐項實測，也不代表與每種較新的增強型 AOAC 檢測完全等同。此食材只納入配方總重，不納入 FVNS 分子。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
+        "https://www.ars.usda.gov/ARSUSERFILES/80400535/DATA/PUBLICATIONS/FNR/IMPLICATIONS%20OF%20TWO%20DIRRERENT%20METHODS%20FOR%20ANALYZING%20TOTAL%20DIETARY%20FIBER.PDF",
+        "https://fdc.nal.usda.gov/food-details/169732/nutrients"
+      ]
+    }
+  },
+  {
+    "id": "usda-168910",
+    "fdcId": 168910,
+    "description": "Pasta, whole-wheat, cooked (Includes foods for USDA's Food Distribution Program)",
+    "label": {
+      "en": "Cooked whole-wheat pasta",
+      "zh": "煮熟全麥義大利麵"
+    },
+    "state": "cooked",
+    "avoidTags": [
+      "Wheat / gluten"
+    ],
+    "unknownAvoidTags": [],
+    "sourceId": "usda-sr-legacy-2018-recipes24-expansion",
+    "recordUrl": "https://fdc.nal.usda.gov/food-details/168910/nutrients",
+    "publicationDate": "2019-04-01",
+    "nutrientsPer100g": {
+      "kcal": 149,
+      "energyKj": 625,
+      "protein": 5.99,
+      "carbs": 30.07,
+      "fat": 1.71,
+      "saturatedFat": 0.243,
+      "fiber": 3.9,
+      "sodium": 4,
+      "addedSugar": null
+    },
+    "nutrientNotes": {
+      "addedSugar": {
+        "en": "Added sugars is not supplied in this source record. Unknown is not zero.",
+        "zh": "此來源紀錄未提供添加糖，未知值不等於零。"
+      }
+    },
+    "modelBasis": {
+      "freeSugarsPer100g": 0,
+      "fvnsEligible": false,
+      "fiberMethod": "AOAC-compatible",
+      "note": {
+        "en": "Free sugars 0 g is derived for the specified plain ingredient with no added sugars, sugar-containing marinades/additives, or fruit/vegetable puree, juice or paste. It is not a USDA added-sugars measurement. Use the named plain ingredient without added sugar, sweetened marinades or fruit/vegetable puree, powder, juice or paste. Naturally occurring sugars in this intact food or cereal are excluded from free sugars under UK NPM; 0 is a declared-formulation model derivation, not a USDA added-sugars measurement. USDA SR total dietary fiber uses an AOAC-compatible database basis (985.29/991.43); individual values may be calculated or imputed, not individually assayed. This does not establish equivalence to every newer enhanced AOAC assay. This ingredient contributes to recipe mass, not the FVNS numerator.",
+        "zh": "游離糖 0 克依指定原味食材推導：不含添加糖、含糖醃料或添加物，也不含蔬果泥、汁、醬；這不是 USDA 添加糖實測值。限定列名原味食材，不含添加糖、甜醃料、蔬果泥、粉、汁或醬。依 UK NPM，此完整食物或穀物中的天然糖不屬於游離糖；0 是依明示配方規格推導的模型值，不是 USDA 添加糖實測。USDA SR 總膳食纖維採 AOAC 相容的資料庫方法基礎（985.29／991.43）；個別數值可能來自計算或推估，並非逐項實測，也不代表與每種較新的增強型 AOAC 檢測完全等同。此食材只納入配方總重，不納入 FVNS 分子。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
+        "https://www.ars.usda.gov/ARSUSERFILES/80400535/DATA/PUBLICATIONS/FNR/IMPLICATIONS%20OF%20TWO%20DIRRERENT%20METHODS%20FOR%20ANALYZING%20TOTAL%20DIETARY%20FIBER.PDF",
+        "https://fdc.nal.usda.gov/food-details/168910/nutrients"
+      ]
+    }
+  },
+  {
+    "id": "usda-168649",
+    "fdcId": 168649,
+    "description": "Beef, round, top round steak, boneless, separable lean only, trimmed to 0\" fat, all grades, cooked, grilled",
+    "label": {
+      "en": "Grilled lean top-round beef, visible fat removed",
+      "zh": "去除可見脂肪的烤牛後腿肉（top round）"
+    },
+    "state": "cooked",
+    "avoidTags": [
+      "Beef"
+    ],
+    "unknownAvoidTags": [],
+    "sourceId": "usda-sr-legacy-2018-recipes24-expansion",
+    "recordUrl": "https://fdc.nal.usda.gov/food-details/168649/nutrients",
+    "publicationDate": "2019-04-01",
+    "nutrientsPer100g": {
+      "kcal": 162,
+      "energyKj": 680,
+      "protein": 30.09,
+      "carbs": 0,
+      "fat": 3.77,
+      "saturatedFat": 1.556,
+      "fiber": 0,
+      "sodium": 75,
+      "addedSugar": null
+    },
+    "nutrientNotes": {
+      "addedSugar": {
+        "en": "Added sugars is not supplied in this source record. Unknown is not zero.",
+        "zh": "此來源紀錄未提供添加糖，未知值不等於零。"
+      }
+    },
+    "modelBasis": {
+      "freeSugarsPer100g": 0,
+      "fvnsEligible": false,
+      "fiberMethod": "AOAC-compatible",
+      "note": {
+        "en": "The source reports total sugars 0 g per 100 g, supporting a derived free-sugars value of 0 for this exact source estimate. This does not fill the unknown added-sugars field or describe an unspecified substitute. The source explicitly reports total sugars 0 g/100 g; free sugars are derived as 0 for this exact plain ingredient. USDA added sugars remain unknown. USDA SR total dietary fiber uses an AOAC-compatible database basis (985.29/991.43); individual values may be calculated or imputed, not individually assayed. This does not establish equivalence to every newer enhanced AOAC assay. This ingredient contributes to recipe mass, not the FVNS numerator.",
+        "zh": "來源每 100 克總糖為 0 克，支持此特定來源估算的游離糖推導值為 0；這不會填補未知的添加糖欄位，也不適用於未指定替代品。來源明示總糖為每 100 克 0 克；僅對此特定原味食材推導游離糖為 0。USDA 添加糖仍未知。USDA SR 總膳食纖維採 AOAC 相容的資料庫方法基礎（985.29／991.43）；個別數值可能來自計算或推估，並非逐項實測，也不代表與每種較新的增強型 AOAC 檢測完全等同。此食材只納入配方總重，不納入 FVNS 分子。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
+        "https://www.ars.usda.gov/ARSUSERFILES/80400535/DATA/PUBLICATIONS/FNR/IMPLICATIONS%20OF%20TWO%20DIRRERENT%20METHODS%20FOR%20ANALYZING%20TOTAL%20DIETARY%20FIBER.PDF",
+        "https://fdc.nal.usda.gov/food-details/168649/nutrients"
+      ]
+    }
+  },
+  {
+    "id": "usda-168463",
+    "fdcId": 168463,
+    "description": "Spinach, cooked, boiled, drained, without salt",
+    "label": {
+      "en": "Boiled drained spinach, no salt",
+      "zh": "水煮瀝乾菠菜（無鹽）"
+    },
+    "state": "cooked",
+    "avoidTags": [],
+    "unknownAvoidTags": [],
+    "sourceId": "usda-sr-legacy-2018-recipes24-expansion",
+    "recordUrl": "https://fdc.nal.usda.gov/food-details/168463/nutrients",
+    "publicationDate": "2019-04-01",
+    "nutrientsPer100g": {
+      "kcal": 23,
+      "energyKj": 96,
+      "protein": 2.97,
+      "carbs": 3.75,
+      "fat": 0.26,
+      "saturatedFat": 0.043,
+      "fiber": 2.4,
+      "sodium": 70,
+      "addedSugar": null
+    },
+    "nutrientNotes": {
+      "addedSugar": {
+        "en": "Added sugars is not supplied in this source record. Unknown is not zero.",
+        "zh": "此來源紀錄未提供添加糖，未知值不等於零。"
+      }
+    },
+    "modelBasis": {
+      "freeSugarsPer100g": 0,
+      "fvnsEligible": true,
+      "fiberMethod": "AOAC-compatible",
+      "note": {
+        "en": "Free sugars 0 g is derived for the specified plain ingredient with no added sugars, sugar-containing marinades/additives, or fruit/vegetable puree, juice or paste. It is not a USDA added-sugars measurement. Use the named plain ingredient without added sugar, sweetened marinades or fruit/vegetable puree, powder, juice or paste. Naturally occurring sugars in this intact food or cereal are excluded from free sugars under UK NPM; 0 is a declared-formulation model derivation, not a USDA added-sugars measurement. USDA SR total dietary fiber uses an AOAC-compatible database basis (985.29/991.43); individual values may be calculated or imputed, not individually assayed. This does not establish equivalence to every newer enhanced AOAC assay. This ingredient qualifies for FVNS at its documented prepared weight.",
+        "zh": "游離糖 0 克依指定原味食材推導：不含添加糖、含糖醃料或添加物，也不含蔬果泥、汁、醬；這不是 USDA 添加糖實測值。限定列名原味食材，不含添加糖、甜醃料、蔬果泥、粉、汁或醬。依 UK NPM，此完整食物或穀物中的天然糖不屬於游離糖；0 是依明示配方規格推導的模型值，不是 USDA 添加糖實測。USDA SR 總膳食纖維採 AOAC 相容的資料庫方法基礎（985.29／991.43）；個別數值可能來自計算或推估，並非逐項實測，也不代表與每種較新的增強型 AOAC 檢測完全等同。此食材以標示的處理後重量納入 FVNS。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
+        "https://www.ars.usda.gov/ARSUSERFILES/80400535/DATA/PUBLICATIONS/FNR/IMPLICATIONS%20OF%20TWO%20DIRRERENT%20METHODS%20FOR%20ANALYZING%20TOTAL%20DIETARY%20FIBER.PDF",
+        "https://fdc.nal.usda.gov/food-details/168463/nutrients"
+      ]
+    }
+  },
+  {
+    "id": "usda-170394",
+    "fdcId": 170394,
+    "description": "Carrots, cooked, boiled, drained, without salt",
+    "label": {
+      "en": "Boiled drained carrots, no salt",
+      "zh": "水煮瀝乾紅蘿蔔（無鹽）"
+    },
+    "state": "cooked",
+    "avoidTags": [],
+    "unknownAvoidTags": [],
+    "sourceId": "usda-sr-legacy-2018-recipes24-expansion",
+    "recordUrl": "https://fdc.nal.usda.gov/food-details/170394/nutrients",
+    "publicationDate": "2019-04-01",
+    "nutrientsPer100g": {
+      "kcal": 35,
+      "energyKj": 147,
+      "protein": 0.76,
+      "carbs": 8.22,
+      "fat": 0.18,
+      "saturatedFat": 0.03,
+      "fiber": 3,
+      "sodium": 58,
+      "addedSugar": null
+    },
+    "nutrientNotes": {
+      "addedSugar": {
+        "en": "Added sugars is not supplied in this source record. Unknown is not zero.",
+        "zh": "此來源紀錄未提供添加糖，未知值不等於零。"
+      }
+    },
+    "modelBasis": {
+      "freeSugarsPer100g": 0,
+      "fvnsEligible": true,
+      "fiberMethod": "AOAC-compatible",
+      "note": {
+        "en": "Free sugars 0 g is derived for the specified plain ingredient with no added sugars, sugar-containing marinades/additives, or fruit/vegetable puree, juice or paste. It is not a USDA added-sugars measurement. Use the named plain ingredient without added sugar, sweetened marinades or fruit/vegetable puree, powder, juice or paste. Naturally occurring sugars in this intact food or cereal are excluded from free sugars under UK NPM; 0 is a declared-formulation model derivation, not a USDA added-sugars measurement. USDA SR total dietary fiber uses an AOAC-compatible database basis (985.29/991.43); individual values may be calculated or imputed, not individually assayed. This does not establish equivalence to every newer enhanced AOAC assay. This ingredient qualifies for FVNS at its documented prepared weight.",
+        "zh": "游離糖 0 克依指定原味食材推導：不含添加糖、含糖醃料或添加物，也不含蔬果泥、汁、醬；這不是 USDA 添加糖實測值。限定列名原味食材，不含添加糖、甜醃料、蔬果泥、粉、汁或醬。依 UK NPM，此完整食物或穀物中的天然糖不屬於游離糖；0 是依明示配方規格推導的模型值，不是 USDA 添加糖實測。USDA SR 總膳食纖維採 AOAC 相容的資料庫方法基礎（985.29／991.43）；個別數值可能來自計算或推估，並非逐項實測，也不代表與每種較新的增強型 AOAC 檢測完全等同。此食材以標示的處理後重量納入 FVNS。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
+        "https://www.ars.usda.gov/ARSUSERFILES/80400535/DATA/PUBLICATIONS/FNR/IMPLICATIONS%20OF%20TWO%20DIRRERENT%20METHODS%20FOR%20ANALYZING%20TOTAL%20DIETARY%20FIBER.PDF",
+        "https://fdc.nal.usda.gov/food-details/170394/nutrients"
+      ]
+    }
+  },
+  {
+    "id": "usda-169247",
+    "fdcId": 169247,
+    "description": "Lettuce, cos or romaine, raw",
+    "label": {
+      "en": "Raw romaine lettuce",
+      "zh": "生蘿蔓萵苣"
+    },
+    "state": "raw",
+    "avoidTags": [],
+    "unknownAvoidTags": [],
+    "sourceId": "usda-sr-legacy-2018-recipes24-expansion",
+    "recordUrl": "https://fdc.nal.usda.gov/food-details/169247/nutrients",
+    "publicationDate": "2019-04-01",
+    "nutrientsPer100g": {
+      "kcal": 17,
+      "energyKj": 72,
+      "protein": 1.23,
+      "carbs": 3.29,
+      "fat": 0.3,
+      "saturatedFat": 0.039,
+      "fiber": 2.1,
+      "sodium": 8,
+      "addedSugar": null
+    },
+    "nutrientNotes": {
+      "addedSugar": {
+        "en": "Added sugars is not supplied in this source record. Unknown is not zero.",
+        "zh": "此來源紀錄未提供添加糖，未知值不等於零。"
+      }
+    },
+    "modelBasis": {
+      "freeSugarsPer100g": 0,
+      "fvnsEligible": true,
+      "fiberMethod": "AOAC-compatible",
+      "note": {
+        "en": "Free sugars 0 g is derived for the specified plain ingredient with no added sugars, sugar-containing marinades/additives, or fruit/vegetable puree, juice or paste. It is not a USDA added-sugars measurement. Use the named plain ingredient without added sugar, sweetened marinades or fruit/vegetable puree, powder, juice or paste. Naturally occurring sugars in this intact food or cereal are excluded from free sugars under UK NPM; 0 is a declared-formulation model derivation, not a USDA added-sugars measurement. USDA SR total dietary fiber uses an AOAC-compatible database basis (985.29/991.43); individual values may be calculated or imputed, not individually assayed. This does not establish equivalence to every newer enhanced AOAC assay. This ingredient qualifies for FVNS at its documented prepared weight.",
+        "zh": "游離糖 0 克依指定原味食材推導：不含添加糖、含糖醃料或添加物，也不含蔬果泥、汁、醬；這不是 USDA 添加糖實測值。限定列名原味食材，不含添加糖、甜醃料、蔬果泥、粉、汁或醬。依 UK NPM，此完整食物或穀物中的天然糖不屬於游離糖；0 是依明示配方規格推導的模型值，不是 USDA 添加糖實測。USDA SR 總膳食纖維採 AOAC 相容的資料庫方法基礎（985.29／991.43）；個別數值可能來自計算或推估，並非逐項實測，也不代表與每種較新的增強型 AOAC 檢測完全等同。此食材以標示的處理後重量納入 FVNS。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
+        "https://www.ars.usda.gov/ARSUSERFILES/80400535/DATA/PUBLICATIONS/FNR/IMPLICATIONS%20OF%20TWO%20DIRRERENT%20METHODS%20FOR%20ANALYZING%20TOTAL%20DIETARY%20FIBER.PDF",
+        "https://fdc.nal.usda.gov/food-details/169247/nutrients"
+      ]
+    }
+  },
+  {
+    "id": "usda-171496",
+    "fdcId": 171496,
+    "description": "Turkey, whole, breast, meat only, cooked, roasted",
+    "label": {
+      "en": "Roasted turkey breast meat, no skin",
+      "zh": "去皮烤火雞胸肉"
+    },
+    "state": "cooked",
+    "avoidTags": [],
+    "unknownAvoidTags": [],
+    "sourceId": "usda-sr-legacy-2018-recipes24-expansion",
+    "recordUrl": "https://fdc.nal.usda.gov/food-details/171496/nutrients",
+    "publicationDate": "2019-04-01",
+    "nutrientsPer100g": {
+      "kcal": 147,
+      "energyKj": 617,
+      "protein": 30.13,
+      "carbs": 0,
+      "fat": 2.08,
+      "saturatedFat": 0.593,
+      "fiber": 0,
+      "sodium": 99,
+      "addedSugar": null
+    },
+    "nutrientNotes": {
+      "addedSugar": {
+        "en": "Added sugars is not supplied in this source record. Unknown is not zero.",
+        "zh": "此來源紀錄未提供添加糖，未知值不等於零。"
+      }
+    },
+    "modelBasis": {
+      "freeSugarsPer100g": 0,
+      "fvnsEligible": false,
+      "fiberMethod": "AOAC-compatible",
+      "note": {
+        "en": "The source reports total sugars 0 g per 100 g, supporting a derived free-sugars value of 0 for this exact source estimate. This does not fill the unknown added-sugars field or describe an unspecified substitute. The source explicitly reports total sugars 0 g/100 g; free sugars are derived as 0 for this exact plain ingredient. USDA added sugars remain unknown. USDA SR total dietary fiber uses an AOAC-compatible database basis (985.29/991.43); individual values may be calculated or imputed, not individually assayed. This does not establish equivalence to every newer enhanced AOAC assay. This ingredient contributes to recipe mass, not the FVNS numerator.",
+        "zh": "來源每 100 克總糖為 0 克，支持此特定來源估算的游離糖推導值為 0；這不會填補未知的添加糖欄位，也不適用於未指定替代品。來源明示總糖為每 100 克 0 克；僅對此特定原味食材推導游離糖為 0。USDA 添加糖仍未知。USDA SR 總膳食纖維採 AOAC 相容的資料庫方法基礎（985.29／991.43）；個別數值可能來自計算或推估，並非逐項實測，也不代表與每種較新的增強型 AOAC 檢測完全等同。此食材只納入配方總重，不納入 FVNS 分子。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
+        "https://www.ars.usda.gov/ARSUSERFILES/80400535/DATA/PUBLICATIONS/FNR/IMPLICATIONS%20OF%20TWO%20DIRRERENT%20METHODS%20FOR%20ANALYZING%20TOTAL%20DIETARY%20FIBER.PDF",
+        "https://fdc.nal.usda.gov/food-details/171496/nutrients"
+      ]
+    }
+  },
+  {
+    "id": "usda-174091",
+    "fdcId": 174091,
+    "description": "Bread, french or vienna, whole wheat",
+    "label": {
+      "en": "Whole-wheat French or Vienna bread",
+      "zh": "全麥法式或維也納麵包"
+    },
+    "state": "ready-to-eat",
+    "avoidTags": [
+      "Wheat / gluten"
+    ],
+    "unknownAvoidTags": [
+      "Dairy",
+      "Egg",
+      "Soy",
+      "Sesame",
+      "Peanuts",
+      "Tree nuts"
+    ],
+    "sourceId": "usda-sr-legacy-2018-recipes24-expansion",
+    "recordUrl": "https://fdc.nal.usda.gov/food-details/174091/nutrients",
+    "publicationDate": "2019-04-01",
+    "nutrientsPer100g": {
+      "kcal": 239,
+      "energyKj": 1000,
+      "protein": 8.33,
+      "carbs": 49.1,
+      "fat": 1.04,
+      "saturatedFat": 0,
+      "fiber": 4.2,
+      "sodium": 375,
+      "addedSugar": null
+    },
+    "nutrientNotes": {
+      "addedSugar": {
+        "en": "Added sugars is not supplied in this source record. Unknown is not zero.",
+        "zh": "此來源紀錄未提供添加糖，未知值不等於零。"
+      }
+    },
+    "modelBasis": {
+      "freeSugarsPer100g": 0,
+      "fvnsEligible": false,
+      "fiberMethod": "AOAC-compatible",
+      "note": {
+        "en": "The source reports total sugars 0 g per 100 g, supporting a derived free-sugars value of 0 for this exact source estimate. This does not fill the unknown added-sugars field or describe an unspecified substitute. The exact whole-wheat French/Vienna bread source reports total sugars 0 g/100 g, so free sugars are derived as 0 for this record only. This is not a claim about all breads, tortillas or the source of added sugars; the USDA added-sugars field remains missing. Use the specifically named bread, without extra sweetener, filling or coating. This generic USDA bread record does not give a full ingredient list establishing the absence of dairy, egg, soy, sesame, peanuts or tree nuts. Those supported avoids remain unknown and exclude this recipe when selected; this is not a claim that the bread contains them or an assessment of cross-contact. USDA SR total dietary fiber uses an AOAC-compatible database basis (985.29/991.43); individual values may be calculated or imputed, not individually assayed. This does not establish equivalence to every newer enhanced AOAC assay. This ingredient contributes to recipe mass, not the FVNS numerator.",
+        "zh": "來源每 100 克總糖為 0 克，支持此特定來源估算的游離糖推導值為 0；這不會填補未知的添加糖欄位，也不適用於未指定替代品。此全麥法式／維也納麵包的特定來源，總糖明示為每 100 克 0 克，因此僅對此紀錄推導游離糖為 0。這不代表所有麵包或墨西哥餅皮，也不是添加糖實測；USDA 添加糖欄位仍缺漏。限定使用列名麵包，不另加甜味料、夾餡或表面塗料。 此 USDA 一般麵包紀錄沒有完整成分表可確立不含乳製品、蛋、黃豆、芝麻、花生或樹堅果，因此這些支援的忌口項目保留為未知，使用者選擇排除時會排除此配方；這不代表宣稱麵包含有它們，也不是交叉接觸評估。USDA SR 總膳食纖維採 AOAC 相容的資料庫方法基礎（985.29／991.43）；個別數值可能來自計算或推估，並非逐項實測，也不代表與每種較新的增強型 AOAC 檢測完全等同。此食材只納入配方總重，不納入 FVNS 分子。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
+        "https://www.ars.usda.gov/ARSUSERFILES/80400535/DATA/PUBLICATIONS/FNR/IMPLICATIONS%20OF%20TWO%20DIRRERENT%20METHODS%20FOR%20ANALYZING%20TOTAL%20DIETARY%20FIBER.PDF",
+        "https://fdc.nal.usda.gov/food-details/174091/nutrients"
+      ]
+    }
+  },
+  {
+    "id": "usda-170093",
+    "fdcId": 170093,
+    "description": "Potatoes, baked, flesh and skin, without salt",
+    "label": {
+      "en": "Baked potato, flesh and skin, no salt",
+      "zh": "帶皮烤馬鈴薯（無鹽）"
+    },
+    "state": "cooked",
+    "avoidTags": [],
+    "unknownAvoidTags": [],
+    "sourceId": "usda-sr-legacy-2018-recipes24-expansion",
+    "recordUrl": "https://fdc.nal.usda.gov/food-details/170093/nutrients",
+    "publicationDate": "2019-04-01",
+    "nutrientsPer100g": {
+      "kcal": 93,
+      "energyKj": 390,
+      "protein": 2.5,
+      "carbs": 21.15,
+      "fat": 0.13,
+      "saturatedFat": 0.034,
+      "fiber": 2.2,
+      "sodium": 10,
+      "addedSugar": null
+    },
+    "nutrientNotes": {
+      "addedSugar": {
+        "en": "Added sugars is not supplied in this source record. Unknown is not zero.",
+        "zh": "此來源紀錄未提供添加糖，未知值不等於零。"
+      }
+    },
+    "modelBasis": {
+      "freeSugarsPer100g": 0,
+      "fvnsEligible": false,
+      "fiberMethod": "AOAC-compatible",
+      "note": {
+        "en": "Free sugars 0 g is derived for the specified plain ingredient with no added sugars, sugar-containing marinades/additives, or fruit/vegetable puree, juice or paste. It is not a USDA added-sugars measurement. Use the named plain ingredient without added sugar, sweetened marinades or fruit/vegetable puree, powder, juice or paste. Naturally occurring sugars in this intact food or cereal are excluded from free sugars under UK NPM; 0 is a declared-formulation model derivation, not a USDA added-sugars measurement. USDA SR total dietary fiber uses an AOAC-compatible database basis (985.29/991.43); individual values may be calculated or imputed, not individually assayed. This does not establish equivalence to every newer enhanced AOAC assay. This ingredient contributes to recipe mass, not the FVNS numerator.",
+        "zh": "游離糖 0 克依指定原味食材推導：不含添加糖、含糖醃料或添加物，也不含蔬果泥、汁、醬；這不是 USDA 添加糖實測值。限定列名原味食材，不含添加糖、甜醃料、蔬果泥、粉、汁或醬。依 UK NPM，此完整食物或穀物中的天然糖不屬於游離糖；0 是依明示配方規格推導的模型值，不是 USDA 添加糖實測。USDA SR 總膳食纖維採 AOAC 相容的資料庫方法基礎（985.29／991.43）；個別數值可能來自計算或推估，並非逐項實測，也不代表與每種較新的增強型 AOAC 檢測完全等同。此食材只納入配方總重，不納入 FVNS 分子。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
+        "https://www.ars.usda.gov/ARSUSERFILES/80400535/DATA/PUBLICATIONS/FNR/IMPLICATIONS%20OF%20TWO%20DIRRERENT%20METHODS%20FOR%20ANALYZING%20TOTAL%20DIETARY%20FIBER.PDF",
+        "https://fdc.nal.usda.gov/food-details/170093/nutrients"
+      ]
+    }
+  },
+  {
+    "id": "usda-172421",
+    "fdcId": 172421,
+    "description": "Lentils, mature seeds, cooked, boiled, without salt",
+    "label": {
+      "en": "Boiled lentils, no salt",
+      "zh": "水煮扁豆（無鹽）"
+    },
+    "state": "cooked",
+    "avoidTags": [],
+    "unknownAvoidTags": [],
+    "sourceId": "usda-sr-legacy-2018-recipes24-expansion",
+    "recordUrl": "https://fdc.nal.usda.gov/food-details/172421/nutrients",
+    "publicationDate": "2019-04-01",
+    "nutrientsPer100g": {
+      "kcal": 116,
+      "energyKj": 487,
+      "protein": 9.02,
+      "carbs": 20.13,
+      "fat": 0.38,
+      "saturatedFat": 0.053,
+      "fiber": 7.9,
+      "sodium": 2,
+      "addedSugar": null
+    },
+    "nutrientNotes": {
+      "addedSugar": {
+        "en": "Added sugars is not supplied in this source record. Unknown is not zero.",
+        "zh": "此來源紀錄未提供添加糖，未知值不等於零。"
+      }
+    },
+    "modelBasis": {
+      "freeSugarsPer100g": 0,
+      "fvnsEligible": true,
+      "fiberMethod": "AOAC-compatible",
+      "note": {
+        "en": "Free sugars 0 g is derived for the specified plain ingredient with no added sugars, sugar-containing marinades/additives, or fruit/vegetable puree, juice or paste. It is not a USDA added-sugars measurement. Use the named plain ingredient without added sugar, sweetened marinades or fruit/vegetable puree, powder, juice or paste. Naturally occurring sugars in this intact food or cereal are excluded from free sugars under UK NPM; 0 is a declared-formulation model derivation, not a USDA added-sugars measurement. USDA SR total dietary fiber uses an AOAC-compatible database basis (985.29/991.43); individual values may be calculated or imputed, not individually assayed. This does not establish equivalence to every newer enhanced AOAC assay. This ingredient qualifies for FVNS at its documented prepared weight.",
+        "zh": "游離糖 0 克依指定原味食材推導：不含添加糖、含糖醃料或添加物，也不含蔬果泥、汁、醬；這不是 USDA 添加糖實測值。限定列名原味食材，不含添加糖、甜醃料、蔬果泥、粉、汁或醬。依 UK NPM，此完整食物或穀物中的天然糖不屬於游離糖；0 是依明示配方規格推導的模型值，不是 USDA 添加糖實測。USDA SR 總膳食纖維採 AOAC 相容的資料庫方法基礎（985.29／991.43）；個別數值可能來自計算或推估，並非逐項實測，也不代表與每種較新的增強型 AOAC 檢測完全等同。此食材以標示的處理後重量納入 FVNS。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
+        "https://www.ars.usda.gov/ARSUSERFILES/80400535/DATA/PUBLICATIONS/FNR/IMPLICATIONS%20OF%20TWO%20DIRRERENT%20METHODS%20FOR%20ANALYZING%20TOTAL%20DIETARY%20FIBER.PDF",
+        "https://fdc.nal.usda.gov/food-details/172421/nutrients"
+      ]
+    }
+  },
+  {
+    "id": "usda-170894",
+    "fdcId": 170894,
+    "description": "Yogurt, Greek, plain, nonfat (Includes foods for USDA's Food Distribution Program)",
+    "label": {
+      "en": "Plain nonfat Greek yogurt",
+      "zh": "原味脫脂希臘優格"
+    },
+    "state": "ready-to-eat",
+    "avoidTags": [
+      "Dairy"
+    ],
+    "unknownAvoidTags": [],
+    "sourceId": "usda-sr-legacy-2018-recipes24-expansion",
+    "recordUrl": "https://fdc.nal.usda.gov/food-details/170894/nutrients",
+    "publicationDate": "2019-04-01",
+    "nutrientsPer100g": {
+      "kcal": 59,
+      "energyKj": 246,
+      "protein": 10.19,
+      "carbs": 3.6,
+      "fat": 0.39,
+      "saturatedFat": 0.117,
+      "fiber": 0,
+      "sodium": 36,
+      "addedSugar": null
+    },
+    "nutrientNotes": {
+      "addedSugar": {
+        "en": "Added sugars is not supplied in this source record. Unknown is not zero.",
+        "zh": "此來源紀錄未提供添加糖，未知值不等於零。"
+      }
+    },
+    "modelBasis": {
+      "freeSugarsPer100g": 0,
+      "fvnsEligible": false,
+      "fiberMethod": "AOAC-compatible",
+      "note": {
+        "en": "Free sugars 0 g is derived for the specified plain ingredient with no added sugars, sugar-containing marinades/additives, or fruit/vegetable puree, juice or paste. It is not a USDA added-sugars measurement. Use plain unsweetened nonfat dairy Greek yogurt, not lactose-hydrolysed yogurt and without whey powder or added sugar. Naturally occurring dairy lactose is excluded from UK NPM free sugars; derived free sugars 0 is not the unknown USDA added-sugars field. Dairy contributes no FVNS. USDA SR total dietary fiber uses an AOAC-compatible database basis (985.29/991.43); individual values may be calculated or imputed, not individually assayed. This does not establish equivalence to every newer enhanced AOAC assay. This ingredient contributes to recipe mass, not the FVNS numerator.",
+        "zh": "游離糖 0 克依指定原味食材推導：不含添加糖、含糖醃料或添加物，也不含蔬果泥、汁、醬；這不是 USDA 添加糖實測值。限定原味無加糖的脫脂乳製希臘優格，不使用乳糖水解優格，不含乳清粉或添加糖。乳製品天然乳糖不納入 UK NPM 游離糖；推導的游離糖 0 並非未知的 USDA 添加糖欄位。乳製品不納入 FVNS。USDA SR 總膳食纖維採 AOAC 相容的資料庫方法基礎（985.29／991.43）；個別數值可能來自計算或推估，並非逐項實測，也不代表與每種較新的增強型 AOAC 檢測完全等同。此食材只納入配方總重，不納入 FVNS 分子。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
+        "https://www.ars.usda.gov/ARSUSERFILES/80400535/DATA/PUBLICATIONS/FNR/IMPLICATIONS%20OF%20TWO%20DIRRERENT%20METHODS%20FOR%20ANALYZING%20TOTAL%20DIETARY%20FIBER.PDF",
+        "https://fdc.nal.usda.gov/food-details/170894/nutrients"
+      ]
+    }
+  },
+  {
+    "id": "usda-173905",
+    "fdcId": 173905,
+    "description": "Cereals, oats, regular and quick, unenriched, cooked with water (includes boiling and microwaving), without salt",
+    "label": {
+      "en": "Oats cooked with water, no salt",
+      "zh": "以水煮熟的燕麥（無鹽）"
+    },
+    "state": "cooked",
+    "avoidTags": [],
+    "unknownAvoidTags": [],
+    "sourceId": "usda-sr-legacy-2018-recipes24-expansion",
+    "recordUrl": "https://fdc.nal.usda.gov/food-details/173905/nutrients",
+    "publicationDate": "2019-04-01",
+    "nutrientsPer100g": {
+      "kcal": 71,
+      "energyKj": 297,
+      "protein": 2.54,
+      "carbs": 12,
+      "fat": 1.52,
+      "saturatedFat": 0.31,
+      "fiber": 1.7,
+      "sodium": 4,
+      "addedSugar": null
+    },
+    "nutrientNotes": {
+      "addedSugar": {
+        "en": "Added sugars is not supplied in this source record. Unknown is not zero.",
+        "zh": "此來源紀錄未提供添加糖，未知值不等於零。"
+      }
+    },
+    "modelBasis": {
+      "freeSugarsPer100g": 0,
+      "fvnsEligible": false,
+      "fiberMethod": "AOAC-compatible",
+      "note": {
+        "en": "Free sugars 0 g is derived for the specified plain ingredient with no added sugars, sugar-containing marinades/additives, or fruit/vegetable puree, juice or paste. It is not a USDA added-sugars measurement. Use the named plain ingredient without added sugar, sweetened marinades or fruit/vegetable puree, powder, juice or paste. Naturally occurring sugars in this intact food or cereal are excluded from free sugars under UK NPM; 0 is a declared-formulation model derivation, not a USDA added-sugars measurement. USDA SR total dietary fiber uses an AOAC-compatible database basis (985.29/991.43); individual values may be calculated or imputed, not individually assayed. This does not establish equivalence to every newer enhanced AOAC assay. This ingredient contributes to recipe mass, not the FVNS numerator.",
+        "zh": "游離糖 0 克依指定原味食材推導：不含添加糖、含糖醃料或添加物，也不含蔬果泥、汁、醬；這不是 USDA 添加糖實測值。限定列名原味食材，不含添加糖、甜醃料、蔬果泥、粉、汁或醬。依 UK NPM，此完整食物或穀物中的天然糖不屬於游離糖；0 是依明示配方規格推導的模型值，不是 USDA 添加糖實測。USDA SR 總膳食纖維採 AOAC 相容的資料庫方法基礎（985.29／991.43）；個別數值可能來自計算或推估，並非逐項實測，也不代表與每種較新的增強型 AOAC 檢測完全等同。此食材只納入配方總重，不納入 FVNS 分子。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
+        "https://www.ars.usda.gov/ARSUSERFILES/80400535/DATA/PUBLICATIONS/FNR/IMPLICATIONS%20OF%20TWO%20DIRRERENT%20METHODS%20FOR%20ANALYZING%20TOTAL%20DIETARY%20FIBER.PDF",
+        "https://fdc.nal.usda.gov/food-details/173905/nutrients"
+      ]
+    }
+  },
+  {
+    "id": "usda-171711",
+    "fdcId": 171711,
+    "description": "Blueberries, raw",
+    "label": {
+      "en": "Raw whole blueberries",
+      "zh": "新鮮完整藍莓"
+    },
+    "state": "raw",
+    "avoidTags": [],
+    "unknownAvoidTags": [],
+    "sourceId": "usda-sr-legacy-2018-recipes24-expansion",
+    "recordUrl": "https://fdc.nal.usda.gov/food-details/171711/nutrients",
+    "publicationDate": "2019-04-01",
+    "nutrientsPer100g": {
+      "kcal": 57,
+      "energyKj": 240,
+      "protein": 0.74,
+      "carbs": 14.49,
+      "fat": 0.33,
+      "saturatedFat": 0.028,
+      "fiber": 2.4,
+      "sodium": 1,
+      "addedSugar": null
+    },
+    "nutrientNotes": {
+      "addedSugar": {
+        "en": "Added sugars is not supplied in this source record. Unknown is not zero.",
+        "zh": "此來源紀錄未提供添加糖，未知值不等於零。"
+      }
+    },
+    "modelBasis": {
+      "freeSugarsPer100g": 0,
+      "fvnsEligible": true,
+      "fiberMethod": "AOAC-compatible",
+      "note": {
+        "en": "Free sugars 0 g is derived for the specified plain ingredient with no added sugars, sugar-containing marinades/additives, or fruit/vegetable puree, juice or paste. It is not a USDA added-sugars measurement. Use the named plain ingredient without added sugar, sweetened marinades or fruit/vegetable puree, powder, juice or paste. Naturally occurring sugars in this intact food or cereal are excluded from free sugars under UK NPM; 0 is a declared-formulation model derivation, not a USDA added-sugars measurement. USDA SR total dietary fiber uses an AOAC-compatible database basis (985.29/991.43); individual values may be calculated or imputed, not individually assayed. This does not establish equivalence to every newer enhanced AOAC assay. This ingredient qualifies for FVNS at its documented prepared weight.",
+        "zh": "游離糖 0 克依指定原味食材推導：不含添加糖、含糖醃料或添加物，也不含蔬果泥、汁、醬；這不是 USDA 添加糖實測值。限定列名原味食材，不含添加糖、甜醃料、蔬果泥、粉、汁或醬。依 UK NPM，此完整食物或穀物中的天然糖不屬於游離糖；0 是依明示配方規格推導的模型值，不是 USDA 添加糖實測。USDA SR 總膳食纖維採 AOAC 相容的資料庫方法基礎（985.29／991.43）；個別數值可能來自計算或推估，並非逐項實測，也不代表與每種較新的增強型 AOAC 檢測完全等同。此食材以標示的處理後重量納入 FVNS。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
+        "https://www.ars.usda.gov/ARSUSERFILES/80400535/DATA/PUBLICATIONS/FNR/IMPLICATIONS%20OF%20TWO%20DIRRERENT%20METHODS%20FOR%20ANALYZING%20TOTAL%20DIETARY%20FIBER.PDF",
+        "https://fdc.nal.usda.gov/food-details/171711/nutrients"
+      ]
+    }
+  },
+  {
+    "id": "usda-169640",
+    "fdcId": 169640,
+    "description": "Honey",
+    "label": {
+      "en": "Honey",
+      "zh": "蜂蜜"
+    },
+    "state": "ready-to-eat",
+    "avoidTags": [],
+    "unknownAvoidTags": [],
+    "sourceId": "usda-sr-legacy-2018-recipes24-expansion",
+    "recordUrl": "https://fdc.nal.usda.gov/food-details/169640/nutrients",
+    "publicationDate": "2019-04-01",
+    "nutrientsPer100g": {
+      "kcal": 304,
+      "energyKj": 1272,
+      "protein": 0.3,
+      "carbs": 82.4,
+      "fat": 0,
+      "saturatedFat": 0,
+      "fiber": 0.2,
+      "sodium": 4,
+      "addedSugar": null
+    },
+    "nutrientNotes": {
+      "addedSugar": {
+        "en": "Added sugars is not supplied in this source record. Unknown is not zero.",
+        "zh": "此來源紀錄未提供添加糖，未知值不等於零。"
+      }
+    },
+    "modelBasis": {
+      "freeSugarsPer100g": 82.12,
+      "fvnsEligible": false,
+      "fiberMethod": "AOAC-compatible",
+      "note": {
+        "en": "All 82.12 g of source-reported total sugars per 100 g qualify as free sugars under the reviewed ingredient classification. This is a model derivation, not a USDA added-sugars measurement. UK NPM includes all honey sugars as free sugars. The derived input uses this exact USDA record's nutrient 2000 total sugars (82.12 g/100 g), not a zero assumption or an added-sugars measurement. Honey contributes no FVNS. USDA SR total dietary fiber uses an AOAC-compatible database basis (985.29/991.43); individual values may be calculated or imputed, not individually assayed. This does not establish equivalence to every newer enhanced AOAC assay. This ingredient contributes to recipe mass, not the FVNS numerator.",
+        "zh": "依已審核食材分類，來源每 100 克的總糖 82.12 克全部計為游離糖。這是模型推導，並非 USDA 添加糖實測值。UK NPM 將蜂蜜中的所有糖計入游離糖。推導值使用此筆 USDA 紀錄的營養素 2000 總糖（每 100 克 82.12 克），不是假設為零，也不是添加糖實測。蜂蜜不納入 FVNS。USDA SR 總膳食纖維採 AOAC 相容的資料庫方法基礎（985.29／991.43）；個別數值可能來自計算或推估，並非逐項實測，也不代表與每種較新的增強型 AOAC 檢測完全等同。此食材只納入配方總重，不納入 FVNS 分子。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
+        "https://www.ars.usda.gov/ARSUSERFILES/80400535/DATA/PUBLICATIONS/FNR/IMPLICATIONS%20OF%20TWO%20DIRRERENT%20METHODS%20FOR%20ANALYZING%20TOTAL%20DIETARY%20FIBER.PDF",
+        "https://fdc.nal.usda.gov/food-details/169640/nutrients"
+      ]
+    }
+  },
+  {
+    "id": "usda-167747",
+    "fdcId": 167747,
+    "description": "Lemon juice, raw",
+    "label": {
+      "en": "Raw lemon juice",
+      "zh": "新鮮檸檬汁"
+    },
+    "state": "raw",
+    "avoidTags": [],
+    "unknownAvoidTags": [],
+    "sourceId": "usda-sr-legacy-2018-recipes24-expansion",
+    "recordUrl": "https://fdc.nal.usda.gov/food-details/167747/nutrients",
+    "publicationDate": "2019-04-01",
+    "nutrientsPer100g": {
+      "kcal": 22,
+      "energyKj": 91,
+      "protein": 0.35,
+      "carbs": 6.9,
+      "fat": 0.24,
+      "saturatedFat": 0.04,
+      "fiber": 0.3,
+      "sodium": 1,
+      "addedSugar": null
+    },
+    "nutrientNotes": {
+      "addedSugar": {
+        "en": "Added sugars is not supplied in this source record. Unknown is not zero.",
+        "zh": "此來源紀錄未提供添加糖，未知值不等於零。"
+      }
+    },
+    "modelBasis": {
+      "freeSugarsPer100g": 2.52,
+      "fvnsEligible": true,
+      "fiberMethod": "AOAC-compatible",
+      "note": {
+        "en": "All 2.52 g of source-reported total sugars per 100 g qualify as free sugars under the reviewed ingredient classification. This is a model derivation, not a USDA added-sugars measurement. All sugars in lemon juice are free sugars under UK NPM. The derived input uses nutrient 2000 total sugars from this exact record (2.52 g/100 g). Fresh 100% juice counts toward FVNS at its raw weight; recipes using it contain only raw-state qualifying FVNS ingredients. This is not a USDA added-sugars measurement. USDA SR total dietary fiber uses an AOAC-compatible database basis (985.29/991.43); individual values may be calculated or imputed, not individually assayed. This does not establish equivalence to every newer enhanced AOAC assay. This ingredient qualifies for FVNS at its documented prepared weight.",
+        "zh": "依已審核食材分類，來源每 100 克的總糖 2.52 克全部計為游離糖。這是模型推導，並非 USDA 添加糖實測值。依 UK NPM，檸檬汁中的所有糖均屬游離糖；推導值使用此筆來源營養素 2000 的總糖（每 100 克 2.52 克）。新鮮百分之百果汁依生重納入 FVNS，使用此汁的配方之其他合格 FVNS 食材也皆採生重。這不是 USDA 添加糖實測。USDA SR 總膳食纖維採 AOAC 相容的資料庫方法基礎（985.29／991.43）；個別數值可能來自計算或推估，並非逐項實測，也不代表與每種較新的增強型 AOAC 檢測完全等同。此食材以標示的處理後重量納入 FVNS。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
+        "https://www.ars.usda.gov/ARSUSERFILES/80400535/DATA/PUBLICATIONS/FNR/IMPLICATIONS%20OF%20TWO%20DIRRERENT%20METHODS%20FOR%20ANALYZING%20TOTAL%20DIETARY%20FIBER.PDF",
+        "https://fdc.nal.usda.gov/food-details/167747/nutrients"
+      ]
+    }
+  },
+  {
+    "id": "usda-169193",
+    "fdcId": 169193,
+    "description": "Pork, ground, 96% lean / 4% fat, cooked, crumbles",
+    "label": {
+      "en": "Cooked crumbles from 96% lean / 4% fat ground pork",
+      "zh": "96% 瘦肉／4% 脂肪豬絞肉的熟碎粒"
+    },
+    "state": "cooked",
+    "avoidTags": [
+      "Pork"
+    ],
+    "unknownAvoidTags": [],
+    "sourceId": "usda-sr-legacy-2018-recipes36-expansion",
+    "recordUrl": "https://fdc.nal.usda.gov/food-details/169193/nutrients",
+    "publicationDate": "2019-04-01",
+    "nutrientsPer100g": {
+      "kcal": 187,
+      "energyKj": 781,
+      "protein": 30.55,
+      "carbs": 0,
+      "fat": 7.15,
+      "saturatedFat": 1.951,
+      "fiber": 0,
+      "sodium": 84,
+      "addedSugar": null
+    },
+    "nutrientNotes": {
+      "addedSugar": {
+        "en": "Added sugars is not supplied in this source record. Unknown is not zero.",
+        "zh": "此來源紀錄未提供添加糖，未知值不等於零。"
+      }
+    },
+    "modelBasis": {
+      "freeSugarsPer100g": 0,
+      "fvnsEligible": false,
+      "fiberMethod": "AOAC-compatible",
+      "note": {
+        "en": "The source reports total sugars 0 g per 100 g, supporting a derived free-sugars value of 0 for this exact source estimate. This does not fill the unknown added-sugars field or describe an unspecified substitute. The exact source reports total sugars 0 g/100 g, so free sugars are derived as 0 for this plain ingredient. Use no breading, sweetened marinade or added sauce. USDA added sugars remain unknown. The 96% lean / 4% fat description identifies the starting ground-pork formulation, not the cooked nutrient proportion; the source reports 7.15 g total fat/100 g cooked crumbles. USDA SR total dietary fiber uses an AOAC-compatible database basis (985.29/991.43); individual values may be calculated or imputed, not individually assayed. This does not establish equivalence to every newer enhanced AOAC assay. This ingredient contributes to recipe mass, not the FVNS numerator.",
+        "zh": "來源每 100 克總糖為 0 克，支持此特定來源估算的游離糖推導值為 0；這不會填補未知的添加糖欄位，也不適用於未指定替代品。此特定來源明示總糖為每 100 克 0 克，因此原味食材的游離糖推導為 0；不加裹粉、甜醃料或醬汁。USDA 添加糖仍未知。 96% 瘦肉／4% 脂肪是原豬絞肉配方描述，不是熟肉營養比例；來源每 100 克熟碎粒含總脂肪 7.15 克。USDA SR 總膳食纖維採 AOAC 相容的資料庫方法基礎（985.29／991.43）；個別數值可能來自計算或推估，並非逐項實測，也不代表與每種較新的增強型 AOAC 檢測完全等同。此食材只納入配方總重，不納入 FVNS 分子。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
+        "https://www.ars.usda.gov/ARSUSERFILES/80400535/DATA/PUBLICATIONS/FNR/IMPLICATIONS%20OF%20TWO%20DIRRERENT%20METHODS%20FOR%20ANALYZING%20TOTAL%20DIETARY%20FIBER.PDF",
+        "https://fdc.nal.usda.gov/food-details/169193/nutrients"
+      ]
+    }
+  },
+  {
+    "id": "usda-171956",
+    "fdcId": 171956,
+    "description": "Fish, cod, Atlantic, cooked, dry heat",
+    "label": {
+      "en": "Baked Atlantic cod",
+      "zh": "烤大西洋鱈魚"
+    },
+    "state": "cooked",
+    "avoidTags": [
+      "Fishy seafood"
+    ],
+    "unknownAvoidTags": [],
+    "sourceId": "usda-sr-legacy-2018-recipes36-expansion",
+    "recordUrl": "https://fdc.nal.usda.gov/food-details/171956/nutrients",
+    "publicationDate": "2019-04-01",
+    "nutrientsPer100g": {
+      "kcal": 105,
+      "energyKj": 440,
+      "protein": 22.83,
+      "carbs": 0,
+      "fat": 0.86,
+      "saturatedFat": 0.168,
+      "fiber": 0,
+      "sodium": 78,
+      "addedSugar": null
+    },
+    "nutrientNotes": {
+      "addedSugar": {
+        "en": "Added sugars is not supplied in this source record. Unknown is not zero.",
+        "zh": "此來源紀錄未提供添加糖，未知值不等於零。"
+      }
+    },
+    "modelBasis": {
+      "freeSugarsPer100g": 0,
+      "fvnsEligible": false,
+      "fiberMethod": "AOAC-compatible",
+      "note": {
+        "en": "The source reports total sugars 0 g per 100 g, supporting a derived free-sugars value of 0 for this exact source estimate. This does not fill the unknown added-sugars field or describe an unspecified substitute. The exact source reports total sugars 0 g/100 g, so free sugars are derived as 0 for this plain ingredient. Use no breading, sweetened marinade or added sauce. USDA added sugars remain unknown. USDA SR total dietary fiber uses an AOAC-compatible database basis (985.29/991.43); individual values may be calculated or imputed, not individually assayed. This does not establish equivalence to every newer enhanced AOAC assay. This ingredient contributes to recipe mass, not the FVNS numerator.",
+        "zh": "來源每 100 克總糖為 0 克，支持此特定來源估算的游離糖推導值為 0；這不會填補未知的添加糖欄位，也不適用於未指定替代品。此特定來源明示總糖為每 100 克 0 克，因此原味食材的游離糖推導為 0；不加裹粉、甜醃料或醬汁。USDA 添加糖仍未知。USDA SR 總膳食纖維採 AOAC 相容的資料庫方法基礎（985.29／991.43）；個別數值可能來自計算或推估，並非逐項實測，也不代表與每種較新的增強型 AOAC 檢測完全等同。此食材只納入配方總重，不納入 FVNS 分子。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
+        "https://www.ars.usda.gov/ARSUSERFILES/80400535/DATA/PUBLICATIONS/FNR/IMPLICATIONS%20OF%20TWO%20DIRRERENT%20METHODS%20FOR%20ANALYZING%20TOTAL%20DIETARY%20FIBER.PDF",
+        "https://fdc.nal.usda.gov/food-details/171956/nutrients"
+      ]
+    }
+  },
+  {
+    "id": "usda-173757",
+    "fdcId": 173757,
+    "description": "Chickpeas (garbanzo beans, bengal gram), mature seeds, cooked, boiled, without salt",
+    "label": {
+      "en": "Boiled chickpeas, no salt",
+      "zh": "水煮鷹嘴豆（無鹽）"
+    },
+    "state": "cooked",
+    "avoidTags": [],
+    "unknownAvoidTags": [],
+    "sourceId": "usda-sr-legacy-2018-recipes36-expansion",
+    "recordUrl": "https://fdc.nal.usda.gov/food-details/173757/nutrients",
+    "publicationDate": "2019-04-01",
+    "nutrientsPer100g": {
+      "kcal": 164,
+      "energyKj": 686,
+      "protein": 8.86,
+      "carbs": 27.42,
+      "fat": 2.59,
+      "saturatedFat": 0.269,
+      "fiber": 7.6,
+      "sodium": 7,
+      "addedSugar": null
+    },
+    "nutrientNotes": {
+      "addedSugar": {
+        "en": "Added sugars is not supplied in this source record. Unknown is not zero.",
+        "zh": "此來源紀錄未提供添加糖，未知值不等於零。"
+      }
+    },
+    "modelBasis": {
+      "freeSugarsPer100g": 0,
+      "fvnsEligible": true,
+      "fiberMethod": "AOAC-compatible",
+      "note": {
+        "en": "Free sugars 0 g is derived for the specified plain ingredient with no added sugars, sugar-containing marinades/additives, or fruit/vegetable puree, juice or paste. It is not a USDA added-sugars measurement. The recipe specifies this plain intact food without added sugars or fruit/vegetable puree, juice, paste or powder. UK NPM excludes its naturally occurring sugars from free sugars. The derived 0 is a formulation assumption, not a missing nutrient converted to zero; USDA added sugars remain unknown. USDA SR total dietary fiber uses an AOAC-compatible database basis (985.29/991.43); individual values may be calculated or imputed, not individually assayed. This does not establish equivalence to every newer enhanced AOAC assay. This ingredient qualifies for FVNS at its documented prepared weight.",
+        "zh": "游離糖 0 克依指定原味食材推導：不含添加糖、含糖醃料或添加物，也不含蔬果泥、汁、醬；這不是 USDA 添加糖實測值。配方限定此原味完整食物，不含添加糖或蔬果泥、汁、醬、粉。依 UK NPM，其天然糖不屬於游離糖；推導的 0 是明示配方假設，不是把缺漏營養值當成零。USDA 添加糖仍未知。USDA SR 總膳食纖維採 AOAC 相容的資料庫方法基礎（985.29／991.43）；個別數值可能來自計算或推估，並非逐項實測，也不代表與每種較新的增強型 AOAC 檢測完全等同。此食材以標示的處理後重量納入 FVNS。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
+        "https://www.ars.usda.gov/ARSUSERFILES/80400535/DATA/PUBLICATIONS/FNR/IMPLICATIONS%20OF%20TWO%20DIRRERENT%20METHODS%20FOR%20ANALYZING%20TOTAL%20DIETARY%20FIBER.PDF",
+        "https://fdc.nal.usda.gov/food-details/173757/nutrients"
+      ]
+    }
+  },
+  {
+    "id": "usda-175203",
+    "fdcId": 175203,
+    "description": "Beans, white, mature seeds, cooked, boiled, without salt",
+    "label": {
+      "en": "Boiled white beans, no salt",
+      "zh": "水煮白菜豆（無鹽）"
+    },
+    "state": "cooked",
+    "avoidTags": [],
+    "unknownAvoidTags": [],
+    "sourceId": "usda-sr-legacy-2018-recipes36-expansion",
+    "recordUrl": "https://fdc.nal.usda.gov/food-details/175203/nutrients",
+    "publicationDate": "2019-04-01",
+    "nutrientsPer100g": {
+      "kcal": 139,
+      "energyKj": 581,
+      "protein": 9.73,
+      "carbs": 25.09,
+      "fat": 0.35,
+      "saturatedFat": 0.091,
+      "fiber": 6.3,
+      "sodium": 6,
+      "addedSugar": null
+    },
+    "nutrientNotes": {
+      "addedSugar": {
+        "en": "Added sugars is not supplied in this source record. Unknown is not zero.",
+        "zh": "此來源紀錄未提供添加糖，未知值不等於零。"
+      }
+    },
+    "modelBasis": {
+      "freeSugarsPer100g": 0,
+      "fvnsEligible": true,
+      "fiberMethod": "AOAC-compatible",
+      "note": {
+        "en": "Free sugars 0 g is derived for the specified plain ingredient with no added sugars, sugar-containing marinades/additives, or fruit/vegetable puree, juice or paste. It is not a USDA added-sugars measurement. The recipe specifies this plain intact food without added sugars or fruit/vegetable puree, juice, paste or powder. UK NPM excludes its naturally occurring sugars from free sugars. The derived 0 is a formulation assumption, not a missing nutrient converted to zero; USDA added sugars remain unknown. USDA SR total dietary fiber uses an AOAC-compatible database basis (985.29/991.43); individual values may be calculated or imputed, not individually assayed. This does not establish equivalence to every newer enhanced AOAC assay. This ingredient qualifies for FVNS at its documented prepared weight.",
+        "zh": "游離糖 0 克依指定原味食材推導：不含添加糖、含糖醃料或添加物，也不含蔬果泥、汁、醬；這不是 USDA 添加糖實測值。配方限定此原味完整食物，不含添加糖或蔬果泥、汁、醬、粉。依 UK NPM，其天然糖不屬於游離糖；推導的 0 是明示配方假設，不是把缺漏營養值當成零。USDA 添加糖仍未知。USDA SR 總膳食纖維採 AOAC 相容的資料庫方法基礎（985.29／991.43）；個別數值可能來自計算或推估，並非逐項實測，也不代表與每種較新的增強型 AOAC 檢測完全等同。此食材以標示的處理後重量納入 FVNS。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
+        "https://www.ars.usda.gov/ARSUSERFILES/80400535/DATA/PUBLICATIONS/FNR/IMPLICATIONS%20OF%20TWO%20DIRRERENT%20METHODS%20FOR%20ANALYZING%20TOTAL%20DIETARY%20FIBER.PDF",
+        "https://fdc.nal.usda.gov/food-details/175203/nutrients"
+      ]
+    }
+  },
+  {
+    "id": "usda-172182",
+    "fdcId": 172182,
+    "description": "Cheese, cottage, lowfat, 2% milkfat",
+    "label": {
+      "en": "Plain cottage cheese, 2% milkfat",
+      "zh": "原味 2% 乳脂茅屋起司"
+    },
+    "state": "ready-to-eat",
+    "avoidTags": [
+      "Dairy"
+    ],
+    "unknownAvoidTags": [],
+    "sourceId": "usda-sr-legacy-2018-recipes36-expansion",
+    "recordUrl": "https://fdc.nal.usda.gov/food-details/172182/nutrients",
+    "publicationDate": "2019-04-01",
+    "nutrientsPer100g": {
+      "kcal": 81,
+      "energyKj": 340,
+      "protein": 10.45,
+      "carbs": 4.76,
+      "fat": 2.27,
+      "saturatedFat": 1.235,
+      "fiber": 0,
+      "sodium": 308,
+      "addedSugar": null
+    },
+    "nutrientNotes": {
+      "addedSugar": {
+        "en": "Added sugars is not supplied in this source record. Unknown is not zero.",
+        "zh": "此來源紀錄未提供添加糖，未知值不等於零。"
+      }
+    },
+    "modelBasis": {
+      "freeSugarsPer100g": 0,
+      "fvnsEligible": false,
+      "fiberMethod": "AOAC-compatible",
+      "note": {
+        "en": "Free sugars 0 g is derived for the specified plain ingredient with no added sugars, sugar-containing marinades/additives, or fruit/vegetable puree, juice or paste. It is not a USDA added-sugars measurement. Use plain unsweetened 2%-milkfat dairy cottage cheese, without hydrolysed lactose, whey powder, fruit preparation or added sugars. Naturally occurring dairy lactose is excluded from UK NPM free sugars. The derived 0 is not the unknown USDA added-sugars field. Cottage cheese contributes no FVNS. USDA SR total dietary fiber uses an AOAC-compatible database basis (985.29/991.43); individual values may be calculated or imputed, not individually assayed. This does not establish equivalence to every newer enhanced AOAC assay. This ingredient contributes to recipe mass, not the FVNS numerator.",
+        "zh": "游離糖 0 克依指定原味食材推導：不含添加糖、含糖醃料或添加物，也不含蔬果泥、汁、醬；這不是 USDA 添加糖實測值。限定原味無加糖的 2% 乳脂乳製茅屋起司，不含水解乳糖、乳清粉、水果調製物或添加糖。乳製品天然乳糖不納入 UK NPM 游離糖；推導的 0 並非未知的 USDA 添加糖欄位。茅屋起司不納入 FVNS。USDA SR 總膳食纖維採 AOAC 相容的資料庫方法基礎（985.29／991.43）；個別數值可能來自計算或推估，並非逐項實測，也不代表與每種較新的增強型 AOAC 檢測完全等同。此食材只納入配方總重，不納入 FVNS 分子。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
+        "https://www.ars.usda.gov/ARSUSERFILES/80400535/DATA/PUBLICATIONS/FNR/IMPLICATIONS%20OF%20TWO%20DIRRERENT%20METHODS%20FOR%20ANALYZING%20TOTAL%20DIETARY%20FIBER.PDF",
+        "https://fdc.nal.usda.gov/food-details/172182/nutrients"
+      ]
+    }
+  },
+  {
+    "id": "usda-173768",
+    "fdcId": 173768,
+    "description": "Soymilk, original and vanilla, light, unsweetened, with added calcium, vitamins A and D",
+    "label": {
+      "en": "Light unsweetened original/vanilla soy drink, fortified with calcium and vitamins A and D",
+      "zh": "Light 款無加糖原味／香草豆飲（強化鈣、維生素 A 與 D）"
+    },
+    "state": "ready-to-eat",
+    "avoidTags": [
+      "Soy"
+    ],
+    "unknownAvoidTags": [
+      "Dairy",
+      "Egg",
+      "Wheat / gluten",
+      "Peanuts",
+      "Tree nuts",
+      "Sesame"
+    ],
+    "sourceId": "usda-sr-legacy-2018-recipes36-expansion",
+    "recordUrl": "https://fdc.nal.usda.gov/food-details/173768/nutrients",
+    "publicationDate": "2019-04-01",
+    "nutrientsPer100g": {
+      "kcal": 34,
+      "energyKj": 140,
+      "protein": 2.62,
+      "carbs": 3.85,
+      "fat": 0.85,
+      "saturatedFat": 0.078,
+      "fiber": 0.6,
+      "sodium": 63,
+      "addedSugar": null
+    },
+    "nutrientNotes": {
+      "addedSugar": {
+        "en": "Added sugars is not supplied in this source record. Unknown is not zero.",
+        "zh": "此來源紀錄未提供添加糖，未知值不等於零。"
+      }
+    },
+    "modelBasis": {
+      "freeSugarsPer100g": 0.41,
+      "fvnsEligible": null,
+      "fiberMethod": "AOAC-compatible",
+      "note": {
+        "en": "All 0.41 g of source-reported total sugars per 100 g qualify as free sugars under the reviewed ingredient classification. This is a model derivation, not a USDA added-sugars measurement. UK NPM treats all sugars in non-dairy drinks as free sugars, even when the drink is unsweetened. Use this exact source nutrient 2000 total sugars value, 0.41 g/100 g, for the soy drink contribution. This light fortified original/vanilla soy drink is not plain unfortified soy milk or a measured brand. Its FVNS interpretation and qualifying soy proportion are unresolved: the generic source does not establish the processing details and ingredient weights needed for that calculation. No FVNS zero is assumed, and this retained source is not used by a scored recipe. USDA added sugars remain unknown. The generic source does not provide a full ingredient list establishing the absence of dairy, egg, wheat/gluten, peanuts, tree nuts or sesame. Those formulation avoids remain unknown and exclude the recipe when selected; soy is a known ingredient. These declarations do not claim those unknown ingredients are present or assess cross-contact. USDA SR total dietary fiber uses an AOAC-compatible database basis (985.29/991.43); individual values may be calculated or imputed, not individually assayed. This does not establish equivalence to every newer enhanced AOAC assay. FVNS treatment is unresolved.",
+        "zh": "依已審核食材分類，來源每 100 克的總糖 0.41 克全部計為游離糖。這是模型推導，並非 USDA 添加糖實測值。UK NPM 將非乳製飲料中的所有糖計為游離糖，即使飲料沒有加糖也一樣。豆飲的貢獻使用此筆來源營養素 2000 總糖，每 100 克 0.41 克。此來源是來源命名為 Light 款的強化原味／香草豆飲，不代表一般未強化豆漿或特定品牌實測。FVNS 判讀及可計入的豆類比例尚未解決：此一般來源未確立計算所需的處理方式及成分重量，不假設 FVNS 為零；此保留來源不供計分配方使用。USDA 添加糖仍未知。 此一般來源沒有完整成分表可確立不含乳製品、蛋、小麥／麩質、花生、樹堅果或芝麻，因此這些配方忌口項目保留未知，選擇排除時會排除此配方；黃豆是已知食材。這些宣告不表示未知食材確實存在，也不是交叉接觸評估。USDA SR 總膳食纖維採 AOAC 相容的資料庫方法基礎（985.29／991.43）；個別數值可能來自計算或推估，並非逐項實測，也不代表與每種較新的增強型 AOAC 檢測完全等同。FVNS 分類尚未解決。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
+        "https://www.ars.usda.gov/ARSUSERFILES/80400535/DATA/PUBLICATIONS/FNR/IMPLICATIONS%20OF%20TWO%20DIRRERENT%20METHODS%20FOR%20ANALYZING%20TOTAL%20DIETARY%20FIBER.PDF",
+        "https://fdc.nal.usda.gov/food-details/173768/nutrients"
+      ]
+    }
+  },
+  {
+    "id": "usda-170391",
+    "fdcId": 170391,
+    "description": "Cabbage, chinese (pak-choi), cooked, boiled, drained, without salt",
+    "label": {
+      "en": "Boiled drained bok choy, no salt",
+      "zh": "水煮瀝乾青江菜（無鹽）"
+    },
+    "state": "cooked",
+    "avoidTags": [],
+    "unknownAvoidTags": [],
+    "sourceId": "usda-sr-legacy-2018-recipes36-expansion",
+    "recordUrl": "https://fdc.nal.usda.gov/food-details/170391/nutrients",
+    "publicationDate": "2019-04-01",
+    "nutrientsPer100g": {
+      "kcal": 12,
+      "energyKj": 48,
+      "protein": 1.56,
+      "carbs": 1.78,
+      "fat": 0.16,
+      "saturatedFat": 0.021,
+      "fiber": 1,
+      "sodium": 34,
+      "addedSugar": null
+    },
+    "nutrientNotes": {
+      "addedSugar": {
+        "en": "Added sugars is not supplied in this source record. Unknown is not zero.",
+        "zh": "此來源紀錄未提供添加糖，未知值不等於零。"
+      }
+    },
+    "modelBasis": {
+      "freeSugarsPer100g": 0,
+      "fvnsEligible": true,
+      "fiberMethod": "AOAC-compatible",
+      "note": {
+        "en": "Free sugars 0 g is derived for the specified plain ingredient with no added sugars, sugar-containing marinades/additives, or fruit/vegetable puree, juice or paste. It is not a USDA added-sugars measurement. The recipe specifies this plain intact food without added sugars or fruit/vegetable puree, juice, paste or powder. UK NPM excludes its naturally occurring sugars from free sugars. The derived 0 is a formulation assumption, not a missing nutrient converted to zero; USDA added sugars remain unknown. USDA SR total dietary fiber uses an AOAC-compatible database basis (985.29/991.43); individual values may be calculated or imputed, not individually assayed. This does not establish equivalence to every newer enhanced AOAC assay. This ingredient qualifies for FVNS at its documented prepared weight.",
+        "zh": "游離糖 0 克依指定原味食材推導：不含添加糖、含糖醃料或添加物，也不含蔬果泥、汁、醬；這不是 USDA 添加糖實測值。配方限定此原味完整食物，不含添加糖或蔬果泥、汁、醬、粉。依 UK NPM，其天然糖不屬於游離糖；推導的 0 是明示配方假設，不是把缺漏營養值當成零。USDA 添加糖仍未知。USDA SR 總膳食纖維採 AOAC 相容的資料庫方法基礎（985.29／991.43）；個別數值可能來自計算或推估，並非逐項實測，也不代表與每種較新的增強型 AOAC 檢測完全等同。此食材以標示的處理後重量納入 FVNS。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
+        "https://www.ars.usda.gov/ARSUSERFILES/80400535/DATA/PUBLICATIONS/FNR/IMPLICATIONS%20OF%20TWO%20DIRRERENT%20METHODS%20FOR%20ANALYZING%20TOTAL%20DIETARY%20FIBER.PDF",
+        "https://fdc.nal.usda.gov/food-details/170391/nutrients"
+      ]
+    }
+  },
+  {
+    "id": "usda-169980",
+    "fdcId": 169980,
+    "description": "Cabbage, chinese (pe-tsai), cooked, boiled, drained, without salt",
+    "label": {
+      "en": "Boiled drained napa cabbage, no salt",
+      "zh": "水煮瀝乾大白菜（無鹽）"
+    },
+    "state": "cooked",
+    "avoidTags": [],
+    "unknownAvoidTags": [],
+    "sourceId": "usda-sr-legacy-2018-recipes36-expansion",
+    "recordUrl": "https://fdc.nal.usda.gov/food-details/169980/nutrients",
+    "publicationDate": "2019-04-01",
+    "nutrientsPer100g": {
+      "kcal": 14,
+      "energyKj": 59,
+      "protein": 1.5,
+      "carbs": 2.41,
+      "fat": 0.17,
+      "saturatedFat": 0.036,
+      "fiber": 1.7,
+      "sodium": 9,
+      "addedSugar": null
+    },
+    "nutrientNotes": {
+      "addedSugar": {
+        "en": "Added sugars is not supplied in this source record. Unknown is not zero.",
+        "zh": "此來源紀錄未提供添加糖，未知值不等於零。"
+      }
+    },
+    "modelBasis": {
+      "freeSugarsPer100g": 0,
+      "fvnsEligible": true,
+      "fiberMethod": "AOAC-compatible",
+      "note": {
+        "en": "Free sugars 0 g is derived for the specified plain ingredient with no added sugars, sugar-containing marinades/additives, or fruit/vegetable puree, juice or paste. It is not a USDA added-sugars measurement. The recipe specifies this plain intact food without added sugars or fruit/vegetable puree, juice, paste or powder. UK NPM excludes its naturally occurring sugars from free sugars. The derived 0 is a formulation assumption, not a missing nutrient converted to zero; USDA added sugars remain unknown. This source does not report total sugars; no source total-sugars zero is claimed. The free-sugar classification comes solely from the explicit plain intact-vegetable specification. USDA SR total dietary fiber uses an AOAC-compatible database basis (985.29/991.43); individual values may be calculated or imputed, not individually assayed. This does not establish equivalence to every newer enhanced AOAC assay. This ingredient qualifies for FVNS at its documented prepared weight.",
+        "zh": "游離糖 0 克依指定原味食材推導：不含添加糖、含糖醃料或添加物，也不含蔬果泥、汁、醬；這不是 USDA 添加糖實測值。配方限定此原味完整食物，不含添加糖或蔬果泥、汁、醬、粉。依 UK NPM，其天然糖不屬於游離糖；推導的 0 是明示配方假設，不是把缺漏營養值當成零。USDA 添加糖仍未知。 此來源沒有提供總糖，不宣稱來源總糖為零；游離糖分類僅依明示的原味完整蔬菜規格判定。USDA SR 總膳食纖維採 AOAC 相容的資料庫方法基礎（985.29／991.43）；個別數值可能來自計算或推估，並非逐項實測，也不代表與每種較新的增強型 AOAC 檢測完全等同。此食材以標示的處理後重量納入 FVNS。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
+        "https://www.ars.usda.gov/ARSUSERFILES/80400535/DATA/PUBLICATIONS/FNR/IMPLICATIONS%20OF%20TWO%20DIRRERENT%20METHODS%20FOR%20ANALYZING%20TOTAL%20DIETARY%20FIBER.PDF",
+        "https://fdc.nal.usda.gov/food-details/169980/nutrients"
+      ]
+    }
+  },
+  {
+    "id": "usda-169252",
+    "fdcId": 169252,
+    "description": "Mushrooms, white, cooked, boiled, drained, without salt",
+    "label": {
+      "en": "Boiled drained white mushrooms, no salt",
+      "zh": "水煮瀝乾白蘑菇（無鹽）"
+    },
+    "state": "cooked",
+    "avoidTags": [],
+    "unknownAvoidTags": [],
+    "sourceId": "usda-sr-legacy-2018-recipes36-expansion",
+    "recordUrl": "https://fdc.nal.usda.gov/food-details/169252/nutrients",
+    "publicationDate": "2019-04-01",
+    "nutrientsPer100g": {
+      "kcal": 28,
+      "energyKj": 117,
+      "protein": 2.17,
+      "carbs": 5.29,
+      "fat": 0.47,
+      "saturatedFat": 0.061,
+      "fiber": 2.2,
+      "sodium": 2,
+      "addedSugar": null
+    },
+    "nutrientNotes": {
+      "addedSugar": {
+        "en": "Added sugars is not supplied in this source record. Unknown is not zero.",
+        "zh": "此來源紀錄未提供添加糖，未知值不等於零。"
+      }
+    },
+    "modelBasis": {
+      "freeSugarsPer100g": 0,
+      "fvnsEligible": true,
+      "fiberMethod": "AOAC-compatible",
+      "note": {
+        "en": "Free sugars 0 g is derived for the specified plain ingredient with no added sugars, sugar-containing marinades/additives, or fruit/vegetable puree, juice or paste. It is not a USDA added-sugars measurement. The recipe specifies this plain intact food without added sugars or fruit/vegetable puree, juice, paste or powder. UK NPM excludes its naturally occurring sugars from free sugars. The derived 0 is a formulation assumption, not a missing nutrient converted to zero; USDA added sugars remain unknown. USDA SR total dietary fiber uses an AOAC-compatible database basis (985.29/991.43); individual values may be calculated or imputed, not individually assayed. This does not establish equivalence to every newer enhanced AOAC assay. This ingredient qualifies for FVNS at its documented prepared weight.",
+        "zh": "游離糖 0 克依指定原味食材推導：不含添加糖、含糖醃料或添加物，也不含蔬果泥、汁、醬；這不是 USDA 添加糖實測值。配方限定此原味完整食物，不含添加糖或蔬果泥、汁、醬、粉。依 UK NPM，其天然糖不屬於游離糖；推導的 0 是明示配方假設，不是把缺漏營養值當成零。USDA 添加糖仍未知。USDA SR 總膳食纖維採 AOAC 相容的資料庫方法基礎（985.29／991.43）；個別數值可能來自計算或推估，並非逐項實測，也不代表與每種較新的增強型 AOAC 檢測完全等同。此食材以標示的處理後重量納入 FVNS。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
+        "https://www.ars.usda.gov/ARSUSERFILES/80400535/DATA/PUBLICATIONS/FNR/IMPLICATIONS%20OF%20TWO%20DIRRERENT%20METHODS%20FOR%20ANALYZING%20TOTAL%20DIETARY%20FIBER.PDF",
+        "https://fdc.nal.usda.gov/food-details/169252/nutrients"
+      ]
+    }
+  },
+  {
+    "id": "usda-169976",
+    "fdcId": 169976,
+    "description": "Cabbage, cooked, boiled, drained, without salt",
+    "label": {
+      "en": "Boiled drained cabbage, no salt",
+      "zh": "水煮瀝乾高麗菜（無鹽）"
+    },
+    "state": "cooked",
+    "avoidTags": [],
+    "unknownAvoidTags": [],
+    "sourceId": "usda-sr-legacy-2018-recipes36-expansion",
+    "recordUrl": "https://fdc.nal.usda.gov/food-details/169976/nutrients",
+    "publicationDate": "2019-04-01",
+    "nutrientsPer100g": {
+      "kcal": 23,
+      "energyKj": 97,
+      "protein": 1.27,
+      "carbs": 5.51,
+      "fat": 0.06,
+      "saturatedFat": 0,
+      "fiber": 1.9,
+      "sodium": 8,
+      "addedSugar": null
+    },
+    "nutrientNotes": {
+      "addedSugar": {
+        "en": "Added sugars is not supplied in this source record. Unknown is not zero.",
+        "zh": "此來源紀錄未提供添加糖，未知值不等於零。"
+      }
+    },
+    "modelBasis": {
+      "freeSugarsPer100g": 0,
+      "fvnsEligible": true,
+      "fiberMethod": "AOAC-compatible",
+      "note": {
+        "en": "Free sugars 0 g is derived for the specified plain ingredient with no added sugars, sugar-containing marinades/additives, or fruit/vegetable puree, juice or paste. It is not a USDA added-sugars measurement. The recipe specifies this plain intact food without added sugars or fruit/vegetable puree, juice, paste or powder. UK NPM excludes its naturally occurring sugars from free sugars. The derived 0 is a formulation assumption, not a missing nutrient converted to zero; USDA added sugars remain unknown. USDA SR total dietary fiber uses an AOAC-compatible database basis (985.29/991.43); individual values may be calculated or imputed, not individually assayed. This does not establish equivalence to every newer enhanced AOAC assay. This ingredient qualifies for FVNS at its documented prepared weight.",
+        "zh": "游離糖 0 克依指定原味食材推導：不含添加糖、含糖醃料或添加物，也不含蔬果泥、汁、醬；這不是 USDA 添加糖實測值。配方限定此原味完整食物，不含添加糖或蔬果泥、汁、醬、粉。依 UK NPM，其天然糖不屬於游離糖；推導的 0 是明示配方假設，不是把缺漏營養值當成零。USDA 添加糖仍未知。USDA SR 總膳食纖維採 AOAC 相容的資料庫方法基礎（985.29／991.43）；個別數值可能來自計算或推估，並非逐項實測，也不代表與每種較新的增強型 AOAC 檢測完全等同。此食材以標示的處理後重量納入 FVNS。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
+        "https://www.ars.usda.gov/ARSUSERFILES/80400535/DATA/PUBLICATIONS/FNR/IMPLICATIONS%20OF%20TWO%20DIRRERENT%20METHODS%20FOR%20ANALYZING%20TOTAL%20DIETARY%20FIBER.PDF",
+        "https://fdc.nal.usda.gov/food-details/169976/nutrients"
+      ]
+    }
+  },
+  {
+    "id": "usda-170110",
+    "fdcId": 170110,
+    "description": "Peppers, sweet, red, cooked, boiled, drained, without salt",
+    "label": {
+      "en": "Boiled drained red sweet pepper, no salt",
+      "zh": "水煮瀝乾紅甜椒（無鹽）"
+    },
+    "state": "cooked",
+    "avoidTags": [],
+    "unknownAvoidTags": [],
+    "sourceId": "usda-sr-legacy-2018-recipes36-expansion",
+    "recordUrl": "https://fdc.nal.usda.gov/food-details/170110/nutrients",
+    "publicationDate": "2019-04-01",
+    "nutrientsPer100g": {
+      "kcal": 28,
+      "energyKj": 117,
+      "protein": 0.92,
+      "carbs": 6.7,
+      "fat": 0.2,
+      "saturatedFat": 0.029,
+      "fiber": 1.2,
+      "sodium": 2,
+      "addedSugar": null
+    },
+    "nutrientNotes": {
+      "addedSugar": {
+        "en": "Added sugars is not supplied in this source record. Unknown is not zero.",
+        "zh": "此來源紀錄未提供添加糖，未知值不等於零。"
+      }
+    },
+    "modelBasis": {
+      "freeSugarsPer100g": 0,
+      "fvnsEligible": true,
+      "fiberMethod": "AOAC-compatible",
+      "note": {
+        "en": "Free sugars 0 g is derived for the specified plain ingredient with no added sugars, sugar-containing marinades/additives, or fruit/vegetable puree, juice or paste. It is not a USDA added-sugars measurement. The recipe specifies this plain intact food without added sugars or fruit/vegetable puree, juice, paste or powder. UK NPM excludes its naturally occurring sugars from free sugars. The derived 0 is a formulation assumption, not a missing nutrient converted to zero; USDA added sugars remain unknown. USDA SR total dietary fiber uses an AOAC-compatible database basis (985.29/991.43); individual values may be calculated or imputed, not individually assayed. This does not establish equivalence to every newer enhanced AOAC assay. This ingredient qualifies for FVNS at its documented prepared weight.",
+        "zh": "游離糖 0 克依指定原味食材推導：不含添加糖、含糖醃料或添加物，也不含蔬果泥、汁、醬；這不是 USDA 添加糖實測值。配方限定此原味完整食物，不含添加糖或蔬果泥、汁、醬、粉。依 UK NPM，其天然糖不屬於游離糖；推導的 0 是明示配方假設，不是把缺漏營養值當成零。USDA 添加糖仍未知。USDA SR 總膳食纖維採 AOAC 相容的資料庫方法基礎（985.29／991.43）；個別數值可能來自計算或推估，並非逐項實測，也不代表與每種較新的增強型 AOAC 檢測完全等同。此食材以標示的處理後重量納入 FVNS。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
+        "https://www.ars.usda.gov/ARSUSERFILES/80400535/DATA/PUBLICATIONS/FNR/IMPLICATIONS%20OF%20TWO%20DIRRERENT%20METHODS%20FOR%20ANALYZING%20TOTAL%20DIETARY%20FIBER.PDF",
+        "https://fdc.nal.usda.gov/food-details/170110/nutrients"
+      ]
+    }
+  },
+  {
+    "id": "usda-170001",
+    "fdcId": 170001,
+    "description": "Onions, cooked, boiled, drained, without salt",
+    "label": {
+      "en": "Boiled drained onion, no salt",
+      "zh": "水煮瀝乾洋蔥（無鹽）"
+    },
+    "state": "cooked",
+    "avoidTags": [],
+    "unknownAvoidTags": [],
+    "sourceId": "usda-sr-legacy-2018-recipes36-expansion",
+    "recordUrl": "https://fdc.nal.usda.gov/food-details/170001/nutrients",
+    "publicationDate": "2019-04-01",
+    "nutrientsPer100g": {
+      "kcal": 44,
+      "energyKj": 184,
+      "protein": 1.36,
+      "carbs": 10.15,
+      "fat": 0.19,
+      "saturatedFat": 0.031,
+      "fiber": 1.4,
+      "sodium": 3,
+      "addedSugar": null
+    },
+    "nutrientNotes": {
+      "addedSugar": {
+        "en": "Added sugars is not supplied in this source record. Unknown is not zero.",
+        "zh": "此來源紀錄未提供添加糖，未知值不等於零。"
+      }
+    },
+    "modelBasis": {
+      "freeSugarsPer100g": 0,
+      "fvnsEligible": true,
+      "fiberMethod": "AOAC-compatible",
+      "note": {
+        "en": "Free sugars 0 g is derived for the specified plain ingredient with no added sugars, sugar-containing marinades/additives, or fruit/vegetable puree, juice or paste. It is not a USDA added-sugars measurement. The recipe specifies this plain intact food without added sugars or fruit/vegetable puree, juice, paste or powder. UK NPM excludes its naturally occurring sugars from free sugars. The derived 0 is a formulation assumption, not a missing nutrient converted to zero; USDA added sugars remain unknown. USDA SR total dietary fiber uses an AOAC-compatible database basis (985.29/991.43); individual values may be calculated or imputed, not individually assayed. This does not establish equivalence to every newer enhanced AOAC assay. This ingredient qualifies for FVNS at its documented prepared weight.",
+        "zh": "游離糖 0 克依指定原味食材推導：不含添加糖、含糖醃料或添加物，也不含蔬果泥、汁、醬；這不是 USDA 添加糖實測值。配方限定此原味完整食物，不含添加糖或蔬果泥、汁、醬、粉。依 UK NPM，其天然糖不屬於游離糖；推導的 0 是明示配方假設，不是把缺漏營養值當成零。USDA 添加糖仍未知。USDA SR 總膳食纖維採 AOAC 相容的資料庫方法基礎（985.29／991.43）；個別數值可能來自計算或推估，並非逐項實測，也不代表與每種較新的增強型 AOAC 檢測完全等同。此食材以標示的處理後重量納入 FVNS。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
+        "https://www.ars.usda.gov/ARSUSERFILES/80400535/DATA/PUBLICATIONS/FNR/IMPLICATIONS%20OF%20TWO%20DIRRERENT%20METHODS%20FOR%20ANALYZING%20TOTAL%20DIETARY%20FIBER.PDF",
+        "https://fdc.nal.usda.gov/food-details/170001/nutrients"
+      ]
+    }
+  },
+  {
+    "id": "usda-169292",
+    "fdcId": 169292,
+    "description": "Squash, summer, zucchini, includes skin, cooked, boiled, drained, without salt",
+    "label": {
+      "en": "Boiled drained zucchini with skin, no salt",
+      "zh": "帶皮水煮瀝乾櫛瓜（無鹽）"
+    },
+    "state": "cooked",
+    "avoidTags": [],
+    "unknownAvoidTags": [],
+    "sourceId": "usda-sr-legacy-2018-recipes36-expansion",
+    "recordUrl": "https://fdc.nal.usda.gov/food-details/169292/nutrients",
+    "publicationDate": "2019-04-01",
+    "nutrientsPer100g": {
+      "kcal": 15,
+      "energyKj": 64,
+      "protein": 1.14,
+      "carbs": 2.69,
+      "fat": 0.36,
+      "saturatedFat": 0.072,
+      "fiber": 1,
+      "sodium": 3,
+      "addedSugar": null
+    },
+    "nutrientNotes": {
+      "addedSugar": {
+        "en": "Added sugars is not supplied in this source record. Unknown is not zero.",
+        "zh": "此來源紀錄未提供添加糖，未知值不等於零。"
+      }
+    },
+    "modelBasis": {
+      "freeSugarsPer100g": 0,
+      "fvnsEligible": true,
+      "fiberMethod": "AOAC-compatible",
+      "note": {
+        "en": "Free sugars 0 g is derived for the specified plain ingredient with no added sugars, sugar-containing marinades/additives, or fruit/vegetable puree, juice or paste. It is not a USDA added-sugars measurement. The recipe specifies this plain intact food without added sugars or fruit/vegetable puree, juice, paste or powder. UK NPM excludes its naturally occurring sugars from free sugars. The derived 0 is a formulation assumption, not a missing nutrient converted to zero; USDA added sugars remain unknown. USDA SR total dietary fiber uses an AOAC-compatible database basis (985.29/991.43); individual values may be calculated or imputed, not individually assayed. This does not establish equivalence to every newer enhanced AOAC assay. This ingredient qualifies for FVNS at its documented prepared weight.",
+        "zh": "游離糖 0 克依指定原味食材推導：不含添加糖、含糖醃料或添加物，也不含蔬果泥、汁、醬；這不是 USDA 添加糖實測值。配方限定此原味完整食物，不含添加糖或蔬果泥、汁、醬、粉。依 UK NPM，其天然糖不屬於游離糖；推導的 0 是明示配方假設，不是把缺漏營養值當成零。USDA 添加糖仍未知。USDA SR 總膳食纖維採 AOAC 相容的資料庫方法基礎（985.29／991.43）；個別數值可能來自計算或推估，並非逐項實測，也不代表與每種較新的增強型 AOAC 檢測完全等同。此食材以標示的處理後重量納入 FVNS。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
+        "https://www.ars.usda.gov/ARSUSERFILES/80400535/DATA/PUBLICATIONS/FNR/IMPLICATIONS%20OF%20TWO%20DIRRERENT%20METHODS%20FOR%20ANALYZING%20TOTAL%20DIETARY%20FIBER.PDF",
+        "https://fdc.nal.usda.gov/food-details/169292/nutrients"
+      ]
+    }
+  },
+  {
+    "id": "usda-170050",
+    "fdcId": 170050,
+    "description": "Tomatoes, red, ripe, cooked",
+    "label": {
+      "en": "Cooked ripe red tomato, not pureed",
+      "zh": "煮熟紅番茄（非泥狀）"
+    },
+    "state": "cooked",
+    "avoidTags": [],
+    "unknownAvoidTags": [],
+    "sourceId": "usda-sr-legacy-2018-recipes36-expansion",
+    "recordUrl": "https://fdc.nal.usda.gov/food-details/170050/nutrients",
+    "publicationDate": "2019-04-01",
+    "nutrientsPer100g": {
+      "kcal": 18,
+      "energyKj": 73,
+      "protein": 0.95,
+      "carbs": 4.01,
+      "fat": 0.11,
+      "saturatedFat": 0.015,
+      "fiber": 0.7,
+      "sodium": 11,
+      "addedSugar": null
+    },
+    "nutrientNotes": {
+      "addedSugar": {
+        "en": "Added sugars is not supplied in this source record. Unknown is not zero.",
+        "zh": "此來源紀錄未提供添加糖，未知值不等於零。"
+      }
+    },
+    "modelBasis": {
+      "freeSugarsPer100g": 0,
+      "fvnsEligible": true,
+      "fiberMethod": "AOAC-compatible",
+      "note": {
+        "en": "Free sugars 0 g is derived for the specified plain ingredient with no added sugars, sugar-containing marinades/additives, or fruit/vegetable puree, juice or paste. It is not a USDA added-sugars measurement. The recipe specifies this plain intact food without added sugars or fruit/vegetable puree, juice, paste or powder. UK NPM excludes its naturally occurring sugars from free sugars. The derived 0 is a formulation assumption, not a missing nutrient converted to zero; USDA added sugars remain unknown. Keep the tomato in recognizable cooked pieces; this classification does not cover pureed, concentrated or powdered tomato sauce. USDA SR total dietary fiber uses an AOAC-compatible database basis (985.29/991.43); individual values may be calculated or imputed, not individually assayed. This does not establish equivalence to every newer enhanced AOAC assay. This ingredient qualifies for FVNS at its documented prepared weight.",
+        "zh": "游離糖 0 克依指定原味食材推導：不含添加糖、含糖醃料或添加物，也不含蔬果泥、汁、醬；這不是 USDA 添加糖實測值。配方限定此原味完整食物，不含添加糖或蔬果泥、汁、醬、粉。依 UK NPM，其天然糖不屬於游離糖；推導的 0 是明示配方假設，不是把缺漏營養值當成零。USDA 添加糖仍未知。 番茄保持可辨識的熟塊狀；此分類不適用於打泥、濃縮或粉末形式的番茄醬。USDA SR 總膳食纖維採 AOAC 相容的資料庫方法基礎（985.29／991.43）；個別數值可能來自計算或推估，並非逐項實測，也不代表與每種較新的增強型 AOAC 檢測完全等同。此食材以標示的處理後重量納入 FVNS。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
+        "https://www.ars.usda.gov/ARSUSERFILES/80400535/DATA/PUBLICATIONS/FNR/IMPLICATIONS%20OF%20TWO%20DIRRERENT%20METHODS%20FOR%20ANALYZING%20TOTAL%20DIETARY%20FIBER.PDF",
+        "https://fdc.nal.usda.gov/food-details/170050/nutrients"
+      ]
+    }
+  },
+  {
+    "id": "usda-173944",
+    "fdcId": 173944,
+    "description": "Bananas, raw",
+    "label": {
+      "en": "Raw peeled banana",
+      "zh": "去皮新鮮香蕉"
+    },
+    "state": "raw",
+    "avoidTags": [],
+    "unknownAvoidTags": [],
+    "sourceId": "usda-sr-legacy-2018-recipes36-expansion",
+    "recordUrl": "https://fdc.nal.usda.gov/food-details/173944/nutrients",
+    "publicationDate": "2019-04-01",
+    "nutrientsPer100g": {
+      "kcal": 89,
+      "energyKj": 371,
+      "protein": 1.09,
+      "carbs": 22.84,
+      "fat": 0.33,
+      "saturatedFat": 0.112,
+      "fiber": 2.6,
+      "sodium": 1,
+      "addedSugar": null
+    },
+    "nutrientNotes": {
+      "addedSugar": {
+        "en": "Added sugars is not supplied in this source record. Unknown is not zero.",
+        "zh": "此來源紀錄未提供添加糖，未知值不等於零。"
+      }
+    },
+    "modelBasis": {
+      "freeSugarsPer100g": 0,
+      "fvnsEligible": true,
+      "fiberMethod": "AOAC-compatible",
+      "note": {
+        "en": "Free sugars 0 g is derived for the specified plain ingredient with no added sugars, sugar-containing marinades/additives, or fruit/vegetable puree, juice or paste. It is not a USDA added-sugars measurement. The recipe specifies this plain intact food without added sugars or fruit/vegetable puree, juice, paste or powder. UK NPM excludes its naturally occurring sugars from free sugars. The derived 0 is a formulation assumption, not a missing nutrient converted to zero; USDA added sugars remain unknown. USDA SR total dietary fiber uses an AOAC-compatible database basis (985.29/991.43); individual values may be calculated or imputed, not individually assayed. This does not establish equivalence to every newer enhanced AOAC assay. This ingredient qualifies for FVNS at its documented prepared weight.",
+        "zh": "游離糖 0 克依指定原味食材推導：不含添加糖、含糖醃料或添加物，也不含蔬果泥、汁、醬；這不是 USDA 添加糖實測值。配方限定此原味完整食物，不含添加糖或蔬果泥、汁、醬、粉。依 UK NPM，其天然糖不屬於游離糖；推導的 0 是明示配方假設，不是把缺漏營養值當成零。USDA 添加糖仍未知。USDA SR 總膳食纖維採 AOAC 相容的資料庫方法基礎（985.29／991.43）；個別數值可能來自計算或推估，並非逐項實測，也不代表與每種較新的增強型 AOAC 檢測完全等同。此食材以標示的處理後重量納入 FVNS。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
+        "https://www.ars.usda.gov/ARSUSERFILES/80400535/DATA/PUBLICATIONS/FNR/IMPLICATIONS%20OF%20TWO%20DIRRERENT%20METHODS%20FOR%20ANALYZING%20TOTAL%20DIETARY%20FIBER.PDF",
+        "https://fdc.nal.usda.gov/food-details/173944/nutrients"
+      ]
+    }
+  },
+  {
+    "id": "usda-171705",
+    "fdcId": 171705,
+    "description": "Avocados, raw, all commercial varieties",
+    "label": {
+      "en": "Raw avocado flesh",
+      "zh": "新鮮酪梨果肉"
+    },
+    "state": "raw",
+    "avoidTags": [],
+    "unknownAvoidTags": [],
+    "sourceId": "usda-sr-legacy-2018-recipes48-expansion",
+    "recordUrl": "https://fdc.nal.usda.gov/food-details/171705/nutrients",
+    "publicationDate": "2019-04-01",
+    "nutrientsPer100g": {
+      "kcal": 160,
+      "energyKj": 670,
+      "protein": 2,
+      "carbs": 8.53,
+      "fat": 14.66,
+      "saturatedFat": 2.126,
+      "fiber": 6.7,
+      "sodium": 7,
+      "addedSugar": null
+    },
+    "nutrientNotes": {
+      "addedSugar": {
+        "en": "Added sugars is not supplied in this source record. Unknown is not zero.",
+        "zh": "此來源紀錄未提供添加糖，未知值不等於零。"
+      }
+    },
+    "modelBasis": {
+      "freeSugarsPer100g": 0,
+      "fvnsEligible": true,
+      "fiberMethod": "AOAC-compatible",
+      "note": {
+        "en": "Free sugars 0 g is derived for the specified plain ingredient with no added sugars, sugar-containing marinades/additives, or fruit/vegetable puree, juice or paste. It is not a USDA added-sugars measurement. The recipe specifies raw avocado flesh in intact slices, with skin and stone excluded. Avocado is explicitly included in the UK NPM FVNS fruit-vegetable list. Naturally occurring sugars in this plain intact fruit are excluded from free sugars; derived 0 is not a source added-sugars measurement. No sweetener, puree, dressing or processing additive is included. USDA SR total dietary fiber uses an AOAC-compatible database basis (985.29/991.43); individual values may be calculated or imputed, not individually assayed. This does not establish equivalence to every newer enhanced AOAC assay. This ingredient qualifies for FVNS at its documented prepared weight.",
+        "zh": "游離糖 0 克依指定原味食材推導：不含添加糖、含糖醃料或添加物，也不含蔬果泥、汁、醬；這不是 USDA 添加糖實測值。配方限定生酪梨果肉切片，不含皮與果核。UK NPM 的果菜類 FVNS 清單明列酪梨；此原味完整果實的天然糖不屬游離糖，推導的 0 不是來源添加糖實測。不含甜味料、果泥、沙拉醬或加工添加物。USDA SR 總膳食纖維採 AOAC 相容的資料庫方法基礎（985.29／991.43）；個別數值可能來自計算或推估，並非逐項實測，也不代表與每種較新的增強型 AOAC 檢測完全等同。此食材以標示的處理後重量納入 FVNS。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
+        "https://www.ars.usda.gov/ARSUSERFILES/80400535/DATA/PUBLICATIONS/FNR/IMPLICATIONS%20OF%20TWO%20DIRRERENT%20METHODS%20FOR%20ANALYZING%20TOTAL%20DIETARY%20FIBER.PDF",
+        "https://fdc.nal.usda.gov/food-details/171705/nutrients"
+      ]
+    }
+  },
+  {
+    "id": "usda-169999",
+    "fdcId": 169999,
+    "description": "Corn, sweet, yellow, cooked, boiled, drained, without salt",
+    "label": {
+      "en": "Boiled drained yellow sweetcorn kernels, no salt",
+      "zh": "水煮瀝乾黃甜玉米粒（無鹽）"
+    },
+    "state": "cooked",
+    "avoidTags": [],
+    "unknownAvoidTags": [],
+    "sourceId": "usda-sr-legacy-2018-recipes48-expansion",
+    "recordUrl": "https://fdc.nal.usda.gov/food-details/169999/nutrients",
+    "publicationDate": "2019-04-01",
+    "nutrientsPer100g": {
+      "kcal": 96,
+      "energyKj": 401,
+      "protein": 3.41,
+      "carbs": 20.98,
+      "fat": 1.5,
+      "saturatedFat": 0.197,
+      "fiber": 2.4,
+      "sodium": 1,
+      "addedSugar": null
+    },
+    "nutrientNotes": {
+      "addedSugar": {
+        "en": "Added sugars is not supplied in this source record. Unknown is not zero.",
+        "zh": "此來源紀錄未提供添加糖，未知值不等於零。"
+      }
+    },
+    "modelBasis": {
+      "freeSugarsPer100g": 0,
+      "fvnsEligible": true,
+      "fiberMethod": "AOAC-compatible",
+      "note": {
+        "en": "Free sugars 0 g is derived for the specified plain ingredient with no added sugars, sugar-containing marinades/additives, or fruit/vegetable puree, juice or paste. It is not a USDA added-sugars measurement. UK NPM explicitly lists sweet corn as a pod/seed vegetable. This assessment counts boiled whole yellow sweetcorn kernels at their cooked edible weight, with the cob excluded; it does not apply to dried maize grain, cornmeal, flour or an unspecified corn product. Natural sugars in the plain intact kernels are excluded from free sugars. The derived 0 is not a USDA added-sugars measurement. USDA SR total dietary fiber uses an AOAC-compatible database basis (985.29/991.43); individual values may be calculated or imputed, not individually assayed. This does not establish equivalence to every newer enhanced AOAC assay. This ingredient qualifies for FVNS at its documented prepared weight.",
+        "zh": "游離糖 0 克依指定原味食材推導：不含添加糖、含糖醃料或添加物，也不含蔬果泥、汁、醬；這不是 USDA 添加糖實測值。UK NPM 明列甜玉米為莢果及種子蔬菜。此判讀以水煮完整黃甜玉米粒的可食熟重納入 FVNS，不含玉米梗；不適用於乾玉米穀粒、玉米粗粉、麵粉或未明玉米製品。原味完整玉米粒中的天然糖不屬游離糖，推導的 0 不是 USDA 添加糖實測。USDA SR 總膳食纖維採 AOAC 相容的資料庫方法基礎（985.29／991.43）；個別數值可能來自計算或推估，並非逐項實測，也不代表與每種較新的增強型 AOAC 檢測完全等同。此食材以標示的處理後重量納入 FVNS。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
+        "https://www.ars.usda.gov/ARSUSERFILES/80400535/DATA/PUBLICATIONS/FNR/IMPLICATIONS%20OF%20TWO%20DIRRERENT%20METHODS%20FOR%20ANALYZING%20TOTAL%20DIETARY%20FIBER.PDF",
+        "https://fdc.nal.usda.gov/food-details/169999/nutrients"
+      ]
+    }
+  },
+  {
+    "id": "usda-169141",
+    "fdcId": 169141,
+    "description": "Beans, snap, green, cooked, boiled, drained, without salt",
+    "label": {
+      "en": "Boiled drained green snap beans, no salt",
+      "zh": "水煮瀝乾四季豆（無鹽）"
+    },
+    "state": "cooked",
+    "avoidTags": [],
+    "unknownAvoidTags": [],
+    "sourceId": "usda-sr-legacy-2018-recipes48-expansion",
+    "recordUrl": "https://fdc.nal.usda.gov/food-details/169141/nutrients",
+    "publicationDate": "2019-04-01",
+    "nutrientsPer100g": {
+      "kcal": 35,
+      "energyKj": 147,
+      "protein": 1.89,
+      "carbs": 7.88,
+      "fat": 0.28,
+      "saturatedFat": 0.064,
+      "fiber": 3.2,
+      "sodium": 1,
+      "addedSugar": null
+    },
+    "nutrientNotes": {
+      "addedSugar": {
+        "en": "Added sugars is not supplied in this source record. Unknown is not zero.",
+        "zh": "此來源紀錄未提供添加糖，未知值不等於零。"
+      }
+    },
+    "modelBasis": {
+      "freeSugarsPer100g": 0,
+      "fvnsEligible": true,
+      "fiberMethod": "AOAC-compatible",
+      "note": {
+        "en": "Free sugars 0 g is derived for the specified plain ingredient with no added sugars, sugar-containing marinades/additives, or fruit/vegetable puree, juice or paste. It is not a USDA added-sugars measurement. The source is green snap-bean pods, not mature dried bean seeds. Green/French beans are explicitly included in the UK NPM pod-vegetable definitions, counted at the declared boiled and drained weight. Plain intact vegetables without added sugar have derived free sugars 0 under this recipe specification; source added sugars remain unknown. USDA SR total dietary fiber uses an AOAC-compatible database basis (985.29/991.43); individual values may be calculated or imputed, not individually assayed. This does not establish equivalence to every newer enhanced AOAC assay. This ingredient qualifies for FVNS at its documented prepared weight.",
+        "zh": "游離糖 0 克依指定原味食材推導：不含添加糖、含糖醃料或添加物，也不含蔬果泥、汁、醬；這不是 USDA 添加糖實測值。來源為四季豆嫩莢，不是成熟乾豆籽。UK NPM 莢果蔬菜定義明列 green/French beans，依表列水煮瀝乾重量納入 FVNS。此配方規格為無加糖的原味完整蔬菜，游離糖推導為 0；來源添加糖仍未知。USDA SR 總膳食纖維採 AOAC 相容的資料庫方法基礎（985.29／991.43）；個別數值可能來自計算或推估，並非逐項實測，也不代表與每種較新的增強型 AOAC 檢測完全等同。此食材以標示的處理後重量納入 FVNS。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
+        "https://www.ars.usda.gov/ARSUSERFILES/80400535/DATA/PUBLICATIONS/FNR/IMPLICATIONS%20OF%20TWO%20DIRRERENT%20METHODS%20FOR%20ANALYZING%20TOTAL%20DIETARY%20FIBER.PDF",
+        "https://fdc.nal.usda.gov/food-details/169141/nutrients"
+      ]
+    }
+  },
+  {
+    "id": "usda-168394",
+    "fdcId": 168394,
+    "description": "Balsam-pear (bitter gourd), pods, cooked, boiled, drained, without salt",
+    "label": {
+      "en": "Boiled drained bitter gourd fruit, no salt",
+      "zh": "水煮瀝乾苦瓜果肉（無鹽）"
+    },
+    "state": "cooked",
+    "avoidTags": [
+      "Bitter melon"
+    ],
+    "unknownAvoidTags": [],
+    "sourceId": "usda-sr-legacy-2018-recipes48-expansion",
+    "recordUrl": "https://fdc.nal.usda.gov/food-details/168394/nutrients",
+    "publicationDate": "2019-04-01",
+    "nutrientsPer100g": {
+      "kcal": 19,
+      "energyKj": 79,
+      "protein": 0.84,
+      "carbs": 4.32,
+      "fat": 0.18,
+      "saturatedFat": 0.014,
+      "fiber": 2,
+      "sodium": 6,
+      "addedSugar": null
+    },
+    "nutrientNotes": {
+      "addedSugar": {
+        "en": "Added sugars is not supplied in this source record. Unknown is not zero.",
+        "zh": "此來源紀錄未提供添加糖，未知值不等於零。"
+      }
+    },
+    "modelBasis": {
+      "freeSugarsPer100g": 0,
+      "fvnsEligible": true,
+      "fiberMethod": "AOAC-compatible",
+      "note": {
+        "en": "Free sugars 0 g is derived for the specified plain ingredient with no added sugars, sugar-containing marinades/additives, or fruit/vegetable puree, juice or paste. It is not a USDA added-sugars measurement. The USDA source identifies bitter-gourd fruit (pods), not leafy tips. The FVNS classification is a documented inference from the UK NPM category Other gourds (Cucurbitaceae spp.): Singapore NParks links bitter gourd/balsam pear to Momordica charantia; Kew confirms that species belongs to Cucurbitaceae. The model does not name bitter gourd individually. Use plain boiled drained edible fruit; its natural sugars are excluded from free sugars, with derived 0 rather than a USDA added-sugars measurement. USDA SR total dietary fiber uses an AOAC-compatible database basis (985.29/991.43); individual values may be calculated or imputed, not individually assayed. This does not establish equivalence to every newer enhanced AOAC assay. This ingredient qualifies for FVNS at its documented prepared weight.",
+        "zh": "游離糖 0 克依指定原味食材推導：不含添加糖、含糖醃料或添加物，也不含蔬果泥、汁、醬；這不是 USDA 添加糖實測值。USDA 來源標示苦瓜果實（pods），不是嫩葉。FVNS 分類是依 UK NPM「其他瓜類（葫蘆科 Cucurbitaceae）」所作的明示推論；新加坡 NParks 將苦瓜／balsam pear 對應至 Momordica charantia，Kew 確認此物種屬葫蘆科，模型並未逐項列名苦瓜。限定原味水煮瀝乾可食果肉，其天然糖不屬游離糖；推導的 0 並非 USDA 添加糖實測。USDA SR 總膳食纖維採 AOAC 相容的資料庫方法基礎（985.29／991.43）；個別數值可能來自計算或推估，並非逐項實測，也不代表與每種較新的增強型 AOAC 檢測完全等同。此食材以標示的處理後重量納入 FVNS。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
+        "https://www.ars.usda.gov/ARSUSERFILES/80400535/DATA/PUBLICATIONS/FNR/IMPLICATIONS%20OF%20TWO%20DIRRERENT%20METHODS%20FOR%20ANALYZING%20TOTAL%20DIETARY%20FIBER.PDF",
+        "https://fdc.nal.usda.gov/food-details/168394/nutrients",
+        "https://powo.science.kew.org/taxon/293413-1",
+        "https://www.nparks.gov.sg/florafaunaweb/flora/1/4/1452"
+      ]
+    }
+  },
+  {
+    "id": "usda-171534",
+    "fdcId": 171534,
+    "description": "Chicken, broiler or fryers, breast, skinless, boneless, meat only, cooked, grilled",
+    "label": {
+      "en": "Grilled skinless boneless chicken breast",
+      "zh": "去皮去骨炙烤雞胸肉"
+    },
+    "state": "cooked",
+    "avoidTags": [],
+    "unknownAvoidTags": [],
+    "sourceId": "usda-sr-legacy-2018-recipes60-expansion",
+    "recordUrl": "https://fdc.nal.usda.gov/food-details/171534/nutrients",
+    "publicationDate": "2019-04-01",
+    "nutrientsPer100g": {
+      "kcal": 151,
+      "energyKj": 631,
+      "protein": 30.54,
+      "carbs": 0,
+      "fat": 3.17,
+      "saturatedFat": 0.992,
+      "fiber": 0,
+      "sodium": 52,
+      "addedSugar": null
+    },
+    "nutrientNotes": {
+      "addedSugar": {
+        "en": "Added sugars is not supplied in this source record. Unknown is not zero.",
+        "zh": "此來源紀錄未提供添加糖，未知值不等於零。"
+      }
+    },
+    "modelBasis": {
+      "freeSugarsPer100g": 0,
+      "fvnsEligible": false,
+      "fiberMethod": "AOAC-compatible",
+      "note": {
+        "en": "The source reports total sugars 0 g per 100 g, supporting a derived free-sugars value of 0 for this exact source estimate. This does not fill the unknown added-sugars field or describe an unspecified substitute. The source reports total sugars of 0 g per 100 g for plain grilled skinless, boneless chicken breast without added solution. Use unbreaded, unglazed meat; all recipe oil and salt are listed separately. Chicken is outside the FVNS ingredient groups. USDA SR total dietary fiber uses an AOAC-compatible database basis (985.29/991.43); individual values may be calculated or imputed, not individually assayed. This does not establish equivalence to every newer enhanced AOAC assay. This ingredient contributes to recipe mass, not the FVNS numerator.",
+        "zh": "來源每 100 克總糖為 0 克，支持此特定來源估算的游離糖推導值為 0；這不會填補未知的添加糖欄位，也不適用於未指定替代品。來源的原味去皮去骨炙烤雞胸肉（非添加溶液版本）總糖為每 100 克 0 克。使用未裹粉、未上甜醬的肉，配方油鹽另外明列。雞肉不屬於 FVNS 食材類別。USDA SR 總膳食纖維採 AOAC 相容的資料庫方法基礎（985.29／991.43）；個別數值可能來自計算或推估，並非逐項實測，也不代表與每種較新的增強型 AOAC 檢測完全等同。此食材只納入配方總重，不納入 FVNS 分子。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
+        "https://www.ars.usda.gov/ARSUSERFILES/80400535/DATA/PUBLICATIONS/FNR/IMPLICATIONS%20OF%20TWO%20DIRRERENT%20METHODS%20FOR%20ANALYZING%20TOTAL%20DIETARY%20FIBER.PDF",
+        "https://fdc.nal.usda.gov/food-details/171534/nutrients"
+      ]
+    }
+  },
+  {
+    "id": "usda-171986",
+    "fdcId": 171986,
+    "description": "Fish, tuna, light, canned in water, without salt, drained solids",
+    "label": {
+      "en": "Light tuna canned in water without salt, drained",
+      "zh": "未加鹽水浸鮪魚罐頭（淡色肉，瀝乾）"
+    },
+    "state": "ready-to-eat",
+    "avoidTags": [
+      "Fishy seafood",
+      "Processed food"
+    ],
+    "unknownAvoidTags": [],
+    "sourceId": "usda-sr-legacy-2018-recipes60-expansion",
+    "recordUrl": "https://fdc.nal.usda.gov/food-details/171986/nutrients",
+    "publicationDate": "2019-04-01",
+    "nutrientsPer100g": {
+      "kcal": 116,
+      "energyKj": 487,
+      "protein": 25.51,
+      "carbs": 0,
+      "fat": 0.82,
+      "saturatedFat": 0.234,
+      "fiber": 0,
+      "sodium": 50,
+      "addedSugar": null
+    },
+    "nutrientNotes": {
+      "addedSugar": {
+        "en": "Added sugars is not supplied in this source record. Unknown is not zero.",
+        "zh": "此來源紀錄未提供添加糖，未知值不等於零。"
+      }
+    },
+    "modelBasis": {
+      "freeSugarsPer100g": 0,
+      "fvnsEligible": false,
+      "fiberMethod": "AOAC-compatible",
+      "note": {
+        "en": "The source reports total sugars 0 g per 100 g, supporting a derived free-sugars value of 0 for this exact source estimate. This does not fill the unknown added-sugars field or describe an unspecified substitute. The source reports total sugars of 0 g per 100 g for light tuna canned in water without salt, weighed as drained solids. Use this plain water-packed version, not tuna in oil, mayonnaise or seasoned sauce. Fish is outside the FVNS ingredient groups. The Processed food tag records the app's canned-food avoidance preference; it is not a NOVA or health classification. USDA SR total dietary fiber uses an AOAC-compatible database basis (985.29/991.43); individual values may be calculated or imputed, not individually assayed. This does not establish equivalence to every newer enhanced AOAC assay. This ingredient contributes to recipe mass, not the FVNS numerator.",
+        "zh": "來源每 100 克總糖為 0 克，支持此特定來源估算的游離糖推導值為 0；這不會填補未知的添加糖欄位，也不適用於未指定替代品。來源為未加鹽水浸淡色鮪魚罐頭的瀝乾固形物，總糖每 100 克 0 克。使用此原味水浸版本，不以油漬、拌美乃滋或調味醬的鮪魚代替。魚不屬於 FVNS 食材類別。Processed food 標籤僅用於本產品的罐頭食品避開偏好，不代表 NOVA 或健康分類。USDA SR 總膳食纖維採 AOAC 相容的資料庫方法基礎（985.29／991.43）；個別數值可能來自計算或推估，並非逐項實測，也不代表與每種較新的增強型 AOAC 檢測完全等同。此食材只納入配方總重，不納入 FVNS 分子。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
+        "https://www.ars.usda.gov/ARSUSERFILES/80400535/DATA/PUBLICATIONS/FNR/IMPLICATIONS%20OF%20TWO%20DIRRERENT%20METHODS%20FOR%20ANALYZING%20TOTAL%20DIETARY%20FIBER.PDF",
+        "https://fdc.nal.usda.gov/food-details/171986/nutrients"
+      ]
+    }
+  },
+  {
+    "id": "usda-174314",
+    "fdcId": 174314,
+    "description": "Lamb, leg, whole (shank and sirloin), separable lean only, trimmed to 1/4\" fat, choice, cooked, roasted",
+    "label": {
+      "en": "Roasted lamb leg, separable lean only",
+      "zh": "烤羊腿肉（僅分離瘦肉）"
+    },
+    "state": "cooked",
+    "avoidTags": [
+      "Lamb"
+    ],
+    "unknownAvoidTags": [],
+    "sourceId": "usda-sr-legacy-2018-recipes60-expansion",
+    "recordUrl": "https://fdc.nal.usda.gov/food-details/174314/nutrients",
+    "publicationDate": "2019-04-01",
+    "nutrientsPer100g": {
+      "kcal": 191,
+      "energyKj": 799,
+      "protein": 28.3,
+      "carbs": 0,
+      "fat": 7.74,
+      "saturatedFat": 2.76,
+      "fiber": 0,
+      "sodium": 68,
+      "addedSugar": null
+    },
+    "nutrientNotes": {
+      "addedSugar": {
+        "en": "Added sugars is not supplied in this source record. Unknown is not zero.",
+        "zh": "此來源紀錄未提供添加糖，未知值不等於零。"
+      }
+    },
+    "modelBasis": {
+      "freeSugarsPer100g": 0,
+      "fvnsEligible": false,
+      "fiberMethod": "AOAC-compatible",
+      "note": {
+        "en": "The source reports total sugars 0 g per 100 g, supporting a derived free-sugars value of 0 for this exact source estimate. This does not fill the unknown added-sugars field or describe an unspecified substitute. The source reports total sugars of 0 g per 100 g for roasted whole lamb leg, separable lean only, with the source carcass cut trimmed to 1/4 inch fat. Weigh only edible cooked lean meat, excluding bone and separable fat. This is plain lamb, not a processed gyro loaf or marinated product. Lamb is outside the FVNS ingredient groups. USDA SR total dietary fiber uses an AOAC-compatible database basis (985.29/991.43); individual values may be calculated or imputed, not individually assayed. This does not establish equivalence to every newer enhanced AOAC assay. This ingredient contributes to recipe mass, not the FVNS numerator.",
+        "zh": "來源每 100 克總糖為 0 克，支持此特定來源估算的游離糖推導值為 0；這不會填補未知的添加糖欄位，也不適用於未指定替代品。來源為整支烤羊腿僅分離瘦肉，原始切塊修脂至 1/4 英吋，總糖每 100 克 0 克。僅秤去骨、去可分離脂肪後的可食熟瘦肉。此為原味羊肉，不是加工 gyro 肉條或醃製產品。羊肉不屬於 FVNS 食材類別。USDA SR 總膳食纖維採 AOAC 相容的資料庫方法基礎（985.29／991.43）；個別數值可能來自計算或推估，並非逐項實測，也不代表與每種較新的增強型 AOAC 檢測完全等同。此食材只納入配方總重，不納入 FVNS 分子。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
+        "https://www.ars.usda.gov/ARSUSERFILES/80400535/DATA/PUBLICATIONS/FNR/IMPLICATIONS%20OF%20TWO%20DIRRERENT%20METHODS%20FOR%20ANALYZING%20TOTAL%20DIETARY%20FIBER.PDF",
+        "https://fdc.nal.usda.gov/food-details/174314/nutrients"
+      ]
+    }
+  },
+  {
+    "id": "usda-170416",
+    "fdcId": 170416,
+    "description": "Parsley, fresh",
+    "label": {
+      "en": "Fresh raw parsley",
+      "zh": "新鮮生巴西里"
+    },
+    "state": "raw",
+    "avoidTags": [],
+    "unknownAvoidTags": [],
+    "sourceId": "usda-sr-legacy-2018-recipes60-expansion",
+    "recordUrl": "https://fdc.nal.usda.gov/food-details/170416/nutrients",
+    "publicationDate": "2019-04-01",
+    "nutrientsPer100g": {
+      "kcal": 36,
+      "energyKj": 151,
+      "protein": 2.97,
+      "carbs": 6.33,
+      "fat": 0.79,
+      "saturatedFat": 0.132,
+      "fiber": 3.3,
+      "sodium": 56,
+      "addedSugar": null
+    },
+    "nutrientNotes": {
+      "addedSugar": {
+        "en": "Added sugars is not supplied in this source record. Unknown is not zero.",
+        "zh": "此來源紀錄未提供添加糖，未知值不等於零。"
+      }
+    },
+    "modelBasis": {
+      "freeSugarsPer100g": 0,
+      "fvnsEligible": true,
+      "fiberMethod": "AOAC-compatible",
+      "note": {
+        "en": "Free sugars 0 g is derived for the specified plain ingredient with no added sugars, sugar-containing marinades/additives, or fruit/vegetable puree, juice or paste. It is not a USDA added-sugars measurement. Fresh parsley (Petroselinum crispum) is explicitly listed among leaf vegetables in the official FVNS definitions. The recipe uses washed, drained, raw leaves, chopped but not blended into puree or paste. Its naturally occurring sugars are not free sugars under this intact-vegetable specification; this does not assert that source total sugars are zero. USDA SR total dietary fiber uses an AOAC-compatible database basis (985.29/991.43); individual values may be calculated or imputed, not individually assayed. This does not establish equivalence to every newer enhanced AOAC assay. This ingredient qualifies for FVNS at its documented prepared weight.",
+        "zh": "游離糖 0 克依指定原味食材推導：不含添加糖、含糖醃料或添加物，也不含蔬果泥、汁、醬；這不是 USDA 添加糖實測值。新鮮巴西里（Petroselinum crispum）明列於官方 FVNS 葉菜定義。配方使用洗淨瀝乾的生葉，可切碎但不攪成果泥或糊。依此完整蔬菜規格，天然糖不算游離糖；並非宣稱來源總糖為零。USDA SR 總膳食纖維採 AOAC 相容的資料庫方法基礎（985.29／991.43）；個別數值可能來自計算或推估，並非逐項實測，也不代表與每種較新的增強型 AOAC 檢測完全等同。此食材以標示的處理後重量納入 FVNS。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
+        "https://www.ars.usda.gov/ARSUSERFILES/80400535/DATA/PUBLICATIONS/FNR/IMPLICATIONS%20OF%20TWO%20DIRRERENT%20METHODS%20FOR%20ANALYZING%20TOTAL%20DIETARY%20FIBER.PDF",
+        "https://fdc.nal.usda.gov/food-details/170416/nutrients"
+      ]
+    }
+  },
+  {
+    "id": "usda-170005",
+    "fdcId": 170005,
+    "description": "Onions, spring or scallions (includes tops and bulb), raw",
+    "label": {
+      "en": "Raw scallion, tops and bulb",
+      "zh": "生青蔥（蔥綠與蔥白）"
+    },
+    "state": "raw",
+    "avoidTags": [],
+    "unknownAvoidTags": [],
+    "sourceId": "usda-sr-legacy-2018-recipes60-expansion",
+    "recordUrl": "https://fdc.nal.usda.gov/food-details/170005/nutrients",
+    "publicationDate": "2019-04-01",
+    "nutrientsPer100g": {
+      "kcal": 32,
+      "energyKj": 135,
+      "protein": 1.83,
+      "carbs": 7.34,
+      "fat": 0.19,
+      "saturatedFat": 0.032,
+      "fiber": 2.6,
+      "sodium": 16,
+      "addedSugar": null
+    },
+    "nutrientNotes": {
+      "addedSugar": {
+        "en": "Added sugars is not supplied in this source record. Unknown is not zero.",
+        "zh": "此來源紀錄未提供添加糖，未知值不等於零。"
+      }
+    },
+    "modelBasis": {
+      "freeSugarsPer100g": 0,
+      "fvnsEligible": true,
+      "fiberMethod": "AOAC-compatible",
+      "note": {
+        "en": "Free sugars 0 g is derived for the specified plain ingredient with no added sugars, sugar-containing marinades/additives, or fruit/vegetable puree, juice or paste. It is not a USDA added-sugars measurement. Spring onion is explicitly listed among onion-family vegetables in the official FVNS definitions. The recipe uses raw edible tops and bulb, washed, drained and sliced, with no sweetening or puree. Naturally occurring sugars in this intact vegetable are not free sugars; the source total sugars are not zero. USDA SR total dietary fiber uses an AOAC-compatible database basis (985.29/991.43); individual values may be calculated or imputed, not individually assayed. This does not establish equivalence to every newer enhanced AOAC assay. This ingredient qualifies for FVNS at its documented prepared weight.",
+        "zh": "游離糖 0 克依指定原味食材推導：不含添加糖、含糖醃料或添加物，也不含蔬果泥、汁、醬；這不是 USDA 添加糖實測值。青蔥明列於官方 FVNS 蔥屬蔬菜定義。配方使用洗淨瀝乾、切片的生可食蔥綠與蔥白，不加糖也不打成泥。此完整蔬菜的天然糖不算游離糖；來源總糖並非零。USDA SR 總膳食纖維採 AOAC 相容的資料庫方法基礎（985.29／991.43）；個別數值可能來自計算或推估，並非逐項實測，也不代表與每種較新的增強型 AOAC 檢測完全等同。此食材以標示的處理後重量納入 FVNS。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
+        "https://www.ars.usda.gov/ARSUSERFILES/80400535/DATA/PUBLICATIONS/FNR/IMPLICATIONS%20OF%20TWO%20DIRRERENT%20METHODS%20FOR%20ANALYZING%20TOTAL%20DIETARY%20FIBER.PDF",
+        "https://fdc.nal.usda.gov/food-details/170005/nutrients"
+      ]
+    }
+  },
+  {
+    "id": "usda-170152",
+    "fdcId": 170152,
+    "description": "Seeds, sesame seed kernels, toasted, without salt added (decorticated)",
+    "label": {
+      "en": "Toasted sesame kernels, without added salt",
+      "zh": "烘烤去殼芝麻仁（未加鹽）"
+    },
+    "state": "cooked",
+    "avoidTags": [
+      "Sesame"
+    ],
+    "unknownAvoidTags": [],
+    "sourceId": "usda-sr-legacy-2018-recipes72-expansion",
+    "recordUrl": "https://fdc.nal.usda.gov/food-details/170152/nutrients",
+    "publicationDate": "2019-04-01",
+    "nutrientsPer100g": {
+      "kcal": 567,
+      "energyKj": 2372,
+      "protein": 16.96,
+      "carbs": 26.04,
+      "fat": 48,
+      "saturatedFat": 6.722,
+      "fiber": 16.9,
+      "sodium": 39,
+      "addedSugar": null
+    },
+    "nutrientNotes": {
+      "addedSugar": {
+        "en": "Added sugars is not supplied in this source record. Unknown is not zero.",
+        "zh": "此來源紀錄未提供添加糖，未知值不等於零。"
+      }
+    },
+    "modelBasis": {
+      "freeSugarsPer100g": 0,
+      "fvnsEligible": true,
+      "fiberMethod": "AOAC-compatible",
+      "note": {
+        "en": "Free sugars 0 g is derived for the specified plain ingredient with no added sugars, sugar-containing marinades/additives, or fruit/vegetable puree, juice or paste. It is not a USDA added-sugars measurement. The source specifies toasted, decorticated sesame kernels without added salt. Toasting establishes the cooked ingredient state. The recipe grinds these weighed plain kernels without adding sweeteners; naturally occurring seed sugars are not free sugars, including in sesame paste, as illustrated by official worked example 8. Sesame seeds are explicitly eligible FVNS; toasted seeds are used only with other cooked qualifying ingredients. USDA SR total dietary fiber uses an AOAC-compatible database basis (985.29/991.43); individual values may be calculated or imputed, not individually assayed. This does not establish equivalence to every newer enhanced AOAC assay. This ingredient qualifies for FVNS at its documented prepared weight.",
+        "zh": "游離糖 0 克依指定原味食材推導：不含添加糖、含糖醃料或添加物，也不含蔬果泥、汁、醬；這不是 USDA 添加糖實測值。來源指定烘烤、去殼且未加鹽的芝麻仁，烘烤提供熟食狀態依據。配方將這些秤好的原味芝麻仁磨碎，不加甜味劑；依官方範例 8，包含芝麻糊在內的種籽天然糖不算游離糖。芝麻明列為合格 FVNS，烘烤芝麻僅搭配其他熟重合格食材。USDA SR 總膳食纖維採 AOAC 相容的資料庫方法基礎（985.29／991.43）；個別數值可能來自計算或推估，並非逐項實測，也不代表與每種較新的增強型 AOAC 檢測完全等同。此食材以標示的處理後重量納入 FVNS。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
+        "https://www.ars.usda.gov/ARSUSERFILES/80400535/DATA/PUBLICATIONS/FNR/IMPLICATIONS%20OF%20TWO%20DIRRERENT%20METHODS%20FOR%20ANALYZING%20TOTAL%20DIETARY%20FIBER.PDF",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-worked-examples-and-further-advice-on-calculations",
+        "https://fdc.nal.usda.gov/food-details/170152/nutrients"
+      ]
+    }
+  },
+  {
+    "id": "usda-173928",
+    "fdcId": 173928,
+    "description": "Apples, raw, without skin, cooked, boiled",
+    "label": {
+      "en": "Peeled apple, boiled in pieces",
+      "zh": "去皮水煮蘋果塊"
+    },
+    "state": "cooked",
+    "avoidTags": [],
+    "unknownAvoidTags": [],
+    "sourceId": "usda-sr-legacy-2018-recipes72-expansion",
+    "recordUrl": "https://fdc.nal.usda.gov/food-details/173928/nutrients",
+    "publicationDate": "2019-04-01",
+    "nutrientsPer100g": {
+      "kcal": 53,
+      "energyKj": 222,
+      "protein": 0.26,
+      "carbs": 13.64,
+      "fat": 0.36,
+      "saturatedFat": 0.058,
+      "fiber": 2.4,
+      "sodium": 1,
+      "addedSugar": null
+    },
+    "nutrientNotes": {
+      "addedSugar": {
+        "en": "Added sugars is not supplied in this source record. Unknown is not zero.",
+        "zh": "此來源紀錄未提供添加糖，未知值不等於零。"
+      }
+    },
+    "modelBasis": {
+      "freeSugarsPer100g": 0,
+      "fvnsEligible": true,
+      "fiberMethod": "AOAC-compatible",
+      "note": {
+        "en": "Free sugars 0 g is derived for the specified plain ingredient with no added sugars, sugar-containing marinades/additives, or fruit/vegetable puree, juice or paste. It is not a USDA added-sugars measurement. Although the full USDA description contains the word raw, its final preparation explicitly says cooked, boiled. Use peeled, cored apple pieces boiled without added sugar, then drained and weighed cooked. Do not mash, puree or blend the apple. Naturally occurring sugars in these intact cooked fruit pieces are not free sugars; the nonzero source total sugars are retained. Apples are listed FVNS fruit. Some FoodOn attributes still describe raw apple; this metadata inconsistency is retained, and the declared preparation uses the record description's explicit final cooked, boiled state. USDA SR total dietary fiber uses an AOAC-compatible database basis (985.29/991.43); individual values may be calculated or imputed, not individually assayed. This does not establish equivalence to every newer enhanced AOAC assay. This ingredient qualifies for FVNS at its documented prepared weight.",
+        "zh": "游離糖 0 克依指定原味食材推導：不含添加糖、含糖醃料或添加物，也不含蔬果泥、汁、醬；這不是 USDA 添加糖實測值。USDA 完整名稱雖含 raw 字樣，最終處理明確標示 cooked, boiled。使用去皮去核、未加糖水煮的蘋果塊，瀝乾後秤熟重，不壓泥、打成果泥或攪打。完整熟果塊的天然糖不算游離糖，仍保留來源非零總糖值；蘋果明列為 FVNS 水果。 部分 FoodOn 屬性仍描述生蘋果；此中繼資料不一致予以保留，配方處理狀態依據紀錄名稱明確的最終 cooked, boiled（熟、水煮）狀態。USDA SR 總膳食纖維採 AOAC 相容的資料庫方法基礎（985.29／991.43）；個別數值可能來自計算或推估，並非逐項實測，也不代表與每種較新的增強型 AOAC 檢測完全等同。此食材以標示的處理後重量納入 FVNS。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
+        "https://www.ars.usda.gov/ARSUSERFILES/80400535/DATA/PUBLICATIONS/FNR/IMPLICATIONS%20OF%20TWO%20DIRRERENT%20METHODS%20FOR%20ANALYZING%20TOTAL%20DIETARY%20FIBER.PDF",
+        "https://fdc.nal.usda.gov/food-details/173928/nutrients"
+      ]
+    }
+  },
+  {
+    "id": "usda-167762",
+    "fdcId": 167762,
+    "description": "Strawberries, raw",
+    "label": {
+      "en": "Raw strawberries, edible portion",
+      "zh": "生草莓可食部分"
+    },
+    "state": "raw",
+    "avoidTags": [],
+    "unknownAvoidTags": [],
+    "sourceId": "usda-sr-legacy-2018-recipes72-expansion",
+    "recordUrl": "https://fdc.nal.usda.gov/food-details/167762/nutrients",
+    "publicationDate": "2019-04-01",
+    "nutrientsPer100g": {
+      "kcal": 32,
+      "energyKj": 136,
+      "protein": 0.67,
+      "carbs": 7.68,
+      "fat": 0.3,
+      "saturatedFat": 0.015,
+      "fiber": 2,
+      "sodium": 1,
+      "addedSugar": null
+    },
+    "nutrientNotes": {
+      "addedSugar": {
+        "en": "Added sugars is not supplied in this source record. Unknown is not zero.",
+        "zh": "此來源紀錄未提供添加糖，未知值不等於零。"
+      }
+    },
+    "modelBasis": {
+      "freeSugarsPer100g": 0,
+      "fvnsEligible": true,
+      "fiberMethod": "AOAC-compatible",
+      "note": {
+        "en": "Free sugars 0 g is derived for the specified plain ingredient with no added sugars, sugar-containing marinades/additives, or fruit/vegetable puree, juice or paste. It is not a USDA added-sugars measurement. Use fresh raw strawberries with leaves and other inedible parts removed, washed and drained. Whole or sliced berries contain naturally occurring sugars outside the free-sugars definition; do not puree or sweeten them. Strawberries are explicitly listed in the official FVNS definitions. USDA SR total dietary fiber uses an AOAC-compatible database basis (985.29/991.43); individual values may be calculated or imputed, not individually assayed. This does not establish equivalence to every newer enhanced AOAC assay. This ingredient qualifies for FVNS at its documented prepared weight.",
+        "zh": "游離糖 0 克依指定原味食材推導：不含添加糖、含糖醃料或添加物，也不含蔬果泥、汁、醬；這不是 USDA 添加糖實測值。使用去葉及不可食部分、洗淨瀝乾的新鮮生草莓。完整或切片草莓的天然糖不屬於游離糖，不打成果泥或加糖；草莓明列於官方 FVNS 定義。USDA SR 總膳食纖維採 AOAC 相容的資料庫方法基礎（985.29／991.43）；個別數值可能來自計算或推估，並非逐項實測，也不代表與每種較新的增強型 AOAC 檢測完全等同。此食材以標示的處理後重量納入 FVNS。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
+        "https://www.ars.usda.gov/ARSUSERFILES/80400535/DATA/PUBLICATIONS/FNR/IMPLICATIONS%20OF%20TWO%20DIRRERENT%20METHODS%20FOR%20ANALYZING%20TOTAL%20DIETARY%20FIBER.PDF",
+        "https://fdc.nal.usda.gov/food-details/167762/nutrients"
+      ]
+    }
+  },
+  {
+    "id": "usda-168437",
+    "fdcId": 168437,
+    "description": "Mushrooms, shiitake, cooked, without salt",
+    "label": {
+      "en": "Cooked shiitake mushrooms, without salt",
+      "zh": "熟香菇（未加鹽）"
+    },
+    "state": "cooked",
+    "avoidTags": [],
+    "unknownAvoidTags": [],
+    "sourceId": "usda-sr-legacy-2018-recipes72-expansion",
+    "recordUrl": "https://fdc.nal.usda.gov/food-details/168437/nutrients",
+    "publicationDate": "2019-04-01",
+    "nutrientsPer100g": {
+      "kcal": 56,
+      "energyKj": 234,
+      "protein": 1.56,
+      "carbs": 14.39,
+      "fat": 0.22,
+      "saturatedFat": 0.05,
+      "fiber": 2.1,
+      "sodium": 4,
+      "addedSugar": null
+    },
+    "nutrientNotes": {
+      "addedSugar": {
+        "en": "Added sugars is not supplied in this source record. Unknown is not zero.",
+        "zh": "此來源紀錄未提供添加糖，未知值不等於零。"
+      }
+    },
+    "modelBasis": {
+      "freeSugarsPer100g": 0,
+      "fvnsEligible": true,
+      "fiberMethod": "AOAC-compatible",
+      "note": {
+        "en": "Free sugars 0 g is derived for the specified plain ingredient with no added sugars, sugar-containing marinades/additives, or fruit/vegetable puree, juice or paste. It is not a USDA added-sugars measurement. The source is cooked shiitake without salt, not dried mushrooms or raw mushrooms. Use plain cooked edible mushroom pieces, with tough inedible stems removed and cooking liquid drained. No sweetened glaze or puree is included. Intact mushroom sugars are not free sugars, and shiitake is explicitly listed among eligible fungi. USDA SR total dietary fiber uses an AOAC-compatible database basis (985.29/991.43); individual values may be calculated or imputed, not individually assayed. This does not establish equivalence to every newer enhanced AOAC assay. This ingredient qualifies for FVNS at its documented prepared weight.",
+        "zh": "游離糖 0 克依指定原味食材推導：不含添加糖、含糖醃料或添加物，也不含蔬果泥、汁、醬；這不是 USDA 添加糖實測值。來源是未加鹽熟香菇，不是乾香菇或生香菇。使用去除不可食硬蒂、瀝去烹調液的原味熟可食香菇塊，不含含糖醬汁，也不打成泥。完整菇類天然糖不算游離糖，香菇明列於合格真菌類。USDA SR 總膳食纖維採 AOAC 相容的資料庫方法基礎（985.29／991.43）；個別數值可能來自計算或推估，並非逐項實測，也不代表與每種較新的增強型 AOAC 檢測完全等同。此食材以標示的處理後重量納入 FVNS。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
+        "https://www.ars.usda.gov/ARSUSERFILES/80400535/DATA/PUBLICATIONS/FNR/IMPLICATIONS%20OF%20TWO%20DIRRERENT%20METHODS%20FOR%20ANALYZING%20TOTAL%20DIETARY%20FIBER.PDF",
+        "https://fdc.nal.usda.gov/food-details/168437/nutrients"
+      ]
+    }
+  },
+  {
+    "id": "usda-169230",
+    "fdcId": 169230,
+    "description": "Garlic, raw",
+    "label": {
+      "en": "Raw peeled garlic",
+      "zh": "去皮生蒜"
+    },
+    "state": "raw",
+    "avoidTags": [],
+    "unknownAvoidTags": [],
+    "sourceId": "usda-sr-legacy-2018-recipes72-expansion",
+    "recordUrl": "https://fdc.nal.usda.gov/food-details/169230/nutrients",
+    "publicationDate": "2019-04-01",
+    "nutrientsPer100g": {
+      "kcal": 149,
+      "energyKj": 623,
+      "protein": 6.36,
+      "carbs": 33.06,
+      "fat": 0.5,
+      "saturatedFat": 0.089,
+      "fiber": 2.1,
+      "sodium": 17,
+      "addedSugar": null
+    },
+    "nutrientNotes": {
+      "addedSugar": {
+        "en": "Added sugars is not supplied in this source record. Unknown is not zero.",
+        "zh": "此來源紀錄未提供添加糖，未知值不等於零。"
+      }
+    },
+    "modelBasis": {
+      "freeSugarsPer100g": 0,
+      "fvnsEligible": true,
+      "fiberMethod": "AOAC-compatible",
+      "note": {
+        "en": "Free sugars 0 g is derived for the specified plain ingredient with no added sugars, sugar-containing marinades/additives, or fruit/vegetable puree, juice or paste. It is not a USDA added-sugars measurement. Use peeled raw garlic, sliced or chopped by hand and served without further cooking. Do not crush or blend it into a paste. Under this intact-vegetable specification, naturally occurring sugars are not free sugars; this is not a source-total-sugars zero. Garlic is explicitly listed among FVNS onion-family vegetables. USDA SR total dietary fiber uses an AOAC-compatible database basis (985.29/991.43); individual values may be calculated or imputed, not individually assayed. This does not establish equivalence to every newer enhanced AOAC assay. This ingredient qualifies for FVNS at its documented prepared weight.",
+        "zh": "游離糖 0 克依指定原味食材推導：不含添加糖、含糖醃料或添加物，也不含蔬果泥、汁、醬；這不是 USDA 添加糖實測值。使用去皮生蒜，手工切片或切碎，之後不再烹煮，不壓成泥也不攪打成糊。依此完整蔬菜規格，天然糖不算游離糖；並非來源總糖為零。大蒜明列於 FVNS 蔥屬蔬菜。USDA SR 總膳食纖維採 AOAC 相容的資料庫方法基礎（985.29／991.43）；個別數值可能來自計算或推估，並非逐項實測，也不代表與每種較新的增強型 AOAC 檢測完全等同。此食材以標示的處理後重量納入 FVNS。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
+        "https://www.ars.usda.gov/ARSUSERFILES/80400535/DATA/PUBLICATIONS/FNR/IMPLICATIONS%20OF%20TWO%20DIRRERENT%20METHODS%20FOR%20ANALYZING%20TOTAL%20DIETARY%20FIBER.PDF",
+        "https://fdc.nal.usda.gov/food-details/169230/nutrients"
+      ]
+    }
+  },
+  {
+    "id": "usda-170848",
+    "fdcId": 170848,
+    "description": "Cheese, parmesan, hard",
+    "label": {
+      "en": "Plain hard Parmesan cheese",
+      "zh": "原味硬質帕瑪森起司"
+    },
+    "state": "ready-to-eat",
+    "avoidTags": [
+      "Dairy"
+    ],
+    "unknownAvoidTags": [],
+    "sourceId": "usda-sr-legacy-2018-recipes72-expansion",
+    "recordUrl": "https://fdc.nal.usda.gov/food-details/170848/nutrients",
+    "publicationDate": "2019-04-01",
+    "nutrientsPer100g": {
+      "kcal": 392,
+      "energyKj": 1641,
+      "protein": 35.75,
+      "carbs": 3.22,
+      "fat": 25,
+      "saturatedFat": 14.85,
+      "fiber": 0,
+      "sodium": 1175,
+      "addedSugar": null
+    },
+    "nutrientNotes": {
+      "addedSugar": {
+        "en": "Added sugars is not supplied in this source record. Unknown is not zero.",
+        "zh": "此來源紀錄未提供添加糖，未知值不等於零。"
+      }
+    },
+    "modelBasis": {
+      "freeSugarsPer100g": 0,
+      "fvnsEligible": false,
+      "fiberMethod": "AOAC-compatible",
+      "note": {
+        "en": "Free sugars 0 g is derived for the specified plain ingredient with no added sugars, sugar-containing marinades/additives, or fruit/vegetable puree, juice or paste. It is not a USDA added-sugars measurement. Use a plain piece of hard Parmesan and grate it at assembly, not a flavored or starch-coated pre-grated blend. Naturally present milk sugars in unsweetened cheese are outside the free-sugars definition. No lactose-free treatment, added sugar, whey powder or vegetable preparation is specified. Dairy cheese is not an FVNS ingredient. USDA SR total dietary fiber uses an AOAC-compatible database basis (985.29/991.43); individual values may be calculated or imputed, not individually assayed. This does not establish equivalence to every newer enhanced AOAC assay. This ingredient contributes to recipe mass, not the FVNS numerator.",
+        "zh": "游離糖 0 克依指定原味食材推導：不含添加糖、含糖醃料或添加物，也不含蔬果泥、汁、醬；這不是 USDA 添加糖實測值。使用原味硬質帕瑪森起司塊，組裝時現刨，不以調味或裹澱粉的預刨混合物代替。未加糖起司中天然存在的乳糖不屬於游離糖，規格不含去乳糖處理、添加糖、乳清粉或蔬菜調製品。乳製起司不是 FVNS 食材。USDA SR 總膳食纖維採 AOAC 相容的資料庫方法基礎（985.29／991.43）；個別數值可能來自計算或推估，並非逐項實測，也不代表與每種較新的增強型 AOAC 檢測完全等同。此食材只納入配方總重，不納入 FVNS 分子。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
+        "https://www.ars.usda.gov/ARSUSERFILES/80400535/DATA/PUBLICATIONS/FNR/IMPLICATIONS%20OF%20TWO%20DIRRERENT%20METHODS%20FOR%20ANALYZING%20TOTAL%20DIETARY%20FIBER.PDF",
+        "https://fdc.nal.usda.gov/food-details/170848/nutrients"
+      ]
+    }
+  },
+  {
+    "id": "usda-170844",
+    "fdcId": 170844,
+    "description": "Cheese, monterey",
+    "label": {
+      "en": "Plain Monterey cheese",
+      "zh": "原味蒙特瑞起司"
+    },
+    "state": "ready-to-eat",
+    "avoidTags": [
+      "Dairy"
+    ],
+    "unknownAvoidTags": [],
+    "sourceId": "usda-sr-legacy-2018-recipes72-expansion",
+    "recordUrl": "https://fdc.nal.usda.gov/food-details/170844/nutrients",
+    "publicationDate": "2019-04-01",
+    "nutrientsPer100g": {
+      "kcal": 373,
+      "energyKj": 1562,
+      "protein": 24.48,
+      "carbs": 0.68,
+      "fat": 30.28,
+      "saturatedFat": 19.066,
+      "fiber": 0,
+      "sodium": 600,
+      "addedSugar": null
+    },
+    "nutrientNotes": {
+      "addedSugar": {
+        "en": "Added sugars is not supplied in this source record. Unknown is not zero.",
+        "zh": "此來源紀錄未提供添加糖，未知值不等於零。"
+      }
+    },
+    "modelBasis": {
+      "freeSugarsPer100g": 0,
+      "fvnsEligible": false,
+      "fiberMethod": "AOAC-compatible",
+      "note": {
+        "en": "Free sugars 0 g is derived for the specified plain ingredient with no added sugars, sugar-containing marinades/additives, or fruit/vegetable puree, juice or paste. It is not a USDA added-sugars measurement. Use plain Monterey cheese, without pepper, fruit, sweeteners or added whey powder, not a flavored or processed cheese blend. Naturally present milk sugars in this unsweetened dairy food are not free sugars. The source reports nonzero total sugars, retained separately; dairy cheese is outside FVNS. USDA SR total dietary fiber uses an AOAC-compatible database basis (985.29/991.43); individual values may be calculated or imputed, not individually assayed. This does not establish equivalence to every newer enhanced AOAC assay. This ingredient contributes to recipe mass, not the FVNS numerator.",
+        "zh": "游離糖 0 克依指定原味食材推導：不含添加糖、含糖醃料或添加物，也不含蔬果泥、汁、醬；這不是 USDA 添加糖實測值。使用原味蒙特瑞起司，不加辣椒、水果、甜味劑或乳清粉，不以調味或再製起司混合物代替。此未加糖乳製品中的天然乳糖不算游離糖；來源非零總糖仍另行保留，乳製起司不屬於 FVNS。USDA SR 總膳食纖維採 AOAC 相容的資料庫方法基礎（985.29／991.43）；個別數值可能來自計算或推估，並非逐項實測，也不代表與每種較新的增強型 AOAC 檢測完全等同。此食材只納入配方總重，不納入 FVNS 分子。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
+        "https://www.ars.usda.gov/ARSUSERFILES/80400535/DATA/PUBLICATIONS/FNR/IMPLICATIONS%20OF%20TWO%20DIRRERENT%20METHODS%20FOR%20ANALYZING%20TOTAL%20DIETARY%20FIBER.PDF",
+        "https://fdc.nal.usda.gov/food-details/170844/nutrients"
+      ]
+    }
+  },
+  {
+    "id": "usda-170845",
+    "fdcId": 170845,
+    "description": "Cheese, mozzarella, whole milk",
+    "label": {
+      "en": "Plain whole-milk mozzarella",
+      "zh": "原味全脂莫札瑞拉起司"
+    },
+    "state": "ready-to-eat",
+    "avoidTags": [
+      "Dairy"
+    ],
+    "unknownAvoidTags": [],
+    "sourceId": "usda-sr-legacy-2018-recipes72-expansion",
+    "recordUrl": "https://fdc.nal.usda.gov/food-details/170845/nutrients",
+    "publicationDate": "2019-04-01",
+    "nutrientsPer100g": {
+      "kcal": 299,
+      "energyKj": 1249,
+      "protein": 22.17,
+      "carbs": 2.4,
+      "fat": 22.14,
+      "saturatedFat": 13.9,
+      "fiber": 0,
+      "sodium": 486,
+      "addedSugar": null
+    },
+    "nutrientNotes": {
+      "addedSugar": {
+        "en": "Added sugars is not supplied in this source record. Unknown is not zero.",
+        "zh": "此來源紀錄未提供添加糖，未知值不等於零。"
+      }
+    },
+    "modelBasis": {
+      "freeSugarsPer100g": 0,
+      "fvnsEligible": false,
+      "fiberMethod": "AOAC-compatible",
+      "note": {
+        "en": "The source reports total sugars 0 g per 100 g, supporting a derived free-sugars value of 0 for this exact source estimate. This does not fill the unknown added-sugars field or describe an unspecified substitute. The selected whole-milk mozzarella source reports total sugars of 0 g per 100 g. Use plain whole-milk mozzarella, not the separately listed low-moisture, part-skim or pre-shredded source records. Dairy cheese is outside FVNS. USDA SR total dietary fiber uses an AOAC-compatible database basis (985.29/991.43); individual values may be calculated or imputed, not individually assayed. This does not establish equivalence to every newer enhanced AOAC assay. This ingredient contributes to recipe mass, not the FVNS numerator.",
+        "zh": "來源每 100 克總糖為 0 克，支持此特定來源估算的游離糖推導值為 0；這不會填補未知的添加糖欄位，也不適用於未指定替代品。選用的全脂莫札瑞拉來源總糖為每 100 克 0 克。使用原味全脂莫札瑞拉，不套用另列的低水分、部分脫脂或預刨版本；乳製起司不屬於 FVNS。USDA SR 總膳食纖維採 AOAC 相容的資料庫方法基礎（985.29／991.43）；個別數值可能來自計算或推估，並非逐項實測，也不代表與每種較新的增強型 AOAC 檢測完全等同。此食材只納入配方總重，不納入 FVNS 分子。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
+        "https://www.ars.usda.gov/ARSUSERFILES/80400535/DATA/PUBLICATIONS/FNR/IMPLICATIONS%20OF%20TWO%20DIRRERENT%20METHODS%20FOR%20ANALYZING%20TOTAL%20DIETARY%20FIBER.PDF",
+        "https://fdc.nal.usda.gov/food-details/170845/nutrients"
+      ]
+    }
+  },
+  {
+    "id": "usda-171651",
+    "fdcId": 171651,
+    "description": "Cereals ready-to-eat, QUAKER, QUAKER Puffed Rice",
+    "label": {
+      "en": "QUAKER Puffed Rice cereal (archived USDA source)",
+      "zh": "QUAKER 膨化米穀片（USDA 歷史來源）"
+    },
+    "state": "ready-to-eat",
+    "avoidTags": [],
+    "unknownAvoidTags": [
+      "Dairy",
+      "Egg",
+      "Wheat / gluten",
+      "Soy",
+      "Sesame",
+      "Peanuts",
+      "Tree nuts"
+    ],
+    "sourceId": "usda-sr-legacy-2018-recipes72-expansion",
+    "recordUrl": "https://fdc.nal.usda.gov/food-details/171651/nutrients",
+    "publicationDate": "2019-04-01",
+    "nutrientsPer100g": {
+      "kcal": 383,
+      "energyKj": 1602,
+      "protein": 7.01,
+      "carbs": 87.78,
+      "fat": 0.9,
+      "saturatedFat": 0.325,
+      "fiber": 1.4,
+      "sodium": 5,
+      "addedSugar": null
+    },
+    "nutrientNotes": {
+      "addedSugar": {
+        "en": "Added sugars is not supplied in this source record. Unknown is not zero.",
+        "zh": "此來源紀錄未提供添加糖，未知值不等於零。"
+      }
+    },
+    "modelBasis": {
+      "freeSugarsPer100g": 0,
+      "fvnsEligible": false,
+      "fiberMethod": "AOAC-compatible",
+      "note": {
+        "en": "The source reports total sugars 0 g per 100 g, supporting a derived free-sugars value of 0 for this exact source estimate. This does not fill the unknown added-sugars field or describe an unspecified substitute. This pinned SR Legacy record is specifically QUAKER Puffed Rice and reports total sugars of 0 g per 100 g. Puffed rice is a cereal grain, not FVNS. The recipe is an estimate from this archived product record; it is not verified against a current package or another cereal. The record lacks a full ingredient/allergen declaration, so other ingredient absences remain unknown rather than being certified. USDA SR total dietary fiber uses an AOAC-compatible database basis (985.29/991.43); individual values may be calculated or imputed, not individually assayed. This does not establish equivalence to every newer enhanced AOAC assay. This ingredient contributes to recipe mass, not the FVNS numerator.",
+        "zh": "來源每 100 克總糖為 0 克，支持此特定來源估算的游離糖推導值為 0；這不會填補未知的添加糖欄位，也不適用於未指定替代品。此固定 SR Legacy 紀錄指定 QUAKER 膨化米穀片，總糖為每 100 克 0 克。膨化米屬穀物，不屬於 FVNS。配方依此歷史產品紀錄估算，未驗證現售包裝或其他穀片；紀錄缺乏完整原料及過敏原聲明，其他原料是否不存在仍保留未知，不作排除保證。USDA SR 總膳食纖維採 AOAC 相容的資料庫方法基礎（985.29／991.43）；個別數值可能來自計算或推估，並非逐項實測，也不代表與每種較新的增強型 AOAC 檢測完全等同。此食材只納入配方總重，不納入 FVNS 分子。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
+        "https://www.ars.usda.gov/ARSUSERFILES/80400535/DATA/PUBLICATIONS/FNR/IMPLICATIONS%20OF%20TWO%20DIRRERENT%20METHODS%20FOR%20ANALYZING%20TOTAL%20DIETARY%20FIBER.PDF",
+        "https://fdc.nal.usda.gov/food-details/171651/nutrients"
+      ]
+    }
+  },
+  {
+    "id": "usda-174271",
+    "fdcId": 174271,
+    "description": "Soybeans, mature cooked, boiled, without salt",
+    "label": {
+      "en": "Mature whole soybeans, boiled without salt",
+      "zh": "水煮成熟黃豆（未加鹽）"
+    },
+    "state": "cooked",
+    "avoidTags": [
+      "Soy"
+    ],
+    "unknownAvoidTags": [],
+    "sourceId": "usda-sr-legacy-2018-recipes84-expansion",
+    "recordUrl": "https://fdc.nal.usda.gov/food-details/174271/nutrients",
+    "publicationDate": "2019-04-01",
+    "nutrientsPer100g": {
+      "kcal": 172,
+      "energyKj": 721,
+      "protein": 18.21,
+      "carbs": 8.36,
+      "fat": 8.97,
+      "saturatedFat": 1.297,
+      "fiber": 6,
+      "sodium": 1,
+      "addedSugar": null
+    },
+    "nutrientNotes": {
+      "addedSugar": {
+        "en": "Added sugars is not supplied in this source record. Unknown is not zero.",
+        "zh": "此來源紀錄未提供添加糖，未知值不等於零。"
+      }
+    },
+    "modelBasis": {
+      "freeSugarsPer100g": 0,
+      "fvnsEligible": true,
+      "fiberMethod": "AOAC-compatible",
+      "note": {
+        "en": "Free sugars 0 g is derived for the specified plain ingredient with no added sugars, sugar-containing marinades/additives, or fruit/vegetable puree, juice or paste. It is not a USDA added-sugars measurement. The source is mature soybeans fully cooked by boiling without salt. Use the hydrated edible whole beans, not dry seeds, immature edamame, tofu or soybean extract. Plain intact beans contain naturally occurring sugars outside the free-sugars definition; total sugars are not zero. Soya beans are explicitly listed in FVNS. This does not resolve the fraction of soybeans in processed tofu or soy drinks. USDA SR total dietary fiber uses an AOAC-compatible database basis (985.29/991.43); individual values may be calculated or imputed, not individually assayed. This does not establish equivalence to every newer enhanced AOAC assay. This ingredient qualifies for FVNS at its documented prepared weight.",
+        "zh": "游離糖 0 克依指定原味食材推導：不含添加糖、含糖醃料或添加物，也不含蔬果泥、汁、醬；這不是 USDA 添加糖實測值。來源為未加鹽水煮至熟的成熟黃豆。使用吸水煮熟的可食完整豆粒，不是乾豆、未成熟毛豆、豆腐或黃豆萃取物。原味完整豆粒的天然糖不算游離糖，總糖並非零；黃豆明列於 FVNS。此分類不代表加工豆腐或豆飲中的黃豆比例已知。USDA SR 總膳食纖維採 AOAC 相容的資料庫方法基礎（985.29／991.43）；個別數值可能來自計算或推估，並非逐項實測，也不代表與每種較新的增強型 AOAC 檢測完全等同。此食材以標示的處理後重量納入 FVNS。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
+        "https://www.ars.usda.gov/ARSUSERFILES/80400535/DATA/PUBLICATIONS/FNR/IMPLICATIONS%20OF%20TWO%20DIRRERENT%20METHODS%20FOR%20ANALYZING%20TOTAL%20DIETARY%20FIBER.PDF",
+        "https://fdc.nal.usda.gov/food-details/174271/nutrients"
+      ]
+    }
+  },
+  {
+    "id": "usda-168426",
+    "fdcId": 168426,
+    "description": "Leeks, (bulb and lower leaf-portion), cooked, boiled, drained, without salt",
+    "label": {
+      "en": "Boiled leek, bulb and lower leaves, drained",
+      "zh": "水煮瀝乾韭蔥（莖基與下段葉）"
+    },
+    "state": "cooked",
+    "avoidTags": [],
+    "unknownAvoidTags": [],
+    "sourceId": "usda-sr-legacy-2018-recipes84-expansion",
+    "recordUrl": "https://fdc.nal.usda.gov/food-details/168426/nutrients",
+    "publicationDate": "2019-04-01",
+    "nutrientsPer100g": {
+      "kcal": 31,
+      "energyKj": 130,
+      "protein": 0.81,
+      "carbs": 7.62,
+      "fat": 0.2,
+      "saturatedFat": 0.027,
+      "fiber": 1,
+      "sodium": 10,
+      "addedSugar": null
+    },
+    "nutrientNotes": {
+      "addedSugar": {
+        "en": "Added sugars is not supplied in this source record. Unknown is not zero.",
+        "zh": "此來源紀錄未提供添加糖，未知值不等於零。"
+      }
+    },
+    "modelBasis": {
+      "freeSugarsPer100g": 0,
+      "fvnsEligible": true,
+      "fiberMethod": "AOAC-compatible",
+      "note": {
+        "en": "Free sugars 0 g is derived for the specified plain ingredient with no added sugars, sugar-containing marinades/additives, or fruit/vegetable puree, juice or paste. It is not a USDA added-sugars measurement. Use the leek bulb and lower leaf portion, boiled without salt and drained before cooked weighing; exclude roots and tough upper leaves. Keep the edible leek sliced or in pieces, not pureed. Naturally occurring sugars in this intact cooked vegetable are not free sugars. Leek is explicitly listed among FVNS onion-family vegetables. USDA SR total dietary fiber uses an AOAC-compatible database basis (985.29/991.43); individual values may be calculated or imputed, not individually assayed. This does not establish equivalence to every newer enhanced AOAC assay. This ingredient qualifies for FVNS at its documented prepared weight.",
+        "zh": "游離糖 0 克依指定原味食材推導：不含添加糖、含糖醃料或添加物，也不含蔬果泥、汁、醬；這不是 USDA 添加糖實測值。使用韭蔥莖基與下段葉，未加鹽水煮、瀝乾後秤熟重，排除根與粗硬上段葉。可食韭蔥保持切片或塊狀，不打成泥。完整熟蔬菜的天然糖不算游離糖；韭蔥明列於 FVNS 蔥屬蔬菜。USDA SR 總膳食纖維採 AOAC 相容的資料庫方法基礎（985.29／991.43）；個別數值可能來自計算或推估，並非逐項實測，也不代表與每種較新的增強型 AOAC 檢測完全等同。此食材以標示的處理後重量納入 FVNS。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
+        "https://www.ars.usda.gov/ARSUSERFILES/80400535/DATA/PUBLICATIONS/FNR/IMPLICATIONS%20OF%20TWO%20DIRRERENT%20METHODS%20FOR%20ANALYZING%20TOTAL%20DIETARY%20FIBER.PDF",
+        "https://fdc.nal.usda.gov/food-details/168426/nutrients"
+      ]
+    }
+  },
+  {
+    "id": "usda-169229",
+    "fdcId": 169229,
+    "description": "Eggplant, cooked, boiled, drained, without salt",
+    "label": {
+      "en": "Boiled eggplant, drained without salt",
+      "zh": "水煮瀝乾茄子（未加鹽）"
+    },
+    "state": "cooked",
+    "avoidTags": [
+      "Eggplant"
+    ],
+    "unknownAvoidTags": [],
+    "sourceId": "usda-sr-legacy-2018-recipes84-expansion",
+    "recordUrl": "https://fdc.nal.usda.gov/food-details/169229/nutrients",
+    "publicationDate": "2019-04-01",
+    "nutrientsPer100g": {
+      "kcal": 35,
+      "energyKj": 147,
+      "protein": 0.83,
+      "carbs": 8.73,
+      "fat": 0.23,
+      "saturatedFat": 0.044,
+      "fiber": 2.5,
+      "sodium": 1,
+      "addedSugar": null
+    },
+    "nutrientNotes": {
+      "addedSugar": {
+        "en": "Added sugars is not supplied in this source record. Unknown is not zero.",
+        "zh": "此來源紀錄未提供添加糖，未知值不等於零。"
+      }
+    },
+    "modelBasis": {
+      "freeSugarsPer100g": 0,
+      "fvnsEligible": true,
+      "fiberMethod": "AOAC-compatible",
+      "note": {
+        "en": "Free sugars 0 g is derived for the specified plain ingredient with no added sugars, sugar-containing marinades/additives, or fruit/vegetable puree, juice or paste. It is not a USDA added-sugars measurement. Use plain eggplant boiled without salt and drained, not fried eggplant or baba ghanoush. Remove the stalk and other inedible parts before final cooked edible weighing; keep the fruit in pieces. Intact cooked eggplant sugars are not free sugars, and aubergine/eggplant is explicitly listed in FVNS. USDA SR total dietary fiber uses an AOAC-compatible database basis (985.29/991.43); individual values may be calculated or imputed, not individually assayed. This does not establish equivalence to every newer enhanced AOAC assay. This ingredient qualifies for FVNS at its documented prepared weight.",
+        "zh": "游離糖 0 克依指定原味食材推導：不含添加糖、含糖醃料或添加物，也不含蔬果泥、汁、醬；這不是 USDA 添加糖實測值。使用未加鹽水煮瀝乾的原味茄子，不是炸茄子或茄泥醬。去除蒂及不可食部分後秤最終可食熟重，保持塊狀。完整熟茄子的天然糖不算游離糖，茄子明列於 FVNS。USDA SR 總膳食纖維採 AOAC 相容的資料庫方法基礎（985.29／991.43）；個別數值可能來自計算或推估，並非逐項實測，也不代表與每種較新的增強型 AOAC 檢測完全等同。此食材以標示的處理後重量納入 FVNS。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
+        "https://www.ars.usda.gov/ARSUSERFILES/80400535/DATA/PUBLICATIONS/FNR/IMPLICATIONS%20OF%20TWO%20DIRRERENT%20METHODS%20FOR%20ANALYZING%20TOTAL%20DIETARY%20FIBER.PDF",
+        "https://fdc.nal.usda.gov/food-details/169229/nutrients"
+      ]
+    }
+  },
+  {
+    "id": "usda-169989",
+    "fdcId": 169989,
+    "description": "Celery, cooked, boiled, drained, without salt",
+    "label": {
+      "en": "Boiled celery, drained without salt",
+      "zh": "水煮瀝乾西洋芹（未加鹽）"
+    },
+    "state": "cooked",
+    "avoidTags": [
+      "Celery"
+    ],
+    "unknownAvoidTags": [],
+    "sourceId": "usda-sr-legacy-2018-recipes84-expansion",
+    "recordUrl": "https://fdc.nal.usda.gov/food-details/169989/nutrients",
+    "publicationDate": "2019-04-01",
+    "nutrientsPer100g": {
+      "kcal": 18,
+      "energyKj": 74,
+      "protein": 0.83,
+      "carbs": 4,
+      "fat": 0.16,
+      "saturatedFat": 0.04,
+      "fiber": 1.6,
+      "sodium": 91,
+      "addedSugar": null
+    },
+    "nutrientNotes": {
+      "addedSugar": {
+        "en": "Added sugars is not supplied in this source record. Unknown is not zero.",
+        "zh": "此來源紀錄未提供添加糖，未知值不等於零。"
+      }
+    },
+    "modelBasis": {
+      "freeSugarsPer100g": 0,
+      "fvnsEligible": true,
+      "fiberMethod": "AOAC-compatible",
+      "note": {
+        "en": "Free sugars 0 g is derived for the specified plain ingredient with no added sugars, sugar-containing marinades/additives, or fruit/vegetable puree, juice or paste. It is not a USDA added-sugars measurement. Use plain celery boiled without salt, drained and weighed cooked, with no sweetened glaze or blending. Its naturally occurring sugars are not free sugars under this intact-vegetable specification. Celery is explicitly listed as an FVNS stalk vegetable and carries the named Celery avoidance tag. USDA SR total dietary fiber uses an AOAC-compatible database basis (985.29/991.43); individual values may be calculated or imputed, not individually assayed. This does not establish equivalence to every newer enhanced AOAC assay. This ingredient qualifies for FVNS at its documented prepared weight.",
+        "zh": "游離糖 0 克依指定原味食材推導：不含添加糖、含糖醃料或添加物，也不含蔬果泥、汁、醬；這不是 USDA 添加糖實測值。使用未加鹽水煮、瀝乾秤熟重的原味西洋芹，不加含糖醬或攪打成泥。依完整蔬菜規格，天然糖不算游離糖；西洋芹明列於 FVNS 莖菜，並帶有 Celery 避開標籤。USDA SR 總膳食纖維採 AOAC 相容的資料庫方法基礎（985.29／991.43）；個別數值可能來自計算或推估，並非逐項實測，也不代表與每種較新的增強型 AOAC 檢測完全等同。此食材以標示的處理後重量納入 FVNS。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
+        "https://www.ars.usda.gov/ARSUSERFILES/80400535/DATA/PUBLICATIONS/FNR/IMPLICATIONS%20OF%20TWO%20DIRRERENT%20METHODS%20FOR%20ANALYZING%20TOTAL%20DIETARY%20FIBER.PDF",
+        "https://fdc.nal.usda.gov/food-details/169989/nutrients"
+      ]
+    }
+  },
+  {
+    "id": "usda-170058",
+    "fdcId": 170058,
+    "description": "Turnips, cooked, boiled, drained, without salt",
+    "label": {
+      "en": "Boiled turnip, drained without salt",
+      "zh": "水煮瀝乾蕪菁（未加鹽）"
+    },
+    "state": "cooked",
+    "avoidTags": [],
+    "unknownAvoidTags": [],
+    "sourceId": "usda-sr-legacy-2018-recipes84-expansion",
+    "recordUrl": "https://fdc.nal.usda.gov/food-details/170058/nutrients",
+    "publicationDate": "2019-04-01",
+    "nutrientsPer100g": {
+      "kcal": 22,
+      "energyKj": 92,
+      "protein": 0.71,
+      "carbs": 5.06,
+      "fat": 0.08,
+      "saturatedFat": 0.008,
+      "fiber": 2,
+      "sodium": 16,
+      "addedSugar": null
+    },
+    "nutrientNotes": {
+      "addedSugar": {
+        "en": "Added sugars is not supplied in this source record. Unknown is not zero.",
+        "zh": "此來源紀錄未提供添加糖，未知值不等於零。"
+      }
+    },
+    "modelBasis": {
+      "freeSugarsPer100g": 0,
+      "fvnsEligible": true,
+      "fiberMethod": "AOAC-compatible",
+      "note": {
+        "en": "Free sugars 0 g is derived for the specified plain ingredient with no added sugars, sugar-containing marinades/additives, or fruit/vegetable puree, juice or paste. It is not a USDA added-sugars measurement. Use plain turnip root boiled without salt, drained and kept in pieces. This source is turnip, not potato or radish. The official FVNS definitions explicitly include turnip as a root vegetable, while their separate tuber exclusions name foods such as potato. Naturally occurring sugars in intact cooked turnip are not free sugars. USDA SR total dietary fiber uses an AOAC-compatible database basis (985.29/991.43); individual values may be calculated or imputed, not individually assayed. This does not establish equivalence to every newer enhanced AOAC assay. This ingredient qualifies for FVNS at its documented prepared weight.",
+        "zh": "游離糖 0 克依指定原味食材推導：不含添加糖、含糖醃料或添加物，也不含蔬果泥、汁、醬；這不是 USDA 添加糖實測值。使用未加鹽水煮、瀝乾並保持塊狀的蕪菁根。來源為蕪菁，不是馬鈴薯或蘿蔔；官方 FVNS 根菜定義明列蕪菁，另列塊莖排除項目才包含馬鈴薯等食物。完整熟蕪菁的天然糖不算游離糖。USDA SR 總膳食纖維採 AOAC 相容的資料庫方法基礎（985.29／991.43）；個別數值可能來自計算或推估，並非逐項實測，也不代表與每種較新的增強型 AOAC 檢測完全等同。此食材以標示的處理後重量納入 FVNS。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
+        "https://www.ars.usda.gov/ARSUSERFILES/80400535/DATA/PUBLICATIONS/FNR/IMPLICATIONS%20OF%20TWO%20DIRRERENT%20METHODS%20FOR%20ANALYZING%20TOTAL%20DIETARY%20FIBER.PDF",
+        "https://fdc.nal.usda.gov/food-details/170058/nutrients"
+      ]
+    }
+  },
+  {
+    "id": "usda-170397",
+    "fdcId": 170397,
+    "description": "Cauliflower, cooked, boiled, drained, without salt",
+    "label": {
+      "en": "Boiled cauliflower, drained without salt",
+      "zh": "水煮瀝乾白花椰菜（未加鹽）"
+    },
+    "state": "cooked",
+    "avoidTags": [],
+    "unknownAvoidTags": [],
+    "sourceId": "usda-sr-legacy-2018-recipes84-expansion",
+    "recordUrl": "https://fdc.nal.usda.gov/food-details/170397/nutrients",
+    "publicationDate": "2019-04-01",
+    "nutrientsPer100g": {
+      "kcal": 23,
+      "energyKj": 96,
+      "protein": 1.84,
+      "carbs": 4.11,
+      "fat": 0.45,
+      "saturatedFat": 0.07,
+      "fiber": 2.3,
+      "sodium": 15,
+      "addedSugar": null
+    },
+    "nutrientNotes": {
+      "addedSugar": {
+        "en": "Added sugars is not supplied in this source record. Unknown is not zero.",
+        "zh": "此來源紀錄未提供添加糖，未知值不等於零。"
+      }
+    },
+    "modelBasis": {
+      "freeSugarsPer100g": 0,
+      "fvnsEligible": true,
+      "fiberMethod": "AOAC-compatible",
+      "note": {
+        "en": "Free sugars 0 g is derived for the specified plain ingredient with no added sugars, sugar-containing marinades/additives, or fruit/vegetable puree, juice or paste. It is not a USDA added-sugars measurement. Use plain cauliflower boiled without salt, drained and weighed cooked, with no cheese sauce or puree. Naturally occurring sugars in intact cooked cauliflower are outside the free-sugars definition. Cauliflower is explicitly listed among eligible FVNS brassicas. USDA SR total dietary fiber uses an AOAC-compatible database basis (985.29/991.43); individual values may be calculated or imputed, not individually assayed. This does not establish equivalence to every newer enhanced AOAC assay. This ingredient qualifies for FVNS at its documented prepared weight.",
+        "zh": "游離糖 0 克依指定原味食材推導：不含添加糖、含糖醃料或添加物，也不含蔬果泥、汁、醬；這不是 USDA 添加糖實測值。使用未加鹽水煮、瀝乾秤熟重的原味白花椰菜，不加起司醬或打成泥。完整熟白花椰菜的天然糖不屬於游離糖，白花椰菜明列於合格 FVNS 十字花科蔬菜。USDA SR 總膳食纖維採 AOAC 相容的資料庫方法基礎（985.29／991.43）；個別數值可能來自計算或推估，並非逐項實測，也不代表與每種較新的增強型 AOAC 檢測完全等同。此食材以標示的處理後重量納入 FVNS。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
+        "https://www.ars.usda.gov/ARSUSERFILES/80400535/DATA/PUBLICATIONS/FNR/IMPLICATIONS%20OF%20TWO%20DIRRERENT%20METHODS%20FOR%20ANALYZING%20TOTAL%20DIETARY%20FIBER.PDF",
+        "https://fdc.nal.usda.gov/food-details/170397/nutrients"
+      ]
+    }
+  },
+  {
+    "id": "usda-170420",
+    "fdcId": 170420,
+    "description": "Peas, green, cooked, boiled, drained, without salt",
+    "label": {
+      "en": "Boiled shelled green peas, drained without salt",
+      "zh": "水煮瀝乾青豌豆仁（未加鹽）"
+    },
+    "state": "cooked",
+    "avoidTags": [],
+    "unknownAvoidTags": [],
+    "sourceId": "usda-sr-legacy-2018-recipes84-expansion",
+    "recordUrl": "https://fdc.nal.usda.gov/food-details/170420/nutrients",
+    "publicationDate": "2019-04-01",
+    "nutrientsPer100g": {
+      "kcal": 84,
+      "energyKj": 352,
+      "protein": 5.36,
+      "carbs": 15.63,
+      "fat": 0.22,
+      "saturatedFat": 0.039,
+      "fiber": 5.5,
+      "sodium": 3,
+      "addedSugar": null
+    },
+    "nutrientNotes": {
+      "addedSugar": {
+        "en": "Added sugars is not supplied in this source record. Unknown is not zero.",
+        "zh": "此來源紀錄未提供添加糖，未知值不等於零。"
+      }
+    },
+    "modelBasis": {
+      "freeSugarsPer100g": 0,
+      "fvnsEligible": true,
+      "fiberMethod": "AOAC-compatible",
+      "note": {
+        "en": "Free sugars 0 g is derived for the specified plain ingredient with no added sugars, sugar-containing marinades/additives, or fruit/vegetable puree, juice or paste. It is not a USDA added-sugars measurement. Use shelled green peas boiled without salt and drained, not dried peas or pea pods. The cooked peas remain whole, not pureed. Their naturally occurring sugars are not free sugars; the source total sugars remain nonzero. Green/garden peas are explicitly listed among FVNS pod and seed vegetables. USDA SR total dietary fiber uses an AOAC-compatible database basis (985.29/991.43); individual values may be calculated or imputed, not individually assayed. This does not establish equivalence to every newer enhanced AOAC assay. This ingredient qualifies for FVNS at its documented prepared weight.",
+        "zh": "游離糖 0 克依指定原味食材推導：不含添加糖、含糖醃料或添加物，也不含蔬果泥、汁、醬；這不是 USDA 添加糖實測值。使用未加鹽水煮瀝乾的去莢青豌豆仁，不是乾豌豆或豆莢。熟豌豆保持完整、不打成泥，天然糖不算游離糖，來源總糖仍為非零。青豌豆明列於 FVNS 莢及種籽蔬菜。USDA SR 總膳食纖維採 AOAC 相容的資料庫方法基礎（985.29／991.43）；個別數值可能來自計算或推估，並非逐項實測，也不代表與每種較新的增強型 AOAC 檢測完全等同。此食材以標示的處理後重量納入 FVNS。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
+        "https://www.ars.usda.gov/ARSUSERFILES/80400535/DATA/PUBLICATIONS/FNR/IMPLICATIONS%20OF%20TWO%20DIRRERENT%20METHODS%20FOR%20ANALYZING%20TOTAL%20DIETARY%20FIBER.PDF",
+        "https://fdc.nal.usda.gov/food-details/170420/nutrients"
+      ]
+    }
+  },
+  {
+    "id": "usda-170932",
+    "fdcId": 170932,
+    "description": "Spices, pepper, red or cayenne",
+    "label": {
+      "en": "Plain finely ground cayenne/red pepper powder",
+      "zh": "原味細磨卡宴紅辣椒粉"
+    },
+    "state": "ready-to-eat",
+    "avoidTags": [
+      "Spicy food"
+    ],
+    "unknownAvoidTags": [],
+    "sourceId": "usda-sr-legacy-2018-recipes84-expansion",
+    "recordUrl": "https://fdc.nal.usda.gov/food-details/170932/nutrients",
+    "publicationDate": "2019-04-01",
+    "nutrientsPer100g": {
+      "kcal": 318,
+      "energyKj": 1331,
+      "protein": 12.01,
+      "carbs": 56.63,
+      "fat": 17.27,
+      "saturatedFat": 3.26,
+      "fiber": 27.2,
+      "sodium": 30,
+      "addedSugar": null
+    },
+    "nutrientNotes": {
+      "addedSugar": {
+        "en": "Added sugars is not supplied in this source record. Unknown is not zero.",
+        "zh": "此來源紀錄未提供添加糖，未知值不等於零。"
+      }
+    },
+    "modelBasis": {
+      "freeSugarsPer100g": 10.34,
+      "fvnsEligible": false,
+      "fiberMethod": "AOAC-compatible",
+      "note": {
+        "en": "All 10.34 g of source-reported total sugars per 100 g qualify as free sugars under the reviewed ingredient classification. This is a model derivation, not a USDA added-sugars measurement. Reviewed recipe-input assumption: use only the archived dry red/cayenne pepper spice finely ground to powder, with nothing added or removed. USDA calls this record \"Spices, pepper, red or cayenne\" and does not itself establish grinding; its physical nutrient values are retained unchanged. FDA identifies red/cayenne pepper as dried Capsicum fruit. For the explicitly powdered input, UK NPM counts vegetable-powder sugars as free and excludes the powder from FVNS. Therefore the actual archived total sugars, 10.34 g per 100 g, are derived as free sugars; this is not a USDA measurement of free sugars or a separate powder-specific assay. Do not extend this assessment to whole pods, flakes or seasoning blends. USDA SR total dietary fiber uses an AOAC-compatible database basis (985.29/991.43); individual values may be calculated or imputed, not individually assayed. This does not establish equivalence to every newer enhanced AOAC assay. This ingredient contributes to recipe mass, not the FVNS numerator.",
+        "zh": "依已審核食材分類，來源每 100 克的總糖 10.34 克全部計為游離糖。這是模型推導，並非 USDA 添加糖實測值。已審查的配方投入規格假設：僅使用此歷史來源的乾燥紅／卡宴辣椒香料，細磨成粉，不增減其他成分。USDA 紀錄名稱為 \"Spices, pepper, red or cayenne\"，本身未確認研磨形式，原始物理營養數值全部保留不變。FDA 將紅／卡宴辣椒定義為乾燥 Capsicum 果實。針對此明確粉末規格，英國 NPM 將蔬菜粉的糖計為游離糖，並不納入 FVNS。因此將來源實際每 100 克 10.34 克總糖推導為游離糖；這不是 USDA 的游離糖測量或另作粉末專用檢驗。不得自動套用至整顆乾椒、辣椒碎片或混合調味粉。USDA SR 總膳食纖維採 AOAC 相容的資料庫方法基礎（985.29／991.43）；個別數值可能來自計算或推估，並非逐項實測，也不代表與每種較新的增強型 AOAC 檢測完全等同。此食材只納入配方總重，不納入 FVNS 分子。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
+        "https://www.ars.usda.gov/ARSUSERFILES/80400535/DATA/PUBLICATIONS/FNR/IMPLICATIONS%20OF%20TWO%20DIRRERENT%20METHODS%20FOR%20ANALYZING%20TOTAL%20DIETARY%20FIBER.PDF",
+        "https://www.fda.gov/regulatory-information/search-fda-guidance-documents/cpg-sec-525750-spices-definitions",
+        "https://fdc.nal.usda.gov/food-details/170932/nutrients"
+      ]
+    }
+  },
+  {
+    "id": "usda-171325",
+    "fdcId": 171325,
+    "description": "Spices, garlic powder",
+    "label": {
+      "en": "Plain garlic powder",
+      "zh": "原味蒜粉"
+    },
+    "state": "ready-to-eat",
+    "avoidTags": [],
+    "unknownAvoidTags": [],
+    "sourceId": "usda-sr-legacy-2018-recipes96-expansion",
+    "recordUrl": "https://fdc.nal.usda.gov/food-details/171325/nutrients",
+    "publicationDate": "2019-04-01",
+    "nutrientsPer100g": {
+      "kcal": 331,
+      "energyKj": 1386,
+      "protein": 16.55,
+      "carbs": 72.73,
+      "fat": 0.73,
+      "saturatedFat": 0.249,
+      "fiber": 9,
+      "sodium": 60,
+      "addedSugar": null
+    },
+    "nutrientNotes": {
+      "addedSugar": {
+        "en": "Added sugars is not supplied in this source record. Unknown is not zero.",
+        "zh": "此來源紀錄未提供添加糖，未知值不等於零。"
+      }
+    },
+    "modelBasis": {
+      "freeSugarsPer100g": 2.43,
+      "fvnsEligible": false,
+      "fiberMethod": "AOAC-compatible",
+      "note": {
+        "en": "All 2.43 g of source-reported total sugars per 100 g qualify as free sugars under the reviewed ingredient classification. This is a model derivation, not a USDA added-sugars measurement. The USDA title and FoodOn description explicitly identify garlic powder, not garlic salt or a seasoning blend. Use plain powder with nothing added. UK NPM counts sugars in vegetable powders as free sugars and excludes the powder from FVNS; therefore the actual archived total sugars, 2.43 g per 100 g, are used as free sugars. This is a model derivation, not a USDA measurement of free sugars. The intact chopped-garlic assessment remains separate and unchanged. USDA SR total dietary fiber uses an AOAC-compatible database basis (985.29/991.43); individual values may be calculated or imputed, not individually assayed. This does not establish equivalence to every newer enhanced AOAC assay. This ingredient contributes to recipe mass, not the FVNS numerator.",
+        "zh": "依已審核食材分類，來源每 100 克的總糖 2.43 克全部計為游離糖。這是模型推導，並非 USDA 添加糖實測值。USDA 名稱與 FoodOn 描述明確為蒜粉，不是蒜鹽或混合調味料；僅使用未添加其他成分的原味蒜粉。英國 NPM 將蔬菜粉中的糖計為游離糖，且粉末不計入 FVNS，因此採來源實際每 100 克 2.43 克總糖作為游離糖。這是模型推導，不是 USDA 的游離糖測量；原有完整切碎蒜頭的評估獨立保留，不作更動。USDA SR 總膳食纖維採 AOAC 相容的資料庫方法基礎（985.29／991.43）；個別數值可能來自計算或推估，並非逐項實測，也不代表與每種較新的增強型 AOAC 檢測完全等同。此食材只納入配方總重，不納入 FVNS 分子。"
+      },
+      "sourceUrls": [
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-technical-guidance",
+        "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-fruit-vegetables-nuts-and-seeds-definitions",
+        "https://www.ars.usda.gov/ARSUSERFILES/80400535/DATA/PUBLICATIONS/FNR/IMPLICATIONS%20OF%20TWO%20DIRRERENT%20METHODS%20FOR%20ANALYZING%20TOTAL%20DIETARY%20FIBER.PDF",
+        "https://fdc.nal.usda.gov/food-details/171325/nutrients"
       ]
     }
   }
@@ -904,8 +3837,8 @@ export const standardizedRecipes: StandardizedRecipe[] = [
       "sauceGrams": 0
     },
     "notes": {
-      "en": "Uses dry-heat-cooked farmed Atlantic salmon and boiled drained broccoli. All listed oil and salt stay on the plate; no sauce is included. Model ingredient specification: use plain ingredients without added sugars, sugar-containing marinades or additives, or fruit/vegetable puree, juice or paste. Free sugars are derived for this specification, while USDA added-sugar data remain unknown. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
-      "zh": "使用乾熱烹調的養殖大西洋鮭魚與水煮瀝乾青花菜。表列油鹽全部留在盤中，不含醬汁。 模型食材規格：使用不含添加糖、含糖醃料或添加物，也不含蔬果泥、汁、醬的原味食材。游離糖依此規格推導，USDA 添加糖資料仍未知。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+      "en": "Uses dry-heat-cooked farmed Atlantic salmon and boiled drained broccoli. All listed oil and salt stay on the plate; no sauce is included. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "使用乾熱烹調的養殖大西洋鮭魚與水煮瀝乾青花菜。表列油鹽全部留在盤中，不含醬汁。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
     },
     "version": "nextbite-pilot-2026-11-04-v1",
     "basis": "standardized-recipe",
@@ -986,8 +3919,8 @@ export const standardizedRecipes: StandardizedRecipe[] = [
       "sauceGrams": 0
     },
     "notes": {
-      "en": "Version 2 uses cooked shelled edamame instead of tofu; the legacy meal ID does not describe the current ingredient. All beans and vegetables are weighed cooked; the egg bowl also replaces raw cucumber with cooked drained broccoli. Prepare edamame according to package instructions. If serving cooled, follow the prepared products' storage and handling instructions. No sauce, marinade, sweetener or fruit/vegetable puree, juice or paste is included. Model ingredient specification: use plain ingredients without added sugars, sugar-containing marinades or additives, or fruit/vegetable puree, juice or paste. Free sugars are derived for this specification, while USDA added-sugar data remain unknown. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
-      "zh": "第二版以煮熟去莢毛豆取代豆腐；保留的舊餐點代碼不代表目前食材。豆類與蔬菜皆秤熟重，雞蛋碗也以水煮瀝乾青花菜取代生小黃瓜。毛豆依包裝指示煮熟；若冷卻食用，依已處理食品的保存與操作指示處理。不含醬汁、醃料、甜味料或蔬果泥、汁、醬。 模型食材規格：使用不含添加糖、含糖醃料或添加物，也不含蔬果泥、汁、醬的原味食材。游離糖依此規格推導，USDA 添加糖資料仍未知。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+      "en": "Version 2 uses cooked shelled edamame instead of tofu; the legacy meal ID does not describe the current ingredient. All beans and vegetables are weighed cooked; the egg bowl also replaces raw cucumber with cooked drained broccoli. Prepare edamame according to package instructions. If serving cooled, follow the prepared products' storage and handling instructions. No sauce, marinade, sweetener or fruit/vegetable puree, juice or paste is included. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "第二版以煮熟去莢毛豆取代豆腐；保留的舊餐點代碼不代表目前食材。豆類與蔬菜皆秤熟重，雞蛋碗也以水煮瀝乾青花菜取代生小黃瓜。毛豆依包裝指示煮熟；若冷卻食用，依已處理食品的保存與操作指示處理。不含醬汁、醃料、甜味料或蔬果泥、汁、醬。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
     },
     "basis": "standardized-recipe",
     "confidence": "recipe-estimate",
@@ -1066,8 +3999,8 @@ export const standardizedRecipes: StandardizedRecipe[] = [
       "sauceGrams": 0
     },
     "notes": {
-      "en": "Uses roasted skinless breast, not grilled or fried chicken. Weigh only the cooked edible meat. No marinade, skin, bone or sauce is included. Model ingredient specification: use plain ingredients without added sugars, sugar-containing marinades or additives, or fruit/vegetable puree, juice or paste. Free sugars are derived for this specification, while USDA added-sugar data remain unknown. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
-      "zh": "限定去皮烤雞胸，不以此估算煎炸或其他雞肉。只秤煮熟後可食肉重，不含醃料、雞皮、骨頭或醬汁。 模型食材規格：使用不含添加糖、含糖醃料或添加物，也不含蔬果泥、汁、醬的原味食材。游離糖依此規格推導，USDA 添加糖資料仍未知。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+      "en": "Uses roasted skinless breast, not grilled or fried chicken. Weigh only the cooked edible meat. No marinade, skin, bone or sauce is included. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "限定去皮烤雞胸，不以此估算煎炸或其他雞肉。只秤煮熟後可食肉重，不含醃料、雞皮、骨頭或醬汁。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
     },
     "version": "nextbite-pilot-2026-11-04-v1",
     "basis": "standardized-recipe",
@@ -1147,8 +4080,8 @@ export const standardizedRecipes: StandardizedRecipe[] = [
       "sauceGrams": 0
     },
     "notes": {
-      "en": "This is a sliced hard-boiled egg and raw tomato version, not tomato scrambled eggs. Egg weight excludes shell; tomato weight is raw edible flesh. No sugar or sauce is added. Model ingredient specification: use plain ingredients without added sugars, sugar-containing marinades or additives, or fruit/vegetable puree, juice or paste. Free sugars are derived for this specification, while USDA added-sugar data remain unknown. FVNS ingredients share a raw weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
-      "zh": "這是切片水煮蛋搭配生番茄的版本，不是番茄炒蛋。蛋重不含殼，番茄以生的可食部分秤量，不加糖或醬汁。 模型食材規格：使用不含添加糖、含糖醃料或添加物，也不含蔬果泥、汁、醬的原味食材。游離糖依此規格推導，USDA 添加糖資料仍未知。FVNS 食材統一採生重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+      "en": "This is a sliced hard-boiled egg and raw tomato version, not tomato scrambled eggs. Egg weight excludes shell; tomato weight is raw edible flesh. No sugar or sauce is added. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a raw weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "這是切片水煮蛋搭配生番茄的版本，不是番茄炒蛋。蛋重不含殼，番茄以生的可食部分秤量，不加糖或醬汁。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採生重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
     },
     "version": "nextbite-pilot-2026-11-04-v1",
     "basis": "standardized-recipe",
@@ -1228,8 +4161,8 @@ export const standardizedRecipes: StandardizedRecipe[] = [
       "sauceGrams": 0
     },
     "notes": {
-      "en": "Recipe calculation: soften 120 g already-cooked rice with water, then top up so rice plus retained water weighs 360 g before sides. Consume all liquid. No raw-rice yield factor or restaurant-congee equivalence is claimed; no oil or sauce is added. Model ingredient specification: use plain ingredients without added sugars, sugar-containing marinades or additives, or fruit/vegetable puree, juice or paste. Free sugars are derived for this specification, while USDA added-sugar data remain unknown. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
-      "zh": "以配方計算：將 120 克已煮熟白飯加水煮軟，最後補水至飯與保留湯水共 360 克，再配旁邊的蛋菜。湯水全部食用；不套用生米熟化倍率，也不代表餐廳粥品，不加油或醬汁。 模型食材規格：使用不含添加糖、含糖醃料或添加物，也不含蔬果泥、汁、醬的原味食材。游離糖依此規格推導，USDA 添加糖資料仍未知。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+      "en": "Recipe calculation: soften 120 g already-cooked rice with water, then top up so rice plus retained water weighs 360 g before sides. Consume all liquid. No raw-rice yield factor or restaurant-congee equivalence is claimed; no oil or sauce is added. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "以配方計算：將 120 克已煮熟白飯加水煮軟，最後補水至飯與保留湯水共 360 克，再配旁邊的蛋菜。湯水全部食用；不套用生米熟化倍率，也不代表餐廳粥品，不加油或醬汁。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
     },
     "version": "nextbite-pilot-2026-11-04-v1",
     "basis": "standardized-recipe",
@@ -1310,8 +4243,8 @@ export const standardizedRecipes: StandardizedRecipe[] = [
       "sauceGrams": 0
     },
     "notes": {
-      "en": "Version 2 uses cooked shelled edamame instead of tofu; the legacy meal ID does not describe the current ingredient. All beans and vegetables are weighed cooked; the egg bowl also replaces raw cucumber with cooked drained broccoli. Prepare edamame according to package instructions. If serving cooled, follow the prepared products' storage and handling instructions. No sauce, marinade, sweetener or fruit/vegetable puree, juice or paste is included. Model ingredient specification: use plain ingredients without added sugars, sugar-containing marinades or additives, or fruit/vegetable puree, juice or paste. Free sugars are derived for this specification, while USDA added-sugar data remain unknown. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
-      "zh": "第二版以煮熟去莢毛豆取代豆腐；保留的舊餐點代碼不代表目前食材。豆類與蔬菜皆秤熟重，雞蛋碗也以水煮瀝乾青花菜取代生小黃瓜。毛豆依包裝指示煮熟；若冷卻食用，依已處理食品的保存與操作指示處理。不含醬汁、醃料、甜味料或蔬果泥、汁、醬。 模型食材規格：使用不含添加糖、含糖醃料或添加物，也不含蔬果泥、汁、醬的原味食材。游離糖依此規格推導，USDA 添加糖資料仍未知。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+      "en": "Version 2 uses cooked shelled edamame instead of tofu; the legacy meal ID does not describe the current ingredient. All beans and vegetables are weighed cooked; the egg bowl also replaces raw cucumber with cooked drained broccoli. Prepare edamame according to package instructions. If serving cooled, follow the prepared products' storage and handling instructions. No sauce, marinade, sweetener or fruit/vegetable puree, juice or paste is included. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "第二版以煮熟去莢毛豆取代豆腐；保留的舊餐點代碼不代表目前食材。豆類與蔬菜皆秤熟重，雞蛋碗也以水煮瀝乾青花菜取代生小黃瓜。毛豆依包裝指示煮熟；若冷卻食用，依已處理食品的保存與操作指示處理。不含醬汁、醃料、甜味料或蔬果泥、汁、醬。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
     },
     "basis": "standardized-recipe",
     "confidence": "recipe-estimate",
@@ -1390,8 +4323,8 @@ export const standardizedRecipes: StandardizedRecipe[] = [
       "sauceGrams": 0
     },
     "notes": {
-      "en": "Uses unsalted boiled black turtle beans (Phaseolus vulgaris), not black soybeans (Glycine max), with drained broccoli. Canned salted beans and refried beans are not included. All added oil and salt are consumed; no salsa or other sauce is included. Model ingredient specification: use plain ingredients without added sugars, sugar-containing marinades or additives, or fruit/vegetable puree, juice or paste. Free sugars are derived for this specification, while USDA added-sugar data remain unknown. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
-      "zh": "使用無鹽水煮黑菜豆（Phaseolus vulgaris，非黑大豆 Glycine max）與瀝乾青花菜，不代表加鹽罐頭豆或炒豆泥。添加的油鹽全部食用，不含莎莎醬或其他醬汁。 模型食材規格：使用不含添加糖、含糖醃料或添加物，也不含蔬果泥、汁、醬的原味食材。游離糖依此規格推導，USDA 添加糖資料仍未知。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+      "en": "Uses unsalted boiled black turtle beans (Phaseolus vulgaris), not black soybeans (Glycine max), with drained broccoli. Canned salted beans and refried beans are not included. All added oil and salt are consumed; no salsa or other sauce is included. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "使用無鹽水煮黑菜豆（Phaseolus vulgaris，非黑大豆 Glycine max）與瀝乾青花菜，不代表加鹽罐頭豆或炒豆泥。添加的油鹽全部食用，不含莎莎醬或其他醬汁。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
     },
     "version": "nextbite-pilot-2026-11-04-v1",
     "basis": "standardized-recipe",
@@ -1471,8 +4404,8 @@ export const standardizedRecipes: StandardizedRecipe[] = [
       "sauceGrams": 0
     },
     "notes": {
-      "en": "A generic standardized plate, not a Costco product. Sweet potato is baked in its skin but only cooked flesh is weighed; skin is excluded. Broccoli is boiled and drained, not roasted. Model ingredient specification: use plain ingredients without added sugars, sugar-containing marinades or additives, or fruit/vegetable puree, juice or paste. Free sugars are derived for this specification, while USDA added-sugar data remain unknown. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
-      "zh": "這是一般定量餐盤，不是 Costco 商品資料。地瓜帶皮烤熟，但只秤熟地瓜肉、不含皮；青花菜為水煮瀝乾，不以烤蔬菜資料替代。 模型食材規格：使用不含添加糖、含糖醃料或添加物，也不含蔬果泥、汁、醬的原味食材。游離糖依此規格推導，USDA 添加糖資料仍未知。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+      "en": "A generic standardized plate, not a Costco product. Sweet potato is baked in its skin but only cooked flesh is weighed; skin is excluded. Broccoli is boiled and drained, not roasted. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "這是一般定量餐盤，不是 Costco 商品資料。地瓜帶皮烤熟，但只秤熟地瓜肉、不含皮；青花菜為水煮瀝乾，不以烤蔬菜資料替代。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
     },
     "version": "nextbite-pilot-2026-11-04-v1",
     "basis": "standardized-recipe",
@@ -1553,8 +4486,8 @@ export const standardizedRecipes: StandardizedRecipe[] = [
       "sauceGrams": 0
     },
     "notes": {
-      "en": "Version 2 uses cooked shelled edamame instead of tofu; the legacy meal ID does not describe the current ingredient. All beans and vegetables are weighed cooked; the egg bowl also replaces raw cucumber with cooked drained broccoli. Prepare edamame according to package instructions. If serving cooled, follow the prepared products' storage and handling instructions. No sauce, marinade, sweetener or fruit/vegetable puree, juice or paste is included. Model ingredient specification: use plain ingredients without added sugars, sugar-containing marinades or additives, or fruit/vegetable puree, juice or paste. Free sugars are derived for this specification, while USDA added-sugar data remain unknown. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
-      "zh": "第二版以煮熟去莢毛豆取代豆腐；保留的舊餐點代碼不代表目前食材。豆類與蔬菜皆秤熟重，雞蛋碗也以水煮瀝乾青花菜取代生小黃瓜。毛豆依包裝指示煮熟；若冷卻食用，依已處理食品的保存與操作指示處理。不含醬汁、醃料、甜味料或蔬果泥、汁、醬。 模型食材規格：使用不含添加糖、含糖醃料或添加物，也不含蔬果泥、汁、醬的原味食材。游離糖依此規格推導，USDA 添加糖資料仍未知。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+      "en": "Version 2 uses cooked shelled edamame instead of tofu; the legacy meal ID does not describe the current ingredient. All beans and vegetables are weighed cooked; the egg bowl also replaces raw cucumber with cooked drained broccoli. Prepare edamame according to package instructions. If serving cooled, follow the prepared products' storage and handling instructions. No sauce, marinade, sweetener or fruit/vegetable puree, juice or paste is included. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "第二版以煮熟去莢毛豆取代豆腐；保留的舊餐點代碼不代表目前食材。豆類與蔬菜皆秤熟重，雞蛋碗也以水煮瀝乾青花菜取代生小黃瓜。毛豆依包裝指示煮熟；若冷卻食用，依已處理食品的保存與操作指示處理。不含醬汁、醃料、甜味料或蔬果泥、汁、醬。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
     },
     "basis": "standardized-recipe",
     "confidence": "recipe-estimate",
@@ -1633,8 +4566,8 @@ export const standardizedRecipes: StandardizedRecipe[] = [
       "sauceGrams": 0
     },
     "notes": {
-      "en": "Cooked farmed Atlantic salmon with raw cucumber, peel retained. This is not raw-fish sushi or sashimi. No soy sauce, glaze, pickling liquid or sugar is included. Model ingredient specification: use plain ingredients without added sugars, sugar-containing marinades or additives, or fruit/vegetable puree, juice or paste. Free sugars are derived for this specification, while USDA added-sugar data remain unknown. FVNS ingredients share a raw weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
-      "zh": "使用熟養殖大西洋鮭魚與帶皮生小黃瓜，不是生魚壽司或生魚片。不含醬油、照燒醬、醃漬液或糖。 模型食材規格：使用不含添加糖、含糖醃料或添加物，也不含蔬果泥、汁、醬的原味食材。游離糖依此規格推導，USDA 添加糖資料仍未知。FVNS 食材統一採生重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+      "en": "Cooked farmed Atlantic salmon with raw cucumber, peel retained. This is not raw-fish sushi or sashimi. No soy sauce, glaze, pickling liquid or sugar is included. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a raw weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "使用熟養殖大西洋鮭魚與帶皮生小黃瓜，不是生魚壽司或生魚片。不含醬油、照燒醬、醃漬液或糖。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採生重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
     },
     "version": "nextbite-pilot-2026-11-04-v1",
     "basis": "standardized-recipe",
@@ -1715,8 +4648,8 @@ export const standardizedRecipes: StandardizedRecipe[] = [
       "sauceGrams": 0
     },
     "notes": {
-      "en": "Version 2 uses the complete USDA moist-heat cooked mixed-species shrimp record, which may include moisture-retention additives. Its sodium is 947 mg per 100 g; all its values replace the older shrimp record, including source-reported fiber 0 g. Weigh edible shrimp without shell. No breading, frying, added sauce or sweetener is included. Model ingredient specification: use plain ingredients without added sugars, sugar-containing marinades or additives, or fruit/vegetable puree, juice or paste. Free sugars are derived for this specification, while USDA added-sugar data remain unknown. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
-      "zh": "第二版完整改用 USDA 濕熱煮熟混合品種蝦紀錄，可能包含保水添加物。該來源每 100 克含鈉 947 毫克；所有數值均取代舊蝦紀錄，包含來源提供的纖維 0 克。只秤去殼可食熟蝦重，不含裹粉、油炸、額外醬汁或甜味料。 模型食材規格：使用不含添加糖、含糖醃料或添加物，也不含蔬果泥、汁、醬的原味食材。游離糖依此規格推導，USDA 添加糖資料仍未知。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+      "en": "Version 2 uses the complete USDA moist-heat cooked mixed-species shrimp record, which may include moisture-retention additives. Its sodium is 947 mg per 100 g; all its values replace the older shrimp record, including source-reported fiber 0 g. Weigh edible shrimp without shell. No breading, frying, added sauce or sweetener is included. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "第二版完整改用 USDA 濕熱煮熟混合品種蝦紀錄，可能包含保水添加物。該來源每 100 克含鈉 947 毫克；所有數值均取代舊蝦紀錄，包含來源提供的纖維 0 克。只秤去殼可食熟蝦重，不含裹粉、油炸、額外醬汁或甜味料。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
     },
     "basis": "standardized-recipe",
     "confidence": "recipe-estimate",
@@ -1802,8 +4735,8 @@ export const standardizedRecipes: StandardizedRecipe[] = [
       "sauceGrams": 0
     },
     "notes": {
-      "en": "Uses cooked farmed Atlantic salmon and prepared edamame. Weigh edamame after removing pods. Rice, broccoli, oil and salt are all included; no sauce or sweetener is included. Model ingredient specification: use plain ingredients without added sugars, sugar-containing marinades or additives, or fruit/vegetable puree, juice or paste. Free sugars are derived for this specification, while USDA added-sugar data remain unknown. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
-      "zh": "使用熟養殖大西洋鮭魚與煮熟毛豆，毛豆秤重不含豆莢。白飯、青花菜、油鹽皆已列入，不含醬汁或甜味料。 模型食材規格：使用不含添加糖、含糖醃料或添加物，也不含蔬果泥、汁、醬的原味食材。游離糖依此規格推導，USDA 添加糖資料仍未知。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+      "en": "Uses cooked farmed Atlantic salmon and prepared edamame. Weigh edamame after removing pods. Rice, broccoli, oil and salt are all included; no sauce or sweetener is included. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "使用熟養殖大西洋鮭魚與煮熟毛豆，毛豆秤重不含豆莢。白飯、青花菜、油鹽皆已列入，不含醬汁或甜味料。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
     },
     "version": "nextbite-pilot-2026-11-04-v1",
     "basis": "standardized-recipe",
@@ -1829,5 +4762,9276 @@ export const standardizedRecipes: StandardizedRecipe[] = [
         "zh": "依選擇份量倍率縮放每一項食材，連油鹽與水也一併調整。這是定量配方估算，不是餐廳實測值或飲食目標。"
       }
     ]
+  },
+  {
+    "mealId": "chicken-noodle-soup-greens",
+    "label": {
+      "en": "Chicken, rice-noodle and spinach soup — standard recipe",
+      "zh": "雞肉米麵菠菜湯（標準配方）"
+    },
+    "version": "mealhatch-recipes-2026-11-05-v1",
+    "temperature": "warm",
+    "staple": "noodles",
+    "cuisine": "asian",
+    "prepMinutes": 15,
+    "ingredients": [
+      {
+        "foodId": "usda-171477",
+        "grams": 120,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-168914",
+        "grams": 150,
+        "weighedState": "cooked",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-168463",
+        "grams": 70,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-170394",
+        "grams": 80,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-173647",
+        "grams": 150,
+        "weighedState": "ready-to-eat",
+        "role": "liquid",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 5,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.7,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 5,
+      "saltGrams": 0.7,
+      "sauceGrams": 0
+    },
+    "notes": {
+      "en": "A clear soup assembled from roasted skinless chicken, cooked rice noodles and boiled drained vegetables. The 150 g of water is retained in the served soup, not discarded cooking water. No stock, bouillon, sugar-containing marinade or sauce is included. Use plain rice noodles made without egg or wheat; packaged substitutes can differ. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "使用去皮烤雞胸、煮熟米製麵條及水煮瀝乾蔬菜組成的清湯。150 克水是上桌湯水，不是倒掉的煮麵水。不含高湯、湯塊、含糖醃料或醬汁。限定不含蛋與小麥的原味米製麵條；其他包裝產品可能不同。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Cook and drain the plain rice noodles, spinach and carrots separately; weigh them in the cooked states shown. Slice the listed amount of prepared roasted skinless chicken.",
+        "zh": "分別煮熟並瀝乾原味米製麵條、菠菜與紅蘿蔔，按表列熟重秤量；將表列份量的已烤熟去皮雞胸切片。"
+      },
+      {
+        "en": "Place the weighed ingredients in a bowl with the listed amount of hot drinking water. Add the measured olive oil and salt, then stir.",
+        "zh": "將秤好的食材放入碗內，加入表列份量的熱飲用水，拌入表列橄欖油與鹽。"
+      },
+      {
+        "en": "Serve warm and consume the listed liquid. If reheating evaporates water, restore the listed final water amount before serving; extra stock or sauces change the estimate.",
+        "zh": "溫熱食用並喝完表列湯水；若加熱造成水分蒸發，上桌前補回表列水量。額外高湯或醬汁會改變估算。"
+      },
+      {
+        "en": "Use the selected-portion ingredient list for every amount, including oil, salt, water, honey and juice where present.",
+        "zh": "所有食材都採用所選份量清單的克數；油、鹽、水，以及配方中的蜂蜜或果汁也一併調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "soft-noodle-soup-egg-greens",
+    "label": {
+      "en": "Egg-noodle soup with boiled egg and spinach — standard recipe",
+      "zh": "雞蛋麵湯佐水煮蛋與菠菜（標準配方）"
+    },
+    "version": "mealhatch-recipes-2026-11-05-v1",
+    "temperature": "warm",
+    "staple": "noodles",
+    "cuisine": "asian",
+    "prepMinutes": 15,
+    "ingredients": [
+      {
+        "foodId": "usda-169732",
+        "grams": 150,
+        "weighedState": "cooked",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-173424",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-168463",
+        "grams": 80,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-170394",
+        "grams": 70,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-173647",
+        "grams": 150,
+        "weighedState": "ready-to-eat",
+        "role": "liquid",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 5,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.7,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 5,
+      "saltGrams": 0.7,
+      "sauceGrams": 0
+    },
+    "notes": {
+      "en": "Uses cooked enriched wheat-and-egg noodles and a separately cooked hard-boiled egg, not a poached or scrambled egg. All vegetables are weighed boiled and drained. Water, oil and salt are included; no broth concentrate, sauce or sweetener is included. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "使用煮熟的營養強化小麥雞蛋麵及另外煮熟的水煮蛋，不是水波蛋或炒蛋。蔬菜皆秤水煮瀝乾後的熟重。水、油與鹽均已列入，不含濃縮高湯、醬汁或甜味料。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Prepare and drain the noodles, spinach and carrots. Peel the hard-boiled eggs, then weigh the listed amount of edible egg and slice it.",
+        "zh": "備妥並瀝乾麵條、菠菜與紅蘿蔔；水煮蛋去殼後秤取表列份量的可食部分並切片。"
+      },
+      {
+        "en": "Combine the cooked noodles and vegetables with the listed amount of hot water, the measured oil and salt. Place the egg on top.",
+        "zh": "將熟麵與蔬菜放入表列份量的熱水，拌入表列油鹽，放上水煮蛋。"
+      },
+      {
+        "en": "Serve warm with all the liquid. Restore any evaporated water to the specified final amount; do not count discarded noodle-cooking water.",
+        "zh": "溫熱食用並包含全部湯水；若水分蒸發，補回指定水量，不把已倒掉的煮麵水計入。"
+      },
+      {
+        "en": "Use the selected-portion ingredient list for every amount, including oil, salt, water, honey and juice where present.",
+        "zh": "所有食材都採用所選份量清單的克數；油、鹽、水，以及配方中的蜂蜜或果汁也一併調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "edamame-noodle-salad",
+    "label": {
+      "en": "Chilled edamame, carrot and whole-wheat pasta salad — standard recipe",
+      "zh": "冷毛豆紅蘿蔔全麥麵沙拉（標準配方）"
+    },
+    "version": "mealhatch-recipes-2026-11-05-v1",
+    "temperature": "cool",
+    "staple": "noodles",
+    "cuisine": "western",
+    "prepMinutes": 10,
+    "ingredients": [
+      {
+        "foodId": "usda-168411",
+        "grams": 120,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-168910",
+        "grams": 150,
+        "weighedState": "cooked",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-170394",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-168463",
+        "grams": 50,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 7,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.4,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 7,
+      "saltGrams": 0.4,
+      "sauceGrams": 0
+    },
+    "notes": {
+      "en": "The noodle is cooked whole-wheat pasta, not soba or egg noodles. Edamame, carrots and spinach are all weighed cooked; no raw vegetable or juice is added, keeping qualifying FVNS weights on one cooked basis. No sweetened dressing or sauce is included. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "麵條限定煮熟全麥義大利麵，不是蕎麥麵或雞蛋麵。毛豆、紅蘿蔔與菠菜皆秤熟重；不加生蔬菜或果汁，使合格 FVNS 食材採相同熟重基準。不含甜沙拉醬或其他醬汁。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Cook and drain the whole-wheat pasta, shelled edamame, carrots and spinach separately, then weigh the prepared edible amounts shown.",
+        "zh": "分別煮熟並瀝乾全麥麵、去莢毛豆、紅蘿蔔與菠菜，再按表列可食熟重秤量。"
+      },
+      {
+        "en": "Cool the prepared ingredients following their storage and handling instructions. Toss with the measured olive oil and salt.",
+        "zh": "依已處理食品的保存與操作指示冷卻，拌入表列橄欖油與鹽。"
+      },
+      {
+        "en": "Serve chilled with all the listed dressing. This estimate excludes sesame oil, soy sauce, lemon juice and other extra dressings.",
+        "zh": "冷食並食用全部表列調味料；此估算不包含芝麻油、醬油、檸檬汁或其他額外沙拉醬。"
+      },
+      {
+        "en": "Use the selected-portion ingredient list for every amount, including oil, salt, water, honey and juice where present.",
+        "zh": "所有食材都採用所選份量清單的克數；油、鹽、水，以及配方中的蜂蜜或果汁也一併調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "lean-beef-vegetable-noodle-soup",
+    "label": {
+      "en": "Grilled lean beef and egg-noodle soup — standard recipe",
+      "zh": "烤瘦牛肉雞蛋麵湯（標準配方）"
+    },
+    "version": "mealhatch-recipes-2026-11-05-v1",
+    "temperature": "warm",
+    "staple": "noodles",
+    "cuisine": "asian",
+    "prepMinutes": 15,
+    "ingredients": [
+      {
+        "foodId": "usda-168649",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-169732",
+        "grams": 150,
+        "weighedState": "cooked",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-168463",
+        "grams": 70,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-170394",
+        "grams": 80,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-173647",
+        "grams": 150,
+        "weighedState": "ready-to-eat",
+        "role": "liquid",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 5,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.7,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 5,
+      "saltGrams": 0.7,
+      "sauceGrams": 0
+    },
+    "notes": {
+      "en": "Uses the exact source for grilled top-round beef, separable lean only, with visible fat removed; it is not braised beef or an estimate of restaurant beef broth. Add the already-cooked sliced beef to the soup. All qualifying vegetables are weighed boiled and drained; no stock concentrate, marinade or sauce is included. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "限定去除可見脂肪的烤牛後腿肉（top round）來源，不是燉牛肉，也不估算餐廳牛肉湯底。將已熟的切片牛肉加入湯中。合格蔬菜皆秤水煮瀝乾熟重；不含濃縮高湯、醃料或醬汁。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Slice the listed amount of prepared grilled lean top-round beef after removing visible fat. Prepare the egg noodles and boiled drained spinach and carrots at the listed weights.",
+        "zh": "已烤熟牛後腿肉（top round）去除可見脂肪後，秤取表列份量並切片；按表列重量備妥熟雞蛋麵、水煮瀝乾菠菜與紅蘿蔔。"
+      },
+      {
+        "en": "Combine the noodles and vegetables with the listed amount of hot water, olive oil and salt. Add the sliced cooked beef.",
+        "zh": "將麵與蔬菜放入表列份量的熱水，加入橄欖油與鹽，再放上熟牛肉片。"
+      },
+      {
+        "en": "Serve warm with all liquid, restoring any evaporation to the listed final water amount. Extra broth or sauces are outside this recipe.",
+        "zh": "補回蒸發的水分至指定最終水量後，溫熱食用並喝完湯水；額外高湯或醬汁不屬於此配方。"
+      },
+      {
+        "en": "Use the selected-portion ingredient list for every amount, including oil, salt, water, honey and juice where present.",
+        "zh": "所有食材都採用所選份量清單的克數；油、鹽、水，以及配方中的蜂蜜或果汁也一併調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "turkey-sandwich-side-salad",
+    "label": {
+      "en": "Roast-turkey sandwich on whole-wheat French bread — standard recipe",
+      "zh": "全麥法式麵包烤火雞三明治（標準配方）"
+    },
+    "version": "mealhatch-recipes-2026-11-05-v1",
+    "temperature": "cool",
+    "staple": "bread",
+    "cuisine": "western",
+    "prepMinutes": 10,
+    "ingredients": [
+      {
+        "foodId": "usda-171496",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-174091",
+        "grams": 90,
+        "weighedState": "ready-to-eat",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-169247",
+        "grams": 50,
+        "weighedState": "raw",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-168409",
+        "grams": 100,
+        "weighedState": "raw",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 5,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-167747",
+        "grams": 10,
+        "weighedState": "raw",
+        "role": "sauce",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.2,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 5,
+      "saltGrams": 0.2,
+      "sauceGrams": 10
+    },
+    "notes": {
+      "en": "Uses plain roasted turkey breast meat, not deli turkey. The bread is the specifically named whole-wheat French/Vienna bread record, not generic sandwich bread. The side salad contains raw romaine and cucumber with 10 g raw lemon juice; its juice sugars are counted as free sugars. No mayonnaise, cheese or other sauce is included. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a raw weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "使用原味烤火雞胸肉，不是加工火雞冷切片。麵包限定列名的全麥法式／維也納麵包來源，不代表一般吐司。配菜為生蘿蔓與小黃瓜，加入 10 克新鮮檸檬汁，其糖計入游離糖。不含美乃滋、起司或其他醬料。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採生重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Slice the listed amount of the specified ready-to-eat whole-wheat bread. Thinly slice the listed amount of prepared skinless roasted turkey; follow its storage instructions before serving chilled.",
+        "zh": "切開表列份量的指定即食全麥麵包；將表列份量的已烤熟去皮火雞胸切薄片，冷食前依其保存指示處理。"
+      },
+      {
+        "en": "Wash and drain the romaine and cucumber, then weigh the edible raw amounts. Put some romaine into the sandwich and serve the remaining vegetables alongside.",
+        "zh": "蘿蔓與小黃瓜洗淨瀝乾後秤可食生重；部分蘿蔓夾入三明治，其餘蔬菜放旁邊。"
+      },
+      {
+        "en": "Mix the measured lemon juice, olive oil and salt. Add all of the dressing to the vegetables and serve.",
+        "zh": "將表列檸檬汁、橄欖油與鹽拌勻，全部淋在蔬菜上後食用。"
+      },
+      {
+        "en": "Use the selected-portion ingredient list for every amount, including oil, salt, water, honey and juice where present.",
+        "zh": "所有食材都採用所選份量清單的克數；油、鹽、水，以及配方中的蜂蜜或果汁也一併調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "spinach-egg-breakfast-wrap",
+    "label": {
+      "en": "Spinach and boiled-egg sandwich on whole-wheat French bread — standard recipe",
+      "zh": "全麥法式麵包菠菜水煮蛋三明治（標準配方）"
+    },
+    "version": "mealhatch-recipes-2026-11-05-v1",
+    "temperature": "warm",
+    "staple": "bread",
+    "cuisine": "western",
+    "prepMinutes": 10,
+    "ingredients": [
+      {
+        "foodId": "usda-174091",
+        "grams": 80,
+        "weighedState": "ready-to-eat",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-173424",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-168463",
+        "grams": 80,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 5,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.2,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 5,
+      "saltGrams": 0.2,
+      "sauceGrams": 0
+    },
+    "notes": {
+      "en": "This versioned standard recipe uses whole-wheat French/Vienna bread instead of the wrap in the legacy idea ID. The available tortilla records did not establish a ready-to-eat formulation with sufficient free-sugar evidence. This is a boiled-egg sandwich, not an omelet. No cheese, butter or sauce is included. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "此版本標準配方以全麥法式／維也納麵包取代舊餐點代碼中的捲餅；現有餅皮來源無法同時確立即食配方與足夠的游離糖依據。這是水煮蛋三明治，不是歐姆蛋。不含起司、奶油或醬汁。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Weigh the listed amount of ready-to-eat whole-wheat French/Vienna bread. Peel and slice the listed amount of prepared hard-boiled egg; drain and weigh the listed amount of cooked spinach.",
+        "zh": "秤取表列份量的即食全麥法式／維也納麵包；已煮熟水煮蛋去殼後秤取表列份量並切片，熟菠菜瀝乾後秤取表列份量。"
+      },
+      {
+        "en": "Toss the warm spinach with the measured olive oil and salt. Layer the spinach and warm cooked egg inside the bread.",
+        "zh": "溫熱菠菜拌入表列橄欖油與鹽，和溫熱熟蛋一起夾入麵包。"
+      },
+      {
+        "en": "Serve promptly while the filling is warm. The bread is weighed ready to eat; additional toasting, butter or sauces are not part of this estimate.",
+        "zh": "趁內餡溫熱時食用；麵包依即食狀態秤重，此估算不含額外烘烤、奶油或醬汁。"
+      },
+      {
+        "en": "Use the selected-portion ingredient list for every amount, including oil, salt, water, honey and juice where present.",
+        "zh": "所有食材都採用所選份量清單的克數；油、鹽、水，以及配方中的蜂蜜或果汁也一併調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "chicken-wrap-salad",
+    "label": {
+      "en": "Chicken salad sandwich on whole-wheat French bread — standard recipe",
+      "zh": "全麥法式麵包雞肉沙拉三明治（標準配方）"
+    },
+    "version": "mealhatch-recipes-2026-11-05-v1",
+    "temperature": "cool",
+    "staple": "bread",
+    "cuisine": "western",
+    "prepMinutes": 10,
+    "ingredients": [
+      {
+        "foodId": "usda-171477",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-174091",
+        "grams": 80,
+        "weighedState": "ready-to-eat",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-169247",
+        "grams": 50,
+        "weighedState": "raw",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-170457",
+        "grams": 80,
+        "weighedState": "raw",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 5,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-167747",
+        "grams": 10,
+        "weighedState": "raw",
+        "role": "sauce",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.2,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 5,
+      "saltGrams": 0.2,
+      "sauceGrams": 10
+    },
+    "notes": {
+      "en": "This standard recipe substitutes specifically named whole-wheat French/Vienna bread for the legacy wrap idea because the tortilla free-sugar and prepared-state evidence was insufficient. It uses roasted skinless chicken, raw romaine and tomato. Lemon juice is weighed and its sugars count as free sugars; no mayonnaise or sweetened dressing is included. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a raw weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "此標準配方以列名全麥法式／維也納麵包取代舊捲餅構想，原因是餅皮的游離糖與處理狀態證據不足。使用去皮烤雞胸、生蘿蔓與番茄；檸檬汁秤重並將其糖計入游離糖，不含美乃滋或甜沙拉醬。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採生重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Slice the listed amount of the specified bread and the listed amount of prepared roasted chicken. Use the prepared chicken according to its storage instructions for cold serving.",
+        "zh": "切開表列份量的指定麵包，將表列份量的已烤熟雞胸切片；冷食雞肉依已處理食品保存指示使用。"
+      },
+      {
+        "en": "Wash and drain the romaine and tomato, then weigh them raw. Layer the chicken and some vegetables inside the bread; serve the rest alongside.",
+        "zh": "蘿蔓與番茄洗淨瀝乾後秤生重；將雞肉與部分蔬菜夾入麵包，其餘蔬菜放旁邊。"
+      },
+      {
+        "en": "Mix the measured lemon juice, olive oil and salt. Use all of it on the filling and side vegetables.",
+        "zh": "將表列檸檬汁、橄欖油與鹽拌勻，全部用於內餡與旁邊蔬菜。"
+      },
+      {
+        "en": "Use the selected-portion ingredient list for every amount, including oil, salt, water, honey and juice where present.",
+        "zh": "所有食材都採用所選份量清單的克數；油、鹽、水，以及配方中的蜂蜜或果汁也一併調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "grilled-chicken-sweet-potato-plate",
+    "label": {
+      "en": "Roasted chicken, sweet potato and carrots — standard recipe",
+      "zh": "烤雞胸地瓜紅蘿蔔餐盤（標準配方）"
+    },
+    "version": "mealhatch-recipes-2026-11-05-v1",
+    "temperature": "warm",
+    "staple": "potato",
+    "cuisine": "western",
+    "prepMinutes": 15,
+    "ingredients": [
+      {
+        "foodId": "usda-171477",
+        "grams": 120,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-168483",
+        "grams": 200,
+        "weighedState": "cooked",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-170394",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-168463",
+        "grams": 50,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 5,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.5,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 5,
+      "saltGrams": 0.5,
+      "sauceGrams": 0
+    },
+    "notes": {
+      "en": "This source-matched version uses roasted skinless breast rather than the grilled chicken in the legacy idea title. Sweet potato is baked with skin, but only the cooked flesh is weighed and eaten. Carrots and spinach are boiled and drained, not roasted. No marinade, sauce or sweetener is included. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "此來源對應版本以去皮烤雞胸取代舊構想中的煎烤雞肉。地瓜帶皮烤熟，但只秤並食用熟地瓜肉；紅蘿蔔與菠菜為水煮瀝乾，不是烤蔬菜。不含醃料、醬汁或甜味料。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Remove the skin from prepared baked sweet potato and weigh the listed amount of flesh. Weigh the listed amount of roasted skinless chicken, the listed amount of boiled drained carrots and the listed amount of boiled drained spinach.",
+        "zh": "備好的帶皮烤地瓜去皮後秤取表列份量的地瓜肉；另秤表列份量的去皮烤雞胸、表列份量的水煮瀝乾紅蘿蔔與表列份量的水煮瀝乾菠菜。"
+      },
+      {
+        "en": "Slice the chicken and sweet potato, arrange them on a plate, and place the vegetables alongside.",
+        "zh": "雞胸與地瓜切片後排盤，蔬菜放旁邊。"
+      },
+      {
+        "en": "Add all the measured olive oil and salt and serve warm. The time shown begins with cooked ingredients.",
+        "zh": "加入全部表列橄欖油與鹽，溫熱食用；顯示時間從已煮熟食材開始計算。"
+      },
+      {
+        "en": "Use the selected-portion ingredient list for every amount, including oil, salt, water, honey and juice where present.",
+        "zh": "所有食材都採用所選份量清單的克數；油、鹽、水，以及配方中的蜂蜜或果汁也一併調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "baked-salmon-bagged-salad-potato",
+    "label": {
+      "en": "Baked salmon and skin-on potato with romaine salad — standard recipe",
+      "zh": "烤鮭魚帶皮馬鈴薯佐蘿蔓沙拉（標準配方）"
+    },
+    "version": "mealhatch-recipes-2026-11-05-v1",
+    "temperature": "flexible",
+    "staple": "potato",
+    "cuisine": "western",
+    "prepMinutes": 15,
+    "ingredients": [
+      {
+        "foodId": "usda-175168",
+        "grams": 120,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-170093",
+        "grams": 200,
+        "weighedState": "cooked",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-169247",
+        "grams": 80,
+        "weighedState": "raw",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-168409",
+        "grams": 100,
+        "weighedState": "raw",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 5,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-167747",
+        "grams": 10,
+        "weighedState": "raw",
+        "role": "sauce",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.4,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 5,
+      "saltGrams": 0.4,
+      "sauceGrams": 10
+    },
+    "notes": {
+      "en": "Uses dry-heat-cooked farmed Atlantic salmon and baked potato with its skin retained. Salad is specifically raw romaine and cucumber, not an unspecified bagged salad mix. Lemon juice contributes free sugars and raw FVNS; potato is not part of the FVNS numerator. This plate combines cooked components with a raw salad. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a raw weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "使用乾熱烹調的養殖大西洋鮭魚及連皮食用的烤馬鈴薯。沙拉限定生蘿蔓與小黃瓜，不是成分未明的袋裝沙拉。檸檬汁納入游離糖與生重 FVNS；馬鈴薯不納入 FVNS 分子。此餐盤包含熟食與生沙拉。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採生重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Weigh the listed amount of edible baked salmon and the listed amount of baked potato including edible skin, with bones and inedible parts removed.",
+        "zh": "去除骨頭與不可食部分，秤取表列份量的可食熟鮭魚及表列份量的含可食皮的烤馬鈴薯。"
+      },
+      {
+        "en": "Wash, drain and weigh the romaine and cucumber raw. Mix the measured lemon juice, olive oil and salt, then toss with the salad.",
+        "zh": "蘿蔓與小黃瓜洗淨瀝乾後秤生重，拌入表列檸檬汁、橄欖油與鹽。"
+      },
+      {
+        "en": "Serve the salad alongside the salmon and potato, with all dressing included. Additional bagged-salad toppings or dressings change the estimate.",
+        "zh": "沙拉放在鮭魚與馬鈴薯旁，包含全部調味汁；額外袋裝沙拉配料或醬汁會改變估算。"
+      },
+      {
+        "en": "Use the selected-portion ingredient list for every amount, including oil, salt, water, honey and juice where present.",
+        "zh": "所有食材都採用所選份量清單的克數；油、鹽、水，以及配方中的蜂蜜或果汁也一併調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "lentil-roasted-veg-bowl",
+    "label": {
+      "en": "Lentil, carrot and spinach quinoa bowl — standard recipe",
+      "zh": "扁豆紅蘿蔔菠菜藜麥碗（標準配方）"
+    },
+    "version": "mealhatch-recipes-2026-11-05-v1",
+    "temperature": "warm",
+    "staple": "other",
+    "cuisine": "western",
+    "prepMinutes": 10,
+    "ingredients": [
+      {
+        "foodId": "usda-172421",
+        "grams": 150,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-168917",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-170394",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-168463",
+        "grams": 80,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 5,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.5,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 5,
+      "saltGrams": 0.5,
+      "sauceGrams": 0
+    },
+    "notes": {
+      "en": "This source-matched variant uses boiled drained carrots and spinach instead of the roasted vegetables in the legacy idea. Lentils, carrots and spinach all use cooked weights. The quinoa is cooked; salted canned lentils, sauces and sweeteners are not included. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "此來源對應版本以水煮瀝乾紅蘿蔔與菠菜取代舊構想中的烤蔬菜。扁豆、紅蘿蔔與菠菜皆採熟重，藜麥也已煮熟；不包含加鹽罐頭扁豆、醬汁或甜味料。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Cook the plain lentils and quinoa separately. Boil and drain the carrots and spinach; weigh all ingredients after preparation at the amounts shown.",
+        "zh": "分別煮熟原味扁豆與藜麥，紅蘿蔔和菠菜水煮瀝乾；處理完成後按表列熟重秤量。"
+      },
+      {
+        "en": "Spoon the quinoa into a bowl, then add the lentils, carrots and spinach.",
+        "zh": "將藜麥盛入碗內，放上扁豆、紅蘿蔔與菠菜。"
+      },
+      {
+        "en": "Mix through all the measured olive oil and salt. Serve warm without extra sauces; the assembly time excludes cooking from dry ingredients.",
+        "zh": "拌入全部表列橄欖油與鹽，溫熱食用，不另加醬汁；組合時間不含從乾料開始的烹煮時間。"
+      },
+      {
+        "en": "Use the selected-portion ingredient list for every amount, including oil, salt, water, honey and juice where present.",
+        "zh": "所有食材都採用所選份量清單的克數；油、鹽、水，以及配方中的蜂蜜或果汁也一併調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "greek-yogurt-fruit-granola-bowl",
+    "label": {
+      "en": "Chilled oats with Greek yogurt, blueberries and honey — standard recipe",
+      "zh": "冷燕麥希臘優格藍莓蜂蜜碗（標準配方）"
+    },
+    "version": "mealhatch-recipes-2026-11-05-v1",
+    "temperature": "cool",
+    "staple": "other",
+    "cuisine": "western",
+    "prepMinutes": 5,
+    "ingredients": [
+      {
+        "foodId": "usda-173905",
+        "grams": 200,
+        "weighedState": "cooked",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-170894",
+        "grams": 170,
+        "weighedState": "ready-to-eat",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-171711",
+        "grams": 100,
+        "weighedState": "raw",
+        "role": "fruit",
+        "group": "fruit"
+      },
+      {
+        "foodId": "usda-169640",
+        "grams": 5,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 0,
+      "saltGrams": 0,
+      "sauceGrams": 0
+    },
+    "notes": {
+      "en": "Uses oats cooked in water and then cooled, not raw overnight-soaked oats or granola. The 200 g oats includes the water already present in its cooked USDA source. Use plain unsweetened nonfat dairy Greek yogurt, without hydrolysed lactose, whey powder or added sugar. Exactly 5 g honey is included and its sugar counts as free sugars; the source added-sugar fields remain unknown. Blueberries are whole, not juice or puree. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a raw weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "使用以水煮熟再冷卻的燕麥，不是生燕麥隔夜浸泡或穀麥脆片；200 克熟燕麥已包含 USDA 熟食來源中的水分。限定原味無加糖脫脂乳製希臘優格，不含水解乳糖、乳清粉或添加糖。配方含 5 克蜂蜜，其糖計入游離糖，但來源添加糖欄位仍未知。藍莓為完整果實，不是果汁或果泥。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採生重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Prepare plain oats with water and no salt, then weigh the listed amount of cooked oats. Cool them following safe storage and handling instructions; the five-minute estimate starts after cooling.",
+        "zh": "以水煮熟原味燕麥、不加鹽，秤取表列份量的熟燕麥；依食品保存與操作指示冷卻，五分鐘估計從冷卻完成後開始。"
+      },
+      {
+        "en": "Spoon the listed amount of plain nonfat Greek yogurt over the chilled oats. Wash, drain and weigh the listed amount of whole blueberries, then add them.",
+        "zh": "冷燕麥上放表列份量的原味脫脂希臘優格；完整藍莓洗淨瀝乾後秤取表列份量，加入碗內。"
+      },
+      {
+        "en": "Weigh and drizzle the listed amount of honey over the bowl. Serve chilled; extra honey, granola, milk or nut toppings are not included.",
+        "zh": "秤取並淋上表列份量的蜂蜜後冷食；額外蜂蜜、穀麥脆片、牛奶或堅果配料未列入估算。"
+      },
+      {
+        "en": "Use the selected-portion ingredient list for every amount, including oil, salt, water, honey and juice where present.",
+        "zh": "所有食材都採用所選份量清單的克數；油、鹽、水，以及配方中的蜂蜜或果汁也一併調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "chicken-salad-grain-bowl-light",
+    "label": {
+      "en": "Chicken quinoa salad with lemon dressing — standard recipe",
+      "zh": "檸檬雞肉藜麥沙拉碗（標準配方）"
+    },
+    "version": "mealhatch-recipes-2026-11-05-v1",
+    "temperature": "cool",
+    "staple": "other",
+    "cuisine": "western",
+    "prepMinutes": 10,
+    "ingredients": [
+      {
+        "foodId": "usda-171477",
+        "grams": 120,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-168917",
+        "grams": 120,
+        "weighedState": "cooked",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-169247",
+        "grams": 80,
+        "weighedState": "raw",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-170457",
+        "grams": 100,
+        "weighedState": "raw",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-168409",
+        "grams": 80,
+        "weighedState": "raw",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 7,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-167747",
+        "grams": 15,
+        "weighedState": "raw",
+        "role": "sauce",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.4,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 7,
+      "saltGrams": 0.4,
+      "sauceGrams": 15
+    },
+    "notes": {
+      "en": "Uses cooked roasted skinless chicken and cooked quinoa, served cooled with raw romaine, tomato and cucumber. All qualifying FVNS ingredients, including raw lemon juice, use raw weights; chicken and quinoa do not contribute to that numerator. Lemon-juice sugars count as free sugars. No bottled dressing, marinade or extra sweetener is included. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a raw weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "使用已烤熟去皮雞胸與熟藜麥，冷卻後搭配生蘿蔓、番茄與小黃瓜。含新鮮檸檬汁在內的合格 FVNS 食材皆採生重，雞肉與藜麥不納入其分子。檸檬汁中的糖計入游離糖，不含瓶裝沙拉醬、醃料或額外甜味料。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採生重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Weigh the prepared roasted chicken and cooked quinoa; cool them according to their storage instructions. Slice the chicken into bite-size pieces.",
+        "zh": "秤好已烤熟雞胸與熟藜麥，依食品保存指示冷卻；雞肉切成適口大小。"
+      },
+      {
+        "en": "Wash, drain, chop and weigh the romaine, tomato and cucumber at the listed raw edible amounts. Combine with the chicken and quinoa.",
+        "zh": "蘿蔓、番茄與小黃瓜洗淨瀝乾切好，按表列可食生重秤量，和雞肉、藜麥混合。"
+      },
+      {
+        "en": "Mix the measured lemon juice, olive oil and salt. Toss all of the dressing through the salad and serve chilled.",
+        "zh": "將表列檸檬汁、橄欖油與鹽拌勻，全部拌入沙拉後冷食。"
+      },
+      {
+        "en": "Use the selected-portion ingredient list for every amount, including oil, salt, water, honey and juice where present.",
+        "zh": "所有食材都採用所選份量清單的克數；油、鹽、水，以及配方中的蜂蜜或果汁也一併調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "steamed-fish-rice-bokchoy",
+    "label": {
+      "en": "Baked Atlantic cod, rice and bok choy — standard recipe",
+      "zh": "烤大西洋鱈魚白飯青江菜（標準配方）"
+    },
+    "version": "mealhatch-recipes36-2026-11-05-v1",
+    "temperature": "warm",
+    "staple": "rice",
+    "cuisine": "asian",
+    "prepMinutes": 15,
+    "ingredients": [
+      {
+        "foodId": "usda-171956",
+        "grams": 150,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-168878",
+        "grams": 150,
+        "weighedState": "cooked",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-170391",
+        "grams": 180,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 5,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.5,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 5,
+      "saltGrams": 0.5,
+      "sauceGrams": 0
+    },
+    "notes": {
+      "en": "This defined version uses dry-heat-cooked Atlantic cod, rather than the steamed fish in the legacy idea. Weigh the cooked edible fish without skin or bones. Bok choy is boiled and drained without salt before the listed seasoning is added. No breading, marinade or sauce is included. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "此定量版本使用乾熱烹調的大西洋鱈魚，取代舊構想中的蒸魚。魚肉去皮去骨後秤可食熟重。青江菜先無鹽水煮瀝乾，再加入表列調味料，不含裹粉、醃料或醬汁。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Prepare the baked Atlantic cod, cooked white rice and boiled drained bok choy. Remove bones and inedible fish parts before weighing the selected amounts.",
+        "zh": "備妥烤大西洋鱈魚、熟白飯與水煮瀝乾青江菜；魚肉去骨與不可食部分後，按所選份量秤重。"
+      },
+      {
+        "en": "Place the rice and fish on a plate. Cut the cooked bok choy into manageable pieces and add it alongside.",
+        "zh": "白飯與熟魚盛盤，熟青江菜切成適口大小後放在旁邊。"
+      },
+      {
+        "en": "Add all of the measured olive oil and salt, then serve warm. The assembly estimate starts with the cooked ingredients ready.",
+        "zh": "加入全部表列橄欖油與鹽後溫熱食用；組合時間從熟食材備妥後開始。"
+      },
+      {
+        "en": "Use the selected-portion ingredient list for every amount, including all listed oil, salt, water and other seasonings.",
+        "zh": "所有食材都採用所選份量清單的克數，表列油、鹽、水與其他調味料也一併調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "steamed-fish-vegetable-plate",
+    "label": {
+      "en": "Baked cod with mushrooms and napa cabbage — standard recipe",
+      "zh": "烤鱈魚蘑菇大白菜餐盤（標準配方）"
+    },
+    "version": "mealhatch-recipes36-2026-11-05-v1",
+    "temperature": "warm",
+    "staple": "none",
+    "cuisine": "asian",
+    "prepMinutes": 15,
+    "ingredients": [
+      {
+        "foodId": "usda-171956",
+        "grams": 150,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-169252",
+        "grams": 150,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-169980",
+        "grams": 200,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 10,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.6,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 10,
+      "saltGrams": 0.6,
+      "sauceGrams": 0
+    },
+    "notes": {
+      "en": "This source-matched plate uses baked Atlantic cod instead of steamed cod. White mushrooms and napa cabbage are boiled and drained, then weighed cooked. It contains no rice, noodles, bread or potato; the portion is an authored recipe option rather than an energy target. No stock or sauce is included. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "此來源對應餐盤以烤大西洋鱈魚取代蒸鱈魚，白蘑菇與大白菜皆水煮瀝乾後秤熟重。不含白飯、麵、麵包或馬鈴薯；份量是編製的配方選項，不是熱量目標。不含高湯或醬汁。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Prepare the cod by dry heat without breading, and prepare the mushrooms and napa cabbage by boiling and draining. Weigh the edible cooked amounts shown.",
+        "zh": "鱈魚以乾熱方式烹調、不裹粉；蘑菇與大白菜水煮瀝乾後，按表列可食熟重秤量。"
+      },
+      {
+        "en": "Arrange the fish over the cabbage and place the mushrooms alongside. Keep the separately weighed cooked ingredients on the plate.",
+        "zh": "白菜鋪底並放上熟魚，蘑菇放旁邊；分別秤好的熟食材全部保留在盤中。"
+      },
+      {
+        "en": "Drizzle with the measured olive oil, add the measured salt and serve warm. Discarded vegetable-cooking water is not included.",
+        "zh": "淋上表列橄欖油、加入鹽後溫熱食用；已倒掉的煮菜水不包含在估算中。"
+      },
+      {
+        "en": "Use the selected-portion ingredient list for every amount, including all listed oil, salt, water and other seasonings.",
+        "zh": "所有食材都採用所選份量清單的克數，表列油、鹽、水與其他調味料也一併調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "taiwanese-minced-pork-rice-light",
+    "label": {
+      "en": "Lean minced pork, cabbage and rice — standard recipe",
+      "zh": "瘦豬絞肉高麗菜飯（標準配方）"
+    },
+    "version": "mealhatch-recipes36-2026-11-05-v1",
+    "temperature": "warm",
+    "staple": "rice",
+    "cuisine": "asian",
+    "prepMinutes": 15,
+    "ingredients": [
+      {
+        "foodId": "usda-169193",
+        "grams": 120,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-168878",
+        "grams": 150,
+        "weighedState": "cooked",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-169976",
+        "grams": 150,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-170001",
+        "grams": 50,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 5,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.6,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 5,
+      "saltGrams": 0.6,
+      "sauceGrams": 0
+    },
+    "notes": {
+      "en": "Uses cooked crumbles from the source 96% lean / 4% fat ground-pork formulation. That percentage describes the starting mince; its cooked source contains 7.15 g total fat/100 g. This plain recipe is not a calculation for Taiwanese braised-pork sauce. Cabbage and onion are boiled and drained; soy sauce, sugar and braising liquid are not included. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "使用來源為 96% 瘦肉／4% 脂肪豬絞肉的熟碎粒；該比例描述原絞肉配方，熟肉來源每 100 克含總脂肪 7.15 克。這是原味配方，不用來估算臺式滷肉醬汁。高麗菜與洋蔥水煮瀝乾，不含醬油、糖或滷汁。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Cook the specified lean ground pork into crumbles without added sauce. Prepare rice and boil and drain the cabbage and onion; weigh all of them in the cooked states shown.",
+        "zh": "指定瘦豬絞肉不加醬料煮成碎粒；備妥白飯，將高麗菜與洋蔥水煮瀝乾，全部按表列熟重秤量。"
+      },
+      {
+        "en": "Spoon the cooked pork and onion over the rice. Place the cabbage beside it.",
+        "zh": "熟豬絞肉與洋蔥放在白飯上，高麗菜放旁邊。"
+      },
+      {
+        "en": "Mix in the measured olive oil and salt and serve warm. Additions such as soy sauce or sweet braising liquid change the estimate.",
+        "zh": "拌入表列橄欖油與鹽後溫熱食用；額外醬油或含糖滷汁會改變估算。"
+      },
+      {
+        "en": "Use the selected-portion ingredient list for every amount, including all listed oil, salt, water and other seasonings.",
+        "zh": "所有食材都採用所選份量清單的克數，表列油、鹽、水與其他調味料也一併調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "mediterranean-chicken-plate",
+    "label": {
+      "en": "Chicken and chickpea plate with zucchini and red pepper — standard recipe",
+      "zh": "雞肉鷹嘴豆櫛瓜紅甜椒餐盤（標準配方）"
+    },
+    "version": "mealhatch-recipes36-2026-11-05-v1",
+    "temperature": "warm",
+    "staple": "none",
+    "cuisine": "western",
+    "prepMinutes": 10,
+    "ingredients": [
+      {
+        "foodId": "usda-171477",
+        "grams": 90,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-173757",
+        "grams": 120,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-169292",
+        "grams": 150,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-170110",
+        "grams": 80,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 7,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.5,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 7,
+      "saltGrams": 0.5,
+      "sauceGrams": 0
+    },
+    "notes": {
+      "en": "A defined cooked plate using roasted skinless chicken, unsalted boiled chickpeas and boiled drained zucchini and red pepper. The chickpeas are whole, not hummus or falafel. All qualifying FVNS ingredients use cooked weights. No pita, lemon juice, tahini or dressing is included. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "此定量熟食餐盤使用去皮烤雞胸、無鹽水煮鷹嘴豆、水煮瀝乾櫛瓜與紅甜椒。鷹嘴豆保持完整，不是鷹嘴豆泥或炸豆丸；合格 FVNS 食材皆採熟重。不含口袋餅、檸檬汁、芝麻醬或沙拉醬。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Weigh prepared roasted chicken and plain boiled chickpeas. Boil and drain the skin-on zucchini and red sweet pepper, then weigh the cooked amounts shown.",
+        "zh": "秤取已烤熟雞肉與原味水煮鷹嘴豆；帶皮櫛瓜和紅甜椒水煮瀝乾後按表列熟重秤量。"
+      },
+      {
+        "en": "Cut the chicken into pieces and combine it with the chickpeas and vegetables on a plate.",
+        "zh": "雞肉切成適口大小，與鷹嘴豆、蔬菜一起盛盤。"
+      },
+      {
+        "en": "Toss with all the measured olive oil and salt, and serve warm without extra sauces.",
+        "zh": "拌入全部表列橄欖油與鹽後溫熱食用，不另加醬汁。"
+      },
+      {
+        "en": "Use the selected-portion ingredient list for every amount, including all listed oil, salt, water and other seasonings.",
+        "zh": "所有食材都採用所選份量清單的克數，表列油、鹽、水與其他調味料也一併調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "burrito-bowl-beans-veg",
+    "label": {
+      "en": "Black and white bean rice bowl with red pepper — standard recipe",
+      "zh": "黑菜豆與白菜豆紅甜椒飯碗（標準配方）"
+    },
+    "version": "mealhatch-recipes36-2026-11-05-v1",
+    "temperature": "warm",
+    "staple": "rice",
+    "cuisine": "western",
+    "prepMinutes": 10,
+    "ingredients": [
+      {
+        "foodId": "usda-173735",
+        "grams": 130,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-175203",
+        "grams": 80,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-168878",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-170110",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-170001",
+        "grams": 50,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 5,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.6,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 5,
+      "saltGrams": 0.6,
+      "sauceGrams": 0
+    },
+    "notes": {
+      "en": "Uses unsalted boiled black turtle beans and white common beans, not black soybeans or soybean products. Both beans and the red pepper and onion are weighed cooked. This rice-bowl version includes no tortilla, cheese, salsa, avocado or prepared burrito sauce. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "使用無鹽水煮黑菜豆與白菜豆，不是黑大豆或黃豆製品。兩種豆、紅甜椒與洋蔥均採熟重；此飯碗版本不含餅皮、起司、莎莎醬、酪梨或調製捲餅醬。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Prepare and drain the plain black turtle beans and white beans. Prepare the rice, and boil and drain the red pepper and onion before weighing each cooked component.",
+        "zh": "原味黑菜豆與白菜豆煮熟瀝乾，備妥白飯；紅甜椒與洋蔥水煮瀝乾後，分別秤取各項熟食份量。"
+      },
+      {
+        "en": "Place the rice in a bowl and top with both beans, red pepper and onion.",
+        "zh": "白飯盛碗，放上兩種豆、紅甜椒與洋蔥。"
+      },
+      {
+        "en": "Fold in all the measured olive oil and salt. Serve warm; salted canned beans or salsa would require different ingredient values.",
+        "zh": "拌入全部表列橄欖油與鹽，溫熱食用；若改用加鹽罐頭豆或莎莎醬，需另外的食材數值。"
+      },
+      {
+        "en": "Use the selected-portion ingredient list for every amount, including all listed oil, salt, water and other seasonings.",
+        "zh": "所有食材都採用所選份量清單的克數，表列油、鹽、水與其他調味料也一併調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "chicken-fajita-bowl",
+    "label": {
+      "en": "Chicken, red pepper and onion rice bowl — standard recipe",
+      "zh": "雞肉紅甜椒洋蔥飯碗（標準配方）"
+    },
+    "version": "mealhatch-recipes36-2026-11-05-v1",
+    "temperature": "warm",
+    "staple": "rice",
+    "cuisine": "western",
+    "prepMinutes": 15,
+    "ingredients": [
+      {
+        "foodId": "usda-171477",
+        "grams": 120,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-168878",
+        "grams": 150,
+        "weighedState": "cooked",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-170110",
+        "grams": 120,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-170001",
+        "grams": 80,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 7,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.6,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 7,
+      "saltGrams": 0.6,
+      "sauceGrams": 0
+    },
+    "notes": {
+      "en": "The legacy idea is a fajita bowl; this explicit version uses roasted chicken and boiled drained red pepper and onion, not seared restaurant fajita vegetables. All oil and salt are listed. No spice blend, tortilla, sour cream, salsa or marinade is included. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "舊構想為法士達碗；此明示版本使用烤雞肉與水煮瀝乾紅甜椒、洋蔥，不是餐廳煎炒法士達蔬菜。油鹽全部列出，不含綜合香料、餅皮、酸奶、莎莎醬或醃料。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Slice the prepared roasted chicken. Weigh the cooked rice and the separately boiled and drained red pepper and onion at the selected amounts.",
+        "zh": "已烤熟雞肉切片；白飯與分別水煮瀝乾的紅甜椒、洋蔥，按所選份量秤取熟重。"
+      },
+      {
+        "en": "Add the chicken and vegetables over the rice. Toss the vegetables with the listed olive oil.",
+        "zh": "雞肉與蔬菜放在白飯上，蔬菜拌入表列橄欖油。"
+      },
+      {
+        "en": "Add the measured salt and serve warm, keeping all the listed oil in the meal. Extra seasoning packets or sauces are outside this recipe.",
+        "zh": "加入表列鹽後溫熱食用，全部表列油留在餐中；額外調味包或醬汁不屬於此配方。"
+      },
+      {
+        "en": "Use the selected-portion ingredient list for every amount, including all listed oil, salt, water and other seasonings.",
+        "zh": "所有食材都採用所選份量清單的克數，表列油、鹽、水與其他調味料也一併調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "chicken-zucchini-pasta-light",
+    "label": {
+      "en": "Chicken and zucchini pasta with cooked tomato pieces — standard recipe",
+      "zh": "雞肉櫛瓜熟番茄全麥麵（標準配方）"
+    },
+    "version": "mealhatch-recipes36-2026-11-05-v1",
+    "temperature": "warm",
+    "staple": "noodles",
+    "cuisine": "western",
+    "prepMinutes": 15,
+    "ingredients": [
+      {
+        "foodId": "usda-171477",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-168910",
+        "grams": 160,
+        "weighedState": "cooked",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-169292",
+        "grams": 150,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-170050",
+        "grams": 120,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 7,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.5,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 7,
+      "saltGrams": 0.5,
+      "sauceGrams": 0
+    },
+    "notes": {
+      "en": "Uses cooked whole-wheat pasta, boiled drained zucchini and recognizable cooked tomato pieces instead of pureed tomato sauce. No puree, paste, concentrated sauce or added sugar is included. Tomato must remain in pieces for this plain intact-food free-sugar derivation; all qualifying vegetables use cooked weights. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "使用熟全麥義大利麵、水煮瀝乾櫛瓜及可辨識的熟番茄塊，取代泥狀番茄醬。不含果泥、濃縮番茄糊、濃縮醬汁或添加糖；番茄須保留塊狀，才符合此原味完整食物的游離糖判讀，合格蔬菜均採熟重。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Prepare and drain the whole-wheat pasta and skin-on zucchini. Prepare plain cooked tomato in pieces and roasted skinless chicken, then weigh the cooked edible amounts shown.",
+        "zh": "全麥麵與帶皮櫛瓜煮熟瀝乾，備妥原味熟番茄塊與去皮烤雞胸，再按表列可食熟重秤量。"
+      },
+      {
+        "en": "Combine the pasta, sliced chicken, zucchini and tomato pieces in a bowl. Keep the tomato as pieces rather than blending it into sauce.",
+        "zh": "麵、切片雞肉、櫛瓜與番茄塊放入碗中混合，番茄維持塊狀，不攪打成醬。"
+      },
+      {
+        "en": "Toss with the measured olive oil and salt and serve warm. Parmesan, bottled pasta sauce and unmeasured cooking oil are not included.",
+        "zh": "拌入表列橄欖油與鹽後溫熱食用；不包含帕瑪森起司、瓶裝義大利麵醬或未秤重的烹調油。"
+      },
+      {
+        "en": "Use the selected-portion ingredient list for every amount, including all listed oil, salt, water and other seasonings.",
+        "zh": "所有食材都採用所選份量清單的克數，表列油、鹽、水與其他調味料也一併調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "cottage-cheese-fruit-toast-plate",
+    "label": {
+      "en": "Cottage cheese, banana and berries with whole-wheat bread — standard recipe",
+      "zh": "茅屋起司香蕉藍莓全麥麵包餐盤（標準配方）"
+    },
+    "version": "mealhatch-recipes36-2026-11-05-v1",
+    "temperature": "cool",
+    "staple": "bread",
+    "cuisine": "western",
+    "prepMinutes": 5,
+    "ingredients": [
+      {
+        "foodId": "usda-172182",
+        "grams": 180,
+        "weighedState": "ready-to-eat",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-173944",
+        "grams": 100,
+        "weighedState": "raw",
+        "role": "fruit",
+        "group": "fruit"
+      },
+      {
+        "foodId": "usda-171711",
+        "grams": 80,
+        "weighedState": "raw",
+        "role": "fruit",
+        "group": "fruit"
+      },
+      {
+        "foodId": "usda-174091",
+        "grams": 60,
+        "weighedState": "ready-to-eat",
+        "role": "staple",
+        "group": "carb"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 0,
+      "saltGrams": 0,
+      "sauceGrams": 0
+    },
+    "notes": {
+      "en": "Uses plain unsweetened cottage cheese with 2% milkfat, whole banana and blueberries, and the specific ready-to-eat whole-wheat French/Vienna bread. The bread is not additionally toasted; no butter, jam or honey is included. Use dairy cottage cheese without hydrolysed lactose, whey powder or fruit preparation. Fruit is served in intact pieces, not blended. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a raw weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "使用原味無加糖 2% 乳脂茅屋起司、完整香蕉與藍莓，以及指定即食全麥法式／維也納麵包。麵包不另烘烤，不含奶油、果醬或蜂蜜。茅屋起司須不含水解乳糖、乳清粉或水果調製物；水果保持完整塊狀，不攪打。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採生重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Measure the plain 2%-milkfat cottage cheese and slice the specified ready-to-eat whole-wheat bread. Keep the cottage cheese according to its storage instructions.",
+        "zh": "按所選份量秤取原味 2% 乳脂茅屋起司與指定即食全麥麵包，茅屋起司依其保存指示處理。"
+      },
+      {
+        "en": "Peel and weigh the banana before slicing it. Wash, drain and weigh the whole blueberries, then place both fruits beside the cottage cheese.",
+        "zh": "香蕉去皮秤重後切片；完整藍莓洗淨瀝乾秤重，兩種水果放在茅屋起司旁。"
+      },
+      {
+        "en": "Serve with the bread while the dairy remains chilled. Use only the listed foods; fruit syrup or other toppings change the calculation.",
+        "zh": "乳製品保持冷藏食用狀態，搭配麵包；只使用表列食材，額外果糖漿或配料會改變計算。"
+      },
+      {
+        "en": "Use the selected-portion ingredient list for every amount, including all listed oil, salt, water and other seasonings.",
+        "zh": "所有食材都採用所選份量清單的克數，表列油、鹽、水與其他調味料也一併調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "soy-milk-oatmeal-egg-fruit",
+    "label": {
+      "en": "Water-cooked oats with boiled egg and banana — standard recipe",
+      "zh": "水煮燕麥佐水煮蛋與香蕉（標準配方）"
+    },
+    "version": "mealhatch-recipes36-2026-11-05-v1",
+    "temperature": "flexible",
+    "staple": "other",
+    "cuisine": "western",
+    "prepMinutes": 5,
+    "ingredients": [
+      {
+        "foodId": "usda-173905",
+        "grams": 200,
+        "weighedState": "cooked",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-173424",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-173944",
+        "grams": 100,
+        "weighedState": "raw",
+        "role": "fruit",
+        "group": "fruit"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 0,
+      "saltGrams": 0,
+      "sauceGrams": 0
+    },
+    "notes": {
+      "en": "This source-matched version uses plain water-cooked oats, peeled hard-boiled egg and raw banana. It omits the soy drink in the legacy idea because the archived generic soy-drink source has an unresolved FVNS proportion and interpretation; unknown is not treated as zero. The cooked-oat weight already includes its cooking water. Banana is the only qualifying FVNS ingredient and is weighed raw. No milk, soy drink, sweetener or topping is included. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a raw weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "此來源對應版本使用原味水煮燕麥、去殼水煮蛋與生香蕉。舊構想中的豆飲未納入，因保留的一般豆飲來源之 FVNS 比例與判讀未解決，未知值不視為零。熟燕麥重量已包含其煮食水分；香蕉是唯一合格 FVNS 食材，採生重。不含牛奶、豆飲、甜味料或配料。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採生重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Prepare plain oats with water and no salt, then weigh the cooked amount in the selected-portion list. The cooked weight includes retained cooking water.",
+        "zh": "原味燕麥以水煮熟、不加鹽，按所選份量清單秤取熟重；熟重已包含保留的煮食水分。"
+      },
+      {
+        "en": "Peel and weigh the prepared hard-boiled egg. Peel the banana and weigh its raw edible flesh before slicing it.",
+        "zh": "已煮熟水煮蛋去殼後秤重；香蕉去皮後秤取可食生重，再切片。"
+      },
+      {
+        "en": "Serve the oats with the sliced egg and banana. Keep the banana in pieces rather than blending it into the porridge; no milk or soy drink is included.",
+        "zh": "燕麥搭配切片水煮蛋與香蕉食用，香蕉保持塊狀、不攪打進燕麥；此配方不含牛奶或豆飲。"
+      },
+      {
+        "en": "Use the selected-portion ingredient list for all three ingredients. Additional milk, soy drink, syrup or toppings change the estimate.",
+        "zh": "三項食材皆採所選份量清單的克數；額外牛奶、豆飲、糖漿或配料會改變估算。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "chicken-kale-white-bean-soup",
+    "label": {
+      "en": "Chicken, kale and white bean soup — standard recipe",
+      "zh": "雞肉羽衣甘藍白菜豆湯（標準配方）"
+    },
+    "version": "mealhatch-recipes36-2026-11-05-v1",
+    "temperature": "warm",
+    "staple": "none",
+    "cuisine": "western",
+    "prepMinutes": 15,
+    "ingredients": [
+      {
+        "foodId": "usda-171477",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-175203",
+        "grams": 120,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-169238",
+        "grams": 120,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-170001",
+        "grams": 60,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-173647",
+        "grams": 180,
+        "weighedState": "ready-to-eat",
+        "role": "liquid",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 5,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.6,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 5,
+      "saltGrams": 0.6,
+      "sauceGrams": 0
+    },
+    "notes": {
+      "en": "Uses roasted skinless chicken and separately cooked unsalted white beans, boiled drained kale and onion. The listed water is retained and eaten as part of the soup. This is not canned soup or a stock-concentrate estimate; no cream, bouillon, extra broth or sweetener is included. All qualifying FVNS ingredients are weighed cooked. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "使用去皮烤雞胸、另煮的無鹽白菜豆、水煮瀝乾羽衣甘藍與洋蔥。表列水保留在湯內並食用；這不是罐頭湯或濃縮湯底估算，不含鮮奶油、湯塊、額外高湯或甜味料。合格 FVNS 食材均採熟重。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Shred the prepared roasted chicken. Weigh the boiled drained white beans, kale and onion at their listed cooked amounts.",
+        "zh": "已烤熟雞肉撕成絲；白菜豆、羽衣甘藍與洋蔥水煮瀝乾後，按表列熟重秤量。"
+      },
+      {
+        "en": "Place the weighed cooked ingredients in a bowl and add the listed amount of hot drinking water. Stir in the measured olive oil and salt.",
+        "zh": "秤好的熟食材放入碗中，加入表列熱飲用水，再拌入橄欖油與鹽。"
+      },
+      {
+        "en": "Serve warm with all liquid included. If reheating evaporates water, replenish it to the selected recipe amount; discarded cooking water does not count.",
+        "zh": "溫熱食用並喝完全部湯水；若加熱蒸發水分，補回所選配方水量，已倒掉的煮食水不計入。"
+      },
+      {
+        "en": "Use the selected-portion ingredient list for every amount, including all listed oil, salt, water and other seasonings.",
+        "zh": "所有食材都採用所選份量清單的克數，表列油、鹽、水與其他調味料也一併調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "beef-tomato-rice-bowl",
+    "label": {
+      "en": "Lean beef and cooked tomato rice bowl with cabbage — standard recipe",
+      "zh": "瘦牛肉熟番茄高麗菜飯碗（標準配方）"
+    },
+    "version": "mealhatch-recipes36-2026-11-05-v1",
+    "temperature": "warm",
+    "staple": "rice",
+    "cuisine": "asian",
+    "prepMinutes": 15,
+    "ingredients": [
+      {
+        "foodId": "usda-168649",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-168878",
+        "grams": 140,
+        "weighedState": "cooked",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-170050",
+        "grams": 150,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-169976",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 5,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.5,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 5,
+      "saltGrams": 0.5,
+      "sauceGrams": 0
+    },
+    "notes": {
+      "en": "Uses grilled lean top-round beef, cooked rice, cooked tomato pieces and boiled drained cabbage. It is not a sauced stir-fry estimate. Tomato remains in recognizable pieces; no tomato puree, concentrated paste, ketchup, soy sauce or added sweetener is included. Qualifying vegetables share a cooked-weight basis. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "使用去除可見脂肪的烤牛後腿肉（top round）、熟白飯、熟番茄塊與水煮瀝乾高麗菜，不是有醬汁的炒牛肉估算。番茄保留可辨識塊狀，不含番茄泥、濃縮糊、番茄醬、醬油或添加甜味料。合格蔬菜均採熟重。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Slice prepared grilled lean beef after removing visible fat. Weigh the cooked rice, plain cooked tomato pieces and boiled drained cabbage.",
+        "zh": "已烤熟牛肉去除可見脂肪後切片；秤取熟白飯、原味熟番茄塊與水煮瀝乾高麗菜。"
+      },
+      {
+        "en": "Arrange the beef and cooked tomato over the rice and add the cabbage on the side. Keep the tomato in pieces.",
+        "zh": "牛肉與熟番茄放在白飯上，高麗菜放旁邊；番茄維持塊狀。"
+      },
+      {
+        "en": "Add all of the measured olive oil and salt and serve warm. Extra marinades, cooking oil or sauces are outside the calculation.",
+        "zh": "加入全部表列橄欖油與鹽後溫熱食用；額外醃料、烹調油或醬汁未列入計算。"
+      },
+      {
+        "en": "Use the selected-portion ingredient list for every amount, including all listed oil, salt, water and other seasonings.",
+        "zh": "所有食材都採用所選份量清單的克數，表列油、鹽、水與其他調味料也一併調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "shrimp-fajita-plate",
+    "label": {
+      "en": "Cooked shrimp and baked potato with red pepper and onion — standard recipe",
+      "zh": "熟蝦仁烤馬鈴薯紅甜椒洋蔥餐盤（標準配方）"
+    },
+    "version": "mealhatch-recipes36-2026-11-05-v1",
+    "temperature": "warm",
+    "staple": "potato",
+    "cuisine": "western",
+    "prepMinutes": 15,
+    "ingredients": [
+      {
+        "foodId": "usda-171971",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-170093",
+        "grams": 200,
+        "weighedState": "cooked",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-170110",
+        "grams": 120,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-170001",
+        "grams": 60,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 5,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 5,
+      "saltGrams": 0,
+      "sauceGrams": 0
+    },
+    "notes": {
+      "en": "This explicit variation uses moist-heat cooked shrimp, baked skin-on potato, and boiled drained red pepper and onion rather than seared fajita vegetables. The shrimp source may contain moisture-retention additives and reports 947 mg sodium/100 g; that value is retained, with no additional salt in this recipe. No tortilla, seasoning packet or sauce is included. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "此明示版本以濕熱熟蝦仁、帶皮烤馬鈴薯及水煮瀝乾紅甜椒、洋蔥，取代煎炒法士達蔬菜。蝦來源可能含保水添加物，每 100 克鈉 947 毫克，完整保留該值；此配方不另加鹽。不含餅皮、調味包或醬汁。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Weigh the specified cooked peeled shrimp, baked potato with edible skin, and separately boiled drained red pepper and onion.",
+        "zh": "秤取指定去殼熟蝦仁、含可食皮的烤馬鈴薯，以及分別水煮瀝乾的紅甜椒與洋蔥。"
+      },
+      {
+        "en": "Cut the potato into pieces and arrange it with the shrimp and vegetables on a plate.",
+        "zh": "馬鈴薯切塊後，與熟蝦仁及蔬菜一起盛盤。"
+      },
+      {
+        "en": "Add all of the measured olive oil and serve warm. Do not add salt within this recipe; extra seasoning changes the sodium estimate.",
+        "zh": "加入全部表列橄欖油後溫熱食用；此配方不另加鹽，額外調味會改變鈉估算。"
+      },
+      {
+        "en": "Use the selected-portion ingredient list for every amount, including all listed oil, salt, water and other seasonings.",
+        "zh": "所有食材都採用所選份量清單的克數，表列油、鹽、水與其他調味料也一併調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "rotisserie-chicken-microwave-veg",
+    "label": {
+      "en": "Roasted chicken with sweetcorn and green beans — standard recipe",
+      "zh": "烤雞胸甜玉米四季豆餐盤（標準配方）"
+    },
+    "version": "mealhatch-recipes48-2026-11-06-v1",
+    "temperature": "warm",
+    "staple": "other",
+    "cuisine": "western",
+    "prepMinutes": 10,
+    "ingredients": [
+      {
+        "foodId": "usda-171477",
+        "grams": 120,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-169999",
+        "grams": 160,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-169141",
+        "grams": 180,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 5,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.5,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 5,
+      "saltGrams": 0.5,
+      "sauceGrams": 0
+    },
+    "notes": {
+      "en": "Uses plain roasted skinless breast rather than an unspecified seasoned rotisserie chicken. Sweetcorn kernels and green snap beans are boiled and drained without salt before the listed seasoning is added. Corn is weighed off the cob; it is the starchy side for this plate and qualifies as whole sweetcorn in the FVNS calculation. No butter, seasoning packet or sauce is included. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "使用原味去皮烤雞胸，不代表調味未明的旋轉烤雞。甜玉米粒與四季豆先無鹽水煮瀝乾，再加入表列調味料。玉米秤重不含梗，作為此餐盤的澱粉配菜，並以完整甜玉米納入 FVNS。不含奶油、調味包或醬汁。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Prepare roasted skinless chicken breast, boiled drained sweetcorn and boiled drained green beans. Remove the corn cob and weigh only the cooked edible kernels.",
+        "zh": "備妥去皮烤雞胸、水煮瀝乾甜玉米與四季豆；玉米去梗後只秤可食熟玉米粒。"
+      },
+      {
+        "en": "Slice the chicken and place it beside the selected amounts of corn and green beans.",
+        "zh": "雞肉切片後，與所選份量的玉米粒及四季豆一起盛盤。"
+      },
+      {
+        "en": "Add all the measured olive oil and salt and serve warm. The assembly estimate starts with the ingredients already cooked.",
+        "zh": "加入全部表列橄欖油與鹽後溫熱食用；組合時間從食材已煮熟後開始。"
+      },
+      {
+        "en": "Use the selected-portion ingredient list for every amount, including all listed oil, salt, water and dressing ingredients.",
+        "zh": "所有食材都採用所選份量清單的克數，表列油、鹽、水與調味汁食材也一併調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "rotisserie-chicken-rice-salad",
+    "label": {
+      "en": "Roasted chicken and rice with lemon salad — standard recipe",
+      "zh": "烤雞胸白飯佐檸檬沙拉（標準配方）"
+    },
+    "version": "mealhatch-recipes48-2026-11-06-v1",
+    "temperature": "flexible",
+    "staple": "rice",
+    "cuisine": "western",
+    "prepMinutes": 10,
+    "ingredients": [
+      {
+        "foodId": "usda-171477",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-168878",
+        "grams": 150,
+        "weighedState": "cooked",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-169247",
+        "grams": 70,
+        "weighedState": "raw",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-170457",
+        "grams": 100,
+        "weighedState": "raw",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-168409",
+        "grams": 70,
+        "weighedState": "raw",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 5,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-167747",
+        "grams": 10,
+        "weighedState": "raw",
+        "role": "sauce",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.4,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 5,
+      "saltGrams": 0.4,
+      "sauceGrams": 10
+    },
+    "notes": {
+      "en": "Uses the plain roasted skinless chicken record, not a generic seasoned rotisserie product. The salad is raw romaine, tomato and cucumber. All qualifying FVNS ingredients, including the fresh lemon juice, use raw weights; rice and chicken do not enter that numerator. Lemon-juice sugars are counted as free sugars. No bottled dressing or marinade is included. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a raw weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "使用原味去皮烤雞胸來源，不代表一般調味旋轉烤雞。沙拉為生蘿蔓、番茄與小黃瓜；含新鮮檸檬汁在內的合格 FVNS 食材皆採生重，白飯與雞肉不納入其分子。檸檬汁中的糖計入游離糖，不含瓶裝沙拉醬或醃料。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採生重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Weigh the prepared roasted chicken and cooked rice, then slice the chicken. Wash, drain and weigh the raw romaine, tomato and cucumber.",
+        "zh": "秤取已烤熟雞胸與熟白飯，雞肉切片；蘿蔓、番茄與小黃瓜洗淨瀝乾後秤生重。"
+      },
+      {
+        "en": "Arrange the chicken and rice on a plate and place the raw vegetables alongside.",
+        "zh": "雞肉與白飯盛盤，生蔬菜放旁邊。"
+      },
+      {
+        "en": "Mix the measured lemon juice, olive oil and salt and use all of it on the salad. Serve without extra sauces.",
+        "zh": "將表列檸檬汁、橄欖油與鹽拌勻，全部用於沙拉，不另加醬汁。"
+      },
+      {
+        "en": "Use the selected-portion ingredient list for every amount, including all listed oil, salt, water and dressing ingredients.",
+        "zh": "所有食材都採用所選份量清單的克數，表列油、鹽、水與調味汁食材也一併調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "beef-bibimbap-extra-veg",
+    "label": {
+      "en": "Beef, boiled egg and mixed-vegetable rice bowl — standard recipe",
+      "zh": "牛肉水煮蛋綜合蔬菜飯碗（標準配方）"
+    },
+    "version": "mealhatch-recipes48-2026-11-06-v1",
+    "temperature": "warm",
+    "staple": "rice",
+    "cuisine": "asian",
+    "prepMinutes": 15,
+    "ingredients": [
+      {
+        "foodId": "usda-168649",
+        "grams": 90,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-173424",
+        "grams": 50,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-168878",
+        "grams": 130,
+        "weighedState": "cooked",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-169292",
+        "grams": 80,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-170394",
+        "grams": 70,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-168463",
+        "grams": 60,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 5,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.6,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 5,
+      "saltGrams": 0.6,
+      "sauceGrams": 0
+    },
+    "notes": {
+      "en": "A defined variation of the bibimbap idea with grilled lean top-round beef, hard-boiled egg and boiled drained zucchini, carrot and spinach. It does not estimate a fried egg, sauteed vegetables or gochujang sauce. All qualifying vegetables use cooked weights. Sesame oil, chili paste, soy sauce and extra garnish are not included. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "此拌飯構想的定量版本使用去除可見脂肪的烤牛後腿肉（top round）、水煮蛋、水煮瀝乾櫛瓜、紅蘿蔔與菠菜；不估算煎蛋、炒蔬菜或韓式辣椒醬。合格蔬菜皆採熟重，不含芝麻油、辣椒醬、醬油或額外配料。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Slice the prepared grilled lean beef and peeled hard-boiled egg. Weigh the cooked rice and the separately boiled and drained vegetables.",
+        "zh": "已烤熟瘦牛肉與去殼水煮蛋切片；秤取熟白飯及分別水煮瀝乾的蔬菜。"
+      },
+      {
+        "en": "Place the rice in a bowl and arrange the beef, egg, zucchini, carrot and spinach over it.",
+        "zh": "白飯盛碗，放上牛肉、蛋、櫛瓜、紅蘿蔔與菠菜。"
+      },
+      {
+        "en": "Add the measured olive oil and salt, then mix and serve warm. Keep all listed ingredients in the bowl; extra condiments change the estimate.",
+        "zh": "加入表列橄欖油與鹽，拌勻後溫熱食用；表列食材全部保留，額外調味料會改變估算。"
+      },
+      {
+        "en": "Use the selected-portion ingredient list for every amount, including all listed oil, salt, water and dressing ingredients.",
+        "zh": "所有食材都採用所選份量清單的克數，表列油、鹽、水與調味汁食材也一併調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "turkey-chili-rice-bowl",
+    "label": {
+      "en": "Turkey, beans and cooked-tomato rice bowl — standard recipe",
+      "zh": "火雞雙豆熟番茄飯碗（標準配方）"
+    },
+    "version": "mealhatch-recipes48-2026-11-06-v1",
+    "temperature": "warm",
+    "staple": "rice",
+    "cuisine": "western",
+    "prepMinutes": 15,
+    "ingredients": [
+      {
+        "foodId": "usda-171496",
+        "grams": 90,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-175203",
+        "grams": 80,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-173735",
+        "grams": 60,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-168878",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-170050",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-170110",
+        "grams": 60,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-170001",
+        "grams": 40,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 5,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.5,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 5,
+      "saltGrams": 0.5,
+      "sauceGrams": 0
+    },
+    "notes": {
+      "en": "This explicit version uses roasted turkey breast, whole unsalted white and black turtle beans, cooked tomato pieces, red pepper and onion. It is not an estimate of packaged chili, ground turkey or chili sauce. Tomato remains in recognizable pieces, not puree or concentrated paste; all qualifying FVNS ingredients are weighed cooked. No seasoning packet or sweetener is included. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "此明示版本使用烤火雞胸、完整無鹽白菜豆與黑菜豆、熟番茄塊、紅甜椒與洋蔥，不估算包裝辣肉醬、火雞絞肉或辣椒醬。番茄維持可辨識塊狀，不是果泥或濃縮糊；合格 FVNS 食材均採熟重。不含調味包或甜味料。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Dice the prepared roasted turkey. Weigh the cooked rice, drained beans, cooked tomato pieces, and boiled drained red pepper and onion.",
+        "zh": "已烤熟火雞肉切丁；秤取熟白飯、瀝乾豆類、熟番茄塊及水煮瀝乾紅甜椒與洋蔥。"
+      },
+      {
+        "en": "Combine the turkey, beans and vegetables over the rice without blending the tomato into a sauce.",
+        "zh": "火雞、豆類與蔬菜放在白飯上混合，番茄不攪打成醬。"
+      },
+      {
+        "en": "Stir in all the measured olive oil and salt and serve warm. No unmeasured stock, chili paste or sauce is part of this bowl.",
+        "zh": "拌入全部表列橄欖油與鹽後溫熱食用；此碗不含未秤重高湯、辣椒糊或醬汁。"
+      },
+      {
+        "en": "Use the selected-portion ingredient list for every amount, including all listed oil, salt, water and dressing ingredients.",
+        "zh": "所有食材都採用所選份量清單的克數，表列油、鹽、水與調味汁食材也一併調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "avocado-egg-toast-soup",
+    "label": {
+      "en": "Avocado and egg with whole-wheat bread and potato soup — standard recipe",
+      "zh": "酪梨水煮蛋全麥麵包佐馬鈴薯湯（標準配方）"
+    },
+    "version": "mealhatch-recipes48-2026-11-06-v1",
+    "temperature": "flexible",
+    "staple": "bread",
+    "cuisine": "western",
+    "prepMinutes": 10,
+    "ingredients": [
+      {
+        "foodId": "usda-171705",
+        "grams": 60,
+        "weighedState": "raw",
+        "role": "fruit",
+        "group": "fruit"
+      },
+      {
+        "foodId": "usda-173424",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-174091",
+        "grams": 60,
+        "weighedState": "ready-to-eat",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-170093",
+        "grams": 80,
+        "weighedState": "cooked",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-173647",
+        "grams": 120,
+        "weighedState": "ready-to-eat",
+        "role": "liquid",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 3,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.3,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 3,
+      "saltGrams": 0.3,
+      "sauceGrams": 0
+    },
+    "notes": {
+      "en": "Uses sliced raw avocado, hard-boiled egg and the specific ready-to-eat whole-wheat French/Vienna bread, without further toasting. The side soup contains the listed baked potato with edible skin, retained drinking water, oil and salt; it contains no cream or stock. Its final potato-plus-water weight is the sum of those selected ingredient amounts, with evaporation replenished. Potato does not qualify as FVNS, so avocado is the only qualifying raw ingredient. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a raw weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "使用生酪梨切片、水煮蛋及指定即食全麥法式／維也納麵包，不另烘烤。旁邊的湯含表列帶可食皮烤馬鈴薯、保留飲用水、油與鹽，不含鮮奶油或高湯。湯中馬鈴薯加水的最終重量為兩者所選份量之和，蒸發水分須補回；馬鈴薯不納入 FVNS，因此酪梨是唯一合格的生食材。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採生重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Remove the avocado skin and stone and weigh the raw flesh before slicing. Peel and weigh the hard-boiled egg, and measure the specified ready-to-eat bread.",
+        "zh": "酪梨去皮去核後秤生果肉並切片；水煮蛋去殼後秤重，另秤指定即食麵包。"
+      },
+      {
+        "en": "Cut the prepared baked potato, retaining its edible skin. Add the measured hot water and replenish evaporation so potato plus retained water matches their listed combined weight. Then add the measured oil and salt.",
+        "zh": "已烤熟馬鈴薯連可食皮切塊，加入表列熱水並補回蒸發水分，使馬鈴薯與保留水的合計重量符合清單，再加入表列油與鹽。"
+      },
+      {
+        "en": "Serve the sliced avocado and egg on or beside the bread, with the warm chunky potato soup. Consume all listed soup liquid; no milk, butter or extra topping is included.",
+        "zh": "酪梨片與蛋放在麵包上或旁邊，搭配溫熱馬鈴薯塊湯，表列湯水全部食用；不含牛奶、奶油或額外配料。"
+      },
+      {
+        "en": "Use the selected-portion ingredient list for every amount, including all listed oil, salt, water and dressing ingredients.",
+        "zh": "所有食材都採用所選份量清單的克數，表列油、鹽、水與調味汁食材也一併調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "turkey-avocado-sandwich-soup",
+    "label": {
+      "en": "Turkey-avocado sandwich with potato soup — standard recipe",
+      "zh": "火雞酪梨三明治佐馬鈴薯湯（標準配方）"
+    },
+    "version": "mealhatch-recipes48-2026-11-06-v1",
+    "temperature": "flexible",
+    "staple": "bread",
+    "cuisine": "western",
+    "prepMinutes": 10,
+    "ingredients": [
+      {
+        "foodId": "usda-171496",
+        "grams": 90,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-171705",
+        "grams": 50,
+        "weighedState": "raw",
+        "role": "fruit",
+        "group": "fruit"
+      },
+      {
+        "foodId": "usda-174091",
+        "grams": 70,
+        "weighedState": "ready-to-eat",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-169247",
+        "grams": 30,
+        "weighedState": "raw",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-170093",
+        "grams": 80,
+        "weighedState": "cooked",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-173647",
+        "grams": 120,
+        "weighedState": "ready-to-eat",
+        "role": "liquid",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 3,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.3,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 3,
+      "saltGrams": 0.3,
+      "sauceGrams": 0
+    },
+    "notes": {
+      "en": "Uses roasted turkey breast rather than deli slices, raw avocado and romaine, and the specific whole-wheat French/Vienna bread. The soup is baked skin-on potato with measured retained water, oil and salt, not canned or cream soup. Restore evaporation so potato plus water equals their selected combined weights before seasoning. Potato is excluded from the FVNS numerator; avocado and romaine use raw weights. No mayonnaise or cheese is included. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a raw weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "使用烤火雞胸而非冷切片，搭配生酪梨、蘿蔓及指定全麥法式／維也納麵包。湯為帶皮烤馬鈴薯加上秤重保留水、油與鹽，不是罐頭湯或奶油濃湯。補回蒸發水分，使調味前馬鈴薯加水等於兩者所選份量之和。馬鈴薯不納入 FVNS 分子，酪梨與蘿蔓採生重。不含美乃滋或起司。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採生重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Slice the prepared turkey and measured bread. Remove avocado skin and stone, then weigh and slice the flesh; wash, drain and weigh the romaine.",
+        "zh": "已烤熟火雞肉與秤好的麵包切片；酪梨去皮去核後秤重切片，蘿蔓洗淨瀝乾後秤重。"
+      },
+      {
+        "en": "Layer the turkey, avocado and romaine inside the bread. Keep all of the selected filling amounts in the sandwich.",
+        "zh": "將火雞肉、酪梨與蘿蔓夾入麵包，完整使用所選內餡份量。"
+      },
+      {
+        "en": "Cut the baked potato with its edible skin and add the measured hot water. Replenish evaporated water to the specified retained amount, then add the measured oil and salt and serve the sandwich with all of the soup.",
+        "zh": "帶可食皮烤馬鈴薯切塊，加入表列熱水並補回蒸發水分至指定保留量，再加入油與鹽；三明治搭配全部湯品食用。"
+      },
+      {
+        "en": "Use the selected-portion ingredient list for every amount, including all listed oil, salt, water and dressing ingredients.",
+        "zh": "所有食材都採用所選份量清單的克數，表列油、鹽、水與調味汁食材也一併調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "beef-tomato-noodle-soup",
+    "label": {
+      "en": "Lean beef, tomato and napa cabbage noodle soup — standard recipe",
+      "zh": "瘦牛肉番茄大白菜湯麵（標準配方）"
+    },
+    "version": "mealhatch-recipes48-2026-11-06-v1",
+    "temperature": "warm",
+    "staple": "noodles",
+    "cuisine": "asian",
+    "prepMinutes": 15,
+    "ingredients": [
+      {
+        "foodId": "usda-168649",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-169732",
+        "grams": 150,
+        "weighedState": "cooked",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-170050",
+        "grams": 150,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-169980",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-173647",
+        "grams": 150,
+        "weighedState": "ready-to-eat",
+        "role": "liquid",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 5,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.5,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 5,
+      "saltGrams": 0.5,
+      "sauceGrams": 0
+    },
+    "notes": {
+      "en": "Uses grilled lean top-round beef, cooked enriched egg noodles, cooked tomato pieces and boiled drained napa cabbage. It is not braised beef broth. Tomato remains in pieces, without puree, ketchup or concentrated paste. All qualifying vegetables use cooked weights; the separately listed water is retained and consumed, with evaporation restored. No stock concentrate or soy sauce is included. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "使用去除可見脂肪的烤牛後腿肉（top round）、熟營養強化雞蛋麵、熟番茄塊與水煮瀝乾大白菜，不是燉牛肉湯底。番茄保持塊狀，不含果泥、番茄醬或濃縮糊；合格蔬菜皆採熟重，另列的水保留並食用，蒸發量補回。不含濃縮高湯或醬油。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Slice the prepared lean grilled beef. Weigh the cooked egg noodles, cooked tomato pieces and boiled drained napa cabbage.",
+        "zh": "已烤熟瘦牛肉切片；秤取熟雞蛋麵、熟番茄塊與水煮瀝乾大白菜。"
+      },
+      {
+        "en": "Combine the prepared ingredients with the selected amount of hot water. Add the measured olive oil and salt without reducing the soup.",
+        "zh": "熟食材加入所選份量熱水，再加入表列橄欖油與鹽，不將湯收乾。"
+      },
+      {
+        "en": "Serve warm with all the listed liquid. If reheating evaporates water, replenish it to the specified retained amount; discarded noodle-cooking water is not counted.",
+        "zh": "溫熱食用並喝完表列湯水；若加熱使水分蒸發，補回指定保留量，已倒掉的煮麵水不計入。"
+      },
+      {
+        "en": "Use the selected-portion ingredient list for every amount, including all listed oil, salt, water and dressing ingredients.",
+        "zh": "所有食材都採用所選份量清單的克數，表列油、鹽、水與調味汁食材也一併調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "mediterranean-salmon-plate",
+    "label": {
+      "en": "Baked salmon and chickpeas with zucchini and red pepper — standard recipe",
+      "zh": "烤鮭魚鷹嘴豆櫛瓜紅甜椒餐盤（標準配方）"
+    },
+    "version": "mealhatch-recipes48-2026-11-06-v1",
+    "temperature": "warm",
+    "staple": "none",
+    "cuisine": "western",
+    "prepMinutes": 10,
+    "ingredients": [
+      {
+        "foodId": "usda-175168",
+        "grams": 120,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-173757",
+        "grams": 120,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-169292",
+        "grams": 120,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-170110",
+        "grams": 80,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 5,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.4,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 5,
+      "saltGrams": 0.4,
+      "sauceGrams": 0
+    },
+    "notes": {
+      "en": "Uses dry-heat-cooked farmed Atlantic salmon, whole boiled chickpeas, and boiled drained skin-on zucchini and red pepper. All qualifying FVNS ingredients use cooked weights. This plate contains no pita, rice, hummus, raw salad, lemon juice or prepared sauce. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "使用乾熱烹調的養殖大西洋鮭魚、完整水煮鷹嘴豆、水煮瀝乾帶皮櫛瓜與紅甜椒；合格 FVNS 食材皆採熟重。不含口袋餅、白飯、鷹嘴豆泥、生沙拉、檸檬汁或調製醬汁。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Prepare the baked salmon and remove bones and inedible parts. Weigh the cooked fish, boiled chickpeas and separately boiled drained zucchini and red pepper.",
+        "zh": "備妥烤鮭魚並去除骨頭與不可食部分；秤取熟魚、水煮鷹嘴豆及分別水煮瀝乾的櫛瓜、紅甜椒。"
+      },
+      {
+        "en": "Arrange the salmon over or beside the chickpeas and vegetables on a plate.",
+        "zh": "鮭魚放在鷹嘴豆與蔬菜上或旁邊，一起盛盤。"
+      },
+      {
+        "en": "Add all of the measured olive oil and salt and serve warm. Additional dressings or marinades are not part of the calculation.",
+        "zh": "加入全部表列橄欖油與鹽後溫熱食用；額外沙拉醬或醃料未列入計算。"
+      },
+      {
+        "en": "Use the selected-portion ingredient list for every amount, including all listed oil, salt, water and dressing ingredients.",
+        "zh": "所有食材都採用所選份量清單的克數，表列油、鹽、水與調味汁食材也一併調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "taiwanese-turkey-rice-plate",
+    "label": {
+      "en": "Roasted turkey rice with bok choy and mushrooms — standard recipe",
+      "zh": "烤火雞肉飯佐青江菜蘑菇（標準配方）"
+    },
+    "version": "mealhatch-recipes48-2026-11-06-v1",
+    "temperature": "warm",
+    "staple": "rice",
+    "cuisine": "asian",
+    "prepMinutes": 15,
+    "ingredients": [
+      {
+        "foodId": "usda-171496",
+        "grams": 120,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-168878",
+        "grams": 150,
+        "weighedState": "cooked",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-170391",
+        "grams": 150,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-169252",
+        "grams": 70,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 5,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.5,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 5,
+      "saltGrams": 0.5,
+      "sauceGrams": 0
+    },
+    "notes": {
+      "en": "A plain source-matched turkey rice plate using roasted skinless breast, boiled drained bok choy and white mushrooms. It does not estimate the turkey-fat gravy, fried shallots or soy-sauce dressing used in some Taiwanese turkey rice preparations. All oil and salt are explicitly listed; qualifying vegetables are weighed cooked. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "此原味來源對應火雞肉飯使用去皮烤火雞胸、水煮瀝乾青江菜與白蘑菇；不估算部分臺式火雞肉飯使用的火雞油醬汁、油蔥酥或醬油調味汁。油鹽全部明列，合格蔬菜採熟重。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Shred the prepared roasted turkey breast. Weigh the cooked white rice, boiled drained bok choy and boiled drained mushrooms.",
+        "zh": "已烤熟火雞胸撕成絲；秤取熟白飯、水煮瀝乾青江菜與蘑菇。"
+      },
+      {
+        "en": "Place the turkey over the rice and serve the bok choy and mushrooms alongside.",
+        "zh": "火雞肉鋪在白飯上，青江菜與蘑菇放旁邊。"
+      },
+      {
+        "en": "Add the measured olive oil and salt and serve warm without extra gravy or fried toppings.",
+        "zh": "加入表列橄欖油與鹽後溫熱食用，不另加醬汁或油炸配料。"
+      },
+      {
+        "en": "Use the selected-portion ingredient list for every amount, including all listed oil, salt, water and dressing ingredients.",
+        "zh": "所有食材都採用所選份量清單的克數，表列油、鹽、水與調味汁食材也一併調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "bitter-melon-egg-rice-plate",
+    "label": {
+      "en": "Boiled egg and bitter melon rice plate — standard recipe",
+      "zh": "水煮蛋苦瓜飯餐盤（標準配方）"
+    },
+    "version": "mealhatch-recipes48-2026-11-06-v1",
+    "temperature": "warm",
+    "staple": "rice",
+    "cuisine": "asian",
+    "prepMinutes": 15,
+    "ingredients": [
+      {
+        "foodId": "usda-173424",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-168878",
+        "grams": 150,
+        "weighedState": "cooked",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-168394",
+        "grams": 180,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-170001",
+        "grams": 50,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 5,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.5,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 5,
+      "saltGrams": 0.5,
+      "sauceGrams": 0
+    },
+    "notes": {
+      "en": "Uses hard-boiled egg and boiled drained bitter-gourd fruit with onion, not scrambled eggs or stir-fried bitter melon. The source is bitter-gourd fruit (pods), not leafy tips. Seeds and inedible parts are removed before the final edible cooked weight. The recipe includes no salted soaking liquid, fermented beans or sauce; all qualifying vegetables use cooked weights. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "使用水煮蛋、水煮瀝乾苦瓜果肉與洋蔥，不是苦瓜炒蛋。來源為苦瓜果實（pods），不是嫩葉；去除籽與不可食部分後秤可食熟重。不含鹽水浸泡液、發酵豆類或醬汁，合格蔬菜皆採熟重。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Prepare hard-boiled eggs and cooked rice. Remove bitter-melon seeds and inedible parts, then boil and drain the fruit and onion without salt.",
+        "zh": "備妥水煮蛋與白飯；苦瓜去籽及不可食部分，果肉與洋蔥以無鹽水煮熟瀝乾。"
+      },
+      {
+        "en": "Weigh the peeled egg and the cooked edible rice, bitter melon and onion at the selected amounts. Slice the egg and arrange everything on a plate.",
+        "zh": "去殼蛋與熟白飯、可食熟苦瓜及洋蔥按所選份量秤重，蛋切片後一起盛盤。"
+      },
+      {
+        "en": "Add all measured olive oil and salt and serve warm. Salted soaking, frying oil or added sauces would change the source match.",
+        "zh": "加入全部表列橄欖油與鹽後溫熱食用；鹽水浸泡、額外煎炸用油或醬汁會改變來源對應。"
+      },
+      {
+        "en": "Use the selected-portion ingredient list for every amount, including all listed oil, salt, water and dressing ingredients.",
+        "zh": "所有食材都採用所選份量清單的克數，表列油、鹽、水與調味汁食材也一併調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "poke-bowl",
+    "label": {
+      "en": "Cooked-salmon rice bowl with avocado and cucumber — standard recipe",
+      "zh": "熟鮭魚酪梨小黃瓜飯碗（標準配方）"
+    },
+    "version": "mealhatch-recipes48-2026-11-06-v1",
+    "temperature": "cool",
+    "staple": "rice",
+    "cuisine": "asian",
+    "prepMinutes": 10,
+    "ingredients": [
+      {
+        "foodId": "usda-175168",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-168878",
+        "grams": 140,
+        "weighedState": "cooked",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-171705",
+        "grams": 70,
+        "weighedState": "raw",
+        "role": "fruit",
+        "group": "fruit"
+      },
+      {
+        "foodId": "usda-168409",
+        "grams": 100,
+        "weighedState": "raw",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-169247",
+        "grams": 50,
+        "weighedState": "raw",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-167747",
+        "grams": 10,
+        "weighedState": "raw",
+        "role": "sauce",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.4,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 0,
+      "saltGrams": 0.4,
+      "sauceGrams": 10
+    },
+    "notes": {
+      "en": "This version of the poke idea uses fully dry-heat-cooked farmed Atlantic salmon, served cooled; it is not raw-fish poke. Avocado, cucumber, romaine and fresh lemon juice are weighed raw, while fish and rice do not contribute to the FVNS numerator. Lemon-juice sugars count as free sugars. No mayonnaise, soy sauce, sesame, sweetened sushi-rice seasoning or added oil is included. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a raw weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "此 poke 構想版本使用乾熱完全煮熟的養殖大西洋鮭魚，冷卻食用，不是生魚 poke。酪梨、小黃瓜、蘿蔓及新鮮檸檬汁皆採生重，魚與飯不納入 FVNS 分子。檸檬汁的糖計入游離糖；不含美乃滋、醬油、芝麻、含糖壽司飯調味料或額外油。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採生重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Weigh the cooked salmon and plain cooked rice, then cool them according to their storage instructions. Remove fish bones and inedible parts.",
+        "zh": "秤取熟鮭魚與原味熟白飯，依保存指示冷卻，魚肉去除骨頭及不可食部分。"
+      },
+      {
+        "en": "Remove avocado skin and stone before weighing its flesh. Wash, drain and weigh cucumber and romaine; arrange these raw ingredients with the cooled fish and rice.",
+        "zh": "酪梨去皮去核後秤果肉；小黃瓜與蘿蔓洗淨瀝乾後秤重，與冷卻的魚和飯一起盛碗。"
+      },
+      {
+        "en": "Mix the measured lemon juice and salt and use all of it on the bowl. Serve chilled without extra sauces or oil.",
+        "zh": "表列檸檬汁與鹽拌勻後全部淋入碗中，冷食且不另加醬汁或油。"
+      },
+      {
+        "en": "Use the selected-portion ingredient list for every amount, including all listed oil, salt, water and dressing ingredients.",
+        "zh": "所有食材都採用所選份量清單的克數，表列油、鹽、水與調味汁食材也一併調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "chicken-taco-rice-bowl",
+    "label": {
+      "en": "Chicken, black bean and sweetcorn rice bowl — standard recipe",
+      "zh": "雞肉黑菜豆甜玉米飯碗（標準配方）"
+    },
+    "version": "mealhatch-recipes48-2026-11-06-v1",
+    "temperature": "warm",
+    "staple": "rice",
+    "cuisine": "western",
+    "prepMinutes": 10,
+    "ingredients": [
+      {
+        "foodId": "usda-171477",
+        "grams": 90,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-168878",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-173735",
+        "grams": 80,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-169999",
+        "grams": 80,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-170110",
+        "grams": 80,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 5,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.5,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 5,
+      "saltGrams": 0.5,
+      "sauceGrams": 0
+    },
+    "notes": {
+      "en": "A defined version of the taco-rice idea using roasted skinless chicken, whole black turtle beans, boiled sweetcorn kernels and boiled drained red pepper. This is not a calculation for taco-seasoning packets, salsa, tortillas or sour cream. Corn is weighed off the cob and all qualifying FVNS ingredients use cooked weights. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "此 taco 飯構想的定量版本使用去皮烤雞胸、完整黑菜豆、水煮甜玉米粒與水煮瀝乾紅甜椒；不估算 taco 調味包、莎莎醬、餅皮或酸奶。玉米秤重不含梗，合格 FVNS 食材皆採熟重。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Prepare and weigh the roasted chicken, cooked rice and plain boiled black turtle beans. Boil and drain the sweetcorn and red pepper, removing the corn cob before weighing.",
+        "zh": "備妥並秤取烤雞肉、熟白飯與原味水煮黑菜豆；甜玉米與紅甜椒水煮瀝乾，玉米去梗後秤重。"
+      },
+      {
+        "en": "Dice the chicken and arrange it with the beans, corn and red pepper over the rice.",
+        "zh": "雞肉切丁後，與豆類、玉米及紅甜椒放在白飯上。"
+      },
+      {
+        "en": "Mix in all the measured olive oil and salt and serve warm. Extra spice packets, sauces or toppings change the estimate.",
+        "zh": "拌入全部表列橄欖油與鹽後溫熱食用；額外香料包、醬汁或配料會改變估算。"
+      },
+      {
+        "en": "Use the selected-portion ingredient list for every amount, including all listed oil, salt, water and dressing ingredients.",
+        "zh": "所有食材都採用所選份量清單的克數，表列油、鹽、水與調味汁食材也一併調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "grilled-chicken-plate-rice-greens",
+    "label": {
+      "en": "Grilled chicken, kale and green bean rice plate — standard recipe",
+      "zh": "炙烤雞胸羽衣甘藍四季豆飯餐盤（標準配方）"
+    },
+    "version": "mealhatch-recipes60-2026-11-06-v1",
+    "temperature": "warm",
+    "staple": "rice",
+    "cuisine": "western",
+    "prepMinutes": 15,
+    "ingredients": [
+      {
+        "foodId": "usda-171534",
+        "grams": 120,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-168878",
+        "grams": 150,
+        "weighedState": "cooked",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-169238",
+        "grams": 130,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-169141",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 5,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.5,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 5,
+      "saltGrams": 0.5,
+      "sauceGrams": 0
+    },
+    "notes": {
+      "en": "Uses plain grilled skinless boneless chicken, not the roasted or added-solution chicken records. Kale and green beans are boiled without salt and drained before weighing. All qualifying vegetables use cooked weights; the measured oil and salt are the entire seasoning. Assembly time starts with cooked ingredients. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "使用原味去皮去骨炙烤雞胸，不套用烘烤雞胸或添加溶液雞胸資料。羽衣甘藍與四季豆無鹽水煮、瀝乾後秤重，合格蔬菜皆採熟重。表列油鹽即全部調味；組裝時間從已有熟食材起算。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Slice the prepared grilled chicken breast and weigh its edible cooked meat. Weigh the cooked white rice.",
+        "zh": "已炙烤熟雞胸切片後秤可食熟肉，另秤熟白飯。"
+      },
+      {
+        "en": "Boil kale and green beans without salt, drain well, and weigh the selected cooked amounts. Serve them beside the chicken and rice.",
+        "zh": "羽衣甘藍與四季豆無鹽水煮、充分瀝乾後按所選熟重秤取，與雞肉及飯一起盛盤。"
+      },
+      {
+        "en": "Distribute all measured olive oil and salt over the vegetables and chicken; serve warm.",
+        "zh": "把表列橄欖油與鹽全部拌入蔬菜及雞肉，溫熱食用。"
+      },
+      {
+        "en": "Use the selected-portion list for every ingredient amount, including all listed oil, salt, water and dressing ingredients.",
+        "zh": "所有食材均使用所選份量清單的克數，表列油、鹽、水與調味汁食材也一起調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "vegetable-omelet-toast-fruit",
+    "label": {
+      "en": "Boiled egg, tomato, wholewheat bread and blueberry plate — standard recipe",
+      "zh": "水煮蛋番茄全麥麵包藍莓餐盤（標準配方）"
+    },
+    "version": "mealhatch-recipes60-2026-11-06-v1",
+    "temperature": "flexible",
+    "staple": "bread",
+    "cuisine": "western",
+    "prepMinutes": 10,
+    "ingredients": [
+      {
+        "foodId": "usda-173424",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-174091",
+        "grams": 70,
+        "weighedState": "ready-to-eat",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-170457",
+        "grams": 100,
+        "weighedState": "raw",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-171711",
+        "grams": 100,
+        "weighedState": "raw",
+        "role": "fruit",
+        "group": "fruit"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.4,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 0,
+      "saltGrams": 0.4,
+      "sauceGrams": 0
+    },
+    "notes": {
+      "en": "An explicitly boiled-egg version of the egg-and-bread idea: the source does not support an omelet with unspecified milk or cooking fat. Bread is whole-wheat French/Vienna bread, weighed as supplied and not estimated as toast. Keep tomato and blueberries raw and do not add butter, jam, frying oil or sugar. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a raw weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "此蛋與麵包構想明確採水煮蛋版本；來源不足以支持牛奶或烹調油未知的歐姆蛋。麵包為全麥法式／維也納麵包，按供應狀態秤重，不估算烤吐司。番茄與藍莓保持生鮮，不加奶油、果醬、煎油或糖。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採生重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Peel the prepared hard-boiled eggs, weigh them and cut into wedges. Weigh the wholewheat bread without toasting.",
+        "zh": "備妥水煮蛋去殼秤重後切塊，另秤未再烘烤的全麥麵包。"
+      },
+      {
+        "en": "Wash and drain the tomato and blueberries, remove inedible parts and weigh their raw edible portions.",
+        "zh": "番茄與藍莓洗淨瀝乾，去除不可食部分後秤生可食重量。"
+      },
+      {
+        "en": "Arrange the egg, bread, tomato and berries on a plate. Add the measured salt to the egg and tomato.",
+        "zh": "蛋、麵包、番茄與藍莓一起盛盤，表列鹽分配至蛋與番茄。"
+      },
+      {
+        "en": "Use the selected-portion list for every ingredient amount, including all listed oil, salt, water and dressing ingredients.",
+        "zh": "所有食材均使用所選份量清單的克數，表列油、鹽、水與調味汁食材也一起調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "pho-lean-beef-herbs",
+    "label": {
+      "en": "Lean beef rice-noodle soup with fresh parsley and scallion — standard recipe",
+      "zh": "瘦牛肉米粉湯佐新鮮巴西里青蔥（標準配方）"
+    },
+    "version": "mealhatch-recipes60-2026-11-06-v1",
+    "temperature": "warm",
+    "staple": "noodles",
+    "cuisine": "asian",
+    "prepMinutes": 15,
+    "ingredients": [
+      {
+        "foodId": "usda-168649",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-168914",
+        "grams": 160,
+        "weighedState": "cooked",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-173647",
+        "grams": 220,
+        "weighedState": "ready-to-eat",
+        "role": "liquid",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-170416",
+        "grams": 8,
+        "weighedState": "raw",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-170005",
+        "grams": 12,
+        "weighedState": "raw",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-168409",
+        "grams": 80,
+        "weighedState": "raw",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 3,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.7,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 3,
+      "saltGrams": 0.7,
+      "sauceGrams": 0
+    },
+    "notes": {
+      "en": "A defined plain beef rice-noodle soup inspired by the pho idea, using cooked lean top-round beef, prepared rice noodles and retained drinking water. It does not estimate bone broth, fish sauce, spice stock or restaurant pho. Parsley, scallion and cucumber are weighed raw and served separately after heating so all qualifying vegetables retain one raw-weight basis. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a raw weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "此越南河粉構想採定量原味牛肉米粉湯，使用去除可見脂肪的烤牛後腿肉（top round）、熟米粉與保留於湯中的飲用水，不估算骨湯、魚露、香料高湯或餐廳河粉。巴西里、青蔥及小黃瓜採生重，在湯加熱後另外盛放，使合格蔬菜維持單一生重基準。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採生重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Slice and weigh the cooked lean beef. Drain and weigh the prepared rice noodles, then warm both the beef and noodles with the listed drinking water.",
+        "zh": "已熟瘦牛肉切片秤重，熟米粉瀝乾秤重後，把牛肉與米粉一起加入表列飲用水溫熱。"
+      },
+      {
+        "en": "Before seasoning, restore evaporated water until the soup weighs the listed beef, noodles and water combined. Stir in all measured oil and salt.",
+        "zh": "調味前補回蒸發水，使湯的重量等於表列牛肉、米粉與水的合計，再拌入全部表列油鹽。"
+      },
+      {
+        "en": "Wash, drain and weigh the parsley, scallion and cucumber. Chop or slice and serve them raw beside the warm soup; do not simmer them in it.",
+        "zh": "巴西里、青蔥與小黃瓜洗淨瀝乾秤重，切碎或切片後以生食小碟搭配熱湯，不放入湯中煮。"
+      },
+      {
+        "en": "Use the selected-portion list for every ingredient amount, including all listed oil, salt, water and dressing ingredients.",
+        "zh": "所有食材均使用所選份量清單的克數，表列油、鹽、水與調味汁食材也一起調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "tuna-mayo-onigiri-side-soup",
+    "label": {
+      "en": "Tuna rice bowl with potato soup and banana — standard recipe",
+      "zh": "鮪魚飯碗佐馬鈴薯湯與香蕉（標準配方）"
+    },
+    "version": "mealhatch-recipes60-2026-11-06-v1",
+    "temperature": "flexible",
+    "staple": "rice",
+    "cuisine": "asian",
+    "prepMinutes": 15,
+    "ingredients": [
+      {
+        "foodId": "usda-171986",
+        "grams": 90,
+        "weighedState": "ready-to-eat",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-168878",
+        "grams": 160,
+        "weighedState": "cooked",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-170093",
+        "grams": 80,
+        "weighedState": "cooked",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-173647",
+        "grams": 120,
+        "weighedState": "ready-to-eat",
+        "role": "liquid",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173944",
+        "grams": 100,
+        "weighedState": "raw",
+        "role": "fruit",
+        "group": "fruit"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.4,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 0,
+      "saltGrams": 0.4,
+      "sauceGrams": 0
+    },
+    "notes": {
+      "en": "A rice-bowl variation of the onigiri idea: the source is cooked long-grain white rice, not sticky sushi rice, so the recipe does not promise shaped rice balls. Use drained light tuna canned in water without added salt, with no mayonnaise, seaweed or sweetened rice dressing. The side soup uses baked potato flesh and skin with retained water, not canned soup or a boiled-potato record. Banana is the only qualifying FVNS ingredient and is weighed raw without peel. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a raw weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "此飯糰構想改為飯碗：來源是煮熟長粒白飯，不是黏性壽司米，因此不承諾能捏成飯糰。使用未加鹽水浸淡色鮪魚罐頭的瀝乾肉，不含美乃滋、海苔或含糖飯調味汁。配湯採含皮烤馬鈴薯與保留水，不套用罐頭湯或水煮馬鈴薯資料。香蕉為唯一合格 FVNS 食材，去皮秤生重。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採生重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Drain and weigh the water-packed tuna. Weigh the cooked long-grain white rice and spoon the tuna over it in a bowl.",
+        "zh": "水浸鮪魚瀝乾秤重；秤取熟長粒白飯盛碗，再放上鮪魚。"
+      },
+      {
+        "en": "Dice the weighed baked potato with skin and heat with the listed water. Before adding salt, restore evaporated water to the listed potato-plus-water mass.",
+        "zh": "秤取含皮烤馬鈴薯切丁，加入表列水加熱；加鹽前補回蒸發水至表列馬鈴薯與水的合計重量。"
+      },
+      {
+        "en": "Use all measured salt in the soup. Peel and weigh the banana, then serve it with the tuna rice bowl and soup.",
+        "zh": "把表列鹽全部加入湯中；香蕉去皮秤重，與鮪魚飯碗及湯一起上桌。"
+      },
+      {
+        "en": "Use the selected-portion list for every ingredient amount, including all listed oil, salt, water and dressing ingredients.",
+        "zh": "所有食材均使用所選份量清單的克數，表列油、鹽、水與調味汁食材也一起調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "chicken-sub-soup-combo",
+    "label": {
+      "en": "Chicken wholewheat sandwich with baked-potato soup — standard recipe",
+      "zh": "雞肉全麥三明治佐烤馬鈴薯湯（標準配方）"
+    },
+    "version": "mealhatch-recipes60-2026-11-06-v1",
+    "temperature": "flexible",
+    "staple": "bread",
+    "cuisine": "western",
+    "prepMinutes": 15,
+    "ingredients": [
+      {
+        "foodId": "usda-171534",
+        "grams": 90,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-174091",
+        "grams": 90,
+        "weighedState": "ready-to-eat",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-170457",
+        "grams": 80,
+        "weighedState": "raw",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-169247",
+        "grams": 40,
+        "weighedState": "raw",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-170093",
+        "grams": 80,
+        "weighedState": "cooked",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-173647",
+        "grams": 120,
+        "weighedState": "ready-to-eat",
+        "role": "liquid",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 4,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.5,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 4,
+      "saltGrams": 0.5,
+      "sauceGrams": 0
+    },
+    "notes": {
+      "en": "Uses plain grilled chicken and whole-wheat French/Vienna bread with raw tomato and romaine. The soup contains baked potato flesh and skin plus retained water; no commercial soup, mayonnaise, cheese or butter is represented. Qualifying vegetables are raw; potato, meat and grain do not enter the FVNS numerator. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a raw weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "使用原味炙烤雞胸、全麥法式／維也納麵包及生番茄、蘿蔓。湯含帶皮烤馬鈴薯與保留水，不代表市售濃湯、美乃滋、起司或奶油。合格蔬菜皆採生重；馬鈴薯、肉及穀物不納入 FVNS 分子。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採生重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Weigh and slice the prepared grilled chicken and wholewheat bread. Wash, drain and weigh the raw tomato and romaine.",
+        "zh": "秤取已炙烤熟雞胸與全麥麵包並切片，生番茄與蘿蔓洗淨瀝乾後秤重。"
+      },
+      {
+        "en": "Heat the weighed baked potato with the listed water. Restore evaporated water to the combined potato-plus-water mass, then add the measured salt.",
+        "zh": "秤取烤馬鈴薯與表列水一起加熱，補回蒸發水至馬鈴薯與水的合計重量，再加入表列鹽。"
+      },
+      {
+        "en": "Use all measured olive oil on the bread and fill with chicken, tomato and romaine. Serve with the warm potato soup.",
+        "zh": "表列橄欖油全部淋在麵包上，夾入雞肉、番茄與蘿蔓，搭配溫熱馬鈴薯湯。"
+      },
+      {
+        "en": "Use the selected-portion list for every ingredient amount, including all listed oil, salt, water and dressing ingredients.",
+        "zh": "所有食材均使用所選份量清單的克數，表列油、鹽、水與調味汁食材也一起調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "gyro-bowl-rice-salad",
+    "label": {
+      "en": "Roast lamb rice bowl with cucumber, parsley and yogurt — standard recipe",
+      "zh": "烤羊腿小黃瓜巴西里優格飯碗（標準配方）"
+    },
+    "version": "mealhatch-recipes60-2026-11-06-v1",
+    "temperature": "flexible",
+    "staple": "rice",
+    "cuisine": "western",
+    "prepMinutes": 15,
+    "ingredients": [
+      {
+        "foodId": "usda-174314",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-168878",
+        "grams": 120,
+        "weighedState": "cooked",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-168409",
+        "grams": 100,
+        "weighedState": "raw",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-170457",
+        "grams": 100,
+        "weighedState": "raw",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-170416",
+        "grams": 8,
+        "weighedState": "raw",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-170894",
+        "grams": 50,
+        "weighedState": "ready-to-eat",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-167747",
+        "grams": 10,
+        "weighedState": "raw",
+        "role": "sauce",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 3,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.5,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 3,
+      "saltGrams": 0.5,
+      "sauceGrams": 10
+    },
+    "notes": {
+      "en": "A whole-cut roast-lamb version of the gyro-bowl idea, not a processed gyro-meat estimate. Weigh only cooked lean lamb leg without bone or separable fat. Cucumber, tomato, chopped parsley and lemon juice use raw weights. Plain nonfat Greek yogurt is unsweetened; lemon-juice sugars count as free sugars. No unlisted marinade, pita or prepared tzatziki is included. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a raw weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "此 gyro 碗構想採原塊烤羊肉版本，不估算加工 gyro 肉。僅秤去骨、去可分離脂肪的熟羊腿瘦肉。小黃瓜、番茄、切碎巴西里及檸檬汁採生重。原味無脂希臘優格不加糖，檸檬汁的糖計入游離糖；不含未列出的醃料、皮塔餅或預製 tzatziki 醬。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採生重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Remove bone and separable fat from the prepared roast lamb leg, then weigh and slice the cooked lean meat. Weigh the cooked rice.",
+        "zh": "已烤熟羊腿去骨及可分離脂肪，秤取熟瘦肉切片，另秤熟白飯。"
+      },
+      {
+        "en": "Wash and drain the cucumber, tomato and parsley. Weigh and chop them, then arrange raw beside the lamb and rice.",
+        "zh": "小黃瓜、番茄與巴西里洗淨瀝乾，秤重切碎後以生食搭配羊肉與飯。"
+      },
+      {
+        "en": "Mix the measured plain yogurt, lemon juice, olive oil and salt. Serve all of this dressing with the bowl.",
+        "zh": "表列原味優格、檸檬汁、橄欖油與鹽拌勻，全部搭配飯碗食用。"
+      },
+      {
+        "en": "Use the selected-portion list for every ingredient amount, including all listed oil, salt, water and dressing ingredients.",
+        "zh": "所有食材均使用所選份量清單的克數，表列油、鹽、水與調味汁食材也一起調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "shrimp-fried-rice-light-veg",
+    "label": {
+      "en": "Warm shrimp, sweetcorn and vegetable rice — standard recipe",
+      "zh": "溫拌蝦仁甜玉米蔬菜飯（標準配方）"
+    },
+    "version": "mealhatch-recipes60-2026-11-06-v1",
+    "temperature": "warm",
+    "staple": "rice",
+    "cuisine": "asian",
+    "prepMinutes": 10,
+    "ingredients": [
+      {
+        "foodId": "usda-171971",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-168878",
+        "grams": 140,
+        "weighedState": "cooked",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-169999",
+        "grams": 70,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-170394",
+        "grams": 80,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-168463",
+        "grams": 60,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 5,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.2,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 5,
+      "saltGrams": 0.2,
+      "sauceGrams": 0
+    },
+    "notes": {
+      "en": "This warm assembled version of the shrimp-rice idea uses moist-heat-cooked shrimp and separately boiled vegetables, not an estimate for restaurant fried rice. The shrimp source can contain moisture-retention additives and reports 947 mg sodium per 100 g; that sodium remains in the calculation. All qualifying vegetables use cooked weights. No egg, soy sauce or unlisted frying oil is included. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "此蝦仁飯構想為溫拌組裝版本，使用濕熱煮熟蝦仁與分別水煮的蔬菜，不估算餐廳炒飯。蝦仁來源可能含保水添加物，每 100 克鈉為 947 毫克，計算保留此鈉值。合格蔬菜皆採熟重，不含蛋、醬油或未列出的炒油。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Prepare the moist-heat-cooked shrimp and plain cooked rice. Warm them and weigh the final edible cooked portions without shells or tails.",
+        "zh": "備妥濕熱煮熟蝦仁與原味熟飯，溫熱後秤最終可食熟重，蝦仁不含殼與尾。"
+      },
+      {
+        "en": "Boil and drain sweetcorn kernels, carrots and spinach without salt. Weigh their cooked portions and combine with the warm rice and shrimp.",
+        "zh": "甜玉米粒、胡蘿蔔與菠菜無鹽水煮瀝乾，秤熟重後與溫熱飯及蝦仁混合。"
+      },
+      {
+        "en": "Off the heat, fold in all measured olive oil and salt. Serve without extra stir-frying or sauces.",
+        "zh": "離火後拌入全部表列橄欖油與鹽，不再額外炒製或加醬。"
+      },
+      {
+        "en": "Use the selected-portion list for every ingredient amount, including all listed oil, salt, water and dressing ingredients.",
+        "zh": "所有食材均使用所選份量清單的克數，表列油、鹽、水與調味汁食材也一起調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "taiwanese-shredded-chicken-rice-veg",
+    "label": {
+      "en": "Shredded chicken rice with raw scallion and cucumber — standard recipe",
+      "zh": "雞絲飯佐生青蔥小黃瓜（標準配方）"
+    },
+    "version": "mealhatch-recipes60-2026-11-06-v1",
+    "temperature": "flexible",
+    "staple": "rice",
+    "cuisine": "asian",
+    "prepMinutes": 10,
+    "ingredients": [
+      {
+        "foodId": "usda-171477",
+        "grams": 110,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-168878",
+        "grams": 140,
+        "weighedState": "cooked",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-168409",
+        "grams": 120,
+        "weighedState": "raw",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-170005",
+        "grams": 15,
+        "weighedState": "raw",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 5,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.5,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 5,
+      "saltGrams": 0.5,
+      "sauceGrams": 0
+    },
+    "notes": {
+      "en": "Uses shredded roasted skinless chicken breast with plain rice and a raw scallion-cucumber side. It does not estimate a shop's chicken-fat sauce, fried shallots or soy-sauce dressing. Scallion and cucumber are weighed raw and are not cooked into the rice; all listed oil and salt are consumed. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a raw weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "使用撕絲的去皮烤雞胸、原味飯與生青蔥小黃瓜配菜，不估算店家的雞油醬、油蔥酥或醬油調味汁。青蔥及小黃瓜採生重，不放入飯中烹煮，表列油鹽全部食用。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採生重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Weigh and shred the prepared roasted chicken breast. Place it over the selected amount of cooked white rice.",
+        "zh": "秤取已烤熟雞胸並撕絲，放在所選份量的熟白飯上。"
+      },
+      {
+        "en": "Wash, drain and weigh the cucumber and scallion. Slice them and keep them raw in a separate side dish.",
+        "zh": "小黃瓜與青蔥洗淨瀝乾秤重，切片後以生食另盛小碟。"
+      },
+      {
+        "en": "Divide all measured olive oil and salt between the chicken rice and raw vegetable side, then serve together.",
+        "zh": "表列橄欖油與鹽全部分配到雞肉飯及生蔬菜配菜，一起上桌。"
+      },
+      {
+        "en": "Use the selected-portion list for every ingredient amount, including all listed oil, salt, water and dressing ingredients.",
+        "zh": "所有食材均使用所選份量清單的克數，表列油、鹽、水與調味汁食材也一起調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "turkey-pesto-sandwich-salad",
+    "label": {
+      "en": "Turkey and chopped-parsley wholewheat sandwich — standard recipe",
+      "zh": "巴西里火雞肉全麥三明治（標準配方）"
+    },
+    "version": "mealhatch-recipes60-2026-11-06-v1",
+    "temperature": "cool",
+    "staple": "bread",
+    "cuisine": "western",
+    "prepMinutes": 10,
+    "ingredients": [
+      {
+        "foodId": "usda-171496",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-174091",
+        "grams": 80,
+        "weighedState": "ready-to-eat",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-170416",
+        "grams": 8,
+        "weighedState": "raw",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-168409",
+        "grams": 80,
+        "weighedState": "raw",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-170457",
+        "grams": 100,
+        "weighedState": "raw",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-167747",
+        "grams": 10,
+        "weighedState": "raw",
+        "role": "sauce",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 5,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.5,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 5,
+      "saltGrams": 0.5,
+      "sauceGrams": 10
+    },
+    "notes": {
+      "en": "A parsley-and-olive-oil variation of the herb-turkey sandwich idea. No commercial pesto, basil, nuts or cheese are added separately; the bread's uncertain ingredient declarations remain unknown. Parsley stays chopped, not pureed into a paste. Whole-wheat French/Vienna bread is weighed as supplied. Raw cucumber, tomato, parsley and lemon juice share one FVNS weight basis; lemon-juice sugars count as free sugars. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a raw weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "此香草火雞三明治構想採巴西里與橄欖油版本，不另外添加市售青醬、羅勒、堅果或起司；麵包原料中未能確認的項目仍保留未知。巴西里僅切碎，不打成糊；全麥法式／維也納麵包按供應狀態秤重。小黃瓜、番茄、巴西里及檸檬汁採同一生重 FVNS 基準，檸檬汁的糖計入游離糖。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採生重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Weigh and slice the prepared roasted turkey breast and wholewheat bread. Use the turkey cooled according to its storage instructions.",
+        "zh": "秤取已烤熟火雞胸與全麥麵包並切片，火雞肉依保存指示冷卻使用。"
+      },
+      {
+        "en": "Wash, drain and weigh parsley, cucumber and tomato. Chop the parsley by hand and slice the cucumber and tomato; do not blend them.",
+        "zh": "巴西里、小黃瓜及番茄洗淨瀝乾秤重，巴西里手切碎，小黃瓜與番茄切片，不打成泥。"
+      },
+      {
+        "en": "Mix the measured oil, lemon juice and salt with the chopped parsley. Use all of it in the turkey sandwich and the cucumber-tomato side salad.",
+        "zh": "表列油、檸檬汁與鹽拌入碎巴西里，全部用於火雞三明治及小黃瓜番茄配菜沙拉。"
+      },
+      {
+        "en": "Use the selected-portion list for every ingredient amount, including all listed oil, salt, water and dressing ingredients.",
+        "zh": "所有食材均使用所選份量清單的克數，表列油、鹽、水與調味汁食材也一起調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "trader-joes-soup-salad",
+    "label": {
+      "en": "Egg and baked-potato soup with a raw side salad — standard recipe",
+      "zh": "雞蛋烤馬鈴薯湯佐生菜沙拉（標準配方）"
+    },
+    "version": "mealhatch-recipes60-2026-11-06-v1",
+    "temperature": "flexible",
+    "staple": "potato",
+    "cuisine": "western",
+    "prepMinutes": 15,
+    "ingredients": [
+      {
+        "foodId": "usda-173424",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-170093",
+        "grams": 160,
+        "weighedState": "cooked",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-173647",
+        "grams": 120,
+        "weighedState": "ready-to-eat",
+        "role": "liquid",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-169247",
+        "grams": 80,
+        "weighedState": "raw",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-168409",
+        "grams": 80,
+        "weighedState": "raw",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-170457",
+        "grams": 80,
+        "weighedState": "raw",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 5,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.5,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 5,
+      "saltGrams": 0.5,
+      "sauceGrams": 0
+    },
+    "notes": {
+      "en": "A homemade defined soup-and-salad combination, not a Trader Joe's or other packaged-soup estimate. Soup uses baked potato flesh and skin, hard-boiled egg and retained drinking water, without milk or stock. Romaine, cucumber and tomato are served raw; starchy potato and egg do not count toward FVNS. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a raw weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "此為自製定量湯與沙拉組合，不估算 Trader Joe's 或其他包裝湯品。湯採含皮烤馬鈴薯、水煮蛋及保留飲用水，不加奶或高湯。蘿蔓、小黃瓜及番茄生食；澱粉性馬鈴薯與蛋不計入 FVNS。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採生重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Weigh the baked potato with skin and peeled hard-boiled egg. Dice both; warm the potato chunks with the listed water without mashing or blending.",
+        "zh": "秤取含皮烤馬鈴薯與去殼水煮蛋，兩者都切丁；馬鈴薯塊加入表列水溫熱，不壓泥也不攪打。"
+      },
+      {
+        "en": "Add the egg and, before seasoning, restore evaporated water to the listed potato, egg and water total. Stir in the measured salt.",
+        "zh": "加入蛋丁，調味前補回蒸發水至表列馬鈴薯、蛋與水的合計重量，再拌入表列鹽。"
+      },
+      {
+        "en": "Wash, drain, weigh and cut the romaine, cucumber and tomato. Dress the raw salad with all measured olive oil and serve beside the soup.",
+        "zh": "蘿蔓、小黃瓜與番茄洗淨瀝乾、秤重切好，生菜沙拉拌入全部表列橄欖油，搭配湯食用。"
+      },
+      {
+        "en": "Use the selected-portion list for every ingredient amount, including all listed oil, salt, water and dressing ingredients.",
+        "zh": "所有食材均使用所選份量清單的克數，表列油、鹽、水與調味汁食材也一起調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "taiwanese-bento-light",
+    "label": {
+      "en": "Grilled chicken rice bento with cabbage and carrot — standard recipe",
+      "zh": "炙烤雞胸高麗菜胡蘿蔔飯便當（標準配方）"
+    },
+    "version": "mealhatch-recipes60-2026-11-06-v1",
+    "temperature": "warm",
+    "staple": "rice",
+    "cuisine": "asian",
+    "prepMinutes": 15,
+    "ingredients": [
+      {
+        "foodId": "usda-171534",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-168878",
+        "grams": 140,
+        "weighedState": "cooked",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-169976",
+        "grams": 120,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-170394",
+        "grams": 80,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 5,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.5,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 5,
+      "saltGrams": 0.5,
+      "sauceGrams": 0
+    },
+    "notes": {
+      "en": "A plain grilled-chicken rice bento with two separately boiled, drained vegetable sides. It does not represent breaded or fried chicken, pickles, egg dishes, shop sauces or unweighed side-dish oil. Cabbage and carrot are weighed cooked; all seasoning is listed. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "此為原味炙烤雞胸飯便當，搭配兩道分別水煮瀝乾的蔬菜，不代表裹粉炸雞、醃菜、蛋料理、店家醬汁或未秤重配菜油。高麗菜與胡蘿蔔採熟重，調味全部明列。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Weigh and slice the prepared grilled skinless chicken breast. Portion the cooked white rice into a bowl or lunch container.",
+        "zh": "秤取已炙烤熟去皮雞胸並切片，熟白飯按所選份量盛入碗或餐盒。"
+      },
+      {
+        "en": "Boil cabbage and carrot without salt, drain and weigh the edible cooked amounts. Arrange each vegetable as a separate side beside the chicken.",
+        "zh": "高麗菜與胡蘿蔔無鹽水煮瀝乾，秤可食熟重後分別作為雞肉旁的兩道配菜。"
+      },
+      {
+        "en": "Divide all measured olive oil and salt between the chicken and vegetable sides and serve warm.",
+        "zh": "表列橄欖油與鹽全部分配到雞肉與蔬菜配菜，溫熱食用。"
+      },
+      {
+        "en": "Use the selected-portion list for every ingredient amount, including all listed oil, salt, water and dressing ingredients.",
+        "zh": "所有食材均使用所選份量清單的克數，表列油、鹽、水與調味汁食材也一起調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "black-bean-chicken-bitter-melon",
+    "label": {
+      "en": "Chicken, black turtle bean and bitter melon rice — standard recipe",
+      "zh": "雞肉黑菜豆苦瓜飯（標準配方）"
+    },
+    "version": "mealhatch-recipes60-2026-11-06-v1",
+    "temperature": "warm",
+    "staple": "rice",
+    "cuisine": "asian",
+    "prepMinutes": 15,
+    "ingredients": [
+      {
+        "foodId": "usda-171477",
+        "grams": 90,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-173735",
+        "grams": 80,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-168394",
+        "grams": 150,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-168878",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 5,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.5,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 5,
+      "saltGrams": 0.5,
+      "sauceGrams": 0
+    },
+    "notes": {
+      "en": "Uses whole boiled black turtle beans (Phaseolus vulgaris), not fermented black soybeans or black-bean sauce. This source-matched variant contains roasted skinless chicken, boiled bitter-gourd fruit and rice. Bitter melon is seeded before cooking and edible cooked weighing; all qualifying beans and vegetables share a cooked-weight FVNS basis. No soy sauce or fermented seasoning is included. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "使用完整水煮黑菜豆（Phaseolus vulgaris），不是發酵黑大豆豆豉或豆豉醬。此來源對應版本含去皮烤雞胸、水煮苦瓜果肉與飯。苦瓜去籽後水煮，再秤可食熟重；合格豆類及蔬菜皆採同一熟重 FVNS 基準，不含醬油或發酵調味料。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Weigh the prepared roasted chicken, plain boiled black turtle beans and cooked white rice. Cut the chicken into bite-sized pieces.",
+        "zh": "秤取已烤熟雞胸、原味水煮黑菜豆與熟白飯，雞肉切成入口大小。"
+      },
+      {
+        "en": "Remove bitter-melon seeds and inedible parts, boil without salt and drain well. Weigh the edible cooked fruit and combine with the chicken and beans.",
+        "zh": "苦瓜去籽及不可食部分，無鹽水煮並充分瀝乾，秤可食熟果肉後與雞肉、豆類混合。"
+      },
+      {
+        "en": "Add all measured olive oil and salt, then serve the chicken-bean-bitter-melon mixture with the rice while warm.",
+        "zh": "拌入全部表列橄欖油與鹽，雞肉豆類苦瓜與白飯搭配，溫熱食用。"
+      },
+      {
+        "en": "Use the selected-portion list for every ingredient amount, including all listed oil, salt, water and dressing ingredients.",
+        "zh": "所有食材均使用所選份量清單的克數，表列油、鹽、水與調味汁食材也一起調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "hummus-chicken-wrap-fruit",
+    "label": {
+      "en": "Chicken and homemade hummus bread plate with boiled apple — standard recipe",
+      "zh": "雞肉自製鷹嘴豆泥麵包餐盤佐水煮蘋果（標準配方）"
+    },
+    "version": "mealhatch-recipes72-2026-11-06-v1",
+    "temperature": "flexible",
+    "staple": "bread",
+    "cuisine": "western",
+    "prepMinutes": 15,
+    "ingredients": [
+      {
+        "foodId": "usda-171477",
+        "grams": 80,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-173757",
+        "grams": 80,
+        "weighedState": "cooked",
+        "role": "protein",
+        "processing": "pureed",
+        "preparationModelBasis": {
+          "freeSugarBasis": "reported-total-sugars-as-free",
+          "note": {
+            "en": "These cooked chickpeas are puréed in this recipe. UK NPM 2018 worked example 8 counts their source-reported total sugars as free sugars after puréeing. The original nutrient values, cooked FVNS weight and unknown added sugars remain unchanged. This recipe-specific derivation does not apply to intact chickpeas.",
+            "zh": "本配方將熟鷹嘴豆打成泥。依 UK NPM 2018 官方範例 8，打成泥後以來源總糖計為游離糖。原始營養數值、熟重 FVNS 與未知添加糖均保留不變；這項配方處理推導不適用於完整鷹嘴豆。"
+          },
+          "sourceUrls": [
+            "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-worked-examples-and-further-advice-on-calculations",
+            "https://fdc.nal.usda.gov/food-details/173757/nutrients"
+          ],
+          "freeSugarsPer100g": 4.8
+        },
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-170152",
+        "grams": 10,
+        "weighedState": "cooked",
+        "role": "seasoning",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-174091",
+        "grams": 60,
+        "weighedState": "ready-to-eat",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-173928",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "fruit",
+        "group": "fruit"
+      },
+      {
+        "foodId": "usda-173647",
+        "grams": 20,
+        "weighedState": "ready-to-eat",
+        "role": "liquid",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 4,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.4,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 4,
+      "saltGrams": 0.4,
+      "sauceGrams": 0
+    },
+    "notes": {
+      "en": "A bread-plate version of the hummus-chicken wrap idea, using a measured homemade chickpea and toasted-sesame spread. The chickpeas are pureed, so their actual archived total sugars count as free sugars for this recipe only; ground sesame sugars do not. All qualifying chickpeas, sesame and apple use cooked weights. The apple stays in pieces, not applesauce. Bread is the specified whole-wheat French/Vienna source, not a tortilla. No lemon, raw garlic or extra sauce is added. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "此鷹嘴豆泥雞肉捲構想採麵包餐盤版本，使用定量自製鷹嘴豆與烘烤芝麻抹醬。鷹嘴豆打成泥，其歷史來源實際總糖僅於此配方計為游離糖；磨碎芝麻的糖不算。合格鷹嘴豆、芝麻與蘋果皆採熟重，蘋果保留果塊，不作蘋果泥。麵包採指定全麥法式／維也納來源，不是餅皮；不另外添加檸檬、生蒜或醬汁。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Weigh the plain boiled chickpeas and toasted sesame kernels. Grind the sesame, then blend it with the chickpeas and all listed water, oil and salt until smooth; scrape out all the spread.",
+        "zh": "秤取原味熟鷹嘴豆與烘烤芝麻仁；芝麻磨碎後與鷹嘴豆、全部表列水、油及鹽攪打成泥，完整刮出抹醬。"
+      },
+      {
+        "en": "Peel and core apple pieces, boil without sugar, drain and weigh the cooked fruit. Keep the pieces intact rather than mashing them.",
+        "zh": "蘋果去皮去核切塊，不加糖水煮瀝乾後秤熟果肉，保留果塊不壓成泥。"
+      },
+      {
+        "en": "Weigh the prepared roasted chicken and bread as supplied. Slice the chicken and serve it with all hummus, the bread and cooked apple pieces.",
+        "zh": "秤取已烤熟雞肉與供應狀態的麵包，雞肉切片後搭配全部鷹嘴豆泥、麵包及熟蘋果塊。"
+      },
+      {
+        "en": "Use the selected-portion list for every ingredient amount, including any listed seasonings and liquids.",
+        "zh": "每項食材均採所選份量清單的克數，所有表列調味料與液體也一併調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "greek-yogurt-granola-fruit-bowl",
+    "label": {
+      "en": "Greek yogurt, puffed rice and strawberry bowl — standard recipe",
+      "zh": "希臘優格膨化米穀片草莓碗（標準配方）"
+    },
+    "version": "mealhatch-recipes72-2026-11-06-v1",
+    "temperature": "cool",
+    "staple": "other",
+    "cuisine": "western",
+    "prepMinutes": 5,
+    "ingredients": [
+      {
+        "foodId": "usda-170894",
+        "grams": 200,
+        "weighedState": "ready-to-eat",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-171651",
+        "grams": 40,
+        "weighedState": "ready-to-eat",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-167762",
+        "grams": 150,
+        "weighedState": "raw",
+        "role": "fruit",
+        "group": "fruit"
+      },
+      {
+        "foodId": "usda-169640",
+        "grams": 8,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 0,
+      "saltGrams": 0,
+      "sauceGrams": 0
+    },
+    "notes": {
+      "en": "A crunchy-cereal variation of the yogurt-granola idea. It uses the specifically archived QUAKER Puffed Rice record, not granola, oat flakes or another current cereal product. Yogurt is plain nonfat Greek yogurt; strawberries stay raw and whole or sliced. Honey is weighed separately and its source sugars count as free sugars. No nuts are added separately; the cereal's uncertain ingredient declarations remain unknown. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a raw weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "此優格穀片構想採酥脆米穀片版本，使用指定歷史 QUAKER 膨化米穀片紀錄，不是格蘭諾拉、燕麥片或其他現售穀片。優格為原味無脂希臘優格，草莓保持生鮮完整或切片；蜂蜜另秤，來源糖計為游離糖。不另外加堅果，穀片原料未能確認的項目仍保留未知。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採生重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Weigh the plain Greek yogurt into a bowl. Measure the puffed rice dry, directly from the package matching the named source type.",
+        "zh": "原味希臘優格秤入碗中，膨化米穀片依指定來源類型直接從包裝秤乾重。"
+      },
+      {
+        "en": "Wash and drain the strawberries, remove leaves and inedible parts, then weigh and slice the raw berries.",
+        "zh": "草莓洗淨瀝乾，去葉及不可食部分後秤生重，再切片。"
+      },
+      {
+        "en": "Top the yogurt with all weighed strawberries and puffed rice. Drizzle all measured honey and serve immediately to retain the crunch.",
+        "zh": "把全部秤好的草莓與膨化米穀片放上優格，淋入全部表列蜂蜜後立即食用，保留酥脆口感。"
+      },
+      {
+        "en": "Use the selected-portion list for every ingredient amount, including any listed seasonings and liquids.",
+        "zh": "每項食材均採所選份量清單的克數，所有表列調味料與液體也一併調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "chicken-caesar-wrap-light",
+    "label": {
+      "en": "Chicken and Parmesan bread plate with romaine and banana — standard recipe",
+      "zh": "雞肉帕瑪森麵包餐盤佐蘿蔓與香蕉（標準配方）"
+    },
+    "version": "mealhatch-recipes72-2026-11-06-v1",
+    "temperature": "flexible",
+    "staple": "bread",
+    "cuisine": "western",
+    "prepMinutes": 15,
+    "ingredients": [
+      {
+        "foodId": "usda-171534",
+        "grams": 90,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-170848",
+        "grams": 15,
+        "weighedState": "ready-to-eat",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-170894",
+        "grams": 40,
+        "weighedState": "ready-to-eat",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-174091",
+        "grams": 60,
+        "weighedState": "ready-to-eat",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-169247",
+        "grams": 80,
+        "weighedState": "raw",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-173944",
+        "grams": 100,
+        "weighedState": "raw",
+        "role": "fruit",
+        "group": "fruit"
+      },
+      {
+        "foodId": "usda-167747",
+        "grams": 10,
+        "weighedState": "raw",
+        "role": "sauce",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 3,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.3,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 3,
+      "saltGrams": 0.3,
+      "sauceGrams": 10
+    },
+    "notes": {
+      "en": "A defined Caesar-inspired bread plate with grilled chicken, hard Parmesan and a plain yogurt-lemon dressing. It is not an estimate for a tortilla wrap or prepared Caesar dressing with unknown oil, anchovy or egg amounts. Bread is weighed as supplied. Romaine, banana and lemon juice use raw weights; lemon sugars count as free sugars. No additional sauce ingredients are added. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a raw weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "此凱薩風味構想採定量麵包餐盤，含炙烤雞肉、硬質帕瑪森及原味優格檸檬調味汁，不估算餅皮捲或油、鯷魚、蛋用量未知的預製凱薩醬。麵包按供應狀態秤重；蘿蔓、香蕉與檸檬汁採生重，檸檬糖計為游離糖。不另外加入其他醬料。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採生重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Weigh and slice the cooked grilled chicken and bread. Weigh a piece of hard Parmesan and grate it directly over the chicken.",
+        "zh": "秤取炙烤熟雞肉與麵包並切片，秤硬質帕瑪森起司塊後現刨在雞肉上。"
+      },
+      {
+        "en": "Wash, drain and weigh the romaine. Peel and weigh the banana, keeping both raw beside the chicken and bread.",
+        "zh": "蘿蔓洗淨瀝乾秤重，香蕉去皮秤重，兩者都保持生鮮搭配雞肉與麵包。"
+      },
+      {
+        "en": "Mix all listed yogurt, lemon juice, olive oil and salt. Use the entire dressing on the chicken and romaine.",
+        "zh": "全部表列優格、檸檬汁、橄欖油與鹽拌勻，完整用於雞肉及蘿蔓。"
+      },
+      {
+        "en": "Use the selected-portion list for every ingredient amount, including any listed seasonings and liquids.",
+        "zh": "每項食材均採所選份量清單的克數，所有表列調味料與液體也一併調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "veggie-black-bean-quesadilla-salad",
+    "label": {
+      "en": "Black bean and Monterey cheese wholewheat bread plate — standard recipe",
+      "zh": "黑菜豆蒙特瑞起司全麥麵包餐盤（標準配方）"
+    },
+    "version": "mealhatch-recipes72-2026-11-06-v1",
+    "temperature": "warm",
+    "staple": "bread",
+    "cuisine": "western",
+    "prepMinutes": 10,
+    "ingredients": [
+      {
+        "foodId": "usda-173735",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-170844",
+        "grams": 35,
+        "weighedState": "ready-to-eat",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-174091",
+        "grams": 70,
+        "weighedState": "ready-to-eat",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-170110",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-169999",
+        "grams": 80,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 3,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.3,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 3,
+      "saltGrams": 0.3,
+      "sauceGrams": 0
+    },
+    "notes": {
+      "en": "A clearly named bread-plate variation of the bean-cheese quesadilla idea, not a tortilla or fried quesadilla estimate. It uses whole boiled black turtle beans, plain Monterey cheese, boiled red pepper and sweetcorn with whole-wheat French/Vienna bread. All qualifying vegetables and beans use cooked weights. Keep beans whole; no salsa, extra frying fat or sweetened seasoning is added. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "此豆類起司 quesadilla 構想明確改為麵包餐盤，不估算餅皮或煎製 quesadilla。使用完整水煮黑菜豆、原味蒙特瑞起司、水煮紅甜椒及甜玉米，搭配全麥法式／維也納麵包。合格蔬菜與豆類皆採熟重；豆子保持完整，不另外加莎莎醬、煎油或含糖調味。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Weigh the plain boiled black beans, boiled drained red pepper and sweetcorn kernels. Warm these prepared ingredients without frying.",
+        "zh": "秤取原味熟黑菜豆、水煮瀝乾紅甜椒與甜玉米粒，將這些已熟食材溫熱，不煎炒。"
+      },
+      {
+        "en": "Weigh the bread as supplied and slice the plain Monterey cheese. Arrange the cheese on the bread and the whole beans and vegetables alongside.",
+        "zh": "麵包按供應狀態秤重，原味蒙特瑞起司秤好切片，放上麵包，完整豆子與蔬菜另放旁邊。"
+      },
+      {
+        "en": "Mix all measured olive oil and salt into the beans and vegetables. Serve with the cheese and bread while the filling is warm.",
+        "zh": "全部表列橄欖油與鹽拌入豆子及蔬菜，配料溫熱時搭配起司與麵包食用。"
+      },
+      {
+        "en": "Use the selected-portion list for every ingredient amount, including any listed seasonings and liquids.",
+        "zh": "每項食材均採所選份量清單的克數，所有表列調味料與液體也一併調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "bean-cheese-veg-quesadilla-light",
+    "label": {
+      "en": "White bean, mozzarella and vegetable bread plate — standard recipe",
+      "zh": "白菜豆莫札瑞拉蔬菜麵包餐盤（標準配方）"
+    },
+    "version": "mealhatch-recipes72-2026-11-06-v1",
+    "temperature": "warm",
+    "staple": "bread",
+    "cuisine": "western",
+    "prepMinutes": 10,
+    "ingredients": [
+      {
+        "foodId": "usda-175203",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-170845",
+        "grams": 50,
+        "weighedState": "ready-to-eat",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-174091",
+        "grams": 70,
+        "weighedState": "ready-to-eat",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-169292",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-170050",
+        "grams": 80,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 3,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.3,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 3,
+      "saltGrams": 0.3,
+      "sauceGrams": 0
+    },
+    "notes": {
+      "en": "A wholewheat-bread variation of the bean-vegetable-cheese idea. It uses whole white beans, whole-milk mozzarella, cooked zucchini and cooked tomato pieces; this does not estimate a tortilla, ready-made salsa or fried quesadilla. All qualifying beans and vegetables are weighed cooked, and tomato stays in pieces rather than puree or concentrated paste. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "此豆類蔬菜起司構想採全麥麵包版本，使用完整白菜豆、全脂莫札瑞拉、熟櫛瓜與熟番茄塊，不估算餅皮、預製莎莎醬或煎製 quesadilla。合格豆類與蔬菜皆採熟重，番茄保留果塊，不做成泥或濃縮醬。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Weigh the plain cooked white beans, boiled drained zucchini and cooked tomato pieces. Warm them gently without reducing the tomato to paste.",
+        "zh": "秤取原味熟白菜豆、水煮瀝乾櫛瓜與熟番茄塊，輕柔溫熱，不將番茄熬成濃醬。"
+      },
+      {
+        "en": "Weigh the wholewheat bread and plain whole-milk mozzarella as supplied. Slice the cheese and arrange with the bread.",
+        "zh": "全麥麵包與原味全脂莫札瑞拉按供應狀態秤重，起司切片搭配麵包。"
+      },
+      {
+        "en": "Add all measured olive oil and salt to the bean-vegetable mixture. Serve it warm beside the cheese and bread.",
+        "zh": "豆類蔬菜拌入全部表列橄欖油與鹽，溫熱搭配起司與麵包。"
+      },
+      {
+        "en": "Use the selected-portion list for every ingredient amount, including any listed seasonings and liquids.",
+        "zh": "每項食材均採所選份量清單的克數，所有表列調味料與液體也一併調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "rotisserie-chicken-bagged-salad-wrap",
+    "label": {
+      "en": "Roasted chicken, avocado and romaine sandwich — standard recipe",
+      "zh": "烤雞肉酪梨蘿蔓三明治（標準配方）"
+    },
+    "version": "mealhatch-recipes72-2026-11-06-v1",
+    "temperature": "cool",
+    "staple": "bread",
+    "cuisine": "western",
+    "prepMinutes": 10,
+    "ingredients": [
+      {
+        "foodId": "usda-171477",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-174091",
+        "grams": 80,
+        "weighedState": "ready-to-eat",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-171705",
+        "grams": 70,
+        "weighedState": "raw",
+        "role": "fruit",
+        "group": "fruit"
+      },
+      {
+        "foodId": "usda-169247",
+        "grams": 70,
+        "weighedState": "raw",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-168409",
+        "grams": 80,
+        "weighedState": "raw",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-167747",
+        "grams": 10,
+        "weighedState": "raw",
+        "role": "sauce",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.4,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 0,
+      "saltGrams": 0.4,
+      "sauceGrams": 10
+    },
+    "notes": {
+      "en": "A sandwich variation of the chicken-salad wrap idea, using plain roasted skinless chicken breast and the specified wholewheat bread. It does not estimate seasoned rotisserie chicken, a tortilla, or dressing from a bagged salad kit. Avocado, romaine, cucumber and lemon juice share a raw-weight FVNS basis; lemon sugars count as free sugars. No mayonnaise or additional oil is added. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a raw weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "此雞肉沙拉捲構想採三明治版本，使用原味去皮烤雞胸及指定全麥麵包，不估算調味旋轉烤雞、餅皮或袋裝沙拉包調味醬。酪梨、蘿蔓、小黃瓜及檸檬汁採同一生重 FVNS 基準，檸檬糖計為游離糖；不另外加美乃滋或油。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採生重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Weigh and slice the prepared roasted chicken breast and bread. Use chicken cooled according to its storage instructions.",
+        "zh": "秤取已烤熟雞胸與麵包並切片，雞肉依保存指示冷卻使用。"
+      },
+      {
+        "en": "Peel and stone the avocado before weighing its flesh. Wash, drain and weigh romaine and cucumber; slice the avocado and cucumber without mashing.",
+        "zh": "酪梨去皮去核後秤果肉；蘿蔓與小黃瓜洗淨瀝乾秤重，酪梨與小黃瓜切片，不壓成泥。"
+      },
+      {
+        "en": "Mix all listed lemon juice and salt, coat the raw filling, then layer it with the chicken in the bread. Serve any filling that does not fit alongside.",
+        "zh": "全部表列檸檬汁與鹽拌勻，拌入生鮮配料後，與雞肉一起夾入麵包；放不下的配料另盛搭配食用。"
+      },
+      {
+        "en": "Use the selected-portion list for every ingredient amount, including any listed seasonings and liquids.",
+        "zh": "每項食材均採所選份量清單的克數，所有表列調味料與液體也一併調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "chicken-shawarma-rice-bowl",
+    "label": {
+      "en": "Garlic-yogurt grilled chicken rice bowl — standard recipe",
+      "zh": "生蒜優格炙烤雞肉飯碗（標準配方）"
+    },
+    "version": "mealhatch-recipes72-2026-11-06-v1",
+    "temperature": "flexible",
+    "staple": "rice",
+    "cuisine": "western",
+    "prepMinutes": 15,
+    "ingredients": [
+      {
+        "foodId": "usda-171534",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-170894",
+        "grams": 70,
+        "weighedState": "ready-to-eat",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-168878",
+        "grams": 130,
+        "weighedState": "cooked",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-168409",
+        "grams": 100,
+        "weighedState": "raw",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-170457",
+        "grams": 80,
+        "weighedState": "raw",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-169230",
+        "grams": 3,
+        "weighedState": "raw",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 3,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.5,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 3,
+      "saltGrams": 0.5,
+      "sauceGrams": 0
+    },
+    "notes": {
+      "en": "A garlic-yogurt grilled-chicken variation of the shawarma bowl idea, not an estimate for a spiced shop marinade or shawarma meat. Garlic is raw and hand-chopped, not crushed into paste or cooked. Cucumber, tomato and garlic all use raw weights. Yogurt is plain nonfat Greek yogurt; no unlisted spice blend, sauce or oil is added. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a raw weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "此 shawarma 飯碗構想採生蒜優格炙烤雞肉版本，不估算店家香料醃料或 shawarma 肉。大蒜生食、手工切碎，不壓成泥也不烹煮；小黃瓜、番茄與大蒜皆採生重。優格為原味無脂希臘優格，不另外加未列出的香料包、醬汁或油。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採生重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Weigh and slice the prepared grilled chicken breast. Portion the cooked white rice into a bowl.",
+        "zh": "秤取已炙烤熟雞胸並切片，熟白飯按所選份量盛碗。"
+      },
+      {
+        "en": "Wash, drain and weigh cucumber and tomato. Peel and weigh the raw garlic, then finely chop it by hand without crushing or blending.",
+        "zh": "小黃瓜與番茄洗淨瀝乾秤重；生蒜去皮秤重後手工細切，不壓泥或攪打。"
+      },
+      {
+        "en": "Stir the chopped garlic, all yogurt, oil and salt together. Serve this raw-garlic dressing and raw vegetables beside the warm chicken rice, without reheating the dressing.",
+        "zh": "碎生蒜與全部優格、油及鹽拌勻，連同生蔬菜搭配溫熱雞肉飯；調味汁不再加熱。"
+      },
+      {
+        "en": "Use the selected-portion list for every ingredient amount, including any listed seasonings and liquids.",
+        "zh": "每項食材均採所選份量清單的克數，所有表列調味料與液體也一併調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "falafel-salad-rice",
+    "label": {
+      "en": "Homemade hummus with cooked vegetables and wholewheat bread — standard recipe",
+      "zh": "自製鷹嘴豆泥佐熟蔬菜全麥麵包（標準配方）"
+    },
+    "version": "mealhatch-recipes72-2026-11-06-v1",
+    "temperature": "flexible",
+    "staple": "bread",
+    "cuisine": "western",
+    "prepMinutes": 15,
+    "ingredients": [
+      {
+        "foodId": "usda-173757",
+        "grams": 130,
+        "weighedState": "cooked",
+        "role": "protein",
+        "processing": "pureed",
+        "preparationModelBasis": {
+          "freeSugarBasis": "reported-total-sugars-as-free",
+          "note": {
+            "en": "These cooked chickpeas are puréed in this recipe. UK NPM 2018 worked example 8 counts their source-reported total sugars as free sugars after puréeing. The original nutrient values, cooked FVNS weight and unknown added sugars remain unchanged. This recipe-specific derivation does not apply to intact chickpeas.",
+            "zh": "本配方將熟鷹嘴豆打成泥。依 UK NPM 2018 官方範例 8，打成泥後以來源總糖計為游離糖。原始營養數值、熟重 FVNS 與未知添加糖均保留不變；這項配方處理推導不適用於完整鷹嘴豆。"
+          },
+          "sourceUrls": [
+            "https://www.gov.uk/government/publications/nutrient-profiling-model-2018/nutrient-profiling-model-2018-worked-examples-and-further-advice-on-calculations",
+            "https://fdc.nal.usda.gov/food-details/173757/nutrients"
+          ],
+          "freeSugarsPer100g": 4.8
+        },
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-170152",
+        "grams": 15,
+        "weighedState": "cooked",
+        "role": "seasoning",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-174091",
+        "grams": 70,
+        "weighedState": "ready-to-eat",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-170394",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-170110",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-173647",
+        "grams": 30,
+        "weighedState": "ready-to-eat",
+        "role": "liquid",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 5,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.5,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 5,
+      "saltGrams": 0.5,
+      "sauceGrams": 0
+    },
+    "notes": {
+      "en": "A hummus-and-vegetable bread plate derived from the chickpea-meal idea, not fried falafel or pita. All chickpeas, toasted sesame, carrots and red pepper are weighed cooked. Only the chickpeas are pureed: their source total sugars become recipe-specific free sugars, while sesame sugars remain outside the free-sugar definition. Vegetables stay in pieces. No raw herb, lemon juice or additional sauce is added. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "此鷹嘴豆餐點構想採鷹嘴豆泥蔬菜麵包餐盤，不是炸 falafel 或皮塔餅。鷹嘴豆、烘烤芝麻、胡蘿蔔及紅甜椒皆採熟重；僅鷹嘴豆打成泥，其來源總糖改計此配方的游離糖，芝麻糖仍不屬於游離糖。蔬菜保留塊狀，不另外加入生香草、檸檬汁或醬汁。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Weigh the plain boiled chickpeas and toasted sesame kernels. Grind the sesame and blend it with the chickpeas and all listed water, olive oil and salt. Scrape out the full amount of hummus.",
+        "zh": "秤取原味熟鷹嘴豆及烘烤芝麻仁；芝麻磨碎後與鷹嘴豆、全部表列水、橄欖油及鹽攪打，完整刮出全部豆泥。"
+      },
+      {
+        "en": "Boil carrot and red pepper without salt, drain and weigh the cooked edible pieces. Keep them whole or sliced, not blended.",
+        "zh": "胡蘿蔔與紅甜椒無鹽水煮瀝乾後秤可食熟重，保留完整或切片，不攪打。"
+      },
+      {
+        "en": "Weigh the wholewheat bread as supplied. Serve the full hummus portion with the bread and cooked carrot and pepper pieces.",
+        "zh": "全麥麵包按供應狀態秤重，搭配全部豆泥與熟胡蘿蔔、紅甜椒塊。"
+      },
+      {
+        "en": "Use the selected-portion list for every ingredient amount, including any listed seasonings and liquids.",
+        "zh": "每項食材均採所選份量清單的克數，所有表列調味料與液體也一併調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "udon-soup-lean-protein",
+    "label": {
+      "en": "Lean pork and shiitake wholewheat noodle soup — standard recipe",
+      "zh": "瘦豬肉香菇全麥麵湯（標準配方）"
+    },
+    "version": "mealhatch-recipes72-2026-11-06-v1",
+    "temperature": "warm",
+    "staple": "noodles",
+    "cuisine": "asian",
+    "prepMinutes": 15,
+    "ingredients": [
+      {
+        "foodId": "usda-169193",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-168910",
+        "grams": 130,
+        "weighedState": "cooked",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-168437",
+        "grams": 80,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-170391",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-173647",
+        "grams": 180,
+        "weighedState": "ready-to-eat",
+        "role": "liquid",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 3,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.5,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 3,
+      "saltGrams": 0.5,
+      "sauceGrams": 0
+    },
+    "notes": {
+      "en": "Uses cooked wholewheat pasta in a noodle-soup variation, not an unsupported udon nutrient record. Pork is the verified cooked-crumbles source made from 96%-lean/4%-fat raw ground pork; this ratio is not the cooked fat percentage. Shiitake and bok choy are plain cooked, drained ingredients. Listed retained drinking water, oil and salt are the broth; no stock, miso or soy sauce is estimated. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "此麵湯版本使用熟全麥義大利麵，不套用缺乏支持的烏龍麵營養資料。豬肉採已驗證的熟碎肉來源，其原料絞肉為 96% 瘦肉／4% 脂肪，此比例不代表熟肉脂肪百分比。香菇與青江菜為原味熟、瀝乾食材；表列保留飲用水、油及鹽即湯底，不估算高湯、味噌或醬油。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Weigh the prepared cooked pork crumbles and drained cooked wholewheat pasta. Remove any inedible mushroom stems, then weigh cooked shiitake and boiled drained bok choy.",
+        "zh": "秤取已熟豬碎肉與瀝乾熟全麥義大利麵；香菇去不可食硬蒂後秤熟重，另秤水煮瀝乾青江菜。"
+      },
+      {
+        "en": "Warm pork, pasta, shiitake and bok choy with the listed water. Before seasoning, restore evaporated water to the total listed solid ingredients plus water.",
+        "zh": "豬肉、麵、香菇與青江菜加入表列水一起溫熱；調味前補回蒸發水至表列固體食材與水的合計重量。"
+      },
+      {
+        "en": "Stir in all measured olive oil and salt. Serve the full soup without adding broth concentrate or extra sauce.",
+        "zh": "拌入全部表列橄欖油與鹽，整份湯一起食用，不另加高湯濃縮物或醬汁。"
+      },
+      {
+        "en": "Use the selected-portion list for every ingredient amount, including any listed seasonings and liquids.",
+        "zh": "每項食材均採所選份量清單的克數，所有表列調味料與液體也一併調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "soba-salad-egg",
+    "label": {
+      "en": "Egg, cucumber and tomato wholewheat pasta salad — standard recipe",
+      "zh": "雞蛋小黃瓜番茄全麥義大利麵沙拉（標準配方）"
+    },
+    "version": "mealhatch-recipes72-2026-11-06-v1",
+    "temperature": "cool",
+    "staple": "noodles",
+    "cuisine": "asian",
+    "prepMinutes": 10,
+    "ingredients": [
+      {
+        "foodId": "usda-173424",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-168910",
+        "grams": 140,
+        "weighedState": "cooked",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-168409",
+        "grams": 100,
+        "weighedState": "raw",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-170457",
+        "grams": 100,
+        "weighedState": "raw",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-167747",
+        "grams": 10,
+        "weighedState": "raw",
+        "role": "sauce",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 5,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.5,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 5,
+      "saltGrams": 0.5,
+      "sauceGrams": 10
+    },
+    "notes": {
+      "en": "A clearly named wholewheat-pasta version of the egg noodle-salad idea, not soba: the reviewed cooked soba source lacks fiber needed for complete scoring. Pasta is cooked and drained, egg is hard-boiled, and cucumber, tomato and lemon juice use raw weights. Lemon-juice sugars count as free sugars. No sesame dressing, soy sauce or additional oil is included. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a raw weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "此雞蛋冷麵構想明確使用全麥義大利麵，不是蕎麥麵；已檢視的熟蕎麥麵來源缺少完整計分所需的纖維資料。麵煮熟瀝乾，蛋為水煮蛋，小黃瓜、番茄及檸檬汁採生重。檸檬汁糖計為游離糖，不含芝麻調味汁、醬油或額外油。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採生重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Weigh the drained cooked wholewheat pasta and peeled hard-boiled egg. Cool according to their storage instructions and cut the egg into wedges.",
+        "zh": "瀝乾熟全麥義大利麵與去殼水煮蛋秤重，依保存指示冷卻，蛋切塊。"
+      },
+      {
+        "en": "Wash, drain and weigh the cucumber and tomato, then slice them and combine with the cooled pasta and egg.",
+        "zh": "小黃瓜與番茄洗淨瀝乾秤重後切片，與冷卻的麵及蛋混合。"
+      },
+      {
+        "en": "Mix all listed lemon juice, olive oil and salt. Toss the salad with the entire dressing and serve cool.",
+        "zh": "全部表列檸檬汁、橄欖油與鹽拌勻，完整拌入沙拉後冷食。"
+      },
+      {
+        "en": "Use the selected-portion list for every ingredient amount, including any listed seasonings and liquids.",
+        "zh": "每項食材均採所選份量清單的克數，所有表列調味料與液體也一併調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "warm-soba-broth-set",
+    "label": {
+      "en": "Edamame, shiitake and spinach wholewheat noodle soup — standard recipe",
+      "zh": "毛豆香菇菠菜全麥麵湯（標準配方）"
+    },
+    "version": "mealhatch-recipes72-2026-11-06-v1",
+    "temperature": "warm",
+    "staple": "noodles",
+    "cuisine": "asian",
+    "prepMinutes": 15,
+    "ingredients": [
+      {
+        "foodId": "usda-168411",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-168910",
+        "grams": 120,
+        "weighedState": "cooked",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-168437",
+        "grams": 90,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-168463",
+        "grams": 80,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-173647",
+        "grams": 180,
+        "weighedState": "ready-to-eat",
+        "role": "liquid",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 3,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.5,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 3,
+      "saltGrams": 0.5,
+      "sauceGrams": 0
+    },
+    "notes": {
+      "en": "Uses prepared shelled edamame, cooked shiitake, boiled spinach and cooked wholewheat pasta, not soba or a ready-made Japanese broth. All qualifying soybeans and vegetables use cooked weights. Listed retained water, oil and salt are the complete soup seasoning; no kombu, miso, soy sauce or concentrated stock is added. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "使用熟去殼毛豆、熟香菇、水煮菠菜與熟全麥義大利麵，不是蕎麥麵或預製日式高湯。合格黃豆及蔬菜皆採熟重；表列保留水、油及鹽為完整湯底調味，不另加昆布、味噌、醬油或濃縮高湯。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Weigh the prepared shelled edamame and drained cooked wholewheat pasta. Weigh cooked shiitake without inedible stems and boiled drained spinach.",
+        "zh": "秤取熟去殼毛豆與瀝乾熟全麥義大利麵；熟香菇去不可食硬蒂後秤重，另秤水煮瀝乾菠菜。"
+      },
+      {
+        "en": "Warm all weighed solid ingredients in the listed water. Before seasoning, restore evaporated water to the listed solids-plus-water total.",
+        "zh": "所有秤好的固體食材加入表列水溫熱，調味前補回蒸發水至表列固體食材與水的合計重量。"
+      },
+      {
+        "en": "Stir in all measured olive oil and salt, then serve the whole soup while warm.",
+        "zh": "拌入全部表列橄欖油與鹽，整份湯溫熱食用。"
+      },
+      {
+        "en": "Use the selected-portion list for every ingredient amount, including any listed seasonings and liquids.",
+        "zh": "每項食材均採所選份量清單的克數，所有表列調味料與液體也一併調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "teriyaki-salmon-bowl",
+    "label": {
+      "en": "Salmon rice bowl with honey and chopped raw garlic — standard recipe",
+      "zh": "鮭魚飯碗佐蜂蜜與碎生蒜（標準配方）"
+    },
+    "version": "mealhatch-recipes72-2026-11-06-v1",
+    "temperature": "flexible",
+    "staple": "rice",
+    "cuisine": "asian",
+    "prepMinutes": 10,
+    "ingredients": [
+      {
+        "foodId": "usda-175168",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-168878",
+        "grams": 140,
+        "weighedState": "cooked",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-168409",
+        "grams": 100,
+        "weighedState": "raw",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-169230",
+        "grams": 3,
+        "weighedState": "raw",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-170005",
+        "grams": 10,
+        "weighedState": "raw",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-169640",
+        "grams": 8,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-167747",
+        "grams": 10,
+        "weighedState": "raw",
+        "role": "sauce",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.4,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 0,
+      "saltGrams": 0.4,
+      "sauceGrams": 10
+    },
+    "notes": {
+      "en": "A measured honey-garlic variation of the salmon-bowl idea, not bottled teriyaki sauce or a cooked glaze. Salmon uses the dry-heat-cooked farmed Atlantic source. Raw garlic stays chopped rather than pasted; cucumber, scallion, garlic and lemon juice share one raw FVNS weight basis. Honey and lemon sugars count as free sugars. No soy sauce, mirin or added oil is included. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a raw weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "此鮭魚飯構想採定量蜂蜜生蒜調味版本，不是瓶裝照燒醬或煮製糖衣。鮭魚採乾熱煮熟養殖大西洋來源。生蒜維持切碎、不壓成泥；小黃瓜、青蔥、大蒜與檸檬汁採同一生重 FVNS 基準。蜂蜜與檸檬糖計為游離糖，不含醬油、味醂或額外油。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採生重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Remove bones and inedible parts from the prepared fully cooked salmon before weighing its edible portion. Weigh the plain cooked white rice, then portion both into a bowl.",
+        "zh": "已完全煮熟鮭魚先去骨及不可食部分，再秤可食重量；另秤原味熟白飯後一起盛碗。"
+      },
+      {
+        "en": "Wash, drain and weigh cucumber and scallion. Peel and weigh the raw garlic, then hand-chop it without crushing or blending.",
+        "zh": "小黃瓜與青蔥洗淨瀝乾秤重；生蒜去皮秤重後手切碎，不壓泥或攪打。"
+      },
+      {
+        "en": "Mix the chopped raw garlic with all honey, lemon juice and salt. Serve this unheated dressing and raw vegetables alongside the salmon rice.",
+        "zh": "碎生蒜與全部蜂蜜、檸檬汁及鹽拌勻，以未加熱調味汁及生蔬菜搭配鮭魚飯。"
+      },
+      {
+        "en": "Use the selected-portion list for every ingredient amount, including any listed seasonings and liquids.",
+        "zh": "每項食材均採所選份量清單的克數，所有表列調味料與液體也一併調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "tofu-vegetable-soup-rice",
+    "label": {
+      "en": "Whole-soybean, cauliflower and leek soup with rice — standard recipe",
+      "zh": "完整黃豆白花椰菜韭蔥湯佐飯（標準配方）"
+    },
+    "version": "mealhatch-recipes84-2026-11-06-v1",
+    "temperature": "warm",
+    "staple": "rice",
+    "cuisine": "asian",
+    "prepMinutes": 15,
+    "ingredients": [
+      {
+        "foodId": "usda-174271",
+        "grams": 120,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-170397",
+        "grams": 120,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-168426",
+        "grams": 60,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-173647",
+        "grams": 160,
+        "weighedState": "ready-to-eat",
+        "role": "liquid",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-168878",
+        "grams": 90,
+        "weighedState": "cooked",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 5,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.5,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 5,
+      "saltGrams": 0.5,
+      "sauceGrams": 0
+    },
+    "notes": {
+      "en": "A whole-bean version of the soy-and-vegetable soup idea, using fully boiled mature soybeans rather than tofu. Bean grams are hydrated cooked edible weights, not dry weights. Cauliflower and leek are boiled without salt and drained; all qualifying ingredients use cooked weights and remain in pieces. The soup uses retained drinking water with the listed oil and salt, not stock or miso. Preparation time starts with cooked beans, vegetables and rice. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "此豆類蔬菜湯構想採完整豆粒版本，使用已充分水煮的成熟黃豆，不是豆腐；豆類克數為吸水後可食熟重，不是乾重。白花椰菜與韭蔥未加鹽水煮瀝乾，合格食材皆採熟重、保持塊狀。湯底為保留飲用水與表列油鹽，不是高湯或味噌；準備時間從已有熟豆、熟蔬菜與飯起算。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Weigh the fully cooked mature soybeans, drained cooked cauliflower and leek, and cooked rice. Keep the rice separate for serving.",
+        "zh": "秤取充分煮熟的成熟黃豆、瀝乾熟白花椰菜與韭蔥，另秤熟白飯留作配飯。"
+      },
+      {
+        "en": "Warm the beans, cauliflower and leek with the listed water. Before seasoning, restore evaporated water to the listed soup solids-plus-water total, excluding the separate rice.",
+        "zh": "黃豆、白花椰菜與韭蔥加入表列水溫熱；調味前補回蒸發水至表列湯料與水的合計重量，另盛白飯不計入湯重。"
+      },
+      {
+        "en": "Stir all measured olive oil and salt into the soup. Serve the entire soup with the weighed rice.",
+        "zh": "全部表列橄欖油與鹽拌入湯中，整份湯搭配秤好的白飯食用。"
+      },
+      {
+        "en": "Use the selected-portion list for every ingredient amount, including any listed seasonings and liquids.",
+        "zh": "每項食材均採所選份量清單的克數，所有表列調味料與液體也一併調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "tofu-mushroom-congee",
+    "label": {
+      "en": "White bean, shiitake and turnip rice porridge — standard recipe",
+      "zh": "白菜豆香菇蕪菁粥（標準配方）"
+    },
+    "version": "mealhatch-recipes84-2026-11-06-v1",
+    "temperature": "warm",
+    "staple": "rice",
+    "cuisine": "asian",
+    "prepMinutes": 15,
+    "ingredients": [
+      {
+        "foodId": "usda-175203",
+        "grams": 130,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-168878",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-168437",
+        "grams": 80,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-170058",
+        "grams": 80,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-173647",
+        "grams": 170,
+        "weighedState": "ready-to-eat",
+        "role": "liquid",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 4,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.5,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 4,
+      "saltGrams": 0.5,
+      "sauceGrams": 0
+    },
+    "notes": {
+      "en": "This bean-and-mushroom porridge uses whole boiled white beans, not tofu. Cooked white rice is loosened with a measured amount of retained water; no raw-rice cooking-yield assumption is used. Shiitake and turnip are plain cooked and drained, and all qualifying ingredients use cooked weights. Keep beans and vegetables in pieces; no stock concentrate or blended vegetable puree is included. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "此豆類菇粥使用完整水煮白菜豆，不是豆腐。熟白飯加入定量保留水煮鬆，不採生米煮飯產量假設。香菇與蕪菁為原味熟、瀝乾食材，合格食材皆採熟重。豆類與蔬菜保持塊狀，不含濃縮高湯或攪打蔬菜泥。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Weigh the cooked rice, whole boiled white beans, cooked shiitake without inedible stems, and boiled drained turnip pieces.",
+        "zh": "秤取熟白飯、完整熟白菜豆、去不可食硬蒂的熟香菇及水煮瀝乾蕪菁塊。"
+      },
+      {
+        "en": "Gently simmer the rice in the listed water to loosen the grains, then add the prepared beans and vegetables. Keep them whole or in pieces.",
+        "zh": "熟飯加入表列水輕煮至米粒鬆散，再加入已熟豆類與蔬菜，豆粒及蔬菜保持完整或塊狀。"
+      },
+      {
+        "en": "Restore evaporated water to the total listed rice, beans, vegetables and water before adding all measured olive oil and salt. Serve warm.",
+        "zh": "加入全部表列橄欖油與鹽前，補回蒸發水至表列米飯、豆類、蔬菜與水的合計重量，溫熱食用。"
+      },
+      {
+        "en": "Use the selected-portion list for every ingredient amount, including any listed seasonings and liquids.",
+        "zh": "每項食材均採所選份量清單的克數，所有表列調味料與液體也一併調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "egg-tofu-congee",
+    "label": {
+      "en": "Egg, whole-soybean and green pea rice porridge — standard recipe",
+      "zh": "雞蛋完整黃豆青豌豆粥（標準配方）"
+    },
+    "version": "mealhatch-recipes84-2026-11-06-v1",
+    "temperature": "warm",
+    "staple": "rice",
+    "cuisine": "asian",
+    "prepMinutes": 15,
+    "ingredients": [
+      {
+        "foodId": "usda-173424",
+        "grams": 70,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-174271",
+        "grams": 80,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-170420",
+        "grams": 70,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-168878",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-173647",
+        "grams": 180,
+        "weighedState": "ready-to-eat",
+        "role": "liquid",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 3,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.4,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 3,
+      "saltGrams": 0.4,
+      "sauceGrams": 0
+    },
+    "notes": {
+      "en": "A defined egg-and-whole-soybean porridge, not egg tofu or soft tofu. The egg is hard-boiled and peeled; mature soybeans and green peas are fully cooked and weighed hydrated, not dry. All qualifying beans and peas use cooked weights and stay whole. Cooked rice plus the listed retained water forms the porridge; preparation time starts with cooked ingredients. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "此定量粥使用雞蛋與完整黃豆，不是雞蛋豆腐或嫩豆腐。蛋為去殼水煮蛋，成熟黃豆與青豌豆皆充分煮熟，以吸水熟重秤量，不採乾重。合格豆類與豌豆皆採熟重並保持完整；熟飯與表列保留水組成粥體，準備時間從已有熟食材起算。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Weigh and chop the peeled hard-boiled egg. Weigh the cooked rice, fully boiled mature soybeans and boiled drained green peas.",
+        "zh": "去殼水煮蛋秤重切塊，另秤熟白飯、充分水煮的成熟黃豆及水煮瀝乾青豌豆。"
+      },
+      {
+        "en": "Simmer the cooked rice with the listed water until the grains loosen. Add the prepared egg, whole soybeans and peas and warm through.",
+        "zh": "熟飯加入表列水輕煮至米粒鬆散，再加入已熟蛋、完整黃豆與豌豆溫熱。"
+      },
+      {
+        "en": "Before seasoning, restore evaporated water to the listed egg, beans, peas, rice and water total. Add all measured oil and salt and serve.",
+        "zh": "調味前補回蒸發水至表列蛋、豆類、豌豆、飯及水的合計重量，再加入全部表列油鹽食用。"
+      },
+      {
+        "en": "Use the selected-portion list for every ingredient amount, including any listed seasonings and liquids.",
+        "zh": "每項食材均採所選份量清單的克數，所有表列調味料與液體也一併調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "tofu-greens-soup-small-rice",
+    "label": {
+      "en": "Edamame, bok choy and celery soup with rice — standard recipe",
+      "zh": "毛豆青江菜西洋芹湯佐飯（標準配方）"
+    },
+    "version": "mealhatch-recipes84-2026-11-06-v1",
+    "temperature": "warm",
+    "staple": "rice",
+    "cuisine": "asian",
+    "prepMinutes": 15,
+    "ingredients": [
+      {
+        "foodId": "usda-168411",
+        "grams": 150,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-170391",
+        "grams": 150,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-169989",
+        "grams": 80,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-173647",
+        "grams": 150,
+        "weighedState": "ready-to-eat",
+        "role": "liquid",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-168878",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 5,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.5,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 5,
+      "saltGrams": 0.5,
+      "sauceGrams": 0
+    },
+    "notes": {
+      "en": "A green-vegetable and whole-edamame soup, not a tofu soup. Shelled prepared edamame, boiled bok choy and boiled celery are weighed cooked and drained; all qualifying ingredients use the same cooked-weight basis. Celery is an explicit ingredient and avoidance tag. The rice is served separately; the soup liquid is the listed retained water, oil and salt. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "此綠蔬菜湯採完整毛豆，不是豆腐湯。熟去殼毛豆、水煮青江菜與西洋芹瀝乾秤熟重，合格食材採同一熟重基準。西洋芹為明列食材及避開標籤；白飯另盛，湯液為表列保留水、油及鹽。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Weigh prepared shelled edamame, boiled drained bok choy and celery, and cooked white rice. Set the rice aside.",
+        "zh": "秤取熟去殼毛豆、水煮瀝乾青江菜與西洋芹，另秤熟白飯留作配飯。"
+      },
+      {
+        "en": "Warm edamame, bok choy and celery with the listed water. Before seasoning, restore any lost water to the listed soup solids-plus-water mass, excluding the rice.",
+        "zh": "毛豆、青江菜與西洋芹加入表列水溫熱；調味前補回流失水至表列湯料與水的合計重量，不包含另盛白飯。"
+      },
+      {
+        "en": "Stir in all measured olive oil and salt. Serve the entire soup with the separately weighed rice.",
+        "zh": "全部表列橄欖油與鹽拌入湯中，整份湯搭配另秤白飯。"
+      },
+      {
+        "en": "Use the selected-portion list for every ingredient amount, including any listed seasonings and liquids.",
+        "zh": "每項食材均採所選份量清單的克數，所有表列調味料與液體也一併調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "miso-tofu-spinach-bowl",
+    "label": {
+      "en": "White bean, spinach and leek bowl with toasted sesame — standard recipe",
+      "zh": "白菜豆菠菜韭蔥烘烤芝麻碗（標準配方）"
+    },
+    "version": "mealhatch-recipes84-2026-11-06-v1",
+    "temperature": "warm",
+    "staple": "none",
+    "cuisine": "asian",
+    "prepMinutes": 10,
+    "ingredients": [
+      {
+        "foodId": "usda-175203",
+        "grams": 150,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-168463",
+        "grams": 150,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-168426",
+        "grams": 80,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-170152",
+        "grams": 12,
+        "weighedState": "cooked",
+        "role": "seasoning",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 5,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.5,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 5,
+      "saltGrams": 0.5,
+      "sauceGrams": 0
+    },
+    "notes": {
+      "en": "This warm bean-and-spinach bowl uses whole boiled white beans, cooked spinach, leek and toasted sesame kernels; it contains no separately added tofu or miso. All qualifying ingredients, including toasted sesame, use cooked weights. Sesame stays whole rather than forming an unspecified sauce. The listed oil and salt are all added seasoning; no rice or bread is included. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "此溫熱豆類菠菜碗使用完整水煮白菜豆、熟菠菜、韭蔥及烘烤芝麻仁，不另外添加豆腐或味噌。包含烘烤芝麻在內的合格食材皆採熟重；芝麻保持顆粒，不變成配方未知的醬。表列油鹽為全部額外調味，不含飯或麵包。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Weigh the whole boiled white beans, boiled drained spinach and leek. Gently warm these prepared ingredients.",
+        "zh": "秤取完整熟白菜豆、水煮瀝乾菠菜與韭蔥，將這些已熟食材輕柔溫熱。"
+      },
+      {
+        "en": "Arrange the beans and vegetables in a bowl, keeping the beans whole and the vegetables in pieces.",
+        "zh": "豆類及蔬菜一起盛碗，豆粒保持完整，蔬菜保留塊狀。"
+      },
+      {
+        "en": "Mix in all measured olive oil and salt, then sprinkle the full weighed amount of toasted unsalted sesame kernels over the bowl.",
+        "zh": "拌入全部表列橄欖油與鹽，再撒上完整秤好的未加鹽烘烤芝麻仁。"
+      },
+      {
+        "en": "Use the selected-portion list for every ingredient amount, including any listed seasonings and liquids.",
+        "zh": "每項食材均採所選份量清單的克數，所有表列調味料與液體也一併調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "tofu-broccoli-udon-bowl",
+    "label": {
+      "en": "Chickpea, broccoli and cauliflower wholewheat noodles — standard recipe",
+      "zh": "鷹嘴豆綠白花椰菜全麥麵（標準配方）"
+    },
+    "version": "mealhatch-recipes84-2026-11-06-v1",
+    "temperature": "warm",
+    "staple": "noodles",
+    "cuisine": "asian",
+    "prepMinutes": 10,
+    "ingredients": [
+      {
+        "foodId": "usda-173757",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-168910",
+        "grams": 130,
+        "weighedState": "cooked",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-169967",
+        "grams": 120,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-170397",
+        "grams": 80,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 5,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.5,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 5,
+      "saltGrams": 0.5,
+      "sauceGrams": 0
+    },
+    "notes": {
+      "en": "A whole-chickpea and vegetable noodle version using the reviewed cooked wholewheat pasta source, not tofu or udon. Chickpeas remain whole and retain their intact-food free-sugar basis; they are not hummus or puree. Broccoli and cauliflower are boiled without salt and drained. All qualifying beans and vegetables use cooked weights; no prepared noodle sauce is included. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "此完整鷹嘴豆蔬菜麵版本使用已審查的熟全麥義大利麵來源，不是豆腐或烏龍麵。鷹嘴豆保持完整，沿用完整食材的游離糖依據，不是豆泥。綠、白花椰菜皆未加鹽水煮瀝乾，合格豆類與蔬菜採熟重，不含預製拌麵醬。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Weigh the drained cooked wholewheat pasta and whole boiled chickpeas. Weigh boiled drained broccoli and cauliflower.",
+        "zh": "秤取瀝乾熟全麥義大利麵與完整熟鷹嘴豆，另秤水煮瀝乾綠、白花椰菜。"
+      },
+      {
+        "en": "Warm the prepared pasta, chickpeas and vegetables gently, then combine in a bowl without mashing the chickpeas.",
+        "zh": "已熟麵、鷹嘴豆與蔬菜輕柔溫熱後盛碗混合，不壓碎鷹嘴豆。"
+      },
+      {
+        "en": "Toss with all measured olive oil and salt. Serve warm without extra noodle sauce or frying.",
+        "zh": "拌入全部表列橄欖油與鹽後溫熱食用，不另加拌麵醬或煎炒。"
+      },
+      {
+        "en": "Use the selected-portion list for every ingredient amount, including any listed seasonings and liquids.",
+        "zh": "每項食材均採所選份量清單的克數，所有表列調味料與液體也一併調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "mapo-tofu-light-rice",
+    "label": {
+      "en": "Spicy pork, whole-soybean and eggplant rice bowl — standard recipe",
+      "zh": "辣味豬肉完整黃豆茄子飯碗（標準配方）"
+    },
+    "version": "mealhatch-recipes84-2026-11-06-v1",
+    "temperature": "warm",
+    "staple": "rice",
+    "cuisine": "asian",
+    "prepMinutes": 15,
+    "ingredients": [
+      {
+        "foodId": "usda-169193",
+        "grams": 90,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-174271",
+        "grams": 80,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-169229",
+        "grams": 150,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-168878",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-170932",
+        "grams": 0.3,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 5,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.5,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 5,
+      "saltGrams": 0.5,
+      "sauceGrams": 0
+    },
+    "notes": {
+      "en": "A pork-and-whole-soybean rice variation, not mapo tofu or a fermented-bean sauce estimate. Pork uses the cooked-crumbles source from 96%-lean/4%-fat raw ground pork; cooked fat is calculated from the source, not that raw ratio. Soybeans and eggplant are fully boiled, drained and weighed cooked. Pure finely ground cayenne powder supplies the measured heat: its sugars count as free sugars and the powder is excluded from FVNS. No tofu, doubanjiang or extra sauce is added. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "此豬肉完整黃豆飯版本不是麻婆豆腐或發酵豆醬估算。豬肉採原料為 96% 瘦肉／4% 脂肪絞肉的熟碎肉來源，熟肉脂肪依來源計算，不套用生肉比例。黃豆與茄子充分水煮、瀝乾秤熟重。純細磨卡宴辣椒粉提供定量辣味，其糖計為游離糖，粉末不納入 FVNS；不另外加豆腐、豆瓣醬或其他醬。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Weigh the prepared cooked pork crumbles, fully boiled mature soybeans, boiled drained eggplant pieces and cooked rice.",
+        "zh": "秤取已熟豬碎肉、充分水煮成熟黃豆、水煮瀝乾茄子塊及熟白飯。"
+      },
+      {
+        "en": "Gently warm the pork, whole soybeans and eggplant. Keep the eggplant in pieces and arrange the mixture over the rice.",
+        "zh": "豬肉、完整黃豆與茄子輕柔溫熱，茄子保持塊狀，混合後鋪在飯上。"
+      },
+      {
+        "en": "Mix all measured cayenne powder with the listed olive oil and salt, then stir the full seasoning into the pork-and-bean mixture.",
+        "zh": "表列卡宴辣椒粉、橄欖油與鹽全部拌勻，再完整拌入豬肉豆類配料。"
+      },
+      {
+        "en": "Use the selected-portion list for every ingredient amount, including any listed seasonings and liquids.",
+        "zh": "每項食材均採所選份量清單的克數，所有表列調味料與液體也一併調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "kimchi-tofu-rice-bowl",
+    "label": {
+      "en": "Spicy edamame, cabbage and carrot rice bowl — standard recipe",
+      "zh": "辣味毛豆高麗菜胡蘿蔔飯碗（標準配方）"
+    },
+    "version": "mealhatch-recipes84-2026-11-06-v1",
+    "temperature": "warm",
+    "staple": "rice",
+    "cuisine": "asian",
+    "prepMinutes": 10,
+    "ingredients": [
+      {
+        "foodId": "usda-168411",
+        "grams": 130,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-169976",
+        "grams": 140,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-170394",
+        "grams": 80,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-168878",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-170932",
+        "grams": 0.3,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 5,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.5,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 5,
+      "saltGrams": 0.5,
+      "sauceGrams": 0
+    },
+    "notes": {
+      "en": "Uses whole prepared edamame with boiled cabbage and carrot. This is a spicy bean-and-cabbage rice version, not tofu or fermented kimchi, and it does not borrow a kimchi sodium or sugar estimate. All qualifying beans and vegetables use cooked weights. The only added heat is pure finely ground cayenne powder, whose actual source sugars count as free sugars; powder contributes no FVNS credit. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "使用完整熟毛豆、水煮高麗菜與胡蘿蔔。此為辣味豆類高麗菜飯，不是豆腐或發酵泡菜，不借用泡菜的鈉或糖估算。合格豆類與蔬菜皆採熟重；唯一額外辣味為純細磨卡宴辣椒粉，其來源實際糖計為游離糖，粉末不提供 FVNS 分數。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Weigh the prepared shelled edamame, cooked rice, boiled drained cabbage and carrot.",
+        "zh": "秤取熟去殼毛豆、熟白飯、水煮瀝乾高麗菜及胡蘿蔔。"
+      },
+      {
+        "en": "Warm the whole edamame and vegetable pieces, then arrange them over the rice without fermenting or pickling.",
+        "zh": "完整毛豆與蔬菜塊溫熱後放在飯上，不進行發酵或醃漬。"
+      },
+      {
+        "en": "Combine all measured cayenne powder, olive oil and salt. Mix the full seasoning through the beans and vegetables and serve warm.",
+        "zh": "全部表列卡宴辣椒粉、橄欖油與鹽拌勻，完整拌入豆類及蔬菜後溫熱食用。"
+      },
+      {
+        "en": "Use the selected-portion list for every ingredient amount, including any listed seasonings and liquids.",
+        "zh": "每項食材均採所選份量清單的克數，所有表列調味料與液體也一併調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "dak-galbi-light-bowl",
+    "label": {
+      "en": "Spicy grilled chicken, cabbage and sweet potato bowl — standard recipe",
+      "zh": "辣味炙烤雞肉高麗菜地瓜碗（標準配方）"
+    },
+    "version": "mealhatch-recipes84-2026-11-06-v1",
+    "temperature": "warm",
+    "staple": "potato",
+    "cuisine": "asian",
+    "prepMinutes": 15,
+    "ingredients": [
+      {
+        "foodId": "usda-171534",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-169976",
+        "grams": 130,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-168483",
+        "grams": 160,
+        "weighedState": "cooked",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-170001",
+        "grams": 60,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-170932",
+        "grams": 0.3,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 5,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.5,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 5,
+      "saltGrams": 0.5,
+      "sauceGrams": 0
+    },
+    "notes": {
+      "en": "A spicy chicken-and-vegetable variation with plain grilled skinless chicken, baked sweet-potato flesh, boiled cabbage and onion. It is not an estimate for dak-galbi sauce, rice cakes or a shop's stir-frying oil. Only cabbage and onion contribute cooked-weight FVNS; sweet potato is excluded under the model's tuber rule. Finely ground cayenne sugars count as free sugars and the powder receives no FVNS credit. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "此辣味雞肉蔬菜版本含原味去皮炙烤雞肉、去皮烤地瓜果肉、水煮高麗菜及洋蔥，不估算 dak-galbi 醬、年糕或店家炒油。僅高麗菜與洋蔥提供熟重 FVNS，地瓜依模型塊莖規則排除；細磨卡宴辣椒粉的糖計為游離糖，粉末不獲 FVNS 加分。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Remove skin and inedible parts from the baked sweet potato before weighing the flesh. Weigh the cooked grilled chicken, boiled drained cabbage and onion.",
+        "zh": "烤地瓜先去皮及不可食部分，再秤果肉；另秤已炙烤熟雞肉、水煮瀝乾高麗菜與洋蔥。"
+      },
+      {
+        "en": "Cut chicken and sweet potato into pieces. Warm them with the prepared cabbage and onion without extra frying oil.",
+        "zh": "雞肉與地瓜切塊，與已熟高麗菜及洋蔥一起溫熱，不另加炒油。"
+      },
+      {
+        "en": "Mix all listed cayenne powder with the measured olive oil and salt, coat all ingredients, and serve the full bowl warm.",
+        "zh": "全部表列卡宴辣椒粉、橄欖油與鹽拌勻，完整拌入所有食材後整碗溫熱食用。"
+      },
+      {
+        "en": "Use the selected-portion list for every ingredient amount, including any listed seasonings and liquids.",
+        "zh": "每項食材均採所選份量清單的克數，所有表列調味料與液體也一併調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "japanese-curry-light-set",
+    "label": {
+      "en": "Chunky chicken, potato, pea and cauliflower stew — standard recipe",
+      "zh": "雞肉馬鈴薯青豌豆白花椰菜燉湯（標準配方）"
+    },
+    "version": "mealhatch-recipes84-2026-11-06-v1",
+    "temperature": "warm",
+    "staple": "potato",
+    "cuisine": "asian",
+    "prepMinutes": 15,
+    "ingredients": [
+      {
+        "foodId": "usda-171534",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-170093",
+        "grams": 140,
+        "weighedState": "cooked",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-170420",
+        "grams": 80,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-170397",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-173647",
+        "grams": 140,
+        "weighedState": "ready-to-eat",
+        "role": "liquid",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 5,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.5,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 5,
+      "saltGrams": 0.5,
+      "sauceGrams": 0
+    },
+    "notes": {
+      "en": "A defined chicken-and-vegetable stew from the curry-meal idea, without an unspecified curry roux, spice blend or sauce. Chicken is plain grilled breast; potato is the baked flesh-and-skin source, not a boiled-potato value. Peas and cauliflower are boiled without salt and drained. All qualifying vegetables use cooked weights and remain intact; the listed retained water, oil and salt form the stew liquid. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "此咖哩餐構想採定量雞肉蔬菜燉湯，不使用成分未知的咖哩塊、混合香料或醬。雞肉為原味炙烤雞胸，馬鈴薯採含皮烤熟來源，不套用水煮值；青豌豆與白花椰菜未加鹽水煮瀝乾。合格蔬菜皆採熟重並保留完整，表列保留水、油與鹽組成燉湯液體。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Weigh the prepared grilled chicken, baked potato with skin, boiled drained peas and cauliflower. Cut chicken and potato into chunks.",
+        "zh": "秤取已炙烤熟雞肉、含皮烤馬鈴薯、水煮瀝乾青豌豆及白花椰菜，雞肉與馬鈴薯切塊。"
+      },
+      {
+        "en": "Warm all chunks and vegetables with the listed water without blending or mashing. Restore evaporated water to the listed solids-plus-water total before seasoning.",
+        "zh": "所有肉塊、薯塊與蔬菜加入表列水溫熱，不攪打或壓泥；調味前補回蒸發水至表列固體食材與水的合計重量。"
+      },
+      {
+        "en": "Add all measured olive oil and salt. Serve the complete chunky stew without adding curry sauce or stock concentrate.",
+        "zh": "加入全部表列橄欖油與鹽，整份塊狀燉湯一起食用，不另加咖哩醬或濃縮高湯。"
+      },
+      {
+        "en": "Use the selected-portion list for every ingredient amount, including any listed seasonings and liquids.",
+        "zh": "每項食材均採所選份量清單的克數，所有表列調味料與液體也一併調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "salmon-miso-porridge",
+    "label": {
+      "en": "Salmon, leek and green pea rice porridge — standard recipe",
+      "zh": "鮭魚韭蔥青豌豆粥（標準配方）"
+    },
+    "version": "mealhatch-recipes84-2026-11-06-v1",
+    "temperature": "warm",
+    "staple": "rice",
+    "cuisine": "asian",
+    "prepMinutes": 15,
+    "ingredients": [
+      {
+        "foodId": "usda-175168",
+        "grams": 90,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-168878",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-168426",
+        "grams": 90,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-170420",
+        "grams": 70,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-173647",
+        "grams": 180,
+        "weighedState": "ready-to-eat",
+        "role": "liquid",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 3,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.5,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 3,
+      "saltGrams": 0.5,
+      "sauceGrams": 0
+    },
+    "notes": {
+      "en": "Uses fully dry-heat-cooked farmed Atlantic salmon with cooked rice, boiled leek and green peas. This is a measured salmon-vegetable porridge, not a miso-broth estimate. The rice starts cooked; retained water is measured rather than inferred from raw-rice yield. All qualifying vegetables use cooked weights and stay in pieces; no additional stock or miso is added. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "使用乾熱完全煮熟的養殖大西洋鮭魚、熟飯、水煮韭蔥與青豌豆。此為定量鮭魚蔬菜粥，不估算味噌湯底。米飯從已熟狀態開始，保留水以秤量控制，不從生米產量推估；合格蔬菜皆採熟重、保持塊狀，不另外加高湯或味噌。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Remove bones and inedible parts from the fully cooked salmon before weighing and flaking it. Weigh cooked rice, boiled drained leek and peas.",
+        "zh": "已完全煮熟鮭魚先去骨及不可食部分，再秤重撥成塊；另秤熟飯、水煮瀝乾韭蔥及豌豆。"
+      },
+      {
+        "en": "Simmer the cooked rice in the listed water until loosened. Add the prepared salmon, leek and peas and warm gently, keeping the vegetables intact.",
+        "zh": "熟飯加入表列水輕煮至鬆散，再加入已熟鮭魚、韭蔥及豌豆輕柔溫熱，蔬菜保持完整。"
+      },
+      {
+        "en": "Before adding all measured oil and salt, restore evaporated water to the listed fish, rice, vegetables and water total. Serve the whole porridge.",
+        "zh": "加入全部表列油鹽前，補回蒸發水至表列魚、飯、蔬菜及水的合計重量，整份粥一起食用。"
+      },
+      {
+        "en": "Use the selected-portion list for every ingredient amount, including any listed seasonings and liquids.",
+        "zh": "每項食材均採所選份量清單的克數，所有表列調味料與液體也一併調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "miso-fish-set-veg",
+    "label": {
+      "en": "Baked cod, green pea and turnip rice plate — standard recipe",
+      "zh": "烤鱈魚青豌豆蕪菁飯餐盤（標準配方）"
+    },
+    "version": "mealhatch-recipes84-2026-11-06-v1",
+    "temperature": "warm",
+    "staple": "rice",
+    "cuisine": "asian",
+    "prepMinutes": 15,
+    "ingredients": [
+      {
+        "foodId": "usda-171956",
+        "grams": 110,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-170420",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-170058",
+        "grams": 150,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-168878",
+        "grams": 130,
+        "weighedState": "cooked",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-170152",
+        "grams": 8,
+        "weighedState": "cooked",
+        "role": "seasoning",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 3,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.5,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 3,
+      "saltGrams": 0.5,
+      "sauceGrams": 0
+    },
+    "notes": {
+      "en": "A plain cod-and-vegetable rice plate using dry-heat-cooked Atlantic cod, boiled green peas and turnip, with measured toasted sesame. It is not a miso-glazed fish or marinade estimate. All qualifying peas, turnip and sesame use cooked weights; turnip is an eligible root vegetable, not a potato substitute in the model. The listed oil and salt are all added seasoning. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "此原味鱈魚蔬菜飯餐盤使用乾熱煮熟大西洋鱈魚、水煮青豌豆與蕪菁，搭配定量烘烤芝麻，不估算味噌魚或醃料。合格豌豆、蕪菁及芝麻皆採熟重；蕪菁為合格根菜，在模型中不當成馬鈴薯處理。表列油鹽為全部額外調味。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Remove bones and inedible parts from the prepared baked cod before weighing it. Weigh the cooked white rice.",
+        "zh": "已烤熟鱈魚先去骨及不可食部分再秤重，另秤熟白飯。"
+      },
+      {
+        "en": "Weigh boiled drained green peas and turnip pieces. Warm the prepared ingredients and arrange with the cod and rice.",
+        "zh": "秤取水煮瀝乾青豌豆及蕪菁塊，將已熟食材溫熱後與鱈魚、飯一起盛盤。"
+      },
+      {
+        "en": "Add all measured olive oil and salt, then sprinkle the full weighed amount of toasted sesame kernels over the plate.",
+        "zh": "加入全部表列橄欖油與鹽，再把完整秤好的烘烤芝麻仁撒在餐盤上。"
+      },
+      {
+        "en": "Use the selected-portion list for every ingredient amount, including any listed seasonings and liquids.",
+        "zh": "每項食材均採所選份量清單的克數，所有表列調味料與液體也一併調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "miso-tofu-soup-rice",
+    "label": {
+      "en": "Whole-soybean, zucchini and green bean soup with rice — standard recipe",
+      "zh": "完整黃豆櫛瓜四季豆湯佐飯（標準配方）"
+    },
+    "version": "mealhatch-recipes96-2026-11-06-v1",
+    "temperature": "warm",
+    "staple": "rice",
+    "cuisine": "asian",
+    "prepMinutes": 15,
+    "ingredients": [
+      {
+        "foodId": "usda-174271",
+        "grams": 120,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-169292",
+        "grams": 140,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-169141",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-173647",
+        "grams": 160,
+        "weighedState": "ready-to-eat",
+        "role": "liquid",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-168878",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 5,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.5,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 5,
+      "saltGrams": 0.5,
+      "sauceGrams": 0
+    },
+    "notes": {
+      "en": "Uses hydrated whole mature soybeans, boiled zucchini with skin and boiled green snap beans; all qualifying ingredients use cooked drained weights. This is a whole-bean soup in measured seasoned water, not tofu or miso soup. Rice is served separately. Assembly time starts with prepared beans, vegetables and rice; it does not include cooking dry soybeans. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "使用已吸水煮熟的完整成熟黃豆、帶皮水煮櫛瓜與水煮四季豆，所有合格食材皆採熟後瀝乾重量。這是以定量水與調味料組成的完整豆粒湯，不估算豆腐或味噌湯；飯另盛。組裝時間從備妥熟豆、蔬菜及飯起算，不包含乾黃豆烹煮時間。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Weigh the cooked whole soybeans, drained boiled zucchini and green beans. Weigh the cooked rice separately.",
+        "zh": "秤取完整熟黃豆、水煮瀝乾櫛瓜與四季豆，另秤熟白飯。"
+      },
+      {
+        "en": "Warm the beans and vegetables in the listed water. Before seasoning, restore evaporated water until the soup weighs the selected amounts of beans, vegetables and water combined; exclude the separate rice.",
+        "zh": "把豆與蔬菜加入表列水中溫熱。調味前補回蒸發水分，讓湯總重等於所選豆、蔬菜與水的合計重量，不含另盛的飯。"
+      },
+      {
+        "en": "Stir in all measured olive oil and salt. Serve the complete soup beside the rice, keeping the beans whole.",
+        "zh": "拌入全部定量橄欖油與鹽，保留完整豆粒，將整份湯與飯分別盛裝。"
+      },
+      {
+        "en": "Use the selected-portion list for every ingredient amount, including any listed seasonings and liquids.",
+        "zh": "每項食材均採所選份量清單的克數，所有表列調味料與液體也一併調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "egg-drop-soup-dumpling-side-veg",
+    "label": {
+      "en": "Boiled egg, spinach and sweetcorn egg-noodle soup — standard recipe",
+      "zh": "水煮蛋菠菜玉米蛋麵湯（標準配方）"
+    },
+    "version": "mealhatch-recipes96-2026-11-06-v1",
+    "temperature": "warm",
+    "staple": "noodles",
+    "cuisine": "asian",
+    "prepMinutes": 15,
+    "ingredients": [
+      {
+        "foodId": "usda-173424",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-169732",
+        "grams": 120,
+        "weighedState": "cooked",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-168463",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-169999",
+        "grams": 80,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-173647",
+        "grams": 160,
+        "weighedState": "ready-to-eat",
+        "role": "liquid",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 3,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.4,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 3,
+      "saltGrams": 0.4,
+      "sauceGrams": 0
+    },
+    "notes": {
+      "en": "Uses peeled hard-boiled egg, cooked enriched egg noodles, boiled spinach and boiled sweetcorn kernels. The egg remains in pieces; this is not an estimate for egg-drop soup or dumplings. All qualifying spinach and corn use cooked weights. The liquid is measured water with the listed oil and salt, not an unspecified broth. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "使用去殼水煮全蛋、煮熟的營養強化蛋麵、水煮菠菜及玉米粒。雞蛋保留切塊形式，不估算蛋花湯或餃子；合格菠菜與玉米均採熟重。湯液為定量水加表列油鹽，不使用成分未明的高湯。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Peel and weigh the hard-boiled egg, then cut into pieces. Weigh cooked drained egg noodles, spinach and sweetcorn kernels.",
+        "zh": "水煮蛋去殼秤重後切塊，另秤熟後瀝乾的蛋麵、菠菜及玉米粒。"
+      },
+      {
+        "en": "Warm the weighed egg, noodles and vegetables in the listed water. Before seasoning, add water back to restore their combined selected weight plus the listed water.",
+        "zh": "將秤好的雞蛋、麵及蔬菜加入表列水中溫熱，調味前補水恢復至這些食材所選重量與表列水量的總和。"
+      },
+      {
+        "en": "Add all measured olive oil and salt. Serve all solids and liquid together without blending the egg or corn.",
+        "zh": "加入全部定量橄欖油與鹽，固形物與湯液全部盛出，不把雞蛋或玉米打碎成泥。"
+      },
+      {
+        "en": "Use the selected-portion list for every ingredient amount, including any listed seasonings and liquids.",
+        "zh": "每項食材均採所選份量清單的克數，所有表列調味料與液體也一併調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "soy-garlic-chicken-rice-cabbage",
+    "label": {
+      "en": "Garlic chicken, whole-soybean and cabbage rice bowl — standard recipe",
+      "zh": "蒜香雞肉完整黃豆高麗菜飯碗（標準配方）"
+    },
+    "version": "mealhatch-recipes96-2026-11-06-v1",
+    "temperature": "warm",
+    "staple": "rice",
+    "cuisine": "asian",
+    "prepMinutes": 10,
+    "ingredients": [
+      {
+        "foodId": "usda-171534",
+        "grams": 90,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-174271",
+        "grams": 80,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-169976",
+        "grams": 160,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-168878",
+        "grams": 120,
+        "weighedState": "cooked",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-171325",
+        "grams": 1,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 5,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.5,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 5,
+      "saltGrams": 0.5,
+      "sauceGrams": 0
+    },
+    "notes": {
+      "en": "Uses plain grilled skinless chicken breast, whole boiled mature soybeans and boiled cabbage. The garlic comes from the specifically sourced plain garlic powder, not a sweetened soy-garlic sauce. Its actual total sugars are counted as free sugars and the powder is excluded from FVNS. Soybeans and cabbage use cooked drained weights; no soy sauce or frying oil is implied. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "使用原味炙烤去皮雞胸肉、完整水煮成熟黃豆與水煮高麗菜。蒜味來自指定來源的原味蒜粉，不是加糖醬油蒜醬；蒜粉實際總糖計為游離糖，粉末不計入 FVNS。黃豆與高麗菜採熟後瀝乾重量，不暗加醬油或煎炒油。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Weigh the prepared grilled chicken after removing any inedible parts. Weigh cooked rice, whole boiled soybeans and drained boiled cabbage.",
+        "zh": "已炙烤熟雞肉先去除不可食部分再秤重，另秤熟飯、完整水煮黃豆與瀝乾水煮高麗菜。"
+      },
+      {
+        "en": "Arrange the warm prepared chicken, soybeans and cabbage over the rice. Keep the soybean kernels whole.",
+        "zh": "將已溫熱備妥的雞肉、黃豆及高麗菜放在飯上，保留完整豆粒。"
+      },
+      {
+        "en": "Mix the weighed plain garlic powder with all listed olive oil and salt, then distribute the entire seasoning over the bowl.",
+        "zh": "將秤好的原味蒜粉與全部表列橄欖油、鹽混合，再把整份調味料均勻拌入飯碗。"
+      },
+      {
+        "en": "Use the selected-portion list for every ingredient amount, including any listed seasonings and liquids.",
+        "zh": "每項食材均採所選份量清單的克數，所有表列調味料與液體也一併調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "tofu-mushroom-udon-soup",
+    "label": {
+      "en": "White bean, shiitake and leek wholewheat noodle soup — standard recipe",
+      "zh": "白菜豆香菇韭蔥全麥麵湯（標準配方）"
+    },
+    "version": "mealhatch-recipes96-2026-11-06-v1",
+    "temperature": "warm",
+    "staple": "noodles",
+    "cuisine": "asian",
+    "prepMinutes": 15,
+    "ingredients": [
+      {
+        "foodId": "usda-175203",
+        "grams": 130,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-168910",
+        "grams": 120,
+        "weighedState": "cooked",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-168437",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-168426",
+        "grams": 80,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-173647",
+        "grams": 160,
+        "weighedState": "ready-to-eat",
+        "role": "liquid",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 4,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.5,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 4,
+      "saltGrams": 0.5,
+      "sauceGrams": 0
+    },
+    "notes": {
+      "en": "Uses whole boiled white beans, cooked shiitake, boiled leek bulb and lower leaves, and cooked wholewheat pasta. The visible formulation is a bean-and-mushroom noodle soup, not tofu, wheat udon or miso broth. All qualifying ingredients use cooked weights; the beans remain whole rather than puréed. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "使用完整水煮白菜豆、熟香菇、水煮韭蔥莖基及下段葉，主食為熟全麥義大利麵。實際配方為豆類香菇麵湯，不估算豆腐、烏龍麵或味噌高湯；所有合格食材採熟重，豆粒保持完整，不打成泥。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Weigh cooked drained wholewheat pasta and whole white beans. Weigh prepared cooked shiitake and boiled drained edible leek pieces.",
+        "zh": "秤取熟後瀝乾全麥義大利麵及完整白菜豆，另秤熟香菇與水煮瀝乾的可食韭蔥段。"
+      },
+      {
+        "en": "Warm the noodles, beans and vegetables in the listed water. Before adding seasoning, replace evaporation so the pot contents equal their selected weights plus the listed water.",
+        "zh": "把麵、豆及蔬菜加入表列水中溫熱，調味前補回蒸發水分，使鍋中內容總重等於這些食材所選重量加表列水量。"
+      },
+      {
+        "en": "Stir in all measured olive oil and salt. Serve the whole beans, vegetables, noodles and liquid together.",
+        "zh": "拌入全部定量橄欖油與鹽，完整豆粒、蔬菜、麵與湯液一起全部盛出。"
+      },
+      {
+        "en": "Use the selected-portion list for every ingredient amount, including any listed seasonings and liquids.",
+        "zh": "每項食材均採所選份量清單的克數，所有表列調味料與液體也一併調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "canned-soup-toast-egg",
+    "label": {
+      "en": "Egg, sweetcorn and celery soup with wholewheat bread — standard recipe",
+      "zh": "雞蛋玉米西洋芹湯佐全麥麵包（標準配方）"
+    },
+    "version": "mealhatch-recipes96-2026-11-06-v1",
+    "temperature": "warm",
+    "staple": "bread",
+    "cuisine": "asian",
+    "prepMinutes": 15,
+    "ingredients": [
+      {
+        "foodId": "usda-173424",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-169999",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-169989",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-173647",
+        "grams": 160,
+        "weighedState": "ready-to-eat",
+        "role": "liquid",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-174091",
+        "grams": 70,
+        "weighedState": "ready-to-eat",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 4,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.4,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 4,
+      "saltGrams": 0.4,
+      "sauceGrams": 0
+    },
+    "notes": {
+      "en": "A measured soup of hard-boiled egg pieces, boiled sweetcorn and celery, with the archived wholewheat French/Vienna-style bread served as supplied. It does not use a canned-soup label or assume toasted bread. Bread composition uncertainties stay visible in its source and avoidance checks. Qualifying corn and celery use cooked weights; the soup is not blended. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "以水煮蛋塊、水煮玉米與西洋芹組成定量湯品，搭配歷史資料所指的全麥法式／維也納式麵包原樣食用。不引用罐頭湯標示，也不假設已烘烤成吐司；麵包配方不確定性仍保留於來源與避食檢查。合格玉米及西洋芹採熟重，湯不攪打成泥。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Peel and weigh the hard-boiled egg, then cut it into pieces. Weigh boiled drained sweetcorn and celery; set aside the weighed bread.",
+        "zh": "水煮蛋去殼秤重後切塊，另秤水煮瀝乾玉米及西洋芹，秤好的麵包另放。"
+      },
+      {
+        "en": "Warm the egg, corn and celery in the listed water. Before seasoning, restore the combined selected weight of these soup solids and water, excluding the bread.",
+        "zh": "將蛋、玉米與西洋芹加入表列水中溫熱；調味前補水恢復至這些湯料與表列水量的合計所選重量，不含麵包。"
+      },
+      {
+        "en": "Add all measured olive oil and salt to the soup. Serve all soup contents with the bread alongside, without toasting or extra toppings.",
+        "zh": "將全部定量橄欖油與鹽加入湯中，整份湯搭配旁邊的麵包，不另烘烤或增加抹醬配料。"
+      },
+      {
+        "en": "Use the selected-portion list for every ingredient amount, including any listed seasonings and liquids.",
+        "zh": "每項食材均採所選份量清單的克數，所有表列調味料與液體也一併調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "scallion-egg-tofu-rice-bowl",
+    "label": {
+      "en": "Scallion egg, tomato and cucumber rice bowl — standard recipe",
+      "zh": "蔥花雞蛋番茄小黃瓜飯碗（標準配方）"
+    },
+    "version": "mealhatch-recipes96-2026-11-06-v1",
+    "temperature": "warm",
+    "staple": "rice",
+    "cuisine": "asian",
+    "prepMinutes": 10,
+    "ingredients": [
+      {
+        "foodId": "usda-173424",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-168878",
+        "grams": 140,
+        "weighedState": "cooked",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-170005",
+        "grams": 12,
+        "weighedState": "raw",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-170457",
+        "grams": 120,
+        "weighedState": "raw",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-168409",
+        "grams": 100,
+        "weighedState": "raw",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 5,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.4,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 5,
+      "saltGrams": 0.4,
+      "sauceGrams": 0
+    },
+    "notes": {
+      "en": "Uses peeled hard-boiled egg over cooked rice, with raw tomato, unpeeled cucumber and spring-onion tops and bulb. All qualifying vegetables use raw edible weights and are added after heating the rice; this version contains no tofu or fried egg. Chop the vegetables without blending them into a sauce or purée. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a raw weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "使用去殼水煮全蛋與熟白飯，搭配生番茄、帶皮小黃瓜及青蔥蔥白與綠葉。所有合格蔬菜採可食生重，於飯加熱後加入；此版本未加入豆腐或煎蛋。蔬菜切塊或切碎，不打成醬或泥。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採生重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Peel and weigh the prepared hard-boiled egg. Weigh the cooked rice and warm only the egg and rice as needed.",
+        "zh": "已水煮熟雞蛋去殼後秤重，另秤熟白飯，依需要僅將蛋與飯溫熱。"
+      },
+      {
+        "en": "Wash and trim the tomato, unpeeled cucumber and both edible parts of the scallion. Weigh them raw, then chop and add to the rice and egg.",
+        "zh": "清洗並修整番茄、帶皮小黃瓜及青蔥的可食蔥白與綠葉，採生重秤好再切塊或切碎，加入飯與雞蛋。"
+      },
+      {
+        "en": "Dress with all measured olive oil and salt. Keep the vegetables raw and serve without adding an unlisted sauce.",
+        "zh": "拌入全部定量橄欖油與鹽，保留蔬菜生食狀態，不另外加入未列出的醬料。"
+      },
+      {
+        "en": "Use the selected-portion list for every ingredient amount, including any listed seasonings and liquids.",
+        "zh": "每項食材均採所選份量清單的克數，所有表列調味料與液體也一併調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "soba-tofu-bento",
+    "label": {
+      "en": "Lentil, carrot and red-pepper wholewheat noodle box — standard recipe",
+      "zh": "扁豆胡蘿蔔紅椒全麥冷麵盒（標準配方）"
+    },
+    "version": "mealhatch-recipes96-2026-11-06-v1",
+    "temperature": "cool",
+    "staple": "noodles",
+    "cuisine": "asian",
+    "prepMinutes": 10,
+    "ingredients": [
+      {
+        "foodId": "usda-172421",
+        "grams": 130,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-168910",
+        "grams": 130,
+        "weighedState": "cooked",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-170394",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-170110",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-170152",
+        "grams": 8,
+        "weighedState": "cooked",
+        "role": "seasoning",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 5,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.5,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 5,
+      "saltGrams": 0.5,
+      "sauceGrams": 0
+    },
+    "notes": {
+      "en": "Uses cooked lentils, wholewheat pasta, boiled carrots and red sweet pepper, with toasted sesame kernels. This is a cold noodle-box formulation, not an estimate for buckwheat soba or tofu. All qualifying lentils, vegetables and sesame use cooked weights; cooling does not convert their preparation state to raw. Keep lentils whole. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "使用熟扁豆、全麥義大利麵、水煮胡蘿蔔與紅甜椒，搭配烘烤芝麻仁。這是冷麵盒配方，不估算蕎麥麵或豆腐；合格扁豆、蔬菜及芝麻皆採熟重，冷卻不代表改採生食來源。保留完整扁豆粒。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Use prepared chilled, cooked lentils and wholewheat pasta. Weigh each after draining, keeping the lentils whole.",
+        "zh": "使用已煮熟並冷藏備妥的扁豆及全麥義大利麵，瀝乾後分別秤重，保留完整扁豆粒。"
+      },
+      {
+        "en": "Weigh chilled boiled carrot pieces and red sweet pepper. Arrange them in the box beside the noodles and lentils.",
+        "zh": "秤取已冷藏的水煮胡蘿蔔塊與紅甜椒，與麵及扁豆一起放入餐盒。"
+      },
+      {
+        "en": "Mix in all measured olive oil and salt, then add the full weighed amount of toasted sesame kernels. Keep chilled until serving.",
+        "zh": "拌入全部定量橄欖油與鹽，再加入全部秤好的烘烤芝麻仁，食用前維持冷藏。"
+      },
+      {
+        "en": "Use the selected-portion list for every ingredient amount, including any listed seasonings and liquids.",
+        "zh": "每項食材均採所選份量清單的克數，所有表列調味料與液體也一併調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "ginger-chicken-rice-soup",
+    "label": {
+      "en": "Chicken, turnip and leek rice soup — standard recipe",
+      "zh": "雞肉蕪菁韭蔥飯湯（標準配方）"
+    },
+    "version": "mealhatch-recipes96-2026-11-06-v1",
+    "temperature": "warm",
+    "staple": "rice",
+    "cuisine": "asian",
+    "prepMinutes": 15,
+    "ingredients": [
+      {
+        "foodId": "usda-171477",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-168878",
+        "grams": 120,
+        "weighedState": "cooked",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-170058",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-168426",
+        "grams": 80,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-173647",
+        "grams": 180,
+        "weighedState": "ready-to-eat",
+        "role": "liquid",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 3,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.5,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 3,
+      "saltGrams": 0.5,
+      "sauceGrams": 0
+    },
+    "notes": {
+      "en": "Uses roasted skinless chicken breast, cooked rice, boiled turnip and leek. This plain formulation contains no ginger or unlisted stock. All qualifying turnip and leek use cooked weights; rice grains are kept in a measured soup rather than cooked down to porridge. Assembly starts with prepared cooked ingredients. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "使用去皮烤雞胸肉、熟白飯、水煮蕪菁與韭蔥。此原味配方未加入薑或未列出的高湯。所有合格蕪菁與韭蔥採熟重，米粒加入定量湯液中，不繼續熬成粥；組裝從備妥熟食材起算。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Weigh prepared roasted chicken after removing inedible parts, then slice it. Weigh cooked rice and boiled drained turnip and edible leek pieces.",
+        "zh": "已烤熟雞肉去除不可食部分後秤重切片，另秤熟飯、水煮瀝乾蕪菁與可食韭蔥段。"
+      },
+      {
+        "en": "Warm the chicken, rice and vegetables in the listed water without reducing to porridge. Before seasoning, restore their combined selected weight plus the listed water.",
+        "zh": "把雞肉、飯與蔬菜加入表列水中溫熱，不熬煮成粥；調味前補水恢復至這些食材所選重量與表列水量的總和。"
+      },
+      {
+        "en": "Stir in all measured olive oil and salt. Serve the entire rice soup, including all solids and liquid.",
+        "zh": "拌入全部定量橄欖油與鹽，整份飯湯全部盛出，包含所有固形食材與湯液。"
+      },
+      {
+        "en": "Use the selected-portion list for every ingredient amount, including any listed seasonings and liquids.",
+        "zh": "每項食材均採所選份量清單的克數，所有表列調味料與液體也一併調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "chicken-ginger-noodle-soup",
+    "label": {
+      "en": "Chicken, cauliflower and pea egg-noodle soup — standard recipe",
+      "zh": "雞肉白花椰菜青豌豆蛋麵湯（標準配方）"
+    },
+    "version": "mealhatch-recipes96-2026-11-06-v1",
+    "temperature": "warm",
+    "staple": "noodles",
+    "cuisine": "asian",
+    "prepMinutes": 15,
+    "ingredients": [
+      {
+        "foodId": "usda-171534",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-169732",
+        "grams": 120,
+        "weighedState": "cooked",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-170397",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-170420",
+        "grams": 70,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-173647",
+        "grams": 180,
+        "weighedState": "ready-to-eat",
+        "role": "liquid",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 3,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.5,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 3,
+      "saltGrams": 0.5,
+      "sauceGrams": 0
+    },
+    "notes": {
+      "en": "Uses grilled skinless chicken breast, enriched egg noodles, boiled cauliflower and whole green peas. All qualifying cauliflower and peas use cooked drained weights. This plain formulation contains no ginger, unlisted stock or sauce. The soup liquid is the measured retained water with the listed oil and salt. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "使用去皮炙烤雞胸肉、營養強化蛋麵、水煮白花椰菜及完整青豌豆。所有合格白花椰菜與青豌豆採熟後瀝乾重量。此原味配方未加入薑、未列出的高湯或醬汁；湯液為定量保留的水與表列油鹽。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Remove inedible parts before weighing the prepared grilled chicken. Weigh cooked drained egg noodles, boiled cauliflower and whole green peas.",
+        "zh": "已炙烤熟雞肉去除不可食部分後秤重，另秤熟後瀝乾蛋麵、水煮白花椰菜及完整青豌豆。"
+      },
+      {
+        "en": "Warm the chicken, noodles and vegetables in the listed water. Before adding seasoning, restore the combined selected weight of those solids plus the listed water.",
+        "zh": "把雞肉、麵與蔬菜加入表列水中溫熱，調味前補水恢復至這些固形食材所選重量與表列水量的總和。"
+      },
+      {
+        "en": "Stir all measured olive oil and salt through the soup. Serve the complete portion without discarding liquid.",
+        "zh": "把全部定量橄欖油與鹽拌勻入湯，整份盛出，不丟棄湯液。"
+      },
+      {
+        "en": "Use the selected-portion list for every ingredient amount, including any listed seasonings and liquids.",
+        "zh": "每項食材均採所選份量清單的克數，所有表列調味料與液體也一併調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "taiwanese-three-cup-chicken-light-set",
+    "label": {
+      "en": "Sesame-garlic chicken, shiitake and green bean rice plate — standard recipe",
+      "zh": "芝麻蒜香雞肉香菇四季豆飯餐盤（標準配方）"
+    },
+    "version": "mealhatch-recipes96-2026-11-06-v1",
+    "temperature": "warm",
+    "staple": "rice",
+    "cuisine": "asian",
+    "prepMinutes": 10,
+    "ingredients": [
+      {
+        "foodId": "usda-171534",
+        "grams": 110,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-168878",
+        "grams": 130,
+        "weighedState": "cooked",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-168437",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-169141",
+        "grams": 120,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-170152",
+        "grams": 10,
+        "weighedState": "cooked",
+        "role": "seasoning",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-171325",
+        "grams": 1,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 4,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.5,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 4,
+      "saltGrams": 0.5,
+      "sauceGrams": 0
+    },
+    "notes": {
+      "en": "A plain grilled-chicken plate with cooked shiitake, green beans and toasted sesame, seasoned with the sourced garlic powder. It does not estimate three-cup chicken, sesame oil, rice wine, basil or a soy-sauce reduction. Qualifying mushrooms, green beans and sesame use cooked weights; the garlic powder contributes its actual derived free sugars and no FVNS. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "此餐盤採原味炙烤雞肉、熟香菇、四季豆及烘烤芝麻，使用指定來源的蒜粉調味。不估算三杯雞、麻油、米酒、羅勒或收乾醬油汁。合格香菇、四季豆及芝麻皆採熟重；蒜粉計入實際推導的游離糖，但不計入 FVNS。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Weigh the prepared grilled chicken after removing inedible parts. Weigh cooked rice, cooked shiitake and boiled drained green beans.",
+        "zh": "已炙烤熟雞肉去除不可食部分後秤重，另秤熟飯、熟香菇與水煮瀝乾四季豆。"
+      },
+      {
+        "en": "Arrange the warm chicken, mushrooms and green beans with the rice. Keep the prepared vegetables in pieces.",
+        "zh": "將已溫熱的雞肉、香菇與四季豆搭配白飯盛盤，蔬菜保留塊狀。"
+      },
+      {
+        "en": "Mix the measured plain garlic powder, olive oil and salt into the food; scatter all weighed toasted sesame kernels on top.",
+        "zh": "將定量原味蒜粉、橄欖油與鹽拌入食材，再撒上全部秤好的烘烤芝麻仁。"
+      },
+      {
+        "en": "Use the selected-portion list for every ingredient amount, including any listed seasonings and liquids.",
+        "zh": "每項食材均採所選份量清單的克數，所有表列調味料與液體也一併調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "korean-soft-tofu-soup-rice",
+    "label": {
+      "en": "Spicy shrimp, whole-soybean and napa cabbage soup with rice — standard recipe",
+      "zh": "辣味蝦仁完整黃豆白菜湯佐飯（標準配方）"
+    },
+    "version": "mealhatch-recipes96-2026-11-06-v1",
+    "temperature": "warm",
+    "staple": "rice",
+    "cuisine": "asian",
+    "prepMinutes": 15,
+    "ingredients": [
+      {
+        "foodId": "usda-171971",
+        "grams": 80,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-174271",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-169980",
+        "grams": 160,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-168878",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-173647",
+        "grams": 160,
+        "weighedState": "ready-to-eat",
+        "role": "liquid",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-170932",
+        "grams": 0.3,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-171325",
+        "grams": 0.5,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 3,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 3,
+      "saltGrams": 0,
+      "sauceGrams": 0
+    },
+    "notes": {
+      "en": "Uses moist-heat-cooked shrimp, hydrated whole mature soybeans and boiled napa cabbage, with rice separately. The archived shrimp contains 947 mg sodium per 100 g; that source value is retained, and no salt is added. This is not an estimate for soft tofu or restaurant broth. Plain cayenne and garlic powders follow their documented free-sugar/FVNS rules; qualifying soybeans and cabbage use cooked weights. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "使用濕熱煮熟蝦仁、已吸水煮熟的完整成熟黃豆與水煮白菜，飯另外盛。歷史蝦仁來源每 100 克含鈉 947 毫克，此值完整保留，配方不再加鹽；不估算嫩豆腐或餐廳高湯。原味卡宴辣椒粉與蒜粉依各自的游離糖／FVNS 規則計算，合格黃豆及白菜採熟重。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Remove shells and inedible parts from the prepared cooked shrimp before weighing. Weigh cooked whole soybeans, drained boiled napa cabbage and the separate cooked rice.",
+        "zh": "已煮熟蝦先去殼及不可食部分再秤重，另秤完整熟黃豆、水煮瀝乾白菜，以及另外盛裝的熟飯。"
+      },
+      {
+        "en": "Warm the shrimp, soybeans and cabbage in the listed water. Before seasoning, restore their combined selected weight plus the water, excluding the separate rice.",
+        "zh": "將蝦仁、黃豆及白菜加入表列水中溫熱；調味前補水恢復至這些食材所選重量加表列水量，不含另盛的飯。"
+      },
+      {
+        "en": "Stir in all weighed plain cayenne powder, garlic powder and olive oil. Add no salt; serve the entire soup beside the rice.",
+        "zh": "拌入全部秤好的原味卡宴辣椒粉、蒜粉及橄欖油，不另外加鹽，整份湯搭配另盛白飯。"
+      },
+      {
+        "en": "Use the selected-portion list for every ingredient amount, including any listed seasonings and liquids.",
+        "zh": "每項食材均採所選份量清單的克數，所有表列調味料與液體也一併調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "ginger-tofu-cabbage-rice-bowl",
+    "label": {
+      "en": "Whole-soybean, cabbage and shiitake rice bowl — standard recipe",
+      "zh": "完整黃豆高麗菜香菇飯碗（標準配方）"
+    },
+    "version": "mealhatch-recipes96-2026-11-06-v1",
+    "temperature": "warm",
+    "staple": "rice",
+    "cuisine": "asian",
+    "prepMinutes": 10,
+    "ingredients": [
+      {
+        "foodId": "usda-174271",
+        "grams": 130,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-169976",
+        "grams": 140,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-168437",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-168878",
+        "grams": 120,
+        "weighedState": "cooked",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 5,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.5,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 5,
+      "saltGrams": 0.5,
+      "sauceGrams": 0
+    },
+    "notes": {
+      "en": "Uses whole boiled mature soybeans, boiled cabbage and cooked shiitake over rice. All qualifying whole beans and vegetables use cooked weights. The listed oil and salt are the full added seasoning; no ginger or tofu is included. This formulation does not borrow tofu nutrient values or infer its bean fraction. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "使用完整水煮成熟黃豆、水煮高麗菜及熟香菇搭配飯。所有合格完整豆粒與蔬菜採熟重。表列油鹽為全部額外調味，未加入薑或豆腐；此配方不借用豆腐營養值或推測其黃豆比例。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Weigh the prepared whole boiled soybeans, drained boiled cabbage and cooked shiitake. Weigh the cooked rice separately.",
+        "zh": "秤取已備妥的完整水煮黃豆、水煮瀝乾高麗菜與熟香菇，另秤熟白飯。"
+      },
+      {
+        "en": "Arrange the warm beans and vegetables over the rice, keeping the soybean kernels and mushroom pieces intact.",
+        "zh": "將已溫熱豆與蔬菜放在飯上，保留完整黃豆粒與香菇塊。"
+      },
+      {
+        "en": "Mix all measured olive oil and salt into the bowl, coating the beans and vegetables without adding an unlisted sauce.",
+        "zh": "將全部定量橄欖油與鹽均勻拌入豆與蔬菜，不另外添加未列出的醬汁。"
+      },
+      {
+        "en": "Use the selected-portion list for every ingredient amount, including any listed seasonings and liquids.",
+        "zh": "每項食材均採所選份量清單的克數，所有表列調味料與液體也一併調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "salmon-lentil-spinach-bowl",
+    "label": {
+      "en": "Baked salmon, lentil and spinach bowl — standard recipe",
+      "zh": "烤鮭魚扁豆菠菜碗（標準配方）"
+    },
+    "version": "mealhatch-recipes108-2026-11-06-v1",
+    "temperature": "warm",
+    "staple": "none",
+    "cuisine": "western",
+    "prepMinutes": 10,
+    "ingredients": [
+      {
+        "foodId": "usda-175168",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-172421",
+        "grams": 130,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-168463",
+        "grams": 130,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-168426",
+        "grams": 60,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 3,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.3,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 3,
+      "saltGrams": 0.3,
+      "sauceGrams": 0
+    },
+    "notes": {
+      "en": "Uses dry-heat-cooked farmed Atlantic salmon, whole boiled lentils, boiled spinach and leek bulb and lower leaves. All qualifying lentils and vegetables use cooked drained weights. This bowl has no separate grain or potato serving; its lentil and vegetable carbohydrates remain included in the nutrient totals. Assembly starts with prepared cooked ingredients. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "使用乾熱煮熟的養殖大西洋鮭魚、完整水煮扁豆、水煮菠菜及韭蔥莖基與下段葉。所有合格扁豆與蔬菜皆採熟後瀝乾重量。此碗未另加穀物或馬鈴薯，扁豆與蔬菜本身的碳水化合物仍計入營養總量；組裝從備妥熟食材起算。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Remove bones and inedible parts from the prepared baked salmon before weighing it. Weigh the whole cooked lentils.",
+        "zh": "已烤熟鮭魚先去骨及不可食部分再秤重，另秤完整熟扁豆。"
+      },
+      {
+        "en": "Weigh boiled drained spinach and edible leek pieces. Arrange the warm lentils and vegetables in a bowl and place the salmon on top.",
+        "zh": "秤取水煮瀝乾菠菜與可食韭蔥段，把溫熱扁豆與蔬菜盛碗後放上鮭魚。"
+      },
+      {
+        "en": "Add all measured olive oil and salt, keeping the lentils whole and serving the entire weighed portion.",
+        "zh": "加入全部定量橄欖油與鹽，保留完整扁豆粒，盛出整份秤好的食材。"
+      },
+      {
+        "en": "Use the selected-portion list for every ingredient amount, including any listed seasonings and liquids.",
+        "zh": "每項食材均採所選份量清單的克數，所有表列調味料與液體也一併調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "roast-turkey-sweet-potato-pepper-plate",
+    "label": {
+      "en": "Roasted turkey, sweet potato and red-pepper plate — standard recipe",
+      "zh": "烤火雞肉地瓜紅甜椒餐盤（標準配方）"
+    },
+    "version": "mealhatch-recipes108-2026-11-06-v1",
+    "temperature": "warm",
+    "staple": "potato",
+    "cuisine": "western",
+    "prepMinutes": 10,
+    "ingredients": [
+      {
+        "foodId": "usda-171496",
+        "grams": 120,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-168483",
+        "grams": 180,
+        "weighedState": "cooked",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-170110",
+        "grams": 150,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-170001",
+        "grams": 60,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 5,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.5,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 5,
+      "saltGrams": 0.5,
+      "sauceGrams": 0
+    },
+    "notes": {
+      "en": "Uses roasted skinless turkey breast, baked sweet-potato flesh without skin, boiled red sweet pepper and onion. Weigh each in its source preparation state. Qualifying pepper and onion use cooked weights; sweet potato remains outside the model FVNS component while all its nutrients and mass are included. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "使用去皮烤火雞胸肉、去皮烤地瓜可食果肉、水煮紅甜椒及洋蔥，各自按來源製備狀態秤重。合格紅椒與洋蔥採熟重；地瓜不計入模型 FVNS 成分，但其全部營養與重量仍照常計入。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Remove skin and inedible parts from the prepared roast turkey before weighing. Remove sweet-potato skin and weigh only the baked edible flesh.",
+        "zh": "已烤熟火雞肉去皮及不可食部分後秤重；地瓜去皮，只秤烤熟可食果肉。"
+      },
+      {
+        "en": "Weigh boiled drained red sweet pepper and onion. Arrange all prepared ingredients warm on a plate without additional frying.",
+        "zh": "秤取水煮瀝乾紅甜椒與洋蔥，將備妥食材溫熱盛盤，不另煎炒。"
+      },
+      {
+        "en": "Distribute all measured olive oil and salt over the turkey and vegetables; serve the sweet potato alongside.",
+        "zh": "將全部定量橄欖油與鹽均勻拌入火雞肉與蔬菜，搭配地瓜一起食用。"
+      },
+      {
+        "en": "Use the selected-portion list for every ingredient amount, including any listed seasonings and liquids.",
+        "zh": "每項食材均採所選份量清單的克數，所有表列調味料與液體也一併調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "roast-lamb-lentil-carrot-bowl",
+    "label": {
+      "en": "Roasted lamb, lentil and carrot bowl — standard recipe",
+      "zh": "烤羊腿肉扁豆胡蘿蔔碗（標準配方）"
+    },
+    "version": "mealhatch-recipes108-2026-11-06-v1",
+    "temperature": "warm",
+    "staple": "none",
+    "cuisine": "western",
+    "prepMinutes": 10,
+    "ingredients": [
+      {
+        "foodId": "usda-174314",
+        "grams": 90,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-172421",
+        "grams": 130,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-170394",
+        "grams": 150,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-170001",
+        "grams": 70,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 3,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.5,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 3,
+      "saltGrams": 0.5,
+      "sauceGrams": 0
+    },
+    "notes": {
+      "en": "The lamb source is roasted whole-leg separable lean meat, not ground lamb or fatty untrimmed slices. Whole boiled lentils, carrots and onion use cooked drained weights. There is no separate grain or potato serving; carbohydrates from lentils and vegetables are still counted. Assembly time excludes roasting the lamb or cooking dry lentils. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "羊肉來源為整支羊腿烤熟後可分離的瘦肉，不是羊絞肉或未去脂肪肉片。完整水煮扁豆、胡蘿蔔及洋蔥採熟後瀝乾重量。未另加穀物或馬鈴薯，扁豆與蔬菜的碳水化合物仍照常計入；組裝時間不含烤羊肉或烹煮乾扁豆。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Separate visible fat, bones and other inedible parts from the prepared roasted lamb leg, then weigh and slice only the edible lean meat.",
+        "zh": "已烤熟羊腿先分離可見脂肪、骨頭及其他不可食部分，再秤取可食瘦肉並切片。"
+      },
+      {
+        "en": "Weigh whole cooked lentils and boiled drained carrot and onion pieces. Place them warm in a bowl with the lamb slices.",
+        "zh": "秤取完整熟扁豆與水煮瀝乾胡蘿蔔、洋蔥塊，溫熱後與羊肉片一起盛碗。"
+      },
+      {
+        "en": "Mix in all measured olive oil and salt, keeping the lentils and vegetables in pieces.",
+        "zh": "拌入全部定量橄欖油與鹽，保留扁豆與蔬菜的粒塊狀態。"
+      },
+      {
+        "en": "Use the selected-portion list for every ingredient amount, including any listed seasonings and liquids.",
+        "zh": "每項食材均採所選份量清單的克數，所有表列調味料與液體也一併調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "pork-zucchini-tomato-rice-bowl",
+    "label": {
+      "en": "Pork, zucchini and cooked-tomato rice bowl — standard recipe",
+      "zh": "豬肉櫛瓜熟番茄飯碗（標準配方）"
+    },
+    "version": "mealhatch-recipes108-2026-11-06-v1",
+    "temperature": "warm",
+    "staple": "rice",
+    "cuisine": "asian",
+    "prepMinutes": 10,
+    "ingredients": [
+      {
+        "foodId": "usda-169193",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-168878",
+        "grams": 120,
+        "weighedState": "cooked",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-169292",
+        "grams": 120,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-170050",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-171325",
+        "grams": 1,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 3,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.5,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 3,
+      "saltGrams": 0.5,
+      "sauceGrams": 0
+    },
+    "notes": {
+      "en": "Uses cooked crumbles made from 96% lean / 4% fat ground pork; that ratio describes the source starting meat, not the cooked fat percentage. Zucchini and tomato are cooked pieces, not a reduced or puréed sauce. Qualifying vegetables use cooked weights. Plain garlic powder contributes its archived total sugars as derived free sugars and no FVNS. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "使用以 96% 瘦肉／4% 脂肪豬絞肉製成的熟碎粒，該比例描述來源起始肉品，不是熟後脂肪百分比。櫛瓜與番茄保留熟塊，不收乾或打成醬泥；合格蔬菜採熟重。原味蒜粉的來源總糖推導為游離糖，粉末不計入 FVNS。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Weigh the prepared cooked pork crumbles and cooked white rice. Weigh boiled zucchini with skin and cooked tomato pieces in their listed states.",
+        "zh": "秤取備妥熟豬肉碎粒與熟白飯，另按表列狀態秤取帶皮水煮櫛瓜及熟番茄塊。"
+      },
+      {
+        "en": "Arrange the warm rice, pork and vegetables in a bowl without reducing the tomato into a paste or adding cooking liquid.",
+        "zh": "將溫熱的飯、豬肉與蔬菜盛碗，不把番茄收乾成糊，也不額外加入烹調液。"
+      },
+      {
+        "en": "Mix all measured plain garlic powder, olive oil and salt through the food, including every part of the seasoning.",
+        "zh": "將全部定量原味蒜粉、橄欖油與鹽拌入食材，完整使用整份調味料。"
+      },
+      {
+        "en": "Use the selected-portion list for every ingredient amount, including any listed seasonings and liquids.",
+        "zh": "每項食材均採所選份量清單的克數，所有表列調味料與液體也一併調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "cod-white-bean-leek-soup",
+    "label": {
+      "en": "Baked cod, white bean and leek soup — standard recipe",
+      "zh": "烤鱈魚白菜豆韭蔥湯（標準配方）"
+    },
+    "version": "mealhatch-recipes108-2026-11-06-v1",
+    "temperature": "warm",
+    "staple": "none",
+    "cuisine": "western",
+    "prepMinutes": 15,
+    "ingredients": [
+      {
+        "foodId": "usda-171956",
+        "grams": 110,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-175203",
+        "grams": 120,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-168426",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-169989",
+        "grams": 80,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-173647",
+        "grams": 180,
+        "weighedState": "ready-to-eat",
+        "role": "liquid",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 4,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.4,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 4,
+      "saltGrams": 0.4,
+      "sauceGrams": 0
+    },
+    "notes": {
+      "en": "Uses prepared dry-heat-cooked Atlantic cod, whole boiled white beans, boiled leek bulb and lower leaves, and celery. Cod is weighed after baking and before adding to the soup; no raw-fish yield is inferred. Qualifying beans and vegetables use cooked drained weights. The liquid is measured water with the listed oil and salt; no separate grain or potato is included. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "使用已乾熱煮熟的大西洋鱈魚、完整水煮白菜豆、水煮韭蔥莖基及下段葉與西洋芹。鱈魚先按烤熟狀態秤重再入湯，不推測生魚烹調得率；合格豆類與蔬菜採熟後瀝乾重量。湯液為定量水與表列油鹽，未另加穀物或馬鈴薯。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Remove bones and inedible parts from the prepared baked cod before weighing. Weigh whole cooked white beans and boiled drained leek and celery pieces.",
+        "zh": "已烤熟鱈魚先去骨及不可食部分再秤重，另秤完整熟白菜豆、水煮瀝乾韭蔥及西洋芹塊。"
+      },
+      {
+        "en": "Warm the cod, beans and vegetables in the listed water. Before seasoning, restore evaporated water until the soup equals the combined selected weights of these solids and the listed water.",
+        "zh": "把鱈魚、豆及蔬菜加入表列水中溫熱，調味前補回蒸發水分，使湯總重等於這些固形食材所選重量與表列水量之和。"
+      },
+      {
+        "en": "Stir in all measured olive oil and salt. Serve all liquid and solids together, keeping the beans whole.",
+        "zh": "拌入全部定量橄欖油與鹽，固形物與湯液全部一起盛出，保留完整豆粒。"
+      },
+      {
+        "en": "Use the selected-portion list for every ingredient amount, including any listed seasonings and liquids.",
+        "zh": "每項食材均採所選份量清單的克數，所有表列調味料與液體也一併調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "chickpea-quinoa-cauliflower-bowl",
+    "label": {
+      "en": "Chickpea, quinoa and cauliflower bowl with sesame — standard recipe",
+      "zh": "鷹嘴豆藜麥白花椰菜芝麻碗（標準配方）"
+    },
+    "version": "mealhatch-recipes108-2026-11-06-v1",
+    "temperature": "warm",
+    "staple": "other",
+    "cuisine": "western",
+    "prepMinutes": 10,
+    "ingredients": [
+      {
+        "foodId": "usda-173757",
+        "grams": 130,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-168917",
+        "grams": 130,
+        "weighedState": "cooked",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-170397",
+        "grams": 150,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-170420",
+        "grams": 60,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-170152",
+        "grams": 8,
+        "weighedState": "cooked",
+        "role": "seasoning",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 4,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.5,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 4,
+      "saltGrams": 0.5,
+      "sauceGrams": 0
+    },
+    "notes": {
+      "en": "Uses whole boiled chickpeas, cooked quinoa, boiled cauliflower and green peas, with toasted sesame kernels. Qualifying chickpeas, vegetables and sesame use cooked weights. The chickpeas and peas stay whole; the recipe does not use the separate puréed-chickpea calculation. Assembly starts with already cooked ingredients. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "使用完整水煮鷹嘴豆、熟藜麥、水煮白花椰菜與青豌豆，搭配烘烤芝麻仁。合格鷹嘴豆、蔬菜及芝麻皆採熟重；鷹嘴豆與豌豆保持完整，不套用獨立的鷹嘴豆泥計算法。組裝從已煮熟食材起算。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Weigh prepared whole boiled chickpeas and cooked quinoa. Weigh boiled drained cauliflower florets and whole green peas.",
+        "zh": "秤取備妥完整水煮鷹嘴豆與熟藜麥，另秤水煮瀝乾白花椰菜朵及完整青豌豆。"
+      },
+      {
+        "en": "Arrange the warm quinoa, chickpeas, cauliflower and peas in a bowl without mashing or blending them.",
+        "zh": "將溫熱藜麥、鷹嘴豆、白花椰菜及青豌豆盛碗，不壓泥或攪打。"
+      },
+      {
+        "en": "Add all measured olive oil and salt, then sprinkle the full weighed amount of toasted sesame kernels over the bowl.",
+        "zh": "加入全部定量橄欖油與鹽，再把全部秤好的烘烤芝麻仁撒在碗中。"
+      },
+      {
+        "en": "Use the selected-portion list for every ingredient amount, including any listed seasonings and liquids.",
+        "zh": "每項食材均採所選份量清單的克數，所有表列調味料與液體也一併調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "black-bean-corn-pepper-potato",
+    "label": {
+      "en": "Black bean, sweetcorn and red-pepper baked potato — standard recipe",
+      "zh": "黑菜豆玉米紅甜椒烤馬鈴薯（標準配方）"
+    },
+    "version": "mealhatch-recipes108-2026-11-06-v1",
+    "temperature": "warm",
+    "staple": "potato",
+    "cuisine": "western",
+    "prepMinutes": 10,
+    "ingredients": [
+      {
+        "foodId": "usda-173735",
+        "grams": 130,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-169999",
+        "grams": 80,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-170110",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-170093",
+        "grams": 160,
+        "weighedState": "cooked",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 5,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.5,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 5,
+      "saltGrams": 0.5,
+      "sauceGrams": 0
+    },
+    "notes": {
+      "en": "Uses boiled black turtle beans (not black soybeans), sweetcorn kernels and red sweet pepper over baked potato with edible skin. Qualifying beans, corn and pepper use cooked weights; potato is excluded only from FVNS, with all its nutrients and mass retained. Whole beans and corn are not puréed. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "使用水煮黑菜豆（非黑大豆）、玉米粒與紅甜椒，搭配含可食外皮的烤馬鈴薯。合格豆類、玉米與紅椒採熟重；馬鈴薯僅不納入 FVNS，全部營養及重量仍保留。豆粒與玉米不打成泥。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Weigh prepared baked potato including edible skin, after removing any inedible parts. Split or cut the potato while keeping it in pieces.",
+        "zh": "備妥烤馬鈴薯去除不可食部分後，連可食外皮秤重，再切開或切塊，保留塊狀。"
+      },
+      {
+        "en": "Weigh whole boiled black beans, boiled sweetcorn kernels and boiled drained red pepper. Add the warm ingredients on and beside the potato.",
+        "zh": "秤取完整水煮黑菜豆、水煮玉米粒與瀝乾水煮紅椒，把溫熱食材放在馬鈴薯上及旁邊。"
+      },
+      {
+        "en": "Dress with all measured olive oil and salt and serve the complete portion without additional toppings.",
+        "zh": "拌入全部定量橄欖油與鹽，完整盛出，不另加配料。"
+      },
+      {
+        "en": "Use the selected-portion list for every ingredient amount, including any listed seasonings and liquids.",
+        "zh": "每項食材均採所選份量清單的克數，所有表列調味料與液體也一併調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "egg-edamame-bok-choy-rice-noodles",
+    "label": {
+      "en": "Egg, edamame and bok choy rice noodles — standard recipe",
+      "zh": "雞蛋毛豆青江菜米麵（標準配方）"
+    },
+    "version": "mealhatch-recipes108-2026-11-06-v1",
+    "temperature": "warm",
+    "staple": "noodles",
+    "cuisine": "asian",
+    "prepMinutes": 10,
+    "ingredients": [
+      {
+        "foodId": "usda-173424",
+        "grams": 80,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-168411",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-170391",
+        "grams": 160,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-168914",
+        "grams": 130,
+        "weighedState": "cooked",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 4,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.5,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 4,
+      "saltGrams": 0.5,
+      "sauceGrams": 0
+    },
+    "notes": {
+      "en": "Uses peeled hard-boiled egg, prepared shelled edamame, boiled bok choy and cooked rice noodles. Weigh shelled edamame kernels, not pods. Qualifying edamame and bok choy use cooked weights. The oil and salt listed are the complete added seasoning; this is an assembled noodle plate, not a stir-fry or broth estimate. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "使用去殼水煮全蛋、已製備去莢毛豆、水煮青江菜及熟米製麵條。毛豆秤可食豆仁，不含豆莢；合格毛豆與青江菜採熟重。表列油鹽為全部額外調味，此為組裝麵餐盤，不估算炒麵或高湯。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Peel and weigh the hard-boiled egg, then slice it. Weigh prepared shelled edamame and cooked drained rice noodles.",
+        "zh": "水煮蛋去殼秤重後切片，另秤已製備去莢毛豆與熟後瀝乾米製麵條。"
+      },
+      {
+        "en": "Weigh boiled drained bok choy and arrange the warm noodles, edamame and vegetables on a plate, with egg slices on top.",
+        "zh": "秤取水煮瀝乾青江菜，把溫熱麵條、毛豆及蔬菜盛盤，再放上蛋片。"
+      },
+      {
+        "en": "Toss with all measured olive oil and salt without adding unlisted sauce or extra frying oil.",
+        "zh": "拌入全部定量橄欖油與鹽，不另加未列出的醬汁或煎炒油。"
+      },
+      {
+        "en": "Use the selected-portion list for every ingredient amount, including any listed seasonings and liquids.",
+        "zh": "每項食材均採所選份量清單的克數，所有表列調味料與液體也一併調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "tuna-tomato-cucumber-sandwich",
+    "label": {
+      "en": "Tuna, tomato and cucumber wholewheat sandwich — standard recipe",
+      "zh": "鮪魚番茄小黃瓜全麥三明治（標準配方）"
+    },
+    "version": "mealhatch-recipes108-2026-11-06-v1",
+    "temperature": "cool",
+    "staple": "bread",
+    "cuisine": "western",
+    "prepMinutes": 10,
+    "ingredients": [
+      {
+        "foodId": "usda-171986",
+        "grams": 100,
+        "weighedState": "ready-to-eat",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-174091",
+        "grams": 80,
+        "weighedState": "ready-to-eat",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-168409",
+        "grams": 100,
+        "weighedState": "raw",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-170457",
+        "grams": 120,
+        "weighedState": "raw",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 4,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 4,
+      "saltGrams": 0,
+      "sauceGrams": 0
+    },
+    "notes": {
+      "en": "Uses drained light tuna canned in water without added salt and the archived wholewheat French/Vienna-style bread. The tuna source still contains sodium, and the bread adds its own sodium; no salt or mayonnaise is added. Raw tomato and unpeeled cucumber are weighed as edible portions. Bread composition uncertainties remain visible in source notes and avoidance checks. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a raw weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "使用未加鹽水浸淡色肉鮪魚罐頭的瀝乾固形物，以及歷史資料所指的全麥法式／維也納式麵包。鮪魚來源仍含鈉，麵包也有本身的鈉；配方不另加鹽或美乃滋。生番茄及帶皮小黃瓜按可食部分秤重，麵包配方不確定性仍保留於來源備註與避食檢查。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採生重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Drain the canned tuna and weigh only the solids. Weigh the bread as supplied, without toasting it.",
+        "zh": "鮪魚罐頭瀝乾後只秤固形物，麵包依原樣秤重，不另烘烤。"
+      },
+      {
+        "en": "Wash and trim the tomato and unpeeled cucumber, weigh them raw, then slice. Place the tuna and vegetables on the bread; serve any excess vegetables alongside.",
+        "zh": "清洗修整番茄與帶皮小黃瓜，採生重秤好再切片，與鮪魚夾入麵包；放不下的蔬菜另盛搭配。"
+      },
+      {
+        "en": "Drizzle all measured olive oil over the filling and side vegetables. Keep chilled until serving, with no extra salt or spread.",
+        "zh": "將全部定量橄欖油淋在內餡與配菜上，食用前保持冷藏，不另加鹽或抹醬。"
+      },
+      {
+        "en": "Use the selected-portion list for every ingredient amount, including any listed seasonings and liquids.",
+        "zh": "每項食材均採所選份量清單的克數，所有表列調味料與液體也一併調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "mozzarella-avocado-tomato-bread-plate",
+    "label": {
+      "en": "Mozzarella, avocado and tomato bread plate — standard recipe",
+      "zh": "莫札瑞拉酪梨番茄麵包餐盤（標準配方）"
+    },
+    "version": "mealhatch-recipes108-2026-11-06-v1",
+    "temperature": "cool",
+    "staple": "bread",
+    "cuisine": "western",
+    "prepMinutes": 10,
+    "ingredients": [
+      {
+        "foodId": "usda-170845",
+        "grams": 70,
+        "weighedState": "ready-to-eat",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-171705",
+        "grams": 60,
+        "weighedState": "raw",
+        "role": "fruit",
+        "group": "fruit"
+      },
+      {
+        "foodId": "usda-170457",
+        "grams": 150,
+        "weighedState": "raw",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-174091",
+        "grams": 70,
+        "weighedState": "ready-to-eat",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 3,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 3,
+      "saltGrams": 0,
+      "sauceGrams": 0
+    },
+    "notes": {
+      "en": "Uses plain whole-milk mozzarella, raw avocado flesh, raw tomato and the archived wholewheat French/Vienna-style bread. Qualifying avocado and tomato use raw edible weights; avocado peel and stone are excluded before weighing. The bread keeps its documented ingredient uncertainty. The cheese and bread sodium are counted even though no salt is added. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a raw weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "使用原味全脂莫札瑞拉起司、生酪梨果肉、生番茄及歷史資料所指的全麥法式／維也納式麵包。合格酪梨與番茄採可食生重，酪梨先去皮去籽再秤；麵包保留已記錄的成分不確定性。雖不另加鹽，起司與麵包本身的鈉仍計入。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採生重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Weigh the plain whole-milk mozzarella and bread as supplied. Slice the cheese without melting or adding toppings.",
+        "zh": "原味全脂莫札瑞拉起司與麵包依原樣秤重，起司切片，不另融化或加配料。"
+      },
+      {
+        "en": "Remove avocado peel and stone before weighing the raw flesh. Wash, trim and weigh the tomato raw, then slice both onto the plate.",
+        "zh": "酪梨去皮去籽後秤生果肉；番茄清洗修整後採生重秤好，再將兩者切片盛盤。"
+      },
+      {
+        "en": "Arrange the cheese and bread with the fruit and vegetable slices. Add all measured olive oil and keep chilled until serving, without extra salt or dressing.",
+        "zh": "把起司、麵包與蔬果片一起擺盤，加入全部定量橄欖油，食用前保持冷藏，不另加鹽或沙拉醬。"
+      },
+      {
+        "en": "Use the selected-portion list for every ingredient amount, including any listed seasonings and liquids.",
+        "zh": "每項食材均採所選份量清單的克數，所有表列調味料與液體也一併調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "cottage-cheese-banana-oat-bowl",
+    "label": {
+      "en": "Cottage cheese, banana and oatmeal bowl with honey — standard recipe",
+      "zh": "茅屋起司香蕉燕麥蜂蜜碗（標準配方）"
+    },
+    "version": "mealhatch-recipes108-2026-11-06-v1",
+    "temperature": "cool",
+    "staple": "other",
+    "cuisine": "western",
+    "prepMinutes": 10,
+    "ingredients": [
+      {
+        "foodId": "usda-172182",
+        "grams": 150,
+        "weighedState": "ready-to-eat",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-173944",
+        "grams": 100,
+        "weighedState": "raw",
+        "role": "fruit",
+        "group": "fruit"
+      },
+      {
+        "foodId": "usda-173905",
+        "grams": 200,
+        "weighedState": "cooked",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-169640",
+        "grams": 5,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 0,
+      "saltGrams": 0,
+      "sauceGrams": 0
+    },
+    "notes": {
+      "en": "Uses plain 2% milkfat cottage cheese, oats already cooked with water without salt, raw peeled banana and measured honey. The oat amount is final cooked oatmeal weight, not dry oats or extra water. Banana remains in slices and uses raw edible weight. All sugars in the listed honey are counted as free sugars; the dairy and oat source values remain separate. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a raw weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "使用原味乳脂 2% 茅屋起司、已用水無鹽煮熟的燕麥、去皮生香蕉與定量蜂蜜。燕麥克數是最終煮熟燕麥粥重量，不是乾燕麥或額外水量。香蕉保留切片並採可食生重；表列蜂蜜的全部糖計為游離糖，乳品與燕麥仍各採本身來源值。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採生重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Weigh prepared chilled oatmeal that was cooked with water and no salt. Weigh the plain 2% cottage cheese separately.",
+        "zh": "秤取已用水無鹽煮熟並冷藏的燕麥粥，另秤原味乳脂 2% 茅屋起司。"
+      },
+      {
+        "en": "Peel the banana before weighing its raw edible flesh, then slice it. Place the banana and cottage cheese over the oatmeal without blending.",
+        "zh": "香蕉先去皮再秤可食生果肉，切片後與茅屋起司一起放在燕麥粥上，不攪打成泥。"
+      },
+      {
+        "en": "Drizzle the full weighed amount of honey over the bowl. Keep chilled until serving; add no unlisted milk, sugar or liquid.",
+        "zh": "將全部秤好的蜂蜜淋在碗上，食用前保持冷藏，不另加未列出的牛奶、糖或液體。"
+      },
+      {
+        "en": "Use the selected-portion list for every ingredient amount, including any listed seasonings and liquids.",
+        "zh": "每項食材均採所選份量清單的克數，所有表列調味料與液體也一併調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "parmesan-lentil-spinach-pasta",
+    "label": {
+      "en": "Parmesan, lentil and spinach wholewheat pasta — standard recipe",
+      "zh": "帕瑪森扁豆菠菜全麥義大利麵（標準配方）"
+    },
+    "version": "mealhatch-recipes108-2026-11-06-v1",
+    "temperature": "warm",
+    "staple": "noodles",
+    "cuisine": "western",
+    "prepMinutes": 10,
+    "ingredients": [
+      {
+        "foodId": "usda-172421",
+        "grams": 110,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-168910",
+        "grams": 130,
+        "weighedState": "cooked",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-168463",
+        "grams": 130,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-170848",
+        "grams": 20,
+        "weighedState": "ready-to-eat",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 4,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.3,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 4,
+      "saltGrams": 0.3,
+      "sauceGrams": 0
+    },
+    "notes": {
+      "en": "Uses whole boiled lentils, cooked wholewheat pasta, boiled spinach and plain hard Parmesan cheese. Qualifying lentils and spinach use cooked drained weights. Parmesan is weighed from the hard cheese before grating; no unspecified cheese sauce or cream is included. Natural dairy sugars retain their documented model treatment, and the cheese sodium is included. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "使用完整水煮扁豆、熟全麥義大利麵、水煮菠菜及原味硬質帕瑪森起司。合格扁豆與菠菜採熟後瀝乾重量；帕瑪森先按硬質起司秤好再刨碎，不加入成分不明的起司醬或鮮奶油。天然乳糖保留已記錄的模型處理，起司本身的鈉也完整計入。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Weigh prepared cooked drained wholewheat pasta, whole lentils and boiled spinach. Keep the lentils intact.",
+        "zh": "秤取備妥熟後瀝乾的全麥義大利麵、完整扁豆及水煮菠菜，保留完整豆粒。"
+      },
+      {
+        "en": "Combine the warm pasta, lentils and spinach with all measured olive oil and salt. Do not add unlisted pasta water or cream.",
+        "zh": "將溫熱麵、扁豆及菠菜與全部定量橄欖油、鹽拌勻，不另加未列出的煮麵水或鮮奶油。"
+      },
+      {
+        "en": "Weigh the plain hard Parmesan, grate it and add the entire amount to the pasta before serving.",
+        "zh": "原味硬質帕瑪森秤重後刨碎，將整份起司加入麵中再食用。"
+      },
+      {
+        "en": "Use the selected-portion list for every ingredient amount, including any listed seasonings and liquids.",
+        "zh": "每項食材均採所選份量清單的克數，所有表列調味料與液體也一併調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
   }
 ];

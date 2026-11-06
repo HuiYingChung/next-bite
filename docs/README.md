@@ -17,13 +17,25 @@ verified.
 
 Current authorized iteration:
 
+- [`Preference-first next-meal decisions`](./plans/23-preference-first.md) —
+  `review`, on `codex/preference-first`; current preferences lead the
+  ranking, with complete calculation details collapsed by default and honest
+  prepared-ingredient time handling.
+
+Previous iterations (historical handoffs):
+
+- [`One recipe-backed meal library`](./plans/22-catalog-unification.md) —
+  `review`, committed and pushed as `f21411e` on `codex/recipes-24`;
+  108 defined recipes with corrected identity and preserved legacy plans.
+
+- [`108 detailed recipes`](./plans/21-recipes-108.md) — `review`, following
+  the 24/36/48/60/72/84/96 recipe expansions on the same uncommitted branch.
+
 - [`Launch experience`](./plans/13-launch-experience.md) — `review`, on
   `codex/launch-experience`, covering first-use selection, mobile hierarchy,
   collection availability and share/launch materials. The
   [launch pack](./launch/README.md) includes a manual usability protocol;
   participant observations and live-provider AI checks remain pending.
-
-Previous iterations (historical handoffs):
 
 - [`AI reliability`](./plans/12-ai-reliability.md) — `review`, on
   `codex/ai-reliability`, covering cancellation, error messages, amount validation

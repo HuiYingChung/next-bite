@@ -26,6 +26,7 @@ function loadSource(relativePath) {
 const { createBlankState } = loadSource("src/data.ts");
 const { defaultMealContext } = loadSource("src/meal-context.ts");
 const { recommendPilotMeals } = loadSource("src/nutrition.ts");
+const { standardizedRecipes } = loadSource("src/nutrition-data.ts");
 const { getRecipeStapleAvailability } = loadSource("src/collection-availability.ts");
 const now = new Date(2026, 10, 5, 12);
 const profile = createBlankState(now).profile;
@@ -34,30 +35,35 @@ const result = (changes = {}, currentProfile = profile) =>
   recommendPilotMeals(currentProfile, context(changes), "en", now);
 const availability = (staple, choices) =>
   getRecipeStapleAvailability(staple, choices.trace.eligibleRecipeIds);
-const scores = choices => choices.trace.candidateScores.map(({ mealId, score }) => ({
-  mealId, nutrient: score.nutrient, energy: score.energy,
-  preference: score.preference, total: score.total, modelRawScore: score.model.rawScore,
-}));
-
 const baseline = result();
 assert.equal(availability("any", baseline).status, "unselected");
 for (const staple of ["noodles", "bread"]) {
   const choices = result({ preferredStaple: staple });
+  const matches = standardizedRecipes.filter(recipe => recipe.staple === staple).length;
+  assert(matches > 0, `The expanded recipe collection must include ${staple}`);
   assert.deepEqual(availability(staple, choices), {
-    staple, status: "absent", catalogMatches: 0, eligibleMatches: 0,
-  }, `${staple} is absent from the recipe catalog, not removed by user conditions`);
+    staple, status: "available", catalogMatches: matches, eligibleMatches: matches,
+  }, `${staple} availability includes all complete recipes`);
   assert.equal(choices.candidateCount, baseline.candidateCount,
-    "An unavailable soft preference must not exclude otherwise eligible recipes");
-  assert.deepEqual(scores(choices), scores(baseline),
-    "An unavailable preference adds no score and leaves the nutrient model intact");
+    "A soft preference must not exclude otherwise eligible recipes");
+  for (const option of choices.eligibleRecipes.filter(option => option.recipe.staple === staple)) {
+    const base = baseline.eligibleRecipes.find(item => item.meal.id === option.meal.id);
+    assert.equal(option.score.nutrient, base.score.nutrient);
+    assert.equal(option.score.energy, base.score.energy);
+    assert(option.score.preference > base.score.preference,
+      "A matching staple preference contributes points without changing the model");
+  }
 }
 
-// Coverage must include the whole eligible collection, not just the displayed
-// three: the sole potato recipe is available even when its total ranks lower.
-assert(!baseline.recommendations.some(item => item.recipe.staple === "potato"));
-assert.deepEqual(availability("potato", baseline), {
-  staple: "potato", status: "available", catalogMatches: 1, eligibleMatches: 1,
-});
+// The catalog and full eligible list remain accessible outside the top three.
+assert.equal(baseline.eligibleRecipes.length, standardizedRecipes.length);
+assert.deepEqual(baseline.recommendations, baseline.eligibleRecipes.slice(0, 3));
+for (const staple of ["rice", "noodles", "bread", "potato", "other", "none"]) {
+  const matches = standardizedRecipes.filter(recipe => recipe.staple === staple).length;
+  assert.deepEqual(availability(staple, baseline), {
+    staple, status: "available", catalogMatches: matches, eligibleMatches: matches,
+  });
+}
 assert.equal(availability("none", baseline).status, "available",
   "An explicit no-staple preference is distinct from having no preference");
 
@@ -66,22 +72,28 @@ const fishAvoid = result({ preferredStaple: "potato" }, {
 });
 assert(fishAvoid.trace.exclusions.some(item =>
   item.mealId === "costco-salmon-sweet-potato-veg" && item.stage === "hard-avoid"));
-assert.deepEqual(availability("potato", fishAvoid), {
-  staple: "potato", status: "excluded", catalogMatches: 1, eligibleMatches: 0,
-}, "An avoided ingredient is not misreported as missing catalog coverage");
+assert(!fishAvoid.eligibleRecipes.some(item => item.meal.id === "costco-salmon-sweet-potato-veg"),
+  "An excluded fish recipe cannot be selected through browse-all");
 
 const warmOnly = result({ preferredStaple: "none", temperature: "warm" });
-assert.equal(availability("none", warmOnly).status, "excluded",
-  "The cold no-staple recipe cannot be advertised under a warm-only condition");
+const warmNoStaples = standardizedRecipes.filter(recipe => recipe.staple === "none" && recipe.temperature === "warm");
+assert.equal(availability("none", warmOnly).eligibleMatches, warmNoStaples.length,
+  "No-staple availability counts only documented warm recipes under a warm-only condition");
+assert.equal(availability("none", warmOnly).status, warmNoStaples.length ? "available" : "excluded");
+assert(warmOnly.eligibleRecipes.every(item => item.recipe.temperature === "warm"),
+  "Neither a new no-staple recipe nor any other recipe can bypass the warm-only condition");
 const quickOnly = result({ preferredStaple: "potato", maxPrepMinutes: 10 });
-assert.equal(availability("potato", quickOnly).status, "excluded",
-  "Coverage respects the real engine's preparation-time limit");
+assert.equal(availability("potato", quickOnly).eligibleMatches,
+  quickOnly.eligibleRecipes.filter(item => item.recipe.staple === "potato").length,
+  "Coverage respects the real engine's preparation-time limit across new recipes");
 assert.equal(availability("rice", quickOnly).status, "available",
   "A restricted collection can still contain eligible alternatives");
 const noOptions = result({ preferredStaple: "rice", maxPrepMinutes: 0 });
 assert.equal(noOptions.candidateCount, 0);
 assert.equal(availability("rice", noOptions).status, "excluded");
-assert.equal(availability("noodles", noOptions).status, "absent",
-  "Catalog absence stays distinguishable even when every recipe is excluded");
+assert.equal(availability("noodles", noOptions).status, "excluded",
+  "New noodles are excluded by the zero-minute limit, not missing from the catalog");
+assert.equal(noOptions.eligibleRecipes.length, 0);
+assert.equal(noOptions.excludedCount, standardizedRecipes.length);
 
-console.log("Collection availability verified: missing staples, full eligible coverage, and hard conditions.");
+console.log("Collection availability verified: expanded staples, full eligible coverage, and hard conditions.");
