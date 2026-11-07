@@ -71,3 +71,6 @@ jobs:
 
       - name: Verify bilingual weekly summaries
         run: npm run verify:weekly-summary
+
+      - name: Verify complete recipe image coverage
+        run: npm run verify:recipe-images

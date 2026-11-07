@@ -20,6 +20,12 @@ The beta supports **English and Traditional Chinese**, with no account required.
 The main workflow runs in the browser with deterministic recommendation rules.
 Optional AI helps organize a meal description before you review it.
 
+All 108 recipes have AI-generated food illustrations, disclosed once in the
+shared footer. These static local images are tied to the matching recipe
+version and load as needed. Images do not determine nutrition, portion amounts
+or ranking. Older plans without a matching recipe version remain text-only.
+See [image provenance and preparation](docs/recipe-images/README.md).
+
 ## What you can do
 
 1. Start with **108 defined recipes**, compare a few options and save a plan. A fresh
@@ -178,6 +184,7 @@ calculations and source-data consistency. Focused checks include:
 | `npm run verify:food-library` | Pinned source hashes, generated data, recognition and scoring availability. |
 
 Iteration-specific verification and remaining checks are recorded in the
+[recipe imagery plan](docs/plans/24-recipe-imagery.md),
 [preference-first plan](docs/plans/23-preference-first.md),
 [catalog consolidation plan](docs/plans/22-catalog-unification.md),
 [launch-experience plan](docs/plans/13-launch-experience.md),
@@ -185,6 +192,14 @@ Iteration-specific verification and remaining checks are recorded in the
 [seven-day reliability handoff](docs/plans/11-seven-day-reliability.md).
 The generated IndexedDB browser harness requires a separate browser run;
 `npm run verify` does not itself automate the app's browser interactions.
+Browser verification uses this project's pinned Playwright development
+dependency. Install Chromium with `npx playwright install chromium --only-shell`;
+the existing UI verifier can use the local package without another checkout:
+
+```sh
+node scripts/verify-recipe-library-ui.mjs --flows-only
+```
+
 Mocked AI checks do not verify real account/model access, extraction quality,
 latency or long-description behavior. Those still require a real-provider test.
 

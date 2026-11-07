@@ -17,12 +17,17 @@ verified.
 
 Current authorized iteration:
 
+- [`Recipe illustrations`](./plans/24-recipe-imagery.md) — `review`, on
+  `codex/recipe-imagery`; all 108 current recipes have version-matched static
+  food images, one shared bilingual disclosure, responsive delivery and
+  verified browser fallbacks.
+
+Previous iterations (historical handoffs):
+
 - [`Preference-first next-meal decisions`](./plans/23-preference-first.md) —
   `review`, on `codex/preference-first`; current preferences lead the
   ranking, with complete calculation details collapsed by default and honest
   prepared-ingredient time handling.
-
-Previous iterations (historical handoffs):
 
 - [`One recipe-backed meal library`](./plans/22-catalog-unification.md) —
   `review`, committed and pushed as `f21411e` on `codex/recipes-24`;

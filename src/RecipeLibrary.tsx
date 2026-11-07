@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { Drawer } from "./Drawer";
 import { RecipeDetails } from "./RecipeDetails";
+import { RecipeImage } from "./RecipeImage";
 import { RecipeFitSummary, recipeMatchLabel } from "./DashboardInsights";
 import { getPortionPreference } from "./meal-context";
 import type { MealContext } from "./meal-context";
@@ -99,7 +100,10 @@ export function RecipeLibrary({ result, context, locale, plans, busy, onPortionC
         const option = eligible.get(recipe.mealId);
         return <article key={recipe.mealId} className="recipe-library-card">
           <p className="small muted">{option ? recipeMatchLabel(option.recipe, locale) : text(locale, "Excluded under current conditions", "目前條件下已排除")}</p>
-          <h3>{recipe.label[locale]}</h3>
+          <div className="recipe-library-card-heading">
+            <RecipeImage recipe={recipe} locale={locale} />
+            <h3>{recipe.label[locale]}</h3>
+          </div>
           <p className="small muted">{context.ingredientReadiness === "needs-prep" ? text(locale, "Full preparation and cooking time unknown", "完整處理與烹調時間未知") : text(locale, `Est. ${recipe.prepMinutes} min assembly with prepared ingredients`, `食材備妥後，約 ${recipe.prepMinutes} 分鐘組合`)}</p>
           <button type="button" className="button quiet" aria-haspopup="dialog" aria-label={text(locale, `View recipe: ${recipe.label.en}`, `查看配方：${recipe.label.zh}`)} onClick={() => { setSelectedId(recipe.mealId); setSaveMessage(""); }}>
             {text(locale, "View recipe", "查看配方")}
@@ -109,6 +113,7 @@ export function RecipeLibrary({ result, context, locale, plans, busy, onPortionC
     </div>
     <Drawer open={Boolean(selectedRecipe)} title={selectedRecipe?.label[locale] ?? text(locale, "Recipe details", "配方詳細資料")} closeLabel={text(locale, "Close recipe", "關閉配方")} onClose={() => setSelectedId(null)}>
       {selectedRecipe && calculation && <div className="recipe-library-detail">
+        <RecipeImage recipe={selectedRecipe} locale={locale} variant="detail" />
         {portionControl}
         <p className="small muted">{text(locale,
           "Portions scale the listed recipe. They do not estimate your energy needs; per-100-g scores stay the same.",

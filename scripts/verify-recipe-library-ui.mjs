@@ -6,11 +6,12 @@ import { readFileSync } from "node:fs";
 import path from "node:path";
 import ts from "typescript";
 
-// Optional real-browser verification using an existing Playwright install.
-// node scripts/verify-recipe-library-ui.mjs [absolute package.json] [local URL] [screenshot recipe id]
-const require = createRequire(process.argv[2] || new URL("../package.json", import.meta.url));
+// Uses this project's Playwright by default; optional paths remain compatible.
+// node scripts/verify-recipe-library-ui.mjs [package.json] [local URL] [screenshot recipe id] [--flows-only]
+const [packagePath, localUrl, screenshotId] = process.argv.slice(2).filter(argument => argument !== "--flows-only");
+const require = createRequire(packagePath ? path.resolve(packagePath) : new URL("../package.json", import.meta.url));
 const { chromium } = require("playwright");
-const base = new URL(process.argv[3] || "http://127.0.0.1:5178/");
+const base = new URL(localUrl || "http://127.0.0.1:5178/");
 assert(["localhost", "127.0.0.1", "[::1]"].includes(base.hostname));
 const definitions = JSON.parse(await readFile(new URL("../data/nutrition/recipes.json", import.meta.url), "utf8"));
 const foodDefinitions = JSON.parse(await readFile(new URL("../data/nutrition/food-definitions.json", import.meta.url), "utf8"));
@@ -43,7 +44,7 @@ const { legacyMealTitle, getLegacyNamedMealComponents, translateFood } = loadSou
 const recipeCount = definitions.length;
 const flowsOnly = process.argv.includes("--flows-only");
 assert(recipeCount > 3, "The library must include recipes outside the top three");
-const screenshotRecipeId = process.argv[4] || definitions.at(-1).mealId;
+const screenshotRecipeId = screenshotId || definitions.at(-1).mealId;
 assert(definitions.some(recipe => recipe.mealId === screenshotRecipeId), "The screenshot recipe must exist in the current collection");
 const output = new URL("../output/playwright/preference-first/", import.meta.url);
 await mkdir(output, { recursive: true });
