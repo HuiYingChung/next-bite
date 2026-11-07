@@ -16,6 +16,10 @@ playwright-report/
 output/playwright/
 blob-report/
 
+# Keep large generated originals locally; deploy the prepared WebPs instead.
+/output/imagegen/mealhatch-food-v1/*.png
+/output/imagegen/mealhatch-food-v1/batch-*.json
+
 # Vercel and environment files
 .vercel/
 .env

@@ -11,6 +11,7 @@ import { MealContextControls } from "./MealContextControls";
 import { getRecipeStapleAvailability } from "./collection-availability";
 import { RecipeDetails } from "./RecipeDetails";
 import { RecipeLibrary } from "./RecipeLibrary";
+import { RecipeImage } from "./RecipeImage";
 import { FoodLibrary } from "./FoodLibrary";
 import { FoodRecognition } from "./FoodRecognition";
 import { foodLibraryName } from "./food-library";
@@ -1667,16 +1668,19 @@ export default function App() {
               ) : (
                 <>
                   <div className="meal-feature" key={chosenMeal.id}>
-                    <div className="meal-meta">
-                      <span className="perspective-label">
-                        {t(locale, "STANDARD RECIPE", "標準配方")}
-                      </span>
-                      <span>{activePresentation.cuisine}</span>
+                    <div className="meal-intro">
+                      <RecipeImage recipe={pilotActive.recipe} locale={locale} variant="hero" priority />
+                      <div className="meal-intro-copy">
+                        <div className="meal-meta">
+                          <span className="perspective-label">
+                            {t(locale, "STANDARD RECIPE", "標準配方")}
+                          </span>
+                          <span>{activePresentation.cuisine}</span>
+                        </div>
+                        <h3>{pilotActive.recipe.label[locale]}</h3>
+                      </div>
+                      <RecipeFitSummary rec={pilotActive} locale={locale} />
                     </div>
-                    <h3>
-                      {pilotActive.recipe.label[locale]}
-                    </h3>
-                    <RecipeFitSummary rec={pilotActive} locale={locale} />
                     <div className="feature-actions">
                       <button
                         type="button"
@@ -1727,6 +1731,7 @@ export default function App() {
                                 );
                               }}
                             >
+                              <RecipeImage recipe={pilot.recommendations[index].recipe} locale={locale} />
                               <span>
                                 {t(locale, "STANDARD RECIPE", "標準配方")}
                               </span>
@@ -1825,7 +1830,10 @@ export default function App() {
                     return (
                       <article className="plan-card" key={plan.id}>
                         <span className="small muted">{isLegacyIdea ? t(locale, "Earlier meal idea", "先前的餐點想法") : savedRecipe ? detail.cuisine : t(locale, "Saved recipe", "已存配方")}</span>
-                        <h3>{planTitle}</h3>
+                        <div className="recipe-plan-heading">
+                          <RecipeImage recipe={savedRecipe} locale={locale} />
+                          <h3>{planTitle}</h3>
+                        </div>
                         {isLegacyIdea && (
                           <p className="notice small">
                             {t(locale, "Saved as a meal idea. Its original name and named foods are preserved; no recipe version or ingredient amounts were saved.", "這是先前儲存的餐點想法，保留原有餐名與具名食物；當時未儲存配方版本或食材份量。")}
@@ -2011,13 +2019,16 @@ export default function App() {
           </div>
         )}
         <footer className="site-footer">
-          <span>
-            {t(
-              locale,
-              `${recipeCount} recipes with ingredients and portions. No account required.`,
-              `${recipeCount} 道附食材與份量的配方，免帳號即可使用。`,
-            )}
-          </span>
+          <div className="site-footer-notes">
+            <span>
+              {t(
+                locale,
+                `${recipeCount} recipes with ingredients and portions. No account required.`,
+                `${recipeCount} 道附食材與份量的配方，免帳號即可使用。`,
+              )}
+            </span>
+            <span>{t(locale, "Food images are AI-generated illustrations.", "餐點圖片為 AI 生成示意圖。")}</span>
+          </div>
           <button className="text-button" type="button" onClick={startDemo}>
             {t(locale, "Try the beef-noodle example", "試用牛肉麵範例")}
           </button>

@@ -1,6 +1,20 @@
 # MealHatch product roadmap
 
-## Active iteration — preference-first next-meal decisions
+## Active iteration — recipe illustrations
+
+Status: review
+Authorized: 2026-11-06. User requested realistic illustrations for all 108
+current recipes. Read [`24-recipe-imagery.md`](./24-recipe-imagery.md).
+Branch: `codex/recipe-imagery`, based on merged `main` at `8186310`.
+Use static, responsive assets with one shared bilingual generation disclosure;
+leave unmatched historical recipe versions as text. Keep imagery separate from
+recommendation ranking, nutrition estimates and historical recipe identities.
+Implementation, asset preparation, build and bilingual browser checks are
+complete; see plan 24. The user authorized commit, push and merge of this
+version. Use Git history and remote checks for actual release results;
+deployment status is separate.
+
+## Previous iteration — preference-first next-meal decisions
 
 Status: review
 Authorized: 2026-11-06. User accepted the product-positioning recommendations
