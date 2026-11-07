@@ -76,4 +76,10 @@ export type StandardizedRecipe = {
   yieldMethod: "sum-final-ingredient-weights";
   notes: LocalizedNutritionText;
   instructions: LocalizedNutritionText[];
+  /** Cooking guidance can evolve without changing the sourced formulation. */
+  preparationGuide?: {
+    version: string;
+    timingNote: LocalizedNutritionText;
+    sources: Array<{ label: LocalizedNutritionText; url: string }>;
+  };
 };

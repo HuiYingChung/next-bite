@@ -1,9 +1,12 @@
 # Recipe illustrations
 
-Status: review
+Status: merged — PR #14, merge commit `3b393b1`
 Authorized: 2026-11-06. User requested complete image coverage, with generation
 and integration performed in batches.
 Branch: `codex/recipe-imagery`, based on `8186310`.
+Release: imagery commit `5ba596f`; PR CI, post-merge main CI and the production
+Vercel deployment for `3b393b1` passed. Follow-up recipe/copy work is tracked
+separately in plan 25.
 
 ## Scope
 

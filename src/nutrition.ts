@@ -34,6 +34,9 @@ export type PilotRecommendation = RecipeCalculation & {
   portion: NutritionPortion;
   reasons: string[];
   matchReasons: string[];
+  /** Actual preference matches for cards; general method notes stay in details. */
+  matchedPreferenceReasons: string[];
+  ingredientReadiness: MealContext["ingredientReadiness"];
   mismatchReasons: string[];
   score: PilotScore;
   trace: {
@@ -315,6 +318,7 @@ const recipeFitReasons = (recipe: StandardizedRecipe, score: PilotScore, context
     }
   }
   if (score.unsupportedSavedPreferences.length) mismatches.push(text(`Retained saved preferences are unavailable for this catalog and do not affect ranking: ${score.unsupportedSavedPreferences.map(value => label(value, locale)).join(", ")}.`, `保留的已儲存偏好目前無法由此配方集判定，不影響排序：${score.unsupportedSavedPreferences.map(value => label(value, locale)).join("、")}。`));
+  const matchedPreferenceReasons = matches.slice(0, 2);
   if (!matches.length) matches.push(score.currentPreference.selected + score.savedPreference.selected === 0
     ? score.unsupportedSavedPreferences.length
       ? text("No applicable meal preferences selected; nutrition reference orders the eligible recipes.", "目前沒有可套用的餐食偏好，依營養參考排列符合必要條件的配方。")
@@ -325,7 +329,8 @@ const recipeFitReasons = (recipe: StandardizedRecipe, score: PilotScore, context
     : context.ingredientReadiness === "ready"
       ? text(`About ${recipe.prepMinutes} minutes to assemble with your prepared ingredients.`, `使用已備妥食材，約 ${recipe.prepMinutes} 分鐘組裝。`)
       : text(`${recipe.prepMinutes} minutes is assembly time after ingredients are prepared; preparation time is not included.`, `${recipe.prepMinutes} 分鐘為食材備妥後的組裝時間，不含前置烹調。`);
-  return { matchReasons: [...matches.slice(0, 2), preparationFact], mismatchReasons: [...new Set(mismatches)] };
+  return { matchReasons: [...matches.slice(0, 2), preparationFact], matchedPreferenceReasons,
+    ingredientReadiness: context.ingredientReadiness, mismatchReasons: [...new Set(mismatches)] };
 };
 
 export const recommendPilotMeals = (

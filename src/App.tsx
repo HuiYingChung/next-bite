@@ -6,12 +6,14 @@ import {
   HistoryGrid,
   RecipeOptionFacts,
   RecipeFitSummary,
+  RecipeRankingNote,
 } from "./DashboardInsights";
 import { MealContextControls } from "./MealContextControls";
 import { getRecipeStapleAvailability } from "./collection-availability";
 import { RecipeDetails } from "./RecipeDetails";
 import { RecipeLibrary } from "./RecipeLibrary";
 import { RecipeImage } from "./RecipeImage";
+import { recipeTimeLabel } from "./recipe-time";
 import { FoodLibrary } from "./FoodLibrary";
 import { FoodRecognition } from "./FoodRecognition";
 import { foodLibraryName } from "./food-library";
@@ -1524,13 +1526,6 @@ export default function App() {
                   }}
                   onProfileChange={changeProfile}
                 />
-                <p className="small muted collection-scope">
-                  {t(
-                    locale,
-                    "General healthy adults · recipes you assemble. Times start with prepared ingredients; restaurant portions are not confirmed.",
-                    "一般健康成人 · 自備配方估算。時間從備好食材起算，無法確認餐廳實際份量。",
-                  )}
-                </p>
                 <button type="button" className="text-button back-to-options" onClick={() => {
                   decisionRef.current?.focus({ preventScroll: true });
                   scrollTo(decisionRef.current);
@@ -1608,6 +1603,7 @@ export default function App() {
               <h2 id="decision-title">
                 {t(locale, "A few good options", "從這幾道開始選")}
               </h2>
+              <RecipeRankingNote rec={pilotActive} locale={locale} />
               {(stapleAvailability.status === "absent" || stapleAvailability.status === "excluded") && (
                 <div className="collection-notice" role="status">
                   <p>{stapleAvailability.status === "absent"
@@ -1676,6 +1672,7 @@ export default function App() {
                             {t(locale, "STANDARD RECIPE", "標準配方")}
                           </span>
                           <span>{activePresentation.cuisine}</span>
+                          <span className="recipe-time-label">{recipeTimeLabel(pilotActive.recipe.prepMinutes, pilotActive.ingredientReadiness, locale)}</span>
                         </div>
                         <h3>{pilotActive.recipe.label[locale]}</h3>
                       </div>
@@ -1876,9 +1873,12 @@ export default function App() {
                               "這道已儲存的餐點不符合目前的避開設定，可檢查或移除。你仍可記錄實際吃過的內容。",
                             )}
                           </p>
-                        ) : (
-                          <p className="small">{savedRecipe ? savedRecipe.instructions.map((step) => step[locale]).join(" ") : isLegacyIdea ? detail.tip : ""}</p>
-                        )}
+                        ) : savedRecipe && plan.portion ? (
+                          <details className="plan-recipe-details">
+                            <summary>{t(locale, "Recipe & preparation", "食譜與準備方式")}</summary>
+                            <RecipeDetails recipe={savedRecipe} portion={plan.portion} calculation={calculateRecipe(savedRecipe, plan.portion, locale)} locale={locale} />
+                          </details>
+                        ) : isLegacyIdea ? <p className="small">{detail.tip}</p> : null}
                         <div className="button-row">
                           <button
                             type="button"

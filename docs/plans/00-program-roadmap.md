@@ -1,8 +1,18 @@
 # MealHatch product roadmap
 
-## Active iteration — recipe illustrations
+## Active iteration — recipe preparation and concise copy
 
-Status: review
+Status: review — implemented and verified locally
+Authorized: 2026-11-06. User requested concise recommendation cards and
+approved complete, usable cooking guidance for the original twelve recipes.
+Read [`25-recipe-preparation-and-copy.md`](./25-recipe-preparation-and-copy.md).
+Branch: `codex/concise-recommendation-copy`, from imagery merge `3b393b1`.
+Keep detailed scoring and timing qualifications available when expanded;
+preserve source-matched formulations and independently verify any changes.
+
+## Previous iteration — recipe illustrations
+
+Status: merged
 Authorized: 2026-11-06. User requested realistic illustrations for all 108
 current recipes. Read [`24-recipe-imagery.md`](./24-recipe-imagery.md).
 Branch: `codex/recipe-imagery`, based on merged `main` at `8186310`.
@@ -11,8 +21,8 @@ leave unmatched historical recipe versions as text. Keep imagery separate from
 recommendation ranking, nutrition estimates and historical recipe identities.
 Implementation, asset preparation, build and bilingual browser checks are
 complete; see plan 24. The user authorized commit, push and merge of this
-version. Use Git history and remote checks for actual release results;
-deployment status is separate.
+version. PR #14 merged as `3b393b1`; PR and main CI passed. The production
+Vercel deployment for that merge commit also passed.
 
 ## Previous iteration — preference-first next-meal decisions
 

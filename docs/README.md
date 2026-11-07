@@ -17,12 +17,16 @@ verified.
 
 Current authorized iteration:
 
-- [`Recipe illustrations`](./plans/24-recipe-imagery.md) — `review`, on
-  `codex/recipe-imagery`; all 108 current recipes have version-matched static
-  food images, one shared bilingual disclosure, responsive delivery and
-  verified browser fallbacks.
+- [`Recipe preparation and concise copy`](./plans/25-recipe-preparation-and-copy.md)
+  — `review`, on `codex/concise-recommendation-copy`; concise cards and the
+  original twelve cooking guides are implemented and verified locally.
 
 Previous iterations (historical handoffs):
+
+- [`Recipe illustrations`](./plans/24-recipe-imagery.md) — merged in PR #14,
+  commit `3b393b1`; all 108 current recipes have version-matched static
+  food images, one shared bilingual disclosure, responsive delivery and
+  verified browser fallbacks.
 
 - [`Preference-first next-meal decisions`](./plans/23-preference-first.md) —
   `review`, on `codex/preference-first`; current preferences lead the

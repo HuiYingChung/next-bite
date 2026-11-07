@@ -55,6 +55,39 @@ let sourceLabelsChecked = 0;
 let preparationPortionsChecked = 0;
 let instructionListsChecked = 0;
 const errors = [];
+function assertPreparationQualifier(value, locale) {
+  assert.match(value, locale === "en" ? /prepared|cooked/i : /備妥|備好|已熟|已煮熟|已處理/,
+    "The complete time explanation states that ingredients are prepared first");
+  assert.match(value, locale === "en" ? /not include|exclud/i : /不含|不包含/,
+    "The complete time explanation preserves the excluded preparation work");
+}
+async function verifyCompactDefaultRecommendations(page, locale) {
+  assert.equal(await page.locator(".recipe-ranking-note").count(), 1,
+    "Neutral ordering is explained once for the recommendation list");
+  assert.equal(await page.locator(".meal-feature .recipe-fit-summary").count(), 0,
+    "No empty fit summary or generic preparation paragraph appears on a neutral card");
+  assert.equal(await page.locator(".option-card .recipe-option-match").count(), 0,
+    "Other options do not repeat the unselected-preference status");
+  assert.equal(await page.locator(".option-card .recipe-option-reason").count(), 0,
+    "Neutral alternatives do not manufacture personalized reasons");
+  assert.equal(await page.locator(".meal-meta .recipe-time-label").count(), 1);
+  assert.equal(await page.locator(".option-card .recipe-time-label").count(), 2);
+  for (const time of await page.locator(".meal-meta .recipe-time-label, .option-card .recipe-time-label").allTextContents()) {
+    assert.match(time, locale === "en" ? /\d+.*assembly/i : /\d+.*(?:組合|組裝)/,
+      "Short time labels still identify assembly rather than total cooking time");
+  }
+  const preparation = page.locator(".meal-feature .action-tip");
+  assert.equal(await preparation.evaluate(node => node.open), false);
+  assert.equal(await preparation.locator(".recipe-time-note").isVisible(), false);
+  await preparation.locator(":scope > summary").focus();
+  await page.keyboard.press("Enter");
+  assert.equal(await preparation.locator(".recipe-time-note").isVisible(), true,
+    "Full preparation information is keyboard accessible when needed");
+  assertPreparationQualifier(await preparation.locator(".recipe-time-note").innerText(), locale);
+  await preparation.locator(":scope > summary").focus();
+  await page.keyboard.press("Enter");
+  assert.equal(await preparation.evaluate(node => node.open), false);
+}
 async function verifySavedPlans(locale) {
   const noon = new Date(2026, 10, 6, 12);
   const state = { ...createBlankState(noon), plannedMeals: [] };
@@ -128,6 +161,12 @@ async function verifySavedPlans(locale) {
   await dialog.getByRole("button", { name: locale === "en" ? "Discard draft" : "捨棄草稿", exact: true }).click();
   await plansNav().click();
   const exactCard = page.locator(".plan-card").filter({ has: page.getByRole("heading", { name: exact.label[locale], exact: true }) });
+  assert.equal(await exactCard.locator(".plan-recipe-details").evaluate(node => node.open), false);
+  await exactCard.locator(".plan-recipe-details > summary").click();
+  assert.equal(await exactCard.locator(".action-tip").evaluate(node => node.open), false);
+  await exactCard.locator(".action-tip > summary").click();
+  assert.deepEqual(await exactCard.locator(".action-tip > ol > li").allTextContents(), exact.instructions.map(step => step[locale]));
+  await exactCard.locator(".plan-recipe-details > summary").click();
   await exactCard.getByRole("button", { name: locale === "en" ? "I ate this — review" : "我吃了這道，確認內容", exact: true }).click();
   const amounts = await dialog.locator('.component-editor input[type="number"]').evaluateAll(nodes => nodes.map(node => Number(node.value)));
   assert.deepEqual(amounts, exact.ingredients.map(ingredient => Math.round(ingredient.grams * 1.25 * 10000) / 10000));
@@ -176,6 +215,7 @@ async function verifyPreferenceFirst(locale) {
   await choose().waitFor();
   assert.equal(await page.locator(".meal-feature .recipe-match-count").count(), 0, "The default no-preference explanation is not duplicated");
   assert.equal(await page.locator(".recommendation-score").evaluate(node => node.open), false);
+  await verifyCompactDefaultRecommendations(page, locale);
   for (const width of [320, 390, 1280]) {
     await page.setViewportSize({ width, height: 900 });
     assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false);
@@ -194,7 +234,10 @@ async function verifyPreferenceFirst(locale) {
   assert.equal(await page.locator(".meal-feature h3").innerText(), expected.recommendations[0].recipe.label[locale]);
   assert(expected.recommendations.every(rec => rec.recipe.staple === "noodles"));
   assert.equal(await page.locator(".recommendation-score").evaluate(node => node.open), false);
-  assert.deepEqual(await page.locator(".meal-feature .recipe-fit-reasons li").allTextContents(), expected.recommendations[0].matchReasons);
+  assert.deepEqual(await page.locator(".meal-feature .recipe-fit-reasons li").allTextContents(), expected.recommendations[0].matchedPreferenceReasons.slice(0, 2),
+    "Card reasons show actual matched preferences without preparation or fallback-ranking copy");
+  assert.equal(await page.locator(".recipe-ranking-note").count(), 0,
+    "Neutral ranking guidance disappears after meal preferences are selected");
   await page.locator(".meal-feature").evaluate(node => node.scrollIntoView({ block: "start" }));
   await page.screenshot({ path: fileURLToPath(new URL(`${locale}-preference-match-mobile.png`, output)) });
   await page.getByRole("button", { name: locale === "en" ? "Show another option" : "換一道看看", exact: true }).click();
@@ -242,7 +285,9 @@ async function verifyPreferenceFirst(locale) {
   assert.equal(await choose().count(), 0);
   await page.getByRole("combobox", { name: locale === "en" ? "Time available" : "這餐可用時間", exact: true }).selectOption("any");
   await choose().waitFor();
-  assert((await page.locator(".recipe-fit-summary").innerText()).includes(locale === "en" ? "total cooking time is unknown" : "完整料理時間未知"));
+  assert.equal(await page.locator(".meal-meta .recipe-time-label").innerText(), locale === "en" ? "Cooking time unknown" : "料理時間未知",
+    "An ingredient-readiness warning replaces the assembly estimate in the visible time label");
+  assert((await page.locator(".option-card .recipe-time-label").allTextContents()).every(value => value === (locale === "en" ? "Cooking time unknown" : "料理時間未知")));
   const savedTitle = await page.locator(".meal-feature h3").innerText();
   await choose().click();
   await page.getByRole("button", { name: locale === "en" ? "Saved to plans" : "已儲存到計畫", exact: true }).waitFor();
@@ -272,6 +317,7 @@ try {
     assert.equal(await page.locator(".recommendation-score").evaluate(node => node.open), false);
     assert.equal(await page.locator(".recommendation-score-total").isVisible(), false);
     if (locale === "zh") await page.getByRole("button", { name: "切換繁體中文", exact: true }).click();
+    await verifyCompactDefaultRecommendations(page, locale);
     assert((await page.locator(".workspace-heading").innerText()).includes(String(recipeCount)));
     assert((await page.locator("footer").innerText()).includes(locale === "en" ? `${recipeCount} recipes` : `${recipeCount} 道`));
     assert((await page.locator('meta[name="description"]').getAttribute("content")).includes(`${recipeCount} recipes`));
@@ -289,6 +335,23 @@ try {
     assert.deepEqual(new Set(await page.locator(".recipe-library-card h3").allTextContents()),
       new Set(definitions.map(recipe => recipe.label[locale])), "Every live recipe title must match the authored bilingual label");
     assert.equal(await page.locator("#recipe-library-title").evaluate(node => document.activeElement === node), true);
+    assert.equal(await page.locator(".recipe-library .recipe-ranking-note").count(), 1,
+      "The whole library receives one neutral-ranking explanation");
+    assert.equal(await page.locator(".recipe-library-card .recipe-time-label").count(), recipeCount);
+    const cardCopy = (await page.locator(".recipe-library-card").allTextContents()).join("\n");
+    assert(!/No preferences selected|未選擇偏好|assembly with prepared ingredients|食材備妥後，約|preparation time is not included|不含前置烹調/.test(cardCopy),
+      "Library card bodies do not repeat generic time or neutral-preference paragraphs");
+    const timeHelp = page.locator(".recipe-library details.recipe-time-help");
+    assert.equal(await timeHelp.count(), 1);
+    assert.equal(await timeHelp.evaluate(node => node.open), false);
+    await timeHelp.locator(":scope > summary").focus();
+    await page.keyboard.press("Enter");
+    assert.equal(await timeHelp.evaluate(node => node.open), true,
+      "The shared library time explanation opens with the keyboard");
+    assertPreparationQualifier(await timeHelp.innerText(), locale);
+    await timeHelp.locator(":scope > summary").focus();
+    await page.keyboard.press("Enter");
+    assert.equal(await timeHelp.evaluate(node => node.open), false);
     assert.equal(await page.locator(".catalog-grid").count(), 0, "The duplicate idea library must be removed");
     await page.getByRole("button", { name: locale === "en" ? "Foods & drinks" : "食材與飲料", exact: true }).click();
     await page.locator(".food-library").waitFor();
@@ -375,12 +438,20 @@ try {
         }
         await page.setViewportSize({ width: 390, height: 900 });
       }
-      await dialog.locator(".action-tip summary").click();
-      assert.deepEqual(await dialog.locator(".action-tip li").allTextContents(), generatedRecipe.instructions.map(step => step[locale]),
+      assert.equal(await dialog.locator(".action-tip").evaluate(node => node.open), false);
+      assert.equal(await dialog.locator(".action-tip .recipe-time-note").isVisible(), false);
+      await dialog.locator(".action-tip summary").focus();
+      await page.keyboard.press("Enter");
+      assert.equal(await dialog.locator(".action-tip .recipe-time-note").isVisible(), true);
+      assertPreparationQualifier(await dialog.locator(".action-tip .recipe-time-note").innerText(), locale);
+      assert.deepEqual(await dialog.locator(".action-tip > ol > li").allTextContents(), generatedRecipe.instructions.map(step => step[locale]),
         "Every preparation step must match the reviewed recipe in the selected language");
+      assert.deepEqual(await dialog.locator(".recipe-preparation-sources a").evaluateAll(links => links.map(link => ({ label: link.textContent, url: link.getAttribute("href") }))),
+        (generatedRecipe.preparationGuide?.sources ?? []).map(source => ({ label: source.label[locale], url: source.url })),
+        "Cooking references must remain available in both languages");
       instructionListsChecked++;
       if (definition.mealId === screenshotRecipeId) {
-        await dialog.locator(".action-tip li").first().evaluate(node => node.scrollIntoView({ block: "center" }));
+        await dialog.locator(".action-tip > ol > li").first().evaluate(node => node.scrollIntoView({ block: "center" }));
         await page.screenshot({ path: fileURLToPath(new URL(`${locale}-recipe-steps-mobile.png`, output)) });
       }
       if (index === recipeCount - 1) {
@@ -443,7 +514,7 @@ try {
   }
   for (const locale of ["en", "zh"]) { await verifySavedPlans(locale); await verifyPreferenceFirst(locale); }
   assert.deepEqual(errors, []);
-  const report = { scope: flowsOnly ? "migration-and-preference-flows" : "complete-library-and-flows", recipeCount, canonicalCatalogCount: catalogMeals.length, soleRecipeDefault: true, completeScoreDisclosureClosedByDefault: true, allModelAndPreferenceRowsKeyboardAccessible: true, preferenceFirstMatchAndSwitch: true, ingredientReadinessHonest: true, mobileModelPointsReachableByHorizontalScroll: true, legacyAndRetiredPlansPreserved: true, unavailableVersionNotSubstituted: true, legacyExportPreserved: true, retiredSettingsExplicitAndRemovable: true, languages: 2, detailsChecked, portionsChecked, sourceLabelsChecked, preparationPortionsChecked, instructionListsChecked, screenshotRecipeId, ...(flowsOnly ? {} : { belowTopThreeSaved: true, savedVersionAndPortionSurviveReload: true, excludedRecipesBlocked: true, keyboardFocusRestored: true }), widths: flowsOnly ? [320, 390, 1280] : [320, 390, 768, 1280], pageErrors: errors.length };
+  const report = { scope: flowsOnly ? "migration-and-preference-flows" : "complete-library-and-flows", recipeCount, canonicalCatalogCount: catalogMeals.length, soleRecipeDefault: true, completeScoreDisclosureClosedByDefault: true, contextualPreparationDisclosure: true, neutralRankingExplainedOnce: true, actualPreferenceReasonsOnly: true, allModelAndPreferenceRowsKeyboardAccessible: true, preferenceFirstMatchAndSwitch: true, ingredientReadinessHonest: true, mobileModelPointsReachableByHorizontalScroll: true, legacyAndRetiredPlansPreserved: true, unavailableVersionNotSubstituted: true, legacyExportPreserved: true, retiredSettingsExplicitAndRemovable: true, languages: 2, detailsChecked, portionsChecked, sourceLabelsChecked, preparationPortionsChecked, instructionListsChecked, screenshotRecipeId, ...(flowsOnly ? {} : { belowTopThreeSaved: true, savedVersionAndPortionSurviveReload: true, excludedRecipesBlocked: true, keyboardFocusRestored: true }), widths: flowsOnly ? [320, 390, 1280] : [320, 390, 768, 1280], pageErrors: errors.length };
   await writeFile(new URL(flowsOnly ? "preference-flow-verification.json" : "browser-verification.json", output), `${JSON.stringify(report, null, 2)}\n`);
   console.log(JSON.stringify(report));
 } finally {

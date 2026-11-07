@@ -148,6 +148,12 @@ const standardizedRecipes = recipes.map((recipe) => {
   const fvnsStates = new Set(ingredients.filter(item => byId.get(item.foodId).modelBasis.fvnsEligible).map(item => item.weighedState));
   assert.equal(fvnsStates.size, 1, `FVNS ingredients must have one consistent raw/cooked basis in ${recipe.mealId}.`);
   if (recipe.instructions) assert(recipe.instructions.length >= 2 && recipe.instructions.every(step => step.en?.trim() && step.zh?.trim()), `Incomplete bilingual preparation steps in ${recipe.mealId}.`);
+  if (recipe.preparationGuide) {
+    const guide = recipe.preparationGuide;
+    assert(guide.version?.trim() && guide.timingNote?.en?.trim() && guide.timingNote?.zh?.trim(), `Incomplete preparation guide in ${recipe.mealId}.`);
+    assert(recipe.instructions?.length >= 5, `A preparation guide needs recipe-specific steps: ${recipe.mealId}.`);
+    assert(guide.sources?.length && guide.sources.every(source => source.label?.en?.trim() && source.label?.zh?.trim() && new URL(source.url).protocol === "https:"), `Missing preparation references in ${recipe.mealId}.`);
+  }
   return {
     ...recipe,
     version: recipe.version ?? "nextbite-pilot-2026-11-04-v1",
