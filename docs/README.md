@@ -17,11 +17,20 @@ verified.
 
 Current authorized iteration:
 
-- [`Recipe preparation and concise copy`](./plans/25-recipe-preparation-and-copy.md)
-  — `review`, on `codex/concise-recommendation-copy`; concise cards and the
-  original twelve cooking guides are implemented and verified locally.
+- [`Printable recipe cards`](./plans/27-printable-recipe-cards.md) — `review`,
+  on `codex/narrow-meal-actions`; complete public recipe previews and compact
+  single-page print layouts, with passing content and browser layout checks.
+  Native printer/PDF output still needs manual confirmation.
 
 Previous iterations (historical handoffs):
+
+- [`Narrow-screen meal actions`](./plans/26-narrow-meal-actions.md) — `review`,
+  on `codex/narrow-meal-actions`; grouped, left-aligned collection actions
+  are implemented and verified locally.
+
+- [`Recipe preparation and concise copy`](./plans/25-recipe-preparation-and-copy.md)
+  — merged in PR #15, commit `239c9cc`; concise cards and the original twelve
+  cooking guides, with passing PR/main CI and Vercel deployment statuses.
 
 - [`Recipe illustrations`](./plans/24-recipe-imagery.md) — merged in PR #14,
   commit `3b393b1`; all 108 current recipes have version-matched static

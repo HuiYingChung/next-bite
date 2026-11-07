@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import { Drawer } from "./Drawer";
 import { RecipeDetails } from "./RecipeDetails";
 import { RecipeImage } from "./RecipeImage";
+import { RecipeCardLink } from "./RecipeCardLink";
 import { RecipeFitSummary, RecipeRankingNote, recipeMatchLabel } from "./DashboardInsights";
 import { recipeTimeLabel, recipeTimeExplanation } from "./recipe-time";
 import { getPortionPreference } from "./meal-context";
@@ -134,6 +135,7 @@ export function RecipeLibrary({ result, context, locale, plans, busy, onPortionC
           else setSaveMessage(text(locale, "Could not save this plan. Close the recipe to review the message and try again.", "本次未儲存計畫。請關閉配方查看訊息後重試。"));
         }}>{!selectedOption ? text(locale, "Not available under current conditions", "目前條件下無法選擇") : saved ? text(locale, "Saved to plans", "已儲存到計畫") : text(locale, "Choose this meal", "就選這道")}</button>
         <p role="status" className="small recipe-save-message">{saveMessage}</p>
+        <RecipeCardLink recipe={selectedRecipe} portion={portion} locale={locale} />
         <RecipeDetails recipe={selectedRecipe} portion={portion} calculation={calculation} recommendation={selectedOption} locale={locale} />
       </div>}
     </Drawer>

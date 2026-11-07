@@ -1,6 +1,6 @@
 # Recipe preparation and concise recommendation copy
 
-Status: review — implemented and verified locally
+Status: merged — PR #15, merge commit `239c9cc`
 Authorized: 2026-11-06. User requested removing repetitive qualifications from
 card bodies, then approved completing the original twelve recipes so people
 can follow them, with nutrition recalculated if the formulation changes.
@@ -56,5 +56,6 @@ Branch: `codex/concise-recommendation-copy`, based on merged imagery commit
 No whole-meal kitchen timing or taste test has been performed. Preparation
 guides have a separate revision; the sourced formulation version is retained.
 The user authorized commit, push and merge of this iteration on 2026-11-06.
-Release approval follows the completed local checks above; confirm the PR,
-remote CI and deployment state independently when releasing.
+Commit `e7fd473` was pushed and merged in PR #15 as `239c9cc`. PR CI
+`42339576136` and main CI `42339691888` passed, as did Vercel preview and
+merge-commit deployment statuses. Narrow-screen follow-up is tracked in plan 26.

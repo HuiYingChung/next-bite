@@ -67,7 +67,7 @@ import {
   label,
   translateFood,
 } from "./presentation";
-import { downloadMealCard } from "./share-card";
+import { RecipeCardLink } from "./RecipeCardLink";
 import type {
   DayHistory,
   EatingStyle,
@@ -684,7 +684,6 @@ export default function App() {
   const [apiKey, setApiKey] = useState("");
   const [aiText, setAiText] = useState("");
   const [isParsing, setIsParsing] = useState(false);
-  const [sharing, setSharing] = useState(false);
   const [historyDay, setHistoryDay] = useState("");
   const [deleteTarget, setDeleteTarget] = useState<{
     dayId: string;
@@ -1254,38 +1253,6 @@ export default function App() {
       }
     }
   };
-  const share = async () => {
-    if (!pilotActive || !activePresentation || sharing) return;
-    setSharing(true);
-    try {
-      await downloadMealCard({
-        title: pilotActive.recipe.label[locale].replace(locale === "zh" ? /（標準配方）$/ : / — standard recipe$/, ""),
-        cuisine: `${activePresentation.cuisine} · ${t(locale, "Standard recipe", "標準配方")}`,
-        tip: t(locale,
-          `About ${pilotActive.recipe.prepMinutes} minutes to assemble with prepared ingredients. Find the ingredient weights and steps on MealHatch.`,
-          `食材備妥後，約 ${pilotActive.recipe.prepMinutes} 分鐘組合完成。在 MealHatch 查看食材重量與準備步驟。`,
-        ),
-        locale,
-      });
-      setMessage(
-        t(
-          locale,
-          "Meal card downloaded. It contains no personal records or preferences.",
-          "已下載選餐小卡，不包含個人紀錄或偏好。",
-        ),
-      );
-    } catch {
-      setMessage(
-        t(
-          locale,
-          "The card could not be downloaded. Please try again.",
-          "小卡暫時無法下載，請再試一次。",
-        ),
-      );
-    } finally {
-      setSharing(false);
-    }
-  };
   const clearAll = async () => {
     const blank: LaunchState = {
       ...createBlankState(new Date()),
@@ -1481,16 +1448,18 @@ export default function App() {
               <p className="small muted">
                 {t(locale, "Recipes with ingredient weights, nutrition estimates and preparation steps.", "每道配方都有食材重量、營養估算與準備步驟。")}
               </p>
-              <button type="button" className="text-button" onClick={browseRecipes}>
-                {t(locale, `Browse all ${recipeCount} recipes`, `瀏覽全部 ${recipeCount} 道配方`)}
-              </button>
-              <button type="button" className="text-button adjust-preferences" onClick={() => {
-                const context = document.getElementById("meal-preferences");
-                context?.focus({ preventScroll: true });
-                scrollTo(context);
-              }}>
-                {t(locale, "Adjust this meal", "調整這餐條件")}
-              </button>
+              <div className="collection-actions">
+                <button type="button" className="text-button" onClick={browseRecipes}>
+                  {t(locale, `Browse all ${recipeCount} recipes`, `瀏覽全部 ${recipeCount} 道配方`)}
+                </button>
+                <button type="button" className="text-button adjust-preferences" onClick={() => {
+                  const context = document.getElementById("meal-preferences");
+                  context?.focus({ preventScroll: true });
+                  scrollTo(context);
+                }}>
+                  {t(locale, "Adjust this meal", "調整這餐條件")}
+                </button>
+              </div>
             </section>
             <aside className="context-column">
               <section
@@ -1701,9 +1670,7 @@ export default function App() {
                         setMessage(t(locale, "Showing another option. Your meal records stay the same.", "已切換比較選項，你的餐點紀錄不變。"));
                       }}>{t(locale, "Show another option", "換一道看看")}</button>
                     </div>
-                    <button type="button" className="text-button meal-card-download" onClick={share} disabled={sharing}>
-                      {sharing ? t(locale, "Preparing card…", "製作小卡中…") : t(locale, "Download meal card", "下載選餐小卡")}
-                    </button>
+                    <RecipeCardLink recipe={pilotActive.recipe} portion={pilotActive.portion} locale={locale} />
                     <RecipeDetails recipe={pilotActive.recipe} portion={pilotActive.portion} calculation={pilotActive} recommendation={pilotActive} locale={locale} />
                   </div>
                   {displayedMeals.length > 1 && (
@@ -1876,6 +1843,7 @@ export default function App() {
                         ) : savedRecipe && plan.portion ? (
                           <details className="plan-recipe-details">
                             <summary>{t(locale, "Recipe & preparation", "食譜與準備方式")}</summary>
+                            <RecipeCardLink recipe={savedRecipe} portion={plan.portion} locale={locale} />
                             <RecipeDetails recipe={savedRecipe} portion={plan.portion} calculation={calculateRecipe(savedRecipe, plan.portion, locale)} locale={locale} />
                           </details>
                         ) : isLegacyIdea ? <p className="small">{detail.tip}</p> : null}

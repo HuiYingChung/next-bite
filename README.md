@@ -37,7 +37,9 @@ See [image provenance and preparation](docs/recipe-images/README.md).
    when preferences cannot be matched. Browse every
    detailed recipe in **Meal library → Recipes**, including options outside the
    top three; current exclusions still apply when choosing a meal.
-3. Download a meal card or record what you actually ate. Add foods manually,
+3. Open a **Recipe card** from a recommendation, library recipe or saved plan.
+   Print it or save a PDF with the selected portion's ingredients, complete
+   steps, nutrient estimates and sources. Or record what you actually ate: add foods manually,
    recognize familiar names and optionally select an exact nutrition source.
    Revisit plans and edit records in the rolling seven-day view.
 
@@ -105,6 +107,12 @@ not been kitchen-tested. Cards use compact assembly labels, with full timing
 explanations available on demand. Saved plans retain the recipe and preparation
 details in a collapsed section.
 
+**Recipe card** opens a separate reading view with a Letter/A4 paper preview.
+The compact print layout keeps complete ingredients, steps and source links,
+with 9.5pt main text. Use 100% scale and turn off browser headers and footers
+when printing or saving a PDF. Page fit is checked in the preview; if future
+content is too long, it continues onto another page rather than being cropped.
+
 Changing portion size changes the whole-portion estimates, while the per-100-g
 composition score stays the same. Hunger suggests an editable recipe portion.
 Recorded amounts are retained but do not calculate daily nutrient intake or
@@ -128,7 +136,8 @@ thresholds, assumptions and limits.
 - Weekly summaries count recorded occurrences and recognized foods. They keep
   unknowns visible and distinguish stir-frying from frying.
 - Example records and plans stay separate from personal data. Exports exclude
-  example data and API keys; downloadable meal cards exclude personal records.
+  example data and API keys. Printable recipe cards contain only public recipe
+  content and the selected portion/language, without personal records or preferences.
 - Vercel Web Analytics records basic visit statistics. The app strips query
   strings and fragments from analytics URLs and does not attach meal records,
   descriptions or API keys to events. No custom task-completion events are
@@ -189,8 +198,10 @@ calculations and source-data consistency. Focused checks include:
 | `npm run verify:history-ranking` | Current recipe ranking, legacy compatibility, historical edits/deletions, exact ties and calendar boundaries. |
 | `npm run verify:weekly-summary` | Recorded-slot counts, aliases, source identities and bilingual summaries. |
 | `npm run verify:food-library` | Pinned source hashes, generated data, recognition and scoring availability. |
+| `npm run verify:recipe-card` | All recipe/portion/language links, source-derived nutrient amounts, complete rendered ingredients and steps, and private-data exclusion. |
 
 Iteration-specific verification and remaining checks are recorded in the
+[printable recipe card plan](docs/plans/27-printable-recipe-cards.md),
 [recipe imagery plan](docs/plans/24-recipe-imagery.md),
 [preference-first plan](docs/plans/23-preference-first.md),
 [catalog consolidation plan](docs/plans/22-catalog-unification.md),
@@ -226,6 +237,7 @@ for release details, licensing and score availability.
 | Location | Responsibility |
 | --- | --- |
 | `src/App.tsx` | Dashboard, meal editor, preferences and plans. |
+| `src/RecipeCard.tsx`, `src/recipe-card-route.ts` | Public recipe preview, print layout and version-checked recipe links. |
 | `src/nutrition.ts`, `src/nutrient-profile.ts` | Recipe calculations and published-model scoring. |
 | `src/recipe-catalog.ts`, `src/data.ts` | Current recipe-backed meal catalog and retained legacy idea data. |
 | `src/logic.ts`, `src/history-variety.ts` | Shared meal rules, legacy selection diagnostics and seven-day variation. |

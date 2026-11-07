@@ -414,15 +414,22 @@ details[open] > summary::after {
 }
 .collection-switcher {
   grid-column: 1 / -1;
+  width: 100%;
   display: grid;
-  grid-template-columns: minmax(260px, 1fr) minmax(0, 1.6fr) auto;
+  grid-template-columns: minmax(0, 1fr) auto;
   gap: 16px;
   align-items: center;
   padding-bottom: 16px;
   border-bottom: 1px solid #ccd5cf;
 }
-.collection-switcher select { font-size: 0.86rem; }
-.collection-switcher p { max-width: 440px; }
+.collection-switcher p { max-width: 440px; margin: 0; }
+.collection-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0 20px;
+}
+.collection-actions .text-button { padding-inline: 0; text-align: left; }
 .back-to-options { display: none; }
 .collection-notice {
   border-left: 3px solid #4b6d5e;
@@ -1398,11 +1405,11 @@ details[open] > summary::after {
   .workspace-actions > .button { flex: 1; }
   .collection-switcher {
     order: -2;
-    grid-template-columns: minmax(0, 1fr) auto;
-    gap: 8px 12px;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 4px;
+    padding-bottom: 8px;
   }
-  .collection-switcher .recommendation-mode { grid-column: 1 / -1; }
-  .collection-switcher p { font-size: 0.73rem; }
+  .collection-switcher p { max-width: none; font-size: 0.73rem; }
   .collection-switcher .text-button { font-size: 0.73rem; }
   .back-to-options { display: inline-flex; }
   .workspace-nav {
@@ -1599,7 +1606,7 @@ details[open] > summary::after {
 .action-tip > ol { list-style: decimal; padding-left: 24px; margin: 16px 0; }
 .action-tip > ol > li { padding-left: 4px; margin-bottom: 12px; }
 .option-card .recipe-time-label { text-transform: none; letter-spacing: normal; }
-.meal-card-download { margin: 10px 0 4px; }
+.recipe-card-link { display: inline-flex; align-items: center; margin: 10px 0 4px; }
 .score-match-groups { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin: 16px 0; }
 .score-match-groups dt { font-weight: 600; }
 .score-match-groups dd { margin: 4px 0 0; }
