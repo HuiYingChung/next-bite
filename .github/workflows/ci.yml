@@ -74,3 +74,6 @@ jobs:
 
       - name: Verify complete recipe image coverage
         run: npm run verify:recipe-images
+
+      - name: Verify printable recipe content and public links
+        run: npm run verify:recipe-card

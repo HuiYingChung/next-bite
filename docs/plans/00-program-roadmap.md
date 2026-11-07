@@ -1,8 +1,27 @@
 # MealHatch product roadmap
 
-## Active iteration — recipe preparation and concise copy
+## Active iteration — printable recipe cards
+
+Status: review — implemented and verified locally; native PDF output pending
+Authorized: 2026-11-06. User approved replacing the sparse meal card with a
+usable recipe and requested single-page printing. Read
+[`27-printable-recipe-cards.md`](./27-printable-recipe-cards.md).
+Continue `codex/narrow-meal-actions`; preserve its verified mobile toolbar fix.
+Use complete public recipe data, selected-portion weights and existing images.
+Do not include personal records, matching scores, preferences or credentials.
+
+## Previous local iteration — narrow-screen meal actions
 
 Status: review — implemented and verified locally
+Authorized: 2026-11-06. User reported uneven mobile collection actions.
+Read [`26-narrow-meal-actions.md`](./26-narrow-meal-actions.md).
+Branch: `codex/narrow-meal-actions`, from merge `239c9cc`.
+Group the two actions below the description on narrow screens; preserve
+navigation, keyboard focus and touch target sizes.
+
+## Previous iteration — recipe preparation and concise copy
+
+Status: merged — PR #15, merge commit `239c9cc`; PR/main CI and Vercel passed
 Authorized: 2026-11-06. User requested concise recommendation cards and
 approved complete, usable cooking guidance for the original twelve recipes.
 Read [`25-recipe-preparation-and-copy.md`](./25-recipe-preparation-and-copy.md).
