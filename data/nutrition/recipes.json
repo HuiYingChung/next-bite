@@ -49,6 +49,69 @@
     "notes": {
       "en": "Uses dry-heat-cooked farmed Atlantic salmon and boiled drained broccoli. All listed oil and salt stay on the plate; no sauce is included.",
       "zh": "使用乾熱烹調的養殖大西洋鮭魚與水煮瀝乾青花菜。表列油鹽全部留在盤中，不含醬汁。"
+    },
+    "instructions": [
+      {
+        "en": "Use the selected-portion ingredient list throughout. Cook enough of each ingredient to obtain the listed edible weights; cooked grams are not raw purchase weights.",
+        "zh": "全程採用所選份量的食材清單。先備妥足夠食材，烹煮後再取表列可食重量；清單中的熟重不是購買生食材的重量。"
+      },
+      {
+        "en": "Start the plain enriched long-grain white rice first. Cook it in water according to the package or rice-cooker directions, without extra oil or salt; keep it covered until ready to portion.",
+        "zh": "先煮原味營養強化長粒白米。依包裝或電鍋指示加水煮熟，不另外加油鹽；煮好後加蓋，待分裝時再秤量。"
+      },
+      {
+        "en": "Heat the oven to 450°F (230°C). Put thawed, plain farmed Atlantic salmon in a foil-lined baking tray and bake until the center reaches 145°F (63°C). About 10–15 minutes is a guide; thickness and size can change the time. Add the listed oil and salt after cooking.",
+        "zh": "烤箱預熱至 450°F（約 230°C）。將已解凍、未調味的養殖大西洋鮭魚放入鋪鋁箔的烤盤，烤至中心達 145°F（63°C）；約 10–15 分鐘僅供參考，厚度與大小會影響時間。表列油鹽留待烤好後加入。"
+      },
+      {
+        "en": "Cut the broccoli into similar-sized florets and smaller stem pieces. Add to boiling unsalted water and cook until tender, using about 3–5 minutes as a guide; drain well. Do not roast or fry it for this recipe.",
+        "zh": "將青花菜切成大小相近的小朵，菜梗再切小一些。放入無鹽滾水煮至軟熟，約 3–5 分鐘僅供參考；充分瀝乾。此配方使用水煮青花菜。"
+      },
+      {
+        "en": "Remove salmon bones and any skin that will not be eaten. Weigh the cooked salmon flesh, cooked rice and drained broccoli separately to the selected amounts.",
+        "zh": "去除鮭魚骨與不食用的魚皮，將熟魚肉、熟白飯及瀝乾青花菜分別秤至所選份量。"
+      },
+      {
+        "en": "Arrange the weighed ingredients in the serving bowl. Add all the olive oil and salt shown for the selected portion and mix or drizzle them over the food; no additional cooking oil or dressing is included.",
+        "zh": "將秤好的食材盛入餐碗，加入所選份量清單中的全部橄欖油與鹽，拌勻或淋在食物上；不另加烹調用油或醬汁。"
+      }
+    ],
+    "preparationGuide": {
+      "version": "mealhatch-preparation-2026-11-07-v1",
+      "timingNote": {
+        "en": "The assembly estimate starts after the ingredients have been cooked and prepared; it excludes cooking, soaking and chilling. Start the rice before the fish and cook the broccoli while the fish bakes. Oven preheating and cooking from raw ingredients are additional to assembly. The preparation methods are adapted from the linked sources; ingredient times are guides, and the full meal has no kitchen-tested start-to-finish time.",
+        "zh": "組合時間從食材已煮熟、處理完成後開始計算，不含烹調、浸泡與冷卻。先煮飯，再烤魚；烤魚時可水煮青花菜。烤箱預熱與生食材烹調都另需時間。做法參考下列來源調整，各項烹調時間僅供參考，尚無經實測的完整餐點總時間。"
+      },
+      "sources": [
+        {
+          "label": {
+            "en": "Oregon State University: oven-baked salmon",
+            "zh": "奧勒岡州立大學：烤鮭魚做法"
+          },
+          "url": "https://foodhero.org/recipes/oven-baked-salmon"
+        },
+        {
+          "label": {
+            "en": "Harvard Nutrition Source: cooking rice",
+            "zh": "哈佛營養資訊：白飯烹調"
+          },
+          "url": "https://nutritionsource.hsph.harvard.edu/food-features/rice/"
+        },
+        {
+          "label": {
+            "en": "University of Alaska Fairbanks: cooking broccoli",
+            "zh": "阿拉斯加大學費爾班克斯分校：青花菜烹調"
+          },
+          "url": "https://www.uaf.edu/ces/publications/database/food/broccoli.php"
+        },
+        {
+          "label": {
+            "en": "FoodSafety.gov: safe cooking temperatures",
+            "zh": "FoodSafety.gov：安全烹調溫度"
+          },
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures"
+        }
+      ]
     }
   },
   {
@@ -100,8 +163,64 @@
       "sauceGrams": 0
     },
     "notes": {
-      "en": "Version 2 uses cooked shelled edamame instead of tofu; the legacy meal ID does not describe the current ingredient. All beans and vegetables are weighed cooked; the egg bowl also replaces raw cucumber with cooked drained broccoli. Prepare edamame according to package instructions. If serving cooled, follow the prepared products' storage and handling instructions. No sauce, marinade, sweetener or fruit/vegetable puree, juice or paste is included.",
-      "zh": "第二版以煮熟去莢毛豆取代豆腐；保留的舊餐點代碼不代表目前食材。豆類與蔬菜皆秤熟重，雞蛋碗也以水煮瀝乾青花菜取代生小黃瓜。毛豆依包裝指示煮熟；若冷卻食用，依已處理食品的保存與操作指示處理。不含醬汁、醃料、甜味料或蔬果泥、汁、醬。"
+      "en": "Uses cooked shelled edamame, boiled drained broccoli and cooked white rice. The retained meal ID refers to an older tofu version; this formulation contains no tofu. All listed olive oil and salt are added after cooking and included in the estimate. No sauce, marinade or sweetener is included.",
+      "zh": "使用熟毛豆仁、水煮瀝乾青花菜與熟白飯。保留的餐點代碼來自舊豆腐版本；目前配方不含豆腐。表列橄欖油與鹽在烹調後全部加入並計入估算，不含醬汁、醃料或甜味料。"
+    },
+    "instructions": [
+      {
+        "en": "Use the selected-portion ingredient list throughout. Cook enough of each ingredient to obtain the listed edible weights; cooked grams are not raw purchase weights.",
+        "zh": "全程採用所選份量的食材清單。先備妥足夠食材，烹煮後再取表列可食重量；清單中的熟重不是購買生食材的重量。"
+      },
+      {
+        "en": "Start the plain enriched long-grain white rice first. Cook it in water according to the package or rice-cooker directions, without extra oil or salt; keep it covered until ready to portion.",
+        "zh": "先煮原味營養強化長粒白米。依包裝或電鍋指示加水煮熟，不另外加油鹽；煮好後加蓋，待分裝時再秤量。"
+      },
+      {
+        "en": "Cook plain frozen edamame according to its package directions, without extra salt. Drain and remove any pods; only the cooked beans go into the weighed portion.",
+        "zh": "原味冷凍毛豆依包裝指示煮熟，不額外加鹽。瀝乾並去除豆莢；只把煮熟豆仁計入秤重份量。"
+      },
+      {
+        "en": "Cut the broccoli into similar-sized florets and smaller stem pieces. Add to boiling unsalted water and cook until tender, using about 3–5 minutes as a guide; drain well. Do not roast or fry it for this recipe.",
+        "zh": "將青花菜切成大小相近的小朵，菜梗再切小一些。放入無鹽滾水煮至軟熟，約 3–5 分鐘僅供參考；充分瀝乾。此配方使用水煮青花菜。"
+      },
+      {
+        "en": "Weigh the cooked shelled edamame, cooked rice and drained broccoli separately. The bean ingredient is edamame, not tofu; use the edible beans without their pods.",
+        "zh": "將熟毛豆仁、熟白飯及瀝乾青花菜分別秤至所選份量。此配方使用毛豆，秤重不含豆莢。"
+      },
+      {
+        "en": "Arrange the weighed ingredients in the serving bowl. Add all the olive oil and salt shown for the selected portion and mix or drizzle them over the food; no additional cooking oil or dressing is included.",
+        "zh": "將秤好的食材盛入餐碗，加入所選份量清單中的全部橄欖油與鹽，拌勻或淋在食物上；不另加烹調用油或醬汁。"
+      }
+    ],
+    "preparationGuide": {
+      "version": "mealhatch-preparation-2026-11-07-v1",
+      "timingNote": {
+        "en": "The assembly estimate starts after the ingredients have been cooked and prepared; it excludes cooking, soaking and chilling. Allow time to cook the rice, edamame and broccoli before assembly. This warm version can be served as soon as the ingredients are ready. The preparation methods are adapted from the linked sources; ingredient times are guides, and the full meal has no kitchen-tested start-to-finish time.",
+        "zh": "組合時間從食材已煮熟、處理完成後開始計算，不含烹調、浸泡與冷卻。組合前先完成白飯、毛豆與青花菜的烹調；食材備妥後即可溫熱食用。做法參考下列來源調整，各項烹調時間僅供參考，尚無經實測的完整餐點總時間。"
+      },
+      "sources": [
+        {
+          "label": {
+            "en": "Harvard Nutrition Source: cooking rice",
+            "zh": "哈佛營養資訊：白飯烹調"
+          },
+          "url": "https://nutritionsource.hsph.harvard.edu/food-features/rice/"
+        },
+        {
+          "label": {
+            "en": "University of Missouri Extension: preparing edamame",
+            "zh": "密蘇里大學推廣部：毛豆處理"
+          },
+          "url": "https://extension.missouri.edu/publications/n866"
+        },
+        {
+          "label": {
+            "en": "University of Alaska Fairbanks: cooking broccoli",
+            "zh": "阿拉斯加大學費爾班克斯分校：青花菜烹調"
+          },
+          "url": "https://www.uaf.edu/ces/publications/database/food/broccoli.php"
+        }
+      ]
     }
   },
   {
@@ -154,6 +273,69 @@
     "notes": {
       "en": "Uses roasted skinless breast, not grilled or fried chicken. Weigh only the cooked edible meat. No marinade, skin, bone or sauce is included.",
       "zh": "限定去皮烤雞胸，不以此估算煎炸或其他雞肉。只秤煮熟後可食肉重，不含醃料、雞皮、骨頭或醬汁。"
+    },
+    "instructions": [
+      {
+        "en": "Use the selected-portion ingredient list throughout. Cook enough of each ingredient to obtain the listed edible weights; cooked grams are not raw purchase weights.",
+        "zh": "全程採用所選份量的食材清單。先備妥足夠食材，烹煮後再取表列可食重量；清單中的熟重不是購買生食材的重量。"
+      },
+      {
+        "en": "Start the plain enriched long-grain white rice first. Cook it in water according to the package or rice-cooker directions, without extra oil or salt; keep it covered until ready to portion.",
+        "zh": "先煮原味營養強化長粒白米。依包裝或電鍋指示加水煮熟，不另外加油鹽；煮好後加蓋，待分裝時再秤量。"
+      },
+      {
+        "en": "Heat the oven to 350°F (175°C). Place thawed, plain boneless skinless chicken breast in a baking-paper-lined dish. Roast until a food thermometer in the thickest part reads 165°F (74°C); piece size affects cooking time. Reserve the listed oil and salt for serving.",
+        "zh": "烤箱預熱至 350°F（約 175°C）。將已解凍、未調味的去骨去皮雞胸放入鋪烘焙紙的烤盤，烤至最厚處食物溫度計讀值達 165°F（74°C）；肉塊大小會影響時間。表列油鹽留待盛盤時加入。"
+      },
+      {
+        "en": "Cut the broccoli into similar-sized florets and smaller stem pieces. Add to boiling unsalted water and cook until tender, using about 3–5 minutes as a guide; drain well. Do not roast or fry it for this recipe.",
+        "zh": "將青花菜切成大小相近的小朵，菜梗再切小一些。放入無鹽滾水煮至軟熟，約 3–5 分鐘僅供參考；充分瀝乾。此配方使用水煮青花菜。"
+      },
+      {
+        "en": "Slice the cooked breast and weigh only the edible cooked meat. Separately weigh the cooked rice and drained broccoli to match the selected ingredient list.",
+        "zh": "熟雞胸切片後只秤可食熟肉；熟白飯與瀝乾青花菜也分別秤至所選食材清單的重量。"
+      },
+      {
+        "en": "Arrange the weighed ingredients in the serving bowl. Add all the olive oil and salt shown for the selected portion and mix or drizzle them over the food; no additional cooking oil or dressing is included.",
+        "zh": "將秤好的食材盛入餐碗，加入所選份量清單中的全部橄欖油與鹽，拌勻或淋在食物上；不另加烹調用油或醬汁。"
+      }
+    ],
+    "preparationGuide": {
+      "version": "mealhatch-preparation-2026-11-07-v1",
+      "timingNote": {
+        "en": "The assembly estimate starts after the ingredients have been cooked and prepared; it excludes cooking, soaking and chilling. Start the rice first, roast the chicken and cook the broccoli while the other ingredients cook. Oven preheating and raw chicken cooking are outside the assembly estimate. The preparation methods are adapted from the linked sources; ingredient times are guides, and the full meal has no kitchen-tested start-to-finish time.",
+        "zh": "組合時間從食材已煮熟、處理完成後開始計算，不含烹調、浸泡與冷卻。先煮飯，再烤雞胸，並利用其他食材烹調時水煮青花菜。烤箱預熱與生雞胸烹調都不在組合時間估計內。做法參考下列來源調整，各項烹調時間僅供參考，尚無經實測的完整餐點總時間。"
+      },
+      "sources": [
+        {
+          "label": {
+            "en": "FoodSafety.gov: poultry roasting chart",
+            "zh": "FoodSafety.gov：禽肉烘烤參考"
+          },
+          "url": "https://www.foodsafety.gov/food-safety-charts/meat-poultry-charts"
+        },
+        {
+          "label": {
+            "en": "Harvard Nutrition Source: cooking rice",
+            "zh": "哈佛營養資訊：白飯烹調"
+          },
+          "url": "https://nutritionsource.hsph.harvard.edu/food-features/rice/"
+        },
+        {
+          "label": {
+            "en": "University of Alaska Fairbanks: cooking broccoli",
+            "zh": "阿拉斯加大學費爾班克斯分校：青花菜烹調"
+          },
+          "url": "https://www.uaf.edu/ces/publications/database/food/broccoli.php"
+        },
+        {
+          "label": {
+            "en": "FoodSafety.gov: safe cooking temperatures",
+            "zh": "FoodSafety.gov：安全烹調溫度"
+          },
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures"
+        }
+      ]
     }
   },
   {
@@ -206,6 +388,62 @@
     "notes": {
       "en": "This is a sliced hard-boiled egg and raw tomato version, not tomato scrambled eggs. Egg weight excludes shell; tomato weight is raw edible flesh. No sugar or sauce is added.",
       "zh": "這是切片水煮蛋搭配生番茄的版本，不是番茄炒蛋。蛋重不含殼，番茄以生的可食部分秤量，不加糖或醬汁。"
+    },
+    "instructions": [
+      {
+        "en": "Use the selected-portion ingredient list throughout. Cook enough of each ingredient to obtain the listed edible weights; cooked grams are not raw purchase weights.",
+        "zh": "全程採用所選份量的食材清單。先備妥足夠食材，烹煮後再取表列可食重量；清單中的熟重不是購買生食材的重量。"
+      },
+      {
+        "en": "Start the plain enriched long-grain white rice first. Cook it in water according to the package or rice-cooker directions, without extra oil or salt; keep it covered until ready to portion.",
+        "zh": "先煮原味營養強化長粒白米。依包裝或電鍋指示加水煮熟，不另外加油鹽；煮好後加蓋，待分裝時再秤量。"
+      },
+      {
+        "en": "Put eggs in one layer in a saucepan and cover with cold water by about 1 inch (2.5 cm). Bring just to a boil, remove from the heat and cover. For large eggs, stand about 12 minutes; the white and yolk must be firm. Cool in cold water, peel and slice.",
+        "zh": "雞蛋在鍋內平放一層，加冷水至高出蛋約 1 英吋（2.5 公分）。加熱至剛沸騰就離火、加蓋；大顆蛋約靜置 12 分鐘，蛋白與蛋黃都須凝固。以冷水降溫後剝殼切片。"
+      },
+      {
+        "en": "Rinse the tomato under running water, remove the stem and any inedible core, and slice it. Keep the tomato raw for this recipe.",
+        "zh": "番茄以流動清水洗淨，去蒂及不可食用的硬心後切片；此配方的番茄保留生食狀態。"
+      },
+      {
+        "en": "Weigh the peeled hard-boiled egg, raw edible tomato and cooked rice separately to the selected amounts. Put the rice in a bowl and arrange the egg and tomato on top.",
+        "zh": "去殼水煮蛋、生番茄可食部分與熟白飯分別秤至所選重量。白飯盛碗，再排上蛋與番茄。"
+      },
+      {
+        "en": "Drizzle over all the measured olive oil and sprinkle over the measured salt. Serve the egg and tomato as slices; this preparation does not scramble or fry the egg.",
+        "zh": "淋上全部計量橄欖油並撒上計量鹽，保留蛋與番茄的切片狀態食用，不將蛋炒散或油煎。"
+      }
+    ],
+    "preparationGuide": {
+      "version": "mealhatch-preparation-2026-11-07-v1",
+      "timingNote": {
+        "en": "The assembly estimate starts after the ingredients have been cooked and prepared; it excludes cooking, soaking and chilling. Cook the rice and hard-boil the eggs before assembly; the eggs also need enough cooling to peel. Raw tomato needs washing and slicing. The preparation methods are adapted from the linked sources; ingredient times are guides, and the full meal has no kitchen-tested start-to-finish time.",
+        "zh": "組合時間從食材已煮熟、處理完成後開始計算，不含烹調、浸泡與冷卻。組合前先煮白飯與水煮蛋，蛋還需要降溫至可剝殼；生番茄需清洗切片。做法參考下列來源調整，各項烹調時間僅供參考，尚無經實測的完整餐點總時間。"
+      },
+      "sources": [
+        {
+          "label": {
+            "en": "Harvard Nutrition Source: cooking rice",
+            "zh": "哈佛營養資訊：白飯烹調"
+          },
+          "url": "https://nutritionsource.hsph.harvard.edu/food-features/rice/"
+        },
+        {
+          "label": {
+            "en": "American Egg Board: hard-boiled eggs",
+            "zh": "美國雞蛋協會：全熟水煮蛋做法"
+          },
+          "url": "https://www.incredibleegg.org/recipes/cooking-school/how-to-hard-boil-eggs/"
+        },
+        {
+          "label": {
+            "en": "FoodSafety.gov: safe cooking temperatures",
+            "zh": "FoodSafety.gov：安全烹調溫度"
+          },
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures"
+        }
+      ]
     }
   },
   {
@@ -256,8 +494,75 @@
       "sauceGrams": 0
     },
     "notes": {
-      "en": "Recipe calculation: soften 120 g already-cooked rice with water, then top up so rice plus retained water weighs 360 g before sides. Consume all liquid. No raw-rice yield factor or restaurant-congee equivalence is claimed; no oil or sauce is added.",
-      "zh": "以配方計算：將 120 克已煮熟白飯加水煮軟，最後補水至飯與保留湯水共 360 克，再配旁邊的蛋菜。湯水全部食用；不套用生米熟化倍率，也不代表餐廳粥品，不加油或醬汁。"
+      "en": "Standard-portion calculation: soften 120 g already-cooked rice with water, then top up so rice plus retained water weighs 360 g before sides. For another portion, use its listed rice and water weights. Consume all liquid. No raw-rice yield factor or restaurant-congee equivalence is claimed; no oil or sauce is added.",
+      "zh": "標準份配方計算：將 120 克已煮熟白飯加水煮軟，最後補水至飯與保留湯水共 360 克，再配旁邊的蛋菜。其他份量請依各自清單的飯與水重量調整。湯水全部食用；不套用生米熟化倍率，也不代表餐廳粥品，不加油或醬汁。"
+    },
+    "instructions": [
+      {
+        "en": "Use the selected-portion ingredient list throughout. Cook enough of each ingredient to obtain the listed edible weights; cooked grams are not raw purchase weights.",
+        "zh": "全程採用所選份量的食材清單。先備妥足夠食材，烹煮後再取表列可食重量；清單中的熟重不是購買生食材的重量。"
+      },
+      {
+        "en": "If starting with dry rice, cook plain enriched long-grain white rice in water according to its package directions first. Weigh the cooked rice amount in the selected-portion list; do not start with that weight of dry rice.",
+        "zh": "若從生米開始，先依包裝指示以清水煮熟營養強化長粒白米，再秤取所選份量清單中的熟白飯重量；不要以相同克數的生米直接下鍋。"
+      },
+      {
+        "en": "Put eggs in one layer in a saucepan and cover with cold water by about 1 inch (2.5 cm). Bring just to a boil, remove from the heat and cover. For large eggs, stand about 12 minutes; the white and yolk must be firm. Cool in cold water, peel and slice.",
+        "zh": "雞蛋在鍋內平放一層，加冷水至高出蛋約 1 英吋（2.5 公分）。加熱至剛沸騰就離火、加蓋；大顆蛋約靜置 12 分鐘，蛋白與蛋黃都須凝固。以冷水降溫後剝殼切片。"
+      },
+      {
+        "en": "Cut the broccoli into similar-sized florets and smaller stem pieces. Add to boiling unsalted water and cook until tender, using about 3–5 minutes as a guide; drain well. Do not roast or fry it for this recipe.",
+        "zh": "將青花菜切成大小相近的小朵，菜梗再切小一些。放入無鹽滾水煮至軟熟，約 3–5 分鐘僅供參考；充分瀝乾。此配方使用水煮青花菜。"
+      },
+      {
+        "en": "Put the weighed cooked rice and the listed drinking water in a saucepan. Bring to a gentle simmer, stirring and breaking up clumps, until the rice is soft enough for the texture you want. Add a little water if needed to prevent sticking.",
+        "zh": "將秤好的熟白飯與表列飲用水放入小鍋，小火煮至微滾，攪拌並撥散飯粒，煮到喜歡的軟度；必要時補少量水避免黏鍋。"
+      },
+      {
+        "en": "Before adding the egg, broccoli or salt, adjust the cooked rice-and-water mixture to a final weight equal to the selected cooked-rice grams plus the selected water grams. Replace evaporated water, or simmer off extra water. At the standard portion this is 120 g rice + 240 g retained water = 360 g; other portions use their own list.",
+        "zh": "加入蛋、青花菜與鹽之前，將飯粥總重調整為所選「熟白飯克數＋保留水克數」；蒸發的水需補回，多餘的水則繼續煮掉。標準份量為 120 克熟飯＋240 克保留水＝360 克；其他份量依各自清單計算。"
+      },
+      {
+        "en": "Weigh the peeled cooked egg and drained broccoli to the selected amounts. Add the measured salt to the porridge, serve the egg and broccoli alongside or on top, and include all the listed liquid. No oil is listed for this recipe.",
+        "zh": "去殼熟蛋與瀝乾青花菜秤至所選重量。表列鹽拌入粥內，蛋菜可放旁邊或粥面；保留全部表列湯水。此配方不加油。"
+      }
+    ],
+    "preparationGuide": {
+      "version": "mealhatch-preparation-2026-11-07-v1",
+      "timingNote": {
+        "en": "The assembly estimate starts after the ingredients have been cooked and prepared; it excludes cooking, soaking and chilling. This porridge starts with already-cooked rice. Cooking rice from dry, hard-boiling the eggs and cooking the broccoli add preparation time before the final porridge assembly. The preparation methods are adapted from the linked sources; ingredient times are guides, and the full meal has no kitchen-tested start-to-finish time.",
+        "zh": "組合時間從食材已煮熟、處理完成後開始計算，不含烹調、浸泡與冷卻。這道飯粥從已煮熟白飯開始；若從生米煮飯，再煮蛋與青花菜，這些都是最後煮粥組合前的額外時間。做法參考下列來源調整，各項烹調時間僅供參考，尚無經實測的完整餐點總時間。"
+      },
+      "sources": [
+        {
+          "label": {
+            "en": "Harvard Nutrition Source: cooking rice",
+            "zh": "哈佛營養資訊：白飯烹調"
+          },
+          "url": "https://nutritionsource.hsph.harvard.edu/food-features/rice/"
+        },
+        {
+          "label": {
+            "en": "American Egg Board: hard-boiled eggs",
+            "zh": "美國雞蛋協會：全熟水煮蛋做法"
+          },
+          "url": "https://www.incredibleegg.org/recipes/cooking-school/how-to-hard-boil-eggs/"
+        },
+        {
+          "label": {
+            "en": "University of Alaska Fairbanks: cooking broccoli",
+            "zh": "阿拉斯加大學費爾班克斯分校：青花菜烹調"
+          },
+          "url": "https://www.uaf.edu/ces/publications/database/food/broccoli.php"
+        },
+        {
+          "label": {
+            "en": "FoodSafety.gov: safe cooking temperatures",
+            "zh": "FoodSafety.gov：安全烹調溫度"
+          },
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures"
+        }
+      ]
     }
   },
   {
@@ -309,8 +614,82 @@
       "sauceGrams": 0
     },
     "notes": {
-      "en": "Version 2 uses cooked shelled edamame instead of tofu; the legacy meal ID does not describe the current ingredient. All beans and vegetables are weighed cooked; the egg bowl also replaces raw cucumber with cooked drained broccoli. Prepare edamame according to package instructions. If serving cooled, follow the prepared products' storage and handling instructions. No sauce, marinade, sweetener or fruit/vegetable puree, juice or paste is included.",
-      "zh": "第二版以煮熟去莢毛豆取代豆腐；保留的舊餐點代碼不代表目前食材。豆類與蔬菜皆秤熟重，雞蛋碗也以水煮瀝乾青花菜取代生小黃瓜。毛豆依包裝指示煮熟；若冷卻食用，依已處理食品的保存與操作指示處理。不含醬汁、醃料、甜味料或蔬果泥、汁、醬。"
+      "en": "Uses cooked shelled edamame, peeled hard-boiled egg and boiled drained broccoli, served chilled. The retained meal ID refers to an older tofu version; this formulation contains no tofu or raw cucumber. All listed olive oil and salt are added after preparation. No sauce, marinade or sweetener is included.",
+      "zh": "使用煮熟毛豆仁、去殼水煮蛋及水煮瀝乾青花菜，冷藏降溫後食用。保留的餐點代碼來自舊豆腐版本；目前配方不含豆腐或生小黃瓜。表列橄欖油與鹽在處理後全部加入，不含醬汁、醃料或甜味料。"
+    },
+    "instructions": [
+      {
+        "en": "Use the selected-portion ingredient list throughout. Cook enough of each ingredient to obtain the listed edible weights; cooked grams are not raw purchase weights.",
+        "zh": "全程採用所選份量的食材清單。先備妥足夠食材，烹煮後再取表列可食重量；清單中的熟重不是購買生食材的重量。"
+      },
+      {
+        "en": "Put eggs in one layer in a saucepan and cover with cold water by about 1 inch (2.5 cm). Bring just to a boil, remove from the heat and cover. For large eggs, stand about 12 minutes; the white and yolk must be firm. Cool in cold water, peel and slice.",
+        "zh": "雞蛋在鍋內平放一層，加冷水至高出蛋約 1 英吋（2.5 公分）。加熱至剛沸騰就離火、加蓋；大顆蛋約靜置 12 分鐘，蛋白與蛋黃都須凝固。以冷水降溫後剝殼切片。"
+      },
+      {
+        "en": "Cook plain frozen edamame according to its package directions, without extra salt. Drain and remove any pods; only the cooked beans go into the weighed portion.",
+        "zh": "原味冷凍毛豆依包裝指示煮熟，不額外加鹽。瀝乾並去除豆莢；只把煮熟豆仁計入秤重份量。"
+      },
+      {
+        "en": "Cut the broccoli into similar-sized florets and smaller stem pieces. Add to boiling unsalted water and cook until tender, using about 3–5 minutes as a guide; drain well. Do not roast or fry it for this recipe.",
+        "zh": "將青花菜切成大小相近的小朵，菜梗再切小一些。放入無鹽滾水煮至軟熟，約 3–5 分鐘僅供參考；充分瀝乾。此配方使用水煮青花菜。"
+      },
+      {
+        "en": "For the chilled bowl, divide the cooked edamame and broccoli into shallow containers and refrigerate promptly; do not leave them on the counter until completely cold. Refrigerate the peeled eggs too. Keep the refrigerator at 40°F (4°C) or below, and refrigerate cooked food within 2 hours, or 1 hour when the surroundings exceed 90°F (32°C).",
+        "zh": "製作冷碗時，將熟毛豆與青花菜分裝於淺容器並儘快冷藏，不要放在室溫等到完全冷卻；去殼蛋也放入冰箱。冰箱維持 40°F（4°C）以下，熟食在 2 小時內冷藏；環境超過 90°F（32°C）時縮短為 1 小時內。"
+      },
+      {
+        "en": "When the ingredients are chilled, weigh the shelled edamame, peeled egg and drained broccoli to the selected amounts. Slice the egg and arrange the three ingredients in a bowl.",
+        "zh": "食材冷卻後，熟毛豆仁、去殼蛋與瀝乾青花菜分別秤至所選重量。蛋切片後與豆菜一起盛碗。"
+      },
+      {
+        "en": "Arrange the weighed ingredients in the serving bowl. Add all the olive oil and salt shown for the selected portion and mix or drizzle them over the food; no additional cooking oil or dressing is included.",
+        "zh": "將秤好的食材盛入餐碗，加入所選份量清單中的全部橄欖油與鹽，拌勻或淋在食物上；不另加烹調用油或醬汁。"
+      }
+    ],
+    "preparationGuide": {
+      "version": "mealhatch-preparation-2026-11-07-v1",
+      "timingNote": {
+        "en": "The assembly estimate starts after the ingredients have been cooked and prepared; it excludes cooking, soaking and chilling. The assembly estimate assumes the beans, egg and broccoli are already cooked and chilled. Cooking and refrigerator chilling take additional time; do not treat the assembly estimate as a start-to-finish cold meal time. The preparation methods are adapted from the linked sources; ingredient times are guides, and the full meal has no kitchen-tested start-to-finish time.",
+        "zh": "組合時間從食材已煮熟、處理完成後開始計算，不含烹調、浸泡與冷卻。組合時間以毛豆、蛋與青花菜已煮熟並冷藏降溫為前提。烹調及冰箱冷卻另需時間，不能把組合時間當作從生食材做成冷碗的總時間。做法參考下列來源調整，各項烹調時間僅供參考，尚無經實測的完整餐點總時間。"
+      },
+      "sources": [
+        {
+          "label": {
+            "en": "American Egg Board: hard-boiled eggs",
+            "zh": "美國雞蛋協會：全熟水煮蛋做法"
+          },
+          "url": "https://www.incredibleegg.org/recipes/cooking-school/how-to-hard-boil-eggs/"
+        },
+        {
+          "label": {
+            "en": "University of Missouri Extension: preparing edamame",
+            "zh": "密蘇里大學推廣部：毛豆處理"
+          },
+          "url": "https://extension.missouri.edu/publications/n866"
+        },
+        {
+          "label": {
+            "en": "University of Alaska Fairbanks: cooking broccoli",
+            "zh": "阿拉斯加大學費爾班克斯分校：青花菜烹調"
+          },
+          "url": "https://www.uaf.edu/ces/publications/database/food/broccoli.php"
+        },
+        {
+          "label": {
+            "en": "USDA: storing cooked food safely",
+            "zh": "USDA：熟食安全保存"
+          },
+          "url": "https://ask.fsis.usda.gov/article/How-do-I-handle-leftovers-safely/"
+        },
+        {
+          "label": {
+            "en": "FoodSafety.gov: safe cooking temperatures",
+            "zh": "FoodSafety.gov：安全烹調溫度"
+          },
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures"
+        }
+      ]
     }
   },
   {
@@ -363,6 +742,66 @@
     "notes": {
       "en": "Uses unsalted boiled black turtle beans (Phaseolus vulgaris), not black soybeans (Glycine max), with drained broccoli. Canned salted beans and refried beans are not included. All added oil and salt are consumed; no salsa or other sauce is included.",
       "zh": "使用無鹽水煮黑菜豆（Phaseolus vulgaris，非黑大豆 Glycine max）與瀝乾青花菜，不代表加鹽罐頭豆或炒豆泥。添加的油鹽全部食用，不含莎莎醬或其他醬汁。"
+    },
+    "instructions": [
+      {
+        "en": "Use the selected-portion ingredient list throughout. Cook enough of each ingredient to obtain the listed edible weights; cooked grams are not raw purchase weights.",
+        "zh": "全程採用所選份量的食材清單。先備妥足夠食材，烹煮後再取表列可食重量；清單中的熟重不是購買生食材的重量。"
+      },
+      {
+        "en": "Use dried black turtle beans, not black soybeans. Sort and rinse them, cover with plenty of water and soak in the refrigerator for 6–8 hours or overnight; then drain and rinse. Follow the bean package if its instructions differ.",
+        "zh": "使用乾黑菜豆，非黑大豆。挑除雜質並沖洗，加足量水浸泡，放冰箱冷藏 6–8 小時或隔夜；泡好後瀝掉水並沖洗。包裝另有指示時依包裝操作。"
+      },
+      {
+        "en": "Cover the soaked beans with fresh unsalted water. Bring to a boil, reduce to a simmer and cook until fully tender, adding water to keep them covered. Start checking after about 1 hour; black beans commonly take about 90–120 minutes of simmering, but age and size vary. Drain before weighing.",
+        "zh": "泡好的豆子加新鮮無鹽清水蓋過豆子，煮滾後轉小火煨煮至完全軟熟，水不足時補水維持覆蓋。約 1 小時後開始確認軟度；黑菜豆常需約 90–120 分鐘，但乾豆存放時間與大小會影響結果。秤重前瀝乾。"
+      },
+      {
+        "en": "Start the plain enriched long-grain white rice first. Cook it in water according to the package or rice-cooker directions, without extra oil or salt; keep it covered until ready to portion.",
+        "zh": "先煮原味營養強化長粒白米。依包裝或電鍋指示加水煮熟，不另外加油鹽；煮好後加蓋，待分裝時再秤量。"
+      },
+      {
+        "en": "Cut the broccoli into similar-sized florets and smaller stem pieces. Add to boiling unsalted water and cook until tender, using about 3–5 minutes as a guide; drain well. Do not roast or fry it for this recipe.",
+        "zh": "將青花菜切成大小相近的小朵，菜梗再切小一些。放入無鹽滾水煮至軟熟，約 3–5 分鐘僅供參考；充分瀝乾。此配方使用水煮青花菜。"
+      },
+      {
+        "en": "Weigh the drained cooked beans, cooked rice and drained broccoli separately to the selected amounts. Use the cooked-bean weight, not the dry or soaked weight; salted canned beans are not the same source ingredient.",
+        "zh": "煮熟瀝乾的黑菜豆、熟白飯與瀝乾青花菜分別秤至所選重量。豆子採煮熟後重量，不採乾重或泡水後重量；加鹽罐頭豆不是此處相同的來源食材。"
+      },
+      {
+        "en": "Arrange the weighed ingredients in the serving bowl. Add all the olive oil and salt shown for the selected portion and mix or drizzle them over the food; no additional cooking oil or dressing is included.",
+        "zh": "將秤好的食材盛入餐碗，加入所選份量清單中的全部橄欖油與鹽，拌勻或淋在食物上；不另加烹調用油或醬汁。"
+      }
+    ],
+    "preparationGuide": {
+      "version": "mealhatch-preparation-2026-11-07-v1",
+      "timingNote": {
+        "en": "The assembly estimate starts after the ingredients have been cooked and prepared; it excludes cooking, soaking and chilling. Dried beans need soaking plus a long simmer before assembly; prepare a batch ahead if useful. Rice and broccoli also need cooking. A 10-minute assembly estimate does not cover cooking this meal from dried beans. The preparation methods are adapted from the linked sources; ingredient times are guides, and the full meal has no kitchen-tested start-to-finish time.",
+        "zh": "組合時間從食材已煮熟、處理完成後開始計算，不含烹調、浸泡與冷卻。乾豆在組合前需要浸泡與長時間煨煮，可事先多煮一批備用；白飯與青花菜也需烹調。10 分鐘組合時間不包含從乾豆開始做完整餐點。做法參考下列來源調整，各項烹調時間僅供參考，尚無經實測的完整餐點總時間。"
+      },
+      "sources": [
+        {
+          "label": {
+            "en": "University of Maine: soaking and cooking dried beans",
+            "zh": "緬因大學：乾豆浸泡與烹調"
+          },
+          "url": "https://extension.umaine.edu/food-health/2021/09/02/how-to-store-and-cook-dried-beans/"
+        },
+        {
+          "label": {
+            "en": "Harvard Nutrition Source: cooking rice",
+            "zh": "哈佛營養資訊：白飯烹調"
+          },
+          "url": "https://nutritionsource.hsph.harvard.edu/food-features/rice/"
+        },
+        {
+          "label": {
+            "en": "University of Alaska Fairbanks: cooking broccoli",
+            "zh": "阿拉斯加大學費爾班克斯分校：青花菜烹調"
+          },
+          "url": "https://www.uaf.edu/ces/publications/database/food/broccoli.php"
+        }
+      ]
     }
   },
   {
@@ -415,6 +854,69 @@
     "notes": {
       "en": "A generic standardized plate, not a Costco product. Sweet potato is baked in its skin but only cooked flesh is weighed; skin is excluded. Broccoli is boiled and drained, not roasted.",
       "zh": "這是一般定量餐盤，不是 Costco 商品資料。地瓜帶皮烤熟，但只秤熟地瓜肉、不含皮；青花菜為水煮瀝乾，不以烤蔬菜資料替代。"
+    },
+    "instructions": [
+      {
+        "en": "Use the selected-portion ingredient list throughout. Cook enough of each ingredient to obtain the listed edible weights; cooked grams are not raw purchase weights.",
+        "zh": "全程採用所選份量的食材清單。先備妥足夠食材，烹煮後再取表列可食重量；清單中的熟重不是購買生食材的重量。"
+      },
+      {
+        "en": "Start the sweet potato first. Heat the oven to 400°F (205°C), scrub and rinse the whole sweet potato, pierce the skin several times and place on a baking sheet. Bake until tender all the way through, using about 45–60 minutes as a guide; size can change the time.",
+        "zh": "先烤地瓜。烤箱預熱至 400°F（約 205°C），整條地瓜刷洗乾淨，在表皮刺幾個孔後放烤盤。烤至中心也軟熟，約 45–60 分鐘僅供參考，大小會影響時間。"
+      },
+      {
+        "en": "When the sweet potato is cooked, set it aside until safe to handle. Increase the oven to 450°F (230°C). Bake thawed, plain farmed Atlantic salmon in a foil-lined baking tray to a center temperature of 145°F (63°C); about 10–15 minutes is a guide, depending on size and thickness.",
+        "zh": "地瓜烤好後先放旁邊，降溫至可安全操作。烤箱調至 450°F（約 230°C），將已解凍、未調味的養殖大西洋鮭魚放入鋪鋁箔的烤盤，烤至中心達 145°F（63°C）；約 10–15 分鐘僅供參考，仍依大小與厚度調整。"
+      },
+      {
+        "en": "Cut the broccoli into similar-sized florets and smaller stem pieces. Add to boiling unsalted water and cook until tender, using about 3–5 minutes as a guide; drain well. Do not roast or fry it for this recipe.",
+        "zh": "將青花菜切成大小相近的小朵，菜梗再切小一些。放入無鹽滾水煮至軟熟，約 3–5 分鐘僅供參考；充分瀝乾。此配方使用水煮青花菜。"
+      },
+      {
+        "en": "Remove the sweet potato skin and weigh only its baked flesh. Remove bones and any uneaten skin from the salmon, then weigh the cooked fish flesh and drained broccoli separately to the selected amounts.",
+        "zh": "剝除地瓜皮，只秤烤熟地瓜肉；鮭魚去骨與不食用的魚皮後，只秤熟魚肉。地瓜肉、魚肉及瀝乾青花菜各自採所選重量。"
+      },
+      {
+        "en": "Plate the salmon, sweet potato flesh and broccoli. Add all the measured olive oil and salt after cooking. This is the generic recipe shown in the ingredient list, not a Costco prepared product.",
+        "zh": "鮭魚、地瓜肉與青花菜盛盤後，加上全部計量橄欖油與鹽。這是食材清單所列的一般定量配方，不是 Costco 熟食商品。"
+      }
+    ],
+    "preparationGuide": {
+      "version": "mealhatch-preparation-2026-11-07-v1",
+      "timingNote": {
+        "en": "The assembly estimate starts after the ingredients have been cooked and prepared; it excludes cooking, soaking and chilling. The whole sweet potato takes much longer than assembly. This method bakes it before the fish so each ingredient uses its stated oven method; include preheating, baking and handling time when planning. The preparation methods are adapted from the linked sources; ingredient times are guides, and the full meal has no kitchen-tested start-to-finish time.",
+        "zh": "組合時間從食材已煮熟、處理完成後開始計算，不含烹調、浸泡與冷卻。整條地瓜的烘烤時間遠超過組合時間。此做法先烤地瓜再烤魚，分別使用各自的烤箱條件；安排時間時需計入預熱、烘烤與降溫處理。做法參考下列來源調整，各項烹調時間僅供參考，尚無經實測的完整餐點總時間。"
+      },
+      "sources": [
+        {
+          "label": {
+            "en": "Iowa State University: baking sweet potatoes",
+            "zh": "愛荷華州立大學：烤地瓜做法"
+          },
+          "url": "https://spendsmart.extension.iastate.edu/produce-item/sweet-potato-2/"
+        },
+        {
+          "label": {
+            "en": "Oregon State University: oven-baked salmon",
+            "zh": "奧勒岡州立大學：烤鮭魚做法"
+          },
+          "url": "https://foodhero.org/recipes/oven-baked-salmon"
+        },
+        {
+          "label": {
+            "en": "University of Alaska Fairbanks: cooking broccoli",
+            "zh": "阿拉斯加大學費爾班克斯分校：青花菜烹調"
+          },
+          "url": "https://www.uaf.edu/ces/publications/database/food/broccoli.php"
+        },
+        {
+          "label": {
+            "en": "FoodSafety.gov: safe cooking temperatures",
+            "zh": "FoodSafety.gov：安全烹調溫度"
+          },
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures"
+        }
+      ]
     }
   },
   {
@@ -466,8 +968,64 @@
       "sauceGrams": 0
     },
     "notes": {
-      "en": "Version 2 uses cooked shelled edamame instead of tofu; the legacy meal ID does not describe the current ingredient. All beans and vegetables are weighed cooked; the egg bowl also replaces raw cucumber with cooked drained broccoli. Prepare edamame according to package instructions. If serving cooled, follow the prepared products' storage and handling instructions. No sauce, marinade, sweetener or fruit/vegetable puree, juice or paste is included.",
-      "zh": "第二版以煮熟去莢毛豆取代豆腐；保留的舊餐點代碼不代表目前食材。豆類與蔬菜皆秤熟重，雞蛋碗也以水煮瀝乾青花菜取代生小黃瓜。毛豆依包裝指示煮熟；若冷卻食用，依已處理食品的保存與操作指示處理。不含醬汁、醃料、甜味料或蔬果泥、汁、醬。"
+      "en": "Uses cooked shelled edamame, boiled drained kale and cooked quinoa. The retained meal ID refers to an older tofu version; this formulation contains no tofu. All beans, kale and quinoa are weighed cooked; all listed olive oil and salt are added after cooking. No sauce, marinade or sweetener is included.",
+      "zh": "使用熟毛豆仁、水煮瀝乾羽衣甘藍與熟藜麥。保留的餐點代碼來自舊豆腐版本；目前配方不含豆腐。毛豆、羽衣甘藍與藜麥皆採熟重；表列橄欖油與鹽於烹調後全部加入，不含醬汁、醃料或甜味料。"
+    },
+    "instructions": [
+      {
+        "en": "Use the selected-portion ingredient list throughout. Cook enough of each ingredient to obtain the listed edible weights; cooked grams are not raw purchase weights.",
+        "zh": "全程採用所選份量的食材清單。先備妥足夠食材，烹煮後再取表列可食重量；清單中的熟重不是購買生食材的重量。"
+      },
+      {
+        "en": "Rinse the quinoa unless its package says it is prewashed. Cook with plain water, following the package ratio; a common guide is 1 volume quinoa to 2 volumes water. Bring to a boil, cover and simmer gently until tender and the water is absorbed, about 12–15 minutes; fluff with a fork.",
+        "zh": "藜麥若未預先洗淨，先沖洗。依包裝比例加清水烹煮；常見參考比例為 1 份藜麥配 2 份水（以體積計）。煮滾後加蓋轉小火，約 12–15 分鐘至軟熟且水分吸收，再用叉子撥鬆。"
+      },
+      {
+        "en": "Cook plain frozen edamame according to its package directions, without extra salt. Drain and remove any pods; only the cooked beans go into the weighed portion.",
+        "zh": "原味冷凍毛豆依包裝指示煮熟，不額外加鹽。瀝乾並去除豆莢；只把煮熟豆仁計入秤重份量。"
+      },
+      {
+        "en": "Rinse the kale, remove tough stems and chop the leaves. Add to boiling unsalted water and cook until tender, about 5–8 minutes as a guide. Drain well; the recipe uses boiled kale, not raw or fried leaves.",
+        "zh": "羽衣甘藍洗淨，去除粗硬梗後切碎。放入無鹽滾水煮至軟熟，約 5–8 分鐘僅供參考，再充分瀝乾；本配方使用水煮羽衣甘藍。"
+      },
+      {
+        "en": "Weigh the cooked quinoa, cooked shelled edamame and boiled drained kale separately to the selected amounts. Loosen the quinoa with a fork and combine it with the beans and kale.",
+        "zh": "熟藜麥、熟毛豆仁及水煮瀝乾羽衣甘藍各自秤至所選重量。藜麥用叉子撥鬆後，與毛豆、羽衣甘藍一起盛碗。"
+      },
+      {
+        "en": "Arrange the weighed ingredients in the serving bowl. Add all the olive oil and salt shown for the selected portion and mix or drizzle them over the food; no additional cooking oil or dressing is included.",
+        "zh": "將秤好的食材盛入餐碗，加入所選份量清單中的全部橄欖油與鹽，拌勻或淋在食物上；不另加烹調用油或醬汁。"
+      }
+    ],
+    "preparationGuide": {
+      "version": "mealhatch-preparation-2026-11-07-v1",
+      "timingNote": {
+        "en": "The assembly estimate starts after the ingredients have been cooked and prepared; it excludes cooking, soaking and chilling. Cook the quinoa first and prepare the edamame and kale while it simmers. Their cooking and draining are additional to the assembly estimate. The preparation methods are adapted from the linked sources; ingredient times are guides, and the full meal has no kitchen-tested start-to-finish time.",
+        "zh": "組合時間從食材已煮熟、處理完成後開始計算，不含烹調、浸泡與冷卻。先煮藜麥，利用小火烹煮時處理毛豆與羽衣甘藍。這些烹調及瀝乾步驟都在組合時間估計之外。做法參考下列來源調整，各項烹調時間僅供參考，尚無經實測的完整餐點總時間。"
+      },
+      "sources": [
+        {
+          "label": {
+            "en": "Oregon State University: cooking whole grains",
+            "zh": "奧勒岡州立大學：全穀類烹調"
+          },
+          "url": "https://foodhero.org/sites/foodhero-prod/files/monthly-magazines/whole_gains_monthly.pdf"
+        },
+        {
+          "label": {
+            "en": "University of Missouri Extension: preparing edamame",
+            "zh": "密蘇里大學推廣部：毛豆處理"
+          },
+          "url": "https://extension.missouri.edu/publications/n866"
+        },
+        {
+          "label": {
+            "en": "Montana State University: cooking kale",
+            "zh": "蒙大拿州立大學：羽衣甘藍烹調"
+          },
+          "url": "https://www.montana.edu/extension/nutrition/nutrition-cooking-culture/food-fact-sheets/kale.html"
+        }
+      ]
     }
   },
   {
@@ -520,6 +1078,62 @@
     "notes": {
       "en": "Cooked farmed Atlantic salmon with raw cucumber, peel retained. This is not raw-fish sushi or sashimi. No soy sauce, glaze, pickling liquid or sugar is included.",
       "zh": "使用熟養殖大西洋鮭魚與帶皮生小黃瓜，不是生魚壽司或生魚片。不含醬油、照燒醬、醃漬液或糖。"
+    },
+    "instructions": [
+      {
+        "en": "Use the selected-portion ingredient list throughout. Cook enough of each ingredient to obtain the listed edible weights; cooked grams are not raw purchase weights.",
+        "zh": "全程採用所選份量的食材清單。先備妥足夠食材，烹煮後再取表列可食重量；清單中的熟重不是購買生食材的重量。"
+      },
+      {
+        "en": "Start the plain enriched long-grain white rice first. Cook it in water according to the package or rice-cooker directions, without extra oil or salt; keep it covered until ready to portion.",
+        "zh": "先煮原味營養強化長粒白米。依包裝或電鍋指示加水煮熟，不另外加油鹽；煮好後加蓋，待分裝時再秤量。"
+      },
+      {
+        "en": "Heat the oven to 450°F (230°C). Put thawed, plain farmed Atlantic salmon in a foil-lined baking tray and bake until the center reaches 145°F (63°C). About 10–15 minutes is a guide; thickness and size can change the time. Add the listed oil and salt after cooking.",
+        "zh": "烤箱預熱至 450°F（約 230°C）。將已解凍、未調味的養殖大西洋鮭魚放入鋪鋁箔的烤盤，烤至中心達 145°F（63°C）；約 10–15 分鐘僅供參考，厚度與大小會影響時間。表列油鹽留待烤好後加入。"
+      },
+      {
+        "en": "Wash the cucumber under running water, trim the ends and slice it with the peel retained. Keep it raw and unpickled for this recipe.",
+        "zh": "小黃瓜以流動清水洗淨，去除兩端後連皮切片。此配方使用未醃漬的生小黃瓜。"
+      },
+      {
+        "en": "Remove bones and any uneaten skin from the salmon. Weigh the cooked fish flesh, cooked rice and raw edible cucumber separately to the selected amounts, then arrange on a plate or in a bowl.",
+        "zh": "鮭魚去骨與不食用的魚皮，熟魚肉、熟白飯及生小黃瓜可食部分各自秤至所選重量，再一起盛盤或盛碗。"
+      },
+      {
+        "en": "Arrange the weighed ingredients in the serving bowl. Add all the olive oil and salt shown for the selected portion and mix or drizzle them over the food; no additional cooking oil or dressing is included.",
+        "zh": "將秤好的食材盛入餐碗，加入所選份量清單中的全部橄欖油與鹽，拌勻或淋在食物上；不另加烹調用油或醬汁。"
+      }
+    ],
+    "preparationGuide": {
+      "version": "mealhatch-preparation-2026-11-07-v1",
+      "timingNote": {
+        "en": "The assembly estimate starts after the ingredients have been cooked and prepared; it excludes cooking, soaking and chilling. Cook the rice and salmon before assembly; slice the cucumber while they cook. Oven preheating and cooking the fish and rice are additional to assembly. The preparation methods are adapted from the linked sources; ingredient times are guides, and the full meal has no kitchen-tested start-to-finish time.",
+        "zh": "組合時間從食材已煮熟、處理完成後開始計算，不含烹調、浸泡與冷卻。先煮白飯並烤鮭魚，利用烹調時切小黃瓜。烤箱預熱及魚飯的烹調都另需時間。做法參考下列來源調整，各項烹調時間僅供參考，尚無經實測的完整餐點總時間。"
+      },
+      "sources": [
+        {
+          "label": {
+            "en": "Oregon State University: oven-baked salmon",
+            "zh": "奧勒岡州立大學：烤鮭魚做法"
+          },
+          "url": "https://foodhero.org/recipes/oven-baked-salmon"
+        },
+        {
+          "label": {
+            "en": "Harvard Nutrition Source: cooking rice",
+            "zh": "哈佛營養資訊：白飯烹調"
+          },
+          "url": "https://nutritionsource.hsph.harvard.edu/food-features/rice/"
+        },
+        {
+          "label": {
+            "en": "FoodSafety.gov: safe cooking temperatures",
+            "zh": "FoodSafety.gov：安全烹調溫度"
+          },
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures"
+        }
+      ]
     }
   },
   {
@@ -573,6 +1187,73 @@
     "notes": {
       "en": "Version 2 uses the complete USDA moist-heat cooked mixed-species shrimp record, which may include moisture-retention additives. Its sodium is 947 mg per 100 g; all its values replace the older shrimp record, including source-reported fiber 0 g. Weigh edible shrimp without shell. No breading, frying, added sauce or sweetener is included.",
       "zh": "第二版完整改用 USDA 濕熱煮熟混合品種蝦紀錄，可能包含保水添加物。該來源每 100 克含鈉 947 毫克；所有數值均取代舊蝦紀錄，包含來源提供的纖維 0 克。只秤去殼可食熟蝦重，不含裹粉、油炸、額外醬汁或甜味料。"
+    },
+    "instructions": [
+      {
+        "en": "Use the selected-portion ingredient list throughout. Cook enough of each ingredient to obtain the listed edible weights; cooked grams are not raw purchase weights.",
+        "zh": "全程採用所選份量的食材清單。先備妥足夠食材，烹煮後再取表列可食重量；清單中的熟重不是購買生食材的重量。"
+      },
+      {
+        "en": "Check the shrimp product and preparation before cooking. The displayed nutrition uses a USDA moist-heat cooked shrimp record that may include moisture-retention additives and contains 947 mg sodium per 100 g; plain fresh shrimp or another brand can differ. Cooking these steps does not make a different product match that source.",
+        "zh": "烹調前確認蝦子的產品與處理方式。畫面營養採 USDA 濕熱熟蝦來源，可能含保水添加物，每 100 克鈉為 947 毫克；一般鮮蝦或其他品牌可能不同。依下列步驟煮熟，不會讓不同產品自動變成相同來源數值。"
+      },
+      {
+        "en": "Rinse the quinoa unless its package says it is prewashed. Cook with plain water, following the package ratio; a common guide is 1 volume quinoa to 2 volumes water. Bring to a boil, cover and simmer gently until tender and the water is absorbed, about 12–15 minutes; fluff with a fork.",
+        "zh": "藜麥若未預先洗淨，先沖洗。依包裝比例加清水烹煮；常見參考比例為 1 份藜麥配 2 份水（以體積計）。煮滾後加蓋轉小火，約 12–15 分鐘至軟熟且水分吸收，再用叉子撥鬆。"
+      },
+      {
+        "en": "Cut the broccoli into similar-sized florets and smaller stem pieces. Add to boiling unsalted water and cook until tender, using about 3–5 minutes as a guide; drain well. Do not roast or fry it for this recipe.",
+        "zh": "將青花菜切成大小相近的小朵，菜梗再切小一些。放入無鹽滾水煮至軟熟，約 3–5 分鐘僅供參考；充分瀝乾。此配方使用水煮青花菜。"
+      },
+      {
+        "en": "If using raw shrimp, thaw in the refrigerator if frozen, then remove shells and the digestive tract. Poach in simmering plain water until the flesh is pearly white, opaque and firm; shrimp size changes the time. If using already-cooked shrimp, follow its package heating instructions instead. Drain well; do not fry or bread it.",
+        "zh": "若使用生蝦，冷凍品先在冰箱解凍，再去殼與腸泥。以微滾清水煮至蝦肉呈珍珠白、不透明且結實；大小會影響時間。若為已熟蝦，改依包裝加熱指示操作。充分瀝乾，不油煎或裹粉。"
+      },
+      {
+        "en": "Weigh only the drained edible cooked shrimp, without shell or tail shell. Separately weigh the cooked quinoa and boiled drained broccoli to the selected amounts.",
+        "zh": "蝦子只秤瀝乾後可食熟蝦肉，不含外殼或尾殼。熟藜麥與水煮瀝乾青花菜各自秤至所選重量。"
+      },
+      {
+        "en": "Arrange the weighed ingredients in the serving bowl. Add all the olive oil and salt shown for the selected portion and mix or drizzle them over the food; no additional cooking oil or dressing is included.",
+        "zh": "將秤好的食材盛入餐碗，加入所選份量清單中的全部橄欖油與鹽，拌勻或淋在食物上；不另加烹調用油或醬汁。"
+      }
+    ],
+    "preparationGuide": {
+      "version": "mealhatch-preparation-2026-11-07-v1",
+      "timingNote": {
+        "en": "The assembly estimate starts after the ingredients have been cooked and prepared; it excludes cooking, soaking and chilling. The assembly estimate assumes cooked shrimp, quinoa and broccoli. Frozen shrimp also need thawing, and raw shrimp need cooking; do not include those tasks inside the displayed assembly minutes. The preparation methods are adapted from the linked sources; ingredient times are guides, and the full meal has no kitchen-tested start-to-finish time.",
+        "zh": "組合時間從食材已煮熟、處理完成後開始計算，不含烹調、浸泡與冷卻。組合時間以蝦、藜麥與青花菜都已煮熟為前提。冷凍蝦還需解凍，生蝦則需烹煮，這些都不包含在畫面的組合分鐘數內。做法參考下列來源調整，各項烹調時間僅供參考，尚無經實測的完整餐點總時間。"
+      },
+      "sources": [
+        {
+          "label": {
+            "en": "Clemson University: safe seafood preparation",
+            "zh": "克萊姆森大學：海鮮安全處理"
+          },
+          "url": "https://hgic.clemson.edu/factsheet/safe-handling-of-seafood/"
+        },
+        {
+          "label": {
+            "en": "Oregon State University: cooking whole grains",
+            "zh": "奧勒岡州立大學：全穀類烹調"
+          },
+          "url": "https://foodhero.org/sites/foodhero-prod/files/monthly-magazines/whole_gains_monthly.pdf"
+        },
+        {
+          "label": {
+            "en": "University of Alaska Fairbanks: cooking broccoli",
+            "zh": "阿拉斯加大學費爾班克斯分校：青花菜烹調"
+          },
+          "url": "https://www.uaf.edu/ces/publications/database/food/broccoli.php"
+        },
+        {
+          "label": {
+            "en": "FoodSafety.gov: safe cooking temperatures",
+            "zh": "FoodSafety.gov：安全烹調溫度"
+          },
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures"
+        }
+      ]
     }
   },
   {
@@ -631,6 +1312,80 @@
     "notes": {
       "en": "Uses cooked farmed Atlantic salmon and prepared edamame. Weigh edamame after removing pods. Rice, broccoli, oil and salt are all included; no sauce or sweetener is included.",
       "zh": "使用熟養殖大西洋鮭魚與煮熟毛豆，毛豆秤重不含豆莢。白飯、青花菜、油鹽皆已列入，不含醬汁或甜味料。"
+    },
+    "instructions": [
+      {
+        "en": "Use the selected-portion ingredient list throughout. Cook enough of each ingredient to obtain the listed edible weights; cooked grams are not raw purchase weights.",
+        "zh": "全程採用所選份量的食材清單。先備妥足夠食材，烹煮後再取表列可食重量；清單中的熟重不是購買生食材的重量。"
+      },
+      {
+        "en": "Start the plain enriched long-grain white rice first. Cook it in water according to the package or rice-cooker directions, without extra oil or salt; keep it covered until ready to portion.",
+        "zh": "先煮原味營養強化長粒白米。依包裝或電鍋指示加水煮熟，不另外加油鹽；煮好後加蓋，待分裝時再秤量。"
+      },
+      {
+        "en": "Heat the oven to 450°F (230°C). Put thawed, plain farmed Atlantic salmon in a foil-lined baking tray and bake until the center reaches 145°F (63°C). About 10–15 minutes is a guide; thickness and size can change the time. Add the listed oil and salt after cooking.",
+        "zh": "烤箱預熱至 450°F（約 230°C）。將已解凍、未調味的養殖大西洋鮭魚放入鋪鋁箔的烤盤，烤至中心達 145°F（63°C）；約 10–15 分鐘僅供參考，厚度與大小會影響時間。表列油鹽留待烤好後加入。"
+      },
+      {
+        "en": "Cook plain frozen edamame according to its package directions, without extra salt. Drain and remove any pods; only the cooked beans go into the weighed portion.",
+        "zh": "原味冷凍毛豆依包裝指示煮熟，不額外加鹽。瀝乾並去除豆莢；只把煮熟豆仁計入秤重份量。"
+      },
+      {
+        "en": "Cut the broccoli into similar-sized florets and smaller stem pieces. Add to boiling unsalted water and cook until tender, using about 3–5 minutes as a guide; drain well. Do not roast or fry it for this recipe.",
+        "zh": "將青花菜切成大小相近的小朵，菜梗再切小一些。放入無鹽滾水煮至軟熟，約 3–5 分鐘僅供參考；充分瀝乾。此配方使用水煮青花菜。"
+      },
+      {
+        "en": "Remove salmon bones and any skin that will not be eaten. Weigh the cooked salmon flesh, cooked shelled edamame, cooked rice and drained broccoli separately to the selected amounts; both salmon and edamame are part of this portion.",
+        "zh": "鮭魚去骨與不食用的魚皮。熟魚肉、熟毛豆仁、熟白飯及瀝乾青花菜分別秤至所選重量；鮭魚與毛豆都屬於這份配方的一部分。"
+      },
+      {
+        "en": "Arrange the weighed ingredients in the serving bowl. Add all the olive oil and salt shown for the selected portion and mix or drizzle them over the food; no additional cooking oil or dressing is included.",
+        "zh": "將秤好的食材盛入餐碗，加入所選份量清單中的全部橄欖油與鹽，拌勻或淋在食物上；不另加烹調用油或醬汁。"
+      }
+    ],
+    "preparationGuide": {
+      "version": "mealhatch-preparation-2026-11-07-v1",
+      "timingNote": {
+        "en": "The assembly estimate starts after the ingredients have been cooked and prepared; it excludes cooking, soaking and chilling. Start the rice, then bake the fish and cook the edamame and broccoli. Oven preheating and preparing all four ingredients are additional to the assembly estimate. The preparation methods are adapted from the linked sources; ingredient times are guides, and the full meal has no kitchen-tested start-to-finish time.",
+        "zh": "組合時間從食材已煮熟、處理完成後開始計算，不含烹調、浸泡與冷卻。先煮飯，再烤魚並煮毛豆與青花菜。烤箱預熱及四項食材的烹調處理都在組合時間估計之外。做法參考下列來源調整，各項烹調時間僅供參考，尚無經實測的完整餐點總時間。"
+      },
+      "sources": [
+        {
+          "label": {
+            "en": "Oregon State University: oven-baked salmon",
+            "zh": "奧勒岡州立大學：烤鮭魚做法"
+          },
+          "url": "https://foodhero.org/recipes/oven-baked-salmon"
+        },
+        {
+          "label": {
+            "en": "Harvard Nutrition Source: cooking rice",
+            "zh": "哈佛營養資訊：白飯烹調"
+          },
+          "url": "https://nutritionsource.hsph.harvard.edu/food-features/rice/"
+        },
+        {
+          "label": {
+            "en": "University of Missouri Extension: preparing edamame",
+            "zh": "密蘇里大學推廣部：毛豆處理"
+          },
+          "url": "https://extension.missouri.edu/publications/n866"
+        },
+        {
+          "label": {
+            "en": "University of Alaska Fairbanks: cooking broccoli",
+            "zh": "阿拉斯加大學費爾班克斯分校：青花菜烹調"
+          },
+          "url": "https://www.uaf.edu/ces/publications/database/food/broccoli.php"
+        },
+        {
+          "label": {
+            "en": "FoodSafety.gov: safe cooking temperatures",
+            "zh": "FoodSafety.gov：安全烹調溫度"
+          },
+          "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures"
+        }
+      ]
     }
   },
   {

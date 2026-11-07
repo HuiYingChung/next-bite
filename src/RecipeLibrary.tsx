@@ -2,7 +2,8 @@ import { useMemo, useState } from "react";
 import { Drawer } from "./Drawer";
 import { RecipeDetails } from "./RecipeDetails";
 import { RecipeImage } from "./RecipeImage";
-import { RecipeFitSummary, recipeMatchLabel } from "./DashboardInsights";
+import { RecipeFitSummary, RecipeRankingNote, recipeMatchLabel } from "./DashboardInsights";
+import { recipeTimeLabel, recipeTimeExplanation } from "./recipe-time";
 import { getPortionPreference } from "./meal-context";
 import type { MealContext } from "./meal-context";
 import { calculateRecipe } from "./nutrition";
@@ -94,17 +95,23 @@ export function RecipeLibrary({ result, context, locale, plans, busy, onPortionC
       )}</p>
       <button type="button" className="text-button" onClick={onAdjustConditions}>{text(locale, "Adjust meal conditions", "調整選餐條件")}</button>
     </div>
+    <RecipeRankingNote rec={result.eligibleRecipes[0]} locale={locale} />
+    <details className="recipe-time-help">
+      <summary>{text(locale, "About assembly times", "關於組合時間")}</summary>
+      <p className="small muted">{recipeTimeExplanation(locale)}</p>
+    </details>
     {recipes.length === 0 && <p>{text(locale, "No recipes match this search. Try another ingredient or clear the search.", "沒有符合搜尋的配方。試試其他食材或清除搜尋。")}</p>}
     <div className="recipe-library-grid">
       {recipes.map(recipe => {
         const option = eligible.get(recipe.mealId);
+        const hasPreferences = option && option.recipe.score.currentPreference.selected + option.recipe.score.savedPreference.selected > 0;
         return <article key={recipe.mealId} className="recipe-library-card">
-          <p className="small muted">{option ? recipeMatchLabel(option.recipe, locale) : text(locale, "Excluded under current conditions", "目前條件下已排除")}</p>
+          {(!option || hasPreferences) && <p className="small muted">{option ? recipeMatchLabel(option.recipe, locale) : text(locale, "Excluded under current conditions", "目前條件下已排除")}</p>}
           <div className="recipe-library-card-heading">
             <RecipeImage recipe={recipe} locale={locale} />
             <h3>{recipe.label[locale]}</h3>
           </div>
-          <p className="small muted">{context.ingredientReadiness === "needs-prep" ? text(locale, "Full preparation and cooking time unknown", "完整處理與烹調時間未知") : text(locale, `Est. ${recipe.prepMinutes} min assembly with prepared ingredients`, `食材備妥後，約 ${recipe.prepMinutes} 分鐘組合`)}</p>
+          <p className="small muted recipe-time-label">{recipeTimeLabel(recipe.prepMinutes, context.ingredientReadiness, locale)}</p>
           <button type="button" className="button quiet" aria-haspopup="dialog" aria-label={text(locale, `View recipe: ${recipe.label.en}`, `查看配方：${recipe.label.zh}`)} onClick={() => { setSelectedId(recipe.mealId); setSaveMessage(""); }}>
             {text(locale, "View recipe", "查看配方")}
           </button>

@@ -98,6 +98,13 @@ preparation, full cooking time is unknown. Setting a time limit in that state
 cannot produce a confirmed timed option; removing the limit allows browsing
 with this qualification. The app does not invent cooking times.
 
+The original 12 recipes include bilingual cooking steps, edible-weight guidance,
+safe cooking endpoints and linked preparation references in **Make it happen**.
+Reference times apply to individual ingredients; complete meal durations have
+not been kitchen-tested. Cards use compact assembly labels, with full timing
+explanations available on demand. Saved plans retain the recipe and preparation
+details in a collapsed section.
+
 Changing portion size changes the whole-portion estimates, while the per-100-g
 composition score stays the same. Hunger suggests an editable recipe portion.
 Recorded amounts are retained but do not calculate daily nutrient intake or

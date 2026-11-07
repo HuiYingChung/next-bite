@@ -417,16 +417,31 @@ function verifyRecipeOptionFacts(rec, locale) {
   const before = JSON.stringify(rec);
   const tree = RecipeOptionFacts({ rec, locale });
   const html = renderToStaticMarkup(tree);
+  const hasActivePreferences = Boolean(rec.score && rec.score.currentPreference.selected + rec.score.savedPreference.selected > 0);
+  const actualMatches = rec.matchedPreferenceReasons.slice(0, 2);
   assert.equal(tree.type, "span");
   assert.ok(hasClass(tree, "recipe-option-facts"));
   assert.equal(elements(tree, (node) => typeof node.type === "string" && node.type !== "span").length, 0, "Facts must remain phrasing content for the enclosing option button.");
-  assert.equal(content(elements(tree, node => hasClass(node, "recipe-option-match"))[0]), recipeMatchLabel(rec, locale));
-  assert.deepEqual(elements(tree, node => hasClass(node, "recipe-option-reason")).map(content), (rec.score && rec.score.currentPreference.selected + rec.score.savedPreference.selected > 0 ? rec.matchReasons.slice(0, 2) : rec.matchReasons.slice(1, 3)), "Alternative cards use actual fit facts without presenting the old sum as rank");
+  const matchLabels = elements(tree, node => hasClass(node, "recipe-option-match"));
+  assert.equal(matchLabels.length, hasActivePreferences ? 1 : 0, "Neutral ranking belongs at list level, not on every option");
+  if (hasActivePreferences) assert.equal(content(matchLabels[0]), recipeMatchLabel(rec, locale));
+  assert.deepEqual(elements(tree, node => hasClass(node, "recipe-option-reason")).map(content), actualMatches, "Alternative cards show actual matched preferences without generic ranking or preparation paragraphs");
+  const timeLabels = elements(tree, node => hasClass(node, "recipe-time-label"));
+  assert.equal(timeLabels.length, 1, "Each option retains one compact time fact");
+  if (rec.ingredientReadiness === "needs-prep") {
+    assert.equal(content(timeLabels[0]), locale === "en" ? "Cooking time unknown" : "料理時間未知");
+  } else {
+    assert(content(timeLabels[0]).includes(String(rec.recipe.prepMinutes)));
+    assert.match(content(timeLabels[0]), locale === "en" ? /assembly/i : /組合|組裝/);
+  }
+  assert(!/preparation time is not included|分鐘為食材備妥後的組裝時間|nutrition reference orders the eligible recipes|依營養參考排列符合必要條件的配方/.test(content(tree)), "Keep generic qualifications out of compact option copy");
   assert(!content(tree).includes(locale === "en" ? "Ranking total" : "排序總分"));
   if (rec.score) {
     const summary = RecipeFitSummary({ rec, locale });
-    assert.equal(elements(summary, node => hasClass(node, "recipe-match-count")).length, rec.score.currentPreference.selected + rec.score.savedPreference.selected > 0 ? 1 : 0, "Do not repeat the no-preference explanation in a separate count line");
-    assert.deepEqual(elements(elements(summary, node => hasClass(node, "recipe-fit-reasons"))[0], node => node.type === "li").map(content), rec.matchReasons.slice(0, 3));
+    if (!hasActivePreferences && !actualMatches.length && !rec.mismatchReasons.length) assert.equal(summary, null, "A neutral recommendation should not reserve space for an empty fit summary");
+    assert.equal(elements(summary, node => hasClass(node, "recipe-match-count")).length, hasActivePreferences ? 1 : 0, "Do not repeat the no-preference explanation in a separate count line");
+    assert.deepEqual(elements(elements(summary, node => hasClass(node, "recipe-fit-reasons"))[0], node => node.type === "li").map(content), actualMatches);
+    assert(!/preparation time is not included|分鐘為食材備妥後的組裝時間|nutrition reference orders the eligible recipes|依營養參考排列符合必要條件的配方/.test(content(summary)), "Primary fit copy contains actual matches, not global disclaimers");
     for (const reason of rec.mismatchReasons) assert(content(summary).includes(reason));
   }
   assert.ok(!/health score|健康分數|\/\s*100\s*%/i.test(content(tree)), "The product ranking total cannot become a health-score percentage.");
@@ -554,6 +569,16 @@ for (const locale of ["en", "zh"]) {
     assert.ok(Math.abs(portionResult.recommendations[0].nutrition.kcal - actual.recommendations[0].nutrition.kcal * factor) < 0.001, "The whole-portion nutrient facts still scale even when the model score does not.");
   }
   actual.recommendations.forEach((recommendation) => verifyNutritionPanel(recommendation, locale));
+  const tailored = recommendPilotMeals({ ...state.profile, preferenceTags: [] }, {
+    ...defaultMealContext, preferredStaple: "noodles", cuisine: "asian", ingredientReadiness: "ready",
+  }, locale, now);
+  assert(tailored.recommendations.every(rec => rec.matchedPreferenceReasons.length > 0),
+    "Actual selected preferences must produce meaningful card reasons");
+  tailored.recommendations.forEach(rec => verifyRecipeOptionFacts(rec, locale));
+  const needsPreparation = recommendPilotMeals(state.profile, {
+    ...defaultMealContext, ingredientReadiness: "needs-prep",
+  }, locale, now);
+  needsPreparation.recommendations.forEach(rec => verifyRecipeOptionFacts(rec, locale));
   const libraryHtml = renderToStaticMarkup(require("react").createElement(RecipeLibrary, {
     result: actual, context: defaultMealContext, locale, plans: [], busy: false,
     onPortionChange() {}, onChoose: async () => true, onAdjustConditions() {},
@@ -562,6 +587,14 @@ for (const locale of ["en", "zh"]) {
     "The recipe library must expose every recipe, including those outside the top three");
   assert.equal((libraryHtml.match(/aria-haspopup="dialog"/g) ?? []).length, standardizedRecipes.length,
     "Every recipe has an accessible details action");
+  assert.equal((libraryHtml.match(/class="[^"]*recipe-ranking-note[^"]*"/g) ?? []).length, 1,
+    "Explain the neutral ranking once for the whole library");
+  assert.equal((libraryHtml.match(/class="[^"]*recipe-time-label[^"]*"/g) ?? []).length, standardizedRecipes.length,
+    "Every library card retains a compact assembly-time fact");
+  assert.equal((libraryHtml.match(/<details[^>]*class="[^"]*recipe-time-help[^"]*"/g) ?? []).length, 1,
+    "The library offers one shared time explanation");
+  assert(!/<details[^>]*(?:class="[^"]*recipe-time-help[^"]*"[^>]*open|open[^>]*class="[^"]*recipe-time-help[^"]*")/.test(libraryHtml),
+    "The library time explanation starts closed");
   for (const option of actual.eligibleRecipes) {
     const fullDetails = renderToStaticMarkup(require("react").createElement(RecipeDetails, {
       recipe: option.recipe, portion: option.portion, calculation: option, recommendation: option, locale,
@@ -569,6 +602,10 @@ for (const locale of ["en", "zh"]) {
     assert.equal((fullDetails.match(/class="recommendation-score score-receipt"/g) ?? []).length, 1);
     assert.equal((fullDetails.match(/class="nutrition-details"/g) ?? []).length, 1);
     assert(fullDetails.includes(locale === "en" ? "Make it happen" : "接下來怎麼準備"));
+    assert.equal((fullDetails.match(/class="[^"]*recipe-time-note[^"]*"/g) ?? []).length, 1,
+      "Full preparation qualification remains in each recipe's preparation disclosure");
+    assert(!/<details[^>]*(?:class="action-tip"[^>]*open|open[^>]*class="action-tip")/.test(fullDetails),
+      "Preparation information is available without occupying the initial card body");
     const inspectOnly = renderToStaticMarkup(require("react").createElement(RecipeDetails, {
       recipe: option.recipe, portion: option.portion, calculation: option, locale,
     }));
