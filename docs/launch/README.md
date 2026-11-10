@@ -21,14 +21,14 @@ steps and inspectable numeric ranking. Food/drink source lookup is separate.
 ## Captured review assets
 
 The gallery screenshots, video and thumbnail below were captured from a local
-preview of the `claude/launch-polish` branch on 2026-11-10. They show recipe
-images, headings without the repeated "standard recipe" marker and the
-printable recipe card. Recapture if the interface changes again, and recheck
+preview of the `claude/first-screen-cards` branch on 2026-11-10. They show the
+three option cards with one-tap staple and protein choices, one option's
+calculation details and the printable recipe card. Recapture if the interface changes again, and recheck
 all assets against the final live build before publication; none is evidence
 of published launch results:
 
-- [Choose a meal](./assets/01-choose-a-meal.png) — 1270 × 760.
-- [Change the staple preference](./assets/02-match-your-preference.png) — 1270 × 760.
+- [Choose a meal](./assets/01-choose-a-meal.png) — 1270 × 760, scrolled so the three options and their buttons fit.
+- [Pick noodles](./assets/02-match-your-preference.png) — 1270 × 760, same framing.
 - [Inspect the recipe scoring basis](./assets/03-inspect-the-basis.png) — 1270 × 760, scrolled detail.
 - [Print the recipe](./assets/04-print-the-recipe.png) — 1270 × 760, recipe card preview.
 - [Listing thumbnail](./assets/thumbnail-240.png) — 240 × 240, rendered from the site icon.

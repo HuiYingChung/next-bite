@@ -17,11 +17,15 @@ verified.
 
 Current authorized iteration:
 
+- [`First screen: three options side by side`](./plans/31-first-screen-cards.md) —
+  `review`, on `claude/first-screen-cards`; three option cards, one-tap
+  staple and main-protein choices, recording below the options.
+
+Previous iterations (historical handoffs):
+
 - [`Main-protein preference`](./plans/30-main-protein-preference.md) —
   `review`, on `claude/main-protein-preference`; a current-meal main-protein
   choice, with duplicated saved preferences no longer offered as new choices.
-
-Previous iterations (historical handoffs):
 
 - [`Rotating recommendations`](./plans/29-rotating-recommendations.md) —
   `review`, on `claude/rotating-recommendations`; nutrition levels,

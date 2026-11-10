@@ -1,6 +1,16 @@
 # MealHatch product roadmap
 
-## Active iteration — main-protein preference
+## Active iteration — first screen: three options side by side
+
+Status: review — implemented and verified locally; committed, not pushed
+Authorized: 2026-11-10. Round three of the reviewed recommendations, after a
+mockup review. Read [`31-first-screen-cards.md`](./31-first-screen-cards.md).
+Branch: `claude/first-screen-cards`, from `claude/main-protein-preference`.
+Shows the three current options together, makes staple and main protein
+one-tap choices and moves recording below the options. The engine, ranking,
+data and stored state are unchanged.
+
+## Previous iteration — main-protein preference
 
 Status: review — implemented and verified locally; committed, not pushed
 Authorized: 2026-11-10. Round two of the reviewed recommendations. Read

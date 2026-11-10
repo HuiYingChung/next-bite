@@ -420,21 +420,21 @@ function verifyRecipeOptionFacts(rec, locale) {
   const html = renderToStaticMarkup(tree);
   const hasActivePreferences = Boolean(rec.score && rec.score.currentPreference.selected + rec.score.savedPreference.selected > 0);
   const actualMatches = rec.matchedPreferenceReasons.slice(0, 2);
-  assert.equal(tree.type, "span");
+  assert.equal(tree.type, "div");
   assert.ok(hasClass(tree, "recipe-option-facts"));
-  assert.equal(elements(tree, (node) => typeof node.type === "string" && node.type !== "span").length, 0, "Facts must remain phrasing content for the enclosing option button.");
-  const matchLabels = elements(tree, node => hasClass(node, "recipe-option-match"));
-  assert.equal(matchLabels.length, hasActivePreferences ? 1 : 0, "Neutral ranking belongs at list level, not on every option");
-  if (hasActivePreferences) assert.equal(content(matchLabels[0]), recipeMatchLabel(rec, locale));
-  assert.deepEqual(elements(tree, node => hasClass(node, "recipe-option-reason")).map(content), actualMatches, "Alternative cards show actual matched preferences without generic ranking or preparation paragraphs");
-  const timeLabels = elements(tree, node => hasClass(node, "recipe-time-label"));
-  assert.equal(timeLabels.length, 1, "Each option retains one compact time fact");
-  if (rec.ingredientReadiness === "needs-prep") {
-    assert.equal(content(timeLabels[0]), locale === "en" ? "Cooking time unknown" : "料理時間未知");
-  } else {
-    assert(content(timeLabels[0]).includes(String(rec.recipe.prepMinutes)));
-    assert.match(content(timeLabels[0]), locale === "en" ? /assembly/i : /組合|組裝/);
+  assert.equal(elements(tree, node => hasClass(node, "recipe-option-match") || hasClass(node, "recipe-match-count")).length, 0,
+    "The match count belongs in the details, and neutral ranking at list level, not on every option");
+  assert.deepEqual(elements(tree, node => hasClass(node, "recipe-option-reason")).map(content), actualMatches, "Option cards show actual matched preferences without generic ranking or preparation paragraphs");
+  assert.equal(elements(tree, node => hasClass(node, "pick-reasons")).length, actualMatches.length ? 1 : 0, "No empty reason list is rendered");
+  const facts = elements(tree, node => hasClass(node, "pick-facts"));
+  const knownEnergy = rec.nutrition.kcal !== null, knownProtein = rec.nutrition.protein !== null;
+  assert.equal(facts.length, knownEnergy || knownProtein ? 1 : 0, "Unknown energy and protein are omitted, never shown as zero");
+  if (facts.length) {
+    const whole = value => new Intl.NumberFormat(locale === "zh" ? "zh-TW" : "en-US", { maximumFractionDigits: 0 }).format(value);
+    if (knownEnergy) assert.ok(content(facts[0]).includes(locale === "en" ? `${whole(rec.nutrition.kcal)} kcal` : `${whole(rec.nutrition.kcal)} 大卡`), "The card states the calculated energy of the shown portion");
+    if (knownProtein) assert.ok(content(facts[0]).includes(locale === "en" ? `${whole(rec.nutrition.protein)} g protein` : `蛋白質 ${whole(rec.nutrition.protein)} 克`));
   }
+  assert.ok(!html.includes("null") && !html.includes("undefined"));
   assert(!/preparation time is not included|分鐘為食材備妥後的組裝時間|nutrition reference orders the eligible recipes|依營養參考排列符合必要條件的配方/.test(content(tree)), "Keep generic qualifications out of compact option copy");
   assert(!content(tree).includes(locale === "en" ? "Ranking total" : "排序總分"));
   if (rec.score) {

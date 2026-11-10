@@ -32,9 +32,16 @@ await page.route("**/*", route => {
     ? route.continue() : route.abort();
 });
 const pause = ms => new Promise(resolve => setTimeout(resolve, ms));
+// Brings the three options, buttons included, into the frame: on a 760 px
+// tall window the cards end below the first screen.
+const showOptions = target => target.evaluate(() => {
+  const grid = document.querySelector(".pick-grid");
+  window.scrollTo(0, Math.max(0, grid.getBoundingClientRect().bottom + scrollY - innerHeight + 20));
+});
 const capture = async name => {
-  await page.evaluate(() => window.scrollTo(0, 0));
+  await showOptions(page);
   await page.evaluate(() => document.fonts.ready);
+  await page.locator(".pick-card img").evaluateAll(images => Promise.all(images.map(image => image.complete || new Promise(resolve => { image.onload = image.onerror = resolve; }))));
   assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false);
   await page.screenshot({ path: path.join(output, name) });
 };
@@ -42,23 +49,31 @@ const video = page.video();
 let completed = false;
 try {
   await page.goto(base.href);
-  const choose = page.getByRole("button", { name: "Choose this meal", exact: true });
+  const choose = page.getByRole("button", { name: "Choose this meal", exact: true }).first();
   await choose.waitFor();
   assert.equal(await page.locator(".recommendation-mode select").count(), 0);
-  await page.locator(".recommendation-score").waitFor();
+  assert.equal(await page.locator(".pick-card").count(), 3);
   assert.equal(await page.locator(".demo-banner").count(), 0);
   await capture("01-choose-a-meal.png");
   console.log("Captured the actual fresh first-use screen.");
   await pause(5000);
 
-  await page.getByRole("combobox", { name: "Preferred staple", exact: true }).selectOption("noodles");
-  assert.equal(await page.getByRole("combobox", { name: "Preferred staple", exact: true }).inputValue(), "noodles");
+  await page.evaluate(() => window.scrollTo(0, 0));
+  await pause(1000);
+  const noodles = page.locator('.choice-row[data-choice="staple"] .choice-chip:has(input[value="noodles"])');
+  await noodles.click();
+  assert.equal(await noodles.locator("input").isChecked(), true);
   // Current-meal preference groups take priority over saved groups and nutrition.
   // Capture the real result without claiming a guaranteed staple match.
   await capture("02-match-your-preference.png");
   await pause(6000);
+  await page.locator(".pick-details-toggle").first().click();
+  await page.locator(".pick-detail").evaluate(node => node.scrollIntoView({ block: "start" }));
+  await pause(2500);
   await page.getByText("Match & nutrition details", { exact: true }).click();
   await pause(5000);
+  await showOptions(page);
+  await pause(1500);
   await choose.click();
   await pause(2000);
   await page.getByRole("button", { name: /^Plans/ }).click();
@@ -83,7 +98,8 @@ if (completed) {
     });
     recipePage.on("pageerror", error => errors.push(error.message));
     await recipePage.goto(base.href);
-    await recipePage.getByRole("button", { name: "Choose this meal", exact: true }).waitFor();
+    await recipePage.getByRole("button", { name: "Choose this meal", exact: true }).first().waitFor();
+    await recipePage.locator(".pick-details-toggle").first().click();
     await recipePage.getByText("Match & nutrition details", { exact: true }).click();
     await recipePage.evaluate(() => {
       const score = document.querySelector(".recommendation-score");
@@ -106,7 +122,7 @@ if (completed) {
     await iconPage.screenshot({ path: path.join(output, "thumbnail-240.png"), omitBackground: true });
     await iconPage.close();
     assert.deepEqual(errors, []);
-    await writeFile(path.join(output, "capture-notes.md"), `# Actual interface capture\n\nCaptured from a local preview on ${new Date().toISOString().slice(0, 10)}.\n\n- Four 1270 × 760 screenshots, one silent WebM recording and a 240 × 240 listing thumbnail rendered from the site icon.\n- Fresh isolated English workspace, no personal records or API key.\n- The video changes a staple preference, opens the full match and nutrition calculation disclosure, saves a plan and revisits Plans. Timing is paced for readability, not a measured user result.\n- Current-meal match groups are compared before saved groups and the nutrition reference. The recording shows the actual result, with complete calculations available in a disclosure.\n- No external requests, invented outcomes, overlays or simulated AI responses.\n- Screenshot 3 is scrolled to the actual calculation panel. Screenshot 4 is the printable recipe card opened from the same recommendation.
+    await writeFile(path.join(output, "capture-notes.md"), `# Actual interface capture\n\nCaptured from a local preview on ${new Date().toISOString().slice(0, 10)}.\n\n- Four 1270 × 760 screenshots, one silent WebM recording and a 240 × 240 listing thumbnail rendered from the site icon.\n- Fresh isolated English workspace, no personal records or API key.\n- The video picks a staple with one tap, opens one option's details and its full match and nutrition calculation, saves a plan and revisits Plans. Timing is paced for readability, not a measured user result.\n- Current-meal match groups are compared before saved groups and the nutrition reference. The recording shows the actual result, with complete calculations available in a disclosure.\n- No external requests, invented outcomes, overlays or simulated AI responses.\n- Screenshots 1 and 2 are scrolled so all three options and their buttons fit a 760 px tall frame. Screenshot 3 is scrolled to the actual calculation panel. Screenshot 4 is the printable recipe card opened from the same recommendation.
 - Food images in the interface are AI-generated illustrations, as disclosed in the page footer and on each recipe card.\n- These are review drafts; upload/publication is a separate step.\n`);
     console.log("Captured four gallery drafts, the listing thumbnail and docs/launch/assets/mealhatch-demo.webm.");
   } finally {

@@ -33,11 +33,12 @@ See [image provenance and preparation](docs/recipe-images/README.md).
 
 ## What you can do
 
-1. Start with **108 defined recipes**, compare a few options and save a plan. A fresh
+1. Start with **108 defined recipes**, compare three options side by side and save a plan. A fresh
    visit starts with your own empty records; no meal logging is required first.
    An explicitly labeled example remains available to explore separately.
-2. Change the meal preferences, including staple and main protein, inspect stated portions, nutrient estimates and
-   numeric ranking details, collapsed by default. Set whether ingredients are
+2. Pick a staple or main protein with one tap, set further conditions under
+   **More conditions**, and open **Details** on any option for stated portions,
+   nutrient estimates and numeric ranking details. Set whether ingredients are
    ready; assembly estimates are not full cooking times. Availability is shown
    when preferences cannot be matched. Browse every
    detailed recipe in **Meal library → Recipes**, including options outside the
@@ -178,7 +179,7 @@ Open the local URL printed by Vite. Manual recording, recommendations and the
 food library require no API key or environment variables.
 
 The development server also runs `/api/parse-meal` using the same handler as
-production. To test optional AI, open **Record a meal → Optional AI**, enter
+production. To test optional AI, open **Record what you ate → Optional AI**, enter
 your session OpenAI key, describe one meal, and choose **Organize & review**.
 Review the editable result before saving. Keys are kept in page memory; do not
 put them in source files or environment files. Restart an older development

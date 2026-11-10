@@ -79,8 +79,8 @@ const aiInput = tree => one(tree, node => node.type === "textarea" && node.props
 const composer = tree => one(tree, node => node.props?.id === "meal-input");
 const drawer = tree => one(tree, node => node.props?.title === "Meal record" || node.props?.title === "餐點紀錄");
 const labels = locale => locale === "zh"
-  ? { open: "記錄一餐", run: "整理並檢查", busy: "整理中…", forget: "清除金鑰" }
-  : { open: "Record a meal", run: "Organize & review", busy: "Organizing…", forget: "Forget this key" };
+  ? { open: "記錄你吃了什麼", run: "整理並檢查", busy: "整理中…", forget: "清除金鑰" }
+  : { open: "Record what you ate", run: "Organize & review", busy: "Organizing…", forget: "Forget this key" };
 function harness(locale = "en") {
   const state = { ...createBlankState(new Date()), plannedMeals: [] };
   state.days.find(day => day.isToday).todayLog.Lunch.protein = ["Chicken"];

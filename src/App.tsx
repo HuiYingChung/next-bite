@@ -2,12 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import type { Dispatch, ReactNode, SetStateAction } from "react";
 import { MealParseError, parseMealWithAi } from "./ai";
 import { Drawer } from "./Drawer";
-import {
-  HistoryGrid,
-  RecipeOptionFacts,
-  RecipeFitSummary,
-  RecipeRankingNote,
-} from "./DashboardInsights";
+import { HistoryGrid, RecipeOptionFacts, recipeMatchLabel } from "./DashboardInsights";
 import { MealContextControls } from "./MealContextControls";
 import { getRecipeStapleAvailability } from "./collection-availability";
 import { RecipeDetails } from "./RecipeDetails";
@@ -98,6 +93,14 @@ const supportedPreferenceTags = preferenceTags.filter(tag =>
 const perMealPreferenceTags = ["Light meals", "Warm meals", "Rice-based meals", "Noodle-based meals"];
 const offeredPreferenceTags = supportedPreferenceTags.filter(tag => !perMealPreferenceTags.includes(tag));
 const retiredAvoidTag = "Late-night heavy meals";
+const NARROW_LAYOUT = "(max-width: 860px)";
+const mealWindowNames = {
+  breakfast: ["breakfast", "早餐"],
+  lunch: ["lunch", "午餐"],
+  afternoon: ["this afternoon", "下午"],
+  dinner: ["dinner", "晚餐"],
+  late: ["tonight", "今晚"],
+} as const;
 const t = (locale: Locale, en: string, zh: string) =>
   locale === "en" ? en : zh;
 const cx = (...values: Array<string | false | undefined>) =>
@@ -694,12 +697,22 @@ export default function App() {
   const [draftDayId, setDraftDayId] = useState<string | null>(null);
   const [draftConflict, setDraftConflict] = useState(false);
   const [selected, setSelected] = useState(0);
+  // Recipe whose details are open. Kept by id, so details close by themselves
+  // when a new group of options no longer contains that recipe.
+  const [detailFor, setDetailFor] = useState<string | null>(null);
   const [optionPage, setOptionPage] = useState({ order: "", index: 0 });
+  // Options are image-top cards on wide screens and compact rows on narrow ones.
+  const [narrow, setNarrow] = useState(
+    () => typeof window !== "undefined" && typeof window.matchMedia === "function" && window.matchMedia(NARROW_LAYOUT).matches,
+  );
   const [mealContext, setMealContext] =
     useState<MealContext>(defaultMealContext);
   const [mealMood, setMealMood] = useState<FeelToday>("Normal");
   const [mealSetting, setMealSetting] = useState<EatingStyle>("Both");
   const [changeNote, setChangeNote] = useState("");
+  // Announced to assistive technology only: the options change in place, right
+  // under the control that changed them.
+  const [contextNote, setContextNote] = useState("");
   const [apiKey, setApiKey] = useState("");
   const [aiText, setAiText] = useState("");
   const [isParsing, setIsParsing] = useState(false);
@@ -768,6 +781,14 @@ export default function App() {
       aiRequestGeneration.current += 1;
       aiRequestAbort.current?.abort();
     };
+  }, []);
+  useEffect(() => {
+    if (typeof window.matchMedia !== "function") return;
+    const query = window.matchMedia(NARROW_LAYOUT);
+    const update = () => setNarrow(query.matches);
+    update();
+    query.addEventListener("change", update);
+    return () => query.removeEventListener("change", update);
   }, []);
   useEffect(() => {
     if (!saveLocale(locale)) setStorageFailed(true);
@@ -851,15 +872,16 @@ export default function App() {
     optionPageIndex * RECIPE_OPTION_GROUP_SIZE,
     (optionPageIndex + 1) * RECIPE_OPTION_GROUP_SIZE,
   );
-  const pilotActive = shownOptions[
-    selected % Math.max(shownOptions.length, 1)
-  ] ?? null;
+  const selectedIndex = selected % Math.max(shownOptions.length, 1);
+  const detailOption = shownOptions.find((option) => option.meal.id === detailFor) ?? null;
+  const firstShown = optionPageIndex * RECIPE_OPTION_GROUP_SIZE + 1;
+  const hasActivePreferences = shownOptions.length > 0
+    && shownOptions[0].score.currentPreference.selected + shownOptions[0].score.savedPreference.selected > 0;
+  const todayRecorded = mealNames.some((slot) => isMealLogged(today.todayLog[slot]));
   const stapleAvailability = getRecipeStapleAvailability(
     mealContext.preferredStaple,
     pilot.trace.eligibleRecipeIds,
   );
-  const chosenMeal = pilotActive?.meal ?? null;
-  const displayedMeals = shownOptions.map((option) => option.meal);
   const weekly = useMemo(
     () => buildWeeklySnapshot(state.days, state.profile, locale),
     [state.days, state.profile, locale],
@@ -868,9 +890,6 @@ export default function App() {
   const targetDay = state.days.find(day => day.id === (editTarget?.dayId ?? draftDayId)) ?? today;
   const existing = targetDay.todayLog[draft.mealSlot];
   const conflict = !editTarget && isMealLogged(existing);
-  const activePresentation = chosenMeal
-    ? getMealPresentation(chosenMeal, locale)
-    : null;
   const chooseRecipe = async (recipe: PilotRecommendation) => {
     // Recheck the current engine result instead of allowing a catalog entry to
     // bypass hard conditions or a changed portion.
@@ -883,6 +902,50 @@ export default function App() {
     if (status !== "ok") return false;
     setMessage(t(locale, "Saved to your next-meal plans. It isn't recorded as eaten.", "已儲存到下一餐計畫，尚未加入已吃紀錄。"));
     return true;
+  };
+  const toggleDetails = (index: number) => {
+    const id = shownOptions[index].meal.id;
+    setSelected(index);
+    setDetailFor((current) => (current === id ? null : id));
+  };
+  // Wide: the card opens its details. Narrow: the first tap selects the row
+  // and shows its actions; a second tap opens the details.
+  const activateOption = (index: number) => {
+    if (!narrow || index === selectedIndex) return toggleDetails(index);
+    setSelected(index);
+    setDetailFor(null);
+    const id = shownOptions[index].meal.id;
+    window.requestAnimationFrame(() =>
+      document.getElementById(`pick-${id}`)?.scrollIntoView({ block: "nearest" }),
+    );
+  };
+  const renderOptionDetail = (option: PilotRecommendation, index: number) => {
+    const name = recipeDisplayName(option.recipe, locale);
+    return (
+      <div
+        className="pick-detail"
+        id="pick-detail"
+        role="region"
+        aria-label={t(locale, `Details: ${name}`, `細節：${name}`)}
+      >
+        <div className="pick-detail-heading">
+          <h3>{name}</h3>
+          <button type="button" className="text-button" onClick={() => toggleDetails(index)}>
+            {t(locale, "Close details", "收合細節")}
+          </button>
+        </div>
+        {hasActivePreferences && (
+          <p className="small muted recipe-match-count">{recipeMatchLabel(option, locale)}</p>
+        )}
+        {option.mismatchReasons
+          .filter((reason) => !option.matchReasons.includes(reason))
+          .map((reason) => (
+            <p className="small muted pick-mismatch" key={reason}>{reason}</p>
+          ))}
+        <RecipeCardLink recipe={option.recipe} portion={option.portion} locale={locale} />
+        <RecipeDetails recipe={option.recipe} portion={option.portion} calculation={option} recommendation={option} locale={locale} />
+      </div>
+    );
   };
   const browseRecipes = () => {
     setCatalogSection("recipes");
@@ -1118,6 +1181,7 @@ export default function App() {
     deleteBaseRef.current = state;
     setDeleteTarget({ dayId, slot });
   };
+  const hasDraft = !isDemo && Boolean(review || editTarget || pendingPlanId || Object.values(fields).some(Boolean));
   const openComposer = (ownRecords = false) => {
     if (!recordStore.ready || recordStore.busy) return;
     if (ownRecords && isDemo) {
@@ -1372,35 +1436,20 @@ export default function App() {
               )}
             </p>
           </div>
-          <div className={`workspace-actions${view === "today" ? " workspace-actions--deciding" : ""}`}>
-            <button
-              className="button primary"
-              type="button"
-              onClick={() => {
-                setView("today");
-                window.requestAnimationFrame(() => {
-                  decisionRef.current?.focus({ preventScroll: true });
-                  scrollTo(decisionRef.current);
-                });
-              }}
-            >
-              {t(locale, "Find a meal", "選下一餐")}
-            </button>
-            <button
-              className="button quiet"
-              type="button"
-              disabled={!recordStore.ready || recordStore.busy}
-              onClick={() => openComposer(true)}
-            >
-              {!isDemo &&
-              (review ||
-                editTarget ||
-                pendingPlanId ||
-                Object.values(fields).some(Boolean))
-                ? t(locale, "Continue editing", "繼續編輯")
-                : t(locale, "Record a meal", "記錄一餐")}
-            </button>
-          </div>
+          {view !== "today" && (
+            <div className="workspace-actions">
+              <button
+                className="button quiet"
+                type="button"
+                disabled={!recordStore.ready || recordStore.busy}
+                onClick={() => openComposer(true)}
+              >
+                {hasDraft
+                  ? t(locale, "Continue editing", "繼續編輯")
+                  : t(locale, "Record a meal", "記錄一餐")}
+              </button>
+            </div>
+          )}
         </div>
         <nav
           className="workspace-nav"
@@ -1422,6 +1471,7 @@ export default function App() {
                 setView(key);
                 setMessage("");
                 setChangeNote("");
+                setContextNote("");
               }}
             >
               {t(locale, en, zh)}
@@ -1471,143 +1521,107 @@ export default function App() {
         >
           {changeNote}
         </div>
+        <div className="sr-only" role="status" aria-live="polite">
+          {contextNote}
+        </div>
         {view === "today" && (
-          <div className="dashboard-grid">
-            <section className="collection-switcher" aria-label={t(locale, "Recipe collection", "配方資料庫")}>
-              <p className="small muted">
-                {t(locale, "Recipes with ingredient weights, nutrition estimates and preparation steps.", "每道配方都有食材重量、營養估算與準備步驟。")}
-              </p>
-              <div className="collection-actions">
-                <button type="button" className="text-button" onClick={browseRecipes}>
-                  {t(locale, `Browse all ${recipeCount} recipes`, `瀏覽全部 ${recipeCount} 道配方`)}
-                </button>
-                <button type="button" className="text-button adjust-preferences" onClick={() => {
-                  const context = document.getElementById("meal-preferences");
-                  context?.focus({ preventScroll: true });
-                  scrollTo(context);
-                }}>
-                  {t(locale, "Adjust this meal", "調整這餐條件")}
-                </button>
-              </div>
-            </section>
-            <aside className="context-column">
-              <section
-                className="panel context-panel"
-                id="meal-preferences"
-                tabIndex={-1}
-                aria-labelledby="context-title"
-              >
-                <div className="section-heading">
-                  <h2 id="context-title">
-                    {t(locale, "Make it fit", "配合現在的你")}
-                  </h2>
-                  <span className="small muted">
-                    {formatDate(today.date, locale)}
-                  </span>
-                </div>
-                <MealContextControls
-                  showRecipePortions
-                  showMealSetting={false}
-                  value={mealContext}
-                  profile={effectiveProfile}
-                  locale={locale}
-                  onChange={(next) => {
-                    setMealContext(next);
-                    setSelected(0);
-                    setChangeNote(
-                      t(
-                        locale,
-                        "This meal's options have been updated.",
-                        "已依本餐條件更新選項。",
-                      ),
-                    );
-                  }}
-                  onProfileChange={changeProfile}
-                />
-                <button type="button" className="text-button back-to-options" onClick={() => {
-                  decisionRef.current?.focus({ preventScroll: true });
-                  scrollTo(decisionRef.current);
-                }}>
-                  {t(locale, "See updated options", "查看更新後的選項")}
-                </button>
-                <div className="avoid-summary">
-                  <strong>{t(locale, "Always excluded", "持續避開")}</strong>
-                  {timeWindow === "late" && state.profile.avoidTags.includes(retiredAvoidTag) && (
-                    <p className="notice small">{t(locale, "Your saved late-night restriction pauses suggestions because these recipes cannot assess meal heaviness. Edit preferences to review or remove it.", "已存的宵夜限制暫停了推薦，因為目前配方無法判斷餐點厚重程度。可開啟偏好檢查或移除此設定。")}</p>
-                  )}
-                  <p className="small">
-                    {state.profile.avoidTags.length
-                      ? state.profile.avoidTags
-                          .map((value) => label(value, locale))
-                          .join(t(locale, ", ", "、"))
-                      : t(
-                          locale,
-                          "No avoided items set.",
-                          "尚未設定避開項目。",
-                        )}
-                  </p>
-                  <button
-                    className="text-button"
-                    type="button"
-                    onClick={() => setPreferencesOpen(true)}
-                  >
-                    {t(locale, "Edit preferences", "調整偏好")}
-                  </button>
-                </div>
-              </section>
-              <section
-                className="panel today-panel"
-                aria-labelledby="today-title"
-              >
-                <div className="section-heading">
-                  <h2 id="today-title">
-                    {t(locale, "Today, so far", "今天的紀錄")}
-                  </h2>
-                  <span className="small muted">
-                    {formatDate(today.date, locale)}
-                  </span>
-                </div>
-                <button
-                  className="button quiet full-width"
-                  type="button"
-                  disabled={!recordStore.ready || recordStore.busy}
-                  onClick={() => openComposer()}
-                >
-                  {t(locale, "Add food or drink", "新增食物或飲料")}
-                </button>
-                <LogList
-                  day={today}
-                  locale={locale}
-                  onEdit={(slot) => editMeal(today, slot)}
-                  onDelete={(slot) => requestDelete(today.id, slot)}
-                />
-                <p className="small muted">
-                  {t(
-                    locale,
-                    "Only what you record is shown. An empty slot does not mean you skipped a meal.",
-                    "這裡只顯示你記下的內容，空白不代表你沒有吃。",
-                  )}
-                </p>
-              </section>
-            </aside>
+          <div className="next-meal">
             <section
-              className="panel decision-panel"
+              className="quick-choices"
+              id="meal-preferences"
+              tabIndex={-1}
+              aria-label={t(locale, "Conditions for this meal", "這餐的條件")}
+            >
+              <MealContextControls
+                showRecipePortions
+                showMealSetting={false}
+                value={mealContext}
+                profile={effectiveProfile}
+                locale={locale}
+                onChange={(next) => {
+                  setMealContext(next);
+                  setSelected(0);
+                  setContextNote(
+                    t(
+                      locale,
+                      "This meal's options have been updated.",
+                      "已依本餐條件更新選項。",
+                    ),
+                  );
+                }}
+                onProfileChange={(profile) => {
+                  changeProfile(profile, "");
+                  setContextNote(
+                    t(
+                      locale,
+                      "This meal's options have been updated.",
+                      "已依本餐條件更新選項。",
+                    ),
+                  );
+                }}
+                aside={
+                  <p className="avoid-line">
+                    <span>
+                      {state.profile.avoidTags.length
+                        ? t(
+                            locale,
+                            `${state.profile.avoidTags.length} excluded`,
+                            `已避開 ${state.profile.avoidTags.length} 項`,
+                          )
+                        : t(locale, "Nothing excluded", "沒有避開項目")}
+                    </span>
+                    <button
+                      className="text-button"
+                      type="button"
+                      onClick={() => setPreferencesOpen(true)}
+                    >
+                      {t(locale, "Edit", "調整")}
+                      <span className="avoid-line-long">{t(locale, " preferences", "偏好")}</span>
+                    </button>
+                  </p>
+                }
+              />
+              {timeWindow === "late" && state.profile.avoidTags.includes(retiredAvoidTag) && (
+                <p className="notice small">{t(locale, "Your saved late-night restriction pauses suggestions because these recipes cannot assess meal heaviness. Edit preferences to review or remove it.", "已存的宵夜限制暫停了推薦，因為目前配方無法判斷餐點厚重程度。可開啟偏好檢查或移除此設定。")}</p>
+              )}
+            </section>
+            <section
+              className="pick-section"
               id="decision"
               ref={decisionRef}
               tabIndex={-1}
               aria-labelledby="decision-title"
             >
-              <p className="eyebrow">{t(locale, "NEXT MEAL", "下一餐推薦")}</p>
-              <h2 id="decision-title">
-                {t(locale, "A few good options", "從這幾道開始選")}
-              </h2>
-              <RecipeRankingNote rec={pilotActive} locale={locale} />
+              <div className="pick-heading">
+                <h2 id="decision-title">
+                  {shownOptions.length === RECIPE_OPTION_GROUP_SIZE
+                    ? t(locale, `Three for ${mealWindowNames[timeWindow][0]}`, `${mealWindowNames[timeWindow][1]}的三道選擇`)
+                    : t(locale, `Options for ${mealWindowNames[timeWindow][0]}`, `${mealWindowNames[timeWindow][1]}的選擇`)}
+                </h2>
+                {shownOptions.length > 0 && (
+                  <p className="pick-count" role="status">
+                    {t(
+                      locale,
+                      `${firstShown}–${firstShown + shownOptions.length - 1} of ${pilot.eligibleRecipes.length}`,
+                      `第 ${firstShown}–${firstShown + shownOptions.length - 1} 道，共 ${pilot.eligibleRecipes.length} 道`,
+                    )}
+                    <span className="pick-count-long">
+                      {t(locale, " standard recipes · options take turns each meal", "標準配方 · 每餐輪流出現")}
+                    </span>
+                  </p>
+                )}
+              </div>
+              {shownOptions.length > 0 && !hasActivePreferences && shownOptions[0].score.unsupportedSavedPreferences.length > 0 && (
+                <p className="small muted pick-note">
+                  {t(locale, "Your saved preferences do not apply to this collection.", "已存偏好不適用於這組配方。")}
+                </p>
+              )}
               {(stapleAvailability.status === "absent" || stapleAvailability.status === "excluded") && (
                 <div className="collection-notice" role="status">
                   <p>{stapleAvailability.status === "absent"
                     ? t(locale, `These ${standardizedRecipes.length} recipes do not include your selected staple.`, `這 ${standardizedRecipes.length} 道配方沒有你選的主食。`)
                     : t(locale, "No recipe with your selected staple is eligible under the current conditions.", "目前條件下，沒有符合所選主食的可用配方。")}
-                    {chosenMeal && t(locale, " The options below do not match that preference.", "以下選項未符合這項偏好。")}</p>
+                    {shownOptions.length > 0 && t(locale, " The options below do not match that preference.", "以下選項未符合這項偏好。")}</p>
                   <button type="button" className="text-button" onClick={adjustRecipeConditions}>
                     {t(locale, "Adjust this meal", "調整這餐條件")}
                   </button>
@@ -1625,7 +1639,7 @@ export default function App() {
                   </span>
                 </div>
               )}
-              {!pilotActive || !chosenMeal || !activePresentation ? (
+              {shownOptions.length === 0 ? (
                 <div className="notice no-options">
                   <h3>
                     {t(
@@ -1661,91 +1675,87 @@ export default function App() {
                 </div>
               ) : (
                 <>
-                  <div className="meal-feature" key={chosenMeal.id}>
-                    <div className="meal-intro">
-                      <RecipeImage recipe={pilotActive.recipe} locale={locale} variant="hero" priority />
-                      <div className="meal-intro-copy">
-                        <div className="meal-meta">
-                          <span className="perspective-label">
-                            {t(locale, "STANDARD RECIPE", "標準配方")}
-                          </span>
-                          <span>{activePresentation.cuisine}</span>
-                          <span className="recipe-time-label">{recipeTimeLabel(pilotActive.recipe.prepMinutes, pilotActive.ingredientReadiness, locale)}</span>
-                        </div>
-                        <h3>{recipeDisplayName(pilotActive.recipe, locale)}</h3>
-                      </div>
-                      <RecipeFitSummary rec={pilotActive} locale={locale} />
-                    </div>
-                    <div className="feature-actions">
-                      <button
-                        type="button"
-                        className="button primary full-width"
-                        disabled={!recordStore.ready || recordStore.busy}
-                        onClick={async () => {
-                          await chooseRecipe(pilotActive);
-                        }}
-                      >
-                        {state.plannedMeals.some(
-                          (plan) =>
-                            plan.mealId === chosenMeal.id &&
-                            plan.portion === pilotActive.portion &&
-                            plan.recipeVersion === pilotActive.recipe.version,
-                        )
-                          ? t(locale, "Saved to plans", "已儲存到計畫")
-                          : t(locale, "Choose this meal", "就選這道")}
-                      </button>
-                      <button type="button" className="button quiet full-width" disabled={optionPageCount < 2} onClick={() => {
-                        const next = (optionPageIndex + 1) % optionPageCount;
-                        const first = next * RECIPE_OPTION_GROUP_SIZE + 1;
-                        const last = Math.min(first + RECIPE_OPTION_GROUP_SIZE - 1, pilot.eligibleRecipes.length);
-                        setOptionPage({ order: optionOrder, index: next });
-                        setSelected(0);
-                        setMessage(t(
-                          locale,
-                          `Showing options ${first}–${last} of ${pilot.eligibleRecipes.length}. Your meal records stay the same.`,
-                          `目前顯示第 ${first}–${last} 道，共 ${pilot.eligibleRecipes.length} 道。你的餐點紀錄不變。`,
-                        ));
-                      }}>{t(locale, "Show three more", "再換三道")}</button>
-                    </div>
-                    <RecipeCardLink recipe={pilotActive.recipe} portion={pilotActive.portion} locale={locale} />
-                    <RecipeDetails recipe={pilotActive.recipe} portion={pilotActive.portion} calculation={pilotActive} recommendation={pilotActive} locale={locale} />
+                  <div className="pick-grid">
+                    {shownOptions.map((option, index) => {
+                      const name = recipeDisplayName(option.recipe, locale);
+                      const isSelected = index === selectedIndex;
+                      const isOpen = detailOption === option;
+                      return (
+                        <article
+                          key={option.meal.id}
+                          id={`pick-${option.meal.id}`}
+                          className={`pick-card${isSelected ? " is-selected" : ""}${isOpen ? " is-open" : ""}`}
+                        >
+                          <div className="pick-summary">
+                            <RecipeImage recipe={option.recipe} locale={locale} variant="card" priority={index === 0} />
+                            <div className="pick-copy">
+                              <p className="pick-meta">
+                                <span className="recipe-time-label">{recipeTimeLabel(option.recipe.prepMinutes, option.ingredientReadiness, locale)}</span>
+                                <span>{getMealPresentation(option.meal, locale).cuisine}</span>
+                              </p>
+                              <h3>
+                                <button
+                                  type="button"
+                                  className="pick-title"
+                                  aria-expanded={narrow ? isSelected : isOpen}
+                                  onClick={() => activateOption(index)}
+                                >
+                                  {name}
+                                </button>
+                              </h3>
+                              <RecipeOptionFacts rec={option} locale={locale} />
+                            </div>
+                          </div>
+                          {(!narrow || isSelected) && (
+                            <div className="pick-actions">
+                              <button
+                                type="button"
+                                className="button primary"
+                                disabled={!recordStore.ready || recordStore.busy}
+                                onClick={async () => {
+                                  await chooseRecipe(option);
+                                }}
+                              >
+                                {state.plannedMeals.some(
+                                  (plan) =>
+                                    plan.mealId === option.meal.id &&
+                                    plan.portion === option.portion &&
+                                    plan.recipeVersion === option.recipe.version,
+                                )
+                                  ? t(locale, "Saved to plans", "已儲存到計畫")
+                                  : t(locale, "Choose this meal", "就選這道")}
+                              </button>
+                              <button
+                                type="button"
+                                className="button quiet pick-details-toggle"
+                                aria-expanded={isOpen}
+                                aria-label={t(locale, `Details: ${name}`, `細節：${name}`)}
+                                onClick={() => toggleDetails(index)}
+                              >
+                                {t(locale, "Details", "細節")}
+                              </button>
+                            </div>
+                          )}
+                          {narrow && isOpen && renderOptionDetail(option, index)}
+                        </article>
+                      );
+                    })}
                   </div>
-                  {displayedMeals.length > 1 && (
-                    <div className="comparison">
-                      <h3>{t(locale, "Other options", "其他選項")}</h3>
-                      <div className="option-grid">
-                        {displayedMeals.map((meal, index) =>
-                          index === selected % displayedMeals.length ? null : (
-                            <button
-                              type="button"
-                              key={meal.id}
-                              className="option-card"
-                              aria-pressed={false}
-                              onClick={() => {
-                                setSelected(index);
-                                setMessage(
-                                  t(
-                                    locale,
-                                    "Showing another option. Your meal records stay the same.",
-                                    "已切換比較選項，你的餐點紀錄不變。",
-                                  ),
-                                );
-                              }}
-                            >
-                              <RecipeImage recipe={shownOptions[index].recipe} locale={locale} />
-                              <span>
-                                {t(locale, "STANDARD RECIPE", "標準配方")}
-                              </span>
-                              <strong>
-                                {recipeDisplayName(shownOptions[index].recipe, locale)}
-                              </strong>
-                              <RecipeOptionFacts rec={shownOptions[index]} locale={locale} />
-                            </button>
-                          ),
-                        )}
-                      </div>
+                  {!narrow && detailOption && (
+                    <div className="pick-detail-wide">
+                      {renderOptionDetail(detailOption, shownOptions.indexOf(detailOption))}
                     </div>
                   )}
+                  <div className="pick-more">
+                    <button type="button" className="button quiet" disabled={optionPageCount < 2} onClick={() => {
+                      setOptionPage({ order: optionOrder, index: (optionPageIndex + 1) % optionPageCount });
+                      setSelected(0);
+                      setDetailFor(null);
+                    }}>{t(locale, "Show three more", "再換三道")}</button>
+                    <button type="button" className="text-button" onClick={browseRecipes}>
+                      {t(locale, `Browse all ${recipeCount} recipes`, `瀏覽全部 ${recipeCount} 道配方`)}
+                    </button>
+                  </div>
                   {state.profile.avoidTags.length > 0 && (
                     <details className="applied-avoids">
                       <summary>
@@ -1762,14 +1772,43 @@ export default function App() {
                       </p>
                     </details>
                   )}
-                  <p className="small muted filtered-note">
-                    {t(
-                      locale,
-                      `${pilot.excludedCount} of ${recipeCount} recipes excluded by avoids, strict conditions or incomplete scoring data.`,
-                      `避開設定、必要條件或計分資料缺漏已排除 ${recipeCount} 道配方中的 ${pilot.excludedCount} 道。`,
-                    )}
-                  </p>
+                  {pilot.excludedCount > 0 && (
+                    <p className="small muted filtered-note">
+                      {t(
+                        locale,
+                        `${pilot.excludedCount} of ${recipeCount} recipes excluded by avoids, strict conditions or incomplete scoring data.`,
+                        `避開設定、必要條件或計分資料缺漏已排除 ${recipeCount} 道配方中的 ${pilot.excludedCount} 道。`,
+                      )}
+                    </p>
+                  )}
                 </>
+              )}
+            </section>
+            <section className="panel today-row" aria-labelledby="today-title">
+              <div className="today-row-heading">
+                <h2 id="today-title">
+                  {todayRecorded
+                    ? t(locale, "Recorded today", "今天的紀錄")
+                    : t(locale, "Nothing recorded today.", "今天還沒有紀錄。")}
+                </h2>
+                <button
+                  className="text-button"
+                  type="button"
+                  disabled={!recordStore.ready || recordStore.busy}
+                  onClick={() => openComposer()}
+                >
+                  {hasDraft
+                    ? t(locale, "Continue editing", "繼續編輯")
+                    : t(locale, "Record what you ate", "記錄你吃了什麼")}
+                </button>
+              </div>
+              {todayRecorded && (
+                <LogList
+                  day={today}
+                  locale={locale}
+                  onEdit={(slot) => editMeal(today, slot)}
+                  onDelete={(slot) => requestDelete(today.id, slot)}
+                />
               )}
             </section>
           </div>
