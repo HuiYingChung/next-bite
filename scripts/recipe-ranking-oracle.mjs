@@ -48,7 +48,10 @@ export function independentRecipeRanking(recipe, foods, profile, context) {
   else if (saved.has("Light meals")) savedPoints += lowOil ? 2 : 0;
   if (Object.entries(styleMatches).some(([tag, matches]) => saved.has(tag) && matches)) savedPoints += 2;
   if ((saved.has("High-protein") && values.protein > 8.5) || (saved.has("Vegetable-forward") && values.fvnsPercent > 40)) savedPoints += 2;
-  return { current, saved: savedPoints, reference, raw, values, total: reference + current + savedPoints, tier: [-current, -savedPoints, -reference] };
+  // Ranking compares the reference by level, restated here from the policy
+  // rather than imported from the engine: 18 or more, 14 to 17, 13 or less.
+  const level = reference >= 18 ? 2 : reference >= 14 ? 1 : 0;
+  return { current, saved: savedPoints, reference, level, raw, values, total: reference + current + savedPoints, tier: [-current, -savedPoints, -level] };
 }
 
 export const compareIndependentTiers = (a, b) => {

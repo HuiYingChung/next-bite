@@ -160,6 +160,6 @@ export function RecipeOptionFacts({ rec, locale }: RecipeOptionFactsProps) {
 export function RecipeRankingNote({ rec, locale }: { rec?: PilotRecommendation; locale: Locale }) {
   if (!rec || rec.score.currentPreference.selected + rec.score.savedPreference.selected > 0) return null;
   return <p className="small muted recipe-ranking-note">{rec.score.unsupportedSavedPreferences.length
-    ? text(locale, "Your saved preferences do not apply to this collection. Options are ordered by nutrition reference.", "已存偏好不適用於這組配方，目前先依營養參考排序。")
-    : text(locale, "No preferences set · options ordered by nutrition reference.", "尚未設定偏好 · 目前先依營養參考排序。")}</p>;
+    ? text(locale, "Your saved preferences do not apply to this collection. Options with a higher nutrition level take turns.", "已存偏好不適用於這組配方，目前由營養級別較高的配方輪流出現。")
+    : text(locale, "No preferences set · options with a higher nutrition level take turns.", "尚未設定偏好 · 營養級別較高的配方輪流出現。")}</p>;
 }

@@ -230,8 +230,8 @@ export function MealContextControls({
           </label>
         )}
         <p className="small muted">{t(locale,
-          "Current-meal matches come first, followed by saved preferences, then the nutrition reference. Warm-only and time limits filter all options.",
-          "先比較本餐偏好符合數，再比較已存偏好，最後參考營養。只要熱食與時間上限會篩選所有選項。",
+          "Current-meal matches come first, followed by saved preferences, then the nutrition level. Equal options take turns by date and meal window. Warm-only and time limits filter all options.",
+          "先比較本餐偏好符合數，再比較已存偏好，最後比較營養級別；同級的選項依日期與餐別時段輪流出現。只要熱食與時間上限會篩選所有選項。",
         )}</p>
       </details>
       <p className="small muted context-scope">

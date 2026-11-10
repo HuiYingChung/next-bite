@@ -56,7 +56,7 @@ export function RecommendationScore({ rec, locale }: RecommendationScoreProps) {
   const valueList = (values: string[]) => values.length ? values.map(preferenceValue).join(text(locale, ", ", "、")) : text(locale, "None", "無");
   const scopeLabel = (scope: "current" | "saved" | "inactive") => scope === "current" ? text(locale, "Current meal", "本餐偏好") : scope === "saved" ? text(locale, "Saved preference", "已存偏好") : text(locale, "Not selected", "未選擇");
   const orderLabels: Record<string, [string, string]> = {
-    "current-preference-descending": ["Current-meal matches", "本餐偏好符合數"], "saved-preference-descending": ["Saved preference matches", "已存偏好符合數"], "nutrition-reference-descending": ["Nutrition reference", "營養參考值"], "equal-tier-record-variety": ["Recorded variety within equal priorities", "同層級時的紀錄多樣性"], "equal-tier-alternative-variety": ["Variety among the suggestions", "建議之間的多樣性"], "stable-id": ["Stable recipe ID", "固定配方 ID"],
+    "current-preference-descending": ["Current-meal matches", "本餐偏好符合數"], "saved-preference-descending": ["Saved preference matches", "已存偏好符合數"], "nutrition-level-descending": ["Nutrition level (18+, 14–17, 13 or less)", "營養級別（18 以上、14–17、13 以下）"], "equal-tier-record-variety": ["Recorded variety within equal priorities", "同層級時的紀錄多樣性"], "equal-tier-alternative-variety": ["Different staple or main protein among options shown together", "同一組選項的主食或主要蛋白質來源不同"], "meal-window-rotation": ["Rotation by date and meal window", "依日期與餐別時段輪替"], "stable-id": ["Stable recipe ID", "固定配方 ID"],
   };
   const coveredReasons = new Set([score.basis.note, ...score.preferenceRows.map(row => row.note),
     ...(rec.trace.selectionMethod ? [rec.trace.variety.reason] : [])]);
@@ -92,8 +92,8 @@ export function RecommendationScore({ rec, locale }: RecommendationScoreProps) {
         <div><dt>{text(locale, "Preference points (separate)", "偏好點數（獨立比較）")}</dt><dd className="score-preference">{number(score.preference, true)}</dd></div>
       </dl>
       <p className="score-basis-note">{text(locale,
-        "Nutrition reference per 100 g. First compare current-meal matches, then saved matches; use this reference only after both match counts tie.",
-        "每 100 克的營養參考值。先比較本餐偏好符合數，再比較已存偏好符合數；兩者皆相同時，才比較此參考值。",
+        "Nutrition reference per 100 g. First compare current-meal matches, then saved matches; after both tie, compare the level this reference falls in (18 or more, 14 to 17, 13 or less), not single points.",
+        "每 100 克的營養參考值。先比較本餐偏好符合數，再比較已存偏好符合數；兩者皆相同時，比較此參考值所屬級別（18 以上、14 至 17、13 以下），不逐點比較。",
       )}</p>
       {!complete && <p className="score-unavailable">{text(locale, "Required model data are incomplete; no nutrition reference is assigned.", "必要模型資料不完整，因此不提供營養參考值。")}</p>}
       <HistoryBasis trace={rec.trace.variety} locale={locale} />
@@ -107,6 +107,7 @@ export function RecommendationScore({ rec, locale }: RecommendationScoreProps) {
       </dl>
       {score.unsupportedSavedPreferences.length > 0 && <p className="score-unsupported-preferences">{text(locale, "Retained preferences unavailable for this catalog; excluded from ranking and match counts", "保留偏好目前無法由此配方集判定，不計入排序或符合數")}: {valueList(score.unsupportedSavedPreferences)}</p>}
       <p className="score-ranking-version">{text(locale, "Ranking policy", "排序規則版本")}: {rec.trace.rankingPolicy.version}</p>
+      <p className="score-rotation-seed">{text(locale, "Rotation for", "輪替依據")}: {rec.trace.rotationSeed}</p>
       <ol className="score-ranking-order">{rec.trace.rankingPolicy.order.map(step => <li key={step}>{orderLabels[step] ? text(locale, ...orderLabels[step]) : step}</li>)}</ol>
       <div className="score-calculations">
         <p className="score-formula">{text(locale,

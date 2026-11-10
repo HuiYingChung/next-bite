@@ -17,11 +17,15 @@ verified.
 
 Current authorized iteration:
 
+- [`Rotating recommendations`](./plans/29-rotating-recommendations.md) —
+  `review`, on `claude/rotating-recommendations`; nutrition levels,
+  date-and-meal-window rotation and paging through the full order.
+
+Previous iterations (historical handoffs):
+
 - [`Launch polish`](./plans/28-launch-polish.md) — `review`, on
   `claude/launch-polish`; repaired date-dependent check, shorter displayed
   recipe names, tighter narrow first screen and recaptured launch assets.
-
-Previous iterations (historical handoffs):
 
 - [`Printable recipe cards`](./plans/27-printable-recipe-cards.md) — `review`,
   on `codex/narrow-meal-actions`; complete public recipe previews and compact

@@ -199,7 +199,9 @@ for (const selectedContext of [context(),context({preferredStaple:"rice"}),conte
     assert(item.score.preference>=0&&item.score.preference<=10);
   }
   const expectedOrder=independentTotals.map(row=>row.tier).sort(compareIndependentTiers);
-  const actualTier=item=>[-item.score.currentPreference.points,-item.score.savedPreference.points,-item.score.nutritionReference];
+  const levelOf=reference=>reference>=18?2:reference>=14?1:0;
+  for(const item of result.eligibleRecipes) assert.equal(item.score.nutritionLevel,levelOf(item.score.nutritionReference),`${item.recipe.mealId} nutrition level follows the disclosed boundaries`);
+  const actualTier=item=>[-item.score.currentPreference.points,-item.score.savedPreference.points,-levelOf(item.score.nutritionReference)];
   assert.deepEqual(result.recommendations.map(actualTier),expectedOrder.slice(0,3),"Actual top three follow independent preference-first tiers; lower priority cannot compensate for a preference mismatch");
   assert.deepEqual(result.eligibleRecipes.map(actualTier),expectedOrder,"The full browsable collection preserves preference-first ordering");
 }

@@ -1,6 +1,18 @@
 # MealHatch product roadmap
 
-## Active iteration — launch polish
+## Active iteration — rotating recommendations
+
+Status: review — implemented and verified locally; committed, not pushed
+Authorized: 2026-11-10. After a product-logic review the user approved working
+through its recommendations one round at a time, starting with this one. Read
+[`29-rotating-recommendations.md`](./29-rotating-recommendations.md).
+Branch: `claude/rotating-recommendations`, from `claude/launch-polish`.
+Nutrition reference is compared by level; equal recipes take turns by date and
+meal window; "Show three more" pages through the full order. Model arithmetic,
+preference points, exclusions and data are unchanged. This supersedes program
+invariant 6 only in defining "meaningfully better" as a higher nutrition level.
+
+## Previous iteration — launch polish
 
 Status: review — implemented and verified locally; uncommitted
 Authorized: 2026-11-10. User asked for the problems found in a launch-readiness

@@ -81,8 +81,8 @@ export function RecipeLibrary({ result, context, locale, plans, busy, onPortionC
   return <section className="panel recipe-library" aria-labelledby="recipe-library-title">
     <h2 id="recipe-library-title" tabIndex={-1}>{text(locale, `${standardizedRecipes.length} recipes with nutrition & portions`, `${standardizedRecipes.length} 道附營養與份量配方`)}</h2>
     <p className="muted">{text(locale,
-      "Browse every recipe, including those outside the three suggestions. Your current preferences come first; excluded recipes can be inspected but cannot be chosen.",
-      "可查看全部配方，包含三道建議之外的選項。優先依本餐偏好排序；被排除的配方仍可查看，但無法選入計畫。",
+      "Browse every recipe, including those outside the current suggestions. Your current preferences come first; excluded recipes can be inspected but cannot be chosen.",
+      "可查看全部配方，包含目前這組建議之外的選項。優先依本餐偏好排序；被排除的配方仍可查看，但無法選入計畫。",
     )}</p>
     <div className="recipe-library-controls">
       <label>{text(locale, "Find a recipe or ingredient", "搜尋配方或食材")}

@@ -75,9 +75,13 @@ evidence completeness. It compares eligible recipes in this explicit order:
 ```text
 1. Current-meal preference points (higher first)
 2. Saved preference points (higher first)
-3. Nutrition reference = nutrient component + energy component
-                       = 10 - raw UK NPM 2018 score (higher first)
-4. Recent-record variety, offered-option variety, then stable recipe ID
+3. Nutrition level of the nutrition reference (higher first):
+   18 or more, 14 to 17, 13 or less
+   Nutrition reference = nutrient component + energy component
+                       = 10 - raw UK NPM 2018 score
+4. Recent-record variety, then a different staple (or main protein) among
+   options offered together
+5. Rotation by date and meal window, then stable recipe ID
 ```
 
 Each preference group contributes 0 or 2 product points. A stronger current-meal
@@ -93,12 +97,17 @@ thresholds, component formulas, preference calculations and sources remain
 available in the collapsed **Match & nutrition details**.
 
 The first three eligible recipes in that order are shown, or fewer when
-exclusions leave fewer candidates. **Only recipes tied on all three preceding
-values use seven-day history**: recognized
-protein-source and staple repetitions, then recency, variation among the
-offered options, and a stable ID. The explanation shows record coverage and
-the dates and foods actually used. The same inputs, records, date/time window,
-recipe/source versions and ranking-policy version reproduce the same result.
+exclusions leave fewer candidates; **Show three more** continues through the
+same order. Recipes are compared by nutrition level because single points are
+too fine to order mixed meals by; the levels are product rules and the exact
+reference stays in the details. **Recipes tied on all three preceding values
+use seven-day history**: recognized protein-source and staple repetitions, then
+recency. Options offered together then differ in staple where possible, and
+the remaining ties take turns by date and meal window, so suggestions change
+through the day and week without randomness. The explanation shows record
+coverage, the dates and foods actually used, and the date and meal window of
+the rotation. The same inputs, records, date and meal window, recipe/source
+versions and ranking-policy version reproduce the same result.
 
 Times describe assembly using prepared ingredients. If ingredients still need
 preparation, full cooking time is unknown. Setting a time limit in that state

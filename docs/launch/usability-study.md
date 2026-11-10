@@ -54,6 +54,11 @@ meal with the same name to have the same numbers?” Accept “a comparison for 
 without requiring knowledge of the scoring formula. Record misconceptions
 verbatim. Do not teach the intended answer before recording the response.
 
+Then ask: “If you opened this again tomorrow at the same time, what would you
+expect to see?” Record the answer before showing anything. Suggestions take
+turns by date and meal window; note whether a changed list feels helpful,
+arbitrary or unnoticed.
+
 Then ask: “You have uncooked ingredients and 15 minutes. Can you tell whether
 this meal fits?” Observe whether the participant distinguishes assembly time
 from unknown full cooking time and can adjust the condition. Ask which food or

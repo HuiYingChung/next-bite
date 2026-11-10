@@ -270,7 +270,8 @@ for (const locale of ["en", "zh"]) {
   assert.equal(quinoa.trace.variety.applied, true);
   assert(ranked.eligibleRecipes.indexOf(quinoa) < ranked.eligibleRecipes.indexOf(beans),
     "A prior rice record can distinguish equal totals even below the top three");
-  assert.deepEqual(ranked.recommendations.map(rec => rec.score.total), unchanged.recommendations.map(rec => rec.score.total), "History UI cannot hide a lower-total reorder.");
+  // Records may reorder recipes inside one nutrition level, never across levels.
+  assert.deepEqual(ranked.eligibleRecipes.map(rec => rec.trace.rankTier), unchanged.eligibleRecipes.map(rec => rec.trace.rankTier), "History UI cannot hide a reorder across preference or nutrition levels.");
   const before = JSON.stringify(ranked);
   for (const rec of new Set([...ranked.recommendations, quinoa])) {
     verifyHistoryBasis(rec.trace.variety, locale);
@@ -562,8 +563,8 @@ for (const locale of ["en", "zh"]) {
   assert.ok(actual.trace.candidateScores.every((candidate, index, candidates) => {
     if (!index) return true;
     const a = candidates[index - 1].score, b = candidate.score;
-    return a.currentPreference.points > b.currentPreference.points || a.currentPreference.points === b.currentPreference.points && (a.savedPreference.points > b.savedPreference.points || a.savedPreference.points === b.savedPreference.points && a.nutritionReference >= b.nutritionReference);
-  }), "Rendered choices preserve current, saved, then nutrition priority");
+    return a.currentPreference.points > b.currentPreference.points || a.currentPreference.points === b.currentPreference.points && (a.savedPreference.points > b.savedPreference.points || a.savedPreference.points === b.savedPreference.points && a.nutritionLevel >= b.nutritionLevel);
+  }), "Rendered choices preserve current, saved, then nutrition-level priority");
   assert.ok(actual.recommendations.every((rec) => rec.score.preference === 0), "Unselected preferences do not receive invented bonus points.");
   for (const appetite of ["small", "regular", "large"]) {
     const portionResult = recommendPilotMeals(state.profile, { ...defaultMealContext, appetite }, locale, now);

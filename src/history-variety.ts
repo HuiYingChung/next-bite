@@ -99,12 +99,22 @@ type HistoryChoice<T> = VarietyDecision<T> & {
 
 // A product variety rule, not a nutrient rule: compare repeat meal counts,
 // then recency, only after every score/preference tier is exactly equal.
-export const pickHistoryVariedChoices = <T>(candidates: PreferenceCandidate<T>[], history: HistoryVarietyContext, limit = 3): HistoryChoice<T>[] => {
-  const remaining = candidates.map(item => ({ ...item, historyTier: historyTier(item, history.records) }));
+// Optional rotation lets equal options take turns without randomness: a key
+// orders what is still tied before the stable ID. Options are then shown in
+// groups, so variety is judged within each group on one visible trait. Judging
+// protein and staple together kept choosing the few recipes that share neither.
+export type RotationOptions = { key: (id: string) => number; groupSize: number; varyBy: "staple" | "protein" };
+export const pickHistoryVariedChoices = <T>(candidates: PreferenceCandidate<T>[], history: HistoryVarietyContext, limit = 3, rotation?: RotationOptions): HistoryChoice<T>[] => {
+  const remaining = candidates.map(item => ({ ...item, historyTier: historyTier(item, history.records), rotationKey: rotation ? rotation.key(item.id) : 0 }));
   const selected: HistoryChoice<T>[] = [], selectedProteins = new Set<string>(), selectedStaples = new Set<string>();
-  const overlap = (item: PreferenceCandidate<T>) => [item.proteins.filter(protein => selectedProteins.has(protein)).length, item.staple && selectedStaples.has(item.staple) ? 1 : 0];
+  const overlap = (item: PreferenceCandidate<T>) => {
+    const proteins = item.proteins.filter(protein => selectedProteins.has(protein)).length;
+    const staple = item.staple && selectedStaples.has(item.staple) ? 1 : 0;
+    return !rotation ? [proteins, staple] : rotation.varyBy === "staple" ? [staple] : [proteins ? 1 : 0];
+  };
   while (remaining.length && selected.length < limit) {
-    remaining.sort((a, b) => comparePreferenceTiers(a.tier, b.tier) || comparePreferenceTiers(a.historyTier, b.historyTier) || comparePreferenceTiers(overlap(a), overlap(b)) || a.id.localeCompare(b.id, "en"));
+    if (rotation && selected.length % rotation.groupSize === 0) { selectedProteins.clear(); selectedStaples.clear(); }
+    remaining.sort((a, b) => comparePreferenceTiers(a.tier, b.tier) || comparePreferenceTiers(a.historyTier, b.historyTier) || comparePreferenceTiers(overlap(a), overlap(b)) || a.rotationKey - b.rotationKey || a.id.localeCompare(b.id, "en"));
     const next = remaining.shift()!;
     const equals = remaining.filter(item => comparePreferenceTiers(next.tier, item.tier) === 0);
     const comparison = equals.find(item => comparePreferenceTiers(next.historyTier, item.historyTier) < 0) ?? null;
@@ -130,7 +140,7 @@ export const pickHistoryVariedChoices = <T>(candidates: PreferenceCandidate<T>[]
 export const describeHistoryVariety = <T>(choice: HistoryChoice<T>, scope: HistoryVarietyScope, locale: Locale, kind: "recipe" | "idea", title: (value: T) => string): HistoryVarietyTrace => {
   const text = (en: string, zh: string) => locale === "en" ? en : zh;
   const other = choice.historyComparison;
-  const boundary = kind === "recipe" ? text("History only separates recipes with equal current preferences, saved preferences and nutrition reference.", "只有本餐偏好、已儲存偏好及營養參考三項完全相同時，才參考歷史紀錄。") : text("History only separates equally preferred ideas.", "只有同樣符合偏好的靈感才參考歷史紀錄。");
+  const boundary = kind === "recipe" ? text("History only separates recipes with equal current preferences, saved preferences and nutrition level.", "只有本餐偏好、已儲存偏好及營養級別三項完全相同時，才參考歷史紀錄。") : text("History only separates equally preferred ideas.", "只有同樣符合偏好的靈感才參考歷史紀錄。");
   let explanation: string;
   if (other) {
     const countsDiffer = choice.historyTier[0] !== other.historyTier[0] || choice.historyTier[1] !== other.historyTier[1];
@@ -143,7 +153,9 @@ export const describeHistoryVariety = <T>(choice: HistoryChoice<T>, scope: Histo
   } else if (!choice.equalTierCount) {
     explanation = text("No equal-ranked alternative remained at this position; history did not decide this choice.", "此順位沒有剩餘的同分或同偏好選項；歷史紀錄未決定此選項。");
   } else {
-    explanation = text("The remaining equal-ranked options have equal history matches; other-option variety and stable IDs resolve the tie.", "剩餘同分或同偏好選項的歷史符合程度相同；依其他選項的食材變化與固定代碼決定。");
+    explanation = kind === "recipe"
+      ? text("The remaining equal-ranked options have equal history matches; options shown together differ in staple (or in main protein once a staple is selected) where possible, then this date and meal window's rotation resolves the tie.", "剩餘同級選項的歷史符合程度相同；同一組選項盡量讓主食不同（已選主食時改為主要蛋白質來源不同），再依此日期與餐別時段的輪替順序決定。")
+      : text("The remaining equal-ranked options have equal history matches; other-option variety and stable IDs resolve the tie.", "剩餘同分或同偏好選項的歷史符合程度相同；依其他選項的食材變化與固定代碼決定。");
   }
   const reason = `${boundary} ${explanation} ${text("Records do not change calculated nutrition or establish a deficit.", "紀錄不會改變配方營養計算，也不代表營養缺口。")}`;
   return { reason, scope, applied: Boolean(other), evidence: choice.evidence, recordMatches: choice.recordMatches, selectedMatches: choice.selectedMatches,

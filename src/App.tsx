@@ -13,6 +13,7 @@ import { getRecipeStapleAvailability } from "./collection-availability";
 import { RecipeDetails } from "./RecipeDetails";
 import { RecipeLibrary } from "./RecipeLibrary";
 import { RecipeImage } from "./RecipeImage";
+import { RECIPE_OPTION_GROUP_SIZE } from "./nutrition";
 import { recipeDisplayName } from "./recipe-name";
 import { recipeTimeLabel } from "./recipe-time";
 import { FoodLibrary } from "./FoodLibrary";
@@ -677,6 +678,7 @@ export default function App() {
   const [draftDayId, setDraftDayId] = useState<string | null>(null);
   const [draftConflict, setDraftConflict] = useState(false);
   const [selected, setSelected] = useState(0);
+  const [optionPage, setOptionPage] = useState({ order: "", index: 0 });
   const [mealContext, setMealContext] =
     useState<MealContext>(defaultMealContext);
   const [mealMood, setMealMood] = useState<FeelToday>("Normal");
@@ -823,15 +825,25 @@ export default function App() {
       ),
     [effectiveProfile, mealContext, locale, dateId, timeWindow, today.todayLog, state.days],
   );
-  const pilotActive = pilot.recommendations[
-    selected % Math.max(pilot.recommendations.length, 1)
+  // "Show three more" pages through the engine's full order. The page belongs
+  // to one ordering: any change to preferences, records or the meal window
+  // produces a new order and starts again from its first group.
+  const optionOrder = pilot.trace.eligibleRecipeIds.join("|");
+  const optionPageCount = Math.ceil(pilot.eligibleRecipes.length / RECIPE_OPTION_GROUP_SIZE);
+  const optionPageIndex = optionPage.order === optionOrder ? optionPage.index % Math.max(optionPageCount, 1) : 0;
+  const shownOptions = pilot.eligibleRecipes.slice(
+    optionPageIndex * RECIPE_OPTION_GROUP_SIZE,
+    (optionPageIndex + 1) * RECIPE_OPTION_GROUP_SIZE,
+  );
+  const pilotActive = shownOptions[
+    selected % Math.max(shownOptions.length, 1)
   ] ?? null;
   const stapleAvailability = getRecipeStapleAvailability(
     mealContext.preferredStaple,
     pilot.trace.eligibleRecipeIds,
   );
   const chosenMeal = pilotActive?.meal ?? null;
-  const displayedMeals = pilot.recommendations.map((option) => option.meal);
+  const displayedMeals = shownOptions.map((option) => option.meal);
   const weekly = useMemo(
     () => buildWeeklySnapshot(state.days, state.profile, locale),
     [state.days, state.profile, locale],
@@ -1591,8 +1603,8 @@ export default function App() {
                   <span>
                     {t(
                       locale,
-                      "Example records reduce repeats only when preference matches and nutrition references tie",
-                      "本餐偏好、已存偏好與營養參考皆相同時，才以範例紀錄減少重複",
+                      "Example records reduce repeats among recipes with equal preference matches and nutrition level",
+                      "本餐偏好、已存偏好與營養級別皆相同時，以範例紀錄減少重複",
                     )}
                   </span>
                 </div>
@@ -1666,10 +1678,18 @@ export default function App() {
                           ? t(locale, "Saved to plans", "已儲存到計畫")
                           : t(locale, "Choose this meal", "就選這道")}
                       </button>
-                      <button type="button" className="button quiet full-width" disabled={displayedMeals.length < 2} onClick={() => {
-                        setSelected(index => (index + 1) % displayedMeals.length);
-                        setMessage(t(locale, "Showing another option. Your meal records stay the same.", "已切換比較選項，你的餐點紀錄不變。"));
-                      }}>{t(locale, "Show another option", "換一道看看")}</button>
+                      <button type="button" className="button quiet full-width" disabled={optionPageCount < 2} onClick={() => {
+                        const next = (optionPageIndex + 1) % optionPageCount;
+                        const first = next * RECIPE_OPTION_GROUP_SIZE + 1;
+                        const last = Math.min(first + RECIPE_OPTION_GROUP_SIZE - 1, pilot.eligibleRecipes.length);
+                        setOptionPage({ order: optionOrder, index: next });
+                        setSelected(0);
+                        setMessage(t(
+                          locale,
+                          `Showing options ${first}–${last} of ${pilot.eligibleRecipes.length}. Your meal records stay the same.`,
+                          `目前顯示第 ${first}–${last} 道，共 ${pilot.eligibleRecipes.length} 道。你的餐點紀錄不變。`,
+                        ));
+                      }}>{t(locale, "Show three more", "再換三道")}</button>
                     </div>
                     <RecipeCardLink recipe={pilotActive.recipe} portion={pilotActive.portion} locale={locale} />
                     <RecipeDetails recipe={pilotActive.recipe} portion={pilotActive.portion} calculation={pilotActive} recommendation={pilotActive} locale={locale} />
@@ -1696,14 +1716,14 @@ export default function App() {
                                 );
                               }}
                             >
-                              <RecipeImage recipe={pilot.recommendations[index].recipe} locale={locale} />
+                              <RecipeImage recipe={shownOptions[index].recipe} locale={locale} />
                               <span>
                                 {t(locale, "STANDARD RECIPE", "標準配方")}
                               </span>
                               <strong>
-                                {recipeDisplayName(pilot.recommendations[index].recipe, locale)}
+                                {recipeDisplayName(shownOptions[index].recipe, locale)}
                               </strong>
-                              <RecipeOptionFacts rec={pilot.recommendations[index]} locale={locale} />
+                              <RecipeOptionFacts rec={shownOptions[index]} locale={locale} />
                             </button>
                           ),
                         )}
@@ -2668,8 +2688,8 @@ export default function App() {
             <p>
               {t(
                 locale,
-                "MealHatch is available in English and Traditional Chinese. It helps choose a daily meal without grading eating habits or setting weight-loss goals. After ingredient and strict meal-condition exclusions, recipes are compared in order: current-meal preference groups, saved preference groups, then the nutrition reference. The reference is nutrient contribution + energy contribution = 10 minus the raw UK NPM 2018 result per 100 g; preference points are not added to it. Only ties in all three stages use recognized records for variety, then alternative variety and a stable ID. These ordering choices are product rules, not scientific weights or a health grade. All model inputs, thresholds, protein conditions, preference points and sources remain in each recipe’s calculation details. Times describe assembly with prepared ingredients; full cooking time is unknown. Hunger suggests an editable portion, not calorie needs or predicted fullness. Recommendations and the library use the same recipes. This version supports general healthy adults’ daily meal choices, without individual adequacy or medical recommendations.",
-                "提供英文與繁體中文，協助日常選餐；不評論飲食習慣，也不設定減重目標。先排除避開項目與不符合必要條件的配方，再依序比較本餐偏好群組、已存偏好群組、營養參考值。營養參考值＝營養項＋熱量項＝10－每 100 克 UK NPM 2018 原始分數，偏好點數不加進營養。前三個比較階段皆相同時，才依具名紀錄減少重複，再以其他選項的多樣性與固定 ID 排序。這些先後順序是產品規則，並非科學權重或健康等級。所有模型輸入、門檻、蛋白質計分條件、偏好點數與來源都保留於各配方的計算明細。時間只描述備妥食材後的組合，完整烹調時間未知。飢餓感只建議可調整的份量，不推算熱量需求或飽足感。推薦與資料庫使用同一份配方，協助一般健康成人日常選餐，不評估個人營養充足度或提供醫療建議。",
+                "MealHatch is available in English and Traditional Chinese. It helps choose a daily meal without grading eating habits or setting weight-loss goals. After ingredient and strict meal-condition exclusions, recipes are compared in order: current-meal preference groups, saved preference groups, then the nutrition level. The nutrition reference is nutrient contribution + energy contribution = 10 minus the raw UK NPM 2018 result per 100 g; preference points are not added to it. Recipes are compared by level (18 or more, 14 to 17, 13 or less) because single points are too fine to order mixed meals by. Within equal stages, recognized records reduce repeats, options shown together differ in staple or main protein where possible, and the remaining order rotates by date and meal window, so the same inputs at the same time always give the same result. These ordering choices are product rules, not scientific weights or a health grade. All model inputs, thresholds, protein conditions, preference points and sources remain in each recipe’s calculation details. Times describe assembly with prepared ingredients; full cooking time is unknown. Hunger suggests an editable portion, not calorie needs or predicted fullness. Recommendations and the library use the same recipes. This version supports general healthy adults’ daily meal choices, without individual adequacy or medical recommendations.",
+                "提供英文與繁體中文，協助日常選餐；不評論飲食習慣，也不設定減重目標。先排除避開項目與不符合必要條件的配方，再依序比較本餐偏好群組、已存偏好群組、營養級別。營養參考值＝營養項＋熱量項＝10－每 100 克 UK NPM 2018 原始分數，偏好點數不加進營養。逐點比較混合餐點過於細微，因此改以級別比較（18 以上、14 至 17、13 以下）。前三個比較階段皆相同時，依具名紀錄減少重複，同一組選項盡量讓主食或主要蛋白質來源不同，其餘順序依日期與餐別時段輪替；相同的輸入在相同時段一定得到相同結果。這些先後順序是產品規則，並非科學權重或健康等級。所有模型輸入、門檻、蛋白質計分條件、偏好點數與來源都保留於各配方的計算明細。時間只描述備妥食材後的組合，完整烹調時間未知。飢餓感只建議可調整的份量，不推算熱量需求或飽足感。推薦與資料庫使用同一份配方，協助一般健康成人日常選餐，不評估個人營養充足度或提供醫療建議。",
               )}
             </p>
             <p>

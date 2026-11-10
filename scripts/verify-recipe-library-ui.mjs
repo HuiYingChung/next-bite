@@ -242,18 +242,23 @@ async function verifyPreferenceFirst(locale) {
     "Neutral ranking guidance disappears after meal preferences are selected");
   await page.locator(".meal-feature").evaluate(node => node.scrollIntoView({ block: "start" }));
   await page.screenshot({ path: fileURLToPath(new URL(`${locale}-preference-match-mobile.png`, output)) });
-  await page.getByRole("button", { name: locale === "en" ? "Show another option" : "換一道看看", exact: true }).click();
-  assert.equal(await page.locator(".meal-feature h3").innerText(), displayName(expected.recommendations[1].recipe, locale));
+  // "Show three more" pages through the engine's full order, three at a time.
+  const nextGroup = expected.eligibleRecipes.slice(3, 6);
+  await page.getByRole("button", { name: locale === "en" ? "Show three more" : "再換三道", exact: true }).click();
+  assert.equal(await page.locator(".meal-feature h3").innerText(), displayName(nextGroup[0].recipe, locale));
+  assert.deepEqual((await page.locator(".option-card > strong").allTextContents()).map(title => title.trim()),
+    nextGroup.slice(1).map(rec => displayName(rec.recipe, locale)), "The other options come from the same next group");
   const receipt = page.locator(".recommendation-score");
   assert.equal(await receipt.evaluate(node => node.open), false);
   await receipt.locator(":scope > summary").focus();
   await page.keyboard.press("Enter");
   assert.equal(await receipt.locator(".score-model-row").count(), 7);
   assert.equal(await receipt.locator(".score-preference-row").count(), 5);
-  const current = expected.recommendations[1].score.currentPreference;
+  const current = nextGroup[0].score.currentPreference;
   assert((await receipt.locator(".score-current-fit").innerText()).includes(`${current.points}/${current.possible}`));
   assert((await receipt.locator(".score-ranking-version").innerText()).includes(expected.trace.rankingPolicy.version));
-  assert.equal(await receipt.locator(".score-ranking-order li").count(), 6);
+  assert.equal(await receipt.locator(".score-ranking-order li").count(), expected.trace.rankingPolicy.order.length);
+  assert((await receipt.locator(".score-rotation-seed").innerText()).includes(expected.trace.rotationSeed));
   await receipt.locator(".score-source-details > summary").focus();
   await page.keyboard.press("Enter");
   assert.equal(await receipt.locator(".score-source-links a").first().isVisible(), true);

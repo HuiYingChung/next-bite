@@ -107,4 +107,44 @@ for(const recipe of standardizedRecipes){
   assert.deepEqual(calculateRecipeProfile(recipe),snapshots.get(recipe.mealId).model);
   assert.deepEqual(["small","regular","large"].map(portion=>calculateRecipe(recipe,portion)),snapshots.get(recipe.mealId).portions);
 }
-console.log(JSON.stringify({preferenceFirstStaples:true,currentOutranksSaved:true,savedOutranksNutrition:true,partialAndUnsupportedDisclosed:true,assemblyReadinessEnforced:true,deterministic:true,physicalNutritionAndOfficialModelUnchanged:true},null,2));
+// Nutrition levels and rotation: a product rule layered on unchanged model
+// arithmetic. Levels restate the policy boundaries instead of importing them.
+const levelOf=reference=>reference>=18?2:reference>=14?1:0;
+const windows=[[2026,10,6,9],[2026,10,6,12,30],[2026,10,6,18],[2026,10,7,12,30],[2026,10,8,12,30]].map(parts=>new Date(...parts));
+const defaults=windows.map(time=>recommendPilotMeals(profile(),context(),"en",time,today,state.days));
+for(const result of defaults){
+  assert.equal(result.eligibleRecipes.length,standardizedRecipes.length);
+  const levels=result.eligibleRecipes.map(item=>item.score.nutritionLevel);
+  for(const item of result.eligibleRecipes) assert.equal(item.score.nutritionLevel,levelOf(item.score.nutritionReference));
+  assert(levels.every((level,index)=>index===0||level<=levels[index-1]),"Rotation never lifts a recipe above a higher nutrition level");
+  assert.deepEqual(result.eligibleRecipes.slice(0,3),result.recommendations);
+  assert.equal(result.trace.rankingPolicy.version,"mealhatch-banded-rotation-2026-11-10-v1");
+}
+assert.deepEqual(ids(recommendPilotMeals(profile(),context(),"en",windows[1],today,state.days)),ids(defaults[1]),"Same inputs, date and meal window reproduce the same order");
+assert.deepEqual(ids(recommendPilotMeals(profile(),context(),"en",new Date(2026,10,6,14,45),today,state.days)),ids(defaults[1]),"Times inside one meal window share one order");
+assert.equal(new Set(defaults.map(result=>ids(result).slice(0,3).join("|"))).size,defaults.length,"Each date and meal window offers a different first group");
+assert.deepEqual(defaults.map(result=>result.trace.rotationSeed),["2026-11-06:breakfast","2026-11-06:lunch","2026-11-06:dinner","2026-11-07:lunch","2026-11-08:lunch"]);
+// Turn-taking is even enough that no recipe dominates: over four weeks of
+// three meal windows, every higher-level recipe reaches the first group and
+// none takes more than a quarter of the appearances an even share would give
+// it four times over.
+const appearances=new Map(), higher=defaults[0].eligibleRecipes.filter(item=>item.score.nutritionLevel===2).map(item=>item.recipe.mealId);
+let groups=0;
+for(let day=1;day<=28;day++) for(const hour of [9,12,18]){
+  groups++;
+  for(const item of recommendPilotMeals(profile(),context(),"en",new Date(2026,10,day,hour),today,state.days).recommendations) appearances.set(item.recipe.mealId,(appearances.get(item.recipe.mealId)??0)+1);
+}
+assert.deepEqual([...appearances.keys()].sort(),[...higher].sort(),"Only higher-level recipes lead without preferences, and all of them take a turn");
+const evenShare=groups*3/higher.length;
+assert(Math.max(...appearances.values())<=evenShare*2,`No recipe leads more than twice its even share (${Math.max(...appearances.values())} vs ${evenShare})`);
+// Options shown together differ in staple when none is selected.
+for(const result of defaults){
+  const staples=result.recommendations.map(item=>item.recipe.staple).filter(staple=>staple!=="none");
+  assert.equal(new Set(staples).size,staples.length,"The first group does not repeat a staple while alternatives exist");
+}
+// A selected staple still leads; rotation only orders equal matches.
+const riceGroups=windows.map(time=>recommendPilotMeals(profile(),context({preferredStaple:"rice"}),"en",time,today,state.days));
+for(const result of riceGroups) assert(result.recommendations.every(item=>item.recipe.staple==="rice"&&item.score.nutritionLevel===2));
+assert(new Set(riceGroups.map(result=>ids(result).slice(0,3).join("|"))).size>1,"Matching recipes also take turns");
+
+console.log(JSON.stringify({nutritionLevelsBoundRotation:true,sameWindowReproducible:true,everyHigherLevelRecipeTakesATurn:true,preferenceFirstStaples:true,currentOutranksSaved:true,savedOutranksNutrition:true,partialAndUnsupportedDisclosed:true,assemblyReadinessEnforced:true,deterministic:true,physicalNutritionAndOfficialModelUnchanged:true},null,2));
