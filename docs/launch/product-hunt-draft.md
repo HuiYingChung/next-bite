@@ -56,7 +56,7 @@ outcome. Source files and any export dimensions belong with the assets.
 
 | View | Capture | Caption | Alt text |
 | --- | --- | --- | --- |
-| 1. Choose | Default view scrolled so the three options and their save actions are visible | Three options. One next meal. | MealHatch shows one-tap staple and protein choices above three recipe cards, each with a photo-style image, time, energy, protein and an action to choose the meal. |
+| 1. Choose | Default first screen with the three options and their save actions visible | Three options. One next meal. | MealHatch shows one-tap staple and protein choices above three recipe cards, each with a photo-style image, time, energy, protein and an action to choose the meal. |
 | 2. Adjust | Noodles selected and the actual matching options | What sounds good comes first. | With noodles selected, three noodle recipes appear; each card states the preference it matches. |
 | 3. Understand | One option's details opened to the calculation's input table | Details when you want them. | A recipe shows its current and saved preference calculations, composition reference, model inputs, thresholds and sources. |
 | 4. Make it | The printable recipe card opened from the recommendation | A recipe you can follow. | A one-page recipe card shows the dish, portion, nutrition estimate, weighed ingredients and numbered steps, with print and paper-size controls. |

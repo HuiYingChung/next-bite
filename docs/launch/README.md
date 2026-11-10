@@ -27,8 +27,8 @@ calculation details and the printable recipe card. Recapture if the interface ch
 all assets against the final live build before publication; none is evidence
 of published launch results:
 
-- [Choose a meal](./assets/01-choose-a-meal.png) — 1270 × 760, scrolled so the three options and their buttons fit.
-- [Pick noodles](./assets/02-match-your-preference.png) — 1270 × 760, same framing.
+- [Choose a meal](./assets/01-choose-a-meal.png) — 1270 × 760, the unscrolled first screen; card images are cropped at this height.
+- [Pick noodles](./assets/02-match-your-preference.png) — 1270 × 760, scrolled past the site header because the reason line makes the cards taller.
 - [Inspect the recipe scoring basis](./assets/03-inspect-the-basis.png) — 1270 × 760, scrolled detail.
 - [Print the recipe](./assets/04-print-the-recipe.png) — 1270 × 760, recipe card preview.
 - [Listing thumbnail](./assets/thumbnail-240.png) — 240 × 240, rendered from the site icon.

@@ -32,13 +32,17 @@ await page.route("**/*", route => {
     ? route.continue() : route.abort();
 });
 const pause = ms => new Promise(resolve => setTimeout(resolve, ms));
-// Brings the three options, buttons included, into the frame: on a 760 px
-// tall window the cards end below the first screen.
+// Keeps the three options, buttons included, in the frame. They normally fit
+// the first screen; when a reason line makes the cards taller, scroll past the
+// site header as a whole instead of cutting it.
 const showOptions = target => target.evaluate(() => {
   const grid = document.querySelector(".pick-grid");
-  window.scrollTo(0, Math.max(0, grid.getBoundingClientRect().bottom + scrollY - innerHeight + 20));
+  const needed = Math.max(0, Math.ceil(grid.getBoundingClientRect().bottom + scrollY - innerHeight));
+  const header = Math.ceil(document.querySelector(".site-header").getBoundingClientRect().bottom + scrollY) + 1;
+  window.scrollTo(0, needed === 0 ? 0 : Math.max(needed, header));
 });
 const capture = async name => {
+  await page.mouse.move(0, 0);
   await showOptions(page);
   await page.evaluate(() => document.fonts.ready);
   await page.locator(".pick-card img").evaluateAll(images => Promise.all(images.map(image => image.complete || new Promise(resolve => { image.onload = image.onerror = resolve; }))));
@@ -122,7 +126,7 @@ if (completed) {
     await iconPage.screenshot({ path: path.join(output, "thumbnail-240.png"), omitBackground: true });
     await iconPage.close();
     assert.deepEqual(errors, []);
-    await writeFile(path.join(output, "capture-notes.md"), `# Actual interface capture\n\nCaptured from a local preview on ${new Date().toISOString().slice(0, 10)}.\n\n- Four 1270 × 760 screenshots, one silent WebM recording and a 240 × 240 listing thumbnail rendered from the site icon.\n- Fresh isolated English workspace, no personal records or API key.\n- The video picks a staple with one tap, opens one option's details and its full match and nutrition calculation, saves a plan and revisits Plans. Timing is paced for readability, not a measured user result.\n- Current-meal match groups are compared before saved groups and the nutrition reference. The recording shows the actual result, with complete calculations available in a disclosure.\n- No external requests, invented outcomes, overlays or simulated AI responses.\n- Screenshots 1 and 2 are scrolled so all three options and their buttons fit a 760 px tall frame. Screenshot 3 is scrolled to the actual calculation panel. Screenshot 4 is the printable recipe card opened from the same recommendation.
+    await writeFile(path.join(output, "capture-notes.md"), `# Actual interface capture\n\nCaptured from a local preview on ${new Date().toISOString().slice(0, 10)}.\n\n- Four 1270 × 760 screenshots, one silent WebM recording and a 240 × 240 listing thumbnail rendered from the site icon.\n- Fresh isolated English workspace, no personal records or API key.\n- The video picks a staple with one tap, opens one option's details and its full match and nutrition calculation, saves a plan and revisits Plans. Timing is paced for readability, not a measured user result.\n- Current-meal match groups are compared before saved groups and the nutrition reference. The recording shows the actual result, with complete calculations available in a disclosure.\n- No external requests, invented outcomes, overlays or simulated AI responses.\n- Screenshots 1 and 2 show the three options with their buttons in a 760 px tall frame; at that height the card images are cropped, and screenshot 2 is scrolled past the site header because the reason line makes the cards taller. Screenshot 3 is scrolled to the actual calculation panel. Screenshot 4 is the printable recipe card opened from the same recommendation.
 - Food images in the interface are AI-generated illustrations, as disclosed in the page footer and on each recipe card.\n- These are review drafts; upload/publication is a separate step.\n`);
     console.log("Captured four gallery drafts, the listing thumbnail and docs/launch/assets/mealhatch-demo.webm.");
   } finally {

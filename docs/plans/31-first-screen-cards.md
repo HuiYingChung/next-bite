@@ -68,12 +68,36 @@ English, no preferences, local development server, 2026-11-10.
 | 375 × 812, main action bottom | 789 px | 501 px |
 | 375 × 812, options visible without scrolling | 1 | 3 (third ends at 760 px) |
 | 1280 × 900, options with image visible | 1 large, 2 thumbnails | 3, each 390 px wide |
-| 1280 × 900, main action bottom | within the first screen | 888 px |
+| 1280 × 900, main action bottom | within the first screen | 875 px |
 
-On wide screens the images now take the first screen: on a window shorter
-than about 890 px the "Choose this meal" buttons are below it, although the
-whole card opens details. This follows the chosen layout and is open for a
-decision (see below).
+### Shorter wide windows
+
+With 4:3 images the "Choose this meal" buttons ended at 888 px on a 1280 px
+wide window, below the first screen of most laptops. The user chose to crop
+the images there. On the card layout the image height is now limited to the
+window height minus the rest of the first screen, never below 150 px; windows
+780 px tall or less also use less heading space and a 130 px minimum. The crop
+is centred, so the food stays in view.
+
+Position of the lowest "Choose this meal" button, without preferences and
+with one selected (each card then adds a reason line):
+
+| Window | Image | English | Traditional Chinese |
+| --- | --- | --- | --- |
+| 1920 × 950 | 401 × 300 | 895 / 920 | 873 / 898 |
+| 1512 × 860 | 401 × 240 | 835 / 859 | 812 / 837 |
+| 1440 × 790 | 401 × 170 | 765 / 789 | 742 / 767 |
+| 1280 × 900 | 393 × 280 | 875 / 899 | 852 / 877 |
+| 1280 × 800 | 393 × 180 | 775 / 799 | 752 / 777 |
+| 1280 × 720 | 393 × 130 | 694 / 718 | 671 / 696 |
+| 1366 × 650 | 401 × 130 | 694 / 718 | 671 / 696 |
+| 1024 × 700 | 307 × 130 | 686 / 729 | 663 / 688 |
+
+The buttons are on the first screen in every row except two: a 650 px tall
+window (a 1366 × 768 laptop with browser toolbars), where they end 21 to
+68 px below it, and 1024 × 700 in English with a preference selected (29 px
+below). Further gains there would need a smaller header or heading, which was
+not part of this decision.
 
 ## Verification
 
@@ -96,7 +120,5 @@ readers; whether people notice that the rows scroll sideways.
 
 ## Open for the user
 
-- Wide screens shorter than about 890 px: keep 4:3 images, or crop them
-  shorter there so the buttons stay on the first screen.
 - Wording of the new heading ("Three for dinner" / "晚餐的三道選擇"), the short
   labels on narrow screens and whether cards should state energy and protein.
