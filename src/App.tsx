@@ -13,6 +13,7 @@ import { getRecipeStapleAvailability } from "./collection-availability";
 import { RecipeDetails } from "./RecipeDetails";
 import { RecipeLibrary } from "./RecipeLibrary";
 import { RecipeImage } from "./RecipeImage";
+import { recipeDisplayName } from "./recipe-name";
 import { recipeTimeLabel } from "./recipe-time";
 import { FoodLibrary } from "./FoodLibrary";
 import { FoodRecognition } from "./FoodRecognition";
@@ -1149,7 +1150,7 @@ export default function App() {
         : null;
     const next: ParsedMeal = {
       ...blankDraft(),
-      displayName: recipe?.label[locale] ?? (isLegacyIdea ? legacyMealTitle(meal, locale) : ""),
+      displayName: (recipe ? recipeDisplayName(recipe, locale) : undefined) ?? (isLegacyIdea ? legacyMealTitle(meal, locale) : ""),
       components:
         calculation && recipe
           ? calculation.ingredientAmounts.map((ingredient, index) => ({
@@ -1343,7 +1344,7 @@ export default function App() {
               )}
             </p>
           </div>
-          <div className="workspace-actions">
+          <div className={`workspace-actions${view === "today" ? " workspace-actions--deciding" : ""}`}>
             <button
               className="button primary"
               type="button"
@@ -1643,7 +1644,7 @@ export default function App() {
                           <span>{activePresentation.cuisine}</span>
                           <span className="recipe-time-label">{recipeTimeLabel(pilotActive.recipe.prepMinutes, pilotActive.ingredientReadiness, locale)}</span>
                         </div>
-                        <h3>{pilotActive.recipe.label[locale]}</h3>
+                        <h3>{recipeDisplayName(pilotActive.recipe, locale)}</h3>
                       </div>
                       <RecipeFitSummary rec={pilotActive} locale={locale} />
                     </div>
@@ -1700,7 +1701,7 @@ export default function App() {
                                 {t(locale, "STANDARD RECIPE", "標準配方")}
                               </span>
                               <strong>
-                                {pilot.recommendations[index].recipe.label[locale]}
+                                {recipeDisplayName(pilot.recommendations[index].recipe, locale)}
                               </strong>
                               <RecipeOptionFacts rec={pilot.recommendations[index]} locale={locale} />
                             </button>
@@ -1778,7 +1779,7 @@ export default function App() {
                         recipe.mealId === meal.id &&
                         recipe.version === plan.recipeVersion,
                     );
-                    const planTitle = savedRecipe?.label[locale] ?? (isLegacyIdea
+                    const planTitle = (savedRecipe ? recipeDisplayName(savedRecipe, locale) : undefined) ?? (isLegacyIdea
                       ? legacyMealTitle(meal, locale)
                       : t(locale, "Saved recipe unavailable", "無法取得的已存配方"));
                     const conflicts = !isLegacyIdea && !savedRecipe ? [] : [

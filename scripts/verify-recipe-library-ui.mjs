@@ -42,6 +42,8 @@ function loadSource(name) {
 const { recommendationDataset: catalogMeals, legacyRecommendationDataset: legacyMeals, createBlankState } = loadSource("data.ts");
 const { legacyMealTitle, getLegacyNamedMealComponents, translateFood } = loadSource("presentation.ts");
 const recipeCount = definitions.length;
+// Headings omit the stored "standard recipe" marker; the tag carries it once.
+const displayName = (recipe, locale) => recipe.label[locale].replace(locale === "zh" ? /（標準配方）$/ : / — standard recipe$/, "");
 const flowsOnly = process.argv.includes("--flows-only");
 assert(recipeCount > 3, "The library must include recipes outside the top three");
 const screenshotRecipeId = screenshotId || definitions.at(-1).mealId;
@@ -160,7 +162,7 @@ async function verifySavedPlans(locale) {
   await page.screenshot({ path: fileURLToPath(new URL(`${locale}-unavailable-version-empty.png`, output)) });
   await dialog.getByRole("button", { name: locale === "en" ? "Discard draft" : "捨棄草稿", exact: true }).click();
   await plansNav().click();
-  const exactCard = page.locator(".plan-card").filter({ has: page.getByRole("heading", { name: exact.label[locale], exact: true }) });
+  const exactCard = page.locator(".plan-card").filter({ has: page.getByRole("heading", { name: displayName(exact, locale), exact: true }) });
   assert.equal(await exactCard.locator(".plan-recipe-details").evaluate(node => node.open), false);
   await exactCard.locator(".plan-recipe-details > summary").click();
   assert.equal(await exactCard.locator(".action-tip").evaluate(node => node.open), false);
@@ -231,7 +233,7 @@ async function verifyPreferenceFirst(locale) {
   const { recommendPilotMeals } = loadSource("nutrition.ts");
   const { defaultMealContext } = loadSource("meal-context.ts");
   const expected = recommendPilotMeals({ ...createBlankState(noon).profile, feelToday: "Need something light" }, { ...defaultMealContext, preferredStaple: "noodles", cuisine: "asian", ingredientReadiness: "ready" }, locale, noon);
-  assert.equal(await page.locator(".meal-feature h3").innerText(), expected.recommendations[0].recipe.label[locale]);
+  assert.equal(await page.locator(".meal-feature h3").innerText(), displayName(expected.recommendations[0].recipe, locale));
   assert(expected.recommendations.every(rec => rec.recipe.staple === "noodles"));
   assert.equal(await page.locator(".recommendation-score").evaluate(node => node.open), false);
   assert.deepEqual(await page.locator(".meal-feature .recipe-fit-reasons li").allTextContents(), expected.recommendations[0].matchedPreferenceReasons.slice(0, 2),
@@ -241,7 +243,7 @@ async function verifyPreferenceFirst(locale) {
   await page.locator(".meal-feature").evaluate(node => node.scrollIntoView({ block: "start" }));
   await page.screenshot({ path: fileURLToPath(new URL(`${locale}-preference-match-mobile.png`, output)) });
   await page.getByRole("button", { name: locale === "en" ? "Show another option" : "換一道看看", exact: true }).click();
-  assert.equal(await page.locator(".meal-feature h3").innerText(), expected.recommendations[1].recipe.label[locale]);
+  assert.equal(await page.locator(".meal-feature h3").innerText(), displayName(expected.recommendations[1].recipe, locale));
   const receipt = page.locator(".recommendation-score");
   assert.equal(await receipt.evaluate(node => node.open), false);
   await receipt.locator(":scope > summary").focus();
@@ -333,7 +335,7 @@ try {
     await page.getByRole("button", { name: locale === "en" ? `Browse all ${recipeCount} recipes` : `瀏覽全部 ${recipeCount} 道配方`, exact: true }).click();
     assert.equal(await page.locator(".recipe-library-card").count(), recipeCount);
     assert.deepEqual(new Set(await page.locator(".recipe-library-card h3").allTextContents()),
-      new Set(definitions.map(recipe => recipe.label[locale])), "Every live recipe title must match the authored bilingual label");
+      new Set(definitions.map(recipe => displayName(recipe, locale))), "Every live recipe title must match the authored bilingual label without its stored marker");
     assert.equal(await page.locator("#recipe-library-title").evaluate(node => document.activeElement === node), true);
     assert.equal(await page.locator(".recipe-library .recipe-ranking-note").count(), 1,
       "The whole library receives one neutral-ranking explanation");
@@ -367,7 +369,7 @@ try {
       await page.keyboard.press("Enter");
       await dialog.waitFor();
       const title = await dialog.locator(".drawer-heading h2").innerText();
-      const definition = definitions.find(recipe => recipe.label[locale] === title);
+      const definition = definitions.find(recipe => displayName(recipe, locale) === title);
       assert(definition, "The opened recipe must match an authored recipe label");
       const generatedRecipe = generatedRecipes.get(definition.mealId);
       const preparedIngredients = generatedRecipe.ingredients.filter(ingredient => ingredient.processing === "pureed");

@@ -12,6 +12,7 @@ import type { PilotRecommendation, PilotResult } from "./nutrition";
 import { sourceFoods, standardizedRecipes } from "./nutrition-data";
 import type { PlannedMeal } from "./launch-state";
 import { label } from "./presentation";
+import { recipeDisplayName } from "./recipe-name";
 import type { Locale } from "./types";
 
 const text = (locale: Locale, en: string, zh: string) => locale === "en" ? en : zh;
@@ -110,16 +111,16 @@ export function RecipeLibrary({ result, context, locale, plans, busy, onPortionC
           {(!option || hasPreferences) && <p className="small muted">{option ? recipeMatchLabel(option.recipe, locale) : text(locale, "Excluded under current conditions", "目前條件下已排除")}</p>}
           <div className="recipe-library-card-heading">
             <RecipeImage recipe={recipe} locale={locale} />
-            <h3>{recipe.label[locale]}</h3>
+            <h3>{recipeDisplayName(recipe, locale)}</h3>
           </div>
           <p className="small muted recipe-time-label">{recipeTimeLabel(recipe.prepMinutes, context.ingredientReadiness, locale)}</p>
-          <button type="button" className="button quiet" aria-haspopup="dialog" aria-label={text(locale, `View recipe: ${recipe.label.en}`, `查看配方：${recipe.label.zh}`)} onClick={() => { setSelectedId(recipe.mealId); setSaveMessage(""); }}>
+          <button type="button" className="button quiet" aria-haspopup="dialog" aria-label={text(locale, `View recipe: ${recipeDisplayName(recipe, "en")}`, `查看配方：${recipeDisplayName(recipe, "zh")}`)} onClick={() => { setSelectedId(recipe.mealId); setSaveMessage(""); }}>
             {text(locale, "View recipe", "查看配方")}
           </button>
         </article>;
       })}
     </div>
-    <Drawer open={Boolean(selectedRecipe)} title={selectedRecipe?.label[locale] ?? text(locale, "Recipe details", "配方詳細資料")} closeLabel={text(locale, "Close recipe", "關閉配方")} onClose={() => setSelectedId(null)}>
+    <Drawer open={Boolean(selectedRecipe)} title={(selectedRecipe ? recipeDisplayName(selectedRecipe, locale) : undefined) ?? text(locale, "Recipe details", "配方詳細資料")} closeLabel={text(locale, "Close recipe", "關閉配方")} onClose={() => setSelectedId(null)}>
       {selectedRecipe && calculation && <div className="recipe-library-detail">
         <RecipeImage recipe={selectedRecipe} locale={locale} variant="detail" />
         {portionControl}

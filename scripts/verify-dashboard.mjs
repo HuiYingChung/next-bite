@@ -532,7 +532,11 @@ function verifyNutritionPanel(recommendation, locale) {
     }
   });
   const heading = content(elements(tree, (node) => hasClass(node, "nutrition-recipe-heading"))[0]);
-  assert.ok(heading.includes(recommendation.recipe.label[locale]));
+  // Headings show the authored label without its stored "standard recipe" marker.
+  const marker = locale === "zh" ? "（標準配方）" : " — standard recipe";
+  assert.ok(recommendation.recipe.label[locale].endsWith(marker), "Authored labels keep the stored marker.");
+  assert.ok(heading.includes(recommendation.recipe.label[locale].slice(0, -marker.length)));
+  assert.ok(!heading.includes(marker), "The marker appears once as a tag, not in each heading.");
   const portions = locale === "en" ? { small: "Smaller portion", regular: "Standard portion", large: "Larger portion" } : { small: "較小份", regular: "標準份", large: "較大份" };
   assert.ok(heading.includes(portions[recommendation.portion]));
   assert.ok(content(elements(tree, (node) => hasClass(node, "nutrition-recipe-version"))[0]).includes(recommendation.recipe.version));

@@ -1388,7 +1388,7 @@ details[open] > summary::after {
     margin-left: 4px;
   }
   .workspace-heading {
-    padding: 18px 0 14px;
+    padding: 18px 0 10px;
     gap: 14px;
     align-items: start;
     flex-wrap: wrap;
@@ -1403,19 +1403,24 @@ details[open] > summary::after {
     width: 100%;
   }
   .workspace-actions > .button { flex: 1; }
+  /* The decision is already the first thing on this view, so the shortcut to
+     it only pushes the meal and its primary action below the first screen. */
+  .workspace-actions--deciding > .button.primary { display: none; }
+  .workspace-actions--deciding > .button { flex: 0 0 auto; }
   .collection-switcher {
     order: -2;
     grid-template-columns: minmax(0, 1fr);
     gap: 4px;
     padding-bottom: 8px;
   }
-  .collection-switcher p { max-width: none; font-size: 0.73rem; }
+  /* Repeats the page subtitle; the two actions below it stay. */
+  .collection-switcher p { display: none; }
   .collection-switcher .text-button { font-size: 0.73rem; }
   .back-to-options { display: inline-flex; }
   .workspace-nav {
     gap: 0;
     justify-content: space-between;
-    margin-bottom: 12px;
+    margin-bottom: 8px;
   }
   .workspace-nav button {
     font-size: 0.78rem;
@@ -1458,6 +1463,8 @@ details[open] > summary::after {
   .decision-panel > h2 {
     font-size: 0.85rem;
   }
+  /* The selected tab already names this section. */
+  .decision-panel > .eyebrow { display: none; }
   .sample-context {
     margin-top: 14px;
     font-size: 0.67rem;

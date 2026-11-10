@@ -13,6 +13,7 @@ import { nutrientKeys, sourceFoods, standardizedRecipes } from "./nutrition-data
 import type { IngredientPreparationModelBasis, NutrientKey, NutrientValues, NutritionPortion, RecipeIngredient, SourceFood, StandardizedRecipe } from "./nutrition-types";
 import type { DayHistory, Locale, MustAvoidTag, Profile, Recommendation, TodayLog } from "./types";
 import { label } from "./presentation";
+import { recipeDisplayName } from "./recipe-name";
 
 export const nutrientUnits: Record<NutrientKey, string> = {
   kcal: "kcal", energyKj: "kJ", protein: "g", carbs: "g", fat: "g", saturatedFat: "g",
@@ -386,7 +387,7 @@ export const recommendPilotMeals = (
   }
   const ordered = pickHistoryVariedChoices(candidates, records, candidates.length);
   const eligibleRecipes = ordered.map((choice, index) => {
-    const variety = describeHistoryVariety(choice, records.scope, locale, "recipe", value => value.recipe.label[locale]);
+    const variety = describeHistoryVariety(choice, records.scope, locale, "recipe", value => recipeDisplayName(value.recipe, locale));
     choice.value.reasons[0] = localized(locale, `Rank ${index + 1} of ${candidates.length}: current preference ${choice.value.score.currentPreference.points}, then saved preference ${choice.value.score.savedPreference.points}, then nutrition reference ${choice.value.score.nutritionReference}. Equal priority levels use declared ingredient variety.`, `在 ${candidates.length} 道符合條件配方中排第 ${index + 1} 名：先比較本餐偏好 ${choice.value.score.currentPreference.points}，再比較已儲存偏好 ${choice.value.score.savedPreference.points}，最後比較營養參考 ${choice.value.score.nutritionReference}；相同層級才使用食材變化。`);
     choice.value.trace.variety = variety;
     choice.value.trace.recentRecordsUsed = variety.evidence.map(record => `${record.date} ${record.mealName}: ${record.foodNames.join(", ")}`);

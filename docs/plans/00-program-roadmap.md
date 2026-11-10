@@ -1,6 +1,16 @@
 # MealHatch product roadmap
 
-## Active iteration — printable recipe cards
+## Active iteration — launch polish
+
+Status: review — implemented and verified locally; uncommitted
+Authorized: 2026-11-10. User asked for the problems found in a launch-readiness
+review to be fixed on a new branch, excluding larger recipe images. Read
+[`28-launch-polish.md`](./28-launch-polish.md).
+Branch: `claude/launch-polish`, from `main` at `849fa6d`.
+Repairs a date-dependent check, shortens displayed recipe names, tightens the
+narrow first screen and recaptures launch assets. No data or ranking changes.
+
+## Previous iteration — printable recipe cards
 
 Status: review — implemented and verified locally; native PDF output pending
 Authorized: 2026-11-06. User approved replacing the sparse meal card with a

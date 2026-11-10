@@ -17,12 +17,16 @@ verified.
 
 Current authorized iteration:
 
+- [`Launch polish`](./plans/28-launch-polish.md) — `review`, on
+  `claude/launch-polish`; repaired date-dependent check, shorter displayed
+  recipe names, tighter narrow first screen and recaptured launch assets.
+
+Previous iterations (historical handoffs):
+
 - [`Printable recipe cards`](./plans/27-printable-recipe-cards.md) — `review`,
   on `codex/narrow-meal-actions`; complete public recipe previews and compact
   single-page print layouts, with passing content and browser layout checks.
   Native printer/PDF output still needs manual confirmation.
-
-Previous iterations (historical handoffs):
 
 - [`Narrow-screen meal actions`](./plans/26-narrow-meal-actions.md) — `review`,
   on `codex/narrow-meal-actions`; grouped, left-aligned collection actions

@@ -56,7 +56,7 @@ for (const field of bodyFields) {
 }
 assert.equal(JSON.stringify(seedProfile), seedBeforeBlank, "Creating blank state must not mutate the example profile.");
 const blankStorage = storage();
-assert.equal(saveLaunchState(blankLaunch, blankStorage), true);
+assert.equal(saveLaunchState(blankLaunch, blankStorage, now), true);
 for (const field of bodyFields) assert.equal(loadLaunchState(blankStorage, now).profile[field], "");
 const existingMeasurements = { heightCm: "172", heightFt: "5", heightIn: "8", weightKg: "68", weightLb: "150" };
 for (const key of [LAUNCH_STORAGE_KEY, LEGACY_STORAGE_KEYS[0]]) {
@@ -101,7 +101,7 @@ assert.deepEqual(state.plannedMeals, []);
 const migratedStore = storage({
   [LEGACY_STORAGE_KEYS[0]]: legacy.getItem(LEGACY_STORAGE_KEYS[0]),
 });
-assert.equal(saveLaunchState(state, migratedStore), true);
+assert.equal(saveLaunchState(state, migratedStore, now), true);
 assert.equal(
   migratedStore.getItem(LEGACY_STORAGE_KEYS[0]),
   null,
@@ -184,7 +184,7 @@ const blocked = {
 };
 assert.equal(loadLaunchState(blocked, now).days.length, 7);
 assert.equal(loadLocale(blocked), "en");
-assert.equal(saveLaunchState(state, blocked), false);
+assert.equal(saveLaunchState(state, blocked, now), false);
 assert.equal(saveLocale("zh", blocked), false);
 assert.equal(clearLaunchStorage(blocked), false);
 
@@ -216,7 +216,7 @@ assert.equal(newChoiceState.plannedMeals[0].recipeVersion, "pilot-v1");
 const invalidChoiceReload = loadLaunchState(storage({ [LAUNCH_STORAGE_KEY]: JSON.stringify({ ...state, plannedMeals: [{ ...legacyPlan, portion: "huge", recipeVersion: { nested: "invalid" }, apiKey: "must-not-export" }] }) }), now).plannedMeals;
 assert.deepEqual(invalidChoiceReload, [legacyPlan], "Invalid stored metadata must be removed without dropping the old plan or inventing a choice.");
 const persisted = storage();
-assert.equal(saveLaunchState(state, persisted), true);
+assert.equal(saveLaunchState(state, persisted, now), true);
 assert.deepEqual(
   loadLaunchState(persisted, now).plannedMeals,
   state.plannedMeals,
@@ -474,12 +474,12 @@ const gramExport = createLocalDataExport(gramExportState, "en", now);
 assert.equal(gramExport.data.days.find((day) => day.isToday).todayLog.Lunch.componentDetails[0].amount.quantity, 300);
 assert.equal(gramExport.data.days.find((day) => day.isToday).todayLog.Lunch.componentDetails[0].amount.unit, "g");
 const metricStorage = storage();
-assert.equal(saveLaunchState(gramExportState, metricStorage), true);
+assert.equal(saveLaunchState(gramExportState, metricStorage, now), true);
 assert.deepEqual(loadLaunchState(metricStorage, now).days.find((day) => day.isToday).todayLog.Lunch.componentDetails[0].amount, gramsMerged.componentDetails[0].amount, "Saved grams must survive the actual storage/reload path.");
 const identityEntry = parsedMealToEntry({ ...parsed, components: identifiedComponents });
 const identityState = { ...state, days: state.days.map((day) => day.isToday ? { ...day, todayLog: { ...day.todayLog, Lunch: identityEntry } } : day) };
 const identityStorage = storage();
-assert.equal(saveLaunchState(identityState, identityStorage), true);
+assert.equal(saveLaunchState(identityState, identityStorage, now), true);
 assert.deepEqual(loadLaunchState(identityStorage, now).days.find((day) => day.isToday).todayLog.Lunch.componentDetails, identityEntry.componentDetails, "Confirmed source identities must survive actual local storage/reload.");
 assert.deepEqual(createLocalDataExport(identityState, "zh", now).data.days.find((day) => day.isToday).todayLog.Lunch.componentDetails, identityEntry.componentDetails, "Exports must retain confirmed identity, localized names and gram amounts without adding nutrient consumption totals.");
 assert(

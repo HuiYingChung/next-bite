@@ -15,9 +15,11 @@ Your next meal, with your preferences first
 
 MealHatch helps Chinese adults in North America choose their next meal.
 What sounds good comes first, with sourced nutrition as a reference. Compare
-108 recipes, check what preparation they need and save a plan. Every scoring
-step is available when you want it. English and Traditional Chinese. No account
-or AI key needed for the core workflow.
+108 recipes, print a recipe card and save a plan. English and Traditional
+Chinese. No account needed.
+
+250 characters as one line, drafted to fit a 260-character field. Confirm
+the limit in the current Product Hunt editor before submitting.
 
 ## Maker comment
 
@@ -31,8 +33,10 @@ defined recipes with stated portions, preparation steps, source links and
 numeric comparisons. Current-meal preferences take priority over saved
 preferences, then composition. Every calculation remains inspectable, with
 details closed until you need them. It is about choosing the next meal, without
-grading your habits or setting weight-loss goals. A separate food and drink
-lookup helps with recording.
+grading your habits or setting weight-loss goals. Each recipe opens as a
+one-page card with weighed ingredients and steps to print or save. A separate
+food and drink lookup helps with recording. Food images are AI-generated
+illustrations of the stated recipes, not photographs.
 
 The core workflow runs without an account or AI key. Optional AI organizes a
 meal description for review; deterministic rules select the recommendations.
@@ -42,7 +46,7 @@ I would love feedback on the first minute: can you find an option you would
 actually choose, and does its explanation help? If something feels confusing
 or an expected preference is missing, please tell me where you got stuck.
 
-## Three gallery views
+## Four gallery views
 
 Use actual screenshots from the reviewed build, in the order below. A fresh
 visit starts with empty personal records; if using the optional example instead,
@@ -54,6 +58,10 @@ outcome. Source files and any export dimensions belong with the assets.
 | 1. Choose | Default recipe view, main meal and save action visible | A few options. One next meal. | MealHatch shows preference controls, a defined recipe, its portion estimates and an action to save the meal. |
 | 2. Adjust | A selected noodle preference and actual matching options | What sounds good comes first. | The noodle preference changes the suggestions; actual fit reasons appear beside each option. |
 | 3. Understand | The initially collapsed calculation opened to its input table | Details when you want them. | A recipe shows its current and saved preference calculations, composition reference, model inputs, thresholds and sources. |
+| 4. Make it | The printable recipe card opened from the recommendation | A recipe you can follow. | A one-page recipe card shows the dish, portion, nutrition estimate, weighed ingredients and numbered steps, with print and paper-size controls. |
+
+Captured files: `assets/01-choose-a-meal.png` to `assets/04-print-the-recipe.png`,
+1270 × 760 each. Listing thumbnail: `assets/thumbnail-240.png`, 240 × 240.
 
 Do not show a preference match unless the actual displayed option matches it.
 With several current preferences, matched groups are compared together. Other
@@ -86,3 +94,4 @@ order and actual outcomes; do not speed it up to imply measured usability.
 - Complete scores for every food-library record, or estimates for unspecified restaurant meals.
 - AI choosing the winner, or live-provider reliability inferred from mocks.
 - A proven reduction in decision time before observing and comparing sessions.
+- Food images presented as photographs of real cooked meals.
