@@ -5,7 +5,8 @@ Published-model authorization: 2026-11-04. Preference-first ordering authorized
 total ranking while retaining the published model and its detailed calculations.
 Nutrition levels and rotation authorized 2026-11-10; see
 [Nutrition levels and rotation](#nutrition-levels-and-rotation).
-Ranking policy: `mealhatch-banded-rotation-2026-11-10-v1`.
+Main-protein preference authorized 2026-11-10.
+Ranking policy: `mealhatch-banded-rotation-2026-11-10-v2`.
 Audience: general healthy adults choosing an ordinary meal from
 explicitly authored recipes. Browsing the full collection does not alter the
 top-three ranking or bypass exclusions.
@@ -71,17 +72,18 @@ are product choices, not validated scientific recommendations.
 | Group | Condition for +2 |
 | --- | --- |
 | This-meal staple | The explicitly selected staple matches the recipe. |
+| This-meal main protein | At least one ingredient the recipe declares as protein, in an amount above zero, belongs to the selected group: chicken or turkey; egg; fish or seafood; beans or soy; beef, pork or lamb; dairy. Groups follow each source food's reviewed protein identity, not recipe names. A recipe with two protein ingredients can match either group. |
 | This-meal cuisine | The explicitly selected cuisine group matches. |
 | Preparation | A request for less added oil matches at most 1 g listed added oil per 100 g, or a request for less effort matches at most 10 estimated assembly minutes. If ingredients still need preparation, assembly time cannot earn a less-effort match because total time is unknown. The current preparation request takes priority; a saved light-meal request is used only without a current request. The same preparation preference cannot earn twice. |
 | Saved meal style | At least one supported saved style matches structured recipe/catalog facts; additional matches do not stack. |
 | Requested nutrient direction | An explicit more-protein request matches over 8.5 g protein per 100 g, or an explicit more-vegetables-and-beans request matches over 40% eligible FVNS. Both together still earn at most two. |
 
-Staple and cuisine belong to the current-meal group. Preparation belongs to
+Staple, main protein and cuisine belong to the current-meal group. Preparation belongs to
 current-meal preferences when explicitly selected there; its saved fallback
 belongs to saved preferences. Saved styles and nutrient directions belong to
 saved preferences. A summary counts matched versus selected groups, not a
-percentage of nutritional adequacy; an unset group earns nothing. The five
-group contributions still sum to at most 10, but that sum is not the ranking.
+percentage of nutritional adequacy; an unset group earns nothing. The six
+group contributions sum to at most 12, but that sum is not the ranking.
 
 The final group deliberately expresses a personal preference for an
 already represented composition characteristic. It is disclosed as such, not
@@ -134,6 +136,13 @@ are retained for old saved plans and do not fill vacancies in the scored list.
 Current names, ingredient groups and safety metadata derive from each actual
 recipe. Unrelated old idea ingredients do not add exclusions or style bonuses;
 source unknowns and actual preparation conditions still apply.
+
+Staple, warm meals and less added oil are chosen for each meal. Their saved
+equivalents (rice-based, noodle-based, warm meals, less added oil) are no
+longer offered as new saved choices, because two controls for one idea behaved
+differently: the saved warm preference added points while the current one
+filtered. Copies saved earlier keep their existing scoring, are listed
+separately in preferences and can be removed.
 
 New saved-style choices are limited to supported recipe attributes. Previously
 saved unsupported preferences remain visible and removable, without inventing

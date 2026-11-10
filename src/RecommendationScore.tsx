@@ -48,6 +48,7 @@ export function RecommendationScore({ rec, locale }: RecommendationScoreProps) {
   const preferenceValue = (value: string) => {
     const values: Record<string, [string, string]> = {
       rice: ["Rice", "飯類"], noodles: ["Noodles", "麵類"], bread: ["Bread or wraps", "麵包／捲餅"], potato: ["Potato or sweet potato", "馬鈴薯／地瓜"], other: ["Other grains", "其他穀物"], none: ["No staple", "無主食"],
+      poultry: ["Chicken or turkey", "雞肉或火雞"], egg: ["Egg", "蛋"], seafood: ["Fish or seafood", "魚或海鮮"], beans: ["Beans or soy", "豆類或黃豆"], "red-meat": ["Beef, pork or lamb", "牛、豬或羊"], dairy: ["Dairy", "乳製品"],
       asian: ["Asian-style", "亞洲風味"], western: ["Western-style", "西式風味"], "less-added-oil": ["Less added oil", "較少添加油"], "less-effort": ["Less effort to prepare", "較省準備力氣"],
       "High-protein": ["More protein", "較多蛋白質"], "Vegetable-forward": ["More vegetables & beans", "較多蔬菜與豆類"],
     };

@@ -196,7 +196,7 @@ for (const selectedContext of [context(),context({preferredStaple:"rice"}),conte
     assert.equal(item.score.nutrient+item.score.energy+item.score.preference,item.score.total);
     assert.equal(item.score.total,10-item.score.model.rawScore+item.score.preference,"Energy included once");
     assert.equal(item.score.preferenceRows.reduce((sum,row)=>sum+row.points,0),item.score.preference);
-    assert(item.score.preference>=0&&item.score.preference<=10);
+    assert(item.score.preference>=0&&item.score.preference<=12);
   }
   const expectedOrder=independentTotals.map(row=>row.tier).sort(compareIndependentTiers);
   const levelOf=reference=>reference>=18?2:reference>=14?1:0;

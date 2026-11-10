@@ -224,6 +224,15 @@ async function verifyPreferenceFirst(locale) {
     if (width !== 320) await page.screenshot({ path: fileURLToPath(new URL(`${locale}-home-${width === 390 ? "mobile" : "desktop"}.png`, output)) });
   }
   await page.setViewportSize({ width: 390, height: 900 });
+  // Main protein is a current-meal preference: the live first option follows
+  // the engine for that selection, then the control returns to no selection.
+  const mainProtein = page.getByRole("combobox", { name: locale === "en" ? "Main protein" : "主菜", exact: true });
+  await mainProtein.selectOption("seafood");
+  const seafood = loadSource("nutrition.ts").recommendPilotMeals(createBlankState(noon).profile, { ...loadSource("meal-context.ts").defaultMealContext, preferredProtein: "seafood" }, locale, noon);
+  assert.equal(await page.locator(".meal-feature h3").innerText(), displayName(seafood.recommendations[0].recipe, locale));
+  assert.deepEqual(await page.locator(".meal-feature .recipe-fit-reasons li").allTextContents(), seafood.recommendations[0].matchedPreferenceReasons.slice(0, 2));
+  assert((await page.locator(".meal-feature .recipe-fit-reasons li").first().innerText()).includes(locale === "en" ? "fish or seafood" : "魚或海鮮"));
+  await mainProtein.selectOption("any");
   await page.getByRole("combobox", { name: locale === "en" ? "Preferred staple" : "偏好的主食", exact: true }).selectOption("noodles");
   await page.getByRole("combobox", { name: locale === "en" ? "Preferred style" : "偏好的風格", exact: true }).selectOption("asian");
   await page.locator(".meal-context-extra > summary").click();
@@ -253,7 +262,7 @@ async function verifyPreferenceFirst(locale) {
   await receipt.locator(":scope > summary").focus();
   await page.keyboard.press("Enter");
   assert.equal(await receipt.locator(".score-model-row").count(), 7);
-  assert.equal(await receipt.locator(".score-preference-row").count(), 5);
+  assert.equal(await receipt.locator(".score-preference-row").count(), 6);
   const current = nextGroup[0].score.currentPreference;
   assert((await receipt.locator(".score-current-fit").innerText()).includes(`${current.points}/${current.possible}`));
   assert((await receipt.locator(".score-ranking-version").innerText()).includes(expected.trace.rankingPolicy.version));
@@ -386,7 +395,7 @@ try {
       await page.keyboard.press("Enter");
       assert.equal(await receipt.evaluate(node => node.open), true);
       assert.equal(await receipt.locator(".score-model-row").count(), 7);
-      assert.equal(await receipt.locator(".score-preference-row").count(), 5);
+      assert.equal(await receipt.locator(".score-preference-row").count(), 6);
       assert.equal(await receipt.locator(".score-model-row").last().isVisible(), true);
       await receipt.locator(".score-source-details > summary").focus();
       await page.keyboard.press("Enter");

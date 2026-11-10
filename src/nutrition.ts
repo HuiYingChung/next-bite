@@ -13,6 +13,7 @@ import { nutrientKeys, sourceFoods, standardizedRecipes } from "./nutrition-data
 import type { IngredientPreparationModelBasis, NutrientKey, NutrientValues, NutritionPortion, RecipeIngredient, SourceFood, StandardizedRecipe } from "./nutrition-types";
 import type { DayHistory, Locale, MustAvoidTag, Profile, Recommendation, TodayLog } from "./types";
 import { label } from "./presentation";
+import { getRecipeProteinGroups, proteinGroupLabels } from "./protein-preference";
 import { recipeDisplayName } from "./recipe-name";
 
 export const nutrientUnits: Record<NutrientKey, string> = {
@@ -84,7 +85,7 @@ export type PreferenceScoreRow = {
 export type PreferenceFit = { points: number; possible: number; matched: number; selected: number };
 export type RankingPolicy = { version: string; order: string[] };
 export const RECIPE_RANKING_POLICY: RankingPolicy = {
-  version: "mealhatch-banded-rotation-2026-11-10-v1",
+  version: "mealhatch-banded-rotation-2026-11-10-v2",
   order: ["current-preference-descending", "saved-preference-descending", "nutrition-level-descending", "equal-tier-record-variety", "equal-tier-alternative-variety", "meal-window-rotation", "stable-id"],
 };
 
@@ -265,6 +266,7 @@ export const calculateScoreForRecipe = (recipe: StandardizedRecipe, profile: Pro
   const meal = recommendationDataset.find(item => item.id === recipe.mealId);
   const staple = context.preferredStaple !== "any" && recipe.staple === context.preferredStaple;
   const cuisine = context.cuisine !== "any" && recipe.cuisine === context.cuisine;
+  const mainProtein = context.preferredProtein !== "any" && getRecipeProteinGroups(recipe, foods).has(context.preferredProtein);
   const oilPer100g = recipe.seasoning.oilGrams / recipe.ingredients.reduce((sum, item) => sum + item.grams, 0) * 100;
   const preparation = profile.feelToday === "Need something light" ? "oil" : profile.feelToday === "Low energy" ? "time" : profile.preferenceTags.includes("Light meals") ? "oil" : null;
   const preparationAvailable = preparation !== "time" || context.ingredientReadiness !== "needs-prep";
@@ -287,6 +289,7 @@ export const calculateScoreForRecipe = (recipe: StandardizedRecipe, profile: Pro
   const preparationValue = preparation === "oil" ? "less-added-oil" : "less-effort";
   const rowFacts: Record<string, RowFacts> = {
     staple: facts("current", context.preferredStaple === "any" ? [] : [context.preferredStaple], staple ? [context.preferredStaple] : []),
+    protein: facts("current", context.preferredProtein === "any" ? [] : [context.preferredProtein], mainProtein ? [context.preferredProtein] : []),
     cuisine: facts("current", context.cuisine === "any" ? [] : [context.cuisine], cuisine ? [context.cuisine] : []),
     preparation: facts(preparationScope, preparation ? [preparationValue] : [], preparationFit ? [preparationValue] : [], preparationAvailable),
     "saved-styles": facts("saved", requestedStyles, styles),
@@ -294,6 +297,7 @@ export const calculateScoreForRecipe = (recipe: StandardizedRecipe, profile: Pro
   };
   const preferenceRows: PreferenceScoreRow[] = [
     { key: "staple", label: localized(locale, "Selected staple", "本餐主食"), points: staple ? 2 : 0, note: localized(locale, staple ? "Matches the selected staple: +2 product preference points." : context.preferredStaple === "any" ? "No staple preference selected: +0." : "Selected staple does not match: +0. This is a flexible preference.", staple ? "符合本餐主食，加 2 點產品偏好分。" : context.preferredStaple === "any" ? "尚未選擇主食偏好，加 0 點。" : "已選主食未符合，加 0 點；此偏好保留彈性。") },
+    { key: "protein", label: localized(locale, "Selected main protein", "本餐主菜"), points: mainProtein ? 2 : 0, note: localized(locale, mainProtein ? "A declared protein ingredient is in the selected group: +2 product preference points." : context.preferredProtein === "any" ? "No main protein selected: +0." : "No declared protein ingredient is in the selected group: +0. This is a flexible preference.", mainProtein ? "配方標示的蛋白質食材屬於本餐選擇的主菜類別，加 2 點產品偏好分。" : context.preferredProtein === "any" ? "尚未選擇主菜，加 0 點。" : "配方標示的蛋白質食材不屬於已選主菜類別，加 0 點；此偏好保留彈性。") },
     { key: "cuisine", label: localized(locale, "Selected cuisine", "本餐料理類型"), points: cuisine ? 2 : 0, note: localized(locale, cuisine ? "Matches the selected cuisine group: +2 product preference points." : context.cuisine === "any" ? "No cuisine preference selected: +0." : "Selected cuisine does not match: +0. This is a flexible preference.", cuisine ? "符合本餐料理類型，加 2 點產品偏好分。" : context.cuisine === "any" ? "尚未選擇料理類型偏好，加 0 點。" : "已選料理類型未符合，加 0 點；此偏好保留彈性。") },
     { key: "preparation", label: localized(locale, "Preparation preference", "作法偏好"), points: preparationFit ? 2 : 0,
       note: preparation === "oil" ? localized(locale, `Requested less added oil: ${round(oilPer100g)} g/100 g; +2 when at most 1 g/100 g. This is a product threshold, not a nutrition standard.`, `偏好較少添加油：每 100 克含 ${round(oilPer100g)} 克添加油；不超過 1 克時加 2 點。這是產品門檻，並非營養標準。`)
@@ -333,10 +337,13 @@ const recipeFitReasons = (recipe: StandardizedRecipe, score: PilotScore, context
   const englishStapleNames: Record<string, string> = { rice: "rice", noodles: "noodles", bread: "bread or wraps", potato: "potato or sweet potato", other: "other grains", none: "no separate staple" };
   const stapleName = (locale === "zh" ? stapleNames : englishStapleNames)[context.preferredStaple];
   const cuisineName = context.cuisine === "asian" ? text("Asian-style", "亞洲風格") : text("Western-style", "西式風格");
+  const proteinName = context.preferredProtein === "any" ? "" : locale === "zh" ? proteinGroupLabels[context.preferredProtein].zh : proteinGroupLabels[context.preferredProtein].en.toLowerCase();
   const matches: string[] = [], mismatches: string[] = [];
   for (const row of score.preferenceRows.filter(item => item.active)) {
     if (row.key === "staple") {
       (row.matched ? matches : mismatches).push(row.matched ? text(`Matches your selected staple: ${stapleName}.`, `符合本餐選擇的主食：${stapleName}。`) : text(`Does not match your selected staple (${stapleName}); it remains a flexible alternative.`, `未符合本餐選擇的主食（${stapleName}），保留為彈性替代選項。`));
+    } else if (row.key === "protein") {
+      (row.matched ? matches : mismatches).push(row.matched ? text(`Matches your selected main protein: ${proteinName}.`, `符合本餐選擇的主菜：${proteinName}。`) : text(`Does not match your selected main protein (${proteinName}); it remains a flexible alternative.`, `未符合本餐選擇的主菜（${proteinName}），保留為彈性替代選項。`));
     } else if (row.key === "cuisine") {
       (row.matched ? matches : mismatches).push(row.matched ? text(`Matches your selected cuisine: ${cuisineName}.`, `符合本餐料理偏好：${cuisineName}。`) : text(`Does not match your selected cuisine (${cuisineName}); it remains a flexible alternative.`, `未符合本餐料理偏好（${cuisineName}），保留為彈性替代選項。`));
     } else if (row.key === "preparation") {
@@ -400,6 +407,7 @@ export const recommendPilotMeals = (
       score.basis.note,
       ...score.preferenceRows.filter(row => row.active).map(row => row.note), ...fitReasons.mismatchReasons];
     if (context.preferredStaple !== "any" && recipe.staple !== context.preferredStaple) reasons.push(localized(locale, "Does not match the selected staple; this flexible preference contributes 0 points rather than excluding the recipe.", "未符合本餐選擇的主食；此偏好保留彈性，該項加 0 點，不據此排除配方。"));
+    if (score.preferenceRows.some(row => row.key === "protein" && row.active && !row.matched)) reasons.push(localized(locale, "Does not match the selected main protein; this flexible preference contributes 0 points rather than excluding the recipe.", "未符合本餐選擇的主菜；此偏好保留彈性，該項加 0 點，不據此排除配方。"));
     if (context.cuisine !== "any" && recipe.cuisine !== context.cuisine) reasons.push(localized(locale, "Does not match the selected cuisine; this flexible preference contributes 0 points rather than excluding the recipe.", "未符合本餐料理類型；此偏好保留彈性，該項加 0 點，不據此排除配方。"));
     if (requiresWarmMeal(profile, context)) reasons.push(localized(locale, "Only recipes documented as warm are eligible.", "只保留明確標示為溫熱的食譜。"));
     if (context.maxPrepMinutes !== null) reasons.push(localized(locale, `Fits the ${context.maxPrepMinutes}-minute limit using prepared ingredients.`, `以備妥食材組裝，符合 ${context.maxPrepMinutes} 分鐘上限。`));

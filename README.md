@@ -36,7 +36,7 @@ See [image provenance and preparation](docs/recipe-images/README.md).
 1. Start with **108 defined recipes**, compare a few options and save a plan. A fresh
    visit starts with your own empty records; no meal logging is required first.
    An explicitly labeled example remains available to explore separately.
-2. Change the meal preferences, inspect stated portions, nutrient estimates and
+2. Change the meal preferences, including staple and main protein, inspect stated portions, nutrient estimates and
    numeric ranking details, collapsed by default. Set whether ingredients are
    ready; assembly estimates are not full cooking times. Availability is shown
    when preferences cannot be matched. Browse every
@@ -84,7 +84,8 @@ evidence completeness. It compares eligible recipes in this explicit order:
 5. Rotation by date and meal window, then stable recipe ID
 ```
 
-Each preference group contributes 0 or 2 product points. A stronger current-meal
+Each preference group contributes 0 or 2 product points. Current-meal groups
+are staple, main protein, style and preparation. A stronger current-meal
 match takes priority over saved preferences and composition; nutrition cannot
 cancel that preference by adding more points. These are product priorities, not
 scientific percentage weights. Unmatched soft preferences remain visible and do

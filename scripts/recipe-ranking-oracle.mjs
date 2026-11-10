@@ -8,6 +8,16 @@ const bands = {
   protein: [1.7,3.4,5.1,6.8,8.5], fiber: [.6,1.2,1.8,2.4,3,3.6,4.2,4.8,5.4,6],
   fvnsPercent: [40,60,80],
 };
+// Main-protein groups listed by source record, independently of the engine's
+// identity table, so a wrong identity or group there fails the comparison.
+export const proteinGroupSources = {
+  poultry: ["usda-171477", "usda-171534", "usda-171496"],
+  egg: ["usda-173424"],
+  seafood: ["usda-175168", "usda-171956", "usda-171986", "usda-171971"],
+  beans: ["usda-168411", "usda-174271", "usda-173735", "usda-172421", "usda-173757", "usda-175203"],
+  "red-meat": ["usda-168649", "usda-169193", "usda-174314"],
+  dairy: ["usda-170844", "usda-170845", "usda-170848", "usda-170894", "usda-172182"],
+};
 const plantProteinSources = new Set(["usda-174291","usda-173735","usda-168411","usda-172421","usda-173757","usda-175203","usda-174271"]);
 
 export function independentRecipeRanking(recipe, foods, profile, context) {
@@ -41,6 +51,7 @@ export function independentRecipeRanking(recipe, foods, profile, context) {
   };
   let current = 0, savedPoints = 0;
   if (context.preferredStaple !== "any" && recipe.staple === context.preferredStaple) current += 2;
+  if (context.preferredProtein && context.preferredProtein !== "any" && proteins.some(item => proteinGroupSources[context.preferredProtein].includes(item.foodId))) current += 2;
   if (context.cuisine !== "any" && recipe.cuisine === context.cuisine) current += 2;
   const lowOil = recipe.seasoning.oilGrams * 100 / grams <= 1;
   if (profile.feelToday === "Need something light") current += lowOil ? 2 : 0;

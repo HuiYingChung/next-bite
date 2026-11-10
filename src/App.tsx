@@ -91,6 +91,12 @@ const supportedPreferenceTags = preferenceTags.filter(tag =>
   recipeDirectionTags.includes(tag) || recommendationDataset.some(meal =>
     getMatchedPreferenceTags({ ...defaultPreferenceProfile, preferenceTags: [tag] }, meal).includes(tag)),
 );
+// Staple, warmth and added oil are chosen for each meal beside the suggestions.
+// Offering them again as saved preferences gave two controls for one idea, one
+// of which (warm) filtered while the other only added points. Saved copies
+// keep counting and stay removable; they are no longer offered as new choices.
+const perMealPreferenceTags = ["Light meals", "Warm meals", "Rice-based meals", "Noodle-based meals"];
+const offeredPreferenceTags = supportedPreferenceTags.filter(tag => !perMealPreferenceTags.includes(tag));
 const retiredAvoidTag = "Late-night heavy meals";
 const t = (locale: Locale, en: string, zh: string) =>
   locale === "en" ? en : zh;
@@ -541,7 +547,7 @@ function PreferenceControls({
           )}
         </p>
         <div className="chip-list">
-          {supportedPreferenceTags.map((tag) => (
+          {offeredPreferenceTags.map((tag) => (
             <button
               type="button"
               key={tag}
@@ -552,9 +558,7 @@ function PreferenceControls({
               aria-pressed={profile.preferenceTags.includes(tag)}
               onClick={() => toggle("preferenceTags", tag)}
             >
-              {tag === "Light meals"
-                ? t(locale, "Less added oil", "較少添加油")
-                : tag === "High-protein"
+              {tag === "High-protein"
                   ? t(locale, "More protein", "較多蛋白質")
                   : tag === "Vegetable-forward"
                     ? t(locale, "More vegetables & beans", "較多蔬菜與豆類")
@@ -563,6 +567,18 @@ function PreferenceControls({
           ))}
         </div>
       </fieldset>
+      {profile.preferenceTags.some(tag => perMealPreferenceTags.includes(tag)) && (
+        <fieldset className="retained-preferences per-meal-preferences">
+          <legend>{t(locale, "Now chosen for each meal", "現在改為每餐選擇")}</legend>
+          <p className="small muted">{t(locale, "These earlier preferences still count after this meal’s choices. Staple, warm meals and less added oil can now be chosen beside the suggestions for each meal. Select one to remove it.", "這些先前偏好仍會在本餐條件之後計入。主食、溫熱餐點與較少添加油現在可在建議旁為每一餐選擇；點選即可移除。")}</p>
+          <div className="chip-list">
+            {profile.preferenceTags.filter(tag => perMealPreferenceTags.includes(tag)).map(tag => {
+              const name = tag === "Light meals" ? t(locale, "Less added oil", "較少添加油") : label(tag, locale);
+              return <button type="button" className="chip selected" key={tag} aria-label={t(locale, `Remove saved preference: ${name}`, `移除已存偏好：${name}`)} onClick={() => toggle("preferenceTags", tag)}>{name}</button>;
+            })}
+          </div>
+        </fieldset>
+      )}
       {profile.preferenceTags.some(tag => !supportedPreferenceTags.includes(tag)) && (
         <fieldset className="retained-preferences">
           <legend>{t(locale, "No matching recipes currently", "目前沒有對應配方")}</legend>

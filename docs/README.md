@@ -17,11 +17,15 @@ verified.
 
 Current authorized iteration:
 
+- [`Main-protein preference`](./plans/30-main-protein-preference.md) —
+  `review`, on `claude/main-protein-preference`; a current-meal main-protein
+  choice, with duplicated saved preferences no longer offered as new choices.
+
+Previous iterations (historical handoffs):
+
 - [`Rotating recommendations`](./plans/29-rotating-recommendations.md) —
   `review`, on `claude/rotating-recommendations`; nutrition levels,
   date-and-meal-window rotation and paging through the full order.
-
-Previous iterations (historical handoffs):
 
 - [`Launch polish`](./plans/28-launch-polish.md) — `review`, on
   `claude/launch-polish`; repaired date-dependent check, shorter displayed

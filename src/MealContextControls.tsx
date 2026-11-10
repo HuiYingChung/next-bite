@@ -1,5 +1,6 @@
 import { useId } from "react";
 import type { MealContext } from "./meal-context";
+import { proteinGroupLabels, proteinGroups } from "./protein-preference";
 import type { Locale, Profile } from "./types";
 
 const t = (locale: Locale, en: string, zh: string) =>
@@ -51,6 +52,26 @@ export function MealContextControls({
             ).map(([key, en, zh]) => (
               <option key={key} value={key}>
                 {t(locale, en, zh)}
+              </option>
+            ))}
+          </select>
+        </label>
+        <label>
+          {t(locale, "Main protein", "主菜")}
+          <select
+            value={value.preferredProtein}
+            onChange={(event) =>
+              onChange({
+                ...value,
+                preferredProtein: event.target
+                  .value as MealContext["preferredProtein"],
+              })
+            }
+          >
+            <option value="any">{t(locale, "Open to ideas", "都可以")}</option>
+            {proteinGroups.map((group) => (
+              <option key={group} value={group}>
+                {proteinGroupLabels[group][locale]}
               </option>
             ))}
           </select>

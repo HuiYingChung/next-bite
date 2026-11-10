@@ -1,6 +1,16 @@
 # MealHatch product roadmap
 
-## Active iteration — rotating recommendations
+## Active iteration — main-protein preference
+
+Status: review — implemented and verified locally; committed, not pushed
+Authorized: 2026-11-10. Round two of the reviewed recommendations. Read
+[`30-main-protein-preference.md`](./30-main-protein-preference.md).
+Branch: `claude/main-protein-preference`, from `claude/rotating-recommendations`.
+Adds a current-meal main-protein group and stops offering four saved
+preferences that duplicate per-meal controls. Model arithmetic, nutrition
+levels, rotation, exclusions, data and stored preferences are unchanged.
+
+## Previous iteration — rotating recommendations
 
 Status: review — implemented and verified locally; committed, not pushed
 Authorized: 2026-11-10. After a product-logic review the user approved working
