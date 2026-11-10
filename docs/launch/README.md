@@ -7,8 +7,10 @@ recipe cards.
 
 MealHatch's proposed launch message is a small, complete meal-choice workflow:
 compare a few options with current preferences first, understand why they
-appeared and save one for later. The design focus is Chinese adults in North
-America using English or Traditional Chinese; audience fit awaits user study.
+appeared and save one for later. The public message is a bilingual meal picker
+with transparent nutrition. The design began from Chinese adults in North
+America, but the recipe collection does not yet carry familiar home dishes, so
+that audience is no longer a launch claim.
 The meal library offers 108 defined recipes with portion estimates, preparation
 steps and inspectable numeric ranking. Food/drink source lookup is separate.
 

@@ -1,6 +1,6 @@
 # Launch polish
 
-Status: review — implemented and verified locally; uncommitted
+Status: review — implemented and verified locally; committed on the branch, not pushed
 Authorized: 2026-11-10. After a launch-readiness review the user asked for the
 noticed problems to be fixed on a new branch, approved the listed scope and
 excluded enlarging recipe images.
@@ -26,9 +26,15 @@ Branch: `claude/launch-polish`, from `main` at `849fa6d` (PR #16 merge).
 - Recapture launch assets from this build: four gallery screenshots, the demo
   recording and a 240 × 240 listing thumbnail rendered from the site icon. The
   capture script uses the project's own Playwright and accepts a relative
-  package path. Update the Product Hunt draft (250-character description,
+  package path. Update the Product Hunt draft (243-character description,
   recipe card, AI-illustration disclosure) and the launch README.
 - Update the sitemap date.
+- Positioning (user decision, 2026-11-10): public copy describes a bilingual
+  meal picker with transparent nutrition. The collection has no soy sauce or
+  tofu and uses olive oil in 97 of 108 recipes, so "for Chinese adults in North
+  America" is kept only as the stated design origin in the README. Page
+  metadata, the method text, the Product Hunt draft, the launch README and the
+  study's recruitment line are updated; no recipe or rule changes.
 
 Not included, by decision: larger hero or library images; renaming recipes as
 dish names; the default ranking; per-recipe share previews (needs a server
@@ -52,5 +58,5 @@ format, dependency or deployment change.
 
 Not verified: a physical phone (browser toolbars reduce the visible height
 below the emulated 812 px), native print/PDF output, the real AI provider,
-and the Product Hunt editor's current field limits. No commit, push, merge or
+and the Product Hunt editor's current field limits. No push, merge or
 deployment was performed. The usability study has not been run.

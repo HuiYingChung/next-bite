@@ -13,19 +13,20 @@ Your next meal, with your preferences first
 
 ## Description
 
-MealHatch helps Chinese adults in North America choose their next meal.
-What sounds good comes first, with sourced nutrition as a reference. Compare
-108 recipes, print a recipe card and save a plan. English and Traditional
-Chinese. No account needed.
+MealHatch is a bilingual meal picker with transparent nutrition. What sounds
+good comes first, with sourced nutrition as a reference. Compare 108 recipes,
+print a recipe card and save a plan. English and Traditional Chinese. No
+account needed.
 
-250 characters as one line, drafted to fit a 260-character field. Confirm
+243 characters as one line, drafted to fit a 260-character field. Confirm
 the limit in the current Product Hunt editor before submitting.
 
 ## Maker comment
 
 I built MealHatch around a familiar moment: being ready to eat but still
-scrolling through possibilities. The design focuses on Chinese adults in North
-America who use English or Traditional Chinese and prepare their own meals.
+scrolling through possibilities. It is bilingual, in English and Traditional
+Chinese, for people who prepare their own meals. The recipes are simple,
+sourced formulations; familiar home dishes are not covered yet.
 
 You can start with a few suggestions, change what sounds good, inspect the
 reason for a suggestion and save a plan. One meal library brings together 108
@@ -95,3 +96,4 @@ order and actual outcomes; do not speed it up to imply measured usability.
 - AI choosing the winner, or live-provider reliability inferred from mocks.
 - A proven reduction in decision time before observing and comparing sessions.
 - Food images presented as photographs of real cooked meals.
+- A fit for a specific cuisine or community that the recipe collection does not yet show.

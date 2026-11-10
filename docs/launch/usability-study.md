@@ -15,8 +15,8 @@ success rate. Product Hunt exposure is a separate measure.
 
 ## Participants and setup
 
-- Recruit five Chinese adults living in North America who sometimes prepare
-  their own meals and have not used this version. Aim for three phone sessions
+- Recruit five adults who read English or Traditional Chinese, sometimes
+  prepare their own meals and have not used this version. Aim for three phone sessions
   and two desktop sessions; include
   both supported languages when participants naturally use them.
 - Run one participant at a time for about 15 minutes. Use a fresh isolated

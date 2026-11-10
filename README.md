@@ -10,11 +10,16 @@ for compatibility.
 
 **Less deciding. More eating.**
 
-MealHatch helps Chinese adults in North America choose their next meal, with
-what they want to eat taking priority and sourced nutrition as a reference.
-Compare a few options, inspect why they appeared, and save a meal plan or
-record what you actually ate. It does not grade eating habits or set weight-loss
-goals. This audience is a design focus, not a claim of validated cultural fit.
+MealHatch is a bilingual meal picker with transparent nutrition. It helps you
+choose your next meal, with what you want to eat taking priority and sourced
+nutrition as a reference. Compare a few options, inspect why they appeared, and
+save a meal plan or record what you actually ate. It does not grade eating
+habits or set weight-loss goals.
+
+The design began from the everyday meals of Chinese adults in North America.
+The current recipes are simple sourced formulations that do not yet cover
+familiar home dishes or their seasonings, so that audience is a starting point
+for future work, not a description of the present collection.
 
 The beta supports **English and Traditional Chinese**, with no account required.
 The main workflow runs in the browser with deterministic recommendation rules.
