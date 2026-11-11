@@ -91,7 +91,8 @@ export const getPortionPreference = (context: MealContext, avoidsLargePortions =
   return { portion: "regular" as const, basis: "standard" as const };
 };
 
-export type PreferenceCandidate<T> = { id: string; value: T; tier: number[]; proteins: string[]; staple: string | null };
+/** `mainProteins` is the group supplying the most protein, when the caller knows it. */
+export type PreferenceCandidate<T> = { id: string; value: T; tier: number[]; proteins: string[]; staple: string | null; mainProteins?: string[] };
 export type VarietyDecision<T> = PreferenceCandidate<T> & { recordMatches: string[]; selectedMatches: string[]; recordContextPresent: boolean; earlierChoices: number };
 export const comparePreferenceTiers = (a: number[], b: number[]) => {
   for (let index = 0; index < Math.max(a.length, b.length); index++) {

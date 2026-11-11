@@ -101,19 +101,25 @@ type HistoryChoice<T> = VarietyDecision<T> & {
 // then recency, only after every score/preference tier is exactly equal.
 // Optional rotation lets equal options take turns without randomness: a key
 // orders what is still tied before the stable ID. Options are then shown in
-// groups, so variety is judged within each group on one visible trait. Judging
-// protein and staple together kept choosing the few recipes that share neither.
+// groups, so variety is judged within each group on visible traits: the staple
+// first, then the main-protein group, so that three options are not three
+// versions of one protein. Once a staple is selected only protein sources are
+// compared. Counting every protein ingredient together with the staple kept
+// choosing the few recipes that share neither; the main-protein group is
+// coarser, and its effect on how often each recipe leads is checked in
+// verify-preference-first.mjs.
 export type RotationOptions = { key: (id: string) => number; groupSize: number; varyBy: "staple" | "protein" };
 export const pickHistoryVariedChoices = <T>(candidates: PreferenceCandidate<T>[], history: HistoryVarietyContext, limit = 3, rotation?: RotationOptions): HistoryChoice<T>[] => {
   const remaining = candidates.map(item => ({ ...item, historyTier: historyTier(item, history.records), rotationKey: rotation ? rotation.key(item.id) : 0 }));
-  const selected: HistoryChoice<T>[] = [], selectedProteins = new Set<string>(), selectedStaples = new Set<string>();
+  const selected: HistoryChoice<T>[] = [], selectedProteins = new Set<string>(), selectedStaples = new Set<string>(), selectedMainProteins = new Set<string>();
   const overlap = (item: PreferenceCandidate<T>) => {
     const proteins = item.proteins.filter(protein => selectedProteins.has(protein)).length;
     const staple = item.staple && selectedStaples.has(item.staple) ? 1 : 0;
-    return !rotation ? [proteins, staple] : rotation.varyBy === "staple" ? [staple] : [proteins ? 1 : 0];
+    const mainProtein = item.mainProteins?.some(group => selectedMainProteins.has(group)) ? 1 : 0;
+    return !rotation ? [proteins, staple] : rotation.varyBy === "staple" ? [staple, mainProtein] : [proteins ? 1 : 0];
   };
   while (remaining.length && selected.length < limit) {
-    if (rotation && selected.length % rotation.groupSize === 0) { selectedProteins.clear(); selectedStaples.clear(); }
+    if (rotation && selected.length % rotation.groupSize === 0) { selectedProteins.clear(); selectedStaples.clear(); selectedMainProteins.clear(); }
     remaining.sort((a, b) => comparePreferenceTiers(a.tier, b.tier) || comparePreferenceTiers(a.historyTier, b.historyTier) || comparePreferenceTiers(overlap(a), overlap(b)) || a.rotationKey - b.rotationKey || a.id.localeCompare(b.id, "en"));
     const next = remaining.shift()!;
     const equals = remaining.filter(item => comparePreferenceTiers(next.tier, item.tier) === 0);
@@ -133,6 +139,7 @@ export const pickHistoryVariedChoices = <T>(candidates: PreferenceCandidate<T>[]
       historyComparison: comparison, equalTierCount: equals.length, evidence });
     next.proteins.forEach(protein => selectedProteins.add(protein));
     if (next.staple) selectedStaples.add(next.staple);
+    next.mainProteins?.forEach(group => selectedMainProteins.add(group));
   }
   return selected;
 };
@@ -154,7 +161,7 @@ export const describeHistoryVariety = <T>(choice: HistoryChoice<T>, scope: Histo
     explanation = text("No equal-ranked alternative remained at this position; history did not decide this choice.", "此順位沒有剩餘的同分或同偏好選項；歷史紀錄未決定此選項。");
   } else {
     explanation = kind === "recipe"
-      ? text("The remaining equal-ranked options have equal history matches; options shown together differ in staple (or in main protein once a staple is selected) where possible, then this date and meal window's rotation resolves the tie.", "剩餘同級選項的歷史符合程度相同；同一組選項盡量讓主食不同（已選主食時改為主要蛋白質來源不同），再依此日期與餐別時段的輪替順序決定。")
+      ? text("The remaining equal-ranked options have equal history matches; options shown together differ in staple and then in main protein where possible (in protein sources only once a staple is selected), then this date and meal window's rotation resolves the tie.", "剩餘同級選項的歷史符合程度相同；同一組選項盡量讓主食不同，其次讓主要蛋白質來源不同（已選主食時只比較蛋白質來源），再依此日期與餐別時段的輪替順序決定。")
       : text("The remaining equal-ranked options have equal history matches; other-option variety and stable IDs resolve the tie.", "剩餘同分或同偏好選項的歷史符合程度相同；依其他選項的食材變化與固定代碼決定。");
   }
   const reason = `${boundary} ${explanation} ${text("Records do not change calculated nutrition or establish a deficit.", "紀錄不會改變配方營養計算，也不代表營養缺口。")}`;

@@ -100,8 +100,8 @@ they are stated here so the choice is not mistaken for a typical serving.
 - **The ordering rule is unchanged.** Options shown together differ in staple
   only. A simulated rule that also varies the main protein removes every
   repeat (0 of 84) and brings beans to 27%, with the most-shown recipe at
-  2.05 times an even share. It is not implemented; the user decides after
-  seeing this result.
+  2.05 times an even share. It is not part of this change; the user chose it after
+  seeing this result and it is implemented in `37-protein-variety.md`.
 
 ### Images
 

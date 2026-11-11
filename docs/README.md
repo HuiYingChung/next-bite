@@ -20,6 +20,9 @@ Current authorized iteration:
 - [`143 detailed recipes`](./plans/36-recipes-143.md) — `review`, on
   `claude/recipes-143`; 13 higher-level recipes and illustrations so the
   first three options are not dominated by one protein group.
+- [`Options differ in main protein`](./plans/37-protein-variety.md) —
+  `review`, same branch; options shown together differ in staple and then in
+  main protein.
 
 Previous iterations (historical handoffs):
 

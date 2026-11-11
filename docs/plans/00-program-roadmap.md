@@ -9,8 +9,9 @@ options dominated by one protein group. Read
 Adds 13 recipes at the higher nutrition level, with egg, dairy, beef or pork
 and fish as the main protein, and their illustrations. Without preferences,
 beans fall from 52% to 35% of the first three options and egg and dairy each
-reach 10%. The ordering rule is unchanged; varying the main protein within a
-group is measured in the plan and left for the user to decide.
+reach 10%. Then, in [`37-protein-variety.md`](./37-protein-variety.md),
+options shown together also differ in main protein: no first group repeats
+one (37 of 84 before) and beans fall to 27%.
 
 ## Previous iteration — button fixes
 
