@@ -19,6 +19,8 @@ const {
   LEGACY_STORAGE_KEYS,
   LOCALE_STORAGE_KEY,
   MAX_PLANNED_MEALS,
+  getPlanDisplacedBy,
+  normalizeState,
   loadLaunchState,
   saveLaunchState,
   loadLocale,
@@ -187,6 +189,31 @@ assert.equal(loadLocale(blocked), "en");
 assert.equal(saveLaunchState(state, blocked, now), false);
 assert.equal(saveLocale("zh", blocked), false);
 assert.equal(clearLaunchStorage(blocked), false);
+
+// At the limit a new plan replaces the oldest one by creation time. The list
+// order must not matter: the record store appends, older builds prepended.
+{
+  const minute = index => new Date(now.getTime() + index * 60_000);
+  const meals = recommendationDataset.slice(20, 20 + MAX_PLANNED_MEALS + 1);
+  let full = { ...state, plannedMeals: [] };
+  meals.slice(0, MAX_PLANNED_MEALS).forEach((meal, index) => { full = savePlan(full, meal.id, minute(index)); });
+  assert.equal(full.plannedMeals.length, MAX_PLANNED_MEALS);
+  assert.equal(getPlanDisplacedBy({ ...full, plannedMeals: full.plannedMeals.slice(1) }, meals.at(-1).id), null, "Nothing is replaced while there is room");
+  assert.equal(getPlanDisplacedBy(full, meals[3].id), null, "Saving a meal that is already planned replaces nothing");
+  assert.equal(getPlanDisplacedBy(full, "missing-meal"), null);
+  for (const [order, plans] of [["oldest first", full.plannedMeals], ["newest first", [...full.plannedMeals].reverse()], ["shuffled", [...full.plannedMeals.slice(5), ...full.plannedMeals.slice(0, 5)]]]) {
+    const before = { ...full, plannedMeals: plans };
+    assert.equal(getPlanDisplacedBy(before, meals.at(-1).id).mealId, meals[0].id, `${order}: the oldest plan is the one to replace`);
+    const after = savePlan(before, meals.at(-1).id, minute(MAX_PLANNED_MEALS));
+    const kept = after.plannedMeals.map(plan => plan.mealId);
+    assert.equal(kept.length, MAX_PLANNED_MEALS);
+    assert(!kept.includes(meals[0].id), `${order}: the oldest plan is removed`);
+    assert(kept.includes(meals[MAX_PLANNED_MEALS - 1].id), `${order}: the most recent earlier plan is kept`);
+    assert(kept.includes(meals.at(-1).id), `${order}: the new plan is saved`);
+    // Stored and reloaded, the same twelve remain.
+    assert.deepEqual(normalizeState(after, minute(MAX_PLANNED_MEALS)).plannedMeals.map(plan => plan.mealId).sort(), [...kept].sort());
+  }
+}
 
 for (const meal of recommendationDataset.slice(0, MAX_PLANNED_MEALS + 3))
   state = savePlan(state, meal.id, now);

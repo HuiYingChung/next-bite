@@ -17,11 +17,15 @@ verified.
 
 Current authorized iteration:
 
-- [`130 detailed recipes`](./plans/34-recipes-130.md) — `review`, on
-  `claude/menu-134`; 22 recipes and illustrations for staple and
-  main-protein pairs that had none or one.
+- [`Button fixes`](./plans/35-button-fixes.md) — `review`, on
+  `claude/button-fixes`; three corrections from clicking every button in a
+  real browser.
 
 Previous iterations (historical handoffs):
+
+- [`130 detailed recipes`](./plans/34-recipes-130.md) — merged in PR 19; 22
+  recipes and illustrations for staple and main-protein pairs that had none
+  or one.
 
 - [`Filter fixes`](./plans/33-filter-fixes.md) — `review`, on
   `claude/filter-fixes`; five corrections from an audit of every filter

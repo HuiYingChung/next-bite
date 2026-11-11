@@ -1,6 +1,16 @@
 # MealHatch product roadmap
 
-## Active iteration — 130 detailed recipes
+## Active iteration — button fixes
+
+Status: review — implemented and verified locally; committed, not pushed
+Authorized: 2026-11-11, after every button was clicked in a real browser and
+compared with its intended result. Read
+[`35-button-fixes.md`](./35-button-fixes.md). Branch: `claude/button-fixes`.
+The thirteenth plan replaces the oldest instead of the newest and says so; a
+new record for an empty past slot is no longer labelled an edit; clearing
+data answers in the language in use.
+
+## Previous iteration — 130 detailed recipes
 
 Status: review — implemented and verified locally; committed, not pushed
 Authorized: 2026-11-10. Read [`34-recipes-130.md`](./34-recipes-130.md).
