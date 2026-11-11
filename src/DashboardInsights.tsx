@@ -1,7 +1,6 @@
 import { mealNames } from "./data";
 import { isMealLogged } from "./logic";
 import { label } from "./presentation";
-import { recipeTimeLabel } from "./recipe-time";
 import type { PilotRecommendation } from "./nutrition";
 import type {
   DayHistory,
@@ -123,7 +122,7 @@ export function HistoryGrid({ days, locale, onSelect }: HistoryGridProps) {
   );
 }
 
-type RecipeOptionFactsProps = { rec: PilotRecommendation; locale: Locale };
+type RecipeFitProps = { rec: PilotRecommendation; locale: Locale };
 
 export function recipeMatchLabel(rec: PilotRecommendation, locale: Locale): string {
   if (!rec.score) return text(locale, "Unavailable", "無法計分");
@@ -137,7 +136,7 @@ export function recipeMatchLabel(rec: PilotRecommendation, locale: Locale): stri
 }
 
 /** Compact, engine-derived reasons; full arithmetic stays in the disclosure. */
-export function RecipeFitSummary({ rec, locale }: RecipeOptionFactsProps) {
+export function RecipeFitSummary({ rec, locale }: RecipeFitProps) {
   const hasActivePreferences = rec.score.currentPreference.selected + rec.score.savedPreference.selected > 0;
   if (!hasActivePreferences && !rec.matchedPreferenceReasons.length && !rec.mismatchReasons.length) return null;
   return <div className="recipe-fit-summary">
@@ -147,19 +146,30 @@ export function RecipeFitSummary({ rec, locale }: RecipeOptionFactsProps) {
   </div>;
 }
 
-export function RecipeOptionFacts({ rec, locale }: RecipeOptionFactsProps) {
-  const hasActivePreferences = rec.score && rec.score.currentPreference.selected + rec.score.savedPreference.selected > 0;
-  return <span className="recipe-option-facts">
-    {hasActivePreferences && <span className="recipe-option-match">{recipeMatchLabel(rec, locale)}</span>}
-    {rec.matchedPreferenceReasons.map(reason => <span className="recipe-option-reason" key={reason}>{reason}</span>)}
-    <span className="recipe-time-label">{recipeTimeLabel(rec.recipe.prepMinutes, rec.ingredientReadiness, locale)}</span>
-  </span>;
+/** Card copy under the title: actual matches, then energy and protein for the shown portion. */
+export function RecipeOptionFacts({ rec, locale }: RecipeFitProps) {
+  const whole = (value: number) =>
+    new Intl.NumberFormat(locale === "zh" ? "zh-TW" : "en-US", { maximumFractionDigits: 0 }).format(value);
+  const { kcal, protein, fiber } = rec.nutrition;
+  const main = [
+    kcal !== null && text(locale, `${whole(kcal)} kcal`, `${whole(kcal)} 大卡`),
+    protein !== null && text(locale, `${whole(protein)} g protein`, `蛋白質 ${whole(protein)} 克`),
+  ].filter(Boolean).join(" · ");
+  return <div className="recipe-option-facts">
+    {rec.matchedPreferenceReasons.length > 0 && <ul className="pick-reasons">
+      {rec.matchedPreferenceReasons.map(reason => <li className="recipe-option-reason" key={reason}>{reason}</li>)}
+    </ul>}
+    {main && <p className="pick-facts">
+      {main}
+      {fiber !== null && <span className="pick-facts-long">{" · "}{text(locale, `${whole(fiber)} g fiber`, `膳食纖維 ${whole(fiber)} 克`)}</span>}
+    </p>}
+  </div>;
 }
 
 /** Explain the default ordering once for the collection, not on every card. */
 export function RecipeRankingNote({ rec, locale }: { rec?: PilotRecommendation; locale: Locale }) {
   if (!rec || rec.score.currentPreference.selected + rec.score.savedPreference.selected > 0) return null;
   return <p className="small muted recipe-ranking-note">{rec.score.unsupportedSavedPreferences.length
-    ? text(locale, "Your saved preferences do not apply to this collection. Options are ordered by nutrition reference.", "已存偏好不適用於這組配方，目前先依營養參考排序。")
-    : text(locale, "No preferences set · options ordered by nutrition reference.", "尚未設定偏好 · 目前先依營養參考排序。")}</p>;
+    ? text(locale, "Your saved preferences do not apply to this collection. Options with a higher nutrition level take turns.", "已存偏好不適用於這組配方，目前由營養級別較高的配方輪流出現。")
+    : text(locale, "No preferences set · options with a higher nutrition level take turns.", "尚未設定偏好 · 營養級別較高的配方輪流出現。")}</p>;
 }

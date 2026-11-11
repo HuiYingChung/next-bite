@@ -1,6 +1,48 @@
 # MealHatch product roadmap
 
-## Active iteration — printable recipe cards
+## Active iteration — first screen: three options side by side
+
+Status: review — implemented and verified locally; committed, not pushed
+Authorized: 2026-11-10. Round three of the reviewed recommendations, after a
+mockup review. Read [`31-first-screen-cards.md`](./31-first-screen-cards.md).
+Branch: `claude/first-screen-cards`, from `claude/main-protein-preference`.
+Shows the three current options together, makes staple and main protein
+one-tap choices and moves recording below the options. The engine, ranking,
+data and stored state are unchanged.
+
+## Previous iteration — main-protein preference
+
+Status: review — implemented and verified locally; committed, not pushed
+Authorized: 2026-11-10. Round two of the reviewed recommendations. Read
+[`30-main-protein-preference.md`](./30-main-protein-preference.md).
+Branch: `claude/main-protein-preference`, from `claude/rotating-recommendations`.
+Adds a current-meal main-protein group and stops offering four saved
+preferences that duplicate per-meal controls. Model arithmetic, nutrition
+levels, rotation, exclusions, data and stored preferences are unchanged.
+
+## Previous iteration — rotating recommendations
+
+Status: review — implemented and verified locally; committed, not pushed
+Authorized: 2026-11-10. After a product-logic review the user approved working
+through its recommendations one round at a time, starting with this one. Read
+[`29-rotating-recommendations.md`](./29-rotating-recommendations.md).
+Branch: `claude/rotating-recommendations`, from `claude/launch-polish`.
+Nutrition reference is compared by level; equal recipes take turns by date and
+meal window; "Show three more" pages through the full order. Model arithmetic,
+preference points, exclusions and data are unchanged. This supersedes program
+invariant 6 only in defining "meaningfully better" as a higher nutrition level.
+
+## Previous iteration — launch polish
+
+Status: review — implemented and verified locally; uncommitted
+Authorized: 2026-11-10. User asked for the problems found in a launch-readiness
+review to be fixed on a new branch, excluding larger recipe images. Read
+[`28-launch-polish.md`](./28-launch-polish.md).
+Branch: `claude/launch-polish`, from `main` at `849fa6d`.
+Repairs a date-dependent check, shortens displayed recipe names, tightens the
+narrow first screen and recaptures launch assets. No data or ranking changes.
+
+## Previous iteration — printable recipe cards
 
 Status: review — implemented and verified locally; native PDF output pending
 Authorized: 2026-11-06. User approved replacing the sparse meal card with a

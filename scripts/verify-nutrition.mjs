@@ -309,8 +309,8 @@ const blank = createBlankState(now).days.find(day => day.isToday).todayLog;
 const recorded = clone(blank);
 recorded.Lunch.carbs = ["白飯"];
 const recordResult = recommendPilotMeals(profile(), context(), "en", now, recorded);
-assert.deepEqual(recordResult.recommendations.map(item=>item.score.total),normal.recommendations.map(item=>item.score.total),"Record variety cannot replace a higher total");
-assert(recordResult.recommendations.every(item=>item.reasons.some(reason=>reason.includes("equal current preferences, saved preferences and nutrition reference"))),"Record variety is explicitly limited to equal priority tiers");
+assert.deepEqual(recordResult.eligibleRecipes.map(item=>item.trace.rankTier),normal.eligibleRecipes.map(item=>item.trace.rankTier),"Record variety cannot move a recipe across preference or nutrition levels");
+assert(recordResult.recommendations.every(item=>item.reasons.some(reason=>reason.includes("equal current preferences, saved preferences and nutrition level"))),"Record variety is explicitly limited to equal priority tiers");
 for (const [id, family] of [["usda-171534", "chicken"], ["usda-171986", "fish"], ["usda-174314", "lamb"], ["usda-174271", "soy"]]) {
   const food = sourceFoods.find(item => item.id === id);
   for (const locale of ["en", "zh"]) {

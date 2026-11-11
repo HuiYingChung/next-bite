@@ -10,11 +10,16 @@ for compatibility.
 
 **Less deciding. More eating.**
 
-MealHatch helps Chinese adults in North America choose their next meal, with
-what they want to eat taking priority and sourced nutrition as a reference.
-Compare a few options, inspect why they appeared, and save a meal plan or
-record what you actually ate. It does not grade eating habits or set weight-loss
-goals. This audience is a design focus, not a claim of validated cultural fit.
+MealHatch is a bilingual meal picker with transparent nutrition. It helps you
+choose your next meal, with what you want to eat taking priority and sourced
+nutrition as a reference. Compare a few options, inspect why they appeared, and
+save a meal plan or record what you actually ate. It does not grade eating
+habits or set weight-loss goals.
+
+The design began from the everyday meals of Chinese adults in North America.
+The current recipes are simple sourced formulations that do not yet cover
+familiar home dishes or their seasonings, so that audience is a starting point
+for future work, not a description of the present collection.
 
 The beta supports **English and Traditional Chinese**, with no account required.
 The main workflow runs in the browser with deterministic recommendation rules.
@@ -28,11 +33,12 @@ See [image provenance and preparation](docs/recipe-images/README.md).
 
 ## What you can do
 
-1. Start with **108 defined recipes**, compare a few options and save a plan. A fresh
+1. Start with **108 defined recipes**, compare three options side by side and save a plan. A fresh
    visit starts with your own empty records; no meal logging is required first.
    An explicitly labeled example remains available to explore separately.
-2. Change the meal preferences, inspect stated portions, nutrient estimates and
-   numeric ranking details, collapsed by default. Set whether ingredients are
+2. Pick a staple or main protein with one tap, set further conditions under
+   **More conditions**, and open **Details** on any option for stated portions,
+   nutrient estimates and numeric ranking details. Set whether ingredients are
    ready; assembly estimates are not full cooking times. Availability is shown
    when preferences cannot be matched. Browse every
    detailed recipe in **Meal library → Recipes**, including options outside the
@@ -70,12 +76,17 @@ evidence completeness. It compares eligible recipes in this explicit order:
 ```text
 1. Current-meal preference points (higher first)
 2. Saved preference points (higher first)
-3. Nutrition reference = nutrient component + energy component
-                       = 10 - raw UK NPM 2018 score (higher first)
-4. Recent-record variety, offered-option variety, then stable recipe ID
+3. Nutrition level of the nutrition reference (higher first):
+   18 or more, 14 to 17, 13 or less
+   Nutrition reference = nutrient component + energy component
+                       = 10 - raw UK NPM 2018 score
+4. Recent-record variety, then a different staple (or main protein) among
+   options offered together
+5. Rotation by date and meal window, then stable recipe ID
 ```
 
-Each preference group contributes 0 or 2 product points. A stronger current-meal
+Each preference group contributes 0 or 2 product points. Current-meal groups
+are staple, main protein, style and preparation. A stronger current-meal
 match takes priority over saved preferences and composition; nutrition cannot
 cancel that preference by adding more points. These are product priorities, not
 scientific percentage weights. Unmatched soft preferences remain visible and do
@@ -88,12 +99,17 @@ thresholds, component formulas, preference calculations and sources remain
 available in the collapsed **Match & nutrition details**.
 
 The first three eligible recipes in that order are shown, or fewer when
-exclusions leave fewer candidates. **Only recipes tied on all three preceding
-values use seven-day history**: recognized
-protein-source and staple repetitions, then recency, variation among the
-offered options, and a stable ID. The explanation shows record coverage and
-the dates and foods actually used. The same inputs, records, date/time window,
-recipe/source versions and ranking-policy version reproduce the same result.
+exclusions leave fewer candidates; **Show three more** continues through the
+same order. Recipes are compared by nutrition level because single points are
+too fine to order mixed meals by; the levels are product rules and the exact
+reference stays in the details. **Recipes tied on all three preceding values
+use seven-day history**: recognized protein-source and staple repetitions, then
+recency. Options offered together then differ in staple where possible, and
+the remaining ties take turns by date and meal window, so suggestions change
+through the day and week without randomness. The explanation shows record
+coverage, the dates and foods actually used, and the date and meal window of
+the rotation. The same inputs, records, date and meal window, recipe/source
+versions and ranking-policy version reproduce the same result.
 
 Times describe assembly using prepared ingredients. If ingredients still need
 preparation, full cooking time is unknown. Setting a time limit in that state
@@ -163,7 +179,7 @@ Open the local URL printed by Vite. Manual recording, recommendations and the
 food library require no API key or environment variables.
 
 The development server also runs `/api/parse-meal` using the same handler as
-production. To test optional AI, open **Record a meal → Optional AI**, enter
+production. To test optional AI, open **Record what you ate → Optional AI**, enter
 your session OpenAI key, describe one meal, and choose **Organize & review**.
 Review the editable result before saving. Keys are kept in page memory; do not
 put them in source files or environment files. Restart an older development

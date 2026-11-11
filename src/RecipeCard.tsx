@@ -2,6 +2,7 @@ import { useEffect, useRef, useState, type CSSProperties } from "react";
 import type { RecipeCalculation } from "./nutrition";
 import type { FoodState, NutritionPortion, StandardizedRecipe } from "./nutrition-types";
 import { getRecipeImage } from "./recipe-images";
+import { recipeDisplayName } from "./recipe-name";
 import { recipeTimeExplanation } from "./recipe-time";
 import type { Locale } from "./types";
 import "./recipe-card.css";
@@ -107,7 +108,7 @@ export function RecipeCard({ recipe, portion, locale, calculation, recipeUrl, ba
     update();
     return () => observer.disconnect();
   }, [paperPreview, paper, recipe.mealId, portion, locale, imageFailed]);
-  const title = recipe.label[locale].replace(locale === "zh" ? /（標準配方）$/ : / — standard recipe$/, "");
+  const title = recipeDisplayName(recipe, locale);
   const guide = recipe.preparationGuide;
   const unknown = text(locale, "Unknown", "未知");
   const number = (value: number | null, maximumFractionDigits = 1) => {

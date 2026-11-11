@@ -2,6 +2,7 @@ import { nutrientUnits } from "./nutrition";
 import type { PilotRecommendation } from "./nutrition";
 import { nutritionSources } from "./nutrition-data";
 import type { NutrientKey } from "./nutrition-types";
+import { recipeDisplayName } from "./recipe-name";
 import type { Locale } from "./types";
 
 type NutritionDetailsProps = {
@@ -162,7 +163,7 @@ export function NutritionDetails({
           {text(locale, "Standard recipe & sources", "標準食譜與資料來源")}
         </summary>
         <p className="nutrition-recipe-heading">
-          <strong>{recipe.label[locale]}</strong>
+          <strong>{recipeDisplayName(recipe, locale)}</strong>
           {" · "}
           {portionLabels[recommendation.portion][locale === "en" ? 0 : 1]}
         </p>

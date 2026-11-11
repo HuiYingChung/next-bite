@@ -3,7 +3,10 @@
 Published-model authorization: 2026-11-04. Preference-first ordering authorized
 2026-11-06, on the 108-recipe collection. This ordering supersedes the additive
 total ranking while retaining the published model and its detailed calculations.
-Ranking policy: `mealhatch-preference-first-2026-11-06-v1`.
+Nutrition levels and rotation authorized 2026-11-10; see
+[Nutrition levels and rotation](#nutrition-levels-and-rotation).
+Main-protein preference authorized 2026-11-10.
+Ranking policy: `mealhatch-banded-rotation-2026-11-10-v2`.
 Audience: general healthy adults choosing an ordinary meal from
 explicitly authored recipes. Browsing the full collection does not alter the
 top-three ranking or bypass exclusions.
@@ -69,17 +72,18 @@ are product choices, not validated scientific recommendations.
 | Group | Condition for +2 |
 | --- | --- |
 | This-meal staple | The explicitly selected staple matches the recipe. |
+| This-meal main protein | At least one ingredient the recipe declares as protein, in an amount above zero, belongs to the selected group: chicken or turkey; egg; fish or seafood; beans or soy; beef, pork or lamb; dairy. Groups follow each source food's reviewed protein identity, not recipe names. A recipe with two protein ingredients can match either group. |
 | This-meal cuisine | The explicitly selected cuisine group matches. |
 | Preparation | A request for less added oil matches at most 1 g listed added oil per 100 g, or a request for less effort matches at most 10 estimated assembly minutes. If ingredients still need preparation, assembly time cannot earn a less-effort match because total time is unknown. The current preparation request takes priority; a saved light-meal request is used only without a current request. The same preparation preference cannot earn twice. |
 | Saved meal style | At least one supported saved style matches structured recipe/catalog facts; additional matches do not stack. |
 | Requested nutrient direction | An explicit more-protein request matches over 8.5 g protein per 100 g, or an explicit more-vegetables-and-beans request matches over 40% eligible FVNS. Both together still earn at most two. |
 
-Staple and cuisine belong to the current-meal group. Preparation belongs to
+Staple, main protein and cuisine belong to the current-meal group. Preparation belongs to
 current-meal preferences when explicitly selected there; its saved fallback
 belongs to saved preferences. Saved styles and nutrient directions belong to
 saved preferences. A summary counts matched versus selected groups, not a
-percentage of nutritional adequacy; an unset group earns nothing. The five
-group contributions still sum to at most 10, but that sum is not the ranking.
+percentage of nutritional adequacy; an unset group earns nothing. The six
+group contributions sum to at most 12, but that sum is not the ranking.
 
 The final group deliberately expresses a personal preference for an
 already represented composition characteristic. It is disclosed as such, not
@@ -99,15 +103,18 @@ deficit or a stimulant recommendation.
    inputs. Unknown is not zero; incomplete recipes are excluded from scoring
    with an evidence reason. Preserve other nutrient unknowns in the display.
 3. Compare current-meal preference points first, then saved preference points,
-   then nutrition reference. Compare each value only after the preceding value
+   then the nutrition level. Compare each value only after the preceding value
    ties; do not add them or present an invented scientific percentage weight.
-   Return the first three, or fewer if there are fewer eligible candidates.
+   Offer the first three, or fewer if there are fewer eligible candidates, and
+   continue through the same order three at a time on request.
    Matching every active current group beats a partial match. Explain actual
    mismatches when alternatives require compromise; never relax a hard avoid.
-4. Only when all three values tie, use recognized protein/staple variation across
+4. When all three values tie, use recognized protein/staple variation across
    today and the preceding six local calendar dates. Deduplicate aliases within
    each meal slot; compare protein repeat counts, then staple repeat counts,
-   then recency, earlier-alternative variety and stable recipe ID.
+   then recency. Next, options offered together differ in staple where possible,
+   or in main protein once a staple is selected. What is still tied follows the
+   rotation for the date and meal window, then stable recipe ID.
    No missing meal is treated as a nutrient deficit. The trace includes every
    eligible candidate's priority tuple and ranking-policy version,
    recorded/recognized coverage, actual tie reasons
@@ -130,6 +137,13 @@ Current names, ingredient groups and safety metadata derive from each actual
 recipe. Unrelated old idea ingredients do not add exclusions or style bonuses;
 source unknowns and actual preparation conditions still apply.
 
+Staple, warm meals and less added oil are chosen for each meal. Their saved
+equivalents (rice-based, noodle-based, warm meals, less added oil) are no
+longer offered as new saved choices, because two controls for one idea behaved
+differently: the saved warm preference added points while the current one
+filtered. Copies saved earlier keep their existing scoring, are listed
+separately in preferences and can be removed.
+
 New saved-style choices are limited to supported recipe attributes. Previously
 saved unsupported preferences remain visible and removable, without inventing
 matching cuisine labels. The legacy “Late-night heavy meals” condition has no
@@ -137,6 +151,37 @@ reviewed classifier for these recipes and is no longer offered as a new choice.
 If already saved, it remains an explicit unknown constraint at the late time
 window, blocking selection until the user removes it. It does not classify every
 recipe as heavy, use a compatibility placeholder, or silently relax an avoid.
+
+## Nutrition levels and rotation
+
+The nutrition reference is compared by level, not by single points:
+
+| Level | Nutrition reference | Recipes on 2026-11-10 |
+| --- | --- | --- |
+| Higher | 18 or more | 28 |
+| Middle | 14 to 17 | 55 |
+| Lower | 13 or less | 25 |
+
+These boundaries are MealHatch product rules, not published thresholds. The
+model assigns points in bands and was written to classify foods, so a one-point
+difference between two mixed meals is finer than it can support. Ordering by
+exact points also fixed the result: without preferences the same three recipes
+led at every hour of every day, and 58 of 108 recipes never reached the first
+three under any current-meal selection. The exact reference, all inputs and the
+applied bands remain in each recipe's details.
+
+Within a level, recipes take turns. Each recipe receives a fixed number derived
+from the local date, the meal window (breakfast, lunch, afternoon, dinner or
+late) and its ID, and tied recipes are ordered by that number. Nothing is
+random or stored: the same profile, conditions, records, date and meal window
+always produce the same order, and the date and window used are shown with the
+ranking policy in the details. Rotation cannot move a recipe above a higher
+level or past a preference match, and it never changes a calculated value.
+
+Variety among options offered together is judged within each group of three on
+one visible trait. Judging protein and staple jointly kept selecting the few
+recipes that shared neither with the others, so one recipe appeared in more
+than half of all first groups.
 
 ## Presentation, persistence and upkeep
 

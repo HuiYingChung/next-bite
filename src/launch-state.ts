@@ -356,12 +356,13 @@ export const loadLaunchState = (
 export const saveLaunchState = (
   state: LaunchState,
   storage: LocalStorageAccess | null = getBrowserStorage(),
+  now = new Date(),
 ): boolean => {
   try {
     if (!storage) return false;
     storage.setItem(
       LAUNCH_STORAGE_KEY,
-      JSON.stringify(normalizeState(state, new Date())),
+      JSON.stringify(normalizeState(state, now)),
     );
     // Retire migrated snapshots only after the current state is safely written.
     for (const key of LEGACY_STORAGE_KEYS) {

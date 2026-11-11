@@ -12,6 +12,7 @@ import type { PilotRecommendation, PilotResult } from "./nutrition";
 import { sourceFoods, standardizedRecipes } from "./nutrition-data";
 import type { PlannedMeal } from "./launch-state";
 import { label } from "./presentation";
+import { recipeDisplayName } from "./recipe-name";
 import type { Locale } from "./types";
 
 const text = (locale: Locale, en: string, zh: string) => locale === "en" ? en : zh;
@@ -80,8 +81,8 @@ export function RecipeLibrary({ result, context, locale, plans, busy, onPortionC
   return <section className="panel recipe-library" aria-labelledby="recipe-library-title">
     <h2 id="recipe-library-title" tabIndex={-1}>{text(locale, `${standardizedRecipes.length} recipes with nutrition & portions`, `${standardizedRecipes.length} 道附營養與份量配方`)}</h2>
     <p className="muted">{text(locale,
-      "Browse every recipe, including those outside the three suggestions. Your current preferences come first; excluded recipes can be inspected but cannot be chosen.",
-      "可查看全部配方，包含三道建議之外的選項。優先依本餐偏好排序；被排除的配方仍可查看，但無法選入計畫。",
+      "Browse every recipe, including those outside the current suggestions. Your current preferences come first; excluded recipes can be inspected but cannot be chosen.",
+      "可查看全部配方，包含目前這組建議之外的選項。優先依本餐偏好排序；被排除的配方仍可查看，但無法選入計畫。",
     )}</p>
     <div className="recipe-library-controls">
       <label>{text(locale, "Find a recipe or ingredient", "搜尋配方或食材")}
@@ -110,16 +111,16 @@ export function RecipeLibrary({ result, context, locale, plans, busy, onPortionC
           {(!option || hasPreferences) && <p className="small muted">{option ? recipeMatchLabel(option.recipe, locale) : text(locale, "Excluded under current conditions", "目前條件下已排除")}</p>}
           <div className="recipe-library-card-heading">
             <RecipeImage recipe={recipe} locale={locale} />
-            <h3>{recipe.label[locale]}</h3>
+            <h3>{recipeDisplayName(recipe, locale)}</h3>
           </div>
           <p className="small muted recipe-time-label">{recipeTimeLabel(recipe.prepMinutes, context.ingredientReadiness, locale)}</p>
-          <button type="button" className="button quiet" aria-haspopup="dialog" aria-label={text(locale, `View recipe: ${recipe.label.en}`, `查看配方：${recipe.label.zh}`)} onClick={() => { setSelectedId(recipe.mealId); setSaveMessage(""); }}>
+          <button type="button" className="button quiet" aria-haspopup="dialog" aria-label={text(locale, `View recipe: ${recipeDisplayName(recipe, "en")}`, `查看配方：${recipeDisplayName(recipe, "zh")}`)} onClick={() => { setSelectedId(recipe.mealId); setSaveMessage(""); }}>
             {text(locale, "View recipe", "查看配方")}
           </button>
         </article>;
       })}
     </div>
-    <Drawer open={Boolean(selectedRecipe)} title={selectedRecipe?.label[locale] ?? text(locale, "Recipe details", "配方詳細資料")} closeLabel={text(locale, "Close recipe", "關閉配方")} onClose={() => setSelectedId(null)}>
+    <Drawer open={Boolean(selectedRecipe)} title={(selectedRecipe ? recipeDisplayName(selectedRecipe, locale) : undefined) ?? text(locale, "Recipe details", "配方詳細資料")} closeLabel={text(locale, "Close recipe", "關閉配方")} onClose={() => setSelectedId(null)}>
       {selectedRecipe && calculation && <div className="recipe-library-detail">
         <RecipeImage recipe={selectedRecipe} locale={locale} variant="detail" />
         {portionControl}

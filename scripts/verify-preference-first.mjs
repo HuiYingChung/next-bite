@@ -3,7 +3,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import ts from "typescript";
-import { independentRecipeRanking, compareIndependentTiers } from "./recipe-ranking-oracle.mjs";
+import { independentRecipeRanking, compareIndependentTiers, proteinGroupSources } from "./recipe-ranking-oracle.mjs";
 
 const root=fileURLToPath(new URL("../",import.meta.url)), modules=new Map();
 function load(relative){
@@ -33,7 +33,7 @@ assert.equal(neutral.candidateCount,108);
 for(const item of neutral.eligibleRecipes){
   assert.deepEqual(item.score.currentPreference,{points:0,possible:0,matched:0,selected:0});
   assert.deepEqual(item.score.savedPreference,{points:0,possible:0,matched:0,selected:0});
-  assert.equal(item.score.preferenceRows.length,5);
+  assert.equal(item.score.preferenceRows.length,6);
   assert(item.score.preferenceRows.every(value=>!value.active&&value.scope==="inactive"&&!value.matched));
   assert.equal(item.score.nutritionReference,10-item.score.model.rawScore);
   assert.equal(item.score.nutritionReference,item.score.nutrient+item.score.energy);
@@ -107,4 +107,89 @@ for(const recipe of standardizedRecipes){
   assert.deepEqual(calculateRecipeProfile(recipe),snapshots.get(recipe.mealId).model);
   assert.deepEqual(["small","regular","large"].map(portion=>calculateRecipe(recipe,portion)),snapshots.get(recipe.mealId).portions);
 }
-console.log(JSON.stringify({preferenceFirstStaples:true,currentOutranksSaved:true,savedOutranksNutrition:true,partialAndUnsupportedDisclosed:true,assemblyReadinessEnforced:true,deterministic:true,physicalNutritionAndOfficialModelUnchanged:true},null,2));
+// Nutrition levels and rotation: a product rule layered on unchanged model
+// arithmetic. Levels restate the policy boundaries instead of importing them.
+const levelOf=reference=>reference>=18?2:reference>=14?1:0;
+const windows=[[2026,10,6,9],[2026,10,6,12,30],[2026,10,6,18],[2026,10,7,12,30],[2026,10,8,12,30]].map(parts=>new Date(...parts));
+const defaults=windows.map(time=>recommendPilotMeals(profile(),context(),"en",time,today,state.days));
+for(const result of defaults){
+  assert.equal(result.eligibleRecipes.length,standardizedRecipes.length);
+  const levels=result.eligibleRecipes.map(item=>item.score.nutritionLevel);
+  for(const item of result.eligibleRecipes) assert.equal(item.score.nutritionLevel,levelOf(item.score.nutritionReference));
+  assert(levels.every((level,index)=>index===0||level<=levels[index-1]),"Rotation never lifts a recipe above a higher nutrition level");
+  assert.deepEqual(result.eligibleRecipes.slice(0,3),result.recommendations);
+  assert.equal(result.trace.rankingPolicy.version,"mealhatch-banded-rotation-2026-11-10-v2");
+}
+assert.deepEqual(ids(recommendPilotMeals(profile(),context(),"en",windows[1],today,state.days)),ids(defaults[1]),"Same inputs, date and meal window reproduce the same order");
+assert.deepEqual(ids(recommendPilotMeals(profile(),context(),"en",new Date(2026,10,6,14,45),today,state.days)),ids(defaults[1]),"Times inside one meal window share one order");
+assert.equal(new Set(defaults.map(result=>ids(result).slice(0,3).join("|"))).size,defaults.length,"Each date and meal window offers a different first group");
+assert.deepEqual(defaults.map(result=>result.trace.rotationSeed),["2026-11-06:breakfast","2026-11-06:lunch","2026-11-06:dinner","2026-11-07:lunch","2026-11-08:lunch"]);
+// Turn-taking is even enough that no recipe dominates: over four weeks of
+// three meal windows, every higher-level recipe reaches the first group and
+// none takes more than a quarter of the appearances an even share would give
+// it four times over.
+const appearances=new Map(), higher=defaults[0].eligibleRecipes.filter(item=>item.score.nutritionLevel===2).map(item=>item.recipe.mealId);
+let groups=0;
+for(let day=1;day<=28;day++) for(const hour of [9,12,18]){
+  groups++;
+  for(const item of recommendPilotMeals(profile(),context(),"en",new Date(2026,10,day,hour),today,state.days).recommendations) appearances.set(item.recipe.mealId,(appearances.get(item.recipe.mealId)??0)+1);
+}
+assert.deepEqual([...appearances.keys()].sort(),[...higher].sort(),"Only higher-level recipes lead without preferences, and all of them take a turn");
+const evenShare=groups*3/higher.length;
+assert(Math.max(...appearances.values())<=evenShare*2,`No recipe leads more than twice its even share (${Math.max(...appearances.values())} vs ${evenShare})`);
+// Options shown together differ in staple when none is selected.
+for(const result of defaults){
+  const staples=result.recommendations.map(item=>item.recipe.staple).filter(staple=>staple!=="none");
+  assert.equal(new Set(staples).size,staples.length,"The first group does not repeat a staple while alternatives exist");
+}
+// A selected staple still leads; rotation only orders equal matches.
+const riceGroups=windows.map(time=>recommendPilotMeals(profile(),context({preferredStaple:"rice"}),"en",time,today,state.days));
+for(const result of riceGroups) assert(result.recommendations.every(item=>item.recipe.staple==="rice"&&item.score.nutritionLevel===2));
+assert(new Set(riceGroups.map(result=>ids(result).slice(0,3).join("|"))).size>1,"Matching recipes also take turns");
+
+// Main protein: a current-meal group. Every declared protein ingredient in the
+// collection belongs to exactly one independently listed group, so no recipe
+// is unreachable and none matches by accident.
+const groupOf=foodId=>Object.entries(proteinGroupSources).filter(([,ids])=>ids.includes(foodId)).map(([group])=>group);
+for(const recipe of standardizedRecipes){
+  const declared=recipe.ingredients.filter(item=>item.role==="protein"&&item.grams>0);
+  assert(declared.length>0,`${recipe.mealId} declares a protein ingredient`);
+  for(const item of declared) assert.equal(groupOf(item.foodId).length,1,`${item.foodId} in ${recipe.mealId} belongs to exactly one main-protein group`);
+}
+const noProtein=run();
+assert(noProtein.eligibleRecipes.every(item=>!row(item.score,"protein").active&&row(item.score,"protein").points===0),"No main protein selected earns nothing");
+for(const group of Object.keys(proteinGroupSources)){
+  const proteinContext=context({preferredProtein:group}), result=run(profile(),proteinContext);
+  const expectedMatch=recipe=>recipe.ingredients.some(item=>item.role==="protein"&&item.grams>0&&proteinGroupSources[group].includes(item.foodId));
+  assert.equal(result.eligibleRecipes.length,standardizedRecipes.length,"Main protein is a flexible preference and excludes nothing");
+  for(const item of result.eligibleRecipes){
+    const proteinRow=row(item.score,"protein");
+    assert.equal(proteinRow.scope,"current");
+    assert.equal(proteinRow.matched,expectedMatch(item.recipe),`${item.recipe.mealId} ${group} match follows the declared protein ingredients`);
+    assert.equal(proteinRow.points,expectedMatch(item.recipe)?2:0);
+    assert.equal(item.score.currentPreference.possible,2);
+  }
+  const matches=result.eligibleRecipes.filter(item=>expectedMatch(item.recipe)).length;
+  assert(matches>=3,`${group} has at least three matching recipes`);
+  assert(result.recommendations.every(item=>expectedMatch(item.recipe)),`Available ${group} recipes lead when selected`);
+  assert(result.recommendations.every(item=>item.matchedPreferenceReasons.some(reason=>reason.startsWith("Matches your selected main protein"))));
+  assert.deepEqual(result.eligibleRecipes.map(item=>independentRecipeRanking(item.recipe,sourceFoods,profile(),proteinContext).tier),
+    standardizedRecipes.map(recipe=>independentRecipeRanking(recipe,sourceFoods,profile(),proteinContext).tier).sort(compareIndependentTiers),`${group} order matches the independent ranking`);
+  assert.deepEqual(ids(result),ids(run(profile(),proteinContext)));
+}
+// Combined with a staple, both current groups must match to lead.
+const poultryNoodles=run(profile(),context({preferredProtein:"poultry",preferredStaple:"noodles"}));
+assert(poultryNoodles.recommendations.every(item=>item.score.currentPreference.points===4&&item.recipe.staple==="noodles"));
+assert(poultryNoodles.eligibleRecipes.some(item=>item.score.currentPreference.points===2),"Partial matches remain as lower alternatives");
+// A current main protein outranks a conflicting saved style, as other current groups do.
+const savedBowlButSeafood=run(profile({preferenceTags:["Wraps / sandwiches"]}),context({preferredProtein:"seafood"}));
+assert(savedBowlButSeafood.recommendations.every(item=>row(item.score,"protein").matched));
+assert.equal(normalizeMealContext({preferredProtein:"not-a-group"}).preferredProtein,"any","Unknown stored values fall back to no selection");
+assert.equal(normalizeMealContext({}).preferredProtein,"any");
+// Unmatched selections are stated, never hidden.
+const eggMismatch=run(profile(),context({preferredProtein:"egg"})).eligibleRecipes.find(item=>!row(item.score,"protein").matched);
+assert(eggMismatch.mismatchReasons.some(reason=>reason.includes("Does not match your selected main protein")));
+const zhProtein=recommendPilotMeals(profile(),context({preferredProtein:"seafood"}),"zh",now,today,state.days);
+assert(zhProtein.recommendations[0].matchedPreferenceReasons.some(reason=>reason.includes("符合本餐選擇的主菜：魚或海鮮")));
+
+console.log(JSON.stringify({mainProteinGroupsCoverEveryRecipe:true,mainProteinLeadsWhenSelected:true,nutritionLevelsBoundRotation:true,sameWindowReproducible:true,everyHigherLevelRecipeTakesATurn:true,preferenceFirstStaples:true,currentOutranksSaved:true,savedOutranksNutrition:true,partialAndUnsupportedDisclosed:true,assemblyReadinessEnforced:true,deterministic:true,physicalNutritionAndOfficialModelUnchanged:true},null,2));

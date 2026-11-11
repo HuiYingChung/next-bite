@@ -15,8 +15,8 @@ success rate. Product Hunt exposure is a separate measure.
 
 ## Participants and setup
 
-- Recruit five Chinese adults living in North America who sometimes prepare
-  their own meals and have not used this version. Aim for three phone sessions
+- Recruit five adults who read English or Traditional Chinese, sometimes
+  prepare their own meals and have not used this version. Aim for three phone sessions
   and two desktop sessions; include
   both supported languages when participants naturally use them.
 - Run one participant at a time for about 15 minutes. Use a fresh isolated
@@ -53,6 +53,11 @@ After task 5 ask: “What do the numbers mean here? Would you expect a restauran
 meal with the same name to have the same numbers?” Accept “a comparison for these defined recipes”
 without requiring knowledge of the scoring formula. Record misconceptions
 verbatim. Do not teach the intended answer before recording the response.
+
+Then ask: “If you opened this again tomorrow at the same time, what would you
+expect to see?” Record the answer before showing anything. Suggestions take
+turns by date and meal window; note whether a changed list feels helpful,
+arbitrary or unnoticed.
 
 Then ask: “You have uncooked ingredients and 15 minutes. Can you tell whether
 this meal fits?” Observe whether the participant distinguishes assembly time

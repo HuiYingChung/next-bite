@@ -1,4 +1,4 @@
-import { recommendationDataset } from "./data";
+import { recommendationDataset, toLocalDateId } from "./data";
 import { getHardAvoidConflicts, getMatchedPreferenceTags, getMealTimeWindow } from "./logic";
 import type { HardAvoidConflict } from "./logic";
 import { defaultMealContext, getContextExclusions, getPortionPreference, normalizeMealContext, requiresWarmMeal } from "./meal-context";
@@ -13,6 +13,8 @@ import { nutrientKeys, sourceFoods, standardizedRecipes } from "./nutrition-data
 import type { IngredientPreparationModelBasis, NutrientKey, NutrientValues, NutritionPortion, RecipeIngredient, SourceFood, StandardizedRecipe } from "./nutrition-types";
 import type { DayHistory, Locale, MustAvoidTag, Profile, Recommendation, TodayLog } from "./types";
 import { label } from "./presentation";
+import { getRecipeProteinGroups, proteinGroupLabels } from "./protein-preference";
+import { recipeDisplayName } from "./recipe-name";
 
 export const nutrientUnits: Record<NutrientKey, string> = {
   kcal: "kcal", energyKj: "kJ", protein: "g", carbs: "g", fat: "g", saturatedFat: "g",
@@ -51,6 +53,8 @@ export type PilotRecommendation = RecipeCalculation & {
     preferenceOrder: string[];
     rankingPolicy: RankingPolicy;
     rankTier: number[];
+    /** Date and meal window that order recipes still tied after every other rule. */
+    rotationSeed: string;
     variety: HistoryVarietyTrace;
   };
 };
@@ -68,6 +72,7 @@ export type PilotResult = {
     selectionMethod: string;
     candidateScores: Array<{ mealId: string; score: PilotScore }>;
     rankingPolicy: RankingPolicy;
+    rotationSeed: string;
   };
 };
 
@@ -80,8 +85,33 @@ export type PreferenceScoreRow = {
 export type PreferenceFit = { points: number; possible: number; matched: number; selected: number };
 export type RankingPolicy = { version: string; order: string[] };
 export const RECIPE_RANKING_POLICY: RankingPolicy = {
-  version: "mealhatch-preference-first-2026-11-06-v1",
-  order: ["current-preference-descending", "saved-preference-descending", "nutrition-reference-descending", "equal-tier-record-variety", "equal-tier-alternative-variety", "stable-id"],
+  version: "mealhatch-banded-rotation-2026-11-10-v2",
+  order: ["current-preference-descending", "saved-preference-descending", "nutrition-level-descending", "equal-tier-record-variety", "equal-tier-alternative-variety", "meal-window-rotation", "stable-id"],
+};
+
+// Product rule, not a published threshold. The model's own point bands make a
+// one-point difference between two mixed meals too fine to order them by, so
+// recipes are compared by level and the exact reference stays visible.
+export const NUTRITION_LEVEL_MINIMUMS = { higher: 18, middle: 14 } as const;
+export type NutritionLevel = 0 | 1 | 2;
+export const getNutritionLevel = (nutritionReference: number): NutritionLevel =>
+  nutritionReference >= NUTRITION_LEVEL_MINIMUMS.higher ? 2 : nutritionReference >= NUTRITION_LEVEL_MINIMUMS.middle ? 1 : 0;
+
+/** Options are offered in groups of this size; variety is judged within each group. */
+export const RECIPE_OPTION_GROUP_SIZE = 3;
+
+// Deterministic turn-taking: the same date, meal window and recipe always give
+// the same key, so a result can be reproduced without stored random state.
+export const getRotationSeed = (now: Date) => `${toLocalDateId(now)}:${getMealTimeWindow(now)}`;
+export const getRotationKey = (seed: string, recipeId: string) => {
+  let hash = 0x811c9dc5;
+  for (const character of `${seed}:${recipeId}`) hash = Math.imul(hash ^ character.codePointAt(0)!, 0x01000193);
+  // Final mixing: without it, keys that share a recipe ID stay correlated
+  // across seeds and the same recipes would lead on most days.
+  hash ^= hash >>> 16; hash = Math.imul(hash, 0x85ebca6b);
+  hash ^= hash >>> 13; hash = Math.imul(hash, 0xc2b2ae35);
+  hash ^= hash >>> 16;
+  return hash >>> 0;
 };
 export type PilotScore = {
   model: NutrientProfileResult;
@@ -89,6 +119,8 @@ export type PilotScore = {
   energy: number;
   preference: number;
   nutritionReference: number;
+  /** Ranking compares this level; the exact reference above is for inspection. */
+  nutritionLevel: NutritionLevel;
   currentPreference: PreferenceFit;
   savedPreference: PreferenceFit;
   unsupportedSavedPreferences: string[];
@@ -234,6 +266,7 @@ export const calculateScoreForRecipe = (recipe: StandardizedRecipe, profile: Pro
   const meal = recommendationDataset.find(item => item.id === recipe.mealId);
   const staple = context.preferredStaple !== "any" && recipe.staple === context.preferredStaple;
   const cuisine = context.cuisine !== "any" && recipe.cuisine === context.cuisine;
+  const mainProtein = context.preferredProtein !== "any" && getRecipeProteinGroups(recipe, foods).has(context.preferredProtein);
   const oilPer100g = recipe.seasoning.oilGrams / recipe.ingredients.reduce((sum, item) => sum + item.grams, 0) * 100;
   const preparation = profile.feelToday === "Need something light" ? "oil" : profile.feelToday === "Low energy" ? "time" : profile.preferenceTags.includes("Light meals") ? "oil" : null;
   const preparationAvailable = preparation !== "time" || context.ingredientReadiness !== "needs-prep";
@@ -256,6 +289,7 @@ export const calculateScoreForRecipe = (recipe: StandardizedRecipe, profile: Pro
   const preparationValue = preparation === "oil" ? "less-added-oil" : "less-effort";
   const rowFacts: Record<string, RowFacts> = {
     staple: facts("current", context.preferredStaple === "any" ? [] : [context.preferredStaple], staple ? [context.preferredStaple] : []),
+    protein: facts("current", context.preferredProtein === "any" ? [] : [context.preferredProtein], mainProtein ? [context.preferredProtein] : []),
     cuisine: facts("current", context.cuisine === "any" ? [] : [context.cuisine], cuisine ? [context.cuisine] : []),
     preparation: facts(preparationScope, preparation ? [preparationValue] : [], preparationFit ? [preparationValue] : [], preparationAvailable),
     "saved-styles": facts("saved", requestedStyles, styles),
@@ -263,6 +297,7 @@ export const calculateScoreForRecipe = (recipe: StandardizedRecipe, profile: Pro
   };
   const preferenceRows: PreferenceScoreRow[] = [
     { key: "staple", label: localized(locale, "Selected staple", "本餐主食"), points: staple ? 2 : 0, note: localized(locale, staple ? "Matches the selected staple: +2 product preference points." : context.preferredStaple === "any" ? "No staple preference selected: +0." : "Selected staple does not match: +0. This is a flexible preference.", staple ? "符合本餐主食，加 2 點產品偏好分。" : context.preferredStaple === "any" ? "尚未選擇主食偏好，加 0 點。" : "已選主食未符合，加 0 點；此偏好保留彈性。") },
+    { key: "protein", label: localized(locale, "Selected main protein", "本餐主菜"), points: mainProtein ? 2 : 0, note: localized(locale, mainProtein ? "A declared protein ingredient is in the selected group: +2 product preference points." : context.preferredProtein === "any" ? "No main protein selected: +0." : "No declared protein ingredient is in the selected group: +0. This is a flexible preference.", mainProtein ? "配方標示的蛋白質食材屬於本餐選擇的主菜類別，加 2 點產品偏好分。" : context.preferredProtein === "any" ? "尚未選擇主菜，加 0 點。" : "配方標示的蛋白質食材不屬於已選主菜類別，加 0 點；此偏好保留彈性。") },
     { key: "cuisine", label: localized(locale, "Selected cuisine", "本餐料理類型"), points: cuisine ? 2 : 0, note: localized(locale, cuisine ? "Matches the selected cuisine group: +2 product preference points." : context.cuisine === "any" ? "No cuisine preference selected: +0." : "Selected cuisine does not match: +0. This is a flexible preference.", cuisine ? "符合本餐料理類型，加 2 點產品偏好分。" : context.cuisine === "any" ? "尚未選擇料理類型偏好，加 0 點。" : "已選料理類型未符合，加 0 點；此偏好保留彈性。") },
     { key: "preparation", label: localized(locale, "Preparation preference", "作法偏好"), points: preparationFit ? 2 : 0,
       note: preparation === "oil" ? localized(locale, `Requested less added oil: ${round(oilPer100g)} g/100 g; +2 when at most 1 g/100 g. This is a product threshold, not a nutrition standard.`, `偏好較少添加油：每 100 克含 ${round(oilPer100g)} 克添加油；不超過 1 克時加 2 點。這是產品門檻，並非營養標準。`)
@@ -288,13 +323,13 @@ export const calculateScoreForRecipe = (recipe: StandardizedRecipe, profile: Pro
     return [{ foodId: food.id, label: food.label[locale], note: basis.note[locale], sourceUrls: basis.sourceUrls }];
   });
   const sourceUrls = [...new Set([NPM2018_SOURCE_URL, ...inputBasis.flatMap(item => item.sourceUrls)])];
-  return { model, nutrient, energy, preference, nutritionReference: nutrient + energy, currentPreference: fit("current"), savedPreference: fit("saved"), unsupportedSavedPreferences, total: nutrient + energy + preference, preferenceRows,
+  return { model, nutrient, energy, preference, nutritionReference: nutrient + energy, nutritionLevel: getNutritionLevel(nutrient + energy), currentPreference: fit("current"), savedPreference: fit("saved"), unsupportedSavedPreferences, total: nutrient + energy + preference, preferenceRows,
     inputBasis,
     basis: { normalization: "per-100g", model: "UK NPM 2018", version: NPM2018_VERSION, sourceUrls,
-      note: localized(locale, "UK NPM 2018 composition is calculated per 100 g. The nutrition reference is nutrient + energy =10 minus the official raw score; energy is counted once. It is used only after current-meal and saved preferences are compared separately. This priority is a product policy, not a scientifically weighted health score or personal adequacy assessment. Free sugars use reviewed classifications, not the unknown USDA added-sugar field. Salt is sodium (mg) ×2.5/1000; AOAC compatibility is documented at dataset level.", "以每 100 克組成計算 UK NPM 2018。營養參考＝營養項＋能量項＝10 減官方原始分，能量只計一次；先分別比較本餐及已儲存偏好，再比較營養參考。此優先順序是產品規則，不是科學加權的健康分數或個人營養充足評估。游離糖採已審核分類，不套用未知的 USDA 添加糖欄位；鹽當量為鈉（毫克）乘 2.5 再除以 1000，AOAC 相容性依資料集紀錄。") } };
+      note: localized(locale, "UK NPM 2018 composition is calculated per 100 g. The nutrition reference is nutrient + energy =10 minus the official raw score; energy is counted once. After current-meal and saved preferences are compared separately, recipes are compared by nutrition level (18 or more, 14 to 17, 13 or less), not by single points. These levels and this priority are a product policy, not a scientifically weighted health score or personal adequacy assessment. Free sugars use reviewed classifications, not the unknown USDA added-sugar field. Salt is sodium (mg) ×2.5/1000; AOAC compatibility is documented at dataset level.", "以每 100 克組成計算 UK NPM 2018。營養參考＝營養項＋能量項＝10 減官方原始分，能量只計一次；先分別比較本餐及已儲存偏好，再比較營養級別（18 以上、14 至 17、13 以下），不逐點比較。這些級別與優先順序是產品規則，不是科學加權的健康分數或個人營養充足評估。游離糖採已審核分類，不套用未知的 USDA 添加糖欄位；鹽當量為鈉（毫克）乘 2.5 再除以 1000，AOAC 相容性依資料集紀錄。") } };
 };
 
-export const getRecipeRankingTier = (score: PilotScore): number[] => [-score.currentPreference.points, -score.savedPreference.points, -score.nutritionReference];
+export const getRecipeRankingTier = (score: PilotScore): number[] => [-score.currentPreference.points, -score.savedPreference.points, -score.nutritionLevel];
 
 const recipeFitReasons = (recipe: StandardizedRecipe, score: PilotScore, context: MealContext, locale: Locale) => {
   const text = (en: string, zh: string) => localized(locale, en, zh);
@@ -302,10 +337,13 @@ const recipeFitReasons = (recipe: StandardizedRecipe, score: PilotScore, context
   const englishStapleNames: Record<string, string> = { rice: "rice", noodles: "noodles", bread: "bread or wraps", potato: "potato or sweet potato", other: "other grains", none: "no separate staple" };
   const stapleName = (locale === "zh" ? stapleNames : englishStapleNames)[context.preferredStaple];
   const cuisineName = context.cuisine === "asian" ? text("Asian-style", "亞洲風格") : text("Western-style", "西式風格");
+  const proteinName = context.preferredProtein === "any" ? "" : locale === "zh" ? proteinGroupLabels[context.preferredProtein].zh : proteinGroupLabels[context.preferredProtein].en.toLowerCase();
   const matches: string[] = [], mismatches: string[] = [];
   for (const row of score.preferenceRows.filter(item => item.active)) {
     if (row.key === "staple") {
       (row.matched ? matches : mismatches).push(row.matched ? text(`Matches your selected staple: ${stapleName}.`, `符合本餐選擇的主食：${stapleName}。`) : text(`Does not match your selected staple (${stapleName}); it remains a flexible alternative.`, `未符合本餐選擇的主食（${stapleName}），保留為彈性替代選項。`));
+    } else if (row.key === "protein") {
+      (row.matched ? matches : mismatches).push(row.matched ? text(`Matches your selected main protein: ${proteinName}.`, `符合本餐選擇的主菜：${proteinName}。`) : text(`Does not match your selected main protein (${proteinName}); it remains a flexible alternative.`, `未符合本餐選擇的主菜（${proteinName}），保留為彈性替代選項。`));
     } else if (row.key === "cuisine") {
       (row.matched ? matches : mismatches).push(row.matched ? text(`Matches your selected cuisine: ${cuisineName}.`, `符合本餐料理偏好：${cuisineName}。`) : text(`Does not match your selected cuisine (${cuisineName}); it remains a flexible alternative.`, `未符合本餐料理偏好（${cuisineName}），保留為彈性替代選項。`));
     } else if (row.key === "preparation") {
@@ -321,8 +359,8 @@ const recipeFitReasons = (recipe: StandardizedRecipe, score: PilotScore, context
   const matchedPreferenceReasons = matches.slice(0, 2);
   if (!matches.length) matches.push(score.currentPreference.selected + score.savedPreference.selected === 0
     ? score.unsupportedSavedPreferences.length
-      ? text("No applicable meal preferences selected; nutrition reference orders the eligible recipes.", "目前沒有可套用的餐食偏好，依營養參考排列符合必要條件的配方。")
-      : text("No meal preferences selected; nutrition reference orders the eligible recipes.", "尚未選擇餐食偏好，依營養參考排列符合必要條件的配方。")
+      ? text("No applicable meal preferences selected; eligible recipes are ordered by nutrition level and take turns within it.", "目前沒有可套用的餐食偏好，符合必要條件的配方依營養級別排列，同級內輪流出現。")
+      : text("No meal preferences selected; eligible recipes are ordered by nutrition level and take turns within it.", "尚未選擇餐食偏好，符合必要條件的配方依營養級別排列，同級內輪流出現。")
     : text("No selected preference group matched; this is an eligible alternative.", "未符合已選偏好組，此配方仍符合必要條件，可作為替代選項。"));
   const preparationFact = context.ingredientReadiness === "needs-prep"
     ? text("Ingredients need preparation; total cooking time is unknown.", "食材仍需前置準備，完整料理時間未知。")
@@ -345,8 +383,9 @@ export const recommendPilotMeals = (
   const candidates: PreferenceCandidate<PilotRecommendation>[] = [];
   const preferenceOrder = RECIPE_RANKING_POLICY.order;
   const method = localized(locale,
-    "Apply hard avoids and strict meal conditions first. Compare current-meal preference points, then saved-preference points, then the unchanged nutrition reference (10 minus raw UK NPM 2018 score). These are separate priority levels, not a weighted health score. Only when all three are equal do recognized records from today and the preceding six calendar days affect variety: fewer protein-source repeats, fewer staple repeats, then less recent matches. Earlier-option variety and stable IDs resolve remaining ties. Records do not alter nutrition or establish a deficit.",
-    "先套用避食與本餐必要條件，再依序比較本餐偏好分、已儲存偏好分、未改變的營養參考（10 減 UK NPM 2018 原始分）。這是分開的優先層級，不是加權健康分數。只有三項完全相同時，才參考今天與前六個日曆日的可辨識紀錄：依序比較蛋白質來源重複較少、主食重複較少及最近紀錄較早者，再依前面選項的變化與固定代碼決定。紀錄不改變營養，也不代表營養缺口。");
+    "Apply hard avoids and strict meal conditions first. Compare current-meal preference points, then saved-preference points, then the nutrition level of the unchanged nutrition reference (10 minus raw UK NPM 2018 score): 18 or more, 14 to 17, or 13 or less. These are separate priority levels, not a weighted health score. Within equal levels, recognized records from today and the preceding six calendar days affect variety: fewer protein-source repeats, fewer staple repeats, then less recent matches. Options shown together then differ in staple where possible (or in main protein once a staple is selected), followed by a fixed rotation for this date and meal window, then stable IDs. Records and rotation do not alter nutrition or establish a deficit.",
+    "先套用避食與本餐必要條件，再依序比較本餐偏好分、已儲存偏好分，以及未改變的營養參考（10 減 UK NPM 2018 原始分）所屬的營養級別：18 以上、14 至 17、13 以下。這是分開的優先層級，不是加權健康分數。同級時參考今天與前六個日曆日的可辨識紀錄：依序比較蛋白質來源重複較少、主食重複較少及最近紀錄較早者，接著讓同一組選項的主食盡量不同（已選主食時改為主要蛋白質來源不同），再依此日期與餐別時段的固定輪替順序，最後依固定代碼。紀錄與輪替不改變營養，也不代表營養缺口。");
+  const rotationSeed = getRotationSeed(now);
   for (const recipe of standardizedRecipes) {
     const meal = meals.get(recipe.mealId);
     if (!meal) { exclusions.push({ mealId: recipe.mealId, stage: "evidence", reasons: ["catalog-meal-missing"] }); continue; }
@@ -364,10 +403,11 @@ export const recommendPilotMeals = (
       exclusions.push({ mealId: recipe.mealId, stage: "evidence", reasons: calculateRecipeProfile(recipe).missing.map(key => `model-input:${key}`) }); continue;
     }
     const fitReasons = recipeFitReasons(recipe, score, context, locale);
-    const reasons = [localized(locale, `Preference-first order: current ${score.currentPreference.points}/${score.currentPreference.possible}, saved ${score.savedPreference.points}/${score.savedPreference.possible}, then nutrition reference ${score.nutritionReference}.`, `依序比較本餐偏好 ${score.currentPreference.points}/${score.currentPreference.possible}、已儲存偏好 ${score.savedPreference.points}/${score.savedPreference.possible}，再比較營養參考 ${score.nutritionReference}。`),
+    const reasons = [localized(locale, `Preference-first order: current ${score.currentPreference.points}/${score.currentPreference.possible}, saved ${score.savedPreference.points}/${score.savedPreference.possible}, then the level of nutrition reference ${score.nutritionReference}.`, `依序比較本餐偏好 ${score.currentPreference.points}/${score.currentPreference.possible}、已儲存偏好 ${score.savedPreference.points}/${score.savedPreference.possible}，再比較營養參考 ${score.nutritionReference} 所屬級別。`),
       score.basis.note,
       ...score.preferenceRows.filter(row => row.active).map(row => row.note), ...fitReasons.mismatchReasons];
     if (context.preferredStaple !== "any" && recipe.staple !== context.preferredStaple) reasons.push(localized(locale, "Does not match the selected staple; this flexible preference contributes 0 points rather than excluding the recipe.", "未符合本餐選擇的主食；此偏好保留彈性，該項加 0 點，不據此排除配方。"));
+    if (score.preferenceRows.some(row => row.key === "protein" && row.active && !row.matched)) reasons.push(localized(locale, "Does not match the selected main protein; this flexible preference contributes 0 points rather than excluding the recipe.", "未符合本餐選擇的主菜；此偏好保留彈性，該項加 0 點，不據此排除配方。"));
     if (context.cuisine !== "any" && recipe.cuisine !== context.cuisine) reasons.push(localized(locale, "Does not match the selected cuisine; this flexible preference contributes 0 points rather than excluding the recipe.", "未符合本餐料理類型；此偏好保留彈性，該項加 0 點，不據此排除配方。"));
     if (requiresWarmMeal(profile, context)) reasons.push(localized(locale, "Only recipes documented as warm are eligible.", "只保留明確標示為溫熱的食譜。"));
     if (context.maxPrepMinutes !== null) reasons.push(localized(locale, `Fits the ${context.maxPrepMinutes}-minute limit using prepared ingredients.`, `以備妥食材組裝，符合 ${context.maxPrepMinutes} 分鐘上限。`));
@@ -377,24 +417,27 @@ export const recommendPilotMeals = (
     const rankTier = getRecipeRankingTier(score);
     const value: PilotRecommendation = { meal, recipe, portion: portionChoice.portion, ...calculation, score, reasons, ...fitReasons,
       trace: { portionBasis: portionChoice.basis, practicalFit: score.preference, pointBreakdown: score.preferenceRows, preferenceOrder,
-        rankingPolicy: RECIPE_RANKING_POLICY, rankTier,
+        rankingPolicy: RECIPE_RANKING_POLICY, rankTier, rotationSeed,
         matchedPreferences: score.preferenceRows.filter(row => row.active && row.matched).map(row => row.key),
         unmatchedPreferences: score.preferenceRows.filter(row => row.active && row.unmatchedValues.length).map(row => row.key),
         recentRecordsUsed: [], nutritionEquivalentRecipeIds: [], selectionMethod: method,
         variety: { recordMatches: [], selectedMatches: [], reason: "", scope: records.scope, applied: false, evidence: [], comparison: null } } };
     candidates.push({ id: recipe.mealId, value, tier: rankTier, proteins: [...new Set(identities.flatMap(identity => identity.protein ? [identity.protein] : []))], staple: recipe.staple === "none" ? null : recipe.staple });
   }
-  const ordered = pickHistoryVariedChoices(candidates, records, candidates.length);
+  const ordered = pickHistoryVariedChoices(candidates, records, candidates.length, {
+    key: id => getRotationKey(rotationSeed, id), groupSize: RECIPE_OPTION_GROUP_SIZE,
+    varyBy: context.preferredStaple === "any" ? "staple" : "protein",
+  });
   const eligibleRecipes = ordered.map((choice, index) => {
-    const variety = describeHistoryVariety(choice, records.scope, locale, "recipe", value => value.recipe.label[locale]);
-    choice.value.reasons[0] = localized(locale, `Rank ${index + 1} of ${candidates.length}: current preference ${choice.value.score.currentPreference.points}, then saved preference ${choice.value.score.savedPreference.points}, then nutrition reference ${choice.value.score.nutritionReference}. Equal priority levels use declared ingredient variety.`, `在 ${candidates.length} 道符合條件配方中排第 ${index + 1} 名：先比較本餐偏好 ${choice.value.score.currentPreference.points}，再比較已儲存偏好 ${choice.value.score.savedPreference.points}，最後比較營養參考 ${choice.value.score.nutritionReference}；相同層級才使用食材變化。`);
+    const variety = describeHistoryVariety(choice, records.scope, locale, "recipe", value => recipeDisplayName(value.recipe, locale));
+    choice.value.reasons[0] = localized(locale, `Rank ${index + 1} of ${candidates.length}: current preference ${choice.value.score.currentPreference.points}, then saved preference ${choice.value.score.savedPreference.points}, then the level of nutrition reference ${choice.value.score.nutritionReference}. Equal priority levels use recorded variety, then this date and meal window's rotation.`, `在 ${candidates.length} 道符合條件配方中排第 ${index + 1} 名：先比較本餐偏好 ${choice.value.score.currentPreference.points}，再比較已儲存偏好 ${choice.value.score.savedPreference.points}，最後比較營養參考 ${choice.value.score.nutritionReference} 所屬級別；相同層級依紀錄變化，再依此日期與餐別時段輪替。`);
     choice.value.trace.variety = variety;
     choice.value.trace.recentRecordsUsed = variety.evidence.map(record => `${record.date} ${record.mealName}: ${record.foodNames.join(", ")}`);
     choice.value.reasons.push(variety.reason);
     return choice.value;
   });
-  return { recommendations: eligibleRecipes.slice(0, 3), eligibleRecipes, candidateCount: candidates.length, excludedCount: exclusions.length,
+  return { recommendations: eligibleRecipes.slice(0, RECIPE_OPTION_GROUP_SIZE), eligibleRecipes, candidateCount: candidates.length, excludedCount: exclusions.length,
     trace: { catalogCount: standardizedRecipes.length, exclusions, eligibleRecipeIds: ordered.map(choice => choice.id), selectionMethod: method,
-      rankingPolicy: RECIPE_RANKING_POLICY,
+      rankingPolicy: RECIPE_RANKING_POLICY, rotationSeed,
       candidateScores: ordered.map(choice => ({ mealId: choice.id, score: choice.value.score })) } };
 };

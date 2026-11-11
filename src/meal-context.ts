@@ -5,6 +5,8 @@ export type MealContext = {
   appetite: "unspecified" | "small" | "regular" | "large";
   temperature: "any" | "warm";
   preferredStaple: "any" | "rice" | "noodles" | "bread" | "potato" | "other" | "none";
+  /** The main protein wanted for this meal; a flexible preference, not a filter. */
+  preferredProtein: "any" | "poultry" | "egg" | "seafood" | "beans" | "red-meat" | "dairy";
   cuisine: "any" | "asian" | "western";
   maxPrepMinutes: number | null;
   ingredientReadiness: "unspecified" | "ready" | "needs-prep";
@@ -12,8 +14,9 @@ export type MealContext = {
 
 export const defaultMealContext: MealContext = {
   hunger: "unspecified", appetite: "unspecified", temperature: "any",
-  preferredStaple: "any", cuisine: "any", maxPrepMinutes: null, ingredientReadiness: "unspecified",
+  preferredStaple: "any", preferredProtein: "any", cuisine: "any", maxPrepMinutes: null, ingredientReadiness: "unspecified",
 };
+const proteinPreferences: ReadonlyArray<MealContext["preferredProtein"]> = ["any", "poultry", "egg", "seafood", "beans", "red-meat", "dairy"];
 
 export type ContextMealMetadata = {
   temperature: "warm" | "cool" | "flexible" | "unknown";
@@ -27,6 +30,8 @@ export const normalizeMealContext = (context?: Partial<MealContext>): MealContex
   maxPrepMinutes: typeof context?.maxPrepMinutes === "number" && Number.isFinite(context.maxPrepMinutes) && context.maxPrepMinutes >= 0
     ? context.maxPrepMinutes : null,
   ingredientReadiness: context?.ingredientReadiness === "ready" || context?.ingredientReadiness === "needs-prep" ? context.ingredientReadiness : "unspecified",
+  // Contexts saved or constructed before this field existed have no selection.
+  preferredProtein: context?.preferredProtein && proteinPreferences.includes(context.preferredProtein) ? context.preferredProtein : "any",
 });
 
 export const requiresWarmMeal = (profile: Profile, context?: Partial<MealContext>) =>

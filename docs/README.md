@@ -17,12 +17,28 @@ verified.
 
 Current authorized iteration:
 
+- [`First screen: three options side by side`](./plans/31-first-screen-cards.md) —
+  `review`, on `claude/first-screen-cards`; three option cards, one-tap
+  staple and main-protein choices, recording below the options.
+
+Previous iterations (historical handoffs):
+
+- [`Main-protein preference`](./plans/30-main-protein-preference.md) —
+  `review`, on `claude/main-protein-preference`; a current-meal main-protein
+  choice, with duplicated saved preferences no longer offered as new choices.
+
+- [`Rotating recommendations`](./plans/29-rotating-recommendations.md) —
+  `review`, on `claude/rotating-recommendations`; nutrition levels,
+  date-and-meal-window rotation and paging through the full order.
+
+- [`Launch polish`](./plans/28-launch-polish.md) — `review`, on
+  `claude/launch-polish`; repaired date-dependent check, shorter displayed
+  recipe names, tighter narrow first screen and recaptured launch assets.
+
 - [`Printable recipe cards`](./plans/27-printable-recipe-cards.md) — `review`,
   on `codex/narrow-meal-actions`; complete public recipe previews and compact
   single-page print layouts, with passing content and browser layout checks.
   Native printer/PDF output still needs manual confirmation.
-
-Previous iterations (historical handoffs):
 
 - [`Narrow-screen meal actions`](./plans/26-narrow-meal-actions.md) — `review`,
   on `codex/narrow-meal-actions`; grouped, left-aligned collection actions

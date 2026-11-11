@@ -6,7 +6,7 @@ import {
 } from "./recipe-images";
 import type { Locale } from "./types";
 
-export type RecipeImageVariant = "hero" | "thumbnail" | "detail";
+export type RecipeImageVariant = "thumbnail" | "detail" | "card";
 
 type RecipeImageProps = {
   recipe: RecipeImageIdentity | null | undefined;
@@ -16,9 +16,10 @@ type RecipeImageProps = {
 };
 
 const sizes: Record<RecipeImageVariant, string> = {
-  hero: "(max-width: 600px) 240px, (max-width: 1050px) 160px, 220px",
   thumbnail: "88px",
   detail: "(max-width: 424px) calc(100vw - 64px), 360px",
+  // Compact rows up to 860 px wide, then one of three columns.
+  card: "(max-width: 860px) 104px, (max-width: 1304px) 31vw, 400px",
 };
 
 function RecipeImageFrame({

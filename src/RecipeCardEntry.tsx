@@ -3,9 +3,10 @@ import { RecipeCard } from "./RecipeCard";
 import { createRecipeCardUrl } from "./recipe-card-route";
 import type { RecipeCardRequest } from "./recipe-card-route";
 import { PUBLIC_APP_URL } from "./RecipeCardLink";
+import { recipeDisplayName } from "./recipe-name";
 
 export function RecipeCardEntry({ request }: { request: NonNullable<RecipeCardRequest> }) {
-  const title = request.status === "ready" ? request.recipe.label[request.locale]
+  const title = request.status === "ready" ? recipeDisplayName(request.recipe, request.locale)
     : request.locale === "zh" ? "無法取得這份食譜" : "Recipe unavailable";
   useEffect(() => {
     document.title = `${title} | MealHatch`;

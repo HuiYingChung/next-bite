@@ -1,32 +1,37 @@
 # MealHatch launch preparation
 
 Status: draft materials; no Product Hunt publication or user study is claimed.
-Prepared for the 2026-11-05 launch-experience iteration; copy updated for the
-2026-11-06 preference-first iteration on the unified 108-recipe library.
+Prepared for the 2026-11-05 launch-experience iteration; copy and assets updated
+on 2026-11-10 for the build with recipe images, concise cards and printable
+recipe cards.
 
 MealHatch's proposed launch message is a small, complete meal-choice workflow:
 compare a few options with current preferences first, understand why they
-appeared and save one for later. The design focus is Chinese adults in North
-America using English or Traditional Chinese; audience fit awaits user study.
+appeared and save one for later. The public message is a bilingual meal picker
+with transparent nutrition. The design began from Chinese adults in North
+America, but the recipe collection does not yet carry familiar home dishes, so
+that audience is no longer a launch claim.
 The meal library offers 108 defined recipes with portion estimates, preparation
 steps and inspectable numeric ranking. Food/drink source lookup is separate.
 
-- [Product Hunt copy, three gallery captions and short demo storyboard](./product-hunt-draft.md)
+- [Product Hunt copy, four gallery captions and short demo storyboard](./product-hunt-draft.md)
 - [Five-person usability protocol and empty results template](./usability-study.md)
-- [Implementation scope and actual verification status](../plans/23-preference-first.md)
+- [Implementation scope and actual verification status](../plans/28-launch-polish.md)
 
 ## Captured review assets
 
-The gallery screenshots and video below were captured locally on 2026-11-06
-for the unified collection **before the preference-first iteration**. They show
-the previous additive ranking and need recapture before publication. The social
-preview describes the general workflow. Recheck all assets against the final
-live build before publication;
-none is evidence of published launch results:
+The gallery screenshots, video and thumbnail below were captured from a local
+preview of the `claude/first-screen-cards` branch on 2026-11-10. They show the
+three option cards with one-tap staple and protein choices, one option's
+calculation details and the printable recipe card. Recapture if the interface changes again, and recheck
+all assets against the final live build before publication; none is evidence
+of published launch results:
 
-- [Choose a meal](./assets/01-choose-a-meal.png) — 1270 × 760.
-- [Change the staple preference](./assets/02-match-your-preference.png) — 1270 × 760.
+- [Choose a meal](./assets/01-choose-a-meal.png) — 1270 × 760, the unscrolled first screen; card images are cropped at this height.
+- [Pick noodles](./assets/02-match-your-preference.png) — 1270 × 760, scrolled past the site header because the reason line makes the cards taller.
 - [Inspect the recipe scoring basis](./assets/03-inspect-the-basis.png) — 1270 × 760, scrolled detail.
+- [Print the recipe](./assets/04-print-the-recipe.png) — 1270 × 760, recipe card preview.
+- [Listing thumbnail](./assets/thumbnail-240.png) — 240 × 240, rendered from the site icon.
 - [Silent first-use demo](./assets/mealhatch-demo.webm) — paced first-use recording; ends on the saved plan.
 - [Social preview](../../public/social-preview.png) — 1200 × 630, used by the page's OG/Twitter metadata.
 - [Capture notes](./assets/capture-notes.md).
@@ -35,16 +40,15 @@ The video is paced for readability, with no claims about user completion time.
 Captions in the copy draft are editorial suggestions and are not burned into
 the recording. A video host/upload is a later publishing step.
 
-To regenerate from a running local preview, use an already installed Playwright
-package (authoring tools only, not an app dependency):
+To regenerate from a running local preview, use this project's pinned
+Playwright development dependency (authoring tools only, not shipped in the app):
 
 ```text
-node scripts/capture-launch-assets.mjs /absolute/path/to/package.json http://127.0.0.1:5178/
-node scripts/render-social-preview.mjs /absolute/path/to/package.json
+node scripts/capture-launch-assets.mjs ./package.json http://localhost:5174/
+node scripts/render-social-preview.mjs
 ```
 
-The package file should belong to a workspace with Playwright installed. The
-capture script refuses non-local origins and uses a fresh isolated context,
+The capture script refuses non-local origins and uses a fresh isolated context,
 blocking analytics and all non-local requests. The social preview source is
 [`assets/social-preview.html`](./assets/social-preview.html).
 

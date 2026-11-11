@@ -196,10 +196,12 @@ for (const selectedContext of [context(),context({preferredStaple:"rice"}),conte
     assert.equal(item.score.nutrient+item.score.energy+item.score.preference,item.score.total);
     assert.equal(item.score.total,10-item.score.model.rawScore+item.score.preference,"Energy included once");
     assert.equal(item.score.preferenceRows.reduce((sum,row)=>sum+row.points,0),item.score.preference);
-    assert(item.score.preference>=0&&item.score.preference<=10);
+    assert(item.score.preference>=0&&item.score.preference<=12);
   }
   const expectedOrder=independentTotals.map(row=>row.tier).sort(compareIndependentTiers);
-  const actualTier=item=>[-item.score.currentPreference.points,-item.score.savedPreference.points,-item.score.nutritionReference];
+  const levelOf=reference=>reference>=18?2:reference>=14?1:0;
+  for(const item of result.eligibleRecipes) assert.equal(item.score.nutritionLevel,levelOf(item.score.nutritionReference),`${item.recipe.mealId} nutrition level follows the disclosed boundaries`);
+  const actualTier=item=>[-item.score.currentPreference.points,-item.score.savedPreference.points,-levelOf(item.score.nutritionReference)];
   assert.deepEqual(result.recommendations.map(actualTier),expectedOrder.slice(0,3),"Actual top three follow independent preference-first tiers; lower priority cannot compensate for a preference mismatch");
   assert.deepEqual(result.eligibleRecipes.map(actualTier),expectedOrder,"The full browsable collection preserves preference-first ordering");
 }
