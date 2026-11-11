@@ -17,11 +17,15 @@ verified.
 
 Current authorized iteration:
 
-- [`First screen: three options side by side`](./plans/31-first-screen-cards.md) —
-  `review`, on `claude/first-screen-cards`; three option cards, one-tap
-  staple and main-protein choices, recording below the options.
+- [`Launch fixes`](./plans/32-launch-fixes.md) — `review`, on
+  `claude/launch-fixes`; a heading without a meal type and no jump of the
+  options while records load.
 
 Previous iterations (historical handoffs):
+
+- [`First screen: three options side by side`](./plans/31-first-screen-cards.md) —
+  merged in PR 17; three option cards, one-tap staple and main-protein
+  choices, recording below the options.
 
 - [`Main-protein preference`](./plans/30-main-protein-preference.md) —
   `review`, on `claude/main-protein-preference`; a current-meal main-protein

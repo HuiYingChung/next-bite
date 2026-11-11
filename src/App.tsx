@@ -94,13 +94,6 @@ const perMealPreferenceTags = ["Light meals", "Warm meals", "Rice-based meals", 
 const offeredPreferenceTags = supportedPreferenceTags.filter(tag => !perMealPreferenceTags.includes(tag));
 const retiredAvoidTag = "Late-night heavy meals";
 const NARROW_LAYOUT = "(max-width: 860px)";
-const mealWindowNames = {
-  breakfast: ["breakfast", "早餐"],
-  lunch: ["lunch", "午餐"],
-  afternoon: ["this afternoon", "下午"],
-  dinner: ["dinner", "晚餐"],
-  late: ["tonight", "今晚"],
-} as const;
 const t = (locale: Locale, en: string, zh: string) =>
   locale === "en" ? en : zh;
 const cx = (...values: Array<string | false | undefined>) =>
@@ -1500,7 +1493,7 @@ export default function App() {
             </button>
           </aside>
         )}
-        {!recordStore.ready && <p className="notice" role="status">{t(locale, "Loading your saved records…", "正在載入已儲存紀錄…")}</p>}
+        {!recordStore.ready && <p className={view === "today" ? "sr-only" : "notice"} role="status">{t(locale, "Loading your saved records…", "正在載入已儲存紀錄…")}</p>}
         {(storageFailed || recordStore.failed) && (
           <p className="notice warning" role="status">
             {t(
@@ -1594,9 +1587,10 @@ export default function App() {
             >
               <div className="pick-heading">
                 <h2 id="decision-title">
+                  {/* Recipes are not sorted by meal type, so the heading names no meal. */}
                   {shownOptions.length === RECIPE_OPTION_GROUP_SIZE
-                    ? t(locale, `Three for ${mealWindowNames[timeWindow][0]}`, `${mealWindowNames[timeWindow][1]}的三道選擇`)
-                    : t(locale, `Options for ${mealWindowNames[timeWindow][0]}`, `${mealWindowNames[timeWindow][1]}的選擇`)}
+                    ? t(locale, "Three for your next meal", "下一餐的三道選擇")
+                    : t(locale, "Options for your next meal", "下一餐的選擇")}
                 </h2>
                 {shownOptions.length > 0 && (
                   <p className="pick-count" role="status">
@@ -1787,9 +1781,11 @@ export default function App() {
             <section className="panel today-row" aria-labelledby="today-title">
               <div className="today-row-heading">
                 <h2 id="today-title">
-                  {todayRecorded
-                    ? t(locale, "Recorded today", "今天的紀錄")
-                    : t(locale, "Nothing recorded today.", "今天還沒有紀錄。")}
+                  {!recordStore.ready
+                    ? t(locale, "Loading your saved records…", "正在載入已儲存紀錄…")
+                    : todayRecorded
+                      ? t(locale, "Recorded today", "今天的紀錄")
+                      : t(locale, "Nothing recorded today.", "今天還沒有紀錄。")}
                 </h2>
                 <button
                   className="text-button"

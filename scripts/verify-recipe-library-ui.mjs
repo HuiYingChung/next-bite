@@ -68,6 +68,10 @@ function assertPreparationQualifier(value, locale) {
 const chip = (page, field, value) => page.locator(`.choice-row[data-choice="${field}"] .choice-chip:has(input[value="${value}"])`);
 async function verifyCompactDefaultRecommendations(page, locale) {
   assert.equal(await page.locator(".pick-card").count(), 3, "Three options are visible together");
+  assert.equal(await page.locator("#decision-title").innerText(), locale === "en" ? "Three for your next meal" : "下一餐的三道選擇",
+    "The heading names no meal type, because recipes are not sorted by one");
+  assert.equal(await page.locator(".page-shell > .notice").count(), 0,
+    "No loading or status banner sits above the options once records are ready");
   assert.equal(await page.locator(".pick-card .recipe-image--card img").count(), 3, "Every option shows its image");
   assert.equal(await page.locator(".pick-count").count(), 1,
     "Position and ordering are stated once for the list, not on every card");

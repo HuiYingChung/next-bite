@@ -1,6 +1,14 @@
 # MealHatch product roadmap
 
-## Active iteration — first screen: three options side by side
+## Active iteration — launch fixes
+
+Status: review — implemented and verified locally; committed, not pushed
+Authorized: 2026-11-10, after a second launch-readiness review. Read
+[`32-launch-fixes.md`](./32-launch-fixes.md). Branch: `claude/launch-fixes`.
+A heading that names no meal type, no jump of the options while records load,
+and a corrected repository description.
+
+## Previous iteration — first screen: three options side by side
 
 Status: review — implemented and verified locally; committed, not pushed
 Authorized: 2026-11-10. Round three of the reviewed recommendations, after a

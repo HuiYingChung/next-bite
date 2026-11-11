@@ -1,6 +1,6 @@
 # Actual interface capture
 
-Captured from a local preview on 2026-11-10.
+Captured from a local preview on 2026-11-11.
 
 - Four 1270 × 760 screenshots, one silent WebM recording and a 240 × 240 listing thumbnail rendered from the site icon.
 - Fresh isolated English workspace, no personal records or API key.
