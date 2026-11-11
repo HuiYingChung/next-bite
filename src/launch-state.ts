@@ -572,6 +572,19 @@ export const mergeMealEntries = (
   };
 };
 
+/**
+ * The plan a new meal would replace: the oldest by creation time, once the
+ * list is full. Position in the list is not used, because the record store
+ * appends new plans while older builds prepended them. Equal times fall back
+ * to the earliest position.
+ */
+export const getPlanDisplacedBy = (state: LaunchState, mealId: string): PlannedMeal | null => {
+  if (!catalogIds.has(mealId) || state.plannedMeals.some((plan) => plan.mealId === mealId)) return null;
+  if (state.plannedMeals.length < MAX_PLANNED_MEALS) return null;
+  return state.plannedMeals.reduce((oldest, plan) =>
+    Date.parse(plan.createdAt) < Date.parse(oldest.createdAt) ? plan : oldest);
+};
+
 export const savePlan = (
   state: LaunchState,
   mealId: string,
@@ -587,12 +600,14 @@ export const savePlan = (
     return { ...state, plannedMeals: state.plannedMeals.map((plan) => plan.id === existing.id ? { ...plan, ...metadata } : plan) };
   }
   const createdAt = now.toISOString();
+  const displaced = getPlanDisplacedBy(state, mealId);
+  // Newest last, as the record store keeps them.
   return {
     ...state,
     plannedMeals: [
+      ...state.plannedMeals.filter((plan) => plan !== displaced),
       { id: `plan-${mealId}-${now.getTime().toString(36)}`, mealId, createdAt, ...metadata },
-      ...state.plannedMeals,
-    ].slice(0, MAX_PLANNED_MEALS),
+    ],
   };
 };
 

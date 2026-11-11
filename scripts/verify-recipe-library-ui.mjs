@@ -227,6 +227,64 @@ async function verifySavedPlans(locale) {
   await context.close();
 }
 
+// Three button paths found wrong in the button audit of 2026-11-11.
+async function verifyButtonPaths(locale) {
+  const context = await browser.newContext({ viewport: { width: 1280, height: 900 }, reducedMotion: "reduce" });
+  const page = await context.newPage();
+  await context.addInitScript(locale => { if (!sessionStorage.getItem("verification-seeded")) { localStorage.setItem("next-bite-locale", locale); sessionStorage.setItem("verification-seeded", "true"); } }, locale);
+  page.on("pageerror", error => errors.push(error.message));
+  await page.route("**/*", route => {
+    const url = new URL(route.request().url());
+    return url.origin === base.origin && !url.pathname.startsWith("/_vercel/") && !url.pathname.startsWith("/api/") ? route.continue() : route.abort();
+  });
+  await page.goto(base.href);
+  const en = locale === "en";
+  const choose = () => page.getByRole("button", { name: en ? "Choose this meal" : "就選這道", exact: true });
+  await choose().first().waitFor();
+  const dialog = page.locator("dialog[open]");
+  const nav = name => page.locator(".workspace-nav").getByRole("button", { name });
+  // 1. The thirteenth plan replaces the oldest one and says so.
+  const chosen = [];
+  for (let index = 0; index < 13; index++) {
+    const card = page.locator(".pick-card").nth(index % 3);
+    chosen.push(await card.locator("h3").innerText());
+    await card.getByRole("button", { name: en ? "Choose this meal" : "就選這道", exact: true }).click();
+    await card.getByRole("button", { name: en ? "Saved to plans" : "已儲存到計畫", exact: true }).waitFor();
+    if (index < 12) assert(!(await page.locator(".live-message").innerText()).includes(chosen[0]), "No plan is reported removed while there is room");
+    if (index % 3 === 2) await page.getByRole("button", { name: en ? "Show three more" : "再換三道", exact: true }).click();
+  }
+  const notice = await page.locator(".live-message").innerText();
+  assert(notice.includes(chosen[0]) && notice.includes("12"), "Saving beyond the limit names the plan that was removed");
+  await nav(en ? /^Plans/ : /^餐點計畫/).click();
+  const kept = await page.locator(".plan-card h3").allTextContents();
+  assert.equal(kept.length, 12);
+  assert(!kept.includes(chosen[0]), "The oldest plan is the one removed");
+  assert(chosen.slice(1).every(title => kept.includes(title)), "Every later plan, including the most recent earlier one, is kept");
+  // 2. An empty slot in Records opens a new record, not an edit.
+  await nav(en ? /^Records/ : /^七天紀錄/).click();
+  await page.locator(".history-cell.is-unknown").first().click();
+  assert.equal(await dialog.locator("#input-title").innerText(), en ? "What have you eaten?" : "剛剛吃了什麼？");
+  await dialog.locator("#food-protein").fill(en ? "Egg" : "蛋");
+  await dialog.getByRole("button", { name: en ? /^Review this meal/ : /^檢查這餐內容/ }).click();
+  assert.equal((await dialog.locator(".review-area > .button.primary").innerText()).trim(), en ? "Save this record" : "儲存這筆紀錄");
+  await dialog.locator(".review-area > .button.primary").click();
+  await page.locator(".history-cell.is-recorded").first().waitFor();
+  await page.locator(".history-cell.is-recorded").first().click();
+  assert.equal(await dialog.locator("#input-title").innerText(), en ? "Edit your meal" : "編輯這餐", "An existing record is still an edit");
+  await dialog.getByRole("button", { name: en ? /^Review this meal/ : /^檢查這餐內容/ }).click();
+  assert.equal((await dialog.locator(".review-area > .button.primary").innerText()).trim(), en ? "Save changes" : "儲存修改");
+  await dialog.getByRole("button", { name: en ? "Discard draft" : "捨棄草稿", exact: true }).click();
+  // 3. Clearing data confirms in the language in use; the stored choice is removed as stated.
+  await page.getByRole("button", { name: en ? "Data & method" : "資料與方法", exact: true }).click();
+  await dialog.last().getByRole("button", { name: en ? "Clear all my MealHatch data" : "清除所有 MealHatch 資料", exact: true }).click();
+  await page.getByRole("button", { name: en ? "Clear all data" : "清除全部資料", exact: true }).click();
+  await page.locator(".live-message").filter({ hasText: en ? "have been cleared" : "已清除" }).waitFor();
+  assert.equal(await page.locator("h1").innerText(), en ? "Less deciding. More eating." : "下一餐，少想一點。", "The page stays in the language being used");
+  assert.equal(await page.evaluate(() => localStorage.getItem("next-bite-locale")), null, "The stored language choice is removed, as the dialog states");
+  assert.equal(await page.locator(".workspace-nav").getByRole("button", { name: en ? /^Plans/ : /^餐點計畫/ }).locator("span").count(), 0);
+  await context.close();
+}
+
 async function verifyPreferenceFirst(locale) {
   const context = await browser.newContext({ viewport: { width: 390, height: 900 }, reducedMotion: "reduce" });
   const page = await context.newPage();
@@ -594,7 +652,7 @@ try {
     }
     await context.close();
   }
-  for (const locale of ["en", "zh"]) { await verifySavedPlans(locale); await verifyPreferenceFirst(locale); }
+  for (const locale of ["en", "zh"]) { await verifySavedPlans(locale); await verifyPreferenceFirst(locale); await verifyButtonPaths(locale); }
   assert.deepEqual(errors, []);
   const report = { scope: flowsOnly ? "migration-and-preference-flows" : "complete-library-and-flows", recipeCount, canonicalCatalogCount: catalogMeals.length, soleRecipeDefault: true, completeScoreDisclosureClosedByDefault: true, contextualPreparationDisclosure: true, threeOptionsVisibleTogether: true, orderingStatedOnce: true, actualPreferenceReasonsOnly: true, allModelAndPreferenceRowsKeyboardAccessible: true, preferenceFirstMatchAndSwitch: true, ingredientReadinessHonest: true, mobileModelPointsReachableByHorizontalScroll: true, legacyAndRetiredPlansPreserved: true, unavailableVersionNotSubstituted: true, legacyExportPreserved: true, retiredSettingsExplicitAndRemovable: true, languages: 2, detailsChecked, portionsChecked, sourceLabelsChecked, preparationPortionsChecked, instructionListsChecked, screenshotRecipeId, ...(flowsOnly ? {} : { belowTopThreeSaved: true, savedVersionAndPortionSurviveReload: true, excludedRecipesBlocked: true, keyboardFocusRestored: true }), widths: flowsOnly ? [320, 390, 1280] : [320, 390, 768, 1280], pageErrors: errors.length };
   await writeFile(new URL(flowsOnly ? "preference-flow-verification.json" : "browser-verification.json", output), `${JSON.stringify(report, null, 2)}\n`);

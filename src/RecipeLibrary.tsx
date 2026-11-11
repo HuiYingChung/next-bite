@@ -46,7 +46,8 @@ export function RecipeLibrary({ result, context, locale, plans, busy, onPortionC
   plans: PlannedMeal[];
   busy: boolean;
   onPortionChange: (appetite: MealContext["appetite"]) => void;
-  onChoose: (recommendation: PilotRecommendation) => Promise<boolean>;
+  /** Resolves to the confirmation to show, or false when nothing was saved. */
+  onChoose: (recommendation: PilotRecommendation) => Promise<string | false>;
   onAdjustConditions: () => void;
 }) {
   const [query, setQuery] = useState("");
@@ -133,7 +134,8 @@ export function RecipeLibrary({ result, context, locale, plans, busy, onPortionC
         {!selectedOption && <p className="notice" role="status">{exclusionText(exclusions.get(selectedRecipe.mealId), locale)}</p>}
         <button type="button" className="button primary full-width" disabled={busy || !selectedOption} onClick={async () => {
           if (!selectedOption) return;
-          if (await onChoose(selectedOption)) setSaveMessage(text(locale, "Saved to your next-meal plans. It isn't recorded as eaten.", "已儲存到下一餐計畫，尚未加入已吃紀錄。"));
+          const confirmation = await onChoose(selectedOption);
+          if (confirmation) setSaveMessage(confirmation);
           else setSaveMessage(text(locale, "Could not save this plan. Close the recipe to review the message and try again.", "本次未儲存計畫。請關閉配方查看訊息後重試。"));
         }}>{!selectedOption ? text(locale, "Not available under current conditions", "目前條件下無法選擇") : saved ? text(locale, "Saved to plans", "已儲存到計畫") : text(locale, "Choose this meal", "就選這道")}</button>
         <p role="status" className="small recipe-save-message">{saveMessage}</p>

@@ -51,6 +51,8 @@ import {
   isMergeContextComponent,
   mergeMealEntries,
   parsedMealToEntry,
+  getPlanDisplacedBy,
+  MAX_PLANNED_MEALS,
   removePlan,
   saveLocale,
   savePlan,
@@ -903,18 +905,33 @@ export default function App() {
   const targetDay = state.days.find(day => day.id === (editTarget?.dayId ?? draftDayId)) ?? today;
   const existing = targetDay.todayLog[draft.mealSlot];
   const conflict = !editTarget && isMealLogged(existing);
+  // A draft opened from an empty slot in Records targets that day and meal
+  // but edits nothing: it is a new record.
+  const editingExisting = Boolean(editTarget) && isMealLogged(existing);
   const chooseRecipe = async (recipe: PilotRecommendation) => {
     // Recheck the current engine result instead of allowing a catalog entry to
     // bypass hard conditions or a changed portion.
     const eligible = pilot.eligibleRecipes.find(option => option.meal.id === recipe.meal.id
       && option.portion === recipe.portion && option.recipe.version === recipe.recipe.version);
     if (!eligible || !recordStore.ready || recordStore.busy) return false;
+    // Plans are capped. Say which one makes room instead of dropping it silently.
+    const displaced = getPlanDisplacedBy(state, eligible.meal.id);
+    const displacedRecipe = displaced && standardizedRecipes.find(item => item.mealId === displaced.mealId);
+    const displacedIdea = displaced && legacyRecommendationDataset.find(item => item.id === displaced.mealId);
+    const displacedName = displacedRecipe ? recipeDisplayName(displacedRecipe, locale) : displacedIdea ? legacyMealTitle(displacedIdea, locale) : "";
     const status = await updateState(current => savePlan(current, eligible.meal.id, new Date(), {
       portion: eligible.portion, recipeVersion: eligible.recipe.version,
     }));
     if (status !== "ok") return false;
-    setMessage(t(locale, "Saved to your next-meal plans. It isn't recorded as eaten.", "已儲存到下一餐計畫，尚未加入已吃紀錄。"));
-    return true;
+    const saved = displaced
+      ? t(
+          locale,
+          `Saved to your next-meal plans. Plans hold ${MAX_PLANNED_MEALS}, so your oldest one${displacedName ? `, ${displacedName},` : ""} was removed.`,
+          `已儲存到下一餐計畫。計畫最多保留 ${MAX_PLANNED_MEALS} 道，因此最舊的${displacedName ? `「${displacedName}」` : "一道"}已移除。`,
+        )
+      : t(locale, "Saved to your next-meal plans. It isn't recorded as eaten.", "已儲存到下一餐計畫，尚未加入已吃紀錄。");
+    setMessage(saved);
+    return saved;
   };
   const toggleDetails = (index: number) => {
     const id = shownOptions[index].meal.id;
@@ -1374,7 +1391,6 @@ export default function App() {
     setDemoState(null);
     setApiKey("");
     setAiText("");
-    setLocale("en");
     setClearOpen(false);
     resetComposer();
     setPreferencesOpen(false);
@@ -1384,8 +1400,16 @@ export default function App() {
     setSelected(0);
     setMessage(
       cleared
-        ? "Your MealHatch records, plans, preferences and session key have been cleared."
-        : "This session was cleared, but browser storage could not be accessed. Check your browser's site-data settings.",
+        ? t(
+            locale,
+            "Your MealHatch records, plans, preferences and session key have been cleared.",
+            "你的 MealHatch 紀錄、計畫、偏好與本次金鑰已清除。",
+          )
+        : t(
+            locale,
+            "This session was cleared, but browser storage could not be accessed. Check your browser's site-data settings.",
+            "本次工作階段已清除，但無法存取瀏覽器儲存空間。請檢查瀏覽器的網站資料設定。",
+          ),
     );
     setStorageFailed(!cleared);
   };
@@ -2146,7 +2170,7 @@ export default function App() {
         >
           <div className="section-heading">
             <h2 id="input-title">
-              {editTarget
+              {editingExisting
                 ? t(locale, "Edit your meal", "編輯這餐")
                 : pendingPlanId
                   ? t(locale, "What did you actually eat?", "你實際吃了什麼？")
@@ -2550,13 +2574,15 @@ export default function App() {
                   className="button primary full-width"
                   onClick={() => commitMeal("replace")}
                 >
-                  {editTarget
+                  {editingExisting
                     ? t(locale, "Save changes", "儲存修改")
-                    : t(
-                        locale,
-                        "Confirm & find my next meal",
-                        "確認並找下一餐",
-                      )}
+                    : editTarget
+                      ? t(locale, "Save this record", "儲存這筆紀錄")
+                      : t(
+                          locale,
+                          "Confirm & find my next meal",
+                          "確認並找下一餐",
+                        )}
                 </button>
               )}
             </div>
@@ -2865,8 +2891,8 @@ export default function App() {
           <p>
             {t(
               locale,
-              "This removes your local meal records, saved plans, preferences, language choice and session key. Export a copy first if needed. Other websites' data is not affected.",
-              "這會移除本機餐點紀錄、計畫、偏好、語言設定與本次金鑰。需要保留時，請先匯出副本；其他網站的資料不受影響。",
+              "This removes your local meal records, saved plans, preferences, saved language choice and session key. This page stays in the current language until you leave it. Export a copy first if needed. Other websites' data is not affected.",
+              "這會移除本機餐點紀錄、計畫、偏好、已儲存的語言設定與本次金鑰；目前頁面在你離開前維持現在的語言。需要保留時，請先匯出副本；其他網站的資料不受影響。",
             )}
           </p>
         </ConfirmationDialog>
