@@ -267,7 +267,23 @@ async function verifyPreferenceFirst(locale) {
   assert.deepEqual(await page.locator(".pick-card h3").allTextContents(), seafood.recommendations.map(rec => displayName(rec.recipe, locale)));
   assert.deepEqual(await firstCard.locator(".pick-reasons li").allTextContents(), seafood.recommendations[0].matchedPreferenceReasons.slice(0, 2));
   assert((await firstCard.locator(".pick-reasons li").first().innerText()).includes(locale === "en" ? "fish or seafood" : "魚或海鮮"));
+  // The position line counts the recipes that match, not the whole collection.
+  const seafoodMatches = seafood.eligibleRecipes.filter(rec => rec.score.currentPreference.points > 0).length;
+  assert(seafoodMatches > 3 && seafoodMatches < seafood.eligibleRecipes.length);
+  assert((await page.locator(".pick-count").textContent()).startsWith(locale === "en" ? `1–3 of ${seafoodMatches} matching` : `第 1–3 道，符合 ${seafoodMatches} 道`));
+  // A staple and a main protein with no recipe in common say so, instead of mixing partial matches silently.
+  assert.equal(await page.locator(".collection-notice").count(), 0);
+  await chip(page, "staple", "noodles").click();
+  assert(seafood.eligibleRecipes.every(rec => rec.recipe.staple !== "noodles" || rec.score.currentPreference.points === 0), "No noodle recipe has fish or seafood as its main protein");
+  assert.equal(await page.locator(".collection-notice").count(), 1);
+  assert((await page.locator(".collection-notice").innerText()).includes(locale === "en" ? "No recipe has both" : "沒有同時符合"));
+  assert(!(await page.locator(".pick-count").textContent()).includes(locale === "en" ? "matching" : "符合"), "Partial matches are not counted as matching");
+  // Only time limits that some recipe exceeds are offered.
+  await page.locator(".meal-context-extra > summary").click();
+  assert.deepEqual(await page.getByRole("combobox", { name: locale === "en" ? "Assembly time limit (ingredients ready)" : "組合時間上限（食材已備妥）", exact: true }).locator("option").evaluateAll(options => options.map(option => option.value)), ["any", "5", "10"]);
+  await page.locator(".meal-context-extra > summary").click();
   await chip(page, "protein", "any").click();
+  assert.equal(await page.locator(".collection-notice").count(), 0);
   await chip(page, "staple", "noodles").click();
   await page.locator(".meal-context-extra > summary").click();
   await page.getByRole("combobox", { name: locale === "en" ? "Preferred style" : "偏好的風格", exact: true }).selectOption("asian");

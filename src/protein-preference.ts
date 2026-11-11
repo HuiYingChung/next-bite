@@ -28,15 +28,28 @@ const groupByIdentity: Record<string, ProteinGroup> = {
   dairy: "dairy",
 };
 
-/** Groups of the ingredients a recipe declares as its protein, in any amount above zero. */
-export const getRecipeProteinGroups = (recipe: StandardizedRecipe, foods: SourceFood[]): Set<ProteinGroup> => {
-  const groups = new Set<ProteinGroup>();
+/**
+ * The main protein of a recipe: the group whose declared protein ingredients
+ * provide the most protein. A second ingredient in a smaller role (yogurt
+ * beside lamb, an egg beside beef, beans beside chicken) does not make the
+ * recipe a match for its group. Exact ties count for each tied group. If a
+ * source value is missing the amounts cannot be compared, so every declared
+ * group counts rather than guessing.
+ */
+export const getRecipeMainProteinGroups = (recipe: StandardizedRecipe, foods: SourceFood[]): Set<ProteinGroup> => {
+  const proteinByGroup = new Map<ProteinGroup, number>();
+  let comparable = true;
   for (const ingredient of recipe.ingredients) {
     if (ingredient.role !== "protein" || !(ingredient.grams > 0)) continue;
     const food = foods.find(item => item.id === ingredient.foodId);
     const identity = food ? resolveFoodIdentity(food.label.en, food.id).protein : null;
     const group = identity ? groupByIdentity[identity] : undefined;
-    if (group) groups.add(group);
+    if (!group) continue;
+    const per100g = food?.nutrientsPer100g.protein;
+    if (typeof per100g !== "number" || !Number.isFinite(per100g)) comparable = false;
+    proteinByGroup.set(group, (proteinByGroup.get(group) ?? 0) + ingredient.grams / 100 * (per100g ?? 0));
   }
-  return groups;
+  if (!comparable) return new Set(proteinByGroup.keys());
+  const most = Math.max(0, ...proteinByGroup.values());
+  return new Set([...proteinByGroup].filter(([, grams]) => grams === most).map(([group]) => group));
 };

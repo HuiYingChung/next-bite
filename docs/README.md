@@ -17,11 +17,14 @@ verified.
 
 Current authorized iteration:
 
-- [`Launch fixes`](./plans/32-launch-fixes.md) — `review`, on
-  `claude/launch-fixes`; a heading without a meal type and no jump of the
-  options while records load.
+- [`Filter fixes`](./plans/33-filter-fixes.md) — `review`, on
+  `claude/filter-fixes`; five corrections from an audit of every filter
+  against the 108 recipes.
 
 Previous iterations (historical handoffs):
+
+- [`Launch fixes`](./plans/32-launch-fixes.md) — merged in PR 18; a heading
+  without a meal type and no jump of the options while records load.
 
 - [`First screen: three options side by side`](./plans/31-first-screen-cards.md) —
   merged in PR 17; three option cards, one-tap staple and main-protein

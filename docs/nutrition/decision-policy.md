@@ -6,7 +6,8 @@ total ranking while retaining the published model and its detailed calculations.
 Nutrition levels and rotation authorized 2026-11-10; see
 [Nutrition levels and rotation](#nutrition-levels-and-rotation).
 Main-protein preference authorized 2026-11-10.
-Ranking policy: `mealhatch-banded-rotation-2026-11-10-v2`.
+Main protein redefined as the largest protein contributor 2026-11-10.
+Ranking policy: `mealhatch-banded-rotation-2026-11-10-v3`.
 Audience: general healthy adults choosing an ordinary meal from
 explicitly authored recipes. Browsing the full collection does not alter the
 top-three ranking or bypass exclusions.
@@ -72,7 +73,7 @@ are product choices, not validated scientific recommendations.
 | Group | Condition for +2 |
 | --- | --- |
 | This-meal staple | The explicitly selected staple matches the recipe. |
-| This-meal main protein | At least one ingredient the recipe declares as protein, in an amount above zero, belongs to the selected group: chicken or turkey; egg; fish or seafood; beans or soy; beef, pork or lamb; dairy. Groups follow each source food's reviewed protein identity, not recipe names. A recipe with two protein ingredients can match either group. |
+| This-meal main protein | The selected group (chicken or turkey; egg; fish or seafood; beans or soy; beef, pork or lamb; dairy) provides more protein than any other group among the ingredients the recipe declares as protein. Protein is the ingredient weight times the source record's protein per 100 g. Groups follow each source food's reviewed protein identity, not recipe names. A second protein in a smaller role does not match: yogurt beside lamb, an egg beside beef, beans beside chicken. Exact ties match each tied group. |
 | This-meal cuisine | The explicitly selected cuisine group matches. |
 | Preparation | A request for less added oil matches at most 1 g listed added oil per 100 g, or a request for less effort matches at most 10 estimated assembly minutes. If ingredients still need preparation, assembly time cannot earn a less-effort match because total time is unknown. The current preparation request takes priority; a saved light-meal request is used only without a current request. The same preparation preference cannot earn twice. |
 | Saved meal style | At least one supported saved style matches structured recipe/catalog facts; additional matches do not stack. |

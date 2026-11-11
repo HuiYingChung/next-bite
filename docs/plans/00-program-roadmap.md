@@ -1,6 +1,16 @@
 # MealHatch product roadmap
 
-## Active iteration — launch fixes
+## Active iteration — filter fixes
+
+Status: review — implemented and verified locally; committed, not pushed
+Authorized: 2026-11-10, after an audit of every filter against the 108
+recipes. Read [`33-filter-fixes.md`](./33-filter-fixes.md).
+Branch: `claude/filter-fixes`. Main protein means the largest protein
+contributor; a staple and protein with no recipe in common say so; hunger
+respects "Large portions"; only effective time limits are offered; the
+position line counts matching recipes.
+
+## Previous iteration — launch fixes
 
 Status: review — implemented and verified locally; committed, not pushed
 Authorized: 2026-11-10, after a second launch-readiness review. Read
