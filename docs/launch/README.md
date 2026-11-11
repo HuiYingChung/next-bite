@@ -21,7 +21,7 @@ steps and inspectable numeric ranking. Food/drink source lookup is separate.
 ## Captured review assets
 
 The gallery screenshots, video and thumbnail below were captured from a local
-preview of the `claude/first-screen-cards` branch on 2026-11-10. They show the
+preview of the `claude/launch-fixes` branch on 2026-11-10. They show the
 three option cards with one-tap staple and protein choices, one option's
 calculation details and the printable recipe card. Recapture if the interface changes again, and recheck
 all assets against the final live build before publication; none is evidence
