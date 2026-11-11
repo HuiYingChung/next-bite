@@ -29,7 +29,7 @@ const row=(score,key)=>score.preferenceRows.find(item=>item.key===key);
 // the supported preferences and all three portion choices.
 const snapshots=new Map(standardizedRecipes.map(recipe=>[recipe.mealId,{model:calculateRecipeProfile(recipe),portions:["small","regular","large"].map(portion=>calculateRecipe(recipe,portion))}]));
 const neutral=run();
-assert.equal(neutral.candidateCount,108);
+assert.equal(neutral.candidateCount,130);
 for(const item of neutral.eligibleRecipes){
   assert.deepEqual(item.score.currentPreference,{points:0,possible:0,matched:0,selected:0});
   assert.deepEqual(item.score.savedPreference,{points:0,possible:0,matched:0,selected:0});
@@ -86,10 +86,10 @@ assert.deepEqual(ids(ready),ids(unspecified),"Unspecified readiness retains a cl
 assert(ready.eligibleRecipes.every(item=>item.recipe.prepMinutes<=10));
 const notReady=run(profile(),context({ingredientReadiness:"needs-prep",maxPrepMinutes:10}));
 assert.equal(notReady.candidateCount,0,"An assembly estimate must not promise a full cooking time");
-assert.equal(notReady.trace.exclusions.length,108);
+assert.equal(notReady.trace.exclusions.length,130);
 assert(notReady.trace.exclusions.every(item=>item.stage==="context"&&item.reasons.includes("preparation-total-time-unknown")));
 const noTimeLimit=run(profile(),context({ingredientReadiness:"needs-prep"}));
-assert.equal(noTimeLimit.candidateCount,108,"Unknown preparation duration is not a restriction without a time limit");
+assert.equal(noTimeLimit.candidateCount,130,"Unknown preparation duration is not a restriction without a time limit");
 assert(noTimeLimit.eligibleRecipes.every(item=>item.matchReasons.filter(reason=>reason.includes("total cooking time is unknown")).length===1));
 assert(noTimeLimit.eligibleRecipes.every(item=>!item.mismatchReasons.some(reason=>reason.includes("total cooking time is unknown"))),"General preparation qualification is not duplicated in both reason lists");
 for(const item of run(profile({feelToday:"Low energy",preferenceTags:["Light meals"]}),context({ingredientReadiness:"needs-prep"})).eligibleRecipes){

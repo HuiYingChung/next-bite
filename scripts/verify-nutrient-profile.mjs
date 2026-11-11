@@ -105,7 +105,7 @@ for (const id of ["usda-171534", "usda-171986", "usda-174314"]) {
   assert.equal(food.modelBasis.fvnsEligible, false, `${id} is the specified plain animal protein, without a qualifying plant ingredient`);
   assert.equal(food.modelBasis.freeSugarsPer100g, 0, `${id} retains the source-supported zero-sugar input`);
 }
-// Recalculate all 108 recipes from source weights and threshold literals,
+// Recalculate all 130 recipes from source weights and threshold literals,
 // including priority groups from recipe facts rather than the returned trace.
 function independent(recipe, selectedProfile, selectedContext) {
   return independentRecipeRanking(recipe, sourceFoods, selectedProfile, selectedContext);
@@ -182,9 +182,9 @@ try{
 assert.deepEqual(chickpea,retainedChickpea,"Recipe-specific processing never mutates the shared whole-food source");
 for (const selectedContext of [context(),context({preferredStaple:"rice"}),context({preferredStaple:"noodles"}),context({preferredStaple:"bread"}),context({cuisine:"western"}),context({preferredStaple:"potato",cuisine:"western"}),context({preferredStaple:"bread",ingredientReadiness:"needs-prep"})]) for (const selectedProfile of [profile(),profile({preferenceTags:["Light meals","High-protein","Rice-based meals"]}),profile({feelToday:"Low energy",preferenceTags:["Light meals","Plant-protein","Soupy meals"]}),profile({feelToday:"Need something light",preferenceTags:["Vegetable-forward","Warm meals"]})]) {
   const result = recommendPilotMeals(selectedProfile,selectedContext,"en",now,log);
-  assert.equal(result.candidateCount,108);
-  assert.equal(result.trace.candidateScores.length,108);
-  assert.equal(result.eligibleRecipes.length,108);
+  assert.equal(result.candidateCount,130);
+  assert.equal(result.trace.candidateScores.length,130);
+  assert.equal(result.eligibleRecipes.length,130);
   const independentTotals=standardizedRecipes.map(recipe=>({id:recipe.mealId,...independent(recipe,selectedProfile,selectedContext)}));
   for (const item of result.trace.candidateScores) {
     const expected=independentTotals.find(row=>row.id===item.mealId);

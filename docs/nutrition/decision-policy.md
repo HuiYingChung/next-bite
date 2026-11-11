@@ -132,7 +132,7 @@ meet a required time limit. Without a limit the recipe remains browsable with
 a clear qualification. No raw-start duration, inventory or ingredient
 availability is inferred.
 
-The current meal library contains only the 108 defined recipes. Legacy ideas
+The current meal library contains only the 130 defined recipes. Legacy ideas
 are retained for old saved plans and do not fill vacancies in the scored list.
 Current names, ingredient groups and safety metadata derive from each actual
 recipe. Unrelated old idea ingredients do not add exclusions or style bonuses;

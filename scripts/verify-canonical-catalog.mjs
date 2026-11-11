@@ -24,7 +24,7 @@ const byId = new Map(sourceFoods.map(food => [food.id, food]));
 const now = new Date(2026, 10, 6, 12);
 const profile = { ...seedProfile, preferenceTags: [], avoidTags: [], sensitiveDrinkOptIns: [], feelToday: "Normal" };
 
-assert.equal(current.length, 108);
+assert.equal(current.length, 130);
 assert.equal(legacy.length, 112);
 assert.deepEqual(current.map(meal => meal.id), recipes.map(recipe => recipe.mealId), "The sole current catalog is the actual recipe collection");
 assert.equal(new Set(current.map(meal => meal.title)).size, current.length);

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "createdDate": "2026-11-06",
-  "generationMethod": "Built-in image_gen tool; no API key or external project dependency",
+  "generationMethod": "Built-in image_gen tool for the first 108 illustrations (2026-11-06); Figma AI image generation, model gpt-image-2.5-flare, for the 22 added on 2026-11-10. Each asset's review note names its tool where it differs. No API key or external project dependency at runtime.",
   "status": "Approved generated illustrations, prepared as static website assets",
   "sourceRecipes": "data/nutrition/recipes.json",
   "sourceFoods": "data/nutrition/food-definitions.json",
@@ -4765,6 +4765,974 @@
           "height": 720,
           "bytes": 122908,
           "sha256": "4ff751d8f376817da4746943d349b2e5c395604d5a63910a03866adf8079b30d",
+          "encoder": {
+            "browserChannel": "bundled-chromium",
+            "browserVersion": "158.0.8127.18",
+            "quality": 0.84
+          }
+        }
+      ]
+    },
+    {
+      "mealId": "salmon-spinach-wholewheat-pasta",
+      "recipeVersion": "mealhatch-recipes130-2026-11-10-v1",
+      "labelZh": "烤鮭魚菠菜全麥義大利麵（標準配方）",
+      "alt": {
+        "en": "Baked salmon, spinach and wholewheat pasta",
+        "zh": "烤鮭魚菠菜全麥義大利麵"
+      },
+      "prompt": "Use case: photorealistic-natural. Create ONE photorealistic editorial food photograph for a MealHatch meal recommendation card, landscape 4:3 composition. Subject: a modest, believable single-serving bowl of baked Atlantic salmon, cooked whole-wheat penne pasta, and boiled drained spinach. Approximate visual recipe proportions: 110 g cooked salmon, 150 g cooked whole-wheat pasta, 120 g cooked spinach, with only 5 g olive oil and 0.5 g salt. A single baked salmon fillet with natural pale coral flakes and a lightly browned dry-heat surface; light-brown whole-wheat penne, plain and unsauced; soft dark-green wilted spinach leaves in a loose mound. Simple matte off-white shallow ceramic bowl on a cool neutral light gray table. Bowl fully visible, fills about 75% of frame, three-quarter overhead camera angle around 55 degrees, safe center composition for website crops. Soft side window daylight, restrained natural colors, subtle realistic shadows, appetizing everyday home meal, slight natural irregularity, crisp ingredient texture with gently softened background. The photo must show ONLY the listed food, no lemon, herbs, pepper, sesame, cheese, tomato, sauce, garnish, vegetables other than spinach, side dishes, or raw ingredients scattered around. No utensils, hands, branding, labels, text, collage, watermarks, cinematic color grade, CGI/plastic look, oversized restaurant presentation, oil puddles, or exaggerated steam. This is a generated recipe illustration, not evidence of an actually cooked or weighed serving; do not put any claims or numbers inside the image.",
+      "review": "Generated 2026-11-10 with Figma AI image generation (model gpt-image-2.5-flare), 1280 x 960. Visually checked: wholewheat penne, one baked salmon fillet and cooked spinach; fine seasoning specks on the fish, no tomato, cheese or sauce.",
+      "source": {
+        "file": "output/imagegen/mealhatch-food-v1/salmon-spinach-wholewheat-pasta-v1.png",
+        "width": 1280,
+        "height": 960,
+        "bytes": 1866699,
+        "sha256": "4ac1899c8b7f2aa37f770ebc039a4276ff3d13f2cafa59c1cfad1c94ed97638c"
+      },
+      "variants": [
+        {
+          "file": "public/images/recipes/salmon-spinach-wholewheat-pasta-480.webp",
+          "width": 480,
+          "height": 360,
+          "bytes": 25332,
+          "sha256": "5c2f7d2b3bc19ba37ef85d6beb0cf24523910e2957548924c6eaa68d9af91447",
+          "encoder": {
+            "browserChannel": "bundled-chromium",
+            "browserVersion": "158.0.8127.18",
+            "quality": 0.84
+          }
+        },
+        {
+          "file": "public/images/recipes/salmon-spinach-wholewheat-pasta-960.webp",
+          "width": 960,
+          "height": 720,
+          "bytes": 79018,
+          "sha256": "c2bbda427731550e28022a3bc4499402b462fdd713891cd916293621fcb48bca",
+          "encoder": {
+            "browserChannel": "bundled-chromium",
+            "browserVersion": "158.0.8127.18",
+            "quality": 0.84
+          }
+        }
+      ]
+    },
+    {
+      "mealId": "shrimp-bok-choy-rice-noodle-soup",
+      "recipeVersion": "mealhatch-recipes130-2026-11-10-v1",
+      "labelZh": "蝦仁青江菜香菇米粉湯（標準配方）",
+      "alt": {
+        "en": "Shrimp, bok choy and shiitake rice-noodle soup",
+        "zh": "蝦仁青江菜香菇米粉湯"
+      },
+      "prompt": "Use case: photorealistic-natural. Create ONE photorealistic editorial food photograph for a MealHatch meal recommendation card, landscape 4:3 composition. Subject: a modest single-serving bowl of rice-noodle soup: thin white rice noodles in a clear, almost colorless water-based broth, about ten peeled cooked pink shrimp, boiled bok choy leaves and pale stems, and a few slices of cooked shiitake mushroom caps. The broth is clear and pale, not brown and not creamy. Simple matte off-white deep ceramic soup bowl on a cool neutral light gray table. Dish fully visible, fills about 85% of frame, three-quarter overhead camera angle around 55 degrees, safe center composition for website crops. Soft side window daylight, restrained natural colors, subtle realistic shadows, appetizing everyday home meal, slight natural irregularity, crisp ingredient texture with gently softened background. The photo must show ONLY the listed food, no scallion, cilantro, chili, sesame, egg, lime, soy-sauce color, garnish, side dishes, or raw ingredients scattered around. No utensils, hands, branding, labels, text, collage, watermarks, cinematic color grade, CGI/plastic look, oversized restaurant presentation, oil puddles, or exaggerated steam. Do not put any claims or numbers inside the image.",
+      "review": "Generated 2026-11-10 with Figma AI image generation (model gpt-image-2.5-flare), 1280 x 960. Visually checked: thin rice noodles, peeled shrimp, bok choy and sliced shiitake in clear pale broth; no scallion or egg.",
+      "source": {
+        "file": "output/imagegen/mealhatch-food-v1/shrimp-bok-choy-rice-noodle-soup-v1.png",
+        "width": 1280,
+        "height": 960,
+        "bytes": 1739318,
+        "sha256": "e6ed1051dcaebdea7807be7e49f8ced07a61e534aa3b7f6d24b55971d6b90019"
+      },
+      "variants": [
+        {
+          "file": "public/images/recipes/shrimp-bok-choy-rice-noodle-soup-480.webp",
+          "width": 480,
+          "height": 360,
+          "bytes": 20018,
+          "sha256": "3891a13f55ed3047c89f815da395c8f2ab12636008c851ce544652e9948a75d3",
+          "encoder": {
+            "browserChannel": "bundled-chromium",
+            "browserVersion": "158.0.8127.18",
+            "quality": 0.84
+          }
+        },
+        {
+          "file": "public/images/recipes/shrimp-bok-choy-rice-noodle-soup-960.webp",
+          "width": 960,
+          "height": 720,
+          "bytes": 55826,
+          "sha256": "6dc1d136a77b5d58ceade2760c5d8340df160cfdd92c84628bbcc63690a093e1",
+          "encoder": {
+            "browserChannel": "bundled-chromium",
+            "browserVersion": "158.0.8127.18",
+            "quality": 0.84
+          }
+        }
+      ]
+    },
+    {
+      "mealId": "cod-napa-cabbage-egg-noodle-soup",
+      "recipeVersion": "mealhatch-recipes130-2026-11-10-v1",
+      "labelZh": "烤鱈魚大白菜紅蘿蔔雞蛋麵湯（標準配方）",
+      "alt": {
+        "en": "Baked cod, napa cabbage and carrot egg-noodle soup",
+        "zh": "烤鱈魚大白菜紅蘿蔔雞蛋麵湯"
+      },
+      "prompt": "Use case: photorealistic-natural. Create ONE photorealistic editorial food photograph for a MealHatch meal recommendation card, landscape 4:3 composition. Subject: a modest single-serving bowl of egg-noodle soup: soft pale-yellow egg noodles in a clear pale water-based broth, large white flaky chunks of baked cod, boiled napa cabbage pieces and orange carrot slices. The broth is clear and pale, not brown and not creamy. Simple matte off-white deep ceramic soup bowl on a cool neutral light gray table. Dish fully visible, fills about 85% of frame, three-quarter overhead camera angle around 55 degrees, safe center composition for website crops. Soft side window daylight, restrained natural colors, subtle realistic shadows, appetizing everyday home meal, slight natural irregularity, crisp ingredient texture with gently softened background. The photo must show ONLY the listed food, no scallion, herbs, chili, sesame, egg halves, lemon, garnish, side dishes, or raw ingredients scattered around. No utensils, hands, branding, labels, text, collage, watermarks, cinematic color grade, CGI/plastic look, oversized restaurant presentation, oil puddles, or exaggerated steam. Do not put any claims or numbers inside the image.",
+      "review": "Generated 2026-11-10 with Figma AI image generation (model gpt-image-2.5-flare), 1280 x 960. Visually checked: egg noodles, white cod chunks, napa cabbage and carrot slices in clear pale broth; no herbs.",
+      "source": {
+        "file": "output/imagegen/mealhatch-food-v1/cod-napa-cabbage-egg-noodle-soup-v1.png",
+        "width": 1280,
+        "height": 960,
+        "bytes": 1573309,
+        "sha256": "bc228eb59f56a7c04e8929027504afaad6a642d04463b4a3d3d7aaa1d4fc52c3"
+      },
+      "variants": [
+        {
+          "file": "public/images/recipes/cod-napa-cabbage-egg-noodle-soup-480.webp",
+          "width": 480,
+          "height": 360,
+          "bytes": 17636,
+          "sha256": "5607766ff3ce121e09a82951f383b361ec6d0761a8b0455d24925f07b325676e",
+          "encoder": {
+            "browserChannel": "bundled-chromium",
+            "browserVersion": "158.0.8127.18",
+            "quality": 0.84
+          }
+        },
+        {
+          "file": "public/images/recipes/cod-napa-cabbage-egg-noodle-soup-960.webp",
+          "width": 960,
+          "height": 720,
+          "bytes": 45570,
+          "sha256": "e55ec3e8ef9174633b6f801d9c62a711c7e829ec5c0c003997ca7220297b471a",
+          "encoder": {
+            "browserChannel": "bundled-chromium",
+            "browserVersion": "158.0.8127.18",
+            "quality": 0.84
+          }
+        }
+      ]
+    },
+    {
+      "mealId": "mozzarella-tomato-zucchini-pasta",
+      "recipeVersion": "mealhatch-recipes130-2026-11-10-v1",
+      "labelZh": "莫札瑞拉熟番茄櫛瓜全麥義大利麵（標準配方）",
+      "alt": {
+        "en": "Mozzarella, cooked tomato and zucchini wholewheat pasta",
+        "zh": "莫札瑞拉熟番茄櫛瓜全麥義大利麵"
+      },
+      "prompt": "Use case: photorealistic-natural. Create ONE photorealistic editorial food photograph for a MealHatch meal recommendation card, landscape 4:3 composition. Subject: a modest single serving of light-brown whole-wheat penne tossed with chunky cooked red tomato pieces (not a smooth sauce), boiled zucchini half-moons with green skin, and small soft cubes of white mozzarella just beginning to soften. Simple matte off-white shallow ceramic bowl on a cool neutral light gray table. Dish fully visible, fills about 85% of frame, three-quarter overhead camera angle around 55 degrees, safe center composition for website crops. Soft side window daylight, restrained natural colors, subtle realistic shadows, appetizing everyday home meal, slight natural irregularity, crisp ingredient texture with gently softened background. The photo must show ONLY the listed food, no basil, grated cheese, pepper, olives, meat, garnish, side dishes, or raw ingredients scattered around. No utensils, hands, branding, labels, text, collage, watermarks, cinematic color grade, CGI/plastic look, oversized restaurant presentation, oil puddles, or exaggerated steam. Do not put any claims or numbers inside the image.",
+      "review": "Generated 2026-11-10 with Figma AI image generation (model gpt-image-2.5-flare), 1280 x 960. Visually checked: wholewheat penne, chunky cooked tomato, zucchini half-moons and mozzarella cubes; no basil or grated cheese.",
+      "source": {
+        "file": "output/imagegen/mealhatch-food-v1/mozzarella-tomato-zucchini-pasta-v1.png",
+        "width": 1280,
+        "height": 960,
+        "bytes": 1897045,
+        "sha256": "f855ebfa8ba960cca87755705f7d26f8fde4dce358ac14cb46269be1dd14ae5a"
+      },
+      "variants": [
+        {
+          "file": "public/images/recipes/mozzarella-tomato-zucchini-pasta-480.webp",
+          "width": 480,
+          "height": 360,
+          "bytes": 28472,
+          "sha256": "47769312aa657c5683c0b84dd472844d72ee90ae91a2583744ba3f0fbc58b39d",
+          "encoder": {
+            "browserChannel": "bundled-chromium",
+            "browserVersion": "158.0.8127.18",
+            "quality": 0.84
+          }
+        },
+        {
+          "file": "public/images/recipes/mozzarella-tomato-zucchini-pasta-960.webp",
+          "width": 960,
+          "height": 720,
+          "bytes": 81848,
+          "sha256": "a90b3fbd4e5859ee462eda204cc05ff33c4f46e195221f51a4cf099032e59d8f",
+          "encoder": {
+            "browserChannel": "bundled-chromium",
+            "browserVersion": "158.0.8127.18",
+            "quality": 0.84
+          }
+        }
+      ]
+    },
+    {
+      "mealId": "cottage-cheese-spinach-pea-pasta",
+      "recipeVersion": "mealhatch-recipes130-2026-11-10-v1",
+      "labelZh": "茅屋起司菠菜青豌豆全麥義大利麵（標準配方）",
+      "alt": {
+        "en": "Cottage cheese, spinach and green pea wholewheat pasta",
+        "zh": "茅屋起司菠菜青豌豆全麥義大利麵"
+      },
+      "prompt": "Use case: photorealistic-natural. Create ONE photorealistic editorial food photograph for a MealHatch meal recommendation card, landscape 4:3 composition. Subject: a modest single serving of light-brown whole-wheat penne with soft dark-green wilted spinach, bright green peas and spoonfuls of white lumpy cottage cheese stirred through. There is no smooth cream sauce. Simple matte off-white shallow ceramic bowl on a cool neutral light gray table. Dish fully visible, fills about 85% of frame, three-quarter overhead camera angle around 55 degrees, safe center composition for website crops. Soft side window daylight, restrained natural colors, subtle realistic shadows, appetizing everyday home meal, slight natural irregularity, crisp ingredient texture with gently softened background. The photo must show ONLY the listed food, no herbs, pepper, lemon, grated cheese, meat, garnish, side dishes, or raw ingredients scattered around. No utensils, hands, branding, labels, text, collage, watermarks, cinematic color grade, CGI/plastic look, oversized restaurant presentation, oil puddles, or exaggerated steam. Do not put any claims or numbers inside the image.",
+      "review": "Generated 2026-11-10 with Figma AI image generation (model gpt-image-2.5-flare), 1280 x 960. Visually checked: wholewheat penne, cooked spinach, green peas and cottage cheese curds; no cream sauce or herbs.",
+      "source": {
+        "file": "output/imagegen/mealhatch-food-v1/cottage-cheese-spinach-pea-pasta-v1.png",
+        "width": 1280,
+        "height": 960,
+        "bytes": 1995286,
+        "sha256": "4f742cc46862165fc36f3f7f2007156e9531e05ef2a6274ffbae0c50179863a5"
+      },
+      "variants": [
+        {
+          "file": "public/images/recipes/cottage-cheese-spinach-pea-pasta-480.webp",
+          "width": 480,
+          "height": 360,
+          "bytes": 32914,
+          "sha256": "96fc7f464e2e7be33a577c17372b243a7bfb497f567e16a6de890b683cf12239",
+          "encoder": {
+            "browserChannel": "bundled-chromium",
+            "browserVersion": "158.0.8127.18",
+            "quality": 0.84
+          }
+        },
+        {
+          "file": "public/images/recipes/cottage-cheese-spinach-pea-pasta-960.webp",
+          "width": 960,
+          "height": 720,
+          "bytes": 97562,
+          "sha256": "a168c4a50a2c1f3cc0c413769baeafeb89bb6f438f0338ff5b2b797e8cab4a42",
+          "encoder": {
+            "browserChannel": "bundled-chromium",
+            "browserVersion": "158.0.8127.18",
+            "quality": 0.84
+          }
+        }
+      ]
+    },
+    {
+      "mealId": "beef-tomato-romaine-sandwich",
+      "recipeVersion": "mealhatch-recipes130-2026-11-10-v1",
+      "labelZh": "瘦牛肉番茄蘿蔓全麥三明治（標準配方）",
+      "alt": {
+        "en": "Lean beef, tomato and romaine wholewheat sandwich",
+        "zh": "瘦牛肉番茄蘿蔓全麥三明治"
+      },
+      "prompt": "Use case: photorealistic-natural. Create ONE photorealistic editorial food photograph for a MealHatch meal recommendation card, landscape 4:3 composition. Subject: one sandwich made with two thick slices of untoasted rustic whole-wheat French-style bread, filled with thin slices of grilled lean beef that is fully cooked and brown, raw red tomato slices and green romaine lettuce leaves, with a few extra tomato slices and romaine leaves beside it. Simple matte off-white ceramic plate on a cool neutral light gray table. Dish fully visible, fills about 85% of frame, three-quarter overhead camera angle around 55 degrees, safe center composition for website crops. Soft side window daylight, restrained natural colors, subtle realistic shadows, appetizing everyday home meal, slight natural irregularity, crisp ingredient texture with gently softened background. The photo must show ONLY the listed food, no cheese, mayonnaise, mustard, onion, pickles, fries, garnish, side dishes, or raw ingredients scattered around. No utensils, hands, branding, labels, text, collage, watermarks, cinematic color grade, CGI/plastic look, oversized restaurant presentation, oil puddles, or exaggerated steam. Do not put any claims or numbers inside the image.",
+      "review": "Generated 2026-11-10 with Figma AI image generation (model gpt-image-2.5-flare), 1280 x 960. Visually checked: untoasted wholewheat bread, sliced cooked beef, raw tomato and romaine, extra tomato and romaine beside; no cheese or spread.",
+      "source": {
+        "file": "output/imagegen/mealhatch-food-v1/beef-tomato-romaine-sandwich-v1.png",
+        "width": 1280,
+        "height": 960,
+        "bytes": 2072353,
+        "sha256": "9c17adfac26243915b7ba46092c045dacf4f53a996fbb93fa670a9b4d6506af4"
+      },
+      "variants": [
+        {
+          "file": "public/images/recipes/beef-tomato-romaine-sandwich-480.webp",
+          "width": 480,
+          "height": 360,
+          "bytes": 35672,
+          "sha256": "c33252e41892827b7f6fac9a00ca97c4f873aa38323155d30313bd21980c40d3",
+          "encoder": {
+            "browserChannel": "bundled-chromium",
+            "browserVersion": "158.0.8127.18",
+            "quality": 0.84
+          }
+        },
+        {
+          "file": "public/images/recipes/beef-tomato-romaine-sandwich-960.webp",
+          "width": 960,
+          "height": 720,
+          "bytes": 109654,
+          "sha256": "fb81dc5b76b9fbe8b62d834a35a007d469063f83073fef11d8ce3f762b60e9ec",
+          "encoder": {
+            "browserChannel": "bundled-chromium",
+            "browserVersion": "158.0.8127.18",
+            "quality": 0.84
+          }
+        }
+      ]
+    },
+    {
+      "mealId": "pork-cabbage-carrot-bread-plate",
+      "recipeVersion": "mealhatch-recipes130-2026-11-10-v1",
+      "labelZh": "瘦豬肉高麗菜紅蘿蔔麵包餐盤（標準配方）",
+      "alt": {
+        "en": "Lean pork, cabbage and carrot bread plate",
+        "zh": "瘦豬肉高麗菜紅蘿蔔麵包餐盤"
+      },
+      "prompt": "Use case: photorealistic-natural. Create ONE photorealistic editorial food photograph for a MealHatch meal recommendation card, landscape 4:3 composition. Subject: a modest single-serving plate of cooked lean ground pork crumbles that are pale brown and dry, boiled pale-green cabbage pieces and orange carrot slices, with two slices of untoasted whole-wheat French-style bread on the side. Simple matte off-white ceramic plate on a cool neutral light gray table. Dish fully visible, fills about 85% of frame, three-quarter overhead camera angle around 55 degrees, safe center composition for website crops. Soft side window daylight, restrained natural colors, subtle realistic shadows, appetizing everyday home meal, slight natural irregularity, crisp ingredient texture with gently softened background. The photo must show ONLY the listed food, no sauce, gravy, herbs, rice, egg, garnish, side dishes, or raw ingredients scattered around. No utensils, hands, branding, labels, text, collage, watermarks, cinematic color grade, CGI/plastic look, oversized restaurant presentation, oil puddles, or exaggerated steam. Do not put any claims or numbers inside the image.",
+      "review": "Generated 2026-11-10 with Figma AI image generation (model gpt-image-2.5-flare), 1280 x 960. Visually checked: dry pork crumbles, boiled cabbage and carrot, two slices of wholewheat bread; no sauce.",
+      "source": {
+        "file": "output/imagegen/mealhatch-food-v1/pork-cabbage-carrot-bread-plate-v1.png",
+        "width": 1280,
+        "height": 960,
+        "bytes": 2103264,
+        "sha256": "a2236bc656bd251deb41cfd934ef49f10e678c0ff1b54c7d4d21264b8acbf9ef"
+      },
+      "variants": [
+        {
+          "file": "public/images/recipes/pork-cabbage-carrot-bread-plate-480.webp",
+          "width": 480,
+          "height": 360,
+          "bytes": 34244,
+          "sha256": "94eb5523c52f9b30bf684a507f50c035fa4ec4c17b1933633bd44e8057c749c6",
+          "encoder": {
+            "browserChannel": "bundled-chromium",
+            "browserVersion": "158.0.8127.18",
+            "quality": 0.84
+          }
+        },
+        {
+          "file": "public/images/recipes/pork-cabbage-carrot-bread-plate-960.webp",
+          "width": 960,
+          "height": 720,
+          "bytes": 107100,
+          "sha256": "a905c8ddedc4ef0dd563c363c8207903e4a52b103ae9458cc72fb1c6613633d5",
+          "encoder": {
+            "browserChannel": "bundled-chromium",
+            "browserVersion": "158.0.8127.18",
+            "quality": 0.84
+          }
+        }
+      ]
+    },
+    {
+      "mealId": "salmon-cucumber-avocado-bread-plate",
+      "recipeVersion": "mealhatch-recipes130-2026-11-10-v1",
+      "labelZh": "烤鮭魚小黃瓜酪梨麵包餐盤（標準配方）",
+      "alt": {
+        "en": "Baked salmon, cucumber and avocado bread plate",
+        "zh": "烤鮭魚小黃瓜酪梨麵包餐盤"
+      },
+      "prompt": "Use case: photorealistic-natural. Create ONE photorealistic editorial food photograph for a MealHatch meal recommendation card, landscape 4:3 composition. Subject: a modest single-serving plate with one cooled baked salmon fillet with pale coral flakes, raw cucumber slices with dark-green peel, sliced raw avocado, and two slices of untoasted whole-wheat French-style bread. Simple matte off-white ceramic plate on a cool neutral light gray table. Dish fully visible, fills about 85% of frame, three-quarter overhead camera angle around 55 degrees, safe center composition for website crops. Soft side window daylight, restrained natural colors, subtle realistic shadows, appetizing everyday home meal, slight natural irregularity, crisp ingredient texture with gently softened background. The photo must show ONLY the listed food, no lemon wedges, dill, herbs, cream cheese, capers, onion, garnish, side dishes, or raw ingredients scattered around. No utensils, hands, branding, labels, text, collage, watermarks, cinematic color grade, CGI/plastic look, oversized restaurant presentation, oil puddles, or exaggerated steam. Do not put any claims or numbers inside the image.",
+      "review": "Generated 2026-11-10 with Figma AI image generation (model gpt-image-2.5-flare), 1280 x 960. Visually checked: one salmon fillet, cucumber slices with peel, sliced avocado and two slices of wholewheat bread; fine seasoning specks on the fish, no lemon wedge or herbs.",
+      "source": {
+        "file": "output/imagegen/mealhatch-food-v1/salmon-cucumber-avocado-bread-plate-v1.png",
+        "width": 1280,
+        "height": 960,
+        "bytes": 2033883,
+        "sha256": "e69111acdfb91757ec88848c9e54778135b76373d5e5bbbde5c035d74d558159"
+      },
+      "variants": [
+        {
+          "file": "public/images/recipes/salmon-cucumber-avocado-bread-plate-480.webp",
+          "width": 480,
+          "height": 360,
+          "bytes": 31970,
+          "sha256": "506f7a8d1fab921077da3aceaecdf673198c41a8a39aa05344643bf7d1901d1d",
+          "encoder": {
+            "browserChannel": "bundled-chromium",
+            "browserVersion": "158.0.8127.18",
+            "quality": 0.84
+          }
+        },
+        {
+          "file": "public/images/recipes/salmon-cucumber-avocado-bread-plate-960.webp",
+          "width": 960,
+          "height": 720,
+          "bytes": 99310,
+          "sha256": "5882f70cf492492581c404a6d1ba190779c6e2bf75fd34bc805fa1659cfc1def",
+          "encoder": {
+            "browserChannel": "bundled-chromium",
+            "browserVersion": "158.0.8127.18",
+            "quality": 0.84
+          }
+        }
+      ]
+    },
+    {
+      "mealId": "shrimp-romaine-tomato-sandwich",
+      "recipeVersion": "mealhatch-recipes130-2026-11-10-v1",
+      "labelZh": "蝦仁蘿蔓番茄全麥三明治（標準配方）",
+      "alt": {
+        "en": "Shrimp, romaine and tomato wholewheat sandwich",
+        "zh": "蝦仁蘿蔓番茄全麥三明治"
+      },
+      "prompt": "Use case: photorealistic-natural. Create ONE photorealistic editorial food photograph for a MealHatch meal recommendation card, landscape 4:3 composition. Subject: one sandwich made with two thick slices of untoasted rustic whole-wheat French-style bread, filled with peeled cooked pink shrimp, green romaine lettuce leaves and raw red tomato slices, with a few extra romaine leaves and tomato slices beside it. Simple matte off-white ceramic plate on a cool neutral light gray table. Dish fully visible, fills about 85% of frame, three-quarter overhead camera angle around 55 degrees, safe center composition for website crops. Soft side window daylight, restrained natural colors, subtle realistic shadows, appetizing everyday home meal, slight natural irregularity, crisp ingredient texture with gently softened background. The photo must show ONLY the listed food, no mayonnaise, sauce, lemon wedges, avocado, cheese, fries, garnish, side dishes, or raw ingredients scattered around. No utensils, hands, branding, labels, text, collage, watermarks, cinematic color grade, CGI/plastic look, oversized restaurant presentation, oil puddles, or exaggerated steam. Do not put any claims or numbers inside the image.",
+      "review": "Generated 2026-11-10 with Figma AI image generation (model gpt-image-2.5-flare), 1280 x 960. Visually checked: untoasted wholewheat bread, peeled shrimp, romaine and raw tomato, extra romaine and tomato beside; no mayonnaise.",
+      "source": {
+        "file": "output/imagegen/mealhatch-food-v1/shrimp-romaine-tomato-sandwich-v1.png",
+        "width": 1280,
+        "height": 960,
+        "bytes": 1982583,
+        "sha256": "b17b54a6e1f9fb58bbf8fa751b8c1a95f1516b2d3a9119eb3ec0c08278cd1da2"
+      },
+      "variants": [
+        {
+          "file": "public/images/recipes/shrimp-romaine-tomato-sandwich-480.webp",
+          "width": 480,
+          "height": 360,
+          "bytes": 32470,
+          "sha256": "c2884358105c5fd9efbab8fbdfc3adea0c1953e640d8e02bd550c74dec29456c",
+          "encoder": {
+            "browserChannel": "bundled-chromium",
+            "browserVersion": "158.0.8127.18",
+            "quality": 0.84
+          }
+        },
+        {
+          "file": "public/images/recipes/shrimp-romaine-tomato-sandwich-960.webp",
+          "width": 960,
+          "height": 720,
+          "bytes": 98976,
+          "sha256": "aa5224c84bda9b71e2be5126f510c07fc8a06dd4996c854f58ba517380df87b5",
+          "encoder": {
+            "browserChannel": "bundled-chromium",
+            "browserVersion": "158.0.8127.18",
+            "quality": 0.84
+          }
+        }
+      ]
+    },
+    {
+      "mealId": "beef-baked-potato-green-bean-plate",
+      "recipeVersion": "mealhatch-recipes130-2026-11-10-v1",
+      "labelZh": "瘦牛肉烤馬鈴薯四季豆餐盤（標準配方）",
+      "alt": {
+        "en": "Lean beef, baked potato and green bean plate",
+        "zh": "瘦牛肉烤馬鈴薯四季豆餐盤"
+      },
+      "prompt": "Use case: photorealistic-natural. Create ONE photorealistic editorial food photograph for a MealHatch meal recommendation card, landscape 4:3 composition. Subject: a modest single-serving plate of sliced grilled lean beef that is fully cooked and brown, one split baked potato with its skin showing fluffy pale flesh, boiled green snap beans and a little soft boiled onion. Simple matte off-white ceramic plate on a cool neutral light gray table. Dish fully visible, fills about 85% of frame, three-quarter overhead camera angle around 55 degrees, safe center composition for website crops. Soft side window daylight, restrained natural colors, subtle realistic shadows, appetizing everyday home meal, slight natural irregularity, crisp ingredient texture with gently softened background. The photo must show ONLY the listed food, no butter, sour cream, gravy, herbs, pepper, cheese, garnish, side dishes, or raw ingredients scattered around. No utensils, hands, branding, labels, text, collage, watermarks, cinematic color grade, CGI/plastic look, oversized restaurant presentation, oil puddles, or exaggerated steam. Do not put any claims or numbers inside the image.",
+      "review": "Generated 2026-11-10 with Figma AI image generation (model gpt-image-2.5-flare), 1280 x 960. Visually checked: sliced cooked beef, split baked potato with skin, green beans and boiled onion; no butter or gravy.",
+      "source": {
+        "file": "output/imagegen/mealhatch-food-v1/beef-baked-potato-green-bean-plate-v1.png",
+        "width": 1280,
+        "height": 960,
+        "bytes": 2063596,
+        "sha256": "1791e110ce520e6c4fb0a53eea3ea53215e3f68e60ce4e503efd3a63168e5d55"
+      },
+      "variants": [
+        {
+          "file": "public/images/recipes/beef-baked-potato-green-bean-plate-480.webp",
+          "width": 480,
+          "height": 360,
+          "bytes": 30892,
+          "sha256": "a74e0a8855aa934fd6d2444bf18d7847645c85cb13ecd06f7748236c9cd794af",
+          "encoder": {
+            "browserChannel": "bundled-chromium",
+            "browserVersion": "158.0.8127.18",
+            "quality": 0.84
+          }
+        },
+        {
+          "file": "public/images/recipes/beef-baked-potato-green-bean-plate-960.webp",
+          "width": 960,
+          "height": 720,
+          "bytes": 98960,
+          "sha256": "713f3e1734b0a55ad89dc24436a5170b1005ae525711959ac4b9f62efedcba81",
+          "encoder": {
+            "browserChannel": "bundled-chromium",
+            "browserVersion": "158.0.8127.18",
+            "quality": 0.84
+          }
+        }
+      ]
+    },
+    {
+      "mealId": "lamb-sweet-potato-kale-plate",
+      "recipeVersion": "mealhatch-recipes130-2026-11-10-v1",
+      "labelZh": "烤羊腿地瓜羽衣甘藍餐盤（標準配方）",
+      "alt": {
+        "en": "Roasted lamb, sweet potato and kale plate",
+        "zh": "烤羊腿地瓜羽衣甘藍餐盤"
+      },
+      "prompt": "Use case: photorealistic-natural. Create ONE photorealistic editorial food photograph for a MealHatch meal recommendation card, landscape 4:3 composition. Subject: a modest single-serving plate of sliced roasted lean lamb leg that is fully cooked, scooped chunks of orange baked sweet-potato flesh without skin, boiled dark-green kale and orange carrot slices. Simple matte off-white ceramic plate on a cool neutral light gray table. Dish fully visible, fills about 85% of frame, three-quarter overhead camera angle around 55 degrees, safe center composition for website crops. Soft side window daylight, restrained natural colors, subtle realistic shadows, appetizing everyday home meal, slight natural irregularity, crisp ingredient texture with gently softened background. The photo must show ONLY the listed food, no rosemary, mint, gravy, sauce, pepper, garnish, side dishes, or raw ingredients scattered around. No utensils, hands, branding, labels, text, collage, watermarks, cinematic color grade, CGI/plastic look, oversized restaurant presentation, oil puddles, or exaggerated steam. Do not put any claims or numbers inside the image.",
+      "review": "Generated 2026-11-10 with Figma AI image generation (model gpt-image-2.5-flare), 1280 x 960. Visually checked: sliced roasted lamb, chunks of sweet-potato flesh, kale and carrot slices; the lamb shows a slightly pink centre, no gravy or herbs.",
+      "source": {
+        "file": "output/imagegen/mealhatch-food-v1/lamb-sweet-potato-kale-plate-v1.png",
+        "width": 1280,
+        "height": 960,
+        "bytes": 2084816,
+        "sha256": "99cb396b6596ba956ec54a793ccfaeb15dee1b53cd5753d969260a005e1198c3"
+      },
+      "variants": [
+        {
+          "file": "public/images/recipes/lamb-sweet-potato-kale-plate-480.webp",
+          "width": 480,
+          "height": 360,
+          "bytes": 33858,
+          "sha256": "af698cad9022516fc79a8d6c52c1fcff782a8ee78b29a94a7d25738d733b3e51",
+          "encoder": {
+            "browserChannel": "bundled-chromium",
+            "browserVersion": "158.0.8127.18",
+            "quality": 0.84
+          }
+        },
+        {
+          "file": "public/images/recipes/lamb-sweet-potato-kale-plate-960.webp",
+          "width": 960,
+          "height": 720,
+          "bytes": 108694,
+          "sha256": "85ad112d2e46c4a151a3073305602781b8ad4266f37cd840663914914d081d03",
+          "encoder": {
+            "browserChannel": "bundled-chromium",
+            "browserVersion": "158.0.8127.18",
+            "quality": 0.84
+          }
+        }
+      ]
+    },
+    {
+      "mealId": "pork-potato-cabbage-stew",
+      "recipeVersion": "mealhatch-recipes130-2026-11-10-v1",
+      "labelZh": "瘦豬肉馬鈴薯高麗菜燉湯（標準配方）",
+      "alt": {
+        "en": "Lean pork, potato and cabbage stew",
+        "zh": "瘦豬肉馬鈴薯高麗菜燉湯"
+      },
+      "prompt": "Use case: photorealistic-natural. Create ONE photorealistic editorial food photograph for a MealHatch meal recommendation card, landscape 4:3 composition. Subject: a modest single-serving bowl of light stew: cooked lean ground pork crumbles, chunks of baked potato with skin, boiled cabbage pieces and orange carrot slices sitting in a shallow pool of clear pale broth. The broth is thin and clear, not thick, not brown and not creamy. Simple matte off-white deep ceramic bowl on a cool neutral light gray table. Dish fully visible, fills about 85% of frame, three-quarter overhead camera angle around 55 degrees, safe center composition for website crops. Soft side window daylight, restrained natural colors, subtle realistic shadows, appetizing everyday home meal, slight natural irregularity, crisp ingredient texture with gently softened background. The photo must show ONLY the listed food, no herbs, cream, tomato, peas, bread, garnish, side dishes, or raw ingredients scattered around. No utensils, hands, branding, labels, text, collage, watermarks, cinematic color grade, CGI/plastic look, oversized restaurant presentation, oil puddles, or exaggerated steam. Do not put any claims or numbers inside the image.",
+      "review": "Generated 2026-11-10 with Figma AI image generation (model gpt-image-2.5-flare), 1280 x 960. Visually checked: pork crumbles, potato chunks with skin, cabbage and carrot in thin clear broth; no herbs or cream.",
+      "source": {
+        "file": "output/imagegen/mealhatch-food-v1/pork-potato-cabbage-stew-v1.png",
+        "width": 1280,
+        "height": 960,
+        "bytes": 1709469,
+        "sha256": "d44d772d77e03201e8aad01514142762de57c01316c50ea7e96d16c0b162f3e4"
+      },
+      "variants": [
+        {
+          "file": "public/images/recipes/pork-potato-cabbage-stew-480.webp",
+          "width": 480,
+          "height": 360,
+          "bytes": 21606,
+          "sha256": "bbbc59f1204af116e5e6141316ba75b4887e64ad636cf6cc9bbaa66063aa6faf",
+          "encoder": {
+            "browserChannel": "bundled-chromium",
+            "browserVersion": "158.0.8127.18",
+            "quality": 0.84
+          }
+        },
+        {
+          "file": "public/images/recipes/pork-potato-cabbage-stew-960.webp",
+          "width": 960,
+          "height": 720,
+          "bytes": 58904,
+          "sha256": "0c164e9b564b82c4c83101eae5808bc117a3389371eb6b7833f3c8336d3516d6",
+          "encoder": {
+            "browserChannel": "bundled-chromium",
+            "browserVersion": "158.0.8127.18",
+            "quality": 0.84
+          }
+        }
+      ]
+    },
+    {
+      "mealId": "cottage-cheese-broccoli-baked-potato",
+      "recipeVersion": "mealhatch-recipes130-2026-11-10-v1",
+      "labelZh": "茅屋起司青花菜烤馬鈴薯（標準配方）",
+      "alt": {
+        "en": "Cottage cheese and broccoli baked potato",
+        "zh": "茅屋起司青花菜烤馬鈴薯"
+      },
+      "prompt": "Use case: photorealistic-natural. Create ONE photorealistic editorial food photograph for a MealHatch meal recommendation card, landscape 4:3 composition. Subject: a modest single-serving plate with one large split baked potato with its skin, topped with white lumpy cottage cheese, and boiled green broccoli florets beside it. Simple matte off-white ceramic plate on a cool neutral light gray table. Dish fully visible, fills about 85% of frame, three-quarter overhead camera angle around 55 degrees, safe center composition for website crops. Soft side window daylight, restrained natural colors, subtle realistic shadows, appetizing everyday home meal, slight natural irregularity, crisp ingredient texture with gently softened background. The photo must show ONLY the listed food, no butter, chives, bacon, sour cream, melted cheese, pepper, garnish, side dishes, or raw ingredients scattered around. No utensils, hands, branding, labels, text, collage, watermarks, cinematic color grade, CGI/plastic look, oversized restaurant presentation, oil puddles, or exaggerated steam. Do not put any claims or numbers inside the image.",
+      "review": "Generated 2026-11-10 with Figma AI image generation (model gpt-image-2.5-flare), 1280 x 960. Visually checked: split baked potato with skin topped with cottage cheese, broccoli florets beside; no butter, chives or bacon.",
+      "source": {
+        "file": "output/imagegen/mealhatch-food-v1/cottage-cheese-broccoli-baked-potato-v1.png",
+        "width": 1280,
+        "height": 960,
+        "bytes": 1868754,
+        "sha256": "92bdb41b433803bc97afb20bfd75fd4fe51c43df9fdbf16d28da486bd247170e"
+      },
+      "variants": [
+        {
+          "file": "public/images/recipes/cottage-cheese-broccoli-baked-potato-480.webp",
+          "width": 480,
+          "height": 360,
+          "bytes": 27204,
+          "sha256": "8723f32bf7eec09ccb18b8b303643c64bfeed46c6d599f8595b3dbd00acdace1",
+          "encoder": {
+            "browserChannel": "bundled-chromium",
+            "browserVersion": "158.0.8127.18",
+            "quality": 0.84
+          }
+        },
+        {
+          "file": "public/images/recipes/cottage-cheese-broccoli-baked-potato-960.webp",
+          "width": 960,
+          "height": 720,
+          "bytes": 81234,
+          "sha256": "e6f25508972910114e626bd3f261511c40d2b4601bc49cec14b331d8e9d7878a",
+          "encoder": {
+            "browserChannel": "bundled-chromium",
+            "browserVersion": "158.0.8127.18",
+            "quality": 0.84
+          }
+        }
+      ]
+    },
+    {
+      "mealId": "egg-sweet-potato-spinach-plate",
+      "recipeVersion": "mealhatch-recipes130-2026-11-10-v1",
+      "labelZh": "水煮蛋地瓜菠菜餐盤（標準配方）",
+      "alt": {
+        "en": "Boiled egg, sweet potato and spinach plate",
+        "zh": "水煮蛋地瓜菠菜餐盤"
+      },
+      "prompt": "Use case: photorealistic-natural. Create ONE photorealistic editorial food photograph for a MealHatch meal recommendation card, landscape 4:3 composition. Subject: a modest single-serving plate with two hard-boiled eggs cut in halves showing fully set yellow yolks, scooped chunks of orange baked sweet-potato flesh without skin, soft boiled dark-green spinach and strips of boiled red sweet pepper. Simple matte off-white ceramic plate on a cool neutral light gray table. Dish fully visible, fills about 85% of frame, three-quarter overhead camera angle around 55 degrees, safe center composition for website crops. Soft side window daylight, restrained natural colors, subtle realistic shadows, appetizing everyday home meal, slight natural irregularity, crisp ingredient texture with gently softened background. The photo must show ONLY the listed food, no pepper, paprika, herbs, toast, sauce, garnish, side dishes, or raw ingredients scattered around. No utensils, hands, branding, labels, text, collage, watermarks, cinematic color grade, CGI/plastic look, oversized restaurant presentation, oil puddles, or exaggerated steam. Do not put any claims or numbers inside the image.",
+      "review": "Generated 2026-11-10 with Figma AI image generation (model gpt-image-2.5-flare), 1280 x 960. Visually checked: halved hard-boiled egg with set yolk, sweet-potato chunks, cooked spinach and red pepper strips; shows one egg in two halves, fewer than the standard portion, no sauce.",
+      "source": {
+        "file": "output/imagegen/mealhatch-food-v1/egg-sweet-potato-spinach-plate-v1.png",
+        "width": 1280,
+        "height": 960,
+        "bytes": 1937345,
+        "sha256": "be4a17f0c64f09607b478833c36dc98020921951b2741c029c4dd12a8d5019d7"
+      },
+      "variants": [
+        {
+          "file": "public/images/recipes/egg-sweet-potato-spinach-plate-480.webp",
+          "width": 480,
+          "height": 360,
+          "bytes": 29778,
+          "sha256": "68177da5d13734bcae2ad630f045bdcdc0408f59be11100e8a840a7567da02e0",
+          "encoder": {
+            "browserChannel": "bundled-chromium",
+            "browserVersion": "158.0.8127.18",
+            "quality": 0.84
+          }
+        },
+        {
+          "file": "public/images/recipes/egg-sweet-potato-spinach-plate-960.webp",
+          "width": 960,
+          "height": 720,
+          "bytes": 89998,
+          "sha256": "e59a423f8e404bf57b2acb8f723884078696ddca482ae6d236b63cb2b071ac7f",
+          "encoder": {
+            "browserChannel": "bundled-chromium",
+            "browserVersion": "158.0.8127.18",
+            "quality": 0.84
+          }
+        }
+      ]
+    },
+    {
+      "mealId": "beef-quinoa-red-pepper-bowl",
+      "recipeVersion": "mealhatch-recipes130-2026-11-10-v1",
+      "labelZh": "瘦牛肉藜麥紅甜椒碗（標準配方）",
+      "alt": {
+        "en": "Lean beef, quinoa and red-pepper bowl",
+        "zh": "瘦牛肉藜麥紅甜椒碗"
+      },
+      "prompt": "Use case: photorealistic-natural. Create ONE photorealistic editorial food photograph for a MealHatch meal recommendation card, landscape 4:3 composition. Subject: a modest single-serving bowl of sliced grilled lean beef that is fully cooked and brown over cooked beige quinoa, with strips of boiled red sweet pepper and boiled zucchini half-moons with green skin. Simple matte off-white shallow ceramic bowl on a cool neutral light gray table. Dish fully visible, fills about 85% of frame, three-quarter overhead camera angle around 55 degrees, safe center composition for website crops. Soft side window daylight, restrained natural colors, subtle realistic shadows, appetizing everyday home meal, slight natural irregularity, crisp ingredient texture with gently softened background. The photo must show ONLY the listed food, no herbs, lime, sauce, avocado, corn, beans, garnish, side dishes, or raw ingredients scattered around. No utensils, hands, branding, labels, text, collage, watermarks, cinematic color grade, CGI/plastic look, oversized restaurant presentation, oil puddles, or exaggerated steam. Do not put any claims or numbers inside the image.",
+      "review": "Generated 2026-11-10 with Figma AI image generation (model gpt-image-2.5-flare), 1280 x 960. Visually checked: sliced cooked beef over quinoa with red pepper strips and zucchini half-moons; no herbs or sauce.",
+      "source": {
+        "file": "output/imagegen/mealhatch-food-v1/beef-quinoa-red-pepper-bowl-v1.png",
+        "width": 1280,
+        "height": 960,
+        "bytes": 2012182,
+        "sha256": "92e102a72f9b349284b533974617cd35c7e7a190b59167fb616e0fd636675f33"
+      },
+      "variants": [
+        {
+          "file": "public/images/recipes/beef-quinoa-red-pepper-bowl-480.webp",
+          "width": 480,
+          "height": 360,
+          "bytes": 33028,
+          "sha256": "588783964098c8086a53d0ccbc2b8875154fb5dc34f78c45f26d30106dc7a2c9",
+          "encoder": {
+            "browserChannel": "bundled-chromium",
+            "browserVersion": "158.0.8127.18",
+            "quality": 0.84
+          }
+        },
+        {
+          "file": "public/images/recipes/beef-quinoa-red-pepper-bowl-960.webp",
+          "width": 960,
+          "height": 720,
+          "bytes": 99756,
+          "sha256": "708b911539a4c4cfaf00ddde21c0ce0732b897fe18b389355457b1239c96320a",
+          "encoder": {
+            "browserChannel": "bundled-chromium",
+            "browserVersion": "158.0.8127.18",
+            "quality": 0.84
+          }
+        }
+      ]
+    },
+    {
+      "mealId": "lamb-quinoa-zucchini-bowl",
+      "recipeVersion": "mealhatch-recipes130-2026-11-10-v1",
+      "labelZh": "烤羊腿藜麥櫛瓜碗（標準配方）",
+      "alt": {
+        "en": "Roasted lamb, quinoa and zucchini bowl",
+        "zh": "烤羊腿藜麥櫛瓜碗"
+      },
+      "prompt": "Use case: photorealistic-natural. Create ONE photorealistic editorial food photograph for a MealHatch meal recommendation card, landscape 4:3 composition. Subject: a modest single-serving bowl of sliced roasted lean lamb leg that is fully cooked over cooked beige quinoa, with boiled zucchini half-moons with green skin and chunky cooked red tomato pieces. Simple matte off-white shallow ceramic bowl on a cool neutral light gray table. Dish fully visible, fills about 85% of frame, three-quarter overhead camera angle around 55 degrees, safe center composition for website crops. Soft side window daylight, restrained natural colors, subtle realistic shadows, appetizing everyday home meal, slight natural irregularity, crisp ingredient texture with gently softened background. The photo must show ONLY the listed food, no yogurt, mint, herbs, lemon, chickpeas, garnish, side dishes, or raw ingredients scattered around. No utensils, hands, branding, labels, text, collage, watermarks, cinematic color grade, CGI/plastic look, oversized restaurant presentation, oil puddles, or exaggerated steam. Do not put any claims or numbers inside the image.",
+      "review": "Generated 2026-11-10 with Figma AI image generation (model gpt-image-2.5-flare), 1280 x 960. Visually checked: sliced roasted lamb over quinoa with zucchini half-moons and chunky cooked tomato; no yogurt or herbs.",
+      "source": {
+        "file": "output/imagegen/mealhatch-food-v1/lamb-quinoa-zucchini-bowl-v1.png",
+        "width": 1280,
+        "height": 960,
+        "bytes": 2035971,
+        "sha256": "1d5572a1450e81c6907cebe39e9728289c1bc86798ca3f8ff7f72af24d8bfb6d"
+      },
+      "variants": [
+        {
+          "file": "public/images/recipes/lamb-quinoa-zucchini-bowl-480.webp",
+          "width": 480,
+          "height": 360,
+          "bytes": 32216,
+          "sha256": "3678fcf287d7c4eeb3f678bb0e0adc3912edab196714c191a2bea6ee10bf1638",
+          "encoder": {
+            "browserChannel": "bundled-chromium",
+            "browserVersion": "158.0.8127.18",
+            "quality": 0.84
+          }
+        },
+        {
+          "file": "public/images/recipes/lamb-quinoa-zucchini-bowl-960.webp",
+          "width": 960,
+          "height": 720,
+          "bytes": 101092,
+          "sha256": "aa003e42cd253f5a90cc7a776f4a095a23bd2ee39b591ab61cc7110f5fc505db",
+          "encoder": {
+            "browserChannel": "bundled-chromium",
+            "browserVersion": "158.0.8127.18",
+            "quality": 0.84
+          }
+        }
+      ]
+    },
+    {
+      "mealId": "salmon-quinoa-kale-bowl",
+      "recipeVersion": "mealhatch-recipes130-2026-11-10-v1",
+      "labelZh": "烤鮭魚藜麥羽衣甘藍碗（標準配方）",
+      "alt": {
+        "en": "Baked salmon, quinoa and kale bowl",
+        "zh": "烤鮭魚藜麥羽衣甘藍碗"
+      },
+      "prompt": "Use case: photorealistic-natural. Create ONE photorealistic editorial food photograph for a MealHatch meal recommendation card, landscape 4:3 composition. Subject: a modest single-serving bowl with one baked salmon fillet with pale coral flakes and a lightly browned surface over cooked beige quinoa, with boiled dark-green kale and orange carrot slices. Simple matte off-white shallow ceramic bowl on a cool neutral light gray table. Dish fully visible, fills about 85% of frame, three-quarter overhead camera angle around 55 degrees, safe center composition for website crops. Soft side window daylight, restrained natural colors, subtle realistic shadows, appetizing everyday home meal, slight natural irregularity, crisp ingredient texture with gently softened background. The photo must show ONLY the listed food, no lemon, sesame, herbs, avocado, sauce, garnish, side dishes, or raw ingredients scattered around. No utensils, hands, branding, labels, text, collage, watermarks, cinematic color grade, CGI/plastic look, oversized restaurant presentation, oil puddles, or exaggerated steam. Do not put any claims or numbers inside the image.",
+      "review": "Generated 2026-11-10 with Figma AI image generation (model gpt-image-2.5-flare), 1280 x 960. Visually checked: one baked salmon fillet over quinoa with kale and carrot slices; fine seasoning specks on the fish, no lemon or sesame.",
+      "source": {
+        "file": "output/imagegen/mealhatch-food-v1/salmon-quinoa-kale-bowl-v1.png",
+        "width": 1280,
+        "height": 960,
+        "bytes": 2031077,
+        "sha256": "735e7aad586c26f97d498f78b1bb92eee72f89e93d7691014cdf9092200ec58a"
+      },
+      "variants": [
+        {
+          "file": "public/images/recipes/salmon-quinoa-kale-bowl-480.webp",
+          "width": 480,
+          "height": 360,
+          "bytes": 33040,
+          "sha256": "80feb2c1562e0fcf21625567df5d476207caaf83358a570ad5a1b532b5c7404c",
+          "encoder": {
+            "browserChannel": "bundled-chromium",
+            "browserVersion": "158.0.8127.18",
+            "quality": 0.84
+          }
+        },
+        {
+          "file": "public/images/recipes/salmon-quinoa-kale-bowl-960.webp",
+          "width": 960,
+          "height": 720,
+          "bytes": 104194,
+          "sha256": "068c5fc756a1817f04618f5d40f7f990195a66a6e80cc14d167d18c7ee0badeb",
+          "encoder": {
+            "browserChannel": "bundled-chromium",
+            "browserVersion": "158.0.8127.18",
+            "quality": 0.84
+          }
+        }
+      ]
+    },
+    {
+      "mealId": "egg-broccoli-mushroom-plate",
+      "recipeVersion": "mealhatch-recipes130-2026-11-10-v1",
+      "labelZh": "水煮蛋青花菜蘑菇餐盤（標準配方）",
+      "alt": {
+        "en": "Boiled egg, broccoli and mushroom plate",
+        "zh": "水煮蛋青花菜蘑菇餐盤"
+      },
+      "prompt": "Use case: photorealistic-natural. Create ONE photorealistic editorial food photograph for a MealHatch meal recommendation card, landscape 4:3 composition. Subject: a modest single-serving plate with three hard-boiled eggs cut in halves showing fully set yellow yolks, boiled green broccoli florets, boiled sliced white button mushrooms and orange carrot slices. Simple matte off-white ceramic plate on a cool neutral light gray table. Dish fully visible, fills about 85% of frame, three-quarter overhead camera angle around 55 degrees, safe center composition for website crops. Soft side window daylight, restrained natural colors, subtle realistic shadows, appetizing everyday home meal, slight natural irregularity, crisp ingredient texture with gently softened background. The photo must show ONLY the listed food, no pepper, herbs, toast, sauce, bacon, garnish, side dishes, or raw ingredients scattered around. No utensils, hands, branding, labels, text, collage, watermarks, cinematic color grade, CGI/plastic look, oversized restaurant presentation, oil puddles, or exaggerated steam. Do not put any claims or numbers inside the image.",
+      "review": "Generated 2026-11-10 with Figma AI image generation (model gpt-image-2.5-flare), 1280 x 960. Visually checked: three hard-boiled egg halves with set yolks, broccoli, sliced white mushrooms and carrot slices; no sauce.",
+      "source": {
+        "file": "output/imagegen/mealhatch-food-v1/egg-broccoli-mushroom-plate-v1.png",
+        "width": 1280,
+        "height": 960,
+        "bytes": 1847355,
+        "sha256": "c05f202cf5c7cdce7ff5e2b24bd5e5d140f71b04f81140edae40e6649035a61b"
+      },
+      "variants": [
+        {
+          "file": "public/images/recipes/egg-broccoli-mushroom-plate-480.webp",
+          "width": 480,
+          "height": 360,
+          "bytes": 28620,
+          "sha256": "0754c8d94424a76117184451182682669fa4bc1e0eef813dea764415bcd5e966",
+          "encoder": {
+            "browserChannel": "bundled-chromium",
+            "browserVersion": "158.0.8127.18",
+            "quality": 0.84
+          }
+        },
+        {
+          "file": "public/images/recipes/egg-broccoli-mushroom-plate-960.webp",
+          "width": 960,
+          "height": 720,
+          "bytes": 81188,
+          "sha256": "ed28e5089c42ead23f04fe698c2f152315b8e425a53329ed811e79ed3ccaef6c",
+          "encoder": {
+            "browserChannel": "bundled-chromium",
+            "browserVersion": "158.0.8127.18",
+            "quality": 0.84
+          }
+        }
+      ]
+    },
+    {
+      "mealId": "egg-tomato-spinach-soup",
+      "recipeVersion": "mealhatch-recipes130-2026-11-10-v1",
+      "labelZh": "水煮蛋熟番茄菠菜湯（標準配方）",
+      "alt": {
+        "en": "Boiled egg, cooked tomato and spinach soup",
+        "zh": "水煮蛋熟番茄菠菜湯"
+      },
+      "prompt": "Use case: photorealistic-natural. Create ONE photorealistic editorial food photograph for a MealHatch meal recommendation card, landscape 4:3 composition. Subject: a modest single-serving bowl of light soup: chunky cooked red tomato pieces, soft dark-green wilted spinach, soft translucent boiled onion and hard-boiled eggs cut in quarters with fully set yolks, in a thin clear pale-reddish broth. The broth is thin, not thick or creamy, and has no beaten-egg ribbons. Simple matte off-white deep ceramic soup bowl on a cool neutral light gray table. Dish fully visible, fills about 85% of frame, three-quarter overhead camera angle around 55 degrees, safe center composition for website crops. Soft side window daylight, restrained natural colors, subtle realistic shadows, appetizing everyday home meal, slight natural irregularity, crisp ingredient texture with gently softened background. The photo must show ONLY the listed food, no scallion, herbs, tofu, noodles, bread, garnish, side dishes, or raw ingredients scattered around. No utensils, hands, branding, labels, text, collage, watermarks, cinematic color grade, CGI/plastic look, oversized restaurant presentation, oil puddles, or exaggerated steam. Do not put any claims or numbers inside the image.",
+      "review": "Generated 2026-11-10 with Figma AI image generation (model gpt-image-2.5-flare), 1280 x 960. Visually checked: quartered hard-boiled egg, chunky cooked tomato, spinach and boiled onion in thin pale-red broth; no beaten-egg ribbons or scallion.",
+      "source": {
+        "file": "output/imagegen/mealhatch-food-v1/egg-tomato-spinach-soup-v1.png",
+        "width": 1280,
+        "height": 960,
+        "bytes": 1794682,
+        "sha256": "b17dcb514f45bd0edcdbdde75a72a95656b0a91afdee27f47b901302a2a42002"
+      },
+      "variants": [
+        {
+          "file": "public/images/recipes/egg-tomato-spinach-soup-480.webp",
+          "width": 480,
+          "height": 360,
+          "bytes": 23186,
+          "sha256": "2ff42a085ccb14cca214688608cf33658eeb33f2e2182b5afa30a366894aaae2",
+          "encoder": {
+            "browserChannel": "bundled-chromium",
+            "browserVersion": "158.0.8127.18",
+            "quality": 0.84
+          }
+        },
+        {
+          "file": "public/images/recipes/egg-tomato-spinach-soup-960.webp",
+          "width": 960,
+          "height": 720,
+          "bytes": 69788,
+          "sha256": "3e971d0a90295590fb2b63fb51778f4268a6b58c33edb35801c4c4bfb40c32b4",
+          "encoder": {
+            "browserChannel": "bundled-chromium",
+            "browserVersion": "158.0.8127.18",
+            "quality": 0.84
+          }
+        }
+      ]
+    },
+    {
+      "mealId": "greek-yogurt-banana-blueberry-bowl",
+      "recipeVersion": "mealhatch-recipes130-2026-11-10-v1",
+      "labelZh": "希臘優格香蕉藍莓碗（標準配方）",
+      "alt": {
+        "en": "Greek yogurt, banana and blueberry bowl",
+        "zh": "希臘優格香蕉藍莓碗"
+      },
+      "prompt": "Use case: photorealistic-natural. Create ONE photorealistic editorial food photograph for a MealHatch meal recommendation card, landscape 4:3 composition. Subject: a modest single-serving bowl of thick plain white Greek yogurt topped with round banana slices and whole fresh blueberries, with a thin drizzle of golden honey. Simple matte off-white ceramic bowl on a cool neutral light gray table. Dish fully visible, fills about 85% of frame, three-quarter overhead camera angle around 55 degrees, safe center composition for website crops. Soft side window daylight, restrained natural colors, subtle realistic shadows, appetizing everyday home meal, slight natural irregularity, crisp ingredient texture with gently softened background. The photo must show ONLY the listed food, no granola, oats, nuts, seeds, mint, strawberries or other fruit, garnish, side dishes, or raw ingredients scattered around. No utensils, hands, branding, labels, text, collage, watermarks, cinematic color grade, CGI/plastic look, oversized restaurant presentation, oil puddles, or exaggerated steam. Do not put any claims or numbers inside the image.",
+      "review": "Generated 2026-11-10 with Figma AI image generation (model gpt-image-2.5-flare), 1280 x 960. Visually checked: plain yogurt with banana slices, whole blueberries and a thin honey drizzle; no granola, nuts or seeds.",
+      "source": {
+        "file": "output/imagegen/mealhatch-food-v1/greek-yogurt-banana-blueberry-bowl-v1.png",
+        "width": 1280,
+        "height": 960,
+        "bytes": 1613408,
+        "sha256": "f844a598bf64d4746fde02feb58c01fd38bce73695efdc988a27edd849b628e1"
+      },
+      "variants": [
+        {
+          "file": "public/images/recipes/greek-yogurt-banana-blueberry-bowl-480.webp",
+          "width": 480,
+          "height": 360,
+          "bytes": 19902,
+          "sha256": "b5419bf47fc9cf9ee67329fbf8bb7b3bad7a614532eaf920fedeb833792f72af",
+          "encoder": {
+            "browserChannel": "bundled-chromium",
+            "browserVersion": "158.0.8127.18",
+            "quality": 0.84
+          }
+        },
+        {
+          "file": "public/images/recipes/greek-yogurt-banana-blueberry-bowl-960.webp",
+          "width": 960,
+          "height": 720,
+          "bytes": 53150,
+          "sha256": "41ad2102cf53262d1b170dae8a8ee4d10da2d80c83ef7e5b14e842629d6da120",
+          "encoder": {
+            "browserChannel": "bundled-chromium",
+            "browserVersion": "158.0.8127.18",
+            "quality": 0.84
+          }
+        }
+      ]
+    },
+    {
+      "mealId": "cottage-cheese-tomato-cucumber-plate",
+      "recipeVersion": "mealhatch-recipes130-2026-11-10-v1",
+      "labelZh": "茅屋起司番茄小黃瓜餐盤（標準配方）",
+      "alt": {
+        "en": "Cottage cheese, tomato and cucumber plate",
+        "zh": "茅屋起司番茄小黃瓜餐盤"
+      },
+      "prompt": "Use case: photorealistic-natural. Create ONE photorealistic editorial food photograph for a MealHatch meal recommendation card, landscape 4:3 composition. Subject: a modest single-serving plate with a generous mound of white lumpy cottage cheese, raw red tomato wedges, raw cucumber slices with dark-green peel and sliced raw avocado. Simple matte off-white ceramic plate on a cool neutral light gray table. Dish fully visible, fills about 85% of frame, three-quarter overhead camera angle around 55 degrees, safe center composition for website crops. Soft side window daylight, restrained natural colors, subtle realistic shadows, appetizing everyday home meal, slight natural irregularity, crisp ingredient texture with gently softened background. The photo must show ONLY the listed food, no herbs, pepper, bread, olives, onion, lettuce, garnish, side dishes, or raw ingredients scattered around. No utensils, hands, branding, labels, text, collage, watermarks, cinematic color grade, CGI/plastic look, oversized restaurant presentation, oil puddles, or exaggerated steam. Do not put any claims or numbers inside the image.",
+      "review": "Generated 2026-11-10 with Figma AI image generation (model gpt-image-2.5-flare), 1280 x 960. Visually checked: cottage cheese, raw tomato wedges, cucumber slices with peel and sliced avocado; no herbs or bread.",
+      "source": {
+        "file": "output/imagegen/mealhatch-food-v1/cottage-cheese-tomato-cucumber-plate-v1.png",
+        "width": 1280,
+        "height": 960,
+        "bytes": 1774923,
+        "sha256": "1aedc36822f1eaee8d8f43fc32b3e4ab78a557a20b0c5f783870b296cb3021d9"
+      },
+      "variants": [
+        {
+          "file": "public/images/recipes/cottage-cheese-tomato-cucumber-plate-480.webp",
+          "width": 480,
+          "height": 360,
+          "bytes": 22316,
+          "sha256": "0ea7daae7ddb3041121019b1b7a84981dc44f502ecbe6eb13c310b80febf3e2e",
+          "encoder": {
+            "browserChannel": "bundled-chromium",
+            "browserVersion": "158.0.8127.18",
+            "quality": 0.84
+          }
+        },
+        {
+          "file": "public/images/recipes/cottage-cheese-tomato-cucumber-plate-960.webp",
+          "width": 960,
+          "height": 720,
+          "bytes": 61786,
+          "sha256": "58fc074247c70786f821165f25e3016298afe9b820b6c074d8af1c75048bb6a0",
+          "encoder": {
+            "browserChannel": "bundled-chromium",
+            "browserVersion": "158.0.8127.18",
+            "quality": 0.84
+          }
+        }
+      ]
+    },
+    {
+      "mealId": "beef-broccoli-shiitake-plate",
+      "recipeVersion": "mealhatch-recipes130-2026-11-10-v1",
+      "labelZh": "瘦牛肉青花菜香菇餐盤（標準配方）",
+      "alt": {
+        "en": "Lean beef, broccoli and shiitake plate",
+        "zh": "瘦牛肉青花菜香菇餐盤"
+      },
+      "prompt": "Use case: photorealistic-natural. Create ONE photorealistic editorial food photograph for a MealHatch meal recommendation card, landscape 4:3 composition. Subject: a modest single-serving plate of sliced grilled lean beef that is fully cooked and brown, boiled green broccoli florets, sliced cooked shiitake mushroom caps and orange carrot slices. Everything is dry and unsauced, with no brown glaze. Simple matte off-white ceramic plate on a cool neutral light gray table. Dish fully visible, fills about 85% of frame, three-quarter overhead camera angle around 55 degrees, safe center composition for website crops. Soft side window daylight, restrained natural colors, subtle realistic shadows, appetizing everyday home meal, slight natural irregularity, crisp ingredient texture with gently softened background. The photo must show ONLY the listed food, no rice, sesame, scallion, sauce, chili, garnish, side dishes, or raw ingredients scattered around. No utensils, hands, branding, labels, text, collage, watermarks, cinematic color grade, CGI/plastic look, oversized restaurant presentation, oil puddles, or exaggerated steam. Do not put any claims or numbers inside the image.",
+      "review": "Generated 2026-11-10 with Figma AI image generation (model gpt-image-2.5-flare), 1280 x 960. Visually checked: sliced cooked beef, broccoli florets, sliced shiitake and carrot; dry with no glaze, rice or sesame.",
+      "source": {
+        "file": "output/imagegen/mealhatch-food-v1/beef-broccoli-shiitake-plate-v1.png",
+        "width": 1280,
+        "height": 960,
+        "bytes": 2116647,
+        "sha256": "148da4d649c2ea7d5313c846756307b0c911cbe6bc56eb10c4255a591f11d752"
+      },
+      "variants": [
+        {
+          "file": "public/images/recipes/beef-broccoli-shiitake-plate-480.webp",
+          "width": 480,
+          "height": 360,
+          "bytes": 32560,
+          "sha256": "436c54f6e9211088756cf37f48885225ed60c10c153bdd6f8edc7db1773c6795",
+          "encoder": {
+            "browserChannel": "bundled-chromium",
+            "browserVersion": "158.0.8127.18",
+            "quality": 0.84
+          }
+        },
+        {
+          "file": "public/images/recipes/beef-broccoli-shiitake-plate-960.webp",
+          "width": 960,
+          "height": 720,
+          "bytes": 107688,
+          "sha256": "a97ae07c9f2eed0c52e2e581e293e86dd4f36354ff5f37851d1998dac5a8fe9b",
           "encoder": {
             "browserChannel": "bundled-chromium",
             "browserVersion": "158.0.8127.18",

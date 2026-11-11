@@ -17,11 +17,15 @@ verified.
 
 Current authorized iteration:
 
+- [`130 detailed recipes`](./plans/34-recipes-130.md) — `review`, on
+  `claude/menu-134`; 22 recipes and illustrations for staple and
+  main-protein pairs that had none or one.
+
+Previous iterations (historical handoffs):
+
 - [`Filter fixes`](./plans/33-filter-fixes.md) — `review`, on
   `claude/filter-fixes`; five corrections from an audit of every filter
   against the 108 recipes.
-
-Previous iterations (historical handoffs):
 
 - [`Launch fixes`](./plans/32-launch-fixes.md) — merged in PR 18; a heading
   without a meal type and no jump of the options while records load.

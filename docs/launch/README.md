@@ -11,7 +11,7 @@ appeared and save one for later. The public message is a bilingual meal picker
 with transparent nutrition. The design began from Chinese adults in North
 America, but the recipe collection does not yet carry familiar home dishes, so
 that audience is no longer a launch claim.
-The meal library offers 108 defined recipes with portion estimates, preparation
+The meal library offers 130 defined recipes with portion estimates, preparation
 steps and inspectable numeric ranking. Food/drink source lookup is separate.
 
 - [Product Hunt copy, four gallery captions and short demo storyboard](./product-hunt-draft.md)

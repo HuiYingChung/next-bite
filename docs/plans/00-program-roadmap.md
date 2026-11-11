@@ -1,6 +1,15 @@
 # MealHatch product roadmap
 
-## Active iteration — filter fixes
+## Active iteration — 130 detailed recipes
+
+Status: review — implemented and verified locally; committed, not pushed
+Authorized: 2026-11-10. Read [`34-recipes-130.md`](./34-recipes-130.md).
+Branch: `claude/menu-134`, from `claude/filter-fixes`. Adds 22 recipes with
+illustrations for staple and main-protein pairs that had none or one, using
+only source foods already used by scored recipes. The earlier 108 recipes,
+the model and the ranking are unchanged.
+
+## Previous iteration — filter fixes
 
 Status: review — implemented and verified locally; committed, not pushed
 Authorized: 2026-11-10, after an audit of every filter against the 108
