@@ -267,7 +267,35 @@ async function verifyPreferenceFirst(locale) {
   assert.deepEqual(await page.locator(".pick-card h3").allTextContents(), seafood.recommendations.map(rec => displayName(rec.recipe, locale)));
   assert.deepEqual(await firstCard.locator(".pick-reasons li").allTextContents(), seafood.recommendations[0].matchedPreferenceReasons.slice(0, 2));
   assert((await firstCard.locator(".pick-reasons li").first().innerText()).includes(locale === "en" ? "fish or seafood" : "魚或海鮮"));
+  // The position line counts the recipes that match, not the whole collection.
+  const seafoodMatches = seafood.eligibleRecipes.filter(rec => rec.score.currentPreference.points > 0).length;
+  assert(seafoodMatches > 3 && seafoodMatches < seafood.eligibleRecipes.length);
+  assert((await page.locator(".pick-count").textContent()).startsWith(locale === "en" ? `1–3 of ${seafoodMatches} matching` : `第 1–3 道，符合 ${seafoodMatches} 道`));
+  // A staple and a main protein with no recipe in common say so, instead of
+  // mixing partial matches silently. The pair comes from the engine, so the
+  // check follows the collection as recipes are added.
+  assert.equal(await page.locator(".collection-notice").count(), 0);
+  const emptyPair = ["rice", "noodles", "bread", "potato", "other", "none"].flatMap(staple =>
+    ["poultry", "egg", "seafood", "beans", "red-meat", "dairy"].map(protein => [staple, protein])).find(([staple, protein]) =>
+    !loadSource("nutrition.ts").recommendPilotMeals(createBlankState(noon).profile, { ...loadSource("meal-context.ts").defaultMealContext, preferredStaple: staple, preferredProtein: protein }, locale, noon)
+      .eligibleRecipes.some(rec => rec.score.currentPreference.points === 4));
+  assert(emptyPair, "At least one staple and main-protein pair has no recipe; if every pair is filled, replace this check");
+  await chip(page, "staple", emptyPair[0]).click();
+  await chip(page, "protein", emptyPair[1]).click();
+  assert.equal(await page.locator(".collection-notice").count(), 1);
+  assert((await page.locator(".collection-notice").innerText()).includes(locale === "en" ? "No recipe has both" : "沒有同時符合"));
+  assert(!(await page.locator(".pick-count").textContent()).includes(locale === "en" ? "matching" : "符合"), "Partial matches are not counted as matching");
+  // A pair that has recipes shows them all matching both choices.
+  await chip(page, "staple", "noodles").click();
+  await chip(page, "protein", "seafood").click();
+  assert.equal(await page.locator(".collection-notice").count(), 0);
+  assert.equal(await page.locator(".pick-card .pick-reasons li").count(), 6, "Each of the three options states both matches");
+  // Only time limits that some recipe exceeds are offered.
+  await page.locator(".meal-context-extra > summary").click();
+  assert.deepEqual(await page.getByRole("combobox", { name: locale === "en" ? "Assembly time limit (ingredients ready)" : "組合時間上限（食材已備妥）", exact: true }).locator("option").evaluateAll(options => options.map(option => option.value)), ["any", "5", "10"]);
+  await page.locator(".meal-context-extra > summary").click();
   await chip(page, "protein", "any").click();
+  assert.equal(await page.locator(".collection-notice").count(), 0);
   await chip(page, "staple", "noodles").click();
   await page.locator(".meal-context-extra > summary").click();
   await page.getByRole("combobox", { name: locale === "en" ? "Preferred style" : "偏好的風格", exact: true }).selectOption("asian");

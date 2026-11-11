@@ -1,7 +1,7 @@
 # One hundred eight standardized recipes
 
 The separate [food and drink library](./food-library.md) now provides broad
-source lookup and ingredient-level composition scores. The 108-recipe
+source lookup and ingredient-level composition scores. The 130-recipe
 calculations documented here retain their explicit formulation assumptions.
 
 For the distinction between scientific evidence, authored portion choices and
@@ -9,7 +9,7 @@ the selection policy, see [the decision policy](./decision-policy.md). The
 [model-input provenance](./model-input-provenance.md) documents the UK NPM 2018
 inputs, their derivations and the revised recipes.
 
-This collection provides reproducible estimates for **108 explicitly defined meal
+This collection provides reproducible estimates for **130 explicitly defined meal
 formulations**. The four unsupported legacy dumpling ideas are no longer in
 the current recommendation collection. It does not estimate an
 arbitrary restaurant meal, or assess a person's nutrient adequacy. The recipe
@@ -259,7 +259,13 @@ added twelve matching catalog entries. The subsequent consolidation uses all
 108 defined recipes as one current meal catalog, replacing the parallel
 112-idea collection. The original idea objects remain only for historical plan
 compatibility and diagnostics. All 108 formulations and their numeric inputs
-remain unchanged. Current names, ingredients and avoidance metadata derive from
+remain unchanged. On 2026-11-10 twenty-two recipes were added to fill staple
+and main-protein combinations that had none or one, version
+`mealhatch-recipes130-2026-11-10-v1`, for 130 in all. They use only the
+retained source records already used by scored recipes; no source, nutrient
+value, model assessment or processing rule was added, and the earlier 108
+formulations are unchanged. Tofu was not used: its free-sugars and FVNS
+classification remain unresolved in the retained source review. Current names, ingredients and avoidance metadata derive from
 the actual recipe sources and preparation states, including unresolved bread
 declarations. They no longer inherit ingredients from unrelated old idea names.
 
@@ -333,7 +339,7 @@ recipe yields and retention factors in the
 - A source numeric zero stays zero. An absent/null value stays unknown. The
   importer never converts a blank string to zero.
 - None of the 76 retained SR Legacy records supplies added sugars.
-  Consequently all retained foods and all 108 recipe totals have **unknown added sugars**,
+  Consequently all retained foods and all 130 recipe totals have **unknown added sugars**,
   including the recipe with explicitly weighed honey. Total sugars are not
   substituted for added sugars.
 - The original shrimp 175180 record still has unknown fiber. Version 2 of the
@@ -389,7 +395,7 @@ Recipes 13–24 retain `mealhatch-recipes-2026-11-05-v1` and recipes 25–36 ret
 `mealhatch-recipes96-2026-11-06-v1`. The twelve newest formulations use
 `mealhatch-recipes108-2026-11-06-v1`. Expanding the collection does not change
 the preceding 96 formulations, versions or ingredient weights.
-All 108 are inspectable through the recipe library, including excluded recipes.
+All 130 are inspectable through the recipe library, including excluded recipes.
 Only eligible recipes may be selected; browsing does not change the top-three
 ranking or override an avoidance or required meal condition.
 

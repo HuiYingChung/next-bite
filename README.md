@@ -25,7 +25,7 @@ The beta supports **English and Traditional Chinese**, with no account required.
 The main workflow runs in the browser with deterministic recommendation rules.
 Optional AI helps organize a meal description before you review it.
 
-All 108 recipes have AI-generated food illustrations, disclosed once in the
+All 130 recipes have AI-generated food illustrations, disclosed once in the
 shared footer. These static local images are tied to the matching recipe
 version and load as needed. Images do not determine nutrition, portion amounts
 or ranking. Older plans without a matching recipe version remain text-only.
@@ -33,7 +33,7 @@ See [image provenance and preparation](docs/recipe-images/README.md).
 
 ## What you can do
 
-1. Start with **108 defined recipes**, compare three options side by side and save a plan. A fresh
+1. Start with **130 defined recipes**, compare three options side by side and save a plan. A fresh
    visit starts with your own empty records; no meal logging is required first.
    An explicitly labeled example remains available to explore separately.
 2. Pick a staple or main protein with one tap, set further conditions under
@@ -53,7 +53,7 @@ The meal collection and the source lookup serve different tasks:
 
 | Collection | Current scope | What it provides |
 | --- | --- | --- |
-| Meal library (default) | 108 defined recipes | Ingredient weights, preparation steps, portion estimates, source links and numeric ranking components; searchable details and eligible plan selection. |
+| Meal library (default) | 130 defined recipes | Ingredient weights, preparation steps, portion estimates, source links and numeric ranking components; searchable details and eligible plan selection. |
 | Food and drink library | 15,438 source records and 309 reviewed bilingual concepts | Searchable composition records, name recognition, and scores where the required evidence is complete. |
 
 Source records include different preparations and datasets; they are not a

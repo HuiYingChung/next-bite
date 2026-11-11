@@ -870,6 +870,26 @@ export default function App() {
   const firstShown = optionPageIndex * RECIPE_OPTION_GROUP_SIZE + 1;
   const hasActivePreferences = shownOptions.length > 0
     && shownOptions[0].score.currentPreference.selected + shownOptions[0].score.savedPreference.selected > 0;
+  const lastShown = firstShown + shownOptions.length - 1;
+  // Staple, main protein and saved choices put matching recipes first without
+  // removing the rest. The lead group is what "matching" means on screen: the
+  // recipes that share the first one's preference points.
+  const leadOption = pilot.eligibleRecipes[0];
+  const leadCount = leadOption && leadOption.score.currentPreference.points + leadOption.score.savedPreference.points > 0
+    ? pilot.eligibleRecipes.filter((option) =>
+        option.score.currentPreference.points === leadOption.score.currentPreference.points
+        && option.score.savedPreference.points === leadOption.score.savedPreference.points).length
+    : 0;
+  const shownRange = (last: number) => (last === firstShown ? `${firstShown}` : `${firstShown}–${last}`);
+  const rowMatched = (option: PilotRecommendation, key: string) =>
+    option.score.preferenceRows.some((row) => row.key === key && row.matched);
+  const noJointMatch = mealContext.preferredStaple !== "any" && mealContext.preferredProtein !== "any"
+    && pilot.eligibleRecipes.length > 0
+    && !pilot.eligibleRecipes.some((option) => rowMatched(option, "staple") && rowMatched(option, "protein"));
+  // When nothing has both the staple and the main protein, the lead group only
+  // matches one of them, so it is not counted as "matching".
+  const matchingCount = noJointMatch ? 0 : leadCount;
+  const withinLead = matchingCount > 0 && firstShown <= matchingCount;
   const todayRecorded = mealNames.some((slot) => isMealLogged(today.todayLog[slot]));
   const stapleAvailability = getRecipeStapleAvailability(
     mealContext.preferredStaple,
@@ -1594,13 +1614,21 @@ export default function App() {
                 </h2>
                 {shownOptions.length > 0 && (
                   <p className="pick-count" role="status">
-                    {t(
-                      locale,
-                      `${firstShown}–${firstShown + shownOptions.length - 1} of ${pilot.eligibleRecipes.length}`,
-                      `第 ${firstShown}–${firstShown + shownOptions.length - 1} 道，共 ${pilot.eligibleRecipes.length} 道`,
-                    )}
+                    {withinLead
+                      ? t(
+                          locale,
+                          `${shownRange(Math.min(lastShown, matchingCount))} of ${matchingCount} matching`,
+                          `第 ${shownRange(Math.min(lastShown, matchingCount))} 道，符合 ${matchingCount} 道`,
+                        )
+                      : t(
+                          locale,
+                          `${shownRange(lastShown)} of ${pilot.eligibleRecipes.length}`,
+                          `第 ${shownRange(lastShown)} 道，共 ${pilot.eligibleRecipes.length} 道`,
+                        )}
                     <span className="pick-count-long">
-                      {t(locale, " standard recipes · options take turns each meal", "標準配方 · 每餐輪流出現")}
+                      {withinLead
+                        ? t(locale, ` · ${pilot.eligibleRecipes.length} standard recipes in all`, ` · 全部 ${pilot.eligibleRecipes.length} 道標準配方`)
+                        : t(locale, " standard recipes · options take turns each meal", "標準配方 · 每餐輪流出現")}
                     </span>
                   </p>
                 )}
@@ -1609,6 +1637,26 @@ export default function App() {
                 <p className="small muted pick-note">
                   {t(locale, "Your saved preferences do not apply to this collection.", "已存偏好不適用於這組配方。")}
                 </p>
+              )}
+              {matchingCount > 0 && !withinLead && shownOptions.length > 0 && (
+                <p className="small muted pick-note" role="status">
+                  {t(
+                    locale,
+                    `You have seen all ${matchingCount} matching recipes. These match fewer of your choices.`,
+                    `符合的 ${matchingCount} 道已看完，以下選項符合的條件較少。`,
+                  )}
+                </p>
+              )}
+              {noJointMatch && stapleAvailability.status !== "absent" && stapleAvailability.status !== "excluded" && (
+                <div className="collection-notice" role="status">
+                  <p>
+                    {t(
+                      locale,
+                      "No recipe has both your staple and your main protein. These match one of the two.",
+                      "沒有同時符合主食與主菜的配方，以下選項只符合其中一項。",
+                    )}
+                  </p>
+                </div>
               )}
               {(stapleAvailability.status === "absent" || stapleAvailability.status === "excluded") && (
                 <div className="collection-notice" role="status">

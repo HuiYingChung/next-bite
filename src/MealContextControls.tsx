@@ -293,7 +293,7 @@ export function MealContextControls({
               {t(locale, value.ingredientReadiness === "needs-prep" ? "Time available" : "Assembly time limit (ingredients ready)", value.ingredientReadiness === "needs-prep" ? "這餐可用時間" : "組合時間上限（食材已備妥）")}
               <select value={value.maxPrepMinutes ?? "any"} aria-describedby={timeHelpId} onChange={event => onChange({ ...value, maxPrepMinutes: event.target.value === "any" ? null : Number(event.target.value) })}>
                 <option value="any">{t(locale, "No limit", "不限制")}</option>
-                {[10, 15, 20, 30].map(minutes => <option key={minutes} value={minutes}>{t(locale, `Up to ${minutes} minutes`, `${minutes} 分鐘以內`)}</option>)}
+                {[5, 10].map(minutes => <option key={minutes} value={minutes}>{t(locale, `Up to ${minutes} minutes`, `${minutes} 分鐘以內`)}</option>)}
               </select>
             </label>
             {showMealSetting && (

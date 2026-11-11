@@ -81,10 +81,13 @@ export const getContextPreferenceFit = (context: MealContext, metadata: ContextM
   return { points, matched, unmatched, notes };
 };
 
-export const getPortionPreference = (context: MealContext) => {
+// Hunger only suggests a portion. With "Large portions" kept out it must not
+// suggest the large one, which would exclude every recipe at once. A portion
+// the person picks explicitly is left as chosen.
+export const getPortionPreference = (context: MealContext, avoidsLargePortions = false) => {
   if (context.appetite !== "unspecified") return { portion: context.appetite, basis: "explicit-appetite" as const };
   if (context.hunger === "not-hungry") return { portion: "small" as const, basis: "hunger-preference" as const };
-  if (context.hunger === "hungry") return { portion: "large" as const, basis: "hunger-preference" as const };
+  if (context.hunger === "hungry" && !avoidsLargePortions) return { portion: "large" as const, basis: "hunger-preference" as const };
   return { portion: "regular" as const, basis: "standard" as const };
 };
 

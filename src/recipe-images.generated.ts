@@ -971,5 +971,203 @@ export const recipeImageEntries = [
       "en": "Parmesan, lentil and spinach wholewheat pasta",
       "zh": "帕瑪森扁豆菠菜全麥義大利麵"
     }
+  },
+  {
+    "mealId": "salmon-spinach-wholewheat-pasta",
+    "basename": "salmon-spinach-wholewheat-pasta",
+    "recipeVersion": "mealhatch-recipes130-2026-11-10-v1",
+    "alt": {
+      "en": "Baked salmon, spinach and wholewheat pasta",
+      "zh": "烤鮭魚菠菜全麥義大利麵"
+    }
+  },
+  {
+    "mealId": "shrimp-bok-choy-rice-noodle-soup",
+    "basename": "shrimp-bok-choy-rice-noodle-soup",
+    "recipeVersion": "mealhatch-recipes130-2026-11-10-v1",
+    "alt": {
+      "en": "Shrimp, bok choy and shiitake rice-noodle soup",
+      "zh": "蝦仁青江菜香菇米粉湯"
+    }
+  },
+  {
+    "mealId": "cod-napa-cabbage-egg-noodle-soup",
+    "basename": "cod-napa-cabbage-egg-noodle-soup",
+    "recipeVersion": "mealhatch-recipes130-2026-11-10-v1",
+    "alt": {
+      "en": "Baked cod, napa cabbage and carrot egg-noodle soup",
+      "zh": "烤鱈魚大白菜紅蘿蔔雞蛋麵湯"
+    }
+  },
+  {
+    "mealId": "mozzarella-tomato-zucchini-pasta",
+    "basename": "mozzarella-tomato-zucchini-pasta",
+    "recipeVersion": "mealhatch-recipes130-2026-11-10-v1",
+    "alt": {
+      "en": "Mozzarella, cooked tomato and zucchini wholewheat pasta",
+      "zh": "莫札瑞拉熟番茄櫛瓜全麥義大利麵"
+    }
+  },
+  {
+    "mealId": "cottage-cheese-spinach-pea-pasta",
+    "basename": "cottage-cheese-spinach-pea-pasta",
+    "recipeVersion": "mealhatch-recipes130-2026-11-10-v1",
+    "alt": {
+      "en": "Cottage cheese, spinach and green pea wholewheat pasta",
+      "zh": "茅屋起司菠菜青豌豆全麥義大利麵"
+    }
+  },
+  {
+    "mealId": "beef-tomato-romaine-sandwich",
+    "basename": "beef-tomato-romaine-sandwich",
+    "recipeVersion": "mealhatch-recipes130-2026-11-10-v1",
+    "alt": {
+      "en": "Lean beef, tomato and romaine wholewheat sandwich",
+      "zh": "瘦牛肉番茄蘿蔓全麥三明治"
+    }
+  },
+  {
+    "mealId": "pork-cabbage-carrot-bread-plate",
+    "basename": "pork-cabbage-carrot-bread-plate",
+    "recipeVersion": "mealhatch-recipes130-2026-11-10-v1",
+    "alt": {
+      "en": "Lean pork, cabbage and carrot bread plate",
+      "zh": "瘦豬肉高麗菜紅蘿蔔麵包餐盤"
+    }
+  },
+  {
+    "mealId": "salmon-cucumber-avocado-bread-plate",
+    "basename": "salmon-cucumber-avocado-bread-plate",
+    "recipeVersion": "mealhatch-recipes130-2026-11-10-v1",
+    "alt": {
+      "en": "Baked salmon, cucumber and avocado bread plate",
+      "zh": "烤鮭魚小黃瓜酪梨麵包餐盤"
+    }
+  },
+  {
+    "mealId": "shrimp-romaine-tomato-sandwich",
+    "basename": "shrimp-romaine-tomato-sandwich",
+    "recipeVersion": "mealhatch-recipes130-2026-11-10-v1",
+    "alt": {
+      "en": "Shrimp, romaine and tomato wholewheat sandwich",
+      "zh": "蝦仁蘿蔓番茄全麥三明治"
+    }
+  },
+  {
+    "mealId": "beef-baked-potato-green-bean-plate",
+    "basename": "beef-baked-potato-green-bean-plate",
+    "recipeVersion": "mealhatch-recipes130-2026-11-10-v1",
+    "alt": {
+      "en": "Lean beef, baked potato and green bean plate",
+      "zh": "瘦牛肉烤馬鈴薯四季豆餐盤"
+    }
+  },
+  {
+    "mealId": "lamb-sweet-potato-kale-plate",
+    "basename": "lamb-sweet-potato-kale-plate",
+    "recipeVersion": "mealhatch-recipes130-2026-11-10-v1",
+    "alt": {
+      "en": "Roasted lamb, sweet potato and kale plate",
+      "zh": "烤羊腿地瓜羽衣甘藍餐盤"
+    }
+  },
+  {
+    "mealId": "pork-potato-cabbage-stew",
+    "basename": "pork-potato-cabbage-stew",
+    "recipeVersion": "mealhatch-recipes130-2026-11-10-v1",
+    "alt": {
+      "en": "Lean pork, potato and cabbage stew",
+      "zh": "瘦豬肉馬鈴薯高麗菜燉湯"
+    }
+  },
+  {
+    "mealId": "cottage-cheese-broccoli-baked-potato",
+    "basename": "cottage-cheese-broccoli-baked-potato",
+    "recipeVersion": "mealhatch-recipes130-2026-11-10-v1",
+    "alt": {
+      "en": "Cottage cheese and broccoli baked potato",
+      "zh": "茅屋起司青花菜烤馬鈴薯"
+    }
+  },
+  {
+    "mealId": "egg-sweet-potato-spinach-plate",
+    "basename": "egg-sweet-potato-spinach-plate",
+    "recipeVersion": "mealhatch-recipes130-2026-11-10-v1",
+    "alt": {
+      "en": "Boiled egg, sweet potato and spinach plate",
+      "zh": "水煮蛋地瓜菠菜餐盤"
+    }
+  },
+  {
+    "mealId": "beef-quinoa-red-pepper-bowl",
+    "basename": "beef-quinoa-red-pepper-bowl",
+    "recipeVersion": "mealhatch-recipes130-2026-11-10-v1",
+    "alt": {
+      "en": "Lean beef, quinoa and red-pepper bowl",
+      "zh": "瘦牛肉藜麥紅甜椒碗"
+    }
+  },
+  {
+    "mealId": "lamb-quinoa-zucchini-bowl",
+    "basename": "lamb-quinoa-zucchini-bowl",
+    "recipeVersion": "mealhatch-recipes130-2026-11-10-v1",
+    "alt": {
+      "en": "Roasted lamb, quinoa and zucchini bowl",
+      "zh": "烤羊腿藜麥櫛瓜碗"
+    }
+  },
+  {
+    "mealId": "salmon-quinoa-kale-bowl",
+    "basename": "salmon-quinoa-kale-bowl",
+    "recipeVersion": "mealhatch-recipes130-2026-11-10-v1",
+    "alt": {
+      "en": "Baked salmon, quinoa and kale bowl",
+      "zh": "烤鮭魚藜麥羽衣甘藍碗"
+    }
+  },
+  {
+    "mealId": "egg-broccoli-mushroom-plate",
+    "basename": "egg-broccoli-mushroom-plate",
+    "recipeVersion": "mealhatch-recipes130-2026-11-10-v1",
+    "alt": {
+      "en": "Boiled egg, broccoli and mushroom plate",
+      "zh": "水煮蛋青花菜蘑菇餐盤"
+    }
+  },
+  {
+    "mealId": "egg-tomato-spinach-soup",
+    "basename": "egg-tomato-spinach-soup",
+    "recipeVersion": "mealhatch-recipes130-2026-11-10-v1",
+    "alt": {
+      "en": "Boiled egg, cooked tomato and spinach soup",
+      "zh": "水煮蛋熟番茄菠菜湯"
+    }
+  },
+  {
+    "mealId": "greek-yogurt-banana-blueberry-bowl",
+    "basename": "greek-yogurt-banana-blueberry-bowl",
+    "recipeVersion": "mealhatch-recipes130-2026-11-10-v1",
+    "alt": {
+      "en": "Greek yogurt, banana and blueberry bowl",
+      "zh": "希臘優格香蕉藍莓碗"
+    }
+  },
+  {
+    "mealId": "cottage-cheese-tomato-cucumber-plate",
+    "basename": "cottage-cheese-tomato-cucumber-plate",
+    "recipeVersion": "mealhatch-recipes130-2026-11-10-v1",
+    "alt": {
+      "en": "Cottage cheese, tomato and cucumber plate",
+      "zh": "茅屋起司番茄小黃瓜餐盤"
+    }
+  },
+  {
+    "mealId": "beef-broccoli-shiitake-plate",
+    "basename": "beef-broccoli-shiitake-plate",
+    "recipeVersion": "mealhatch-recipes130-2026-11-10-v1",
+    "alt": {
+      "en": "Lean beef, broccoli and shiitake plate",
+      "zh": "瘦牛肉青花菜香菇餐盤"
+    }
   }
 ] as const;

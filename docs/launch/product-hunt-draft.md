@@ -14,7 +14,7 @@ Your next meal, with your preferences first
 ## Description
 
 MealHatch is a bilingual meal picker with transparent nutrition. What sounds
-good comes first, with sourced nutrition as a reference. Compare 108 recipes,
+good comes first, with sourced nutrition as a reference. Compare 130 recipes,
 print a recipe card and save a plan. English and Traditional Chinese. No
 account needed.
 
@@ -29,7 +29,7 @@ Chinese, for people who prepare their own meals. The recipes are simple,
 sourced formulations; familiar home dishes are not covered yet.
 
 You can start with a few suggestions, change what sounds good, inspect the
-reason for a suggestion and save a plan. One meal library brings together 108
+reason for a suggestion and save a plan. One meal library brings together 130
 defined recipes with stated portions, preparation steps, source links and
 numeric comparisons. Current-meal preferences take priority over saved
 preferences, then composition. Every calculation remains inspectable, with

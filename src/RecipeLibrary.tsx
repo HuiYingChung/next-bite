@@ -60,7 +60,8 @@ export function RecipeLibrary({ result, context, locale, plans, busy, onPortionC
   ).filter(recipe => recipeSearchText.get(recipe.mealId)?.includes(query.trim().toLowerCase()));
   const selectedRecipe = standardizedRecipes.find(recipe => recipe.mealId === selectedId);
   const selectedOption = selectedId ? eligible.get(selectedId)?.recipe : undefined;
-  const portion = getPortionPreference(context).portion;
+  // The portion the engine actually used, so hunger with "Large portions" kept out shows the same amounts as the options.
+  const portion = result.eligibleRecipes[0]?.portion ?? getPortionPreference(context).portion;
   const calculation = useMemo(() => selectedRecipe
     ? calculateRecipe(selectedRecipe, portion, locale) : null, [selectedRecipe, portion, locale]);
   const saved = selectedRecipe && plans.some(plan => plan.mealId === selectedRecipe.mealId

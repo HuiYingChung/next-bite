@@ -20,6 +20,20 @@ export const proteinGroupSources = {
 };
 const plantProteinSources = new Set(["usda-174291","usda-173735","usda-168411","usda-172421","usda-173757","usda-175203","usda-174271"]);
 
+// The main protein is the group whose declared protein ingredients provide
+// the most protein, restated here from the source records and the list above.
+export function independentMainProteinGroups(recipe, foods) {
+  const byId = new Map(foods.map(food => [food.id, food]));
+  const totals = {};
+  for (const item of recipe.ingredients) {
+    if (item.role !== "protein" || !(item.grams > 0)) continue;
+    const group = Object.keys(proteinGroupSources).find(key => proteinGroupSources[key].includes(item.foodId));
+    if (!group) continue;
+    totals[group] = (totals[group] ?? 0) + item.grams * byId.get(item.foodId).nutrientsPer100g.protein / 100;
+  }
+  const most = Math.max(...Object.values(totals));
+  return Object.keys(totals).filter(group => totals[group] === most);
+}
 export function independentRecipeRanking(recipe, foods, profile, context) {
   const byId = new Map(foods.map(food => [food.id, food]));
   const grams = recipe.ingredients.reduce((sum, item) => sum + item.grams, 0);
@@ -51,7 +65,7 @@ export function independentRecipeRanking(recipe, foods, profile, context) {
   };
   let current = 0, savedPoints = 0;
   if (context.preferredStaple !== "any" && recipe.staple === context.preferredStaple) current += 2;
-  if (context.preferredProtein && context.preferredProtein !== "any" && proteins.some(item => proteinGroupSources[context.preferredProtein].includes(item.foodId))) current += 2;
+  if (context.preferredProtein && context.preferredProtein !== "any" && independentMainProteinGroups(recipe, foods).includes(context.preferredProtein)) current += 2;
   if (context.cuisine !== "any" && recipe.cuisine === context.cuisine) current += 2;
   const lowOil = recipe.seasoning.oilGrams * 100 / grams <= 1;
   if (profile.feelToday === "Need something light") current += lowOil ? 2 : 0;

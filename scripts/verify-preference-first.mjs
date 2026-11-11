@@ -3,7 +3,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import ts from "typescript";
-import { independentRecipeRanking, compareIndependentTiers, proteinGroupSources } from "./recipe-ranking-oracle.mjs";
+import { independentRecipeRanking, compareIndependentTiers, proteinGroupSources, independentMainProteinGroups } from "./recipe-ranking-oracle.mjs";
 
 const root=fileURLToPath(new URL("../",import.meta.url)), modules=new Map();
 function load(relative){
@@ -29,7 +29,7 @@ const row=(score,key)=>score.preferenceRows.find(item=>item.key===key);
 // the supported preferences and all three portion choices.
 const snapshots=new Map(standardizedRecipes.map(recipe=>[recipe.mealId,{model:calculateRecipeProfile(recipe),portions:["small","regular","large"].map(portion=>calculateRecipe(recipe,portion))}]));
 const neutral=run();
-assert.equal(neutral.candidateCount,108);
+assert.equal(neutral.candidateCount,130);
 for(const item of neutral.eligibleRecipes){
   assert.deepEqual(item.score.currentPreference,{points:0,possible:0,matched:0,selected:0});
   assert.deepEqual(item.score.savedPreference,{points:0,possible:0,matched:0,selected:0});
@@ -86,10 +86,10 @@ assert.deepEqual(ids(ready),ids(unspecified),"Unspecified readiness retains a cl
 assert(ready.eligibleRecipes.every(item=>item.recipe.prepMinutes<=10));
 const notReady=run(profile(),context({ingredientReadiness:"needs-prep",maxPrepMinutes:10}));
 assert.equal(notReady.candidateCount,0,"An assembly estimate must not promise a full cooking time");
-assert.equal(notReady.trace.exclusions.length,108);
+assert.equal(notReady.trace.exclusions.length,130);
 assert(notReady.trace.exclusions.every(item=>item.stage==="context"&&item.reasons.includes("preparation-total-time-unknown")));
 const noTimeLimit=run(profile(),context({ingredientReadiness:"needs-prep"}));
-assert.equal(noTimeLimit.candidateCount,108,"Unknown preparation duration is not a restriction without a time limit");
+assert.equal(noTimeLimit.candidateCount,130,"Unknown preparation duration is not a restriction without a time limit");
 assert(noTimeLimit.eligibleRecipes.every(item=>item.matchReasons.filter(reason=>reason.includes("total cooking time is unknown")).length===1));
 assert(noTimeLimit.eligibleRecipes.every(item=>!item.mismatchReasons.some(reason=>reason.includes("total cooking time is unknown"))),"General preparation qualification is not duplicated in both reason lists");
 for(const item of run(profile({feelToday:"Low energy",preferenceTags:["Light meals"]}),context({ingredientReadiness:"needs-prep"})).eligibleRecipes){
@@ -118,7 +118,7 @@ for(const result of defaults){
   for(const item of result.eligibleRecipes) assert.equal(item.score.nutritionLevel,levelOf(item.score.nutritionReference));
   assert(levels.every((level,index)=>index===0||level<=levels[index-1]),"Rotation never lifts a recipe above a higher nutrition level");
   assert.deepEqual(result.eligibleRecipes.slice(0,3),result.recommendations);
-  assert.equal(result.trace.rankingPolicy.version,"mealhatch-banded-rotation-2026-11-10-v2");
+  assert.equal(result.trace.rankingPolicy.version,"mealhatch-banded-rotation-2026-11-10-v3");
 }
 assert.deepEqual(ids(recommendPilotMeals(profile(),context(),"en",windows[1],today,state.days)),ids(defaults[1]),"Same inputs, date and meal window reproduce the same order");
 assert.deepEqual(ids(recommendPilotMeals(profile(),context(),"en",new Date(2026,10,6,14,45),today,state.days)),ids(defaults[1]),"Times inside one meal window share one order");
@@ -160,12 +160,12 @@ const noProtein=run();
 assert(noProtein.eligibleRecipes.every(item=>!row(item.score,"protein").active&&row(item.score,"protein").points===0),"No main protein selected earns nothing");
 for(const group of Object.keys(proteinGroupSources)){
   const proteinContext=context({preferredProtein:group}), result=run(profile(),proteinContext);
-  const expectedMatch=recipe=>recipe.ingredients.some(item=>item.role==="protein"&&item.grams>0&&proteinGroupSources[group].includes(item.foodId));
+  const expectedMatch=recipe=>independentMainProteinGroups(recipe,sourceFoods).includes(group);
   assert.equal(result.eligibleRecipes.length,standardizedRecipes.length,"Main protein is a flexible preference and excludes nothing");
   for(const item of result.eligibleRecipes){
     const proteinRow=row(item.score,"protein");
     assert.equal(proteinRow.scope,"current");
-    assert.equal(proteinRow.matched,expectedMatch(item.recipe),`${item.recipe.mealId} ${group} match follows the declared protein ingredients`);
+    assert.equal(proteinRow.matched,expectedMatch(item.recipe),`${item.recipe.mealId} ${group} match follows the group that provides the most protein`);
     assert.equal(proteinRow.points,expectedMatch(item.recipe)?2:0);
     assert.equal(item.score.currentPreference.possible,2);
   }
@@ -177,6 +177,33 @@ for(const group of Object.keys(proteinGroupSources)){
     standardizedRecipes.map(recipe=>independentRecipeRanking(recipe,sourceFoods,profile(),proteinContext).tier).sort(compareIndependentTiers),`${group} order matches the independent ranking`);
   assert.deepEqual(ids(result),ids(run(profile(),proteinContext)));
 }
+// A smaller second protein does not make a recipe a match for its group.
+const byLabel=start=>standardizedRecipes.find(recipe=>recipe.label.en.startsWith(start));
+const matchedFor=(recipe,group)=>row(run(profile(),context({preferredProtein:group})).eligibleRecipes.find(item=>item.recipe===recipe).score,"protein").matched;
+for(const [start,main,minor] of [
+  ["Roast lamb rice bowl with cucumber, parsley and yogurt","red-meat","dairy"],
+  ["Beef, boiled egg and mixed-vegetable rice bowl","red-meat","egg"],
+  ["Chicken, black bean and sweetcorn rice bowl","poultry","beans"],
+  ["Baked salmon and chickpeas with zucchini and red pepper","seafood","beans"],
+]){
+  const recipe=byLabel(start);
+  assert(recipe,`${start} is in the collection`);
+  assert.equal(matchedFor(recipe,main),true,`${start} matches its main protein`);
+  assert.equal(matchedFor(recipe,minor),false,`${start} does not match the protein it has less of`);
+}
+for(const recipe of standardizedRecipes) assert.equal(independentMainProteinGroups(recipe,sourceFoods).length,1,`${recipe.mealId} has exactly one main protein group`);
+// Hunger suggests a portion; with "Large portions" kept out it must not suggest the large one.
+const hungryAvoidingLarge=run(profile({avoidTags:["Large portions"]}),context({hunger:"hungry"}));
+assert.equal(hungryAvoidingLarge.eligibleRecipes.length,standardizedRecipes.length,"Hunger with large portions kept out still offers every recipe");
+assert(hungryAvoidingLarge.eligibleRecipes.every(item=>item.portion==="regular"&&item.trace.portionBasis==="standard"));
+assert(run(profile(),context({hunger:"hungry"})).eligibleRecipes.every(item=>item.portion==="large"),"Hunger still suggests the large portion otherwise");
+assert.equal(run(profile({avoidTags:["Large portions"]}),context({appetite:"large"})).eligibleRecipes.length,0,"An explicitly chosen large portion stays excluded by the avoid");
+// Every offered time limit must exclude something and leave something.
+for(const minutes of [5,10]){
+  const limited=run(profile(),context({maxPrepMinutes:minutes})).eligibleRecipes.length;
+  assert(limited>0&&limited<standardizedRecipes.length,`A ${minutes}-minute limit filters some recipes and keeps some`);
+}
+assert(standardizedRecipes.every(recipe=>recipe.prepMinutes<=15),"No recipe exceeds 15 minutes, so longer limits are not offered");
 // Combined with a staple, both current groups must match to lead.
 const poultryNoodles=run(profile(),context({preferredProtein:"poultry",preferredStaple:"noodles"}));
 assert(poultryNoodles.recommendations.every(item=>item.score.currentPreference.points===4&&item.recipe.staple==="noodles"));

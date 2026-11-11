@@ -13,7 +13,7 @@ import { nutrientKeys, sourceFoods, standardizedRecipes } from "./nutrition-data
 import type { IngredientPreparationModelBasis, NutrientKey, NutrientValues, NutritionPortion, RecipeIngredient, SourceFood, StandardizedRecipe } from "./nutrition-types";
 import type { DayHistory, Locale, MustAvoidTag, Profile, Recommendation, TodayLog } from "./types";
 import { label } from "./presentation";
-import { getRecipeProteinGroups, proteinGroupLabels } from "./protein-preference";
+import { getRecipeMainProteinGroups, proteinGroupLabels } from "./protein-preference";
 import { recipeDisplayName } from "./recipe-name";
 
 export const nutrientUnits: Record<NutrientKey, string> = {
@@ -85,7 +85,7 @@ export type PreferenceScoreRow = {
 export type PreferenceFit = { points: number; possible: number; matched: number; selected: number };
 export type RankingPolicy = { version: string; order: string[] };
 export const RECIPE_RANKING_POLICY: RankingPolicy = {
-  version: "mealhatch-banded-rotation-2026-11-10-v2",
+  version: "mealhatch-banded-rotation-2026-11-10-v3",
   order: ["current-preference-descending", "saved-preference-descending", "nutrition-level-descending", "equal-tier-record-variety", "equal-tier-alternative-variety", "meal-window-rotation", "stable-id"],
 };
 
@@ -266,7 +266,7 @@ export const calculateScoreForRecipe = (recipe: StandardizedRecipe, profile: Pro
   const meal = recommendationDataset.find(item => item.id === recipe.mealId);
   const staple = context.preferredStaple !== "any" && recipe.staple === context.preferredStaple;
   const cuisine = context.cuisine !== "any" && recipe.cuisine === context.cuisine;
-  const mainProtein = context.preferredProtein !== "any" && getRecipeProteinGroups(recipe, foods).has(context.preferredProtein);
+  const mainProtein = context.preferredProtein !== "any" && getRecipeMainProteinGroups(recipe, foods).has(context.preferredProtein);
   const oilPer100g = recipe.seasoning.oilGrams / recipe.ingredients.reduce((sum, item) => sum + item.grams, 0) * 100;
   const preparation = profile.feelToday === "Need something light" ? "oil" : profile.feelToday === "Low energy" ? "time" : profile.preferenceTags.includes("Light meals") ? "oil" : null;
   const preparationAvailable = preparation !== "time" || context.ingredientReadiness !== "needs-prep";
@@ -376,7 +376,7 @@ export const recommendPilotMeals = (
   locale: Locale = "en", now = new Date(), todayLog?: TodayLog, history: DayHistory[] = [],
 ): PilotResult => {
   const context = normalizeMealContext(suppliedContext);
-  const portionChoice = getPortionPreference(context);
+  const portionChoice = getPortionPreference(context, profile.avoidTags.includes("Large portions"));
   const meals = new Map(recommendationDataset.map(meal => [meal.id, meal]));
   const exclusions: PilotResult["trace"]["exclusions"] = [];
   const records = buildHistoryVarietyContext(history, now, todayLog);
