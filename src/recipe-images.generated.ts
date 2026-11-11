@@ -1169,5 +1169,122 @@ export const recipeImageEntries = [
       "en": "Lean beef, broccoli and shiitake plate",
       "zh": "瘦牛肉青花菜香菇餐盤"
     }
+  },
+  {
+    "mealId": "egg-pea-broccoli-rice-bowl",
+    "basename": "egg-pea-broccoli-rice-bowl",
+    "recipeVersion": "mealhatch-recipes143-2026-11-11-v1",
+    "alt": {
+      "en": "Boiled egg, green pea and broccoli rice bowl",
+      "zh": "水煮蛋青豌豆青花菜飯碗"
+    }
+  },
+  {
+    "mealId": "egg-spinach-pea-wholewheat-pasta",
+    "basename": "egg-spinach-pea-wholewheat-pasta",
+    "recipeVersion": "mealhatch-recipes143-2026-11-11-v1",
+    "alt": {
+      "en": "Boiled egg, spinach and green pea wholewheat pasta",
+      "zh": "水煮蛋菠菜青豌豆全麥義大利麵"
+    }
+  },
+  {
+    "mealId": "egg-lentil-spinach-carrot-bowl",
+    "basename": "egg-lentil-spinach-carrot-bowl",
+    "recipeVersion": "mealhatch-recipes143-2026-11-11-v1",
+    "alt": {
+      "en": "Boiled egg, lentil and spinach bowl",
+      "zh": "水煮蛋扁豆菠菜碗"
+    }
+  },
+  {
+    "mealId": "egg-quinoa-kale-red-pepper-bowl",
+    "basename": "egg-quinoa-kale-red-pepper-bowl",
+    "recipeVersion": "mealhatch-recipes143-2026-11-11-v1",
+    "alt": {
+      "en": "Boiled egg, quinoa and kale bowl",
+      "zh": "水煮蛋藜麥羽衣甘藍碗"
+    }
+  },
+  {
+    "mealId": "greek-yogurt-chickpea-kale-carrot-bowl",
+    "basename": "greek-yogurt-chickpea-kale-carrot-bowl",
+    "recipeVersion": "mealhatch-recipes143-2026-11-11-v1",
+    "alt": {
+      "en": "Greek yogurt, chickpea and kale bowl",
+      "zh": "希臘優格鷹嘴豆羽衣甘藍碗"
+    }
+  },
+  {
+    "mealId": "greek-yogurt-baked-potato-broccoli-pea-plate",
+    "basename": "greek-yogurt-baked-potato-broccoli-pea-plate",
+    "recipeVersion": "mealhatch-recipes143-2026-11-11-v1",
+    "alt": {
+      "en": "Greek yogurt baked potato with broccoli and green peas",
+      "zh": "希臘優格烤馬鈴薯佐青花菜青豌豆"
+    }
+  },
+  {
+    "mealId": "greek-yogurt-quinoa-chickpea-spinach-bowl",
+    "basename": "greek-yogurt-quinoa-chickpea-spinach-bowl",
+    "recipeVersion": "mealhatch-recipes143-2026-11-11-v1",
+    "alt": {
+      "en": "Greek yogurt, quinoa and chickpea bowl with spinach",
+      "zh": "希臘優格藜麥鷹嘴豆菠菜碗"
+    }
+  },
+  {
+    "mealId": "pork-cabbage-edamame-rice-bowl",
+    "basename": "pork-cabbage-edamame-rice-bowl",
+    "recipeVersion": "mealhatch-recipes143-2026-11-11-v1",
+    "alt": {
+      "en": "Lean minced pork, edamame and cabbage rice bowl",
+      "zh": "瘦豬絞肉毛豆高麗菜飯碗"
+    }
+  },
+  {
+    "mealId": "beef-lentil-tomato-wholewheat-pasta",
+    "basename": "beef-lentil-tomato-wholewheat-pasta",
+    "recipeVersion": "mealhatch-recipes143-2026-11-11-v1",
+    "alt": {
+      "en": "Lean beef, lentil and tomato wholewheat pasta",
+      "zh": "瘦牛肉扁豆番茄全麥義大利麵"
+    }
+  },
+  {
+    "mealId": "beef-potato-pea-carrot-stew",
+    "basename": "beef-potato-pea-carrot-stew",
+    "recipeVersion": "mealhatch-recipes143-2026-11-11-v1",
+    "alt": {
+      "en": "Chunky lean beef, potato, green pea and carrot stew",
+      "zh": "瘦牛肉馬鈴薯青豌豆紅蘿蔔燉湯"
+    }
+  },
+  {
+    "mealId": "cod-pea-broccoli-rice-bowl",
+    "basename": "cod-pea-broccoli-rice-bowl",
+    "recipeVersion": "mealhatch-recipes143-2026-11-11-v1",
+    "alt": {
+      "en": "Baked cod, green pea and broccoli rice bowl",
+      "zh": "烤鱈魚青豌豆青花菜飯碗"
+    }
+  },
+  {
+    "mealId": "tuna-pea-tomato-wholewheat-pasta",
+    "basename": "tuna-pea-tomato-wholewheat-pasta",
+    "recipeVersion": "mealhatch-recipes143-2026-11-11-v1",
+    "alt": {
+      "en": "Tuna, green pea and tomato wholewheat pasta",
+      "zh": "鮪魚青豌豆番茄全麥義大利麵"
+    }
+  },
+  {
+    "mealId": "cod-potato-green-bean-pea-plate",
+    "basename": "cod-potato-green-bean-pea-plate",
+    "recipeVersion": "mealhatch-recipes143-2026-11-11-v1",
+    "alt": {
+      "en": "Baked cod, baked potato and green bean plate",
+      "zh": "烤鱈魚烤馬鈴薯四季豆餐盤"
+    }
   }
 ] as const;

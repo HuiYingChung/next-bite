@@ -246,7 +246,7 @@ supplement and its hash are documented in [the source record](./README.md).
 The sixteen-, fifteen-, four-, five-, nine-, eight- and one-record expansion archives are separately
 pinned and cited in the same source record. Two retired source foods and the
 newly reviewed, unused soymilk remain available for provenance, but
-every ingredient used by the 130 current recipes has complete declared model
+every ingredient used by the 143 current recipes has complete declared model
 inputs. Data completeness is separate from the uncertainty of a recipe estimate.
 
 ## Update boundary

@@ -63,7 +63,7 @@ edited.days.find(day => day.date === "2026-11-03").todayLog.Lunch.carbs = ["Quin
 const priorQuinoa = recipes(edited.days);
 assert(position(priorQuinoa, riceTieId) < position(priorQuinoa, quinoaTieId), "Editing history recomputes the actual live tie");
 edited.days.find(day => day.date === "2026-11-03").todayLog.Lunch = createEmptyMeal();
-assert.deepEqual(recipes(edited.days).trace.eligibleRecipeIds, normal.trace.eligibleRecipeIds, "Deleting history removes its ranking effect across all 130 recipes");
+assert.deepEqual(recipes(edited.days).trace.eligibleRecipeIds, normal.trace.eligibleRecipeIds, "Deleting history removes its ranking effect across all 143 recipes");
 
 const alias = clone(previous);
 alias.days.find(day => day.date === "2026-11-03").todayLog.Lunch.carbs = ["Rice", "白飯", "白米飯"];

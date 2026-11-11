@@ -52,8 +52,8 @@ const close = (actual, expected, message) => assert(Math.abs(actual - expected) 
 let routeCases = 0;
 let independentlyCheckedNutrients = 0;
 
-assert.equal(standardizedRecipes.length, 130, "This release must expose all 130 recipe cards");
-assert.equal(new Set(standardizedRecipes.map(recipe => recipe.mealId)).size, 130);
+assert.equal(standardizedRecipes.length, 143, "This release must expose all 143 recipe cards");
+assert.equal(new Set(standardizedRecipes.map(recipe => recipe.mealId)).size, 143);
 
 for (const recipe of standardizedRecipes) {
   for (const [portion, factor] of Object.entries(portions)) {
@@ -308,7 +308,7 @@ if (process.argv.includes("--layout-fixture")) {
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex"><title>Recipe card layout audit — 432 cases</title>
 <link rel="stylesheet" href="/src/index.css"><link rel="stylesheet" href="/src/launch.css"><link rel="stylesheet" href="/src/recipe-card.css">
 <style>.recipe-card-audit-intro{margin:24px;padding:20px;background:white;color:#20312a}.recipe-card-audit-case{margin:0 0 36px}.recipe-card-audit-label{margin:0;padding:12px 24px;background:#d8e1db;color:#17382c;font:600 16px/1.4 system-ui,sans-serif}</style>
-</head><body><div class="recipe-card-audit-intro"><h1>Recipe card layout audit</h1><p>${cases.length} static renders of the real RecipeCard component: 130 recipes × English/Traditional Chinese × Letter/A4. Standard portion. The three linked stylesheets match production order. This QA artifact has no interactive event handlers.</p><p>Measure each .recipe-card-paper-content against its .recipe-card-page-limit inside .recipe-card-audit-case. Case attributes identify the recipe, language, paper size and expected ingredient/step counts. No content is truncated or duplicated to fit.</p></div>${cases.join("\n")}</body></html>`;
+</head><body><div class="recipe-card-audit-intro"><h1>Recipe card layout audit</h1><p>${cases.length} static renders of the real RecipeCard component: 143 recipes × English/Traditional Chinese × Letter/A4. Standard portion. The three linked stylesheets match production order. This QA artifact has no interactive event handlers.</p><p>Measure each .recipe-card-paper-content against its .recipe-card-page-limit inside .recipe-card-audit-case. Case attributes identify the recipe, language, paper size and expected ingredient/step counts. No content is truncated or duplicated to fit.</p></div>${cases.join("\n")}</body></html>`;
   fs.mkdirSync(path.dirname(artifactPath), { recursive: true });
   fs.writeFileSync(artifactPath, html, "utf8");
   layoutFixture = { path: artifactPath, cases: cases.length, bytes: Buffer.byteLength(html), papers: ["letter", "a4"] };

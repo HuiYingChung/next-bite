@@ -29,7 +29,7 @@ const row=(score,key)=>score.preferenceRows.find(item=>item.key===key);
 // the supported preferences and all three portion choices.
 const snapshots=new Map(standardizedRecipes.map(recipe=>[recipe.mealId,{model:calculateRecipeProfile(recipe),portions:["small","regular","large"].map(portion=>calculateRecipe(recipe,portion))}]));
 const neutral=run();
-assert.equal(neutral.candidateCount,130);
+assert.equal(neutral.candidateCount,143);
 for(const item of neutral.eligibleRecipes){
   assert.deepEqual(item.score.currentPreference,{points:0,possible:0,matched:0,selected:0});
   assert.deepEqual(item.score.savedPreference,{points:0,possible:0,matched:0,selected:0});
@@ -86,10 +86,10 @@ assert.deepEqual(ids(ready),ids(unspecified),"Unspecified readiness retains a cl
 assert(ready.eligibleRecipes.every(item=>item.recipe.prepMinutes<=10));
 const notReady=run(profile(),context({ingredientReadiness:"needs-prep",maxPrepMinutes:10}));
 assert.equal(notReady.candidateCount,0,"An assembly estimate must not promise a full cooking time");
-assert.equal(notReady.trace.exclusions.length,130);
+assert.equal(notReady.trace.exclusions.length,143);
 assert(notReady.trace.exclusions.every(item=>item.stage==="context"&&item.reasons.includes("preparation-total-time-unknown")));
 const noTimeLimit=run(profile(),context({ingredientReadiness:"needs-prep"}));
-assert.equal(noTimeLimit.candidateCount,130,"Unknown preparation duration is not a restriction without a time limit");
+assert.equal(noTimeLimit.candidateCount,143,"Unknown preparation duration is not a restriction without a time limit");
 assert(noTimeLimit.eligibleRecipes.every(item=>item.matchReasons.filter(reason=>reason.includes("total cooking time is unknown")).length===1));
 assert(noTimeLimit.eligibleRecipes.every(item=>!item.mismatchReasons.some(reason=>reason.includes("total cooking time is unknown"))),"General preparation qualification is not duplicated in both reason lists");
 for(const item of run(profile({feelToday:"Low energy",preferenceTags:["Light meals"]}),context({ingredientReadiness:"needs-prep"})).eligibleRecipes){
@@ -137,6 +137,15 @@ for(let day=1;day<=28;day++) for(const hour of [9,12,18]){
 assert.deepEqual([...appearances.keys()].sort(),[...higher].sort(),"Only higher-level recipes lead without preferences, and all of them take a turn");
 const evenShare=groups*3/higher.length;
 assert(Math.max(...appearances.values())<=evenShare*2,`No recipe leads more than twice its even share (${Math.max(...appearances.values())} vs ${evenShare})`);
+// Every main-protein group can lead without preferences: each has at least
+// three recipes at the higher level. The thirteen recipes added on 2026-11-11
+// were formulated for this, so each of them must stay at that level.
+const higherByGroup=new Map();
+for(const item of defaults[0].eligibleRecipes.filter(item=>item.score.nutritionLevel===2)) for(const group of independentMainProteinGroups(item.recipe,sourceFoods)) higherByGroup.set(group,(higherByGroup.get(group)??0)+1);
+for(const group of Object.keys(proteinGroupSources)) assert((higherByGroup.get(group)??0)>=3,`${group} has at least three higher-level recipes (${higherByGroup.get(group)??0})`);
+const formulatedHigher=standardizedRecipes.filter(recipe=>recipe.version==="mealhatch-recipes143-2026-11-11-v1");
+assert.equal(formulatedHigher.length,13);
+for(const recipe of formulatedHigher) assert.equal(levelOf(10-calculateRecipeProfile(recipe).rawScore),2,`${recipe.mealId} was formulated as a higher-level recipe`);
 // Options shown together differ in staple when none is selected.
 for(const result of defaults){
   const staples=result.recommendations.map(item=>item.recipe.staple).filter(staple=>staple!=="none");
@@ -219,4 +228,4 @@ assert(eggMismatch.mismatchReasons.some(reason=>reason.includes("Does not match 
 const zhProtein=recommendPilotMeals(profile(),context({preferredProtein:"seafood"}),"zh",now,today,state.days);
 assert(zhProtein.recommendations[0].matchedPreferenceReasons.some(reason=>reason.includes("符合本餐選擇的主菜：魚或海鮮")));
 
-console.log(JSON.stringify({mainProteinGroupsCoverEveryRecipe:true,mainProteinLeadsWhenSelected:true,nutritionLevelsBoundRotation:true,sameWindowReproducible:true,everyHigherLevelRecipeTakesATurn:true,preferenceFirstStaples:true,currentOutranksSaved:true,savedOutranksNutrition:true,partialAndUnsupportedDisclosed:true,assemblyReadinessEnforced:true,deterministic:true,physicalNutritionAndOfficialModelUnchanged:true},null,2));
+console.log(JSON.stringify({mainProteinGroupsCoverEveryRecipe:true,mainProteinLeadsWhenSelected:true,nutritionLevelsBoundRotation:true,sameWindowReproducible:true,everyMainProteinGroupCanLead:true,everyHigherLevelRecipeTakesATurn:true,preferenceFirstStaples:true,currentOutranksSaved:true,savedOutranksNutrition:true,partialAndUnsupportedDisclosed:true,assemblyReadinessEnforced:true,deterministic:true,physicalNutritionAndOfficialModelUnchanged:true},null,2));
