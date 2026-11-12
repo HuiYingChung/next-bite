@@ -9,7 +9,7 @@ MealHatch
 
 ## Tagline
 
-Your next meal, with your preferences first
+A meal picker that shows its work
 
 ## Description
 
@@ -56,13 +56,15 @@ outcome. Source files and any export dimensions belong with the assets.
 
 | View | Capture | Caption | Alt text |
 | --- | --- | --- | --- |
-| 1. Choose | Default first screen with the three options and their save actions visible | Three options. One next meal. | MealHatch shows one-tap staple and protein choices above three recipe cards, each with a photo-style image, time, energy, protein and an action to choose the meal. |
-| 2. Adjust | Noodles selected and the actual matching options | What sounds good comes first. | With noodles selected, three noodle recipes appear; each card states the preference it matches. |
-| 3. Understand | One option's details opened to the calculation's input table | Details when you want them. | A recipe shows its current and saved preference calculations, composition reference, model inputs, thresholds and sources. |
+| 1. Choose | Default first screen with the three options and their save actions visible | Three options. The math behind each one. | MealHatch shows one-tap staple and protein choices above three recipe cards, each with a photo-style image, time, energy, protein and an action to choose the meal. |
+| 2. Understand | One option's details opened to the calculation's input table | Details when you want them. | A recipe shows its current and saved preference calculations, composition reference, model inputs, thresholds and sources. |
+| 3. Adjust | Noodles selected and the actual matching options | What sounds good comes first. | With noodles selected, three noodle recipes appear; each card states the preference it matches. |
 | 4. Make it | The printable recipe card opened from the recommendation | A recipe you can follow. | A one-page recipe card shows the dish, portion, nutrition estimate, weighed ingredients and numbered steps, with print and paper-size controls. |
 
 Captured files: `assets/01-choose-a-meal.png` to `assets/04-print-the-recipe.png`,
 1270 × 760 each. Listing thumbnail: `assets/thumbnail-240.png`, 240 × 240.
+The file numbers follow the capture order; upload them as 01, 03, 02, 04 so
+the calculation view comes second.
 
 Do not show a preference match unless the actual displayed option matches it.
 With several current preferences, matched groups are compared together. Other
@@ -84,7 +86,7 @@ This is an editorial draft, not a claim about observed user completion time.
 | 17–22 s | Save the meal, then open Plans. | Save a plan for later. |
 | 22–27 s | Pause on the saved plan with the MealHatch name. | Try MealHatch. No account needed. |
 
-Leave the detailed-recipe scoring demonstration to the third gallery image so this
+Leave the detailed-recipe scoring demonstration to the second gallery image so this
 short video has one complete task. If a recording requires cuts, preserve the
 order and actual outcomes; do not speed it up to imply measured usability.
 
