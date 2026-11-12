@@ -7,7 +7,8 @@ Nutrition levels and rotation authorized 2026-11-10; see
 [Nutrition levels and rotation](#nutrition-levels-and-rotation).
 Main-protein preference authorized 2026-11-10.
 Main protein redefined as the largest protein contributor 2026-11-10.
-Ranking policy: `mealhatch-banded-rotation-2026-11-10-v3`.
+Options shown together also differ in main protein 2026-11-11.
+Ranking policy: `mealhatch-banded-rotation-2026-11-11-v4`.
 Audience: general healthy adults choosing an ordinary meal from
 explicitly authored recipes. Browsing the full collection does not alter the
 top-three ranking or bypass exclusions.
@@ -113,8 +114,9 @@ deficit or a stimulant recommendation.
 4. When all three values tie, use recognized protein/staple variation across
    today and the preceding six local calendar dates. Deduplicate aliases within
    each meal slot; compare protein repeat counts, then staple repeat counts,
-   then recency. Next, options offered together differ in staple where possible,
-   or in main protein once a staple is selected. What is still tied follows the
+   then recency. Next, options offered together differ in staple and
+   then in main protein where possible; once a staple is selected only their
+   protein sources are compared. What is still tied follows the
    rotation for the date and meal window, then stable recipe ID.
    No missing meal is treated as a nutrient deficit. The trace includes every
    eligible candidate's priority tuple and ranking-policy version,
@@ -132,7 +134,7 @@ meet a required time limit. Without a limit the recipe remains browsable with
 a clear qualification. No raw-start duration, inventory or ingredient
 availability is inferred.
 
-The current meal library contains only the 130 defined recipes. Legacy ideas
+The current meal library contains only the 143 defined recipes. Legacy ideas
 are retained for old saved plans and do not fill vacancies in the scored list.
 Current names, ingredient groups and safety metadata derive from each actual
 recipe. Unrelated old idea ingredients do not add exclusions or style bonuses;

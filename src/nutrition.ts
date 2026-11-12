@@ -85,7 +85,7 @@ export type PreferenceScoreRow = {
 export type PreferenceFit = { points: number; possible: number; matched: number; selected: number };
 export type RankingPolicy = { version: string; order: string[] };
 export const RECIPE_RANKING_POLICY: RankingPolicy = {
-  version: "mealhatch-banded-rotation-2026-11-10-v3",
+  version: "mealhatch-banded-rotation-2026-11-11-v4",
   order: ["current-preference-descending", "saved-preference-descending", "nutrition-level-descending", "equal-tier-record-variety", "equal-tier-alternative-variety", "meal-window-rotation", "stable-id"],
 };
 
@@ -383,8 +383,8 @@ export const recommendPilotMeals = (
   const candidates: PreferenceCandidate<PilotRecommendation>[] = [];
   const preferenceOrder = RECIPE_RANKING_POLICY.order;
   const method = localized(locale,
-    "Apply hard avoids and strict meal conditions first. Compare current-meal preference points, then saved-preference points, then the nutrition level of the unchanged nutrition reference (10 minus raw UK NPM 2018 score): 18 or more, 14 to 17, or 13 or less. These are separate priority levels, not a weighted health score. Within equal levels, recognized records from today and the preceding six calendar days affect variety: fewer protein-source repeats, fewer staple repeats, then less recent matches. Options shown together then differ in staple where possible (or in main protein once a staple is selected), followed by a fixed rotation for this date and meal window, then stable IDs. Records and rotation do not alter nutrition or establish a deficit.",
-    "先套用避食與本餐必要條件，再依序比較本餐偏好分、已儲存偏好分，以及未改變的營養參考（10 減 UK NPM 2018 原始分）所屬的營養級別：18 以上、14 至 17、13 以下。這是分開的優先層級，不是加權健康分數。同級時參考今天與前六個日曆日的可辨識紀錄：依序比較蛋白質來源重複較少、主食重複較少及最近紀錄較早者，接著讓同一組選項的主食盡量不同（已選主食時改為主要蛋白質來源不同），再依此日期與餐別時段的固定輪替順序，最後依固定代碼。紀錄與輪替不改變營養，也不代表營養缺口。");
+    "Apply hard avoids and strict meal conditions first. Compare current-meal preference points, then saved-preference points, then the nutrition level of the unchanged nutrition reference (10 minus raw UK NPM 2018 score): 18 or more, 14 to 17, or 13 or less. These are separate priority levels, not a weighted health score. Within equal levels, recognized records from today and the preceding six calendar days affect variety: fewer protein-source repeats, fewer staple repeats, then less recent matches. Options shown together then differ in staple and, after that, in main protein where possible (in protein sources only once a staple is selected), followed by a fixed rotation for this date and meal window, then stable IDs. Records and rotation do not alter nutrition or establish a deficit.",
+    "先套用避食與本餐必要條件，再依序比較本餐偏好分、已儲存偏好分，以及未改變的營養參考（10 減 UK NPM 2018 原始分）所屬的營養級別：18 以上、14 至 17、13 以下。這是分開的優先層級，不是加權健康分數。同級時參考今天與前六個日曆日的可辨識紀錄：依序比較蛋白質來源重複較少、主食重複較少及最近紀錄較早者，接著讓同一組選項的主食盡量不同，其次讓主要蛋白質來源不同（已選主食時只比較蛋白質來源），再依此日期與餐別時段的固定輪替順序，最後依固定代碼。紀錄與輪替不改變營養，也不代表營養缺口。");
   const rotationSeed = getRotationSeed(now);
   for (const recipe of standardizedRecipes) {
     const meal = meals.get(recipe.mealId);
@@ -422,7 +422,7 @@ export const recommendPilotMeals = (
         unmatchedPreferences: score.preferenceRows.filter(row => row.active && row.unmatchedValues.length).map(row => row.key),
         recentRecordsUsed: [], nutritionEquivalentRecipeIds: [], selectionMethod: method,
         variety: { recordMatches: [], selectedMatches: [], reason: "", scope: records.scope, applied: false, evidence: [], comparison: null } } };
-    candidates.push({ id: recipe.mealId, value, tier: rankTier, proteins: [...new Set(identities.flatMap(identity => identity.protein ? [identity.protein] : []))], staple: recipe.staple === "none" ? null : recipe.staple });
+    candidates.push({ id: recipe.mealId, value, tier: rankTier, mainProteins: [...getRecipeMainProteinGroups(recipe, sourceFoods)], proteins: [...new Set(identities.flatMap(identity => identity.protein ? [identity.protein] : []))], staple: recipe.staple === "none" ? null : recipe.staple });
   }
   const ordered = pickHistoryVariedChoices(candidates, records, candidates.length, {
     key: id => getRotationKey(rotationSeed, id), groupSize: RECIPE_OPTION_GROUP_SIZE,

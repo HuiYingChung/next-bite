@@ -40,7 +40,7 @@ for (const manifest of manifests) {
 }
 assert.equal(rawFoods.length, definitions.length, "Every archived record must have an explicit definition.");
 assert.equal(new Set(definitions.map((food) => food.fdcId)).size, definitions.length, "Duplicate source food definition.");
-assert.equal(recipes.length, 130, "This release authorizes exactly one hundred thirty standardized meal recipes.");
+assert.equal(recipes.length, 143, "This release authorizes exactly one hundred forty-three standardized meal recipes.");
 assert.equal(new Set(recipes.map((recipe) => recipe.mealId)).size, recipes.length, "Duplicate pilot meal.");
 
 const nutrientDefinitions = {

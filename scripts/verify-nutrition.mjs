@@ -42,11 +42,11 @@ const recipe = id => {
   return found;
 };
 
-assert.equal(standardizedRecipes.length, 130);
-assert.equal(new Set(standardizedRecipes.map(item => item.mealId)).size, 130);
+assert.equal(standardizedRecipes.length, 143);
+assert.equal(new Set(standardizedRecipes.map(item => item.mealId)).size, 143);
 assert.equal(sourceFoods.length, 76, "Retain all 76 reviewed sources; the new recipes reuse supported ingredients");
 assert.equal(new Set(sourceFoods.map(item => item.id)).size, 76);
-assert.equal(recommendationDataset.length, 130);
+assert.equal(recommendationDataset.length, 143);
 // Every current catalog entry uses its reviewed recipe formulation and must
 // enforce the same known/unknown ingredients and raw/cool conditions.
 // Derive expectations from source records, independently of catalog metadata.
@@ -168,16 +168,16 @@ const limited = { ...recipe("chicken-broccoli-rice-bowl"), confidence: "limited"
 assert.deepEqual(calculateRecipe(limited, "regular").nutrition, chicken.nutrition, "Confidence does not shrink physical amounts or nutrient values");
 
 const normal = recommendPilotMeals(profile(), context(), "en", now);
-assert.equal(normal.candidateCount + normal.excludedCount, 130);
-assert.equal(normal.candidateCount, 130, "Every detailed recipe has enough evidence to be eligible without restrictions");
-assert.equal(normal.eligibleRecipes.length, 130, "Every eligible recipe is available for browsing and selection");
+assert.equal(normal.candidateCount + normal.excludedCount, 143);
+assert.equal(normal.candidateCount, 143, "Every detailed recipe has enough evidence to be eligible without restrictions");
+assert.equal(normal.eligibleRecipes.length, 143, "Every eligible recipe is available for browsing and selection");
 assert.deepEqual(normal.eligibleRecipes.slice(0, 3), normal.recommendations, "Browsing does not replace or reorder the ranked top three");
 assert.deepEqual(normal.eligibleRecipes.map(item => item.recipe.mealId), normal.trace.eligibleRecipeIds);
 assert.equal(normal.recommendations.length, 3);
 assert.deepEqual(normal, recommendPilotMeals(profile(), context(), "en", now), "Same inputs produce identical output");
 // Scoring now uses the exact profile decomposition plus bounded preferences.
 assert.equal(new Set(normal.recommendations.map(item => item.recipe.mealId)).size, 3);
-assert.equal(normal.trace.candidateScores.length,130);
+assert.equal(normal.trace.candidateScores.length,143);
 for (const item of normal.trace.candidateScores) {
   assert.equal(item.score.total,item.score.nutrient+item.score.energy+item.score.preference);
   assert.equal(item.score.total,10-item.score.model.rawScore+item.score.preference);
@@ -206,7 +206,7 @@ const quick = recommendPilotMeals(profile(), context({ maxPrepMinutes: 10 }), "e
 assert(quick.recommendations.length && quick.recommendations.every(item => item.recipe.prepMinutes <= 10));
 assert.equal(recommendPilotMeals(profile(), context({ maxPrepMinutes: 0 }), "en", now).recommendations.length, 0, "No fallback may relax a strict preparation limit");
 const noodlePreference = recommendPilotMeals(profile(), context({ preferredStaple: "noodles", cuisine: "asian" }), "en", now);
-assert.equal(noodlePreference.candidateCount, 130, "Soft staple/cuisine preferences do not exclude unmatched recipes");
+assert.equal(noodlePreference.candidateCount, 143, "Soft staple/cuisine preferences do not exclude unmatched recipes");
 assert.equal(noodlePreference.eligibleRecipes.filter(item => item.recipe.staple === "noodles").length, standardizedRecipes.filter(item => item.staple === "noodles").length);
 for (const item of noodlePreference.eligibleRecipes) {
   assert.equal(item.score.preferenceRows.find(row => row.key === "staple").points, item.recipe.staple === "noodles" ? 2 : 0);
@@ -358,4 +358,4 @@ assert(takeout.recommendations.every(item => item.reasons.some(reason => reason.
 const zh = recommendPilotMeals(profile(), context({ hunger: "hungry", preferredStaple: "noodles" }), "zh", now, unknownOnly);
 assert(zh.eligibleRecipes.every(item => item.reasons.some(reason => reason.includes("並非估算熱量需求")) && (item.recipe.staple === "noodles" || item.reasons.some(reason => reason.includes("此偏好保留彈性"))) && item.unknowns.every(unknown => unknown.reason.includes("未知，並非零"))));
 
-console.log(JSON.stringify({ standardizedRecipes: 130, sourceFoods: sourceFoods.length, pinnedSourceValues: sourceValues, independentChickenGolden: true, independentAllPortionNutrients: true, allPortionFactors: true, missingValuesPropagate: true, sourceStateAndIngredientSafety: true, hardAvoidContexts: avoidTags.length * 130, sharedContextConstraints: true, hungerAndAppetitePortions: true, allEligibleRecipesBrowsable: true, retainedArithmeticDiagnostic: true, officialProfileAndProductScoreSeparated: true, explicitNutrientDirection: true, recordVarietyOnlyEqualPriorityTiers: true, metricPresenceOnlyInLegacy: true, bilingualReasons: true }, null, 2));
+console.log(JSON.stringify({ standardizedRecipes: 143, sourceFoods: sourceFoods.length, pinnedSourceValues: sourceValues, independentChickenGolden: true, independentAllPortionNutrients: true, allPortionFactors: true, missingValuesPropagate: true, sourceStateAndIngredientSafety: true, hardAvoidContexts: avoidTags.length * 143, sharedContextConstraints: true, hungerAndAppetitePortions: true, allEligibleRecipesBrowsable: true, retainedArithmeticDiagnostic: true, officialProfileAndProductScoreSeparated: true, explicitNutrientDirection: true, recordVarietyOnlyEqualPriorityTiers: true, metricPresenceOnlyInLegacy: true, bilingualReasons: true }, null, 2));

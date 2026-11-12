@@ -2,8 +2,8 @@
 
 Status: draft materials; no Product Hunt publication or user study is claimed.
 Prepared for the 2026-11-05 launch-experience iteration; copy and assets updated
-on 2026-11-10 for the build with recipe images, concise cards and printable
-recipe cards.
+on 2026-11-11 for the build with 143 recipes, recipe images, concise cards
+and printable recipe cards.
 
 MealHatch's proposed launch message is a small, complete meal-choice workflow:
 compare a few options with current preferences first, understand why they
@@ -11,7 +11,7 @@ appeared and save one for later. The public message is a bilingual meal picker
 with transparent nutrition. The design began from Chinese adults in North
 America, but the recipe collection does not yet carry familiar home dishes, so
 that audience is no longer a launch claim.
-The meal library offers 130 defined recipes with portion estimates, preparation
+The meal library offers 143 defined recipes with portion estimates, preparation
 steps and inspectable numeric ranking. Food/drink source lookup is separate.
 
 - [Product Hunt copy, four gallery captions and short demo storyboard](./product-hunt-draft.md)
@@ -21,7 +21,7 @@ steps and inspectable numeric ranking. Food/drink source lookup is separate.
 ## Captured review assets
 
 The gallery screenshots, video and thumbnail below were captured from a local
-preview of the `claude/launch-fixes` branch on 2026-11-10. They show the
+preview of the `claude/recipes-143` branch on 2026-11-11. They show the
 three option cards with one-tap staple and protein choices, one option's
 calculation details and the printable recipe card. Recapture if the interface changes again, and recheck
 all assets against the final live build before publication; none is evidence

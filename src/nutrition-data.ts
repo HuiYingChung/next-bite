@@ -16630,5 +16630,1278 @@ export const standardizedRecipes: StandardizedRecipe[] = [
     },
     "prepBasis": "assembly-from-prepared-ingredients",
     "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "egg-pea-broccoli-rice-bowl",
+    "label": {
+      "en": "Boiled egg, green pea and broccoli rice bowl — standard recipe",
+      "zh": "水煮蛋青豌豆青花菜飯碗（標準配方）"
+    },
+    "version": "mealhatch-recipes143-2026-11-11-v1",
+    "temperature": "warm",
+    "staple": "rice",
+    "cuisine": "asian",
+    "prepMinutes": 10,
+    "ingredients": [
+      {
+        "foodId": "usda-173424",
+        "grams": 110,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-168878",
+        "grams": 90,
+        "weighedState": "cooked",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-170420",
+        "grams": 120,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-169967",
+        "grams": 130,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-170394",
+        "grams": 60,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 3,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.3,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 3,
+      "saltGrams": 0.3,
+      "sauceGrams": 0
+    },
+    "notes": {
+      "en": "Uses peeled hard-boiled whole eggs over cooked white rice with boiled shelled green peas and boiled drained broccoli and carrots. Eggs are weighed after peeling and are not fried; this is not a fried-rice calculation. The rice amount is its cooked weight. No soy sauce or prepared sauce is included. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "使用去殼水煮全蛋，放在煮熟白飯上，搭配水煮青豌豆仁與水煮瀝乾青花菜、紅蘿蔔。蛋於去殼後秤重，不經煎炒，不用來估算蛋炒飯；白飯克數為熟重，不含醬油或現成醬汁。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Peel the hard-boiled eggs, weigh the edible egg and slice or quarter it. Weigh the cooked white rice.",
+        "zh": "水煮蛋去殼後秤取可食部分，切片或切四等分；另秤煮熟白飯。"
+      },
+      {
+        "en": "Weigh boiled drained green peas, broccoli and carrots. Place the warm rice and vegetables in a bowl and put the egg on top.",
+        "zh": "秤取水煮瀝乾青豌豆仁、青花菜與紅蘿蔔，把溫熱的白飯與蔬菜盛碗後放上水煮蛋。"
+      },
+      {
+        "en": "Add all measured olive oil and salt and serve the entire weighed portion.",
+        "zh": "加入全部定量橄欖油與鹽，盛出整份秤好的食材。"
+      },
+      {
+        "en": "Use the selected-portion list for every ingredient amount, including any listed seasonings and liquids.",
+        "zh": "每項食材均採所選份量清單的克數，所有表列調味料與液體也一併調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "egg-spinach-pea-wholewheat-pasta",
+    "label": {
+      "en": "Boiled egg, spinach and green pea wholewheat pasta — standard recipe",
+      "zh": "水煮蛋菠菜青豌豆全麥義大利麵（標準配方）"
+    },
+    "version": "mealhatch-recipes143-2026-11-11-v1",
+    "temperature": "warm",
+    "staple": "noodles",
+    "cuisine": "western",
+    "prepMinutes": 10,
+    "ingredients": [
+      {
+        "foodId": "usda-173424",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-168910",
+        "grams": 120,
+        "weighedState": "cooked",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-168463",
+        "grams": 120,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-170420",
+        "grams": 110,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 3,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.3,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 3,
+      "saltGrams": 0.3,
+      "sauceGrams": 0
+    },
+    "notes": {
+      "en": "Uses peeled hard-boiled whole eggs, cooked whole-wheat pasta, boiled drained spinach and boiled shelled green peas. Eggs are weighed after peeling and chopped over the pasta; this is not a raw-egg or cream sauce. The pasta amount is its cooked weight. No cheese or prepared sauce is included. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "使用去殼水煮全蛋、煮熟全麥義大利麵、水煮瀝乾菠菜與水煮青豌豆仁。蛋於去殼後秤重並切碎拌在麵上，不是生蛋液或鮮奶油醬；義大利麵克數為熟重，不含起司或現成醬汁。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Peel the hard-boiled eggs, weigh the edible egg and chop it coarsely. Weigh the cooked whole-wheat pasta after draining.",
+        "zh": "水煮蛋去殼後秤取可食部分並切粗塊；全麥義大利麵煮熟瀝乾後秤重。"
+      },
+      {
+        "en": "Weigh boiled drained spinach and green peas. Toss them with the warm pasta and scatter the chopped egg over the top.",
+        "zh": "秤取水煮瀝乾菠菜與青豌豆仁，與溫熱義大利麵拌勻，再撒上切碎的水煮蛋。"
+      },
+      {
+        "en": "Add all measured olive oil and salt and serve the entire weighed portion.",
+        "zh": "加入全部定量橄欖油與鹽，盛出整份秤好的食材。"
+      },
+      {
+        "en": "Use the selected-portion list for every ingredient amount, including any listed seasonings and liquids.",
+        "zh": "每項食材均採所選份量清單的克數，所有表列調味料與液體也一併調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "egg-lentil-spinach-carrot-bowl",
+    "label": {
+      "en": "Boiled egg, lentil and spinach bowl — standard recipe",
+      "zh": "水煮蛋扁豆菠菜碗（標準配方）"
+    },
+    "version": "mealhatch-recipes143-2026-11-11-v1",
+    "temperature": "warm",
+    "staple": "none",
+    "cuisine": "western",
+    "prepMinutes": 10,
+    "ingredients": [
+      {
+        "foodId": "usda-173424",
+        "grams": 110,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-172421",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-168463",
+        "grams": 130,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-170394",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-170001",
+        "grams": 40,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 4,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.3,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 4,
+      "saltGrams": 0.3,
+      "sauceGrams": 0
+    },
+    "notes": {
+      "en": "Uses peeled hard-boiled whole eggs with whole boiled lentils and boiled drained spinach, carrots and onion. Eggs are weighed after peeling. The egg supplies more protein than the lentils, so egg is this bowl's main protein. There is no separate grain or potato serving; carbohydrates from lentils and vegetables are still counted. Assembly time excludes cooking dry lentils. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "使用去殼水煮全蛋，搭配完整水煮扁豆與水煮瀝乾菠菜、紅蘿蔔、洋蔥。蛋於去殼後秤重；蛋提供的蛋白質多於扁豆，因此此碗的主要蛋白質來源是蛋。未另加穀物或馬鈴薯，扁豆與蔬菜的碳水化合物仍照常計入；組裝時間不含烹煮乾扁豆。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Peel the hard-boiled eggs, weigh the edible egg and halve it. Weigh whole cooked lentils.",
+        "zh": "水煮蛋去殼後秤取可食部分並對切；另秤完整熟扁豆。"
+      },
+      {
+        "en": "Weigh boiled drained spinach, carrots and onion. Place the warm lentils and vegetables in a bowl and put the egg on top.",
+        "zh": "秤取水煮瀝乾菠菜、紅蘿蔔與洋蔥，把溫熱的扁豆與蔬菜盛碗後放上水煮蛋。"
+      },
+      {
+        "en": "Add all measured olive oil and salt and serve the entire weighed portion.",
+        "zh": "加入全部定量橄欖油與鹽，盛出整份秤好的食材。"
+      },
+      {
+        "en": "Use the selected-portion list for every ingredient amount, including any listed seasonings and liquids.",
+        "zh": "每項食材均採所選份量清單的克數，所有表列調味料與液體也一併調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "egg-quinoa-kale-red-pepper-bowl",
+    "label": {
+      "en": "Boiled egg, quinoa and kale bowl — standard recipe",
+      "zh": "水煮蛋藜麥羽衣甘藍碗（標準配方）"
+    },
+    "version": "mealhatch-recipes143-2026-11-11-v1",
+    "temperature": "warm",
+    "staple": "other",
+    "cuisine": "western",
+    "prepMinutes": 10,
+    "ingredients": [
+      {
+        "foodId": "usda-173424",
+        "grams": 110,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-168917",
+        "grams": 90,
+        "weighedState": "cooked",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-169238",
+        "grams": 150,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-170110",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-170420",
+        "grams": 80,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 3,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.3,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 3,
+      "saltGrams": 0.3,
+      "sauceGrams": 0
+    },
+    "notes": {
+      "en": "Uses peeled hard-boiled whole eggs, cooked quinoa, and boiled drained kale, red sweet pepper and shelled green peas. Eggs are weighed after peeling and the quinoa amount is its cooked weight. No dressing or prepared sauce is included. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "使用去殼水煮全蛋、煮熟藜麥，以及水煮瀝乾羽衣甘藍、紅甜椒與青豌豆仁。蛋於去殼後秤重，藜麥克數為熟重；不含淋醬或現成醬汁。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Peel the hard-boiled eggs, weigh the edible egg and halve it. Weigh the cooked quinoa.",
+        "zh": "水煮蛋去殼後秤取可食部分並對切；另秤煮熟藜麥。"
+      },
+      {
+        "en": "Weigh boiled drained kale, red pepper and green peas. Arrange the warm quinoa and vegetables in a bowl and put the egg on top.",
+        "zh": "秤取水煮瀝乾羽衣甘藍、紅甜椒與青豌豆仁，把溫熱藜麥與蔬菜盛碗後放上水煮蛋。"
+      },
+      {
+        "en": "Add all measured olive oil and salt and serve the entire weighed portion.",
+        "zh": "加入全部定量橄欖油與鹽，盛出整份秤好的食材。"
+      },
+      {
+        "en": "Use the selected-portion list for every ingredient amount, including any listed seasonings and liquids.",
+        "zh": "每項食材均採所選份量清單的克數，所有表列調味料與液體也一併調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "greek-yogurt-chickpea-kale-carrot-bowl",
+    "label": {
+      "en": "Greek yogurt, chickpea and kale bowl — standard recipe",
+      "zh": "希臘優格鷹嘴豆羽衣甘藍碗（標準配方）"
+    },
+    "version": "mealhatch-recipes143-2026-11-11-v1",
+    "temperature": "cool",
+    "staple": "none",
+    "cuisine": "western",
+    "prepMinutes": 10,
+    "ingredients": [
+      {
+        "foodId": "usda-170894",
+        "grams": 170,
+        "weighedState": "ready-to-eat",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-173757",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-169238",
+        "grams": 120,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-170394",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-170110",
+        "grams": 40,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 5,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.3,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 5,
+      "saltGrams": 0.3,
+      "sauceGrams": 0
+    },
+    "notes": {
+      "en": "A savory bowl using plain nonfat Greek yogurt as an unsweetened base with whole boiled chickpeas and boiled drained kale, carrots and red sweet pepper, cooled before serving. The yogurt supplies more protein than the chickpeas, so dairy is this bowl's main protein. The chickpeas are whole, not hummus. No honey, tahini or dressing is included; there is no separate grain serving. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "鹹味碗：以原味脫脂希臘優格作為無糖基底，搭配完整水煮鷹嘴豆與放涼的水煮瀝乾羽衣甘藍、紅蘿蔔、紅甜椒。優格提供的蛋白質多於鷹嘴豆，因此此碗的主要蛋白質來源是乳製品。鷹嘴豆保持完整，不是鷹嘴豆泥；不含蜂蜜、芝麻醬或沙拉醬，也未另加穀物。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Weigh the plain nonfat Greek yogurt into a bowl. Weigh whole boiled chickpeas.",
+        "zh": "秤取原味脫脂希臘優格盛入碗中，另秤完整水煮鷹嘴豆。"
+      },
+      {
+        "en": "Weigh boiled drained kale, carrots and red pepper after they have cooled. Arrange the chickpeas and vegetables over the yogurt without blending.",
+        "zh": "水煮瀝乾的羽衣甘藍、紅蘿蔔與紅甜椒放涼後秤重，與鷹嘴豆一起放在優格上，不攪打成泥。"
+      },
+      {
+        "en": "Drizzle all measured olive oil and sprinkle the salt over the bowl. Keep chilled until serving.",
+        "zh": "淋上全部定量橄欖油並撒上鹽，食用前保持冷藏。"
+      },
+      {
+        "en": "Use the selected-portion list for every ingredient amount, including any listed seasonings and liquids.",
+        "zh": "每項食材均採所選份量清單的克數，所有表列調味料與液體也一併調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "greek-yogurt-baked-potato-broccoli-pea-plate",
+    "label": {
+      "en": "Greek yogurt baked potato with broccoli and green peas — standard recipe",
+      "zh": "希臘優格烤馬鈴薯佐青花菜青豌豆（標準配方）"
+    },
+    "version": "mealhatch-recipes143-2026-11-11-v1",
+    "temperature": "warm",
+    "staple": "potato",
+    "cuisine": "western",
+    "prepMinutes": 10,
+    "ingredients": [
+      {
+        "foodId": "usda-170894",
+        "grams": 170,
+        "weighedState": "ready-to-eat",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-170093",
+        "grams": 150,
+        "weighedState": "cooked",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-169967",
+        "grams": 130,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-170420",
+        "grams": 120,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 4,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.3,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 4,
+      "saltGrams": 0.3,
+      "sauceGrams": 0
+    },
+    "notes": {
+      "en": "Uses plain nonfat Greek yogurt spooned cold over a warm baked potato with its skin, with boiled drained broccoli and shelled green peas. The yogurt is unsweetened and is not heated. The potato amount is baked flesh and skin together. No butter, sour cream or cheese is included. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "使用原味脫脂希臘優格，冷的直接舀在溫熱的帶皮烤馬鈴薯上，搭配水煮瀝乾青花菜與青豌豆仁。優格為無糖原味，不另加熱；馬鈴薯克數為烤熟的果肉連皮。不含奶油、酸奶油或起司。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Weigh the warm baked potato with its skin and split it open. Weigh the plain nonfat Greek yogurt.",
+        "zh": "秤取溫熱的帶皮烤馬鈴薯並切開，另秤原味脫脂希臘優格。"
+      },
+      {
+        "en": "Weigh boiled drained broccoli and green peas. Spoon the yogurt over the potato and place the vegetables beside it.",
+        "zh": "秤取水煮瀝乾青花菜與青豌豆仁，把優格舀在馬鈴薯上，蔬菜放在一旁。"
+      },
+      {
+        "en": "Add all measured olive oil and salt and serve the entire weighed portion.",
+        "zh": "加入全部定量橄欖油與鹽，盛出整份秤好的食材。"
+      },
+      {
+        "en": "Use the selected-portion list for every ingredient amount, including any listed seasonings and liquids.",
+        "zh": "每項食材均採所選份量清單的克數，所有表列調味料與液體也一併調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "greek-yogurt-quinoa-chickpea-spinach-bowl",
+    "label": {
+      "en": "Greek yogurt, quinoa and chickpea bowl with spinach — standard recipe",
+      "zh": "希臘優格藜麥鷹嘴豆菠菜碗（標準配方）"
+    },
+    "version": "mealhatch-recipes143-2026-11-11-v1",
+    "temperature": "cool",
+    "staple": "other",
+    "cuisine": "western",
+    "prepMinutes": 10,
+    "ingredients": [
+      {
+        "foodId": "usda-170894",
+        "grams": 160,
+        "weighedState": "ready-to-eat",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-168917",
+        "grams": 60,
+        "weighedState": "cooked",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-173757",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-168463",
+        "grams": 160,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-170110",
+        "grams": 80,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 4,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.3,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 4,
+      "saltGrams": 0.3,
+      "sauceGrams": 0
+    },
+    "notes": {
+      "en": "A savory grain bowl using plain nonfat Greek yogurt as an unsweetened topping over cooked quinoa, whole boiled chickpeas and boiled drained spinach and red sweet pepper, cooled before serving. The yogurt supplies more protein than the chickpeas, so dairy is this bowl's main protein. The quinoa amount is its cooked weight. No honey, tahini or dressing is included. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "鹹味穀物碗：煮熟藜麥、完整水煮鷹嘴豆與放涼的水煮瀝乾菠菜、紅甜椒，上面舀原味脫脂希臘優格（無糖）。優格提供的蛋白質多於鷹嘴豆，因此此碗的主要蛋白質來源是乳製品。藜麥克數為熟重；不含蜂蜜、芝麻醬或沙拉醬。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Weigh the cooked quinoa and whole boiled chickpeas into a bowl after they have cooled.",
+        "zh": "煮熟藜麥與完整水煮鷹嘴豆放涼後秤重盛入碗中。"
+      },
+      {
+        "en": "Weigh boiled drained spinach and red pepper after they have cooled and add them to the bowl. Weigh the plain nonfat Greek yogurt and spoon it on top without blending.",
+        "zh": "水煮瀝乾的菠菜與紅甜椒放涼後秤重加入碗中；另秤原味脫脂希臘優格舀在上面，不攪打成泥。"
+      },
+      {
+        "en": "Drizzle all measured olive oil and sprinkle the salt over the bowl. Keep chilled until serving.",
+        "zh": "淋上全部定量橄欖油並撒上鹽，食用前保持冷藏。"
+      },
+      {
+        "en": "Use the selected-portion list for every ingredient amount, including any listed seasonings and liquids.",
+        "zh": "每項食材均採所選份量清單的克數，所有表列調味料與液體也一併調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "pork-cabbage-edamame-rice-bowl",
+    "label": {
+      "en": "Lean minced pork, edamame and cabbage rice bowl — standard recipe",
+      "zh": "瘦豬絞肉毛豆高麗菜飯碗（標準配方）"
+    },
+    "version": "mealhatch-recipes143-2026-11-11-v1",
+    "temperature": "warm",
+    "staple": "rice",
+    "cuisine": "asian",
+    "prepMinutes": 15,
+    "ingredients": [
+      {
+        "foodId": "usda-169193",
+        "grams": 90,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-168878",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-169976",
+        "grams": 180,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-168411",
+        "grams": 80,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-170394",
+        "grams": 40,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 3,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.3,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 3,
+      "saltGrams": 0.3,
+      "sauceGrams": 0
+    },
+    "notes": {
+      "en": "Uses cooked crumbles from the source 96% lean / 4% fat ground-pork formulation, prepared shelled edamame, and boiled drained cabbage and carrots over cooked white rice. That percentage describes the starting mince. The pork supplies more protein than the edamame, so pork is this bowl's main protein. This plain recipe is not a calculation for braised-pork sauce; soy sauce, sugar and braising liquid are not included. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "使用來源為 96% 瘦肉／4% 脂肪豬絞肉的熟碎粒、煮熟去莢毛豆，以及水煮瀝乾高麗菜與紅蘿蔔，搭配煮熟白飯。該比例描述原絞肉配方。豬肉提供的蛋白質多於毛豆，因此此碗的主要蛋白質來源是豬肉。這是原味配方，不用來估算滷肉醬汁；不含醬油、糖或滷汁。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Cook the specified lean ground pork into crumbles without added sauce and weigh it cooked. Weigh the cooked white rice and prepared shelled edamame.",
+        "zh": "指定瘦豬絞肉不加醬料煮成碎粒後按熟重秤量；另秤煮熟白飯與煮熟去莢毛豆。"
+      },
+      {
+        "en": "Weigh boiled drained cabbage and carrots. Spoon the warm pork and edamame over the rice and place the vegetables beside them.",
+        "zh": "秤取水煮瀝乾高麗菜與紅蘿蔔，把溫熱的豬絞肉與毛豆放在白飯上，蔬菜放旁邊。"
+      },
+      {
+        "en": "Add all measured olive oil and salt and serve the entire weighed portion.",
+        "zh": "加入全部定量橄欖油與鹽，盛出整份秤好的食材。"
+      },
+      {
+        "en": "Use the selected-portion list for every ingredient amount, including any listed seasonings and liquids.",
+        "zh": "每項食材均採所選份量清單的克數，所有表列調味料與液體也一併調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "beef-lentil-tomato-wholewheat-pasta",
+    "label": {
+      "en": "Lean beef, lentil and tomato wholewheat pasta — standard recipe",
+      "zh": "瘦牛肉扁豆番茄全麥義大利麵（標準配方）"
+    },
+    "version": "mealhatch-recipes143-2026-11-11-v1",
+    "temperature": "warm",
+    "staple": "noodles",
+    "cuisine": "western",
+    "prepMinutes": 15,
+    "ingredients": [
+      {
+        "foodId": "usda-168649",
+        "grams": 80,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-168910",
+        "grams": 110,
+        "weighedState": "cooked",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-170050",
+        "grams": 110,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-172421",
+        "grams": 80,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-169252",
+        "grams": 70,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 4,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.4,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 4,
+      "saltGrams": 0.4,
+      "sauceGrams": 0
+    },
+    "notes": {
+      "en": "Uses grilled lean top-round beef with visible fat removed, cut small, with whole boiled lentils, recognizable cooked tomato pieces and boiled drained white mushrooms over cooked whole-wheat pasta. The beef is cut in pieces, not minced, and this is not a calculation for bottled meat sauce. The beef supplies more protein than the lentils, so beef is this dish's main protein. Tomato stays in pieces rather than puree; no paste, cheese or added sugar is included. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "使用去除可見脂肪的烤牛後腿肉切小塊，搭配完整水煮扁豆、可辨識的熟番茄塊與水煮瀝乾白蘑菇，拌入煮熟全麥義大利麵。牛肉為切塊而非絞肉，不用來估算瓶裝肉醬。牛肉提供的蛋白質多於扁豆，因此此餐的主要蛋白質來源是牛肉。番茄保留塊狀而非打成泥；不含番茄糊、起司或添加糖。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Cut the grilled lean beef, trimmed of visible fat, into small pieces and weigh it. Weigh the cooked whole-wheat pasta after draining.",
+        "zh": "去除可見脂肪的烤牛後腿肉切小塊後秤重；全麥義大利麵煮熟瀝乾後秤重。"
+      },
+      {
+        "en": "Weigh whole cooked lentils, cooked tomato pieces and boiled drained mushrooms. Warm them with the beef and toss with the pasta, keeping the tomato in pieces.",
+        "zh": "秤取完整熟扁豆、熟番茄塊與水煮瀝乾白蘑菇，與牛肉一起溫熱後拌入義大利麵，番茄維持塊狀。"
+      },
+      {
+        "en": "Add all measured olive oil and salt and serve the entire weighed portion.",
+        "zh": "加入全部定量橄欖油與鹽，盛出整份秤好的食材。"
+      },
+      {
+        "en": "Use the selected-portion list for every ingredient amount, including any listed seasonings and liquids.",
+        "zh": "每項食材均採所選份量清單的克數，所有表列調味料與液體也一併調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "beef-potato-pea-carrot-stew",
+    "label": {
+      "en": "Chunky lean beef, potato, green pea and carrot stew — standard recipe",
+      "zh": "瘦牛肉馬鈴薯青豌豆紅蘿蔔燉湯（標準配方）"
+    },
+    "version": "mealhatch-recipes143-2026-11-11-v1",
+    "temperature": "warm",
+    "staple": "potato",
+    "cuisine": "western",
+    "prepMinutes": 15,
+    "ingredients": [
+      {
+        "foodId": "usda-168649",
+        "grams": 120,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-170093",
+        "grams": 140,
+        "weighedState": "cooked",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-170420",
+        "grams": 150,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-170394",
+        "grams": 60,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-170001",
+        "grams": 30,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-173647",
+        "grams": 60,
+        "weighedState": "ready-to-eat",
+        "role": "liquid",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 3,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.4,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 3,
+      "saltGrams": 0.4,
+      "sauceGrams": 0
+    },
+    "notes": {
+      "en": "A defined beef-and-vegetable stew using grilled lean top-round beef with visible fat removed, baked potato with its skin, boiled shelled green peas, and boiled drained carrots and onion. Potato is the baked flesh-and-skin source, not a boiled-potato value. All qualifying vegetables use cooked weights and remain intact; the listed retained water, oil and salt form the stew liquid. No stock cube, flour, wine or gravy is included. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "定量牛肉蔬菜燉湯：使用去除可見脂肪的烤牛後腿肉、帶皮烤馬鈴薯、水煮青豌豆仁，以及水煮瀝乾紅蘿蔔與洋蔥。馬鈴薯採含皮烤熟來源，不套用水煮值；合格蔬菜皆採熟重並保留完整，表列保留水、油與鹽組成燉湯液體。不含高湯塊、麵粉、酒或肉汁。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Weigh the grilled lean beef, trimmed of visible fat, the baked potato with its skin, and boiled drained green peas, carrots and onion. Cut the beef and potato into chunks.",
+        "zh": "秤取去除可見脂肪的烤牛後腿肉、帶皮烤馬鈴薯，以及水煮瀝乾青豌豆仁、紅蘿蔔與洋蔥；牛肉與馬鈴薯切塊。"
+      },
+      {
+        "en": "Warm all chunks and vegetables with the listed water without blending or mashing. Restore evaporated water to the listed solids-plus-water total before seasoning.",
+        "zh": "所有肉塊、薯塊與蔬菜加入表列水溫熱，不攪打或壓泥；調味前補回蒸發水至表列固體食材與水的合計重量。"
+      },
+      {
+        "en": "Stir in all measured olive oil and salt and serve the entire weighed portion, liquid included.",
+        "zh": "拌入全部定量橄欖油與鹽，連同湯液盛出整份秤好的食材。"
+      },
+      {
+        "en": "Use the selected-portion list for every ingredient amount, including any listed seasonings and liquids.",
+        "zh": "每項食材均採所選份量清單的克數，所有表列調味料與液體也一併調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "cod-pea-broccoli-rice-bowl",
+    "label": {
+      "en": "Baked cod, green pea and broccoli rice bowl — standard recipe",
+      "zh": "烤鱈魚青豌豆青花菜飯碗（標準配方）"
+    },
+    "version": "mealhatch-recipes143-2026-11-11-v1",
+    "temperature": "warm",
+    "staple": "rice",
+    "cuisine": "asian",
+    "prepMinutes": 15,
+    "ingredients": [
+      {
+        "foodId": "usda-171956",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-168878",
+        "grams": 110,
+        "weighedState": "cooked",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-170420",
+        "grams": 120,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-169967",
+        "grams": 160,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-170394",
+        "grams": 40,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 3,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.3,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 3,
+      "saltGrams": 0.3,
+      "sauceGrams": 0
+    },
+    "notes": {
+      "en": "Uses dry-heat-cooked Atlantic cod over cooked white rice with boiled shelled green peas and boiled drained broccoli and carrots. Cod is weighed after baking with bones and inedible parts removed; the rice amount is its cooked weight. No soy sauce, glaze or prepared sauce is included. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "使用乾熱煮熟的大西洋鱈魚，放在煮熟白飯上，搭配水煮青豌豆仁與水煮瀝乾青花菜、紅蘿蔔。鱈魚於烤熟並去骨及不可食部分後秤重，白飯克數為熟重；不含醬油、醬燒或現成醬汁。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Remove bones and inedible parts from the prepared baked cod before weighing it. Weigh the cooked white rice.",
+        "zh": "已烤熟鱈魚先去骨及不可食部分再秤重，另秤煮熟白飯。"
+      },
+      {
+        "en": "Weigh boiled drained green peas, broccoli and carrots. Place the warm rice and vegetables in a bowl and put the cod on top.",
+        "zh": "秤取水煮瀝乾青豌豆仁、青花菜與紅蘿蔔，把溫熱的白飯與蔬菜盛碗後放上鱈魚。"
+      },
+      {
+        "en": "Add all measured olive oil and salt and serve the entire weighed portion.",
+        "zh": "加入全部定量橄欖油與鹽，盛出整份秤好的食材。"
+      },
+      {
+        "en": "Use the selected-portion list for every ingredient amount, including any listed seasonings and liquids.",
+        "zh": "每項食材均採所選份量清單的克數，所有表列調味料與液體也一併調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "tuna-pea-tomato-wholewheat-pasta",
+    "label": {
+      "en": "Tuna, green pea and tomato wholewheat pasta — standard recipe",
+      "zh": "鮪魚青豌豆番茄全麥義大利麵（標準配方）"
+    },
+    "version": "mealhatch-recipes143-2026-11-11-v1",
+    "temperature": "warm",
+    "staple": "noodles",
+    "cuisine": "western",
+    "prepMinutes": 10,
+    "ingredients": [
+      {
+        "foodId": "usda-171986",
+        "grams": 100,
+        "weighedState": "ready-to-eat",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-168910",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-170420",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-170050",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-168463",
+        "grams": 60,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 5,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.3,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 5,
+      "saltGrams": 0.3,
+      "sauceGrams": 0
+    },
+    "notes": {
+      "en": "Uses drained light tuna canned in water without added salt, cooked whole-wheat pasta, boiled shelled green peas, recognizable cooked tomato pieces and boiled drained spinach. The tuna source still contains sodium and is stirred into the warm pasta without further cooking. Tomato stays in pieces rather than puree; no mayonnaise, cheese or prepared sauce is included. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "使用未加鹽水浸淡色肉鮪魚罐頭的瀝乾固形物、煮熟全麥義大利麵、水煮青豌豆仁、可辨識的熟番茄塊與水煮瀝乾菠菜。鮪魚來源仍含鈉，直接拌入溫熱義大利麵，不再加熱烹煮。番茄保留塊狀而非打成泥；不含美乃滋、起司或現成醬汁。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Drain the canned tuna and weigh only the solids. Weigh the cooked whole-wheat pasta after draining.",
+        "zh": "鮪魚罐頭瀝乾後只秤固形物；全麥義大利麵煮熟瀝乾後秤重。"
+      },
+      {
+        "en": "Weigh boiled drained green peas and spinach and the cooked tomato pieces. Toss them with the warm pasta, then fold in the tuna off the heat, keeping the tomato in pieces.",
+        "zh": "秤取水煮瀝乾青豌豆仁、菠菜與熟番茄塊，與溫熱義大利麵拌勻，離火後拌入鮪魚，番茄維持塊狀。"
+      },
+      {
+        "en": "Add all measured olive oil and salt and serve the entire weighed portion.",
+        "zh": "加入全部定量橄欖油與鹽，盛出整份秤好的食材。"
+      },
+      {
+        "en": "Use the selected-portion list for every ingredient amount, including any listed seasonings and liquids.",
+        "zh": "每項食材均採所選份量清單的克數，所有表列調味料與液體也一併調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
+  },
+  {
+    "mealId": "cod-potato-green-bean-pea-plate",
+    "label": {
+      "en": "Baked cod, baked potato and green bean plate — standard recipe",
+      "zh": "烤鱈魚烤馬鈴薯四季豆餐盤（標準配方）"
+    },
+    "version": "mealhatch-recipes143-2026-11-11-v1",
+    "temperature": "warm",
+    "staple": "potato",
+    "cuisine": "western",
+    "prepMinutes": 15,
+    "ingredients": [
+      {
+        "foodId": "usda-171956",
+        "grams": 130,
+        "weighedState": "cooked",
+        "role": "protein",
+        "group": "protein"
+      },
+      {
+        "foodId": "usda-170093",
+        "grams": 150,
+        "weighedState": "cooked",
+        "role": "staple",
+        "group": "carb"
+      },
+      {
+        "foodId": "usda-169141",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-170420",
+        "grams": 100,
+        "weighedState": "cooked",
+        "role": "vegetable",
+        "group": "vegetable"
+      },
+      {
+        "foodId": "usda-171413",
+        "grams": 5,
+        "weighedState": "ready-to-eat",
+        "role": "fat",
+        "group": "other"
+      },
+      {
+        "foodId": "usda-173468",
+        "grams": 0.4,
+        "weighedState": "ready-to-eat",
+        "role": "seasoning",
+        "group": "other"
+      }
+    ],
+    "seasoning": {
+      "oilGrams": 5,
+      "saltGrams": 0.4,
+      "sauceGrams": 0
+    },
+    "notes": {
+      "en": "Uses dry-heat-cooked Atlantic cod, baked potato with its skin, boiled drained green snap beans and boiled shelled green peas. Cod is weighed after baking with bones and inedible parts removed; the potato amount is baked flesh and skin together. No butter, tartar sauce or prepared sauce is included. Model inputs follow each listed ingredient's documented specification and source. Added-sugar unknowns remain unknown; free sugars are derived separately, including weighed honey or juice where listed. FVNS ingredients share a cooked weight basis. Assembly time is an editorial estimate starting with the prepared ingredients shown; raw-ingredient cooking time is excluded. Small/regular/large are product choices, not medical serving recommendations.",
+      "zh": "使用乾熱煮熟的大西洋鱈魚、帶皮烤馬鈴薯、水煮瀝乾四季豆與水煮青豌豆仁。鱈魚於烤熟並去骨及不可食部分後秤重，馬鈴薯克數為烤熟的果肉連皮；不含奶油、塔塔醬或現成醬汁。 模型依各表列食材的規格與來源計算。添加糖未知值保留未知；游離糖另外推導，若列有蜂蜜或果汁，也依重量計入。FVNS 食材統一採熟重。時間是從表列已處理食材開始的組合時間估計，不含從生食材烹煮的時間。小／標準／大份是產品選項，不是醫療建議份量。"
+    },
+    "instructions": [
+      {
+        "en": "Remove bones and inedible parts from the prepared baked cod before weighing it. Weigh the baked potato with its skin.",
+        "zh": "已烤熟鱈魚先去骨及不可食部分再秤重，另秤帶皮烤馬鈴薯。"
+      },
+      {
+        "en": "Weigh boiled drained green beans and green peas. Arrange the warm cod, potato and vegetables on a plate.",
+        "zh": "秤取水煮瀝乾四季豆與青豌豆仁，把溫熱的鱈魚、馬鈴薯與蔬菜盛盤。"
+      },
+      {
+        "en": "Add all measured olive oil and salt and serve the entire weighed portion.",
+        "zh": "加入全部定量橄欖油與鹽，盛出整份秤好的食材。"
+      },
+      {
+        "en": "Use the selected-portion list for every ingredient amount, including any listed seasonings and liquids.",
+        "zh": "每項食材均採所選份量清單的克數，所有表列調味料與液體也一併調整。"
+      }
+    ],
+    "basis": "standardized-recipe",
+    "confidence": "recipe-estimate",
+    "portions": {
+      "small": 0.75,
+      "regular": 1,
+      "large": 1.25
+    },
+    "prepBasis": "assembly-from-prepared-ingredients",
+    "yieldMethod": "sum-final-ingredient-weights"
   }
 ];

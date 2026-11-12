@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "createdDate": "2026-11-06",
-  "generationMethod": "Built-in image_gen tool for the first 108 illustrations (2026-11-06); Figma AI image generation, model gpt-image-2.5-flare, for the 22 added on 2026-11-10. Each asset's review note names its tool where it differs. No API key or external project dependency at runtime.",
+  "generationMethod": "Built-in image_gen tool for the first 108 illustrations (2026-11-06); Figma AI image generation, model gpt-image-2.5-flare, for the 22 added on 2026-11-10 and the 13 added on 2026-11-11. Each asset's review note names its tool where it differs. No API key or external project dependency at runtime.",
   "status": "Approved generated illustrations, prepared as static website assets",
   "sourceRecipes": "data/nutrition/recipes.json",
   "sourceFoods": "data/nutrition/food-definitions.json",
@@ -5733,6 +5733,578 @@
           "height": 720,
           "bytes": 107688,
           "sha256": "a97ae07c9f2eed0c52e2e581e293e86dd4f36354ff5f37851d1998dac5a8fe9b",
+          "encoder": {
+            "browserChannel": "bundled-chromium",
+            "browserVersion": "158.0.8127.18",
+            "quality": 0.84
+          }
+        }
+      ]
+    },
+    {
+      "mealId": "egg-pea-broccoli-rice-bowl",
+      "recipeVersion": "mealhatch-recipes143-2026-11-11-v1",
+      "labelZh": "水煮蛋青豌豆青花菜飯碗（標準配方）",
+      "alt": {
+        "en": "Boiled egg, green pea and broccoli rice bowl",
+        "zh": "水煮蛋青豌豆青花菜飯碗"
+      },
+      "prompt": "Use case: photorealistic-natural. Create ONE photorealistic editorial food photograph for a MealHatch meal recommendation card, landscape 4:3 composition. Subject: a modest single-serving bowl of plain steamed white rice topped with two hard-boiled eggs cut in halves showing fully set yellow yolks, with boiled green peas, boiled green broccoli florets and orange carrot slices arranged beside the rice. Simple matte off-white shallow ceramic bowl on a cool neutral light gray table. Dish fully visible, fills about 85% of frame, three-quarter overhead camera angle around 55 degrees, safe center composition for website crops. Soft side window daylight, restrained natural colors, subtle realistic shadows, appetizing everyday home meal, slight natural irregularity, crisp ingredient texture with gently softened background. The photo must show ONLY the listed food, no soy sauce, sesame, scallion, fried egg, herbs, pepper, garnish, side dishes, or raw ingredients scattered around. No utensils, hands, branding, labels, text, collage, watermarks, cinematic color grade, CGI/plastic look, oversized restaurant presentation, oil puddles, or exaggerated steam. Do not put any claims or numbers inside the image.",
+      "review": "Generated 2026-11-11 with Figma AI image generation (model gpt-image-2.5-flare), 1280 x 960. Visually checked: white rice, halved hard-boiled egg with set yolk, green peas, broccoli florets and carrot slices; shows one egg in two halves, fewer than the standard portion; no sauce or garnish.",
+      "source": {
+        "file": "output/imagegen/mealhatch-food-v1/egg-pea-broccoli-rice-bowl-v1.png",
+        "width": 1280,
+        "height": 960,
+        "bytes": 1738183,
+        "sha256": "76a9131a1305e5ca8368945465e5a755b46ba41e071e4bd24c7b05a1ec6dfd99"
+      },
+      "variants": [
+        {
+          "file": "public/images/recipes/egg-pea-broccoli-rice-bowl-480.webp",
+          "width": 480,
+          "height": 360,
+          "bytes": 22024,
+          "sha256": "ece878420522162a00560ca5ec3a9f5d195639163ccf0089cc5587d8eaa2f4bd",
+          "encoder": {
+            "browserChannel": "bundled-chromium",
+            "browserVersion": "158.0.8127.18",
+            "quality": 0.84
+          }
+        },
+        {
+          "file": "public/images/recipes/egg-pea-broccoli-rice-bowl-960.webp",
+          "width": 960,
+          "height": 720,
+          "bytes": 64478,
+          "sha256": "026c0220c04b25740a5e4d114932af545b363a4a06df87753b3b43d4a3853017",
+          "encoder": {
+            "browserChannel": "bundled-chromium",
+            "browserVersion": "158.0.8127.18",
+            "quality": 0.84
+          }
+        }
+      ]
+    },
+    {
+      "mealId": "egg-spinach-pea-wholewheat-pasta",
+      "recipeVersion": "mealhatch-recipes143-2026-11-11-v1",
+      "labelZh": "水煮蛋菠菜青豌豆全麥義大利麵（標準配方）",
+      "alt": {
+        "en": "Boiled egg, spinach and green pea wholewheat pasta",
+        "zh": "水煮蛋菠菜青豌豆全麥義大利麵"
+      },
+      "prompt": "Use case: photorealistic-natural. Create ONE photorealistic editorial food photograph for a MealHatch meal recommendation card, landscape 4:3 composition. Subject: a modest single-serving bowl of short whole-wheat penne pasta tossed with soft boiled dark-green spinach and green peas, topped with coarsely chopped hard-boiled egg with fully set yellow yolk. Simple matte off-white shallow ceramic bowl on a cool neutral light gray table. Dish fully visible, fills about 85% of frame, three-quarter overhead camera angle around 55 degrees, safe center composition for website crops. Soft side window daylight, restrained natural colors, subtle realistic shadows, appetizing everyday home meal, slight natural irregularity, crisp ingredient texture with gently softened background. The photo must show ONLY the listed food, no cheese, cream sauce, bacon, herbs, pepper, tomato, garnish, side dishes, or raw ingredients scattered around. No utensils, hands, branding, labels, text, collage, watermarks, cinematic color grade, CGI/plastic look, oversized restaurant presentation, oil puddles, or exaggerated steam. Do not put any claims or numbers inside the image.",
+      "review": "Generated 2026-11-11 with Figma AI image generation (model gpt-image-2.5-flare), 1280 x 960. Visually checked: whole-wheat penne with cooked spinach, green peas and chopped hard-boiled egg; no cheese or sauce.",
+      "source": {
+        "file": "output/imagegen/mealhatch-food-v1/egg-spinach-pea-wholewheat-pasta-v1.png",
+        "width": 1280,
+        "height": 960,
+        "bytes": 1991567,
+        "sha256": "b11b689ba0dd951cfbb66dc9e2a3b60ea3d957e5b128c3a8665df3975894a954"
+      },
+      "variants": [
+        {
+          "file": "public/images/recipes/egg-spinach-pea-wholewheat-pasta-480.webp",
+          "width": 480,
+          "height": 360,
+          "bytes": 33424,
+          "sha256": "4472969cac1053d32e6d7e854b3022b80cc25be2524f3aa1d68bf3fda4e9fcf5",
+          "encoder": {
+            "browserChannel": "bundled-chromium",
+            "browserVersion": "158.0.8127.18",
+            "quality": 0.84
+          }
+        },
+        {
+          "file": "public/images/recipes/egg-spinach-pea-wholewheat-pasta-960.webp",
+          "width": 960,
+          "height": 720,
+          "bytes": 99190,
+          "sha256": "b1102cef8775c692ccb89fa29a4e50a3b97928e1d5c5cbc160c05350493873f3",
+          "encoder": {
+            "browserChannel": "bundled-chromium",
+            "browserVersion": "158.0.8127.18",
+            "quality": 0.84
+          }
+        }
+      ]
+    },
+    {
+      "mealId": "egg-lentil-spinach-carrot-bowl",
+      "recipeVersion": "mealhatch-recipes143-2026-11-11-v1",
+      "labelZh": "水煮蛋扁豆菠菜碗（標準配方）",
+      "alt": {
+        "en": "Boiled egg, lentil and spinach bowl",
+        "zh": "水煮蛋扁豆菠菜碗"
+      },
+      "prompt": "Use case: photorealistic-natural. Create ONE photorealistic editorial food photograph for a MealHatch meal recommendation card, landscape 4:3 composition. Subject: a modest single-serving bowl with brown-green whole boiled lentils, soft boiled dark-green spinach, orange carrot slices and a few pieces of boiled onion, topped with two hard-boiled eggs cut in halves showing fully set yellow yolks. Simple matte off-white shallow ceramic bowl on a cool neutral light gray table. Dish fully visible, fills about 85% of frame, three-quarter overhead camera angle around 55 degrees, safe center composition for website crops. Soft side window daylight, restrained natural colors, subtle realistic shadows, appetizing everyday home meal, slight natural irregularity, crisp ingredient texture with gently softened background. The photo must show ONLY the listed food, no rice, bread, herbs, pepper, paprika, sauce, garnish, side dishes, or raw ingredients scattered around. No utensils, hands, branding, labels, text, collage, watermarks, cinematic color grade, CGI/plastic look, oversized restaurant presentation, oil puddles, or exaggerated steam. Do not put any claims or numbers inside the image.",
+      "review": "Generated 2026-11-11 with Figma AI image generation (model gpt-image-2.5-flare), 1280 x 960. Visually checked: whole lentils, cooked spinach, carrot slices, a few onion pieces and halved hard-boiled egg; shows one egg in two halves, fewer than the standard portion; no grain or sauce.",
+      "source": {
+        "file": "output/imagegen/mealhatch-food-v1/egg-lentil-spinach-carrot-bowl-v1.png",
+        "width": 1280,
+        "height": 960,
+        "bytes": 1860071,
+        "sha256": "43cc551928b6419e8b3120e3a615458a062f9e2d58047edb8235b9c43d8adf83"
+      },
+      "variants": [
+        {
+          "file": "public/images/recipes/egg-lentil-spinach-carrot-bowl-480.webp",
+          "width": 480,
+          "height": 360,
+          "bytes": 26562,
+          "sha256": "0db85695599647df071f30706bd183b4272b8973e295a6882692e79e91d684a9",
+          "encoder": {
+            "browserChannel": "bundled-chromium",
+            "browserVersion": "158.0.8127.18",
+            "quality": 0.84
+          }
+        },
+        {
+          "file": "public/images/recipes/egg-lentil-spinach-carrot-bowl-960.webp",
+          "width": 960,
+          "height": 720,
+          "bytes": 79610,
+          "sha256": "2d8c2c810d311c3d868d765b4259cb4103c3be0bdba92bf031befe7473741add",
+          "encoder": {
+            "browserChannel": "bundled-chromium",
+            "browserVersion": "158.0.8127.18",
+            "quality": 0.84
+          }
+        }
+      ]
+    },
+    {
+      "mealId": "egg-quinoa-kale-red-pepper-bowl",
+      "recipeVersion": "mealhatch-recipes143-2026-11-11-v1",
+      "labelZh": "水煮蛋藜麥羽衣甘藍碗（標準配方）",
+      "alt": {
+        "en": "Boiled egg, quinoa and kale bowl",
+        "zh": "水煮蛋藜麥羽衣甘藍碗"
+      },
+      "prompt": "Use case: photorealistic-natural. Create ONE photorealistic editorial food photograph for a MealHatch meal recommendation card, landscape 4:3 composition. Subject: a modest single-serving bowl with cooked beige quinoa, boiled dark-green kale, strips of boiled red sweet pepper and green peas, topped with two hard-boiled eggs cut in halves showing fully set yellow yolks. Simple matte off-white shallow ceramic bowl on a cool neutral light gray table. Dish fully visible, fills about 85% of frame, three-quarter overhead camera angle around 55 degrees, safe center composition for website crops. Soft side window daylight, restrained natural colors, subtle realistic shadows, appetizing everyday home meal, slight natural irregularity, crisp ingredient texture with gently softened background. The photo must show ONLY the listed food, no avocado, seeds, herbs, pepper, dressing, sauce, garnish, side dishes, or raw ingredients scattered around. No utensils, hands, branding, labels, text, collage, watermarks, cinematic color grade, CGI/plastic look, oversized restaurant presentation, oil puddles, or exaggerated steam. Do not put any claims or numbers inside the image.",
+      "review": "Generated 2026-11-11 with Figma AI image generation (model gpt-image-2.5-flare), 1280 x 960. Visually checked: quinoa, cooked kale, red pepper strips, green peas and halved hard-boiled egg; shows one egg in two halves, fewer than the standard portion; no dressing.",
+      "source": {
+        "file": "output/imagegen/mealhatch-food-v1/egg-quinoa-kale-red-pepper-bowl-v1.png",
+        "width": 1280,
+        "height": 960,
+        "bytes": 1846230,
+        "sha256": "2ea92e8046c595666fdee36cd28c64ed89173574d8da0302ef24b082e35f1548"
+      },
+      "variants": [
+        {
+          "file": "public/images/recipes/egg-quinoa-kale-red-pepper-bowl-480.webp",
+          "width": 480,
+          "height": 360,
+          "bytes": 28844,
+          "sha256": "6d02e86d6bcb81317a24980792fcbcc2799c61283c4731e9b45a61b6c13f9620",
+          "encoder": {
+            "browserChannel": "bundled-chromium",
+            "browserVersion": "158.0.8127.18",
+            "quality": 0.84
+          }
+        },
+        {
+          "file": "public/images/recipes/egg-quinoa-kale-red-pepper-bowl-960.webp",
+          "width": 960,
+          "height": 720,
+          "bytes": 82476,
+          "sha256": "ec4484e7b10bad15ddea6e13c953bda2641433a003a98553f6b98b3225735efa",
+          "encoder": {
+            "browserChannel": "bundled-chromium",
+            "browserVersion": "158.0.8127.18",
+            "quality": 0.84
+          }
+        }
+      ]
+    },
+    {
+      "mealId": "greek-yogurt-chickpea-kale-carrot-bowl",
+      "recipeVersion": "mealhatch-recipes143-2026-11-11-v1",
+      "labelZh": "希臘優格鷹嘴豆羽衣甘藍碗（標準配方）",
+      "alt": {
+        "en": "Greek yogurt, chickpea and kale bowl",
+        "zh": "希臘優格鷹嘴豆羽衣甘藍碗"
+      },
+      "prompt": "Use case: photorealistic-natural. Create ONE photorealistic editorial food photograph for a MealHatch meal recommendation card, landscape 4:3 composition. Subject: a modest single-serving bowl with a base of thick plain white Greek yogurt topped with whole boiled beige chickpeas, boiled dark-green kale, orange carrot slices and a few strips of boiled red sweet pepper. Simple matte off-white shallow ceramic bowl on a cool neutral light gray table. Dish fully visible, fills about 85% of frame, three-quarter overhead camera angle around 55 degrees, safe center composition for website crops. Soft side window daylight, restrained natural colors, subtle realistic shadows, appetizing everyday home meal, slight natural irregularity, crisp ingredient texture with gently softened background. The photo must show ONLY the listed food, no honey, granola, fruit, herbs, paprika, tahini, seeds, pita, garnish, side dishes, or raw ingredients scattered around. No utensils, hands, branding, labels, text, collage, watermarks, cinematic color grade, CGI/plastic look, oversized restaurant presentation, oil puddles, or exaggerated steam. Do not put any claims or numbers inside the image.",
+      "review": "Generated 2026-11-11 with Figma AI image generation (model gpt-image-2.5-flare), 1280 x 960. Visually checked: plain yogurt base with whole chickpeas, cooked kale, carrot slices and red pepper strips; no honey, seeds or herbs.",
+      "source": {
+        "file": "output/imagegen/mealhatch-food-v1/greek-yogurt-chickpea-kale-carrot-bowl-v1.png",
+        "width": 1280,
+        "height": 960,
+        "bytes": 1888378,
+        "sha256": "63d78ddd0f345f391fe4fabb1d037800b1aecda42baed366056248c58ed40849"
+      },
+      "variants": [
+        {
+          "file": "public/images/recipes/greek-yogurt-chickpea-kale-carrot-bowl-480.webp",
+          "width": 480,
+          "height": 360,
+          "bytes": 27420,
+          "sha256": "d49e72bc54a89fc6651d0a6ea5f78d6b389f3f9f2cf71e8112c9999b525e8267",
+          "encoder": {
+            "browserChannel": "bundled-chromium",
+            "browserVersion": "158.0.8127.18",
+            "quality": 0.84
+          }
+        },
+        {
+          "file": "public/images/recipes/greek-yogurt-chickpea-kale-carrot-bowl-960.webp",
+          "width": 960,
+          "height": 720,
+          "bytes": 84720,
+          "sha256": "9ae300214aca0cea5f088372e7018d97d53fae768994fd244abedab717f4d717",
+          "encoder": {
+            "browserChannel": "bundled-chromium",
+            "browserVersion": "158.0.8127.18",
+            "quality": 0.84
+          }
+        }
+      ]
+    },
+    {
+      "mealId": "greek-yogurt-baked-potato-broccoli-pea-plate",
+      "recipeVersion": "mealhatch-recipes143-2026-11-11-v1",
+      "labelZh": "希臘優格烤馬鈴薯佐青花菜青豌豆（標準配方）",
+      "alt": {
+        "en": "Greek yogurt baked potato with broccoli and green peas",
+        "zh": "希臘優格烤馬鈴薯佐青花菜青豌豆"
+      },
+      "prompt": "Use case: photorealistic-natural. Create ONE photorealistic editorial food photograph for a MealHatch meal recommendation card, landscape 4:3 composition. Subject: a modest single-serving plate with one large split baked potato with its skin, topped with a spoonful of thick plain white Greek yogurt, with boiled green broccoli florets and green peas beside it. Simple matte off-white ceramic plate on a cool neutral light gray table. Dish fully visible, fills about 85% of frame, three-quarter overhead camera angle around 55 degrees, safe center composition for website crops. Soft side window daylight, restrained natural colors, subtle realistic shadows, appetizing everyday home meal, slight natural irregularity, crisp ingredient texture with gently softened background. The photo must show ONLY the listed food, no butter, chives, bacon, sour cream, melted cheese, pepper, garnish, side dishes, or raw ingredients scattered around. No utensils, hands, branding, labels, text, collage, watermarks, cinematic color grade, CGI/plastic look, oversized restaurant presentation, oil puddles, or exaggerated steam. Do not put any claims or numbers inside the image.",
+      "review": "Generated 2026-11-11 with Figma AI image generation (model gpt-image-2.5-flare), 1280 x 960. Visually checked: split baked potato with skin topped with plain yogurt, broccoli florets and green peas beside; no butter, chives or cheese.",
+      "source": {
+        "file": "output/imagegen/mealhatch-food-v1/greek-yogurt-baked-potato-broccoli-pea-plate-v1.png",
+        "width": 1280,
+        "height": 960,
+        "bytes": 1799594,
+        "sha256": "16fa2e7d19cc6bb6a5744aa822eba656c65d339b66dfcc8cf5184f06b80edeec"
+      },
+      "variants": [
+        {
+          "file": "public/images/recipes/greek-yogurt-baked-potato-broccoli-pea-plate-480.webp",
+          "width": 480,
+          "height": 360,
+          "bytes": 25078,
+          "sha256": "5fd88fbd28a0ca0658dcc50504898bfb7d6c2dd9810ebddba74e1bd83b63c6bd",
+          "encoder": {
+            "browserChannel": "bundled-chromium",
+            "browserVersion": "158.0.8127.18",
+            "quality": 0.84
+          }
+        },
+        {
+          "file": "public/images/recipes/greek-yogurt-baked-potato-broccoli-pea-plate-960.webp",
+          "width": 960,
+          "height": 720,
+          "bytes": 72154,
+          "sha256": "e9a313682d3674aa5bbac9a256069584f5195d6f68f4db3264c2e8744aeb65eb",
+          "encoder": {
+            "browserChannel": "bundled-chromium",
+            "browserVersion": "158.0.8127.18",
+            "quality": 0.84
+          }
+        }
+      ]
+    },
+    {
+      "mealId": "greek-yogurt-quinoa-chickpea-spinach-bowl",
+      "recipeVersion": "mealhatch-recipes143-2026-11-11-v1",
+      "labelZh": "希臘優格藜麥鷹嘴豆菠菜碗（標準配方）",
+      "alt": {
+        "en": "Greek yogurt, quinoa and chickpea bowl with spinach",
+        "zh": "希臘優格藜麥鷹嘴豆菠菜碗"
+      },
+      "prompt": "Use case: photorealistic-natural. Create ONE photorealistic editorial food photograph for a MealHatch meal recommendation card, landscape 4:3 composition. Subject: a modest single-serving bowl with cooked beige quinoa, whole boiled beige chickpeas, soft boiled dark-green spinach and strips of boiled red sweet pepper, topped with a large spoonful of thick plain white Greek yogurt. Simple matte off-white shallow ceramic bowl on a cool neutral light gray table. Dish fully visible, fills about 85% of frame, three-quarter overhead camera angle around 55 degrees, safe center composition for website crops. Soft side window daylight, restrained natural colors, subtle realistic shadows, appetizing everyday home meal, slight natural irregularity, crisp ingredient texture with gently softened background. The photo must show ONLY the listed food, no honey, fruit, herbs, paprika, tahini, seeds, cucumber, garnish, side dishes, or raw ingredients scattered around. No utensils, hands, branding, labels, text, collage, watermarks, cinematic color grade, CGI/plastic look, oversized restaurant presentation, oil puddles, or exaggerated steam. Do not put any claims or numbers inside the image.",
+      "review": "Generated 2026-11-11 with Figma AI image generation (model gpt-image-2.5-flare), 1280 x 960. Visually checked: quinoa, whole chickpeas, cooked spinach and red pepper strips with a spoonful of plain yogurt on top; no honey, seeds or herbs.",
+      "source": {
+        "file": "output/imagegen/mealhatch-food-v1/greek-yogurt-quinoa-chickpea-spinach-bowl-v1.png",
+        "width": 1280,
+        "height": 960,
+        "bytes": 1806784,
+        "sha256": "ed69a886d22305765fc53b3e1ab5622b09b33a5131f9c632e432eda8febfd674"
+      },
+      "variants": [
+        {
+          "file": "public/images/recipes/greek-yogurt-quinoa-chickpea-spinach-bowl-480.webp",
+          "width": 480,
+          "height": 360,
+          "bytes": 27768,
+          "sha256": "441aec5f80c58368fb798afd7c76f7658385cfb997f642d752262048945a6f69",
+          "encoder": {
+            "browserChannel": "bundled-chromium",
+            "browserVersion": "158.0.8127.18",
+            "quality": 0.84
+          }
+        },
+        {
+          "file": "public/images/recipes/greek-yogurt-quinoa-chickpea-spinach-bowl-960.webp",
+          "width": 960,
+          "height": 720,
+          "bytes": 77070,
+          "sha256": "a04c826943f6414f528ac1018b42b7fbb5cb9dc4318fd8c8271ca204c6f2441e",
+          "encoder": {
+            "browserChannel": "bundled-chromium",
+            "browserVersion": "158.0.8127.18",
+            "quality": 0.84
+          }
+        }
+      ]
+    },
+    {
+      "mealId": "pork-cabbage-edamame-rice-bowl",
+      "recipeVersion": "mealhatch-recipes143-2026-11-11-v1",
+      "labelZh": "瘦豬絞肉毛豆高麗菜飯碗（標準配方）",
+      "alt": {
+        "en": "Lean minced pork, edamame and cabbage rice bowl",
+        "zh": "瘦豬絞肉毛豆高麗菜飯碗"
+      },
+      "prompt": "Use case: photorealistic-natural. Create ONE photorealistic editorial food photograph for a MealHatch meal recommendation card, landscape 4:3 composition. Subject: a modest single-serving bowl of plain steamed white rice topped with plain cooked lean minced pork crumbles and bright green shelled edamame beans, with boiled pale-green cabbage and orange carrot slices beside the rice. Simple matte off-white shallow ceramic bowl on a cool neutral light gray table. Dish fully visible, fills about 85% of frame, three-quarter overhead camera angle around 55 degrees, safe center composition for website crops. Soft side window daylight, restrained natural colors, subtle realistic shadows, appetizing everyday home meal, slight natural irregularity, crisp ingredient texture with gently softened background. The photo must show ONLY the listed food, no soy sauce, braising sauce, egg, scallion, sesame, chili, garnish, side dishes, or raw ingredients scattered around. No utensils, hands, branding, labels, text, collage, watermarks, cinematic color grade, CGI/plastic look, oversized restaurant presentation, oil puddles, or exaggerated steam. Do not put any claims or numbers inside the image.",
+      "review": "Generated 2026-11-11 with Figma AI image generation (model gpt-image-2.5-flare), 1280 x 960. Visually checked: white rice with plain minced pork crumbles and shelled edamame, boiled cabbage and carrot slices beside; no sauce, egg or scallion.",
+      "source": {
+        "file": "output/imagegen/mealhatch-food-v1/pork-cabbage-edamame-rice-bowl-v1.png",
+        "width": 1280,
+        "height": 960,
+        "bytes": 1731185,
+        "sha256": "587b2659fcb05b8c064997ca90a613f5d70a9f991b0759424ba374c40f54fe8a"
+      },
+      "variants": [
+        {
+          "file": "public/images/recipes/pork-cabbage-edamame-rice-bowl-480.webp",
+          "width": 480,
+          "height": 360,
+          "bytes": 24880,
+          "sha256": "a9ac29f219dcd93d143be51e83a9dcf5ce32c022b29027e22dbfa8786104645f",
+          "encoder": {
+            "browserChannel": "bundled-chromium",
+            "browserVersion": "158.0.8127.18",
+            "quality": 0.84
+          }
+        },
+        {
+          "file": "public/images/recipes/pork-cabbage-edamame-rice-bowl-960.webp",
+          "width": 960,
+          "height": 720,
+          "bytes": 67730,
+          "sha256": "8eb35c9c867e2bdc661af702eb2413224c642291855f228a465dc45efee44421",
+          "encoder": {
+            "browserChannel": "bundled-chromium",
+            "browserVersion": "158.0.8127.18",
+            "quality": 0.84
+          }
+        }
+      ]
+    },
+    {
+      "mealId": "beef-lentil-tomato-wholewheat-pasta",
+      "recipeVersion": "mealhatch-recipes143-2026-11-11-v1",
+      "labelZh": "瘦牛肉扁豆番茄全麥義大利麵（標準配方）",
+      "alt": {
+        "en": "Lean beef, lentil and tomato wholewheat pasta",
+        "zh": "瘦牛肉扁豆番茄全麥義大利麵"
+      },
+      "prompt": "Use case: photorealistic-natural. Create ONE photorealistic editorial food photograph for a MealHatch meal recommendation card, landscape 4:3 composition. Subject: a modest single-serving bowl of short whole-wheat penne pasta tossed with small pieces of grilled lean beef, whole brown-green lentils, soft red cooked tomato pieces and sliced boiled white mushrooms. Simple matte off-white shallow ceramic bowl on a cool neutral light gray table. Dish fully visible, fills about 85% of frame, three-quarter overhead camera angle around 55 degrees, safe center composition for website crops. Soft side window daylight, restrained natural colors, subtle realistic shadows, appetizing everyday home meal, slight natural irregularity, crisp ingredient texture with gently softened background. The photo must show ONLY the listed food, no smooth tomato sauce, cheese, basil, herbs, pepper, minced meat sauce, garnish, side dishes, or raw ingredients scattered around. No utensils, hands, branding, labels, text, collage, watermarks, cinematic color grade, CGI/plastic look, oversized restaurant presentation, oil puddles, or exaggerated steam. Do not put any claims or numbers inside the image.",
+      "review": "Generated 2026-11-11 with Figma AI image generation (model gpt-image-2.5-flare), 1280 x 960. Visually checked: whole-wheat penne with small pieces of grilled beef, whole lentils, tomato pieces and sliced mushrooms; tomato in pieces, no smooth sauce or cheese.",
+      "source": {
+        "file": "output/imagegen/mealhatch-food-v1/beef-lentil-tomato-wholewheat-pasta-v1.png",
+        "width": 1280,
+        "height": 960,
+        "bytes": 2008502,
+        "sha256": "2c04df110ad99c9efef79375655dd5705d3188032f32bafdd209f1fb401d6bbf"
+      },
+      "variants": [
+        {
+          "file": "public/images/recipes/beef-lentil-tomato-wholewheat-pasta-480.webp",
+          "width": 480,
+          "height": 360,
+          "bytes": 32440,
+          "sha256": "99e2186c7593d1f8d4f58a7472c2b589dc568d92f86e32af52e4cc156478003b",
+          "encoder": {
+            "browserChannel": "bundled-chromium",
+            "browserVersion": "158.0.8127.18",
+            "quality": 0.84
+          }
+        },
+        {
+          "file": "public/images/recipes/beef-lentil-tomato-wholewheat-pasta-960.webp",
+          "width": 960,
+          "height": 720,
+          "bytes": 97794,
+          "sha256": "59a69010dc793c47d9d35b25aabd5257ea2defc9fd17d4785bfd8be9675f221e",
+          "encoder": {
+            "browserChannel": "bundled-chromium",
+            "browserVersion": "158.0.8127.18",
+            "quality": 0.84
+          }
+        }
+      ]
+    },
+    {
+      "mealId": "beef-potato-pea-carrot-stew",
+      "recipeVersion": "mealhatch-recipes143-2026-11-11-v1",
+      "labelZh": "瘦牛肉馬鈴薯青豌豆紅蘿蔔燉湯（標準配方）",
+      "alt": {
+        "en": "Chunky lean beef, potato, green pea and carrot stew",
+        "zh": "瘦牛肉馬鈴薯青豌豆紅蘿蔔燉湯"
+      },
+      "prompt": "Use case: photorealistic-natural. Create ONE photorealistic editorial food photograph for a MealHatch meal recommendation card, landscape 4:3 composition. Subject: a modest single-serving bowl of chunky stew with pieces of lean beef, chunks of baked potato with skin, green peas, orange carrot pieces and a little onion in a small amount of clear light broth. Simple matte off-white shallow ceramic bowl on a cool neutral light gray table. Dish fully visible, fills about 85% of frame, three-quarter overhead camera angle around 55 degrees, safe center composition for website crops. Soft side window daylight, restrained natural colors, subtle realistic shadows, appetizing everyday home meal, slight natural irregularity, crisp ingredient texture with gently softened background. The photo must show ONLY the listed food, no thick brown gravy, herbs, bread, cream, pepper, garnish, side dishes, or raw ingredients scattered around. No utensils, hands, branding, labels, text, collage, watermarks, cinematic color grade, CGI/plastic look, oversized restaurant presentation, oil puddles, or exaggerated steam. Do not put any claims or numbers inside the image.",
+      "review": "Generated 2026-11-11 with Figma AI image generation (model gpt-image-2.5-flare), 1280 x 960. Visually checked: chunks of beef and skin-on potato with green peas, carrot pieces and a little onion in a small amount of thin broth; no thick gravy or herbs.",
+      "source": {
+        "file": "output/imagegen/mealhatch-food-v1/beef-potato-pea-carrot-stew-v1.png",
+        "width": 1280,
+        "height": 960,
+        "bytes": 1888039,
+        "sha256": "7eabac39fffd63e914a3f02b8b534c9d3790ddba42af1beb779d33220d9fa02a"
+      },
+      "variants": [
+        {
+          "file": "public/images/recipes/beef-potato-pea-carrot-stew-480.webp",
+          "width": 480,
+          "height": 360,
+          "bytes": 25110,
+          "sha256": "498a455d7b8753df110d15125cf1acde965f2a97c61669214e9b2b361bb4468f",
+          "encoder": {
+            "browserChannel": "bundled-chromium",
+            "browserVersion": "158.0.8127.18",
+            "quality": 0.84
+          }
+        },
+        {
+          "file": "public/images/recipes/beef-potato-pea-carrot-stew-960.webp",
+          "width": 960,
+          "height": 720,
+          "bytes": 76490,
+          "sha256": "e5f63b8418e614216af11d3595cf575fb454240b406639b0e4be676ef1f9fb9a",
+          "encoder": {
+            "browserChannel": "bundled-chromium",
+            "browserVersion": "158.0.8127.18",
+            "quality": 0.84
+          }
+        }
+      ]
+    },
+    {
+      "mealId": "cod-pea-broccoli-rice-bowl",
+      "recipeVersion": "mealhatch-recipes143-2026-11-11-v1",
+      "labelZh": "烤鱈魚青豌豆青花菜飯碗（標準配方）",
+      "alt": {
+        "en": "Baked cod, green pea and broccoli rice bowl",
+        "zh": "烤鱈魚青豌豆青花菜飯碗"
+      },
+      "prompt": "Use case: photorealistic-natural. Create ONE photorealistic editorial food photograph for a MealHatch meal recommendation card, landscape 4:3 composition. Subject: a modest single-serving bowl of plain steamed white rice topped with one piece of baked white cod with opaque flakes, with boiled green peas, boiled green broccoli florets and orange carrot slices beside the rice. Simple matte off-white shallow ceramic bowl on a cool neutral light gray table. Dish fully visible, fills about 85% of frame, three-quarter overhead camera angle around 55 degrees, safe center composition for website crops. Soft side window daylight, restrained natural colors, subtle realistic shadows, appetizing everyday home meal, slight natural irregularity, crisp ingredient texture with gently softened background. The photo must show ONLY the listed food, no lemon, soy sauce, glaze, sesame, scallion, herbs, garnish, side dishes, or raw ingredients scattered around. No utensils, hands, branding, labels, text, collage, watermarks, cinematic color grade, CGI/plastic look, oversized restaurant presentation, oil puddles, or exaggerated steam. Do not put any claims or numbers inside the image.",
+      "review": "Generated 2026-11-11 with Figma AI image generation (model gpt-image-2.5-flare), 1280 x 960. Visually checked: white rice with one baked cod fillet, green peas, broccoli florets and carrot slices; fine seasoning specks on the fillet, no lemon or sauce.",
+      "source": {
+        "file": "output/imagegen/mealhatch-food-v1/cod-pea-broccoli-rice-bowl-v1.png",
+        "width": 1280,
+        "height": 960,
+        "bytes": 1697415,
+        "sha256": "c45ffcb87380769a7f9048278e66712bd753d76afe3c2b0f2351aea57f568292"
+      },
+      "variants": [
+        {
+          "file": "public/images/recipes/cod-pea-broccoli-rice-bowl-480.webp",
+          "width": 480,
+          "height": 360,
+          "bytes": 21590,
+          "sha256": "e99e760dc0d3b5138618aa8cf49b282e0df42550fc707864bcada7b30d694f24",
+          "encoder": {
+            "browserChannel": "bundled-chromium",
+            "browserVersion": "158.0.8127.18",
+            "quality": 0.84
+          }
+        },
+        {
+          "file": "public/images/recipes/cod-pea-broccoli-rice-bowl-960.webp",
+          "width": 960,
+          "height": 720,
+          "bytes": 60478,
+          "sha256": "aa4fed061c2eadb7cde42c4fcf44dd0cb99a2e2af532b01456a83f0b8e14ea61",
+          "encoder": {
+            "browserChannel": "bundled-chromium",
+            "browserVersion": "158.0.8127.18",
+            "quality": 0.84
+          }
+        }
+      ]
+    },
+    {
+      "mealId": "tuna-pea-tomato-wholewheat-pasta",
+      "recipeVersion": "mealhatch-recipes143-2026-11-11-v1",
+      "labelZh": "鮪魚青豌豆番茄全麥義大利麵（標準配方）",
+      "alt": {
+        "en": "Tuna, green pea and tomato wholewheat pasta",
+        "zh": "鮪魚青豌豆番茄全麥義大利麵"
+      },
+      "prompt": "Use case: photorealistic-natural. Create ONE photorealistic editorial food photograph for a MealHatch meal recommendation card, landscape 4:3 composition. Subject: a modest single-serving bowl of short whole-wheat penne pasta tossed with flakes of light canned tuna, green peas, soft red cooked tomato pieces and a little boiled dark-green spinach. Simple matte off-white shallow ceramic bowl on a cool neutral light gray table. Dish fully visible, fills about 85% of frame, three-quarter overhead camera angle around 55 degrees, safe center composition for website crops. Soft side window daylight, restrained natural colors, subtle realistic shadows, appetizing everyday home meal, slight natural irregularity, crisp ingredient texture with gently softened background. The photo must show ONLY the listed food, no mayonnaise, cheese, olives, capers, herbs, pepper, smooth tomato sauce, garnish, side dishes, or raw ingredients scattered around. No utensils, hands, branding, labels, text, collage, watermarks, cinematic color grade, CGI/plastic look, oversized restaurant presentation, oil puddles, or exaggerated steam. Do not put any claims or numbers inside the image.",
+      "review": "Generated 2026-11-11 with Figma AI image generation (model gpt-image-2.5-flare), 1280 x 960. Visually checked: whole-wheat penne with tuna flakes, green peas, tomato pieces and cooked spinach; tomato in pieces, no mayonnaise or cheese.",
+      "source": {
+        "file": "output/imagegen/mealhatch-food-v1/tuna-pea-tomato-wholewheat-pasta-v1.png",
+        "width": 1280,
+        "height": 960,
+        "bytes": 1954947,
+        "sha256": "fccf0736d5c73da8c90c63e92a353459224c077f4471bfcfd1916c71d1c8ce19"
+      },
+      "variants": [
+        {
+          "file": "public/images/recipes/tuna-pea-tomato-wholewheat-pasta-480.webp",
+          "width": 480,
+          "height": 360,
+          "bytes": 32582,
+          "sha256": "93d30a44411de7b9bf51056885c32d0b337e7932e9a19213ad5869742f40b255",
+          "encoder": {
+            "browserChannel": "bundled-chromium",
+            "browserVersion": "158.0.8127.18",
+            "quality": 0.84
+          }
+        },
+        {
+          "file": "public/images/recipes/tuna-pea-tomato-wholewheat-pasta-960.webp",
+          "width": 960,
+          "height": 720,
+          "bytes": 94276,
+          "sha256": "d0216a3c0f62b10bdf8a98277a071954e7a18fcad268d0e09522be3887dca1ea",
+          "encoder": {
+            "browserChannel": "bundled-chromium",
+            "browserVersion": "158.0.8127.18",
+            "quality": 0.84
+          }
+        }
+      ]
+    },
+    {
+      "mealId": "cod-potato-green-bean-pea-plate",
+      "recipeVersion": "mealhatch-recipes143-2026-11-11-v1",
+      "labelZh": "烤鱈魚烤馬鈴薯四季豆餐盤（標準配方）",
+      "alt": {
+        "en": "Baked cod, baked potato and green bean plate",
+        "zh": "烤鱈魚烤馬鈴薯四季豆餐盤"
+      },
+      "prompt": "Use case: photorealistic-natural. Create ONE photorealistic editorial food photograph for a MealHatch meal recommendation card, landscape 4:3 composition. Subject: a modest single-serving plate with one piece of baked white cod with opaque flakes, one split baked potato with its skin, boiled green snap beans and green peas. Simple matte off-white ceramic plate on a cool neutral light gray table. Dish fully visible, fills about 85% of frame, three-quarter overhead camera angle around 55 degrees, safe center composition for website crops. Soft side window daylight, restrained natural colors, subtle realistic shadows, appetizing everyday home meal, slight natural irregularity, crisp ingredient texture with gently softened background. The photo must show ONLY the listed food, no lemon, butter, tartar sauce, herbs, pepper, fries, garnish, side dishes, or raw ingredients scattered around. No utensils, hands, branding, labels, text, collage, watermarks, cinematic color grade, CGI/plastic look, oversized restaurant presentation, oil puddles, or exaggerated steam. Do not put any claims or numbers inside the image.",
+      "review": "Generated 2026-11-11 with Figma AI image generation (model gpt-image-2.5-flare), 1280 x 960. Visually checked: one baked cod fillet, a split baked potato with skin, green snap beans and green peas; fine seasoning specks on the fillet, no lemon, butter or sauce.",
+      "source": {
+        "file": "output/imagegen/mealhatch-food-v1/cod-potato-green-bean-pea-plate-v1.png",
+        "width": 1280,
+        "height": 960,
+        "bytes": 1868385,
+        "sha256": "c07584f820450779623999c59c6f6de3359c8a6c9be5ce22967846974f42e9a8"
+      },
+      "variants": [
+        {
+          "file": "public/images/recipes/cod-potato-green-bean-pea-plate-480.webp",
+          "width": 480,
+          "height": 360,
+          "bytes": 26506,
+          "sha256": "4ff4f6e904acd86bd8984332bc9909f670c42eccc89daaaceeba2a84b5b64dd4",
+          "encoder": {
+            "browserChannel": "bundled-chromium",
+            "browserVersion": "158.0.8127.18",
+            "quality": 0.84
+          }
+        },
+        {
+          "file": "public/images/recipes/cod-potato-green-bean-pea-plate-960.webp",
+          "width": 960,
+          "height": 720,
+          "bytes": 78096,
+          "sha256": "7e20737a7335cce33b826f5186ca59dd117b183e99370d749d8462ffda949b42",
           "encoder": {
             "browserChannel": "bundled-chromium",
             "browserVersion": "158.0.8127.18",

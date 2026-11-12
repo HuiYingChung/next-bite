@@ -1,6 +1,6 @@
 # Recipe illustrations
 
-All 130 current recipes have individual AI-generated illustrations, included as static WebP assets in `public/images/recipes`. The first 108 were generated with the built-in image tool on 2026-11-06; the 22 added on 2026-11-10 were generated with Figma AI image generation (model gpt-image-2.5-flare) from prompts in the same wording, and each of those records its tool in its review note. All were reviewed against the current ingredient lists, preparation states and instructions. They illustrate the named recipe; they do not document a cooked or weighed serving. Ingredient quantities and nutrition remain defined by the recipe data, not the image.
+All 143 current recipes have individual AI-generated illustrations, included as static WebP assets in `public/images/recipes`. The first 108 were generated with the built-in image tool on 2026-11-06; the 22 added on 2026-11-10 and the 13 added on 2026-11-11 were generated with Figma AI image generation (model gpt-image-2.5-flare) from prompts in the same wording, and each of those records its tool in its review note. All were reviewed against the current ingredient lists, preparation states and instructions. They illustrate the named recipe; they do not document a cooked or weighed serving. Ingredient quantities and nutrition remain defined by the recipe data, not the image.
 
 The shared site footer discloses the image origin once. Individual images use descriptive alt text without repeating a visible generation caption.
 

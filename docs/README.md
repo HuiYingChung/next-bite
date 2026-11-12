@@ -17,11 +17,17 @@ verified.
 
 Current authorized iteration:
 
-- [`Button fixes`](./plans/35-button-fixes.md) — `review`, on
-  `claude/button-fixes`; three corrections from clicking every button in a
-  real browser.
+- [`143 detailed recipes`](./plans/36-recipes-143.md) — `review`, on
+  `claude/recipes-143`; 13 higher-level recipes and illustrations so the
+  first three options are not dominated by one protein group.
+- [`Options differ in main protein`](./plans/37-protein-variety.md) —
+  `review`, same branch; options shown together differ in staple and then in
+  main protein.
 
 Previous iterations (historical handoffs):
+
+- [`Button fixes`](./plans/35-button-fixes.md) — merged in PR 20; three
+  corrections from clicking every button in a real browser.
 
 - [`130 detailed recipes`](./plans/34-recipes-130.md) — merged in PR 19; 22
   recipes and illustrations for staple and main-protein pairs that had none
